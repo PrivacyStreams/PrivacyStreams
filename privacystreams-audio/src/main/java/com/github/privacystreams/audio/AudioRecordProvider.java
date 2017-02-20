@@ -11,7 +11,7 @@ import java.util.List;
  * record audio with microphone
  */
 
-public class AudioRecordProvider extends SingleItemStreamProvider {
+class AudioRecordProvider extends SingleItemStreamProvider {
     private final Long duration;
 
     AudioRecordProvider(long duration) {
