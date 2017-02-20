@@ -6,11 +6,11 @@ plugins {
 apply plugin: 'com.android.library'
 
 ext {
-    bintrayName = 'PrivacyStreams-appinfo'
-    artifact = 'privacystreams-appinfo'
+    bintrayName = 'PrivacyStreams-online_service'
+    artifact = 'privacystreams-online_service'
 
-    libraryName = 'PrivacyStreams-appinfo'
-    libraryDescription = 'The app info providers and functions in PrivacyStreams framework.'
+    libraryName = 'PrivacyStreams-online_service'
+    libraryDescription = 'The online service integrations in PrivacyStreams framework.'
     libraryVersion = '0.0.2'
 
     bintrayRepo = 'privacystreams-android'
@@ -53,6 +53,8 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     testCompile 'junit:junit:4.12'
+    compile 'org.apache.commons:commons-lang3:3.0'
+    compile 'com.dropbox.core:dropbox-core-sdk:2.1.1'
     compile project(':privacystreams-core')
 }
 
