@@ -11,10 +11,10 @@ import java.util.List;
  * record audio with microphone
  */
 
-class AudioRecordProvider extends SingleItemStreamProvider {
+class AudioRecorder extends SingleItemStreamProvider {
     private final Long duration;
 
-    AudioRecordProvider(long duration) {
+    AudioRecorder(long duration) {
         this.duration = duration;
     }
 

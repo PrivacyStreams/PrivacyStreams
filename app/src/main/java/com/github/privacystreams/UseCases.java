@@ -49,7 +49,7 @@ public class UseCases {
 
 
     // For testing
-    public void testDummyData() {
+    public void testMockData() {
         uqi
                 .getDataItems(MockItem.asRandomUpdates(20, 100, 500), Purpose.test("test"))
                 .limit(100)

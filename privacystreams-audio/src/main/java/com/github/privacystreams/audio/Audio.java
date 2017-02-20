@@ -30,7 +30,7 @@ public class Audio extends Item {
      * @return the provider
      */
     public static SingleItemStreamProvider record(long duration) {
-        return new AudioRecordProvider(duration);
+        return new AudioRecorder(duration);
     }
 
     /**
@@ -42,7 +42,7 @@ public class Audio extends Item {
      * @return the provider
      */
     public static MultiItemStreamProvider recordPeriodically(long duration_per_record, long interval) {
-        return new PeriodicAudioRecordProvider(duration_per_record, interval);
+        return new AudioPeriodicRecorder(duration_per_record, interval);
     }
 
     /**

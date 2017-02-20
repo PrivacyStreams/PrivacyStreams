@@ -11,11 +11,11 @@ import java.util.List;
  * record audio periodically with microphone
  */
 
-class PeriodicAudioRecordProvider extends MultiItemStreamProvider {
+class AudioPeriodicRecorder extends MultiItemStreamProvider {
     private final Long duration_per_record;
     private final Long interval;
 
-    PeriodicAudioRecordProvider(long duration_per_record, long interval) {
+    AudioPeriodicRecorder(long duration_per_record, long interval) {
         this.duration_per_record = duration_per_record;
         this.interval = interval;
     }
