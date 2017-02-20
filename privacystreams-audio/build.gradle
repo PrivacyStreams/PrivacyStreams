@@ -6,21 +6,19 @@ plugins {
 apply plugin: 'com.android.library'
 
 ext {
-    bintrayRepo = 'privacystreams-android'
     bintrayName = 'PrivacyStreams-audio'
-    bintrayOrganization = "privacystreams"
-
-    publishedGroupId = 'com.github.privacystreams'
-    libraryName = 'PrivacyStreams-Audio'
-    artifact = 'privacystreams-audio'
-
+    libraryName = 'PrivacyStreams-audio'
     libraryDescription = 'The audio providers and functions in PrivacyStreams framework.'
+    artifact = 'privacystreams-audio'
+    libraryVersion = '0.0.2'
+
+    bintrayRepo = 'privacystreams-android'
+    bintrayOrganization = "privacystreams"
+    publishedGroupId = 'com.github.privacystreams'
 
     siteUrl = 'https://github.com/PrivacyStreams/PrivacyStreams-Android'
     gitUrl = 'https://github.com/PrivacyStreams/PrivacyStreams-Android.git'
     githubRepository= 'PrivacyStreams/PrivacyStreams-Android'
-
-    libraryVersion = '0.0.2'
 
     developerId = 'ylimit'
     developerName = 'Yuanchun Li'

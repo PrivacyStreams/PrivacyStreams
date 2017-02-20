@@ -1,1 +1,1 @@
-include ':app', 'privacystreams-core', ':privacystreams-audio'
+include ':app', ':privacystreams-location', ':privacystreams-image', 'privacystreams-core', ':privacystreams-audio'
