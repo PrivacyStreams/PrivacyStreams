@@ -7,9 +7,10 @@ apply plugin: 'com.android.library'
 
 ext {
     bintrayName = 'PrivacyStreams-audio'
+    artifact = 'privacystreams-audio'
+
     libraryName = 'PrivacyStreams-audio'
     libraryDescription = 'The audio providers and functions in PrivacyStreams framework.'
-    artifact = 'privacystreams-audio'
     libraryVersion = '0.0.2'
 
     bintrayRepo = 'privacystreams-android'

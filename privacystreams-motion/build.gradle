@@ -6,11 +6,11 @@ plugins {
 apply plugin: 'com.android.library'
 
 ext {
-    bintrayName = 'PrivacyStreams-image'
-    artifact = 'privacystreams-image'
+    bintrayName = 'PrivacyStreams-motion'
+    artifact = 'privacystreams-motion'
 
-    libraryName = 'PrivacyStreams-image'
-    libraryDescription = 'The image providers and functions in PrivacyStreams framework.'
+    libraryName = 'PrivacyStreams-motion'
+    libraryDescription = 'The motion sensor providers and functions in PrivacyStreams framework.'
     libraryVersion = '0.0.2'
 
     bintrayRepo = 'privacystreams-android'

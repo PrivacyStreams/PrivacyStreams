@@ -7,9 +7,10 @@ apply plugin: 'com.android.library'
 
 ext {
     bintrayName = 'PrivacyStreams-core'
+    artifact = 'privacystreams-core'
+
     libraryName = 'PrivacyStreams-core'
     libraryDescription = 'The core package in PrivacyStreams framework.'
-    artifact = 'privacystreams-core'
     libraryVersion = '0.0.2'
 
     bintrayRepo = 'privacystreams-android'

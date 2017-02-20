@@ -7,9 +7,10 @@ apply plugin: 'com.android.library'
 
 ext {
     bintrayName = 'PrivacyStreams-location'
+    artifact = 'privacystreams-location'
+
     libraryName = 'PrivacyStreams-location'
     libraryDescription = 'The location providers and functions in PrivacyStreams framework.'
-    artifact = 'privacystreams-location'
     libraryVersion = '0.0.2'
 
     bintrayRepo = 'privacystreams-android'
