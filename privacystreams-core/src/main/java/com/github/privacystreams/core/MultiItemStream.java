@@ -59,24 +59,24 @@ public class MultiItemStream extends Stream implements IMultiItemStream {
 
     /**
      * Collect an item in the stream, the item can be further processed using item functions
-     * @param streamTransformation the function used to convert the stream to an item
+     * @param stream2itemFunction the function used to convert the stream to an item
      * @return the collected item
      */
-    public ISingleItemStream transformToItem(LazyFunction<MultiItemStream, SingleItemStream> streamTransformation) {
-        return streamTransformation.apply(this.getUQI(), this);
+    public ISingleItemStream transformToItem(LazyFunction<MultiItemStream, SingleItemStream> stream2itemFunction) {
+        return stream2itemFunction.apply(this.getUQI(), this);
     }
 
     /**
      * Collect the items in the stream for output
-     * @param streamCollector the function used to output current stream
+     * @param streamAction the function used to output current stream
      * @return the collected object
      */
-    public <Tout> Tout output(Function<MultiItemStream, Tout> streamCollector) {
-        Function<Void, Tout> function = this.streamProvider.compound(streamCollector);
+    public <Tout> Tout output(Function<MultiItemStream, Tout> streamAction) {
+        Function<Void, Tout> function = this.streamProvider.compound(streamAction);
         Logging.debug("Getting personal data with function: ");
         Logging.debug(function.toString());
 
-        return streamCollector.apply(this.getUQI(), this);
+        return streamAction.apply(this.getUQI(), this);
     }
 
     // *****************************

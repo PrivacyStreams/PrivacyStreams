@@ -47,16 +47,16 @@ public class SingleItemStream extends Stream implements ISingleItemStream {
     /**
      * Collect the item for output
      *
-     * @param itemCollector the function used to output the current item
+     * @param itemAction the function used to output the current item
      * @param <Tout>           the type of output
      * @return the output
      */
-    public <Tout> Tout output(Function<SingleItemStream, Tout> itemCollector) {
-        Function<Void, Tout> function = this.streamProvider.compound(itemCollector);
+    public <Tout> Tout output(Function<SingleItemStream, Tout> itemAction) {
+        Function<Void, Tout> function = this.streamProvider.compound(itemAction);
         Logging.debug("Getting personal data with function: ");
         Logging.debug(function.toString());
 
-        return itemCollector.apply(this.getUQI(), this);
+        return itemAction.apply(this.getUQI(), this);
     }
 
     /**

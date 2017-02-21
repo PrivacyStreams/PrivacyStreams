@@ -22,11 +22,11 @@ public interface ISingleItemStream {
     /**
      * Collect the item for output
      *
-     * @param itemCollector the function used to output the current item
+     * @param itemAction the function used to output the current item
      * @param <T>           the type of output
      * @return the output
      */
-    <T> T output(Function<SingleItemStream, T> itemCollector);
+    <T> T output(Function<SingleItemStream, T> itemAction);
 
     /**
      * Convert the item with a function.

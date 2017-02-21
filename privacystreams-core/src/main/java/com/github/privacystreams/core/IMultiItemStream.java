@@ -38,17 +38,17 @@ public interface IMultiItemStream {
 
     /**
      * Collect an item in the stream, the item can be further processed using item functions
-     * @param streamCollector the function used to convert the current stream to an item
+     * @param stream2itemFunction the function used to convert the current stream to an item
      * @return the collected item
      */
-    ISingleItemStream transformToItem(LazyFunction<MultiItemStream, SingleItemStream> streamCollector);
+    ISingleItemStream transformToItem(LazyFunction<MultiItemStream, SingleItemStream> stream2itemFunction);
 
     /**
      * Collect the items in the stream for output
-     * @param streamCollector the function used to output current stream
+     * @param streamAction the function used to output current stream
      * @return the collected object
      */
-    <Tout> Tout output(Function<MultiItemStream, Tout> streamCollector);
+    <Tout> Tout output(Function<MultiItemStream, Tout> streamAction);
 
     // *****************************
     // Filters
