@@ -1,12 +1,12 @@
 package com.github.privacystreams.image;
 
+import android.net.Uri;
+
 import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.providers.MultiItemStreamProvider;
 import com.github.privacystreams.core.providers.SingleItemStreamProvider;
 
-import java.net.URI;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -21,7 +21,7 @@ public class Image extends Item {
     // type: String, representing the URI of photo file
     public static final String URI = "uri";
 
-    Image(String timestamp, java.net.URI file_uri) {
+    Image(String timestamp, Uri file_uri) {
         this.setFieldValue(TIMESTAMP, timestamp);
         this.setFieldValue(URI, file_uri.toString());
     }
