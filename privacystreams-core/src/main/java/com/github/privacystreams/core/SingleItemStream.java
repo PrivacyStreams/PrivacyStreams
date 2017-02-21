@@ -16,9 +16,10 @@ import com.github.privacystreams.core.utils.Logging;
  * Similar to a MultiItemStream, an SingleItemStream could be transformed and collected with multiple functions.
  */
 public class SingleItemStream extends Stream implements ISingleItemStream {
-    private Function<Void, SingleItemStream> streamProvider;
+    private LazyFunction<Void, SingleItemStream> streamProvider;
+
     @Override
-    public Function<Void, SingleItemStream> getStreamProvider() {
+    public LazyFunction<Void, SingleItemStream> getStreamProvider() {
         return this.streamProvider;
     }
 
@@ -28,7 +29,7 @@ public class SingleItemStream extends Stream implements ISingleItemStream {
         super.write(null);
     }
 
-    public SingleItemStream(Function<Void, SingleItemStream> streamProvider, UQI uqi) {
+    public SingleItemStream(LazyFunction<Void, SingleItemStream> streamProvider, UQI uqi) {
         super(uqi);
         this.streamProvider = streamProvider;
     }
@@ -39,7 +40,7 @@ public class SingleItemStream extends Stream implements ISingleItemStream {
      * @param itemTransformation the function used to transform the current item
      * @return the transformed item
      */
-    public SingleItemStream transform(Function<SingleItemStream, SingleItemStream> itemTransformation) {
+    public ISingleItemStream transform(LazyFunction<SingleItemStream, SingleItemStream> itemTransformation) {
         return itemTransformation.apply(this.getUQI(), this);
     }
 
@@ -65,7 +66,7 @@ public class SingleItemStream extends Stream implements ISingleItemStream {
      * @param function      the function to convert the item
      * @return The item after mapping
      */
-    public SingleItemStream map(Function<Item, Item> function) {
+    public ISingleItemStream map(Function<Item, Item> function) {
         return this.transform(Mappers.mapItem(function));
     }
 
@@ -77,7 +78,7 @@ public class SingleItemStream extends Stream implements ISingleItemStream {
      * @param fieldsToInclude the fields to include
      * @return The item after projection
      */
-    public SingleItemStream project(String... fieldsToInclude) {
+    public ISingleItemStream project(String... fieldsToInclude) {
         return this.map(ItemCommons.includeFields(fieldsToInclude));
     }
 
@@ -88,7 +89,7 @@ public class SingleItemStream extends Stream implements ISingleItemStream {
      * @param <TValue> the type of the new field value
      * @return the item with the new field set
      */
-    public <TValue> SingleItemStream setField(String newField, Function<Item, TValue> functionToComputeField) {
+    public <TValue> ISingleItemStream setField(String newField, Function<Item, TValue> functionToComputeField) {
         return this.map(ItemCommons.setField(newField, functionToComputeField));
     }
 

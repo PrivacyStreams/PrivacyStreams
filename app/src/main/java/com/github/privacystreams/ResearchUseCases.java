@@ -11,7 +11,7 @@ package com.github.privacystreams;//package xyz.ylimit.personaldataapp;
 //import xyz.ylimit.personaldataapp.privacystreams.providers.environment.Light;
 //import xyz.ylimit.personaldataapp.privacystreams.providers.location.GeoLocation;
 //import xyz.ylimit.personaldataapp.privacystreams.providers.motion.Accelerometer;
-//import xyz.ylimit.personaldataapp.privacystreams.providers.sms.SMS;
+//import xyz.ylimit.personaldataapp.privacystreams.providers.sms.Message;
 //import xyz.ylimit.personaldataapp.privacystreams.providers.system.DeviceState;
 //import xyz.ylimit.personaldataapp.privacystreams.purposes.Purpose;
 //import xyz.ylimit.personaldataapp.privacystreams.utils.time.Duration;
@@ -131,7 +131,7 @@ package com.github.privacystreams;//package xyz.ylimit.personaldataapp;
 //     * paper: MoodScope: Building a Mood Sensor in Smartphone Usage Patterns
 //     * in: MobiSys 2013
 //     * MoodScope is a mood inference engine that applies mood models to smartphone user data
-//     including emails, application usage sessions, web browsing asHistory, and unique clustered
+//     including emails, application usage sessions, web browsing asSMSHistory, and unique clustered
 //     location records. Specifically, it gets the social interaction through the number of exchanges,
 //     the duration of phone calls, and number of words of text messages and emails with 10 most
 //     frequently interacted contacts in every three days.
@@ -145,8 +145,8 @@ package com.github.privacystreams;//package xyz.ylimit.personaldataapp;
 //                .setGroupField("duration", sum(CallLog.DURATION));
 //
 //        UQI
-//                .getDataItems(SMS.asHistory(), purpose)
-//                .groupBy(SMS.PHONE_NUMBER);
+//                .getDataItems(Message.asSMSHistory(), purpose)
+//                .groupBy(Message.PHONE_NUMBER);
 //
 //    }
 //
@@ -155,7 +155,7 @@ package com.github.privacystreams;//package xyz.ylimit.personaldataapp;
 //     * in: UbiComp 2015
 //     * Specifically, when collecting last communication activity,
 //     * Broapp calculates the time since last incoming phone call, last notification,
-//     * last outgoing phone call and last read/received/sent SMS; while measuring contexts,
+//     * last outgoing phone call and last read/received/sent Message; while measuring contexts,
 //     * it gets access to status about audio connection, charging, light, proximity
 //     * (in terms of covered by screen or not), asLastKnown ringer mode, and semantic location;
 //     * it measures usage intensity using battery info in terms of battery change during

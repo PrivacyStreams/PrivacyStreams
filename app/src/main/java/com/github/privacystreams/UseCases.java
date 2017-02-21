@@ -3,37 +3,29 @@ package com.github.privacystreams;
 import android.content.Context;
 import android.location.LocationManager;
 
-import java.util.List;
-import java.util.Map;
-
+import com.github.privacystreams.audio.Audio;
+import com.github.privacystreams.communication.Message;
 import com.github.privacystreams.core.Callback;
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.UQI;
-import com.github.privacystreams.audio.Audio;
-import com.github.privacystreams.core.providers.browser.BrowserHistory;
-import com.github.privacystreams.core.providers.browser.BrowserSearch;
-import com.github.privacystreams.core.providers.call.CallLog;
-import com.github.privacystreams.core.providers.contact.Contact;
-import com.github.privacystreams.core.providers.document.Document;
-import com.github.privacystreams.core.providers.dummy.Dummy;
-import com.github.privacystreams.core.providers.location.GeoLocation;
-import com.github.privacystreams.core.providers.message.Message;
+import com.github.privacystreams.communication.CallLog;
+import com.github.privacystreams.communication.Contact;
+import com.github.privacystreams.image.Image;
+import com.github.privacystreams.location.GeoLocation;
 import com.github.privacystreams.core.providers.mock.MockItem;
-import com.github.privacystreams.core.providers.notification.Notification;
-import com.github.privacystreams.core.providers.photo.Photo;
-import com.github.privacystreams.core.providers.sms.SMS;
 import com.github.privacystreams.core.purposes.Purpose;
 import com.github.privacystreams.core.utilities.arithmetic.Arithmetics;
 import com.github.privacystreams.core.utilities.common.ItemCommons;
 import com.github.privacystreams.core.utilities.comparison.Comparisons;
 import com.github.privacystreams.core.utilities.list.Lists;
-import com.github.privacystreams.core.utilities.location.Locations;
-import com.github.privacystreams.core.utilities.photo.Photos;
 import com.github.privacystreams.core.utilities.statistic.Statistics;
 import com.github.privacystreams.core.utilities.string.Strings;
 import com.github.privacystreams.core.utilities.time.Times;
 import com.github.privacystreams.core.utils.time.Duration;
 import com.github.privacystreams.core.utils.time.TimeUtils;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * Some show cases of PrivacyStreams
@@ -60,58 +52,45 @@ public class UseCases {
 //                .forEach(Outputs.uploadToDropbox("<dropbox token here>", "dummy"));
     }
 
-    public void testBrowerSearchUpdates(){
-        uqi
-                .getDataItems(BrowserSearch.asUpdates(),Purpose.ads("browser search"))
-                .debug();
-    }
-    public void testBrowerHistoryUpdates(){
-        uqi
-                .getDataItems(BrowserHistory.asUpdates(),Purpose.ads("browser history"))
-                .debug();
-    }
-    public void testMessageUpdates(){
-        uqi
-                .getDataItems(Message.asUpdates(), Purpose.ads("message"))
-                .debug();
-    }
-    public void testDocumentUpdates(){
-        uqi
-                .getDataItems(Document.asUpdates(),Purpose.ads("document update"))
-                .debug();
-    }
-    public void testImageUpdates(){
-        uqi
-                .getDataItems(Photo.readFromStorage(),Purpose.ads("photo update"))
-                .debug();
-    }
-
-    public void testMotionSensor(){
-
-
-    }
-
-    public void testBrowserSearchUpdates(){
-        uqi.
-                getDataItems(BrowserSearch.asUpdates(),Purpose.feature("browser_search"))
-                .debug();
-    }
-
-
-    public void testBrowserHistoryUpdates(){
-        uqi.
-                getDataItems(BrowserHistory.asUpdates(),Purpose.feature("browser_history"))
-                .debug();
-    }
-
-    public void testNotifications() {
-        uqi
-                .getDataItems(Notification.asUpdates(), Purpose.feature("test"))
-                .print();
-    }
+//    public void testBrowerSearchUpdates(){
+//        uqi
+//                .getDataItems(BrowserSearch.asUpdates(),Purpose.ads("browser search"))
+//                .debug();
+//    }
+//
+//    public void testBrowerHistoryUpdates(){
+//        uqi
+//                .getDataItems(BrowserHistory.asUpdates(),Purpose.ads("browser history"))
+//                .debug();
+//    }
+//
+//    public void testDocumentUpdates(){
+//        uqi
+//                .getDataItems(Document.asUpdates(),Purpose.ads("document update"))
+//                .debug();
+//    }
+//
+//    public void testBrowserSearchUpdates(){
+//        uqi.
+//                getDataItems(BrowserSearch.asUpdates(),Purpose.feature("browser_search"))
+//                .debug();
+//    }
+//
+//
+//    public void testBrowserHistoryUpdates(){
+//        uqi.
+//                getDataItems(BrowserHistory.asUpdates(),Purpose.feature("browser_history"))
+//                .debug();
+//    }
+//
+//    public void testNotifications() {
+//        uqi
+//                .getDataItems(Notification.asUpdates(), Purpose.feature("test"))
+//                .print();
+//    }
 
     // get a count of the #contacts in contact list
-    void getContactCount() {
+    void testContacts() {
         uqi
                 .getDataItems(Contact.asList(), Purpose.feature("estimate how popular you are."))
                 .print();
@@ -144,43 +123,43 @@ public class UseCases {
     boolean isAtHome() {
         return uqi
                 .getDataItem(GeoLocation.asLastKnown(), Purpose.feature("know whether you are at home."))
-                .check(Locations.atHome(GeoLocation.COORDINATES));
+                .check(GeoLocation.atHome(GeoLocation.COORDINATES));
     }
 
     void callbackWhenReceivesMessage(String appName, Callback<String> messageCallback){
         uqi
-                .getDataItems(Message.asIncomingMessages(), Purpose.feature(""));
+                .getDataItems(Message.asSMSUpdates(), Purpose.feature(""));
     }
 
     // get the intent when enter an area, the callback will be invoked when the use enters or exits an area
     void callbackWhenEntersArea(double x, double y, double r, Callback<Boolean> enterAreaCallback) {
         uqi
                 .getDataItems(GeoLocation.asUpdates(LocationManager.GPS_PROVIDER, 10, 10), Purpose.feature("know when you enter an area"))
-                .setField("inArea", Locations.inArea(GeoLocation.COORDINATES, x,y,r))
+                .setField("inArea", GeoLocation.inArea(GeoLocation.COORDINATES, x,y,r))
                 .onChange("inArea", enterAreaCallback);
     }
 
-    // handle two-factor auth SMS message
+    // handle two-factor auth Message message
     void getTwoFactorAuthSMS(String serverPhoneNum, Callback<String> messageCallback) {
         uqi
-                .getDataItems(SMS.asIncomingMessages(), Purpose.feature("Two-factor authentication"))
-                .filter(Comparisons.eq(SMS.PHONE_NUMBER, serverPhoneNum))
-                .filter(Comparisons.eq(SMS.TYPE, SMS.Type.RECEIVED))
-                .ifPresent(SMS.TEXT, messageCallback);
+                .getDataItems(Message.asSMSUpdates(), Purpose.feature("Two-factor authentication"))
+                .filter(Comparisons.eq(Message.CONTACT, serverPhoneNum))
+                .filter(Comparisons.eq(Message.TYPE, Message.Type.RECEIVED))
+                .ifPresent(Message.CONTENT, messageCallback);
     }
 
     // get location and blur 100 meters for advertisement
     void passLocationToAd() {
         List<Double> coordinates = uqi
                 .getDataItem(GeoLocation.asLastKnown(), Purpose.ads("targeted advertisement"))
-                .compute(Locations.blur(GeoLocation.COORDINATES, 100));
+                .compute(GeoLocation.blur(GeoLocation.COORDINATES, 100));
     }
 
     // get postcode of asLastKnown location
     String getPostcode() {
         return uqi
                 .getDataItem(GeoLocation.asLastKnown(), Purpose.feature("get postcode for nearby search"))
-                .compute(Locations.postcode(GeoLocation.COORDINATES));
+                .compute(GeoLocation.postcode(GeoLocation.COORDINATES));
     }
 
     // knowing if a person is making more or less calls than normal
@@ -201,8 +180,8 @@ public class UseCases {
     // getting all the photo metadata (but not photos)
     List<Map<String, String>> getAllPhotoMetadata() {
         return uqi
-                .getDataItems(Photo.readFromStorage(), Purpose.feature("get metadata of the photos in storage"))
-                .setField("metadata", Photos.getMetadata(Photo.URI))
+                .getDataItems(Image.readFromStorage(), Purpose.feature("get metadata of the photos in storage"))
+                .setField("metadata", Image.getMetadata(Image.URI))
                 .asList("metadata");
     }
 
@@ -211,15 +190,15 @@ public class UseCases {
         uqi
                 .getDataItems(Audio.recordPeriodically(Duration.seconds(m), Duration.seconds(n)),
                         Purpose.feature("how loud it is periodically"))
-                .setField("loudness", Audios.getLoudness(Audio.URI))
+                .setField("loudness", Audio.getLoudness(Audio.URI))
                 .forEach("loudness", loudnessCallback);
     }
 
-    // calculating sentiment across all SMS
+    // calculating sentiment across all Message
     double getAverageSentimentOfSMS() {
         return uqi
-                .getDataItems(SMS.asHistory(), Purpose.feature("calculate the sentiment across all SMS messages"))
-                .setField("sentiment", Strings.sentiment(SMS.TEXT))
+                .getDataItems(Message.asSMSHistory(), Purpose.feature("calculate the sentiment across all Message messages"))
+                .setField("sentiment", Strings.sentiment(Message.CONTENT))
                 .outputItems(Statistics.average("sentiment"));
     }
 
@@ -227,7 +206,7 @@ public class UseCases {
     String getPlaceSpentMostTime() {
         return uqi
                 .getDataItems(GeoLocation.asHistory(), Purpose.feature("get the place you spent the most time"))
-                .setField("geo_tag", Locations.geotag(GeoLocation.COORDINATES))
+                .setField("geo_tag", GeoLocation.geotag(GeoLocation.COORDINATES))
                 .localGroupBy("geo_tag")
                 .setGroupField("time_spent", Statistics.range(GeoLocation.TIMESTAMP))
                 .sortBy("time_spent")
@@ -250,11 +229,11 @@ public class UseCases {
     }
 
 
-    // hash the names or phone#s in SMS or call logs, so we can get data like above while mitigating privacy concerns
+    // hash the names or phone#s in Message or call logs, so we can get data like above while mitigating privacy concerns
     List<String> getHashedPhoneNumbersInSMS() {
         return uqi
-                .getDataItems(SMS.asHistory(), Purpose.feature("get hashed phone numbers."))
-                .setField("hashed_phone_number", Strings.sha1(SMS.PHONE_NUMBER))
+                .getDataItems(Message.asSMSHistory(), Purpose.feature("get hashed phone numbers."))
+                .setField("hashed_phone_number", Strings.sha1(Message.CONTACT))
                 .asList("hashed_phone_number");
     }
 

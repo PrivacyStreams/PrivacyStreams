@@ -3,6 +3,7 @@ package com.github.privacystreams.core.transformations.limit;
 import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.MultiItemStream;
 import com.github.privacystreams.core.Item;
+import com.github.privacystreams.core.transformations.M2MTransformation;
 
 /**
  * Created by yuanchun on 30/12/2016.
@@ -14,7 +15,7 @@ public class Limiters {
      * @param timeoutMillis the timeout time, in milliseconds.
      * @return the stream-limiting function.
      */
-    public static Function<MultiItemStream, MultiItemStream> timeout(long timeoutMillis) {
+    public static M2MTransformation timeout(long timeoutMillis) {
         return new TimeoutLimiter(timeoutMillis);
     }
 
@@ -23,7 +24,7 @@ public class Limiters {
      * @param countLimit the count of items at most.
      * @return the stream-limiting function.
      */
-    public static Function<MultiItemStream, MultiItemStream> limitCount(int countLimit) {
+    public static M2MTransformation limitCount(int countLimit) {
         return new CountLimiter(countLimit);
     }
 
@@ -33,7 +34,7 @@ public class Limiters {
      * @param predicate the predicate to check for each item.
      * @return the stream-limiting function.
      */
-    public static Function<MultiItemStream, MultiItemStream> limit(Function<Item, Boolean> predicate) {
+    public static M2MTransformation limit(Function<Item, Boolean> predicate) {
         return new PredicateLimiter(predicate);
     }
 

@@ -29,4 +29,10 @@ dependencies {
 
     compile project(':privacystreams-core')
     compile project(':privacystreams-audio')
+    compile project(':privacystreams-location')
+    compile project(':privacystreams-image')
+    compile project(':privacystreams-app_info')
+    compile project(':privacystreams-online_service')
+    compile project(':privacystreams-storage')
+    compile project(':privacystreams-communication')
 }

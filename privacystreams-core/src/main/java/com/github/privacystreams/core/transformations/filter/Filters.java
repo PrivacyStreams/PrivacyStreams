@@ -3,6 +3,7 @@ package com.github.privacystreams.core.transformations.filter;
 import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.MultiItemStream;
+import com.github.privacystreams.core.transformations.M2MTransformation;
 
 /**
  * Created by yuanchun on 30/12/2016.
@@ -15,7 +16,7 @@ public class Filters {
      * @param predicate the predicate to check for each item
      * @return the filter function
      */
-    public static Function<MultiItemStream, MultiItemStream> keep(Function<Item, Boolean> predicate) {
+    public static M2MTransformation keep(Function<Item, Boolean> predicate) {
         return new PredicateFilter(predicate);
     }
 }

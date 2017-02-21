@@ -8,7 +8,6 @@
             android:name=".utils.permission.PermissionUtils"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true" />
-
     </application>
 
 </manifest>

@@ -1,6 +1,6 @@
 package com.github.privacystreams.core.transformations;
 
-import com.github.privacystreams.core.AsyncFunction;
+import com.github.privacystreams.core.LazyFunction;
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.MultiItemStream;
 import com.github.privacystreams.core.SingleItemStream;
@@ -10,7 +10,7 @@ import com.github.privacystreams.core.SingleItemStream;
  * Transform a stream to a stream
  */
 
-public abstract class M2STransformation extends AsyncFunction<MultiItemStream, SingleItemStream> {
+public abstract class M2STransformation extends LazyFunction<MultiItemStream, SingleItemStream> {
 
     protected SingleItemStream initOutput(MultiItemStream input) {
         return new SingleItemStream(input.getStreamProvider().compound(this), this.getUQI());

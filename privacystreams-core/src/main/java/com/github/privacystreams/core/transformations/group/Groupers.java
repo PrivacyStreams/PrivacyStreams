@@ -2,6 +2,7 @@ package com.github.privacystreams.core.transformations.group;
 
 import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.MultiItemStream;
+import com.github.privacystreams.core.transformations.M2MTransformation;
 
 /**
  * Created by yuanchun on 30/12/2016.
@@ -18,7 +19,7 @@ public class Groupers {
      * @param fieldToGroup the field used to group the stream.
      * @return the stream-grouping function.
      */
-    public static Function<MultiItemStream, MultiItemStream> groupBy(String fieldToGroup) {
+    public static M2MTransformation groupBy(String fieldToGroup) {
         return new ByFieldGrouper(fieldToGroup);
     }
 
@@ -32,7 +33,7 @@ public class Groupers {
      * @param fieldToGroup the field used to group the stream.
      * @return the stream-grouping function.
      */
-    public static Function<MultiItemStream, MultiItemStream> localGroupBy(String fieldToGroup) {
+    public static M2MTransformation localGroupBy(String fieldToGroup) {
         return new ByFieldLocalGrouper(fieldToGroup);
     }
 

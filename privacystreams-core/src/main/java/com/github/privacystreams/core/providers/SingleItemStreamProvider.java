@@ -1,6 +1,6 @@
 package com.github.privacystreams.core.providers;
 
-import com.github.privacystreams.core.AsyncFunction;
+import com.github.privacystreams.core.LazyFunction;
 import com.github.privacystreams.core.SingleItemStream;
 
 /**
@@ -8,7 +8,7 @@ import com.github.privacystreams.core.SingleItemStream;
  * Create a new stream of data
  */
 
-public abstract class SingleItemStreamProvider extends AsyncFunction<Void, SingleItemStream> {
+public abstract class SingleItemStreamProvider extends LazyFunction<Void, SingleItemStream> {
 
     protected final SingleItemStream initOutput(Void input) {
         return new SingleItemStream(this, this.getUQI());

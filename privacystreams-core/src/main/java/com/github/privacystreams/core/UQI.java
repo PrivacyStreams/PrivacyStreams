@@ -2,6 +2,8 @@ package com.github.privacystreams.core;
 
 import android.content.Context;
 
+import com.github.privacystreams.core.providers.MultiItemStreamProvider;
+import com.github.privacystreams.core.providers.SingleItemStreamProvider;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -38,27 +40,27 @@ public class UQI {
     }
 
     public Gson getGson() {
-        return gson;
+        return this.gson;
     }
 
     /**
      * Get a personal data stream from a provider with a purpose
-     * @param streamProvider the function to provide the personal data stream, e.g. Location.asUpdates(), SMS.asHistory().
+     * @param mStreamProvider the function to provide the personal data stream, e.g. Location.asUpdates(), SMS.asHistory().
      * @param purpose the purpose of personal data use, e.g. Purpose.ads("xxx").
      * @return the personal data stream
      */
-    public IMultiItemStream getDataItems(Function<Void, MultiItemStream> streamProvider, Purpose purpose) {
-        return streamProvider.apply(this, null);
+    public IMultiItemStream getDataItems(MultiItemStreamProvider mStreamProvider, Purpose purpose) {
+        return mStreamProvider.apply(this, null);
     }
 
     /**
      * Get a personal data item from a provider with a purpose
-     * @param itemProvider the function to provide the personal data item, e.g. Location.asLastKnown(), Audio.record(100).
+     * @param sStreamProvider the function to provide the personal data item, e.g. Location.asLastKnown(), Audio.record(100).
      * @param purpose the purpose of personal data use, e.g. Purpose.ads("xxx").
      * @return the personal data item
      */
-    public ISingleItemStream getDataItem(Function<Void, SingleItemStream> itemProvider, Purpose purpose) {
-        return itemProvider.apply(this, null);
+    public ISingleItemStream getDataItem(SingleItemStreamProvider sStreamProvider, Purpose purpose) {
+        return sStreamProvider.apply(this, null);
     }
 
 }

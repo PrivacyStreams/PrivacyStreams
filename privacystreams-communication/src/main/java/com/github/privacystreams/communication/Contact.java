@@ -19,7 +19,7 @@ public class Contact extends Item {
     public static final String PHONES = "phone_numbers";
     public static final String EMAILS = "emails";
 
-    public Contact(String name, List<String> phones, List<String> emails) {
+    Contact(String name, List<String> phones, List<String> emails) {
         this.setFieldValue(NAME, name);
         this.setFieldValue(PHONES, phones);
         this.setFieldValue(EMAILS, emails);

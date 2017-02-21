@@ -19,7 +19,7 @@ public abstract class Function<Tin, Tout> {
 
     public abstract Tout apply(UQI uqi, Tin input);
 
-    public final <Ttemp> Function<Tin, Ttemp> compound(Function<Tout, Ttemp> function) {
+    public <Ttemp> Function<Tin, Ttemp> compound(Function<Tout, Ttemp> function) {
         return new CompoundFunction<>(this, function);
     }
 

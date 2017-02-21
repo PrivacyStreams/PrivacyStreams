@@ -4,7 +4,7 @@ import android.content.Context;
 
 /**
  * Created by yuanchun on 01/12/2016.
- * An AsyncFunction applies in background.
+ * An LazyFunction applies in background.
  *
  * Subclass must implement:
  * initOutput method which initializes the output object and returns in UI thread.

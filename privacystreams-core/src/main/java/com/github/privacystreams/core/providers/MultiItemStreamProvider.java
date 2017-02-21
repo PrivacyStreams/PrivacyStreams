@@ -1,6 +1,6 @@
 package com.github.privacystreams.core.providers;
 
-import com.github.privacystreams.core.AsyncFunction;
+import com.github.privacystreams.core.LazyFunction;
 import com.github.privacystreams.core.MultiItemStream;
 
 /**
@@ -8,7 +8,7 @@ import com.github.privacystreams.core.MultiItemStream;
  * Create a new stream of data
  */
 
-public abstract class MultiItemStreamProvider extends AsyncFunction<Void, MultiItemStream> {
+public abstract class MultiItemStreamProvider extends LazyFunction<Void, MultiItemStream> {
 
     protected final MultiItemStream initOutput(Void input) {
         return new MultiItemStream(this, this.getUQI());

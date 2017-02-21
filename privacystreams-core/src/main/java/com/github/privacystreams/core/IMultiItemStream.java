@@ -34,14 +34,14 @@ public interface IMultiItemStream {
      * @param streamTransformation the function used to transform current stream
      * @return the transformed stream
      */
-    IMultiItemStream transform(Function<MultiItemStream, MultiItemStream> streamTransformation);
+    IMultiItemStream transform(LazyFunction<MultiItemStream, MultiItemStream> streamTransformation);
 
     /**
      * Collect an item in the stream, the item can be further processed using item functions
      * @param streamCollector the function used to convert the current stream to an item
      * @return the collected item
      */
-    ISingleItemStream transformToItem(Function<MultiItemStream, SingleItemStream> streamCollector);
+    ISingleItemStream transformToItem(LazyFunction<MultiItemStream, SingleItemStream> streamCollector);
 
     /**
      * Collect the items in the stream for output

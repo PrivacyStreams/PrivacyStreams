@@ -38,6 +38,7 @@ public abstract class Stream {
 
     private volatile boolean isClosed = false;
     private volatile boolean isEmpty = false;
+    private volatile boolean isActive = false;
 
     Stream(UQI uqi) {
         this.uqi = uqi;
@@ -75,6 +76,10 @@ public abstract class Stream {
         if (this.isEmpty) {
             Logging.warn("Reading from a empty stream!");
         }
+        if (!this.isActive) {
+            this.getStreamProvider().evaluate();
+            this.isActive = true;
+        }
         try {
             Item item = this.dataQueue.take();
             if (item != Item.EOS) return item;
@@ -109,7 +114,7 @@ public abstract class Stream {
         return this.isClosed;
     }
 
-    public abstract Function<Void, ? extends Stream> getStreamProvider();
+    public abstract LazyFunction<Void, ? extends Stream> getStreamProvider();
 
     /**
      * Close the stream

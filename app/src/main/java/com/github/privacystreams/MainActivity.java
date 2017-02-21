@@ -18,6 +18,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 new UseCases(MainActivity.this).testMockData();
+                new UseCases(MainActivity.this).testContacts();
 
             }
         });
