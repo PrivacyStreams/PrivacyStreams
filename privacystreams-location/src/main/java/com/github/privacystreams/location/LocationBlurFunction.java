@@ -13,6 +13,7 @@ class LocationBlurFunction extends LocationProcessor<List<Double>> {
     LocationBlurFunction(String coordinatesField, double blurMeters) {
         super(coordinatesField);
         this.blurMeters = blurMeters;
+        this.addParameters(blurMeters);
     }
 
     @Override
@@ -24,12 +25,5 @@ class LocationBlurFunction extends LocationProcessor<List<Double>> {
         blurred_coordinates.add(blurred_latitude);
         blurred_coordinates.add(blurred_longitude);
         return blurred_coordinates;
-    }
-
-    @Override
-    protected List<Object> getParameters() {
-        List<Object> parameters = super.getParameters();
-        parameters.add(this.blurMeters);
-        return parameters;
     }
 }

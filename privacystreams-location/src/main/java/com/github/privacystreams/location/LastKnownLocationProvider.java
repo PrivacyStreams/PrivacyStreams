@@ -24,26 +24,19 @@ import com.github.privacystreams.core.utils.time.Duration;
 
 class LastKnownLocationProvider extends SingleItemStreamProvider {
 
-    private static final String[] REQUIRED_PERMISSIONS = {
-            Manifest.permission.ACCESS_FINE_LOCATION,
-            Manifest.permission.ACCESS_COARSE_LOCATION
-    };
-
     LastKnownLocationProvider() {
+        // TODO add a parameter in order to only require one of COARSE_LOCATION and FINE_LOCATION
+        this.addRequiredPermissions(Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.ACCESS_FINE_LOCATION);
     }
 
     @Override
     protected void provide(SingleItemStream output) {
-        boolean permissionGranted = PermissionActivity.requestPermissions(this.getContext(), REQUIRED_PERMISSIONS);
-        if (permissionGranted)
-            this.getLastKnownLocation(output);
-        else
-            Logging.warn("permission not granted: " + Arrays.asList(REQUIRED_PERMISSIONS));
+        this.getLastKnownLocation(output);
     }
 
     private void getLastKnownLocation(SingleItemStream output) {
         Context context = this.getContext();
-        PermissionActivity.requestPermissions(context, REQUIRED_PERMISSIONS);
 
         LocationManager lm = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION)
@@ -67,12 +60,6 @@ class LastKnownLocationProvider extends SingleItemStreamProvider {
         Location location = betterLocation(gpsLocation, networkLocation);
         if (location == null) return;
         output.write(new GeoLocation(location));
-    }
-
-    @Override
-    protected List<Object> getParameters() {
-        List<Object> parameters = new ArrayList<>();
-        return parameters;
     }
 
     /**

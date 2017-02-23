@@ -18,6 +18,7 @@ class LocationInAreaPredicate extends LocationProcessor<Boolean> {
         this.center_latitude = center_latitude;
         this.center_longitude = center_longitude;
         this.radius = radius;
+        this.addParameters(center_latitude, center_longitude, radius);
     }
 
     @Override
@@ -26,14 +27,5 @@ class LocationInAreaPredicate extends LocationProcessor<Boolean> {
         double longitude_delta = longitude - this.center_longitude;
         double distance = Math.sqrt(latitude_delta*latitude_delta + longitude_delta*longitude_delta);
         return distance <= this.radius;
-    }
-
-    @Override
-    protected List<Object> getParameters() {
-        List<Object> parameters = super.getParameters();
-        parameters.add(this.center_latitude);
-        parameters.add(this.center_longitude);
-        parameters.add(this.radius);
-        return parameters;
     }
 }
