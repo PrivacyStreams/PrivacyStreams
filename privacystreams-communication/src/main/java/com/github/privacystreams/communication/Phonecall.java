@@ -43,6 +43,6 @@ public class Phonecall extends Item {
      * @return the stream provider
      */
     public static MultiItemStreamProvider asLogs() {
-        return new PhonecallHistoryProvider();
+        return new PhonecallLogProvider();
     }
 }
