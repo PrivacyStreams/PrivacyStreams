@@ -37,26 +37,22 @@ public class SingleItemStream extends Stream implements ISingleItemStream {
     /**
      * Transform an item using a transformation function
      *
-     * @param itemTransformation the function used to transform the current item
+     * @param sStreamTransformation the function used to transform the current item
      * @return the transformed item
      */
-    public ISingleItemStream transform(LazyFunction<SingleItemStream, SingleItemStream> itemTransformation) {
-        return itemTransformation.apply(this.getUQI(), this);
+    public ISingleItemStream transform(LazyFunction<SingleItemStream, SingleItemStream> sStreamTransformation) {
+        return sStreamTransformation.apply(this.getUQI(), this);
     }
 
     /**
      * Collect the item for output
      *
-     * @param itemAction the function used to output the current item
+     * @param sStreamAction the function used to output the current item
      * @param <Tout>           the type of output
      * @return the output
      */
-    public <Tout> Tout output(Function<SingleItemStream, Tout> itemAction) {
-        Function<Void, Tout> function = this.streamProvider.compound(itemAction);
-        Logging.debug("Getting personal data with function: ");
-        Logging.debug(function.toString());
-
-        return itemAction.apply(this.getUQI(), this);
+    public <Tout> Tout output(Function<SingleItemStream, Tout> sStreamAction) {
+        return this.getUQI().evaluate(this.getStreamProvider(), this, sStreamAction);
     }
 
     /**

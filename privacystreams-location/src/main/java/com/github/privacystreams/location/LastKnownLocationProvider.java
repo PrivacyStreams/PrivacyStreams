@@ -22,14 +22,14 @@ import com.github.privacystreams.core.utils.time.Duration;
  * location asUpdates
  */
 
-public class LastKnownLocationProvider extends SingleItemStreamProvider {
+class LastKnownLocationProvider extends SingleItemStreamProvider {
 
     private static final String[] REQUIRED_PERMISSIONS = {
             Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.ACCESS_COARSE_LOCATION
     };
 
-    public LastKnownLocationProvider() {
+    LastKnownLocationProvider() {
     }
 
     @Override

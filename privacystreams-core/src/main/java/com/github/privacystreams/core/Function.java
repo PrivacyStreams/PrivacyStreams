@@ -2,6 +2,7 @@ package com.github.privacystreams.core;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,9 +14,17 @@ import java.util.Map;
 
 public abstract class Function<Tin, Tout> {
 
-//    public final Tout apply(Tin input) {
-//        return this.apply(null, input);
-//    }
+    protected List<String> requiredPermissions;
+    public List<String> getRequiredPermissions() {
+        return this.requiredPermissions;
+    }
+
+    /**
+     * Each Function must initialize requiredPermissions field in constructor.
+     */
+    public Function() {
+        this.requiredPermissions = new ArrayList<>();
+    }
 
     public abstract Tout apply(UQI uqi, Tin input);
 
