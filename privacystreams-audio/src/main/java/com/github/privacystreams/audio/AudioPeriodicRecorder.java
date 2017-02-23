@@ -1,5 +1,7 @@
 package com.github.privacystreams.audio;
 
+import android.Manifest;
+
 import com.github.privacystreams.core.MultiItemStream;
 import com.github.privacystreams.core.providers.MultiItemStreamProvider;
 
@@ -18,6 +20,8 @@ class AudioPeriodicRecorder extends MultiItemStreamProvider {
     AudioPeriodicRecorder(long duration_per_record, long interval) {
         this.duration_per_record = duration_per_record;
         this.interval = interval;
+        this.addParameters(duration_per_record, interval);
+        this.addRequiredPermissions(Manifest.permission.RECORD_AUDIO);
     }
 
     @Override
@@ -25,11 +29,4 @@ class AudioPeriodicRecorder extends MultiItemStreamProvider {
         // TODO implement this
     }
 
-    @Override
-    protected List<Object> getParameters() {
-        List<Object> parameters = new ArrayList<>();
-        parameters.add(String.valueOf(duration_per_record));
-        parameters.add(String.valueOf(interval));
-        return parameters;
-    }
 }

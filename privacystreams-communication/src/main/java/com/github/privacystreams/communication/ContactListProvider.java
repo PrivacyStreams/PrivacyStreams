@@ -30,7 +30,6 @@ class ContactListProvider extends MultiItemStreamProvider {
     };
 
     ContactListProvider() {
-
     }
 
     @Override
@@ -107,11 +106,5 @@ class ContactListProvider extends MultiItemStreamProvider {
         }
 
         if (!output.isClosed()) output.write(null);
-    }
-
-    @Override
-    protected List<Object> getParameters() {
-        List<Object> parameters = new ArrayList<>();
-        return parameters;
     }
 }
