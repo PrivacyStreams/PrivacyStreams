@@ -16,9 +16,15 @@ import java.util.Set;
 
 public abstract class Function<Tin, Tout> {
 
-    protected Set<String> requiredPermissions;
+    private Set<String> requiredPermissions;
+    private List<Object> parameters;
+
     public final Set<String> getRequiredPermissions() {
         return this.requiredPermissions;
+    }
+
+    protected final List<Object> getParameters() {
+        return this.parameters;
     }
 
     /**
@@ -37,8 +43,6 @@ public abstract class Function<Tin, Tout> {
     protected final String getOperator() {
         return this.getClass().getSimpleName();
     }
-
-    protected abstract List<Object> getParameters();
 
     public String toString() {
         return this.getOperator() + this.getParameters();
