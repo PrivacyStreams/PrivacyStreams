@@ -18,6 +18,7 @@ abstract class ArithmeticFunction<Tout> extends ItemFunction<Tout> {
 
     ArithmeticFunction(String numField) {
         this.numField = Assertions.notNull("numField", numField);
+        this.addParameters(numField);
     }
 
     @Override
@@ -27,11 +28,4 @@ abstract class ArithmeticFunction<Tout> extends ItemFunction<Tout> {
     }
 
     protected abstract Tout processNum(Number number);
-
-    @Override
-    protected List<Object> getParameters() {
-        List<Object> parameters = new ArrayList<>();
-        parameters.add(this.numField);
-        return parameters;
-    }
 }

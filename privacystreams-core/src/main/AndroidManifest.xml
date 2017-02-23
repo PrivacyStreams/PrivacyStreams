@@ -5,7 +5,7 @@
 
     <application>
         <activity
-            android:name=".utils.permission.PermissionUtils"
+            android:name=".utils.permission.PermissionActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true" />
     </application>

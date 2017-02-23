@@ -20,6 +20,7 @@ abstract class ImageProcessor<Tout> extends ItemFunction<Tout> {
 
     ImageProcessor(String photoUriField) {
         this.photoUriField = Assertions.notNull("photoUriField", photoUriField);
+        this.addParameters(photoUriField);
     }
 
     @Override
@@ -30,11 +31,4 @@ abstract class ImageProcessor<Tout> extends ItemFunction<Tout> {
     }
 
     protected abstract Tout processPhoto(Uri photoUri);
-
-    @Override
-    protected List<Object> getParameters() {
-        List<Object> parameters = new ArrayList<>();
-        parameters.add(this.photoUriField);
-        return parameters;
-    }
 }

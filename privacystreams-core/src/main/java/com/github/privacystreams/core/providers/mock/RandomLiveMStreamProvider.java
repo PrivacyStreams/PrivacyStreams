@@ -19,6 +19,7 @@ class RandomLiveMStreamProvider extends MultiItemStreamProvider {
         this.maxInt = maxInt;
         this.maxDouble = maxDouble;
         this.interval = interval;
+        this.addParameters(maxInt, maxDouble, interval);
     }
 
     @Override
@@ -35,14 +36,5 @@ class RandomLiveMStreamProvider extends MultiItemStreamProvider {
                 e.printStackTrace();
             }
         }
-    }
-
-    @Override
-    protected List<Object> getParameters() {
-        List<Object> parameters = new ArrayList<>();
-        parameters.add(maxInt);
-        parameters.add(maxDouble);
-        parameters.add(interval);
-        return parameters;
     }
 }

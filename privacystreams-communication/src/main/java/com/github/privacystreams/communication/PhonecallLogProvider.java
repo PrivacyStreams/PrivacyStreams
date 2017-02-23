@@ -1,5 +1,7 @@
 package com.github.privacystreams.communication;
 
+import android.Manifest;
+
 import com.github.privacystreams.core.MultiItemStream;
 import com.github.privacystreams.core.providers.MultiItemStreamProvider;
 
@@ -11,10 +13,10 @@ import java.util.List;
  * a stream of call logs
  */
 
-class CallLogHistoryProvider extends MultiItemStreamProvider {
+class PhonecallLogProvider extends MultiItemStreamProvider {
 
-    CallLogHistoryProvider() {
-
+    PhonecallLogProvider() {
+        this.addRequiredPermissions(Manifest.permission.READ_CALL_LOG);
     }
 
     @Override
@@ -22,9 +24,4 @@ class CallLogHistoryProvider extends MultiItemStreamProvider {
         // TODO implement this
     }
 
-    @Override
-    protected List<Object> getParameters() {
-        List<Object> parameters = new ArrayList<>();
-        return parameters;
-    }
 }

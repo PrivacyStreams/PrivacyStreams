@@ -17,6 +17,7 @@ final class SubStreamProvider extends MultiItemStreamProvider {
 
     SubStreamProvider(List<Item> items) {
         this.items = items;
+        this.addParameters(items);
     }
 
     @Override
@@ -25,12 +26,5 @@ final class SubStreamProvider extends MultiItemStreamProvider {
             output.write(item);
         }
         output.write(null);
-    }
-
-    @Override
-    protected List<Object> getParameters() {
-        List<Object> parameters = new ArrayList<>();
-        parameters.add(items);
-        return parameters;
     }
 }

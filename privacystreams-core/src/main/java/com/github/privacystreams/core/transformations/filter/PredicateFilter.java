@@ -17,18 +17,12 @@ final class PredicateFilter extends StreamFilter {
 
     PredicateFilter(final Function<Item, Boolean> predicate) {
         this.predicate = notNull("predicate", predicate);
+        this.addParameters(predicate);
     }
 
     @Override
     public boolean keep(Item item) {
         return this.predicate.apply(this.getUQI(), item);
-    }
-
-    @Override
-    protected List<Object> getParameters() {
-        List<Object> parameters = new ArrayList<>();
-        parameters.add(predicate.toString());
-        return parameters;
     }
 
 }

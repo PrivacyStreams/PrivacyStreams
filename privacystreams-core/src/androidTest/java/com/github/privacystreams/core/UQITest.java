@@ -18,7 +18,7 @@ import static org.junit.Assert.*;
 
 /**
  * Created by yuanchun on 18/02/2017.
- * Test UQI
+ * Test cases for UQI class
  */
 @RunWith(AndroidJUnit4.class)
 public class UQITest {

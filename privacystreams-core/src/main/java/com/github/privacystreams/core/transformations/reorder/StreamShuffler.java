@@ -18,10 +18,4 @@ final class StreamShuffler extends StreamReorder {
     protected void reorder(List<Item> items) {
         Collections.shuffle(items);
     }
-
-    @Override
-    protected List<Object> getParameters() {
-        List<Object> parameters = new ArrayList<>();
-        return parameters;
-    }
 }

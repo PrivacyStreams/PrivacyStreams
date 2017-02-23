@@ -6,6 +6,7 @@ import java.util.List;
 import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.MultiItemStream;
 import com.github.privacystreams.core.Item;
+import com.github.privacystreams.core.utils.Assertions;
 
 /**
  * Created by yuanchun on 28/12/2016.
@@ -18,8 +19,9 @@ class IfFieldPresentCallback<TValue, Void> extends AsyncMultiItemStreamAction<Vo
     private final Function<TValue, Void> callback;
 
     IfFieldPresentCallback(String fieldToSelect, Function<TValue, Void> callback) {
-        this.fieldToSelect = fieldToSelect;
-        this.callback = callback;
+        this.fieldToSelect = Assertions.notNull("fieldToSelect", fieldToSelect);
+        this.callback = Assertions.notNull("callback", callback);
+        this.addParameters(fieldToSelect, callback);
     }
 
     @Override
@@ -39,11 +41,4 @@ class IfFieldPresentCallback<TValue, Void> extends AsyncMultiItemStreamAction<Vo
         }
     }
 
-    @Override
-    protected List<Object> getParameters() {
-        List<Object> parameters = new ArrayList<>();
-        parameters.add(fieldToSelect);
-        parameters.add(callback);
-        return parameters;
-    }
 }

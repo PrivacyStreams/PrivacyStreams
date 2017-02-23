@@ -1,5 +1,7 @@
 package com.github.privacystreams.audio;
 
+import android.Manifest;
+
 import com.github.privacystreams.core.SingleItemStream;
 import com.github.privacystreams.core.providers.SingleItemStreamProvider;
 
@@ -16,13 +18,8 @@ class AudioRecorder extends SingleItemStreamProvider {
 
     AudioRecorder(long duration) {
         this.duration = duration;
-    }
-
-    @Override
-    protected List<Object> getParameters() {
-        List<Object> parameters = new ArrayList<>();
-        parameters.add(String.valueOf(duration));
-        return parameters;
+        this.addParameters(duration);
+        this.addRequiredPermissions(Manifest.permission.RECORD_AUDIO);
     }
 
     @Override

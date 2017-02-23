@@ -25,7 +25,7 @@ public abstract class LazyFunction<T1, T2> extends Function<T1, T2> {
     private T2 output;
     private UQI uqi;
     private Context context;
-    private volatile boolean isApplied = false;
+    private volatile boolean isEvaluable = false;
 
     protected LazyFunction() {
         this.evaluator = new FunctionEvaluator();
@@ -53,13 +53,14 @@ public abstract class LazyFunction<T1, T2> extends Function<T1, T2> {
         this.context = uqi.getContext();
         this.input = input;
         this.output = this.initOutput(input);
-        this.isApplied = true;
+        this.isEvaluable = true;
         return output;
     }
 
-    public void evaluate() {
-        if (!this.isApplied) return;
-        this.evaluator.start();
+    public synchronized void evaluate() {
+        if (this.isEvaluable) this.evaluator.start();
+        // Make sure each lazy function is only evaluated once.
+        this.isEvaluable = false;
     }
 
     public final void cancel() {

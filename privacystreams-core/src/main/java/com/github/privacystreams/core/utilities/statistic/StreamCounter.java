@@ -14,10 +14,4 @@ final class StreamCounter extends StreamStatistic<Integer> {
     public Integer calculate(List<Item> items) {
         return items.size();
     }
-
-    @Override
-    protected List<Object> getParameters() {
-        List<Object> parameters = new ArrayList<>();
-        return parameters;
-    }
 }

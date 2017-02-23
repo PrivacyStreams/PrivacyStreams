@@ -18,10 +18,4 @@ class LocationGeoTagger extends LocationProcessor<String> {
         // TODO get the geotag based on latitude and longitude
         return null;
     }
-
-    @Override
-    protected List<Object> getParameters() {
-        List<Object> parameters = super.getParameters();
-        return parameters;
-    }
 }

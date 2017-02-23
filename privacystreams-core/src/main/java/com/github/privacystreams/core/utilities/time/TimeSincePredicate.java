@@ -12,17 +12,11 @@ final class TimeSincePredicate extends TimeProcessor<Boolean> {
     TimeSincePredicate(final String timestampField, final long timestampToCompare) {
         super(timestampField);
         this.timestampToCompare = timestampToCompare;
+        this.addParameters(timestampToCompare);
     }
 
     @Override
     protected Boolean processTimestamp(long timestamp) {
         return timestamp >= this.timestampToCompare;
-    }
-
-    @Override
-    protected List<Object> getParameters() {
-        List<Object> parameters = super.getParameters();
-        parameters.add(String.valueOf(this.timestampToCompare));
-        return parameters;
     }
 }

@@ -18,6 +18,7 @@ abstract class LocationProcessor<Tout> extends ItemFunction<Tout> {
 
     LocationProcessor(String coordinatesField) {
         this.coordinatesField = Assertions.notNull("coordinatesField", coordinatesField);
+        this.addParameters(this.coordinatesField);
     }
 
     @Override
@@ -29,11 +30,4 @@ abstract class LocationProcessor<Tout> extends ItemFunction<Tout> {
     }
 
     protected abstract Tout processLocation(double latitude, double longitude);
-
-    @Override
-    protected List<Object> getParameters() {
-        List<Object> parameters = new ArrayList<>();
-        parameters.add(this.coordinatesField);
-        return parameters;
-    }
 }

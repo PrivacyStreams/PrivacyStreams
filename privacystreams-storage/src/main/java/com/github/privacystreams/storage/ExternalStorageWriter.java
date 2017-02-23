@@ -1,5 +1,7 @@
 package com.github.privacystreams.storage;
 
+import android.Manifest;
+
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.UQI;
 import com.github.privacystreams.core.utilities.ItemFunction;
@@ -18,14 +20,16 @@ import java.util.List;
  * Write the item to a file
  */
 
-final class ItemFileWriter extends ItemFunction<Void> {
+final class ExternalStorageWriter extends ItemFunction<Void> {
 
     private final String dirPath;
     private final String fileTag;
 
-    ItemFileWriter(String dirPath, String fileTag) {
+    ExternalStorageWriter(String dirPath, String fileTag) {
         this.dirPath = Assertions.notNull("dirPath", dirPath);
-        this.fileTag = Assertions.notNull("fileTag", fileTag);;
+        this.fileTag = Assertions.notNull("fileTag", fileTag);
+        this.addParameters(dirPath, fileTag);
+        this.addRequiredPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE);
     }
 
     @Override
@@ -41,13 +45,5 @@ final class ItemFileWriter extends ItemFunction<Void> {
             e.printStackTrace();
         }
         return null;
-    }
-
-    @Override
-    protected List<Object> getParameters() {
-        List<Object> parameters = new ArrayList<>();
-        parameters.add(dirPath);
-        parameters.add(fileTag);
-        return parameters;
     }
 }

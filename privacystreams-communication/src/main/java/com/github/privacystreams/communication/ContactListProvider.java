@@ -11,7 +11,7 @@ import android.provider.ContactsContract.CommonDataKinds.Phone;
 import com.github.privacystreams.core.MultiItemStream;
 import com.github.privacystreams.core.providers.MultiItemStreamProvider;
 import com.github.privacystreams.core.utils.Logging;
-import com.github.privacystreams.core.utils.permission.PermissionUtils;
+import com.github.privacystreams.core.utils.permission.PermissionActivity;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -25,21 +25,13 @@ import java.util.List;
 class ContactListProvider extends MultiItemStreamProvider {
     private static final String DESCRIPTION = "dummy data source for testing";
 
-    private static final String[] REQUIRED_PERMISSIONS = {
-            Manifest.permission.READ_CONTACTS
-    };
-
     ContactListProvider() {
-
+        this.addRequiredPermissions(Manifest.permission.READ_CONTACTS);
     }
 
     @Override
     protected void provide(MultiItemStream output) {
-        boolean permissionGranted = PermissionUtils.requestPermissions(this.getContext(), REQUIRED_PERMISSIONS);
-        if (permissionGranted)
-            this.getContactList(output);
-        else
-            Logging.warn("permission not granted: " + Arrays.asList(REQUIRED_PERMISSIONS));
+        this.getContactList(output);
     }
 
     private void getContactList(MultiItemStream output) {
@@ -107,11 +99,5 @@ class ContactListProvider extends MultiItemStreamProvider {
         }
 
         if (!output.isClosed()) output.write(null);
-    }
-
-    @Override
-    protected List<Object> getParameters() {
-        List<Object> parameters = new ArrayList<>();
-        return parameters;
     }
 }

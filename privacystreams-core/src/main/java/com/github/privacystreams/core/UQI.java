@@ -4,10 +4,13 @@ import android.content.Context;
 
 import com.github.privacystreams.core.providers.MultiItemStreamProvider;
 import com.github.privacystreams.core.providers.SingleItemStreamProvider;
+import com.github.privacystreams.core.utils.Logging;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import com.github.privacystreams.core.purposes.Purpose;
+
+import java.util.Set;
 
 
 /**
@@ -18,6 +21,7 @@ import com.github.privacystreams.core.purposes.Purpose;
 public class UQI {
     private Context context;
     private Gson gson;
+    private Purpose purpose;
 
     public UQI(Context context) {
         this.context = context;
@@ -50,6 +54,7 @@ public class UQI {
      * @return the personal data stream
      */
     public IMultiItemStream getDataItems(MultiItemStreamProvider mStreamProvider, Purpose purpose) {
+        this.purpose = purpose;
         return mStreamProvider.apply(this, null);
     }
 
@@ -60,7 +65,24 @@ public class UQI {
      * @return the personal data item
      */
     public ISingleItemStream getDataItem(SingleItemStreamProvider sStreamProvider, Purpose purpose) {
+        this.purpose = purpose;
         return sStreamProvider.apply(this, null);
+    }
+
+    <Tout, TStream extends Stream> Tout evaluate(LazyFunction<Void, TStream> streamProvider,
+                                                 TStream stream,
+                                                 Function<TStream, Tout> streamAction) {
+
+        // TODO add user authentication here
+        Function<Void, Tout> query = streamProvider.compound(streamAction);
+        Logging.debug("PrivacyStreams Query: ");
+        Logging.debug(query.toString());
+
+        Set<String> queryRequiredPermissions = query.getRequiredPermissions();
+        Logging.debug(queryRequiredPermissions.toString());
+
+        streamProvider.evaluate();
+        return streamAction.apply(this, stream);
     }
 
 }

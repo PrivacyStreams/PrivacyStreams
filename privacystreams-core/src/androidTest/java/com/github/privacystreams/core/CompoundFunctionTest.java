@@ -8,6 +8,7 @@ import static org.junit.Assert.*;
 
 /**
  * Created by yuanchun on 19/02/2017.
+ * Test cases for CompoundFunction class
  */
 public class CompoundFunctionTest {
 
@@ -18,22 +19,12 @@ public class CompoundFunctionTest {
             public Integer apply(UQI uqi, Integer input) {
                 return input + 1;
             }
-
-            @Override
-            protected List<Object> getParameters() {
-                return null;
-            }
         };
 
         Function<Integer, Integer> addTwoFunction = new Function<Integer, Integer>() {
             @Override
             public Integer apply(UQI uqi, Integer input) {
                 return input + 2;
-            }
-
-            @Override
-            protected List<Object> getParameters() {
-                return null;
             }
         };
 

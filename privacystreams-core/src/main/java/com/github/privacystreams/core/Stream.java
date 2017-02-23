@@ -76,10 +76,10 @@ public abstract class Stream {
         if (this.isEmpty) {
             Logging.warn("Reading from a empty stream!");
         }
-        if (!this.isActive) {
-            this.getStreamProvider().evaluate();
-            this.isActive = true;
-        }
+//        if (!this.isActive) {
+//            this.getStreamProvider().evaluate();
+//            this.isActive = true;
+//        }
         try {
             Item item = this.dataQueue.take();
             if (item != Item.EOS) return item;

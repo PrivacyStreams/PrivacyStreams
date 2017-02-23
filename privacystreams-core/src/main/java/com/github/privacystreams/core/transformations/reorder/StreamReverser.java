@@ -15,10 +15,4 @@ class StreamReverser extends StreamReorder {
     protected void reorder(List<Item> items) {
         Collections.reverse(items);
     }
-
-    @Override
-    protected List<Object> getParameters() {
-        List<Object> parameters = new ArrayList<>();
-        return parameters;
-    }
 }

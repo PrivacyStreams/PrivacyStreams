@@ -7,6 +7,7 @@ import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.SingleItemStream;
 import com.github.privacystreams.core.UQI;
+import com.github.privacystreams.core.utils.Assertions;
 
 /**
  * Created by yuanchun on 28/11/2016.
@@ -18,7 +19,8 @@ public class SingleItemStreamAction<Tout> extends Function<SingleItemStream, Tou
     private Function<Item, Tout> itemOutputFunction;
 
     public SingleItemStreamAction(Function<Item, Tout> itemOutputFunction) {
-        this.itemOutputFunction = itemOutputFunction;
+        this.itemOutputFunction = Assertions.notNull("itemOutputFunction;", itemOutputFunction);
+        this.addParameters(itemOutputFunction);
     }
 
     @Override
@@ -26,10 +28,4 @@ public class SingleItemStreamAction<Tout> extends Function<SingleItemStream, Tou
         return itemOutputFunction.apply(uqi, input.read());
     }
 
-    @Override
-    protected List<Object> getParameters() {
-        List<Object> parameters = new ArrayList<>();
-        parameters.add(this.itemOutputFunction);
-        return parameters;
-    }
 }

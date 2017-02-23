@@ -18,6 +18,7 @@ abstract class ListProcessor<Tout> extends ItemFunction<Tout> {
 
     ListProcessor(String listField) {
         this.listField = Assertions.notNull("listField", listField);
+        this.addParameters(listField);
     }
 
     @Override
@@ -28,10 +29,4 @@ abstract class ListProcessor<Tout> extends ItemFunction<Tout> {
 
     protected abstract Tout processList(List<Object> list);
 
-    @Override
-    protected List<Object> getParameters() {
-        List<Object> parameters = new ArrayList<>();
-        parameters.add(this.listField);
-        return parameters;
-    }
 }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.github.privacystreams.core.Item;
+import com.github.privacystreams.core.utils.Assertions;
 
 /**
  * Created by yuanchun on 23/12/2016.
@@ -15,7 +16,8 @@ final class FieldSumStatistic extends StreamStatistic<Double> {
     private final String field;
 
     FieldSumStatistic(String field) {
-        this.field = field;
+        this.field = Assertions.notNull("field", field);
+        this.addParameters(field);
     }
 
     @Override
@@ -33,10 +35,4 @@ final class FieldSumStatistic extends StreamStatistic<Double> {
         return fieldSum;
     }
 
-    @Override
-    protected List<Object> getParameters() {
-        List<Object> parameters = new ArrayList<>();
-        parameters.add(field);
-        return parameters;
-    }
 }

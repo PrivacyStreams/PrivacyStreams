@@ -1,5 +1,7 @@
 package com.github.privacystreams.communication;
 
+import android.Manifest;
+
 import com.github.privacystreams.core.MultiItemStream;
 import com.github.privacystreams.core.providers.MultiItemStreamProvider;
 
@@ -14,16 +16,11 @@ import java.util.List;
 class SMSMessageUpdatesProvider extends MultiItemStreamProvider {
 
     SMSMessageUpdatesProvider() {
+        this.addRequiredPermissions(Manifest.permission.READ_SMS);
     }
 
     @Override
     protected void provide(MultiItemStream output) {
         // TODO implement this
-    }
-
-    @Override
-    protected List<Object> getParameters() {
-        List<Object> parameters = new ArrayList<>();
-        return parameters;
     }
 }

@@ -19,13 +19,7 @@ class StreamItemPicker extends M2STransformation {
 
     StreamItemPicker(int itemIndex) {
         this.itemIndex = itemIndex;
-    }
-
-    @Override
-    protected List<Object> getParameters() {
-        List<Object> parameters = new ArrayList<>();
-        parameters.add(this.itemIndex);
-        return parameters;
+        this.addParameters(itemIndex);
     }
 
     @Override

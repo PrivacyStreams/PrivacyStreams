@@ -16,19 +16,13 @@ final class CountLimiter extends StreamLimiter {
     CountLimiter(int maxCount) {
         this.maxCount = maxCount;
         this.count = 0;
+        this.addParameters(maxCount);
     }
 
     @Override
     protected boolean keep(Item item) {
         this.count++;
         return this.count <= this.maxCount;
-    }
-
-    @Override
-    protected List<Object> getParameters() {
-        List<Object> parameters = new ArrayList<>();
-        parameters.add(String.valueOf(maxCount));
-        return parameters;
     }
 
 }

@@ -16,6 +16,7 @@ final class TimeoutLimiter extends StreamLimiter {
 
     TimeoutLimiter(long timeoutMillis) {
         this.timeoutMillis = timeoutMillis;
+        this.addParameters(timeoutMillis);
     }
 
     /*
@@ -53,12 +54,5 @@ final class TimeoutLimiter extends StreamLimiter {
             input.write(null);
             TimeoutLimiter.this.cancel();
         }
-    }
-
-    @Override
-    protected List<Object> getParameters() {
-        List<Object> parameters = new ArrayList<>();
-        parameters.add(String.valueOf(timeoutMillis));
-        return parameters;
     }
 }

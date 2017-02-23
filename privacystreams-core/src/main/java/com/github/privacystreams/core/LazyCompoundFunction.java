@@ -1,5 +1,7 @@
 package com.github.privacystreams.core;
 
+import com.github.privacystreams.core.utils.Assertions;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,8 +16,9 @@ final class LazyCompoundFunction<Tin, Ttemp, Tout> extends LazyFunction<Tin, Tou
 
     LazyCompoundFunction(LazyFunction<Tin, ? extends Ttemp> function1,
                          LazyFunction<? super Ttemp, Tout> function2) {
-        this.function1 = function1;
-        this.function2 = function2;
+        this.function1 = Assertions.notNull("function1", function1);
+        this.function2 = Assertions.notNull("function2", function2);;
+        this.addParameters(function1, function2);
     }
 
     @Override
@@ -36,15 +39,6 @@ final class LazyCompoundFunction<Tin, Ttemp, Tout> extends LazyFunction<Tin, Tou
     @Override
     protected void applyInBackground(Tin input, Tout output) {
         // Should not reach here.
-        return;
-    }
-
-    @Override
-    protected List<Object> getParameters() {
-        List<Object> parameters = new ArrayList<>();
-        parameters.add(function1);
-        parameters.add(function2);
-        return parameters;
     }
 
     public String toString() {

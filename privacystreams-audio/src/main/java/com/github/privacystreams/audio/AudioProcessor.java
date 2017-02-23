@@ -20,6 +20,7 @@ abstract class AudioProcessor<Tout> extends ItemFunction<Tout> {
 
     AudioProcessor(String audioUriField) {
         this.audioUriField = Assertions.notNull("audioUriField", audioUriField);
+        this.addParameters(audioUriField);
     }
 
     @Override
@@ -31,10 +32,4 @@ abstract class AudioProcessor<Tout> extends ItemFunction<Tout> {
 
     protected abstract Tout processAudio(Uri audioUri);
 
-    @Override
-    protected List<Object> getParameters() {
-        List<Object> parameters = new ArrayList<>();
-        parameters.add(this.audioUriField);
-        return parameters;
-    }
 }

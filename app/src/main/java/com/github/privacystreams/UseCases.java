@@ -5,10 +5,10 @@ import android.location.LocationManager;
 
 import com.github.privacystreams.audio.Audio;
 import com.github.privacystreams.communication.Message;
+import com.github.privacystreams.communication.Phonecall;
 import com.github.privacystreams.core.Callback;
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.UQI;
-import com.github.privacystreams.communication.CallLog;
 import com.github.privacystreams.communication.Contact;
 import com.github.privacystreams.image.Image;
 import com.github.privacystreams.location.GeoLocation;
@@ -99,10 +99,10 @@ public class UseCases {
     // get recent called 10 contacts’ names
     List<String> getRecentCalledNames(int n) {
         List<String> recentCalledPhoneNumbers = uqi
-                .getDataItems(CallLog.asList(), Purpose.feature("getDataItems recent called phone numbers"))
-                .sortBy(CallLog.TIMESTAMP)
+                .getDataItems(Phonecall.asLogs(), Purpose.feature("getDataItems recent called phone numbers"))
+                .sortBy(Phonecall.TIMESTAMP)
                 .limit(n)
-                .asList(CallLog.PHONE_NUMBER);
+                .asList(Phonecall.PHONE_NUMBER);
         List<String> recentCalledNames = uqi
                 .getDataItems(Contact.asList(), Purpose.feature("getDataItems names of recent called phone numbers"))
                 .filter(Lists.intersects(Contact.PHONES, recentCalledPhoneNumbers))
@@ -113,8 +113,8 @@ public class UseCases {
     // get a count of calls since 31Oct2015
     int getCallCountSince() {
         return uqi
-                .getDataItems(CallLog.asList(), Purpose.feature("know how many calls you made"))
-                .filter(Times.since(CallLog.TIMESTAMP, TimeUtils.format("yyyy-MM-dd", "2015-10-31")))
+                .getDataItems(Phonecall.asLogs(), Purpose.feature("know how many calls you made"))
+                .filter(Times.since(Phonecall.TIMESTAMP, TimeUtils.format("yyyy-MM-dd", "2015-10-31")))
                 .count();
     }
 
@@ -159,19 +159,19 @@ public class UseCases {
     String getPostcode() {
         return uqi
                 .getDataItem(GeoLocation.asLastKnown(), Purpose.feature("get postcode for nearby search"))
-                .compute(GeoLocation.postcode(GeoLocation.COORDINATES));
+                .compute(GeoLocation.asPostcode(GeoLocation.COORDINATES));
     }
 
     // knowing if a person is making more or less calls than normal
     boolean isMakingMoreCallsThanNormal() {
         int callCountLastWeek = uqi
-                .getDataItems(CallLog.asList(), Purpose.feature("get how many calls you made recently"))
-                .filter(Times.recent(CallLog.TIMESTAMP, Duration.days(7)))
+                .getDataItems(Phonecall.asLogs(), Purpose.feature("get how many calls you made recently"))
+                .filter(Times.recent(Phonecall.TIMESTAMP, Duration.days(7)))
                 .count();
         double callFrequencyLastWeek = (double) callCountLastWeek / 7;
         int callCountLastYear = uqi
-                .getDataItems(CallLog.asList(), Purpose.feature("get how many calls you made normally"))
-                .filter(Times.recent(CallLog.TIMESTAMP, Duration.days(365)))
+                .getDataItems(Phonecall.asLogs(), Purpose.feature("get how many calls you made normally"))
+                .filter(Times.recent(Phonecall.TIMESTAMP, Duration.days(365)))
                 .count();
         double callFrequencyLastYear = (double) callCountLastYear / 365;
         return callFrequencyLastWeek > callFrequencyLastYear;
@@ -206,7 +206,7 @@ public class UseCases {
     String getPlaceSpentMostTime() {
         return uqi
                 .getDataItems(GeoLocation.asHistory(), Purpose.feature("get the place you spent the most time"))
-                .setField("geo_tag", GeoLocation.geotag(GeoLocation.COORDINATES))
+                .setField("geo_tag", GeoLocation.asGeotag(GeoLocation.COORDINATES))
                 .localGroupBy("geo_tag")
                 .setGroupField("time_spent", Statistics.range(GeoLocation.TIMESTAMP))
                 .sortBy("time_spent")
@@ -220,11 +220,11 @@ public class UseCases {
     void getTotalNumberOfCallsPerPerson() {
         // each Map element is like {"phone_number": "xxxxxxx", "num_of_calls": 10, "length_of_calls": 30000}
         List<Item> totalNumberOfCallsPerPerson = uqi
-                .getDataItems(CallLog.asList(), Purpose.feature("get the tie relationship with people"))
-                .groupBy(CallLog.PHONE_NUMBER)
+                .getDataItems(Phonecall.asLogs(), Purpose.feature("get the tie relationship with people"))
+                .groupBy(Phonecall.PHONE_NUMBER)
                 .setGroupField("num_of_calls", Statistics.count())
-                .setGroupField("length_of_calls", Statistics.sum(CallLog.DURATION))
-                .project(CallLog.PHONE_NUMBER, "num_of_calls", "length_of_calls")
+                .setGroupField("length_of_calls", Statistics.sum(Phonecall.DURATION))
+                .project(Phonecall.PHONE_NUMBER, "num_of_calls", "length_of_calls")
                 .asList();
     }
 

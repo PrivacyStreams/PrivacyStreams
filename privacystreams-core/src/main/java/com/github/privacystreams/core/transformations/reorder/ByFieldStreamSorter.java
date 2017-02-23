@@ -6,6 +6,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import com.github.privacystreams.core.Item;
+import com.github.privacystreams.core.utils.Assertions;
 
 /**
  * Created by yuanchun on 22/12/2016.
@@ -15,7 +16,8 @@ class ByFieldStreamSorter extends StreamReorder {
     private final String fieldToSort;
 
     ByFieldStreamSorter(final String fieldToSort) {
-        this.fieldToSort = fieldToSort;
+        this.fieldToSort = Assertions.notNull("fieldToSort", fieldToSort);
+        this.addParameters(fieldToSort);
     }
 
     @Override
@@ -28,12 +30,5 @@ class ByFieldStreamSorter extends StreamReorder {
                 return value1.compareTo(value2);
             }
         });
-    }
-
-    @Override
-    protected List<Object> getParameters() {
-        List<Object> parameters = new ArrayList<>();
-        parameters.add(fieldToSort);
-        return parameters;
     }
 }

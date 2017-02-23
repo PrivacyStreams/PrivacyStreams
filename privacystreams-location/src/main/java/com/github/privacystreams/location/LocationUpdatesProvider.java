@@ -12,7 +12,7 @@ import android.support.v4.app.ActivityCompat;
 import com.github.privacystreams.core.MultiItemStream;
 import com.github.privacystreams.core.providers.MultiItemStreamProvider;
 import com.github.privacystreams.core.utils.Logging;
-import com.github.privacystreams.core.utils.permission.PermissionUtils;
+import com.github.privacystreams.core.utils.permission.PermissionActivity;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -24,11 +24,6 @@ import java.util.List;
  */
 
 final class LocationUpdatesProvider extends MultiItemStreamProvider {
-
-    private static final String[] REQUIRED_PERMISSIONS = {
-            Manifest.permission.ACCESS_FINE_LOCATION,
-            Manifest.permission.ACCESS_COARSE_LOCATION
-    };
 
     private String provider;
     private long minTime;
@@ -42,6 +37,9 @@ final class LocationUpdatesProvider extends MultiItemStreamProvider {
         this.provider = provider;
         this.minTime = minTime;
         this.minDistance = minDistance;
+        this.addParameters(provider, minTime, minDistance);
+        this.addRequiredPermissions(Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION);
     }
 
     @Override
@@ -50,17 +48,7 @@ final class LocationUpdatesProvider extends MultiItemStreamProvider {
         locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
         locationListener = new MyLocationListener(output);
 
-        boolean permissionGranted = PermissionUtils.requestPermissions(this.getContext(), REQUIRED_PERMISSIONS);
-        if (permissionGranted)
-            this.getLocationUpdates(output);
-        else
-            Logging.warn("permission not granted: " + Arrays.asList(REQUIRED_PERMISSIONS));
-    }
-
-    @Override
-    protected List<Object> getParameters() {
-        List<Object> parameters = new ArrayList<>();
-        return parameters;
+        this.getLocationUpdates(output);
     }
 
     private void getLocationUpdates(MultiItemStream stream) {

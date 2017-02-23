@@ -19,9 +19,4 @@ class LocationPostcodeFunction extends LocationProcessor<String> {
         return null;
     }
 
-    @Override
-    protected List<Object> getParameters() {
-        List<Object> parameters = super.getParameters();
-        return parameters;
-    }
 }

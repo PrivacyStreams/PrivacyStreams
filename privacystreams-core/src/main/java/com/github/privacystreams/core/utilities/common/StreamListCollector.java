@@ -20,8 +20,4 @@ class StreamListCollector extends ItemsFunction<List<Item>> {
         return items;
     }
 
-    @Override
-    protected List<Object> getParameters() {
-        return new ArrayList<>();
-    }
 }

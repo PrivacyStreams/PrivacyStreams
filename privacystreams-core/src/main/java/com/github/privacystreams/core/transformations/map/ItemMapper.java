@@ -23,12 +23,6 @@ final class ItemMapper extends S2STransformation {
 
     ItemMapper(final Function<Item, Item> itemMapper) {
         this.itemMapper = notNull("itemMapper", itemMapper);
-    }
-
-    @Override
-    protected List<Object> getParameters() {
-        List<Object> parameters = new ArrayList<>();
-        parameters.add(itemMapper.toString());
-        return parameters;
+        this.addParameters(itemMapper);
     }
 }

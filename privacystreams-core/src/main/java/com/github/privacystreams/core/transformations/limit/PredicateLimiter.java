@@ -17,6 +17,7 @@ final class PredicateLimiter extends StreamLimiter {
 
     PredicateLimiter(final Function<Item, Boolean> predicate) {
         this.predicate = notNull("predicate", predicate);
+        this.addParameters(predicate);
     }
 
     @Override
@@ -26,10 +27,4 @@ final class PredicateLimiter extends StreamLimiter {
 
     private static final String OPERATOR = "$limit_with_predicate";
 
-    @Override
-    protected List<Object> getParameters() {
-        List<Object> parameters = new ArrayList<>();
-        parameters.add(predicate.toString());
-        return parameters;
-    }
 }

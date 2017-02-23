@@ -7,7 +7,7 @@ package com.github.privacystreams;//package xyz.ylimit.personaldataapp;
 //import xyz.ylimit.personaldataapp.privacystreams.generic.MultiItemStream;
 //import xyz.ylimit.personaldataapp.privacystreams.providers.app.AppEvent;
 //import xyz.ylimit.personaldataapp.privacystreams.providers.audio.Audio;
-//import xyz.ylimit.personaldataapp.privacystreams.providers.call.CallLog;
+//import xyz.ylimit.personaldataapp.privacystreams.providers.call.Phonecall;
 //import xyz.ylimit.personaldataapp.privacystreams.providers.environment.Light;
 //import xyz.ylimit.personaldataapp.privacystreams.providers.location.GeoLocation;
 //import xyz.ylimit.personaldataapp.privacystreams.providers.motion.Accelerometer;
@@ -139,10 +139,10 @@ package com.github.privacystreams;//package xyz.ylimit.personaldataapp;
 //    void MoodScope_MobiSys_2013() {
 //        Purpose purpose = Purpose.feature("inferring mood");
 //        UQI
-//                .getDataItems(CallLog.asList(), purpose)
-//                .map(setField("timestamp_3days", round(CallLog.TIMESTAMP, Duration.days(3))))
+//                .getDataItems(Phonecall.asLogs(), purpose)
+//                .map(setField("timestamp_3days", round(Phonecall.TIMESTAMP, Duration.days(3))))
 //                .localGroupBy("timestamp_3days")
-//                .setGroupField("duration", sum(CallLog.DURATION));
+//                .setGroupField("duration", sum(Phonecall.DURATION));
 //
 //        UQI
 //                .getDataItems(Message.asSMSHistory(), purpose)

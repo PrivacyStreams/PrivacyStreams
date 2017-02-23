@@ -6,10 +6,10 @@ import com.github.privacystreams.core.providers.MultiItemStreamProvider;
 
 /**
  * Created by yuanchun on 07/12/2016.
- * A CallLog SingleItemStream represents a call log
+ * A Phonecall SingleItemStream represents a call log
  */
 
-public class CallLog extends Item {
+public class Phonecall extends Item {
     public static final String TIMESTAMP = "timestamp";
     public static final String PHONE_NUMBER = "phone_number";
     public static final String DURATION = "duration";
@@ -31,7 +31,7 @@ public class CallLog extends Item {
         }
     };
 
-    CallLog(Long timestamp, String phone_number, Long duration, Type call_type) {
+    Phonecall(Long timestamp, String phone_number, Long duration, Type call_type) {
         this.setFieldValue(TIMESTAMP, timestamp);
         this.setFieldValue(PHONE_NUMBER, phone_number);
         this.setFieldValue(DURATION, duration);
@@ -39,10 +39,10 @@ public class CallLog extends Item {
     }
 
     /**
-     * Get a provider that provides a stream of CallLog asList
+     * Get a provider that provides a stream of Phonecall asLogs
      * @return the stream provider
      */
-    public static MultiItemStreamProvider asList() {
-        return new CallLogHistoryProvider();
+    public static MultiItemStreamProvider asLogs() {
+        return new PhonecallLogProvider();
     }
 }

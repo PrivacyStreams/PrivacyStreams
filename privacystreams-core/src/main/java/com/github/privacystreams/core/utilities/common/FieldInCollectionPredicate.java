@@ -7,6 +7,7 @@ import java.util.List;
 import com.github.privacystreams.core.UQI;
 import com.github.privacystreams.core.utilities.ItemFunction;
 import com.github.privacystreams.core.Item;
+import com.github.privacystreams.core.utils.Assertions;
 
 /**
  * Created by yuanchun on 28/11/2016.
@@ -18,8 +19,9 @@ final class FieldInCollectionPredicate<TValue extends Collection> extends ItemFu
     private final Collection<TValue> collectionToCompare;
 
     FieldInCollectionPredicate(final String field, final Collection<TValue> collectionToCompare) {
-        this.field = field;
-        this.collectionToCompare = collectionToCompare;
+        this.field = Assertions.notNull("field", field);
+        this.collectionToCompare = Assertions.notNull("collectionToCompare", collectionToCompare);
+        this.addParameters(field, collectionToCompare);
     }
 
     @Override
@@ -28,11 +30,4 @@ final class FieldInCollectionPredicate<TValue extends Collection> extends ItemFu
         return this.collectionToCompare.contains(fieldValue);
     }
 
-    @Override
-    protected List<Object> getParameters() {
-        List<Object> parameters = new ArrayList<>();
-        parameters.add(field);
-        parameters.add(collectionToCompare);
-        return parameters;
-    }
 }

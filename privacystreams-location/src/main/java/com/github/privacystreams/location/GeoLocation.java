@@ -121,7 +121,7 @@ public class GeoLocation extends Item {
      * @param coordinatesField the coordinates field
      * @return the function
      */
-    public static Function<Item, String> postcode(String coordinatesField) {
+    public static Function<Item, String> asPostcode(String coordinatesField) {
         return new LocationPostcodeFunction(coordinatesField);
     }
 
@@ -130,7 +130,7 @@ public class GeoLocation extends Item {
      * @param coordinatesField the coordinates field
      * @return the function
      */
-    public static Function<Item, String> geotag(String coordinatesField) {
+    public static Function<Item, String> asGeotag(String coordinatesField) {
         return new LocationGeoTagger(coordinatesField);
     }
 }

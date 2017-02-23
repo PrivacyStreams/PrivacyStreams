@@ -6,6 +6,7 @@ import java.util.List;
 import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.MultiItemStream;
+import com.github.privacystreams.core.utils.Assertions;
 
 /**
  * Created by yuanchun on 28/12/2016.
@@ -16,7 +17,8 @@ class OnChangeCallback extends AsyncMultiItemStreamAction<Void> {
     private final Function<Item, Void> callback;
 
     OnChangeCallback(Function<Item, Void> callback) {
-        this.callback = callback;
+        this.callback = Assertions.notNull("callback", callback);
+        this.addParameters(callback);
     }
 
     @Override
@@ -36,10 +38,4 @@ class OnChangeCallback extends AsyncMultiItemStreamAction<Void> {
         }
     }
 
-    @Override
-    protected List<Object> getParameters() {
-        List<Object> parameters = new ArrayList<>();
-        parameters.add(callback);
-        return parameters;
-    }
 }
