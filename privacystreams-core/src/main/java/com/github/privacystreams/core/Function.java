@@ -50,6 +50,7 @@ public abstract class Function<Tin, Tout> {
      */
     public Function() {
         this.requiredPermissions = new HashSet<>();
+        this.parameters = new ArrayList<>();
     }
 
     /**
