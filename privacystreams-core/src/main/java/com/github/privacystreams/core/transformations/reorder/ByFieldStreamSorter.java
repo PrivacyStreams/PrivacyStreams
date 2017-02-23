@@ -17,6 +17,7 @@ class ByFieldStreamSorter extends StreamReorder {
 
     ByFieldStreamSorter(final String fieldToSort) {
         this.fieldToSort = Assertions.notNull("fieldToSort", fieldToSort);
+        this.addParameters(fieldToSort);
     }
 
     @Override
@@ -29,12 +30,5 @@ class ByFieldStreamSorter extends StreamReorder {
                 return value1.compareTo(value2);
             }
         });
-    }
-
-    @Override
-    protected List<Object> getParameters() {
-        List<Object> parameters = new ArrayList<>();
-        parameters.add(fieldToSort);
-        return parameters;
     }
 }

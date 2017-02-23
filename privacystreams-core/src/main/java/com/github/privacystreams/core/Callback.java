@@ -16,8 +16,4 @@ public abstract class Callback<Tin> extends Function<Tin, Void> {
     }
 
     public abstract void invoke(Tin input);
-
-    protected List<Object> getParameters(){
-        return new ArrayList<>();
-    };
 }

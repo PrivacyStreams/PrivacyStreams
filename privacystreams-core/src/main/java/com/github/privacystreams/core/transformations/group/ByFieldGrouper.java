@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.github.privacystreams.core.MultiItemStream;
 import com.github.privacystreams.core.Item;
+import com.github.privacystreams.core.utils.Assertions;
 import com.github.privacystreams.core.utils.HashUtils;
 
 /**
@@ -17,7 +18,8 @@ final class ByFieldGrouper extends StreamGrouper {
     private final String groupField;
 
     ByFieldGrouper(String groupField) {
-        this.groupField = groupField;
+        this.groupField = Assertions.notNull("groupField", groupField);
+        this.addParameters(groupField);
     }
 
     @Override
@@ -42,12 +44,5 @@ final class ByFieldGrouper extends StreamGrouper {
         for (Integer groupKey : groupItemsMap.keySet()) {
             output.write(new GroupItem(this.groupField, groupFieldMap.get(groupKey), groupItemsMap.get(groupKey)));
         }
-    }
-
-    @Override
-    protected List<Object> getParameters() {
-        List<Object> parameters = new ArrayList<>();
-        parameters.add(groupField);
-        return parameters;
     }
 }
