@@ -13,6 +13,6 @@ public class Storage {
      * A function that writes an item to file
      */
     public static Function<Item, Void> writeToFile(String dirPath, String fileTag) {
-        return new ItemFileWriter(dirPath, fileTag);
+        return new ExternalStorageWriter(dirPath, fileTag);
     }
 }
