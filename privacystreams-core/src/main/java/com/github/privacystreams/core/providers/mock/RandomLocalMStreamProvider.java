@@ -19,6 +19,7 @@ class RandomLocalMStreamProvider extends MultiItemStreamProvider {
         this.maxInt = maxInt;
         this.maxDouble = maxDouble;
         this.count = count;
+        this.addParameters(maxInt, maxDouble, count);
     }
 
     @Override
@@ -32,12 +33,4 @@ class RandomLocalMStreamProvider extends MultiItemStreamProvider {
         }
     }
 
-    @Override
-    protected List<Object> getParameters() {
-        List<Object> parameters = new ArrayList<>();
-        parameters.add(maxInt);
-        parameters.add(maxDouble);
-        parameters.add(count);
-        return parameters;
-    }
 }

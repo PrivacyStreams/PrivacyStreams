@@ -14,6 +14,7 @@ import static org.junit.Assert.*;
 
 /**
  * Created by yuanchun on 19/02/2017.
+ * Test cases for Item class
  */
 public class ItemTest {
     private MockObject mockObject;

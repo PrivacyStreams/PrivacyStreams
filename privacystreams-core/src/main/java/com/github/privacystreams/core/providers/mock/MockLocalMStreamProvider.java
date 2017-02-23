@@ -18,6 +18,7 @@ class MockLocalMStreamProvider extends MultiItemStreamProvider {
 
     MockLocalMStreamProvider(List<MockObject> mockObjects) {
         this.mockObjects = mockObjects;
+        this.addParameters(mockObjects);
     }
 
     @Override
@@ -30,10 +31,4 @@ class MockLocalMStreamProvider extends MultiItemStreamProvider {
         output.write(null);
     }
 
-    @Override
-    protected List<Object> getParameters() {
-        List<Object> parameters = new ArrayList<>();
-        parameters.add("mockObjects" + this.mockObjects.size());
-        return parameters;
-    }
 }

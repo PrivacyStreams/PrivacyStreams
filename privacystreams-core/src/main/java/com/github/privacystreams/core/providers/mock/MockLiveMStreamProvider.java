@@ -2,6 +2,7 @@ package com.github.privacystreams.core.providers.mock;
 
 import com.github.privacystreams.core.MultiItemStream;
 import com.github.privacystreams.core.providers.MultiItemStreamProvider;
+import com.github.privacystreams.core.utils.Assertions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,8 +19,9 @@ class MockLiveMStreamProvider extends MultiItemStreamProvider {
     private final long delay;
 
     MockLiveMStreamProvider(List<MockObject> mockObjects, long delay) {
-        this.mockObjects = mockObjects;
+        this.mockObjects = Assertions.notNull("mockObjects", mockObjects);
         this.delay = delay;
+        this.addParameters(mockObjects, delay);
     }
 
     @Override
@@ -38,13 +40,5 @@ class MockLiveMStreamProvider extends MultiItemStreamProvider {
             }
         }
         output.write(null);
-    }
-
-    @Override
-    protected List<Object> getParameters() {
-        List<Object> parameters = new ArrayList<>();
-        parameters.add("mockObjects: " + this.mockObjects.size());
-        parameters.add(delay);
-        return parameters;
     }
 }

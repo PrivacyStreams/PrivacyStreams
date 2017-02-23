@@ -18,6 +18,7 @@ class MockSStreamProvider extends SingleItemStreamProvider {
 
     public MockSStreamProvider(MockObject mockObject) {
         this.mockObject = mockObject;
+        this.addParameters(mockObject);
     }
 
     @Override
@@ -26,10 +27,4 @@ class MockSStreamProvider extends SingleItemStreamProvider {
         output.write(new MockItem(mockObject));
     }
 
-    @Override
-    protected List<Object> getParameters() {
-        List<Object> parameters = new ArrayList<>();
-        parameters.add("MockObject: " + this.mockObject);
-        return parameters;
-    }
 }
