@@ -25,20 +25,13 @@ import java.util.List;
 class ContactListProvider extends MultiItemStreamProvider {
     private static final String DESCRIPTION = "dummy data source for testing";
 
-    private static final String[] REQUIRED_PERMISSIONS = {
-            Manifest.permission.READ_CONTACTS
-    };
-
     ContactListProvider() {
+        this.addRequiredPermissions(Manifest.permission.READ_CONTACTS);
     }
 
     @Override
     protected void provide(MultiItemStream output) {
-        boolean permissionGranted = PermissionActivity.requestPermissions(this.getContext(), REQUIRED_PERMISSIONS);
-        if (permissionGranted)
-            this.getContactList(output);
-        else
-            Logging.warn("permission not granted: " + Arrays.asList(REQUIRED_PERMISSIONS));
+        this.getContactList(output);
     }
 
     private void getContactList(MultiItemStream output) {
