@@ -18,6 +18,7 @@ abstract class TimeProcessor<Tout> extends ItemFunction<Tout> {
 
     TimeProcessor(String timestampField) {
         this.timestampField = Assertions.notNull("timestampField", timestampField);
+        this.addParameters(timestampField);
     }
 
     @Override
@@ -27,11 +28,4 @@ abstract class TimeProcessor<Tout> extends ItemFunction<Tout> {
     }
 
     protected abstract Tout processTimestamp(long timestamp);
-
-    @Override
-    protected List<Object> getParameters() {
-        List<Object> parameters = new ArrayList<>();
-        parameters.add(this.timestampField);
-        return parameters;
-    }
 }

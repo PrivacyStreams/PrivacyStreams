@@ -14,17 +14,9 @@ import com.github.privacystreams.core.Item;
  */
 
 class ItemToMapFunction extends ItemFunction<Map<String, Object>> {
-    ItemToMapFunction() {
-    }
 
     @Override
     public Map<String, Object> apply(UQI uqi, Item input) {
         return input.toMap();
-    }
-
-    @Override
-    protected List<Object> getParameters() {
-        List<Object> parameters = new ArrayList<>();
-        return parameters;
     }
 }

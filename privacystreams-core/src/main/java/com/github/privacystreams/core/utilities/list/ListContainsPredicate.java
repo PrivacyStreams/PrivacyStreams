@@ -1,5 +1,7 @@
 package com.github.privacystreams.core.utilities.list;
 
+import com.github.privacystreams.core.utils.Assertions;
+
 import java.util.List;
 
 /**
@@ -12,7 +14,8 @@ final class ListContainsPredicate extends ListProcessor<Boolean> {
 
     ListContainsPredicate(final String listField, final Object value) {
         super(listField);
-        this.value = value;
+        this.value = Assertions.notNull("value", value);
+        this.addParameters(value);
     }
 
     @Override
@@ -20,10 +23,4 @@ final class ListContainsPredicate extends ListProcessor<Boolean> {
         return list.contains(this.value);
     }
 
-    @Override
-    protected List<Object> getParameters() {
-        List<Object> parameters = super.getParameters();
-        parameters.add(value);
-        return parameters;
-    }
 }

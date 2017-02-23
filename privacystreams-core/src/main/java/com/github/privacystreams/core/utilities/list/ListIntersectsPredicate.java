@@ -1,5 +1,7 @@
 package com.github.privacystreams.core.utilities.list;
 
+import com.github.privacystreams.core.utils.Assertions;
+
 import java.util.List;
 
 /**
@@ -12,7 +14,8 @@ final class ListIntersectsPredicate extends ListProcessor<Boolean> {
 
     ListIntersectsPredicate(final String listField, final List<Object> listToCompare) {
         super(listField);
-        this.listToCompare = listToCompare;
+        this.listToCompare = Assertions.notNull("listToCompare", listToCompare);
+        this.addParameters(listToCompare);
     }
 
     @Override
@@ -22,13 +25,6 @@ final class ListIntersectsPredicate extends ListProcessor<Boolean> {
                 return true;
         }
         return false;
-    }
-
-    @Override
-    protected List<Object> getParameters() {
-        List<Object> parameters = super.getParameters();
-        parameters.add(listToCompare);
-        return parameters;
     }
 
 }

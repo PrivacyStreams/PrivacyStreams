@@ -18,6 +18,7 @@ abstract class StringProcessor<Tout> extends ItemFunction<Tout> {
 
     StringProcessor(String stringField) {
         this.stringField = Assertions.notNull("stringField", stringField);
+        this.addParameters(stringField);
     }
 
     @Override
@@ -28,10 +29,4 @@ abstract class StringProcessor<Tout> extends ItemFunction<Tout> {
 
     protected abstract Tout processString(String stringValue);
 
-    @Override
-    protected List<Object> getParameters() {
-        List<Object> parameters = new ArrayList<>();
-        parameters.add(this.stringField);
-        return parameters;
-    }
 }

@@ -16,6 +16,7 @@ public class RoundDownFunction extends ArithmeticFunction<Double> {
     RoundDownFunction(String numField, Number valueToRound) {
         super(numField);
         this.valueToRound = Assertions.notNull("valueToRound", valueToRound);
+        this.addParameters(valueToRound);
     }
 
     @Override
@@ -23,10 +24,4 @@ public class RoundDownFunction extends ArithmeticFunction<Double> {
         return Math.floor(number.doubleValue()/valueToRound.doubleValue()) * valueToRound.doubleValue();
     }
 
-    @Override
-    protected List<Object> getParameters() {
-        List<Object> parameters = super.getParameters();
-        parameters.add(valueToRound);
-        return parameters;
-    }
 }

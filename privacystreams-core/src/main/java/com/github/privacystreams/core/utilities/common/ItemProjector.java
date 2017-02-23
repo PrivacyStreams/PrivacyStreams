@@ -25,6 +25,7 @@ class ItemProjector extends Function<Item, Item> {
     ItemProjector(String operator, String... fields) {
         this.operator = notNull("operator", operator);
         this.fields = notNull("fields", fields);
+        this.addParameters(operator, fields);
     }
 
     @Override
@@ -41,11 +42,4 @@ class ItemProjector extends Function<Item, Item> {
         }
     }
 
-    @Override
-    protected List<Object> getParameters() {
-        List<Object> parameters = new ArrayList<>();
-        parameters.add(this.operator);
-        parameters.add(this.fields);
-        return parameters;
-    }
 }

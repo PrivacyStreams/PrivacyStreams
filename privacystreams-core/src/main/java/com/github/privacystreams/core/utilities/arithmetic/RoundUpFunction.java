@@ -18,6 +18,7 @@ public class RoundUpFunction extends ArithmeticFunction<Double> {
     RoundUpFunction(String numField, Number valueToRound) {
         super(numField);
         this.valueToRound = Assertions.notNull("valueToRound", valueToRound);
+        this.addParameters(valueToRound);
     }
 
     @Override
@@ -25,10 +26,4 @@ public class RoundUpFunction extends ArithmeticFunction<Double> {
         return Math.ceil(number.doubleValue()/valueToRound.doubleValue()) * valueToRound.doubleValue();
     }
 
-    @Override
-    protected List<Object> getParameters() {
-        List<Object> parameters = super.getParameters();
-        parameters.add(valueToRound);
-        return parameters;
-    }
 }

@@ -15,17 +15,11 @@ final class TimeRecentPredicate extends TimeProcessor<Boolean> {
     TimeRecentPredicate(final String timestampField, final long duration) {
         super(timestampField);
         this.duration = duration;
+        this.addParameters(duration);
     }
 
     @Override
     protected Boolean processTimestamp(long timestamp) {
         return timestamp >= TimeUtils.now() - this.duration;
-    }
-
-    @Override
-    protected List<Object> getParameters() {
-        List<Object> parameters = super.getParameters();
-        parameters.add(String.valueOf(this.duration));
-        return parameters;
     }
 }

@@ -20,8 +20,4 @@ final class ItemPrinter extends ItemFunction<Void> {
         return null;
     }
 
-    @Override
-    protected List<Object> getParameters() {
-        return new ArrayList<>();
-    }
 }

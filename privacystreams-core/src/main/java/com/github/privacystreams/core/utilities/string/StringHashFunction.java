@@ -3,6 +3,7 @@ package com.github.privacystreams.core.utilities.string;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
+import com.github.privacystreams.core.utils.Assertions;
 import com.github.privacystreams.core.utils.Logging;
 import com.github.privacystreams.core.utils.HashUtils;
 
@@ -16,7 +17,9 @@ final class StringHashFunction extends StringProcessor<String> {
 
     StringHashFunction(String stringField, String hashAlgorithm) {
         super(stringField);
-        this.hashAlgorithm = hashAlgorithm;
+        this.hashAlgorithm = Assertions.notNull("hashAlgorithm", hashAlgorithm);
+        this.addParameters(hashAlgorithm);
+
     }
 
     @Override
@@ -28,12 +31,5 @@ final class StringHashFunction extends StringProcessor<String> {
             e.printStackTrace();
             return null;
         }
-    }
-
-    @Override
-    protected List<Object> getParameters() {
-        List<Object> parameters = super.getParameters();
-        parameters.add(this.hashAlgorithm);
-        return parameters;
     }
 }

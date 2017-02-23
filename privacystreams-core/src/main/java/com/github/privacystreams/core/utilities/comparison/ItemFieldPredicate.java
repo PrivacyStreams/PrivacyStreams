@@ -22,6 +22,7 @@ abstract class ItemFieldPredicate<TValue> extends ItemFunction<Boolean> {
         this.operator = notNull("operator", operator);
         this.field = notNull("field", field);
         this.valueToCompare = valueToCompare;
+        this.addParameters(operator, field, valueToCompare);
     }
 
     public boolean test(Item item) {
@@ -31,15 +32,6 @@ abstract class ItemFieldPredicate<TValue> extends ItemFunction<Boolean> {
     }
 
     protected abstract boolean testField(Object fieldValue);
-
-    @Override
-    protected List<Object> getParameters() {
-        List<Object> parameters = new ArrayList<>();
-        parameters.add(operator);
-        parameters.add(field);
-        parameters.add(this.valueToCompare.toString());
-        return parameters;
-    }
 
     public final Boolean apply(UQI uqi, Item input) {
         return this.test(input);

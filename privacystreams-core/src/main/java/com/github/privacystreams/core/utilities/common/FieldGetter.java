@@ -19,17 +19,11 @@ class FieldGetter<TValue> extends ItemFunction<TValue> {
 
     FieldGetter(String fieldToGet) {
         this.fieldToGet = notNull("fieldToGet", fieldToGet);
+        this.addParameters(fieldToGet);
     }
 
     @Override
     public TValue apply(UQI uqi, Item input) {
         return input.getValueByField(this.fieldToGet);
-    }
-
-    @Override
-    protected List<Object> getParameters() {
-        List<Object> parameters = new ArrayList<>();
-        parameters.add(this.fieldToGet);
-        return parameters;
     }
 }

@@ -20,6 +20,7 @@ class StreamFieldListCollector<TValue> extends ItemsFunction<List<TValue>> {
 
     StreamFieldListCollector(String fieldToSelect) {
         this.fieldToSelect = notNull("fieldToSelect", fieldToSelect);
+        this.addParameters(fieldToSelect);
     }
 
     @Override
@@ -32,8 +33,4 @@ class StreamFieldListCollector<TValue> extends ItemsFunction<List<TValue>> {
         return result;
     }
 
-    @Override
-    protected List<Object> getParameters() {
-        return new ArrayList<>();
-    }
 }

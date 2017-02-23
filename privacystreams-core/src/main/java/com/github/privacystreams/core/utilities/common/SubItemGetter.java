@@ -20,19 +20,13 @@ final class SubItemGetter extends Function<Item, Item> {
 
     SubItemGetter(String subItemField) {
         this.subItemField = notNull("subItemField", subItemField);
+        this.addParameters(subItemField);
     }
 
     @Override
     public Item apply(UQI uqi, Item input) {
         Map<String, Object> subItemMap = input.getValueByField(this.subItemField);
         return new Item(subItemMap);
-    }
-
-    @Override
-    protected List<Object> getParameters() {
-        List<Object> parameters = new ArrayList<>();
-        parameters.add(this.subItemField);
-        return parameters;
     }
 
 }
