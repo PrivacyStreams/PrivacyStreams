@@ -14,7 +14,7 @@ import java.util.List;
 import com.github.privacystreams.core.SingleItemStream;
 import com.github.privacystreams.core.providers.SingleItemStreamProvider;
 import com.github.privacystreams.core.utils.Logging;
-import com.github.privacystreams.core.utils.permission.PermissionUtils;
+import com.github.privacystreams.core.utils.permission.PermissionActivity;
 import com.github.privacystreams.core.utils.time.Duration;
 
 /**
@@ -34,7 +34,7 @@ class LastKnownLocationProvider extends SingleItemStreamProvider {
 
     @Override
     protected void provide(SingleItemStream output) {
-        boolean permissionGranted = PermissionUtils.requestPermissions(this.getContext(), REQUIRED_PERMISSIONS);
+        boolean permissionGranted = PermissionActivity.requestPermissions(this.getContext(), REQUIRED_PERMISSIONS);
         if (permissionGranted)
             this.getLastKnownLocation(output);
         else
@@ -43,7 +43,7 @@ class LastKnownLocationProvider extends SingleItemStreamProvider {
 
     private void getLastKnownLocation(SingleItemStream output) {
         Context context = this.getContext();
-        PermissionUtils.requestPermissions(context, REQUIRED_PERMISSIONS);
+        PermissionActivity.requestPermissions(context, REQUIRED_PERMISSIONS);
 
         LocationManager lm = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION)

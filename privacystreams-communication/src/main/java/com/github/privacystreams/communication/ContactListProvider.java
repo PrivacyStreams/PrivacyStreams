@@ -11,7 +11,7 @@ import android.provider.ContactsContract.CommonDataKinds.Phone;
 import com.github.privacystreams.core.MultiItemStream;
 import com.github.privacystreams.core.providers.MultiItemStreamProvider;
 import com.github.privacystreams.core.utils.Logging;
-import com.github.privacystreams.core.utils.permission.PermissionUtils;
+import com.github.privacystreams.core.utils.permission.PermissionActivity;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -35,7 +35,7 @@ class ContactListProvider extends MultiItemStreamProvider {
 
     @Override
     protected void provide(MultiItemStream output) {
-        boolean permissionGranted = PermissionUtils.requestPermissions(this.getContext(), REQUIRED_PERMISSIONS);
+        boolean permissionGranted = PermissionActivity.requestPermissions(this.getContext(), REQUIRED_PERMISSIONS);
         if (permissionGranted)
             this.getContactList(output);
         else

@@ -4,8 +4,10 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by yuanchun on 14/12/2016.
@@ -14,8 +16,8 @@ import java.util.Map;
 
 public abstract class Function<Tin, Tout> {
 
-    protected List<String> requiredPermissions;
-    public List<String> getRequiredPermissions() {
+    protected Set<String> requiredPermissions;
+    public final Set<String> getRequiredPermissions() {
         return this.requiredPermissions;
     }
 
@@ -23,7 +25,7 @@ public abstract class Function<Tin, Tout> {
      * Each Function must initialize requiredPermissions field in constructor.
      */
     public Function() {
-        this.requiredPermissions = new ArrayList<>();
+        this.requiredPermissions = new HashSet<>();
     }
 
     public abstract Tout apply(UQI uqi, Tin input);
@@ -37,17 +39,6 @@ public abstract class Function<Tin, Tout> {
     }
 
     protected abstract List<Object> getParameters();
-
-    public final Map<String, Object> toMap() {
-        Map<String, Object> result = new HashMap<>();
-        result.put("operator", this.getOperator());
-        result.put("parameters", this.getParameters());
-        return result;
-    }
-
-    public final JSONObject toJson() {
-        return new JSONObject(this.toMap());
-    }
 
     public String toString() {
         return this.getOperator() + this.getParameters();
