@@ -2,15 +2,12 @@ package com.github.privacystreams.core;
 
 import com.github.privacystreams.core.utils.Assertions;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Created by yuanchun on 19/12/2016.
  * A compound function combines two functions, by taking function1's output as function2's input
  */
 
-final class CompoundFunction<Tin, Ttemp, Tout> extends Function<Tin, Tout> {
+final class CompoundFunction<Tin, Ttemp, Tout> extends Function<Tin, Tout> implements ICompoundFunction<Tin, Tout> {
     private Function<Tin, ? extends Ttemp> function1;
     private Function<? super Ttemp, Tout> function2;
 
@@ -27,5 +24,15 @@ final class CompoundFunction<Tin, Ttemp, Tout> extends Function<Tin, Tout> {
 
     public String toString() {
         return function1.toString() + " --> " + function2.toString();
+    }
+
+    @Override
+    public Function<Tin, ? extends Ttemp> getFunction1() {
+        return this.function1;
+    }
+
+    @Override
+    public Function<? super Ttemp, Tout> getFunction2() {
+        return this.function2;
     }
 }

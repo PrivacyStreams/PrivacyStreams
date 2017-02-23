@@ -10,7 +10,7 @@ import java.util.List;
  * A compound function combines two functions, by taking function1's output as function2's input
  */
 
-final class LazyCompoundFunction<Tin, Ttemp, Tout> extends LazyFunction<Tin, Tout> {
+final class LazyCompoundFunction<Tin, Ttemp, Tout> extends LazyFunction<Tin, Tout> implements ICompoundFunction<Tin, Tout> {
     private LazyFunction<Tin, ? extends Ttemp> function1;
     private LazyFunction<? super Ttemp, Tout> function2;
 
@@ -39,6 +39,16 @@ final class LazyCompoundFunction<Tin, Ttemp, Tout> extends LazyFunction<Tin, Tou
     @Override
     protected void applyInBackground(Tin input, Tout output) {
         // Should not reach here.
+    }
+
+    @Override
+    public Function<Tin, ? extends Ttemp> getFunction1() {
+        return this.function1;
+    }
+
+    @Override
+    public Function<? super Ttemp, Tout> getFunction2() {
+        return this.function2;
     }
 
     public String toString() {

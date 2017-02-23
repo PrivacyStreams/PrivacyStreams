@@ -21,6 +21,7 @@ import java.util.Set;
 public class UQI {
     private Context context;
     private Gson gson;
+
     private Purpose purpose;
 
     public UQI(Context context) {
@@ -74,11 +75,10 @@ public class UQI {
                                                  Function<TStream, Tout> streamAction) {
 
         // TODO add user authentication here
-        Function<Void, Tout> query = streamProvider.compound(streamAction);
-        Logging.debug("PrivacyStreams Query: ");
-        Logging.debug(query.toString());
+        Function<Void, Tout> function = streamProvider.compound(streamAction);
+        Logging.debug("PrivacyStreams Query: " + function.toString());
 
-        Set<String> queryRequiredPermissions = query.getRequiredPermissions();
+        Set<String> queryRequiredPermissions = function.getRequiredPermissions();
         Logging.debug(queryRequiredPermissions.toString());
 
         streamProvider.evaluate();

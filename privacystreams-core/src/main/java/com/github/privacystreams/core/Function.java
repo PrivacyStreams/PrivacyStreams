@@ -75,4 +75,22 @@ public abstract class Function<Tin, Tout> {
         return this.getOperator() + this.getParameters();
     }
 
+    public Function<Tin, ?> getHead() {
+        if (this instanceof ICompoundFunction<?, ?>) {
+            return ((ICompoundFunction<Tin, Tout>) this).getFunction1().getHead();
+        }
+        else {
+            return this;
+        }
+    }
+
+    public Function<?, Tout> getTail() {
+        if (this instanceof ICompoundFunction<?, ?>) {
+            return ((ICompoundFunction<Tin, Tout>) this).getFunction2().getTail();
+        }
+        else {
+            return this;
+        }
+    }
+
 }
