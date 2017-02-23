@@ -1,5 +1,6 @@
 package com.github.privacystreams.online_services;
 
+import android.Manifest;
 import android.content.Context;
 
 import com.dropbox.core.DbxException;
@@ -43,6 +44,9 @@ final class ItemDropboxUploader extends ItemFunction<Void> {
         if (this.fileTag.contains(WORD_SEPARATOR)) {
             throw new IllegalArgumentException("Illegal fileTag, can not contain: " + WORD_SEPARATOR);
         }
+
+        this.addParameters(DropboxToken, fileTag);
+        this.addRequiredPermissions(Manifest.permission.INTERNET);
     }
 
     @Override
@@ -95,13 +99,5 @@ final class ItemDropboxUploader extends ItemFunction<Void> {
             Logging.warn("error uploading files to Dropbox.");
             e.printStackTrace();
         }
-    }
-
-    @Override
-    protected List<Object> getParameters() {
-        List<Object> parameters = new ArrayList<>();
-        parameters.add(DropboxToken);
-        parameters.add(fileTag);
-        return parameters;
     }
 }
