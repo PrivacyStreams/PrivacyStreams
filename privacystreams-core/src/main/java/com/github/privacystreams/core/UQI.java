@@ -10,6 +10,8 @@ import com.google.gson.GsonBuilder;
 
 import com.github.privacystreams.core.purposes.Purpose;
 
+import java.util.Set;
+
 
 /**
  * Created by yuanchun on 02/11/2016.
@@ -71,9 +73,13 @@ public class UQI {
                                                  TStream stream,
                                                  Function<TStream, Tout> streamAction) {
 
+        // TODO add user authentication here
         Function<Void, Tout> query = streamProvider.compound(streamAction);
         Logging.debug("PrivacyStreams Query: ");
         Logging.debug(query.toString());
+
+        Set<String> queryRequiredPermissions = query.getRequiredPermissions();
+        Logging.debug(queryRequiredPermissions.toString());
 
         streamProvider.evaluate();
         return streamAction.apply(this, stream);
