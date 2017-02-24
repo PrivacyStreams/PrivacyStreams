@@ -5,6 +5,7 @@ import android.content.Context;
 import com.github.privacystreams.core.providers.MultiItemStreamProvider;
 import com.github.privacystreams.core.providers.SingleItemStreamProvider;
 import com.github.privacystreams.core.utils.Logging;
+import com.github.privacystreams.core.utils.permission.PermissionActivity;
 import com.github.privacystreams.core.utils.permission.PermissionUtils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -12,6 +13,8 @@ import com.google.gson.GsonBuilder;
 import com.github.privacystreams.core.purposes.Purpose;
 
 import java.security.acl.Permission;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Set;
 
 
@@ -86,7 +89,6 @@ public class UQI {
     <Tout, TStream extends Stream> Tout evaluate(LazyFunction<Void, TStream> streamProvider,
                                                  Function<TStream, Tout> streamAction) {
 
-        // TODO add user authentication here
         Function<Void, Tout> function = streamProvider.compound(streamAction);
         Logging.debug("PrivacyStreams Query: " + function.toString());
 
@@ -98,6 +100,8 @@ public class UQI {
         }
         else {
             // TODO if the permissions are not granted, try request
+            PermissionActivity.requestPermissions(this.context, requiredPermissions.toArray(new String[]{}));
+            Logging.warn("Permissions not granted, you have to try again after permission granted!");
             return null;
         }
     }

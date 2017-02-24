@@ -3,9 +3,6 @@ package com.github.privacystreams.core.providers.mock;
 import com.github.privacystreams.core.MultiItemStream;
 import com.github.privacystreams.core.providers.MultiItemStreamProvider;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Created by yuanchun on 18/02/2017.
  * A Provider that provides continuous random MockItem updates
@@ -37,4 +34,5 @@ class RandomLiveMStreamProvider extends MultiItemStreamProvider {
             }
         }
     }
+
 }

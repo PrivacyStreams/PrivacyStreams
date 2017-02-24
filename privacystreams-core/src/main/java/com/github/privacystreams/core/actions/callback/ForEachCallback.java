@@ -1,8 +1,5 @@
 package com.github.privacystreams.core.actions.callback;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.MultiItemStream;
 import com.github.privacystreams.core.Item;

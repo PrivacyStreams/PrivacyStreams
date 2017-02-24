@@ -1,13 +1,9 @@
 package com.github.privacystreams.core;
 
-import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 /**
@@ -22,10 +18,6 @@ public abstract class Function<Tin, Tout> {
 
     public final Set<String> getRequiredPermissions() {
         return this.requiredPermissions;
-    }
-
-    protected final String getOperator() {
-        return this.getClass().getSimpleName();
     }
 
     protected final List<Object> getParameters() {
@@ -72,7 +64,7 @@ public abstract class Function<Tin, Tout> {
     }
 
     public String toString() {
-        return this.getOperator() + this.getParameters();
+        return this.getClass().getSimpleName() + this.getParameters();
     }
 
     public Function<Tin, ?> getHead() {
