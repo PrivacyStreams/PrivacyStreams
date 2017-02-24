@@ -52,7 +52,7 @@ public class SingleItemStream extends Stream implements ISingleItemStream {
      * @return the output
      */
     public <Tout> Tout output(Function<SingleItemStream, Tout> sStreamAction) {
-        return this.getUQI().evaluate(this.getStreamProvider(), this, sStreamAction);
+        return this.getUQI().evaluate(this.getStreamProvider(), sStreamAction);
     }
 
     /**

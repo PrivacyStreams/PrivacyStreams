@@ -72,7 +72,7 @@ public class MultiItemStream extends Stream implements IMultiItemStream {
      * @return the collected object
      */
     public <Tout> Tout output(Function<MultiItemStream, Tout> mStreamAction) {
-        return this.getUQI().evaluate(this.getStreamProvider(), this, mStreamAction);
+        return this.getUQI().evaluate(this.getStreamProvider(), mStreamAction);
     }
 
     // *****************************

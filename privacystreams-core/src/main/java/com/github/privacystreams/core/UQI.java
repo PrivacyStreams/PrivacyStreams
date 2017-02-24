@@ -84,7 +84,6 @@ public class UQI {
     }
 
     <Tout, TStream extends Stream> Tout evaluate(LazyFunction<Void, TStream> streamProvider,
-                                                 TStream stream,
                                                  Function<TStream, Tout> streamAction) {
 
         // TODO add user authentication here
@@ -94,13 +93,13 @@ public class UQI {
         Set<String> requiredPermissions = function.getRequiredPermissions();
         Logging.debug("Required Permissions: " + requiredPermissions.toString());
 
-        // TODO if the permissions are not granted, try request
-        if (!PermissionUtils.checkPermissions(this.context, requiredPermissions)) {
+        if (PermissionUtils.checkPermissions(this.context, requiredPermissions)) {
+            return function.apply(this, null);
+        }
+        else {
+            // TODO if the permissions are not granted, try request
             return null;
         }
-
-//        streamProvider.evaluate();
-        return function.apply(this, null);
     }
 
 }

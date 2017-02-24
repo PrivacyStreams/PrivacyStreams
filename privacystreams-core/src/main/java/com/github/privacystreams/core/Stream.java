@@ -130,16 +130,12 @@ public abstract class Stream {
         return outputMap;
     }
 
-    public JSONObject toJson() {
-        return new JSONObject(this.toMap());
-    }
-
     public String toString() {
         return this.toMap().toString();
     }
 
     public Context getContext() {
-        return context;
+        return this.context;
     }
 
     public UQI getUQI() {
