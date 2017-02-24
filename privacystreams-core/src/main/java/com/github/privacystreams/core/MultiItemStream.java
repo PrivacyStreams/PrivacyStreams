@@ -15,7 +15,6 @@ import com.github.privacystreams.core.transformations.limit.Limiters;
 import com.github.privacystreams.core.transformations.map.Mappers;
 import com.github.privacystreams.core.transformations.pick.Pickers;
 import com.github.privacystreams.core.transformations.reorder.Reorders;
-import com.github.privacystreams.core.utils.Logging;
 
 /**
  * Created by yuanchun on 28/11/2016.
@@ -263,7 +262,7 @@ public class MultiItemStream extends Stream implements IMultiItemStream {
 
     @Override
     public <Tout> Tout outputItems(Function<List<Item>, Tout> itemsOutputFunction) {
-        return this.output(new MultiItemStreamAction<Tout>(itemsOutputFunction));
+        return this.output(new MultiItemStreamAction<>(itemsOutputFunction));
     }
 
     /**

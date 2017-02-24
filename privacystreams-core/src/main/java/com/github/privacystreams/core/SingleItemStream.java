@@ -6,7 +6,6 @@ import com.github.privacystreams.core.actions.SingleItemStreamAction;
 import com.github.privacystreams.core.utilities.common.ItemCommons;
 import com.github.privacystreams.core.utilities.print.Printers;
 import com.github.privacystreams.core.transformations.map.Mappers;
-import com.github.privacystreams.core.utils.Logging;
 
 /**
  * Created by yuanchun on 29/11/2016.
@@ -91,7 +90,7 @@ public class SingleItemStream extends Stream implements ISingleItemStream {
 
     @Override
     public <T> T outputItem(Function<Item, T> itemCollector) {
-        return new SingleItemStreamAction<T>(itemCollector).apply(this.getUQI(), this);
+        return new SingleItemStreamAction<>(itemCollector).apply(this.getUQI(), this);
     }
 
     /**
