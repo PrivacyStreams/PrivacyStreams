@@ -19,7 +19,11 @@ final class CompoundFunction<Tin, Ttemp, Tout> extends Function<Tin, Tout> imple
 
     @Override
     public Tout apply(UQI uqi, Tin input) {
-        return function2.apply(uqi, function1.apply(uqi, input));
+        Ttemp temp = function1.apply(uqi, input);
+        if (function1 instanceof LazyFunction<?, ?>) {
+            ((LazyFunction) function1).evaluate();
+        }
+        return function2.apply(uqi, temp);
     }
 
     public String toString() {

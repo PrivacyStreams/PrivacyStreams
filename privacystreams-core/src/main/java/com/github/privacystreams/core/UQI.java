@@ -5,11 +5,13 @@ import android.content.Context;
 import com.github.privacystreams.core.providers.MultiItemStreamProvider;
 import com.github.privacystreams.core.providers.SingleItemStreamProvider;
 import com.github.privacystreams.core.utils.Logging;
+import com.github.privacystreams.core.utils.permission.PermissionUtils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import com.github.privacystreams.core.purposes.Purpose;
 
+import java.security.acl.Permission;
 import java.util.Set;
 
 
@@ -21,12 +23,17 @@ import java.util.Set;
 public class UQI {
     private Context context;
     private Gson gson;
-
     private Purpose purpose;
 
     public UQI(Context context) {
         this.context = context;
         this.gson = new GsonBuilder().setPrettyPrinting().create();
+        this.purpose = null;
+    }
+
+    private UQI(Context context, Purpose purpose) {
+        this(context);
+        this.purpose = purpose;
     }
 
     public Context getContext() {
@@ -48,6 +55,12 @@ public class UQI {
         return this.gson;
     }
 
+    private UQI getUQIWithPurpose(Purpose newPurpose) {
+        if (this.purpose == null) this.purpose = newPurpose;
+        if (this.purpose == newPurpose) return this;
+        return new UQI(this.context, newPurpose);
+    }
+
     /**
      * Get a personal data stream from a provider with a purpose
      * @param mStreamProvider the function to provide the personal data stream, e.g. Location.asUpdates(), SMS.asHistory().
@@ -55,8 +68,8 @@ public class UQI {
      * @return the personal data stream
      */
     public IMultiItemStream getDataItems(MultiItemStreamProvider mStreamProvider, Purpose purpose) {
-        this.purpose = purpose;
-        return mStreamProvider.apply(this, null);
+        UQI uqi = this.getUQIWithPurpose(purpose);
+        return mStreamProvider.apply(uqi, null);
     }
 
     /**
@@ -66,8 +79,8 @@ public class UQI {
      * @return the personal data item
      */
     public ISingleItemStream getDataItem(SingleItemStreamProvider sStreamProvider, Purpose purpose) {
-        this.purpose = purpose;
-        return sStreamProvider.apply(this, null);
+        UQI uqi = this.getUQIWithPurpose(purpose);
+        return sStreamProvider.apply(uqi, null);
     }
 
     <Tout, TStream extends Stream> Tout evaluate(LazyFunction<Void, TStream> streamProvider,
@@ -78,11 +91,16 @@ public class UQI {
         Function<Void, Tout> function = streamProvider.compound(streamAction);
         Logging.debug("PrivacyStreams Query: " + function.toString());
 
-        Set<String> queryRequiredPermissions = function.getRequiredPermissions();
-        Logging.debug(queryRequiredPermissions.toString());
+        Set<String> requiredPermissions = function.getRequiredPermissions();
+        Logging.debug("Required Permissions: " + requiredPermissions.toString());
 
-        streamProvider.evaluate();
-        return streamAction.apply(this, stream);
+        // TODO if the permissions are not granted, try request
+        if (!PermissionUtils.checkPermissions(this.context, requiredPermissions)) {
+            return null;
+        }
+
+//        streamProvider.evaluate();
+        return function.apply(this, null);
     }
 
 }
