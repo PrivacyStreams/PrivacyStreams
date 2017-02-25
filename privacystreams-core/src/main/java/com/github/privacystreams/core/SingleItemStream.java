@@ -10,7 +10,6 @@ import com.github.privacystreams.core.exceptions.PrivacyStreamsException;
 import com.github.privacystreams.core.utilities.common.ItemCommons;
 import com.github.privacystreams.core.utilities.print.Printers;
 import com.github.privacystreams.core.transformations.map.Mappers;
-import com.github.privacystreams.core.utils.Logging;
 
 /**
  * Created by yuanchun on 29/11/2016.
@@ -54,7 +53,8 @@ public class SingleItemStream extends Stream implements ISingleItemStream {
      * @param sStreamAction the function used to output the current item
      */
     public void output(Function<SingleItemStream, Void> sStreamAction) {
-        this.getUQI().evaluate(this.getStreamProvider(), sStreamAction);
+        this.getUQI().setQuery(this.getStreamProvider().compound(sStreamAction));
+        this.getUQI().evaluate(true);
     }
 
     /**

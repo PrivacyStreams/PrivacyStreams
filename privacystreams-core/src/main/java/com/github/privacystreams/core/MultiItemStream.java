@@ -75,7 +75,8 @@ public class MultiItemStream extends Stream implements IMultiItemStream {
      * @param mStreamAction the function used to output current stream
      */
     public void output(Function<MultiItemStream, Void> mStreamAction) {
-        this.getUQI().evaluate(this.getStreamProvider(), mStreamAction);
+        this.getUQI().setQuery(this.getStreamProvider().compound(mStreamAction));
+        this.getUQI().evaluate(true);
     }
 
     // *****************************

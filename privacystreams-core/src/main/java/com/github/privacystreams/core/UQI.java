@@ -4,18 +4,11 @@ import android.content.Context;
 
 import com.github.privacystreams.core.providers.MultiItemStreamProvider;
 import com.github.privacystreams.core.providers.SingleItemStreamProvider;
+import com.github.privacystreams.core.purposes.Purpose;
 import com.github.privacystreams.core.utils.Logging;
-import com.github.privacystreams.core.utils.permission.PermissionActivity;
 import com.github.privacystreams.core.utils.permission.PermissionUtils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-
-import com.github.privacystreams.core.purposes.Purpose;
-
-import java.security.acl.Permission;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Set;
 
 
 /**
@@ -27,23 +20,21 @@ public class UQI {
     private Context context;
     private Gson gson;
     private Purpose purpose;
-
-    public UQI(Context context) {
-        this.context = context;
-        this.gson = new GsonBuilder().setPrettyPrinting().create();
-        this.purpose = null;
-    }
-
-    private UQI(Context context, Purpose purpose) {
-        this(context);
-        this.purpose = purpose;
-    }
+    private Function<Void, Void> query;
+    private String uuid;
 
     public Context getContext() {
-        return context;
+        return this.context;
     }
-
-    private String uuid = null;
+    public Gson getGson() {
+        return this.gson;
+    }
+    public Purpose getPurpose() {
+        return this.purpose;
+    }
+    public Function<Void, Void> getQuery() {
+        return this.query;
+    }
     public String getUUID() {
         if (this.uuid == null) {
             // TODO change this to other identifier as using device id is not privacy friendly.
@@ -53,9 +44,19 @@ public class UQI {
         }
         return this.uuid;
     }
+    void setQuery(Function<Void, Void> query) { this.query = query; }
 
-    public Gson getGson() {
-        return this.gson;
+    public UQI(Context context) {
+        this.context = context;
+        this.gson = new GsonBuilder().setPrettyPrinting().create();
+        this.purpose = null;
+        this.query = null;
+        this.uuid = null;
+    }
+
+    private UQI(Context context, Purpose purpose) {
+        this(context);
+        this.purpose = purpose;
     }
 
     private UQI getUQIWithPurpose(Purpose newPurpose) {
@@ -86,22 +87,22 @@ public class UQI {
         return sStreamProvider.apply(uqi, null);
     }
 
-    <TStream extends Stream> void evaluate(LazyFunction<Void, TStream> streamProvider,
-                                                 Function<TStream, Void> streamAction) {
+    public void evaluate(boolean retry) {
+        Logging.debug("Trying to evaluate PrivacyStreams Query.");
+        Logging.debug("Purpose: " + this.purpose);
+        Logging.debug("Query: " + this.query);
+        Logging.debug("Required Permissions: " + this.query.getRequiredPermissions());
 
-        Function<Void, Void> function = streamProvider.compound(streamAction);
-        Logging.debug("PrivacyStreams Query: " + function.toString());
-
-        Set<String> requiredPermissions = function.getRequiredPermissions();
-        Logging.debug("Required Permissions: " + requiredPermissions.toString());
-
-        if (PermissionUtils.checkPermissions(this.context, requiredPermissions)) {
-            function.apply(this, null);
+        if (PermissionUtils.checkPermissions(this.context, this.query.getRequiredPermissions())) {
+            this.query.apply(this, null);
+        }
+        else if (retry) {
+            // If retry is true, try to request permissions
+            PermissionUtils.requestPermissionAndEvaluate(this);
         }
         else {
-            // TODO if the permissions are not granted, try request
-            PermissionActivity.requestPermissions(this.context, requiredPermissions.toArray(new String[]{}));
-            Logging.warn("Permissions not granted, you have to try again after permission granted!");
+            // If retry is false, notify all functions permission denied.
+            // TODO
         }
     }
 

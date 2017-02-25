@@ -6,14 +6,17 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 
 
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 import com.github.privacystreams.core.Callback;
+import com.github.privacystreams.core.UQI;
 
 /**
  * Created by yuanchun on 14/11/2016.
@@ -27,14 +30,18 @@ public class PermissionActivity extends Activity {
     private boolean callbackEnabled = false;
     private static Callback<Boolean> onPermissionRequestCallback;
 
+    public static final String REQUEST_CODE = "request_code";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getIntent() != null && getIntent().getExtras() != null && getIntent().getSerializableExtra(PERMISSIONS_KEY) != null) {
-            Serializable permissionRequests = getIntent().getSerializableExtra(PERMISSIONS_KEY);
-            List<String> requestedPermissions = Arrays.asList((String[]) permissionRequests);
-            this.callbackEnabled = getIntent().getBooleanExtra(CALLBACK_ENABLED_KEY, false);
-            ActivityCompat.requestPermissions(PermissionActivity.this, requestedPermissions.toArray(new String[requestedPermissions.size()]), PERMISSION_REQUEST_CODE);
+        if (getIntent() != null && getIntent().getExtras() != null && getIntent().getSerializableExtra(REQUEST_CODE) != null) {
+//            Serializable permissionRequests = getIntent().getSerializableExtra(PERMISSIONS_KEY);
+            int requestCode = (int) getIntent().getSerializableExtra(REQUEST_CODE);
+            UQI uqi = PermissionUtils.pendingUQIs.get(requestCode);
+            Set<String> requestedPermissions = uqi.getQuery().getRequiredPermissions();
+//            this.callbackEnabled = getIntent().getBooleanExtra(CALLBACK_ENABLED_KEY, false);
+            ActivityCompat.requestPermissions(PermissionActivity.this, requestedPermissions.toArray(new String[requestedPermissions.size()]), requestCode);
         } else {
             Intent result = new Intent();
             setResult(Activity.RESULT_OK, result);
@@ -43,30 +50,12 @@ public class PermissionActivity extends Activity {
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        if (requestCode == PERMISSION_REQUEST_CODE) {
-            int notGranted = 0;
-            for (int i = 0; i < permissions.length; i++) {
-                if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
-                    notGranted++;
-                }
-            }
-            if (notGranted > 0) {
-                if (this.callbackEnabled) {
-                    PermissionActivity.onPermissionRequestCallback.apply(null, false);
-                }
-                Intent result = new Intent();
-                setResult(Activity.RESULT_CANCELED, result);
-                finish();
-            } else {
-                if (this.callbackEnabled) {
-                    PermissionActivity.onPermissionRequestCallback.apply(null, true);
-                }
-                Intent result = new Intent();
-                setResult(Activity.RESULT_OK, result);
-                finish();
-            }
-
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (PermissionUtils.pendingUQIs.containsKey(requestCode)) {
+            UQI uqi = PermissionUtils.pendingUQIs.get(requestCode);
+            uqi.evaluate(false);
+            PermissionUtils.pendingUQIs.remove(requestCode);
+            finish();
         } else {
             super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
