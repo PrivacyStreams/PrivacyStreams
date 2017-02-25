@@ -54,6 +54,27 @@ public abstract class Function<Tin, Tout> {
     public abstract Tout apply(UQI uqi, Tin input);
 
     /**
+     * Cancel this function
+     * @param uqi the instance of UQI
+     */
+    final void cancel(UQI uqi) {
+        for (Object parameter : this.parameters) {
+            if (parameter instanceof Function<?,?>) {
+                ((Function<?,?>) parameter).cancel(uqi);
+            }
+        }
+        this.onCancelled(uqi);
+    }
+
+    /**
+     * Callback when this function is cancelled
+     * @param uqi the instance of UQI
+     */
+    protected void onCancelled(UQI uqi) {
+        // Do nothing
+    }
+
+    /**
      * Compound this function with another function
      * @param function another function
      * @param <Ttemp> the intermediate variable type between two functions

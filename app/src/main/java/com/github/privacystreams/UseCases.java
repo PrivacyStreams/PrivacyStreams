@@ -92,9 +92,15 @@ public class UseCases {
 
     // get a count of the #contacts in contact list
     void testContacts() {
-        uqi
-                .getDataItems(Contact.asList(), Purpose.feature("estimate how popular you are."))
-                .print();
+        try {
+            int count = uqi
+                    .getDataItems(Contact.asList(), Purpose.feature("estimate how popular you are."))
+                    .count();
+            System.out.println(count);
+        } catch (PrivacyStreamsException e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     // get recent called 10 contacts’ names

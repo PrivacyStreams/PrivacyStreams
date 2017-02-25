@@ -1,5 +1,6 @@
 package com.github.privacystreams;
 
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -17,11 +18,19 @@ public class MainActivity extends AppCompatActivity {
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                new UseCases(MainActivity.this).testMockData();
-                new UseCases(MainActivity.this).testContacts();
-
+                new MyAsyncTask().execute();
             }
         });
 
+    }
+
+    private class MyAsyncTask extends AsyncTask<Object, Object, Object> {
+
+        @Override
+        protected Object doInBackground(Object[] objects) {
+            UseCases useCases = new UseCases(MainActivity.this);
+            useCases.testContacts();
+            return null;
+        }
     }
 }

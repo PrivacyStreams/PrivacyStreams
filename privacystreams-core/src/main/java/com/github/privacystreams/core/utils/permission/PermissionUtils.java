@@ -13,6 +13,7 @@ import com.github.privacystreams.core.utils.Logging;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -30,18 +31,31 @@ public class PermissionUtils {
      * @return true if all permissions are granted
      */
     public static boolean checkPermissions(Context context, Set<String> requiredPermissions) {
-        if (requiredPermissions == null) return true;
-        boolean permissionsGranted = true;
-        for (String p : requiredPermissions) {
-            if (ContextCompat.checkSelfPermission(context, p) != PackageManager.PERMISSION_GRANTED) {
-                permissionsGranted = false;
-                break;
-            }
-        }
-        return permissionsGranted;
+        return getDeniedPermissions(context, requiredPermissions).isEmpty();
     }
 
-    public static Map<Integer, UQI> pendingUQIs = new HashMap<>();
+    /**
+     * Get a list of denied permissions
+     * @param context the context instance
+     * @param requiredPermissions the list of permissions to check
+     * @return the denied permissions
+     */
+    public static Set<String> getDeniedPermissions(Context context, Set<String> requiredPermissions) {
+        Set<String> deniedPermissions = new HashSet<>();
+        if (requiredPermissions != null) {
+            for (String p : requiredPermissions) {
+                if (ContextCompat.checkSelfPermission(context, p) != PackageManager.PERMISSION_GRANTED) {
+                    deniedPermissions.add(p);
+                }
+            }
+        }
+        return deniedPermissions;
+    }
+
+    /**
+     * try request permission and evaluate UQI
+     * @param uqi UQI instance
+     */
     public static void requestPermissionAndEvaluate(UQI uqi) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             // For Android version M and above, there is chance to request permissions at runtime
@@ -57,4 +71,6 @@ public class PermissionUtils {
             uqi.evaluate(false);
         }
     }
+    static Map<Integer, UQI> pendingUQIs = new HashMap<>();
+
 }

@@ -14,6 +14,11 @@ public abstract class Callback<Tin> extends Function<Tin, Void> {
         return null;
     }
 
+    @Override
+    public void onCancelled(UQI uqi) {
+        this.onFail(uqi.getException());
+    }
+
     protected abstract void onSuccess(Tin input);
 
     protected void onFail(PrivacyStreamsException exception) {};
