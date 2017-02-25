@@ -1,6 +1,6 @@
 package com.github.privacystreams.core;
 
-import com.github.privacystreams.core.exceptions.PermissionDeniedException;
+import com.github.privacystreams.core.exceptions.PrivacyStreamsException;
 
 import java.util.List;
 
@@ -220,7 +220,7 @@ public interface IMultiItemStream {
      * @param <Tout> the type of the result
      * @return the result
      */
-    <Tout> Tout outputItems(Function<List<Item>, Tout> itemsOutputFunction) throws InterruptedException, PermissionDeniedException;
+    <Tout> Tout outputItems(Function<List<Item>, Tout> itemsOutputFunction) throws PrivacyStreamsException;
 
     /**
      * Get the first item in the stream.
@@ -249,14 +249,14 @@ public interface IMultiItemStream {
      * Calculate the count of items
      * @return the count of number of items in the stream
      */
-    int count() throws InterruptedException, PermissionDeniedException;
+    int count() throws PrivacyStreamsException;
 
     /**
      * Collect each item in this stream to a list
      * Each item in the list is a key-value map
      * @return a list of key-value maps, each map represents an item
      */
-    List<Item> asList() throws InterruptedException, PermissionDeniedException;
+    List<Item> asList() throws PrivacyStreamsException;
 
     /**
      * Select a field in each item and output the items to a list
@@ -264,7 +264,7 @@ public interface IMultiItemStream {
      * @param <TValue> the type of field value
      * @return a list of field values
      */
-    <TValue> List<TValue> asList(String fieldToSelect) throws InterruptedException, PermissionDeniedException;
+    <TValue> List<TValue> asList(String fieldToSelect) throws PrivacyStreamsException;
 
     /**
      * callback with each item

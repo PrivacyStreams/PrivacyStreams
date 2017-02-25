@@ -1,11 +1,16 @@
 package com.github.privacystreams.core;
 
 import java.util.Map;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 import com.github.privacystreams.core.actions.SingleItemStreamAction;
+import com.github.privacystreams.core.exceptions.PipelineInterruptedException;
+import com.github.privacystreams.core.exceptions.PrivacyStreamsException;
 import com.github.privacystreams.core.utilities.common.ItemCommons;
 import com.github.privacystreams.core.utilities.print.Printers;
 import com.github.privacystreams.core.transformations.map.Mappers;
+import com.github.privacystreams.core.utils.Logging;
 
 /**
  * Created by yuanchun on 29/11/2016.
@@ -92,7 +97,29 @@ public class SingleItemStream extends Stream implements ISingleItemStream {
     }
 
     @Override
-    public <Tout> Tout outputItem(Function<Item, Tout> itemOutputFunction) {
+    public <Tout> Tout outputItem(Function<Item, Tout> itemOutputFunction) throws PrivacyStreamsException {
+        final BlockingQueue<Object> resultQueue = new LinkedBlockingQueue<>();
+        Function<Tout, Void> resultHandler = new Callback<Tout>() {
+            @Override
+            protected void onSuccess(Tout input) {
+                resultQueue.add(input);
+            }
+
+            @Override
+            protected void onFail(PrivacyStreamsException exception) {
+                resultQueue.add(exception);
+            }
+        };
+        this.outputItem(itemOutputFunction, resultHandler);
+        try {
+            Object resultOrException = resultQueue.take();
+            if (resultOrException instanceof PrivacyStreamsException) {
+                throw (PrivacyStreamsException) resultOrException;
+            }
+            return (Tout) resultOrException;
+        } catch (InterruptedException e) {
+            throw new PipelineInterruptedException();
+        }
 
     }
 
@@ -102,24 +129,15 @@ public class SingleItemStream extends Stream implements ISingleItemStream {
      * @param <TValue> the type of the new field value
      * @return the field value
      */
-    public <TValue> TValue getField(String field) {
+    public <TValue> TValue getField(String field) throws PrivacyStreamsException {
         return this.outputItem(ItemCommons.<TValue>getField(field));
-    }
-
-    /**
-     * Check whether the item satisfies a predicate
-     * @param itemPredicate the predicate to check
-     * @return true if the predicate is satisfied.
-     */
-    public boolean check(Function<Item, Boolean> itemPredicate) {
-        return this.outputItem(itemPredicate);
     }
 
     /**
      * Output the item by returning the key-value map.
      * The keys in the map can be selected using project(String... fieldsToInclude) method.
      */
-    public Map<String, Object> getMap() {
+    public Map<String, Object> asMap() throws PrivacyStreamsException {
         return this.outputItem(ItemCommons.asMap());
     }
 

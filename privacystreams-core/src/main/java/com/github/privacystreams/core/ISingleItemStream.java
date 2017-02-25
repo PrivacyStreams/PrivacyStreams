@@ -1,5 +1,7 @@
 package com.github.privacystreams.core;
 
+import com.github.privacystreams.core.exceptions.PrivacyStreamsException;
+
 import java.util.Map;
 
 /**
@@ -70,7 +72,7 @@ public interface ISingleItemStream {
      * @param <Tout>           the type of result
      * @return the result of itemOutputFunction
      */
-    <Tout> Tout outputItem(Function<Item, Tout> itemOutputFunction);
+    <Tout> Tout outputItem(Function<Item, Tout> itemOutputFunction) throws PrivacyStreamsException;
 
     /**
      * get the value of a field
@@ -78,18 +80,13 @@ public interface ISingleItemStream {
      * @param <TValue> the type of the new field value
      * @return the field value
      */
-    <TValue> TValue getField(String field);
-
-    /**
-     * Check whether the item satisfies a predicate
-     */
-    boolean check(Function<Item, Boolean> itemPredicate);
+    <TValue> TValue getField(String field) throws PrivacyStreamsException;
 
     /**
      * Output the item by returning the key-value map.
      * The keys in the map can be selected using project(String... fieldsToInclude) method.
      */
-    Map<String, Object> getMap();
+    Map<String, Object> asMap() throws PrivacyStreamsException;
 
     /**
      * Print the item
