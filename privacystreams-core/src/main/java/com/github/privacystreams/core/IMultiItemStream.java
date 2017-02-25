@@ -1,5 +1,7 @@
 package com.github.privacystreams.core;
 
+import com.github.privacystreams.core.exceptions.PermissionDeniedException;
+
 import java.util.List;
 
 /**
@@ -46,9 +48,8 @@ public interface IMultiItemStream {
     /**
      * Collect the items in the stream for output
      * @param mStreamAction the function used to output current stream
-     * @return the collected object
      */
-    <Tout> Tout output(Function<MultiItemStream, Tout> mStreamAction);
+    void output(Function<MultiItemStream, Void> mStreamAction);
 
     // *****************************
     // Filters
@@ -207,10 +208,19 @@ public interface IMultiItemStream {
 
     /**
      * Collect the items in the stream for output
-     * @param itemsOutput the function used to output current stream
-     * @return the collected object
+     * @param itemsOutputFunction the function used to output current stream
+     * @param resultHandler the function to handle the result
+     * @param <Tout> the type of the result
      */
-    <Tout> Tout outputItems(Function<List<Item>, Tout> itemsOutput);
+    <Tout> void outputItems(Function<List<Item>, Tout> itemsOutputFunction, Function<Tout, Void> resultHandler);
+
+    /**
+     * Collect the items in the stream for output
+     * @param itemsOutputFunction the function used to output current stream
+     * @param <Tout> the type of the result
+     * @return the result
+     */
+    <Tout> Tout outputItems(Function<List<Item>, Tout> itemsOutputFunction) throws InterruptedException, PermissionDeniedException;
 
     /**
      * Get the first item in the stream.
@@ -239,14 +249,14 @@ public interface IMultiItemStream {
      * Calculate the count of items
      * @return the count of number of items in the stream
      */
-    int count();
+    int count() throws InterruptedException, PermissionDeniedException;
 
     /**
      * Collect each item in this stream to a list
      * Each item in the list is a key-value map
      * @return a list of key-value maps, each map represents an item
      */
-    List<Item> asList();
+    List<Item> asList() throws InterruptedException, PermissionDeniedException;
 
     /**
      * Select a field in each item and output the items to a list
@@ -254,7 +264,7 @@ public interface IMultiItemStream {
      * @param <TValue> the type of field value
      * @return a list of field values
      */
-    <TValue> List<TValue> asList(String fieldToSelect);
+    <TValue> List<TValue> asList(String fieldToSelect) throws InterruptedException, PermissionDeniedException;
 
     /**
      * callback with each item

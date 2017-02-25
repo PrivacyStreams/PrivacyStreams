@@ -1,9 +1,12 @@
 package com.github.privacystreams.core;
 
 import java.util.List;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 import com.github.privacystreams.core.actions.MultiItemStreamAction;
 import com.github.privacystreams.core.actions.callback.Callbacks;
+import com.github.privacystreams.core.exceptions.PermissionDeniedException;
 import com.github.privacystreams.core.utilities.common.ItemCommons;
 import com.github.privacystreams.core.utilities.common.StreamCommons;
 import com.github.privacystreams.core.utilities.comparison.Comparisons;
@@ -68,10 +71,9 @@ public class MultiItemStream extends Stream implements IMultiItemStream {
     /**
      * Collect the items in the stream for output
      * @param mStreamAction the function used to output current stream
-     * @return the collected object
      */
-    public <Tout> Tout output(Function<MultiItemStream, Tout> mStreamAction) {
-        return this.getUQI().evaluate(this.getStreamProvider(), mStreamAction);
+    public void output(Function<MultiItemStream, Void> mStreamAction) {
+        this.getUQI().evaluate(this.getStreamProvider(), mStreamAction);
     }
 
     // *****************************
@@ -261,8 +263,22 @@ public class MultiItemStream extends Stream implements IMultiItemStream {
     // Output functions are used to output the items in a stream
 
     @Override
-    public <Tout> Tout outputItems(Function<List<Item>, Tout> itemsOutputFunction) {
-        return this.output(new MultiItemStreamAction<>(itemsOutputFunction));
+    public <Tout> void outputItems(Function<List<Item>, Tout> itemsOutputFunction, Function<Tout, Void> resultHandler) {
+        this.output(new MultiItemStreamAction<>(itemsOutputFunction, resultHandler));
+    }
+
+    @Override
+    public <Tout> Tout outputItems(Function<List<Item>, Tout> itemsOutputFunction) throws InterruptedException, PermissionDeniedException {
+        final BlockingQueue<Tout> resultQueue = new LinkedBlockingQueue<>();
+        Function<Tout, Void> resultHandler = new Function<Tout, Void>() {
+            @Override
+            public Void apply(UQI uqi, Tout input) {
+                resultQueue.add(input);
+                return null;
+            }
+        };
+        this.outputItems(itemsOutputFunction, resultHandler);
+        return resultQueue.take();
     }
 
     /**
@@ -300,7 +316,7 @@ public class MultiItemStream extends Stream implements IMultiItemStream {
      * Calculate the count of items
      * @return the count of number of items in the stream
      */
-    public int count() {
+    public int count() throws InterruptedException, PermissionDeniedException {
         return this.outputItems(Statistics.count());
     }
 
@@ -309,7 +325,7 @@ public class MultiItemStream extends Stream implements IMultiItemStream {
      * Each item in the list is a key-value map
      * @return a list of key-value maps, each map represents an item
      */
-    public List<Item> asList() {
+    public List<Item> asList() throws InterruptedException, PermissionDeniedException {
         return this.outputItems(StreamCommons.asList());
     }
 
@@ -319,7 +335,7 @@ public class MultiItemStream extends Stream implements IMultiItemStream {
      * @param <TValue> the type of field value
      * @return a list of field values
      */
-    public <TValue> List<TValue> asList(String fieldToSelect) {
+    public <TValue> List<TValue> asList(String fieldToSelect) throws InterruptedException, PermissionDeniedException {
         return this.outputItems(StreamCommons.<TValue>asList(fieldToSelect));
     }
 

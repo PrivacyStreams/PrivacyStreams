@@ -47,11 +47,9 @@ public class SingleItemStream extends Stream implements ISingleItemStream {
      * Collect the item for output
      *
      * @param sStreamAction the function used to output the current item
-     * @param <Tout>           the type of output
-     * @return the output
      */
-    public <Tout> Tout output(Function<SingleItemStream, Tout> sStreamAction) {
-        return this.getUQI().evaluate(this.getStreamProvider(), sStreamAction);
+    public void output(Function<SingleItemStream, Void> sStreamAction) {
+        this.getUQI().evaluate(this.getStreamProvider(), sStreamAction);
     }
 
     /**
@@ -89,8 +87,13 @@ public class SingleItemStream extends Stream implements ISingleItemStream {
     }
 
     @Override
-    public <T> T outputItem(Function<Item, T> itemCollector) {
-        return new SingleItemStreamAction<>(itemCollector).apply(this.getUQI(), this);
+    public <Tout> void outputItem(Function<Item, Tout> itemOutputFunction, Function<Tout, Void> resultHandler) {
+        this.output(new SingleItemStreamAction<>(itemOutputFunction, resultHandler));
+    }
+
+    @Override
+    public <Tout> Tout outputItem(Function<Item, Tout> itemOutputFunction) {
+
     }
 
     /**
@@ -113,16 +116,6 @@ public class SingleItemStream extends Stream implements ISingleItemStream {
     }
 
     /**
-     * evaluate a function on the item an return the result value
-     * @param functionToComputeValue the function to compute the value
-     * @param <TValue> the type of the value
-     * @return the value
-     */
-    public <TValue> TValue compute(Function<Item, TValue> functionToComputeValue) {
-        return this.outputItem(functionToComputeValue);
-    }
-
-    /**
      * Output the item by returning the key-value map.
      * The keys in the map can be selected using project(String... fieldsToInclude) method.
      */
@@ -134,13 +127,13 @@ public class SingleItemStream extends Stream implements ISingleItemStream {
      * Print the item
      */
     public void print() {
-        this.outputItem(Printers.print());
+        this.outputItem(Printers.print(), null);
     }
 
     /**
      * Debug print the item
      */
     public void debug() {
-        this.outputItem(Printers.debug());
+        this.outputItem(Printers.debug(), null);
     }
 }

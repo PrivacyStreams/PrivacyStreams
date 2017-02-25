@@ -86,23 +86,22 @@ public class UQI {
         return sStreamProvider.apply(uqi, null);
     }
 
-    <Tout, TStream extends Stream> Tout evaluate(LazyFunction<Void, TStream> streamProvider,
-                                                 Function<TStream, Tout> streamAction) {
+    <TStream extends Stream> void evaluate(LazyFunction<Void, TStream> streamProvider,
+                                                 Function<TStream, Void> streamAction) {
 
-        Function<Void, Tout> function = streamProvider.compound(streamAction);
+        Function<Void, Void> function = streamProvider.compound(streamAction);
         Logging.debug("PrivacyStreams Query: " + function.toString());
 
         Set<String> requiredPermissions = function.getRequiredPermissions();
         Logging.debug("Required Permissions: " + requiredPermissions.toString());
 
         if (PermissionUtils.checkPermissions(this.context, requiredPermissions)) {
-            return function.apply(this, null);
+            function.apply(this, null);
         }
         else {
             // TODO if the permissions are not granted, try request
             PermissionActivity.requestPermissions(this.context, requiredPermissions.toArray(new String[]{}));
             Logging.warn("Permissions not granted, you have to try again after permission granted!");
-            return null;
         }
     }
 
