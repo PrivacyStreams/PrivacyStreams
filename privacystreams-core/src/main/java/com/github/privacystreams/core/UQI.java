@@ -26,6 +26,7 @@ public class UQI {
     public Context getContext() {
         return this.context;
     }
+    public void setContext(Context context) { this.context = context; }
     public Gson getGson() {
         return this.gson;
     }

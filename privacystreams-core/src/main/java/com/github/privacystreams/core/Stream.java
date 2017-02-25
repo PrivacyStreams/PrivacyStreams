@@ -33,7 +33,6 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 public abstract class Stream {
     private final BlockingQueue<Item> dataQueue;
-    private final Context context;
     private final UQI uqi;
 
     private volatile boolean isClosed = false;
@@ -42,7 +41,6 @@ public abstract class Stream {
 
     Stream(UQI uqi) {
         this.uqi = uqi;
-        this.context = uqi.getContext();
         this.dataQueue = new LinkedBlockingQueue<>();
     }
 
@@ -135,7 +133,7 @@ public abstract class Stream {
     }
 
     public Context getContext() {
-        return this.context;
+        return this.getUQI().getContext();
     }
 
     public UQI getUQI() {

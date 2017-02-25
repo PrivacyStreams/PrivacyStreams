@@ -24,7 +24,6 @@ public abstract class LazyFunction<T1, T2> extends Function<T1, T2> {
     private T1 input;
     private T2 output;
     private UQI uqi;
-    private Context context;
     private volatile boolean isEvaluable = false;
 
     protected LazyFunction() {
@@ -50,7 +49,6 @@ public abstract class LazyFunction<T1, T2> extends Function<T1, T2> {
 
     public T2 apply(UQI uqi, T1 input) {
         this.uqi = uqi;
-        this.context = uqi.getContext();
         this.input = input;
         this.output = this.initOutput(input);
         this.isEvaluable = true;
@@ -74,7 +72,7 @@ public abstract class LazyFunction<T1, T2> extends Function<T1, T2> {
         return this.uqi;
     }
     protected Context getContext() {
-        return this.context;
+        return this.getUQI().getContext();
     }
 
     protected abstract T2 initOutput(T1 input);
