@@ -34,9 +34,9 @@ public class Message extends Item {
      * Get a provider that provides a live stream of instant messaging messages
      * @return
      */
-     public static MultiItemStreamProvider asIMUpdates(){
-        return new
-    }
+//     public static MultiItemStreamProvider asIMUpdates(){
+//        return new
+//    }
     /**
      * Get a provider that provides a live stream of incoming Message messages
      * @return the provider
