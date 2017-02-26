@@ -10,12 +10,8 @@ import android.support.v4.app.ActivityCompat;
 import com.github.privacystreams.core.SingleItemStream;
 import com.github.privacystreams.core.providers.SingleItemStreamProvider;
 import com.github.privacystreams.core.utils.Logging;
-import com.github.privacystreams.core.utils.permission.PermissionActivity;
 import com.github.privacystreams.core.utils.time.Duration;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * Created by yuanchun on 21/11/2016.
