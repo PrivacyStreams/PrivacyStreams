@@ -1,5 +1,7 @@
 package com.github.privacystreams.core;
 
+import com.github.privacystreams.core.exceptions.PrivacyStreamsException;
+
 import java.util.Map;
 
 /**
@@ -23,10 +25,8 @@ public interface ISingleItemStream {
      * Collect the item for output
      *
      * @param sStreamAction the function used to output the current item
-     * @param <T>           the type of output
-     * @return the output
      */
-    <T> T output(Function<SingleItemStream, T> sStreamAction);
+    void output(Function<SingleItemStream, Void> sStreamAction);
 
     /**
      * Convert the item with a function.
@@ -59,11 +59,20 @@ public interface ISingleItemStream {
     /**
      * Collect the item for output
      *
-     * @param itemCollector the function used to output the current item
-     * @param <T>           the type of output
-     * @return the output
+     * @param itemOutputFunction the function used to output the current item
+     * @param resultHandler the function to handle the result
+     * @param <Tout>           the type of result
      */
-    <T> T outputItem(Function<Item, T> itemCollector);
+    <Tout> void outputItem(Function<Item, Tout> itemOutputFunction, Function<Tout, Void> resultHandler);
+
+    /**
+     * Collect the item for output
+     *
+     * @param itemOutputFunction the function used to output the current item
+     * @param <Tout>           the type of result
+     * @return the result of itemOutputFunction
+     */
+    <Tout> Tout outputItem(Function<Item, Tout> itemOutputFunction) throws PrivacyStreamsException;
 
     /**
      * get the value of a field
@@ -71,26 +80,13 @@ public interface ISingleItemStream {
      * @param <TValue> the type of the new field value
      * @return the field value
      */
-    <TValue> TValue getField(String field);
-
-    /**
-     * Check whether the item satisfies a predicate
-     */
-    boolean check(Function<Item, Boolean> itemPredicate);
-
-    /**
-     * evaluate a function on the item an return the result value
-     * @param functionToComputeField the function to compute the value
-     * @param <TValue> the type of the value
-     * @return the value
-     */
-    <TValue> TValue compute(Function<Item, TValue> functionToComputeField);
+    <TValue> TValue getField(String field) throws PrivacyStreamsException;
 
     /**
      * Output the item by returning the key-value map.
      * The keys in the map can be selected using project(String... fieldsToInclude) method.
      */
-    Map<String, Object> getMap();
+    Map<String, Object> asMap() throws PrivacyStreamsException;
 
     /**
      * Print the item

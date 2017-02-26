@@ -2,13 +2,15 @@ package com.github.privacystreams.core;
 
 import android.content.Context;
 
+import com.github.privacystreams.core.exceptions.PermissionDeniedException;
+import com.github.privacystreams.core.exceptions.PrivacyStreamsException;
 import com.github.privacystreams.core.providers.MultiItemStreamProvider;
 import com.github.privacystreams.core.providers.SingleItemStreamProvider;
+import com.github.privacystreams.core.purposes.Purpose;
 import com.github.privacystreams.core.utils.Logging;
+import com.github.privacystreams.core.utils.permission.PermissionUtils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-
-import com.github.privacystreams.core.purposes.Purpose;
 
 import java.util.Set;
 
@@ -20,19 +22,28 @@ import java.util.Set;
 
 public class UQI {
     private Context context;
-    private Gson gson;
-    private Purpose purpose;
-
-    public UQI(Context context) {
-        this.context = context;
-        this.gson = new GsonBuilder().setPrettyPrinting().create();
-    }
-
     public Context getContext() {
-        return context;
+        return this.context;
+    }
+    public void setContext(Context context) { this.context = context; }
+
+    private Gson gson;
+    public Gson getGson() {
+        return this.gson;
     }
 
-    private String uuid = null;
+    private Purpose purpose;
+    public Purpose getPurpose() {
+        return this.purpose;
+    }
+
+    private Function<Void, Void> query;
+    public Function<Void, Void> getQuery() {
+        return this.query;
+    }
+    void setQuery(Function<Void, Void> query) { this.query = query; }
+
+    private String uuid;
     public String getUUID() {
         if (this.uuid == null) {
             // TODO change this to other identifier as using device id is not privacy friendly.
@@ -43,8 +54,28 @@ public class UQI {
         return this.uuid;
     }
 
-    public Gson getGson() {
-        return this.gson;
+    private PrivacyStreamsException exception;
+    public PrivacyStreamsException getException() {
+        return exception;
+    }
+
+    public UQI(Context context) {
+        this.context = context;
+        this.gson = new GsonBuilder().setPrettyPrinting().create();
+        this.purpose = null;
+        this.query = null;
+        this.uuid = null;
+    }
+
+    private UQI(Context context, Purpose purpose) {
+        this(context);
+        this.purpose = purpose;
+    }
+
+    private UQI getUQIWithPurpose(Purpose newPurpose) {
+        if (this.purpose == null) this.purpose = newPurpose;
+        if (this.purpose == newPurpose) return this;
+        return new UQI(this.context, newPurpose);
     }
 
     /**
@@ -54,8 +85,8 @@ public class UQI {
      * @return the personal data stream
      */
     public IMultiItemStream getDataItems(MultiItemStreamProvider mStreamProvider, Purpose purpose) {
-        this.purpose = purpose;
-        return mStreamProvider.apply(this, null);
+        UQI uqi = this.getUQIWithPurpose(purpose);
+        return mStreamProvider.apply(uqi, null);
     }
 
     /**
@@ -65,24 +96,32 @@ public class UQI {
      * @return the personal data item
      */
     public ISingleItemStream getDataItem(SingleItemStreamProvider sStreamProvider, Purpose purpose) {
-        this.purpose = purpose;
-        return sStreamProvider.apply(this, null);
+        UQI uqi = this.getUQIWithPurpose(purpose);
+        return sStreamProvider.apply(uqi, null);
     }
 
-    <Tout, TStream extends Stream> Tout evaluate(LazyFunction<Void, TStream> streamProvider,
-                                                 TStream stream,
-                                                 Function<TStream, Tout> streamAction) {
+    public void evaluate(boolean retry) {
+        Logging.debug("Trying to evaluate PrivacyStreams Query.");
+        Logging.debug("Purpose: " + this.purpose);
+        Logging.debug("Query: " + this.query);
+        Logging.debug("Required Permissions: " + this.query.getRequiredPermissions());
 
-        // TODO add user authentication here
-        Function<Void, Tout> query = streamProvider.compound(streamAction);
-        Logging.debug("PrivacyStreams Query: ");
-        Logging.debug(query.toString());
-
-        Set<String> queryRequiredPermissions = query.getRequiredPermissions();
-        Logging.debug(queryRequiredPermissions.toString());
-
-        streamProvider.evaluate();
-        return streamAction.apply(this, stream);
+        if (PermissionUtils.checkPermissions(this.context, this.query.getRequiredPermissions())) {
+            Logging.debug("Evaluating...");
+            this.query.apply(this, null);
+        }
+        else if (retry) {
+            // If retry is true, try to request permissions
+            Logging.debug("Permission denied, retrying...");
+            PermissionUtils.requestPermissionAndEvaluate(this);
+        }
+        else {
+            // If retry is false, cancel all functions.
+            Logging.debug("Permission denied, cancelling...");
+            Set<String> deniedPermissions = PermissionUtils.getDeniedPermissions(this.context, this.query.getRequiredPermissions());
+            this.exception = new PermissionDeniedException(deniedPermissions.toArray(new String[]{}));
+            this.query.cancel(this);
+            this.context = null; // remove context
+        }
     }
-
 }

@@ -14,18 +14,23 @@ import com.github.privacystreams.core.utils.Assertions;
  * Transform a stream to a stream
  */
 
-public class MultiItemStreamAction<Tout> extends Function<MultiItemStream, Tout> {
+public class MultiItemStreamAction<Tout> extends Function<MultiItemStream, Void> {
 
     private Function<List<Item>, Tout> itemsOutputFunction;
+    private Function<Tout, Void> resultHandler;
 
-    public MultiItemStreamAction(Function<List<Item>, Tout> itemsOutputFunction) {
+    public MultiItemStreamAction(Function<List<Item>, Tout> itemsOutputFunction, Function<Tout, Void> resultHandler) {
         this.itemsOutputFunction = Assertions.notNull("itemsOutputFunction", itemsOutputFunction);
-        this.addParameters(itemsOutputFunction);
+        this.resultHandler = resultHandler;
+        this.addParameters(itemsOutputFunction, resultHandler);
     }
 
     @Override
-    public Tout apply(UQI uqi, MultiItemStream input) {
-        return itemsOutputFunction.apply(uqi, input.readAll());
+    public Void apply(UQI uqi, MultiItemStream input) {
+        Tout result = itemsOutputFunction.apply(uqi, input.readAll());
+        if (this.resultHandler != null)
+            this.resultHandler.apply(uqi, result);
+        return null;
     }
 
 }

@@ -24,7 +24,6 @@ public abstract class AsyncFunction<T1, T2> extends Function<T1, T2> {
     private T1 input;
     private T2 output;
     private UQI uqi;
-    private Context context;
 
     protected AsyncFunction() {
         this.evaluator = new FunctionEvaluator();
@@ -45,7 +44,6 @@ public abstract class AsyncFunction<T1, T2> extends Function<T1, T2> {
 
     public final T2 apply(UQI uqi, T1 input) {
         this.uqi = uqi;
-        this.context = uqi.getContext();
         this.input = input;
         this.output = this.initOutput(input);
         this.evaluator.start();
@@ -63,7 +61,7 @@ public abstract class AsyncFunction<T1, T2> extends Function<T1, T2> {
         return this.uqi;
     }
     protected Context getContext() {
-        return this.context;
+        return this.getUQI().getContext();
     }
 
     protected abstract T2 initOutput(T1 input);

@@ -1,7 +1,6 @@
 package com.github.privacystreams.core;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.github.privacystreams.core.exceptions.PrivacyStreamsException;
 
 /**
  * Created by yuanchun on 14/12/2016.
@@ -11,9 +10,16 @@ import java.util.List;
 public abstract class Callback<Tin> extends Function<Tin, Void> {
     @Override
     public final Void apply(UQI uqi, Tin input) {
-        this.invoke(input);
+        this.onSuccess(input);
         return null;
     }
 
-    public abstract void invoke(Tin input);
+    @Override
+    public void onCancelled(UQI uqi) {
+        this.onFail(uqi.getException());
+    }
+
+    protected abstract void onSuccess(Tin input);
+
+    protected void onFail(PrivacyStreamsException exception) {};
 }
