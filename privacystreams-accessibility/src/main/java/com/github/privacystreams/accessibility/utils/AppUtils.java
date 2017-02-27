@@ -1,4 +1,4 @@
-package com.github.privacystreams.privacystreams_accessibility.utils;
+package com.github.privacystreams.accessibility.utils;
 
 /**
  * Created by fanglinchen on 2/23/17.

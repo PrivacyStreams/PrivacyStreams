@@ -1,4 +1,4 @@
-package com.github.privacystreams.privacystreams_accessibility.utils;
+package com.github.privacystreams.accessibility.utils;
 
 import android.graphics.Rect;
 import android.os.Build;
