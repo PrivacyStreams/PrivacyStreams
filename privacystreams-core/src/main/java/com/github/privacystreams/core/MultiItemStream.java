@@ -8,18 +8,17 @@ import com.github.privacystreams.core.actions.MultiItemStreamAction;
 import com.github.privacystreams.core.actions.callback.Callbacks;
 import com.github.privacystreams.core.exceptions.PipelineInterruptedException;
 import com.github.privacystreams.core.exceptions.PrivacyStreamsException;
-import com.github.privacystreams.core.utilities.common.ItemCommons;
-import com.github.privacystreams.core.utilities.common.StreamCommons;
-import com.github.privacystreams.core.utilities.comparison.Comparisons;
-import com.github.privacystreams.core.utilities.print.Printers;
-import com.github.privacystreams.core.utilities.statistic.Statistics;
+import com.github.privacystreams.core.commons.common.ItemCommons;
+import com.github.privacystreams.core.commons.common.StreamCommons;
+import com.github.privacystreams.core.commons.comparison.Comparisons;
+import com.github.privacystreams.core.commons.print.Printers;
+import com.github.privacystreams.core.commons.statistic.Statistics;
 import com.github.privacystreams.core.transformations.filter.Filters;
 import com.github.privacystreams.core.transformations.group.Groupers;
 import com.github.privacystreams.core.transformations.limit.Limiters;
 import com.github.privacystreams.core.transformations.map.Mappers;
 import com.github.privacystreams.core.transformations.pick.Pickers;
 import com.github.privacystreams.core.transformations.reorder.Reorders;
-import com.github.privacystreams.core.utils.Logging;
 
 /**
  * Created by yuanchun on 28/11/2016.

@@ -4,11 +4,8 @@ import android.net.Uri;
 
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.UQI;
-import com.github.privacystreams.core.utilities.ItemFunction;
+import com.github.privacystreams.core.commons.ItemFunction;
 import com.github.privacystreams.core.utils.Assertions;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by yuanchun on 28/12/2016.

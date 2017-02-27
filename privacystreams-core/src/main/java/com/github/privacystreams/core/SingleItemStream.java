@@ -7,8 +7,8 @@ import java.util.concurrent.LinkedBlockingQueue;
 import com.github.privacystreams.core.actions.SingleItemStreamAction;
 import com.github.privacystreams.core.exceptions.PipelineInterruptedException;
 import com.github.privacystreams.core.exceptions.PrivacyStreamsException;
-import com.github.privacystreams.core.utilities.common.ItemCommons;
-import com.github.privacystreams.core.utilities.print.Printers;
+import com.github.privacystreams.core.commons.common.ItemCommons;
+import com.github.privacystreams.core.commons.print.Printers;
 import com.github.privacystreams.core.transformations.map.Mappers;
 
 /**
