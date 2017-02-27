@@ -19,7 +19,7 @@ public interface ISingleItemStream {
      * @param sStreamTransformation the function used to transform the current item
      * @return the transformed item
      */
-    ISingleItemStream transform(LazyFunction<SingleItemStream, SingleItemStream> sStreamTransformation);
+    ISingleItemStream transform(Function<SingleItemStream, SingleItemStream> sStreamTransformation);
 
     /**
      * Collect the item for output

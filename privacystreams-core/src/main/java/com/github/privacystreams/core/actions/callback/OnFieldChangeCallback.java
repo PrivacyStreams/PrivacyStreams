@@ -25,7 +25,7 @@ class OnFieldChangeCallback<TValue, Void> extends AsyncMultiItemStreamAction<Voi
     }
 
     @Override
-    protected Void initOutput(MultiItemStream input) {
+    protected Void init(MultiItemStream input) {
         return null;
     }
 

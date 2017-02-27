@@ -86,7 +86,7 @@ public class UQI {
      */
     public IMultiItemStream getDataItems(MultiItemStreamProvider mStreamProvider, Purpose purpose) {
         UQI uqi = this.getUQIWithPurpose(purpose);
-        return mStreamProvider.apply(uqi, null);
+        return new MultiItemStream(uqi, mStreamProvider);
     }
 
     /**
@@ -97,7 +97,7 @@ public class UQI {
      */
     public ISingleItemStream getDataItem(SingleItemStreamProvider sStreamProvider, Purpose purpose) {
         UQI uqi = this.getUQIWithPurpose(purpose);
-        return sStreamProvider.apply(uqi, null);
+        return new SingleItemStream(uqi, sStreamProvider);
     }
 
     public void evaluate(boolean retry) {

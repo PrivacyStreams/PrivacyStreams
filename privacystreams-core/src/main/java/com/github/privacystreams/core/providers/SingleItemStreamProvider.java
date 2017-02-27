@@ -1,6 +1,5 @@
 package com.github.privacystreams.core.providers;
 
-import com.github.privacystreams.core.LazyFunction;
 import com.github.privacystreams.core.SingleItemStream;
 
 /**

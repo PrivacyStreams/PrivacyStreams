@@ -25,7 +25,7 @@ class IfFieldPresentCallback<TValue, Void> extends AsyncMultiItemStreamAction<Vo
     }
 
     @Override
-    protected Void initOutput(MultiItemStream input) {
+    protected Void init(MultiItemStream input) {
         return null;
     }
 

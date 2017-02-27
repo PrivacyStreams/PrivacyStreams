@@ -3,15 +3,9 @@ package com.github.privacystreams.core;
 import android.content.Context;
 
 import org.greenrobot.eventbus.EventBus;
-import org.json.JSONObject;
-import com.github.privacystreams.core.utils.Logging;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
 
 
 /**
@@ -54,10 +48,18 @@ public abstract class Stream {
         this.eventBus.post(item);
     }
 
+    /**
+     * Subscribe current stream
+     * @param receiverFunction the function that receives stream items
+     */
     public void subscribe(Function<? extends Stream, ?> receiverFunction) {
         this.eventBus.register(receiverFunction);
     }
 
+    /**
+     * Unsubscribe current stream
+     * @param receiverFunction the function that receives stream items
+     */
     public void unSubscribe(Function<? extends Stream, ?> receiverFunction) {
         this.eventBus.unregister(receiverFunction);
     }
@@ -71,7 +73,7 @@ public abstract class Stream {
         return this.isClosed;
     }
 
-    public abstract LazyFunction<Void, ? extends Stream> getStreamProvider();
+    public abstract Function<Void, ? extends Stream> getStreamProvider();
 
     /**
      * Close the stream

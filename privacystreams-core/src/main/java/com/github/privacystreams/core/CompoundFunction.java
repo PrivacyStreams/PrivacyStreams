@@ -7,7 +7,7 @@ import com.github.privacystreams.core.utils.Assertions;
  * A compound function combines two functions, by taking function1's output as function2's input
  */
 
-final class CompoundFunction<Tin, Ttemp, Tout> extends Function<Tin, Tout> implements ICompoundFunction<Tin, Tout> {
+final class CompoundFunction<Tin, Ttemp, Tout> extends Function<Tin, Tout> {
     private Function<Tin, ? extends Ttemp> function1;
     private Function<? super Ttemp, Tout> function2;
 
@@ -20,9 +20,6 @@ final class CompoundFunction<Tin, Ttemp, Tout> extends Function<Tin, Tout> imple
     @Override
     public Tout apply(UQI uqi, Tin input) {
         Ttemp temp = function1.apply(uqi, input);
-        if (function1 instanceof LazyFunction<?, ?>) {
-            ((LazyFunction) function1).evaluate();
-        }
         return function2.apply(uqi, temp);
     }
 
@@ -30,13 +27,11 @@ final class CompoundFunction<Tin, Ttemp, Tout> extends Function<Tin, Tout> imple
         return function1.toString() + " --> " + function2.toString();
     }
 
-    @Override
-    public Function<Tin, ? extends Ttemp> getFunction1() {
+    Function<Tin, ? extends Ttemp> getFunction1() {
         return this.function1;
     }
 
-    @Override
-    public Function<? super Ttemp, Tout> getFunction2() {
+    Function<? super Ttemp, Tout> getFunction2() {
         return this.function2;
     }
 }

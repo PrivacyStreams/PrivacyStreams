@@ -13,8 +13,8 @@ import java.util.Set;
 
 public abstract class Function<Tin, Tout> {
 
-    private Set<String> requiredPermissions;
-    private List<Object> parameters;
+    private transient Set<String> requiredPermissions;
+    private transient List<Object> parameters;
 
     public final Set<String> getRequiredPermissions() {
         return this.requiredPermissions;
@@ -89,8 +89,8 @@ public abstract class Function<Tin, Tout> {
     }
 
     public Function<Tin, ?> getHead() {
-        if (this instanceof ICompoundFunction<?, ?>) {
-            return ((ICompoundFunction<Tin, Tout>) this).getFunction1().getHead();
+        if (this instanceof CompoundFunction<?, ?, ?>) {
+            return ((CompoundFunction<Tin, ?, Tout>) this).getFunction1().getHead();
         }
         else {
             return this;
@@ -98,8 +98,8 @@ public abstract class Function<Tin, Tout> {
     }
 
     public Function<?, Tout> getTail() {
-        if (this instanceof ICompoundFunction<?, ?>) {
-            return ((ICompoundFunction<Tin, Tout>) this).getFunction2().getTail();
+        if (this instanceof CompoundFunction<?, ?, ?>) {
+            return ((CompoundFunction<Tin, ?, Tout>) this).getFunction2().getTail();
         }
         else {
             return this;

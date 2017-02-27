@@ -22,7 +22,7 @@ class IfPresentCallback extends AsyncMultiItemStreamAction<Void> {
     }
 
     @Override
-    protected Void initOutput(MultiItemStream input) {
+    protected Void init(MultiItemStream input) {
         return null;
     }
 

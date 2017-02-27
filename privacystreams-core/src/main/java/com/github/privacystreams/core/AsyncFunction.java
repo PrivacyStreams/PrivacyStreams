@@ -7,7 +7,7 @@ import android.content.Context;
  * An LazyFunction applies in background.
  *
  * Subclass must implement:
- * initOutput method which initializes the output object and returns in UI thread.
+ * init method which initializes the output object and returns in UI thread.
  * applyInBackground method which produce values to output in background.
  *
  * Subclass may implement:
@@ -20,41 +20,18 @@ import android.content.Context;
  */
 
 public abstract class AsyncFunction<T1, T2> extends Function<T1, T2> {
-    private FunctionEvaluator evaluator;
-    private T1 input;
-    private T2 output;
-    private UQI uqi;
+    private transient UQI uqi;
+    private transient T1 input;
+    private transient T2 output;
 
     protected AsyncFunction() {
-        this.evaluator = new FunctionEvaluator();
-    }
-
-    protected final boolean isStarted() {
-        return this.evaluator.isStarted;
-    }
-    protected final boolean isCancelled() {
-        return this.evaluator.isCancelled();
-    }
-    protected final boolean isFinished() {
-        return this.evaluator.isFinished;
-    }
-    protected final boolean isStopped() {
-        return this.isCancelled() || this.isFinished();
     }
 
     public final T2 apply(UQI uqi, T1 input) {
         this.uqi = uqi;
         this.input = input;
-        this.output = this.initOutput(input);
-        this.evaluator.start();
+        this.output = this.init(input);
         return output;
-    }
-
-    public final void cancel() {
-        this.evaluator.cancel();
-    }
-    public final void interrupt() {
-        this.evaluator.interrupt();
     }
 
     protected UQI getUQI() {
@@ -64,72 +41,18 @@ public abstract class AsyncFunction<T1, T2> extends Function<T1, T2> {
         return this.getUQI().getContext();
     }
 
-    protected abstract T2 initOutput(T1 input);
-    protected abstract void applyInBackground(T1 input, T2 output);
+    protected abstract T2 init(T1 input);
 
     protected void onStart(T1 input, T2 output) {}
     protected void onStop(T1 input, T2 output) {}
     protected void onFinish(T1 input, T2 output) {}
     protected void onCancel(T1 input, T2 output) {}
 
-//    private class FunctionEvaluator extends AsyncTask<Void, Void, Void> {
-//        private boolean isStarted;
-//        private boolean isFinished;
-//
-//        FunctionEvaluator() {
-//            isStarted = false;
-//            isFinished = false;
-//        }
-//
-//        @Override
-//        protected Void doInBackground(Void... voids) {
-//            onStart(input, output);
-//            isStarted = true;
-//            applyInBackground(input, output);
-//            onStop(input, output);
-//            return null;
-//        }
-//
-//        @Override
-//        protected void onPostExecute(Void result) {
-//            onFinish(input, output);
-//            isFinished = true;
-//        }
-//
-//        @Override
-//        protected void onCancelled() {
-//            onCancel(input, output);
-//        }
-//    }
-
-    private class FunctionEvaluator extends Thread {
-        private volatile boolean isStarted;
-        private volatile boolean isFinished;
-        private volatile boolean isCancelled;
-
-        FunctionEvaluator() {
-            isStarted = false;
-            isFinished = false;
-            isCancelled = false;
-        }
-
-        @Override
-        public void run() {
-            onStart(input, output);
-            isStarted = true;
-            applyInBackground(input, output);
-            if (this.isCancelled) onCancel(input, output);
-            else onFinish(input, output);
-            onStop(input, output);
-        }
-
-        void cancel() {
-            this.isCancelled = true;
-        }
-
-        boolean isCancelled() {
-            return this.isCancelled;
-        }
+    protected T1 getInput() {
+        return input;
     }
 
+    protected T2 getOutput() {
+        return output;
+    }
 }
