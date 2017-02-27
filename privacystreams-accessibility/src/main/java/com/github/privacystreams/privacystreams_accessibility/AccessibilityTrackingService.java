@@ -17,7 +17,7 @@ import static com.github.privacystreams.privacystreams_accessibility.utils.AppUt
  * Created by fanglinchen on 2/1/17.
  */
 
-public class AccessibilityTrackingService extends AccessibilityService {
+public abstract class AccessibilityTrackingService extends AccessibilityService {
 
     protected InputEvent mEvent;
 

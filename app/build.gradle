@@ -34,7 +34,7 @@ dependencies {
 //    compile project(':privacystreams-app_info')
 //    compile project(':privacystreams-online_service')
 //    compile project(':privacystreams-storage')
-//    compile project(':privacystreams-communication')
+    compile project(':privacystreams-communication')
     compile project(':privacystreams-accessibility')
     compile 'joda-time:joda-time:2.3'
 }
