@@ -14,11 +14,10 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.UQI;
-import com.github.privacystreams.core.utilities.ItemFunction;
+import com.github.privacystreams.core.commons.ItemFunction;
 import com.github.privacystreams.core.utils.Assertions;
 import com.github.privacystreams.core.utils.Consts;
 import com.github.privacystreams.core.utils.Logging;

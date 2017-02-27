@@ -4,7 +4,7 @@ import android.Manifest;
 
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.UQI;
-import com.github.privacystreams.core.utilities.ItemFunction;
+import com.github.privacystreams.core.commons.ItemFunction;
 import com.github.privacystreams.core.utils.Assertions;
 import com.github.privacystreams.core.utils.Logging;
 import com.github.privacystreams.core.utils.time.TimeUtils;
@@ -12,8 +12,6 @@ import com.github.privacystreams.core.utils.time.TimeUtils;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by yuanchun on 27/12/2016.
