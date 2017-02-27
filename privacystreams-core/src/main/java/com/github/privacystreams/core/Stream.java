@@ -2,6 +2,7 @@ package com.github.privacystreams.core;
 
 import android.content.Context;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONObject;
 import com.github.privacystreams.core.utils.Logging;
 
@@ -32,8 +33,8 @@ import java.util.concurrent.LinkedBlockingQueue;
  */
 
 public abstract class Stream {
-    private final BlockingQueue<Item> dataQueue;
     private final UQI uqi;
+    private final EventBus eventBus;
 
     private volatile boolean isClosed = false;
     private volatile boolean isEmpty = false;
@@ -41,7 +42,7 @@ public abstract class Stream {
 
     Stream(UQI uqi) {
         this.uqi = uqi;
-        this.dataQueue = new LinkedBlockingQueue<>();
+        this.eventBus = new EventBus();
     }
 
     /**
@@ -50,57 +51,15 @@ public abstract class Stream {
      * @param item  the item to write to the stream, null indicates the end of the stream
      */
     public void write(Item item) {
-        if (this.isClosed) {
-//            Logging.warn("Writing to a closed stream!");
-            return;
-        }
-        if (item == null) {
-            item = Item.EOS;
-        }
-        try {
-            dataQueue.put(item);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        this.eventBus.post(item);
     }
 
-    /**
-     * Read an item from the stream,
-     * if the item is null, it means the stream is ended.
-     * The method might block if the stream has no item but is not ended.
-     * @return the item read from the stream, or null meaning end of stream
-     */
-    public Item read() {
-        if (this.isEmpty) {
-            Logging.warn("Reading from a empty stream!");
-        }
-//        if (!this.isActive) {
-//            this.getStreamProvider().evaluate();
-//            this.isActive = true;
-//        }
-        try {
-            Item item = this.dataQueue.take();
-            if (item != Item.EOS) return item;
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        this.isEmpty = true;
-        return null;
+    public void subscribe(Function<? extends Stream, ?> receiverFunction) {
+        this.eventBus.register(receiverFunction);
     }
 
-    /**
-     * Read all items from the stream to a List,
-     * The method blocks until the stream is ended.
-     * @return the List of items read from the stream
-     */
-    public List<Item> readAll() {
-        List<Item> items = new ArrayList<>();
-        while (true) {
-            Item item = this.read();
-            if (item == null) break;
-            items.add(item);
-        }
-        return items;
+    public void unSubscribe(Function<? extends Stream, ?> receiverFunction) {
+        this.eventBus.unregister(receiverFunction);
     }
 
     /**
