@@ -1,4 +1,4 @@
-package com.github.privacystreams.privacystreams_accessibility;
+package com.github.privacystreams.accessibility;
 
 import org.junit.Test;
 

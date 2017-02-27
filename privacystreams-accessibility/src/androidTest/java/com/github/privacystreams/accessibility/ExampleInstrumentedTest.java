@@ -1,4 +1,4 @@
-package com.github.privacystreams.privacystreams_accessibility;
+package com.github.privacystreams.accessibility;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
