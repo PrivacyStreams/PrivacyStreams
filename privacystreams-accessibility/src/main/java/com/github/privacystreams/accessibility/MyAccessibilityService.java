@@ -21,7 +21,7 @@ import java.util.Set;
 
 public class MyAccessibilityService extends AccessibilityService {
 
-    public Set<AccessibilityEventProvider> accessibilityEventProviders = new HashSet<>();
+    private Set<AccessibilityEventProvider> accessibilityEventProviders = new HashSet<>();
 
 
     private static MyAccessibilityService sharedServiceInstance;
@@ -60,11 +60,11 @@ public class MyAccessibilityService extends AccessibilityService {
      *
      * @param provider
      */
-    public void registerProvider(AccessibilityEventProvider provider){
+    protected void registerProvider(AccessibilityEventProvider provider){
         accessibilityEventProviders.add(provider);
     }
 
-    public void unregisterProvider(AccessibilityEventProvider provider){
+    protected void unregisterProvider(AccessibilityEventProvider provider){
         accessibilityEventProviders.remove(provider);
     }
 }
