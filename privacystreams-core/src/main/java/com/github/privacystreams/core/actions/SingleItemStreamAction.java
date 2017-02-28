@@ -11,23 +11,22 @@ import com.github.privacystreams.core.utils.Assertions;
  * Transform a stream to a stream
  */
 
-public class SingleItemStreamAction<Tout> extends Function<SingleItemStream, Void> {
+public class SingleItemStreamAction<Tout> extends StreamAction<SingleItemStream> {
 
     private Function<Item, Tout> itemOutputFunction;
     private Function<Tout, Void> resultHandler;
 
     public SingleItemStreamAction(Function<Item, Tout> itemOutputFunction, Function<Tout, Void> resultHandler) {
-        this.itemOutputFunction = Assertions.notNull("itemOutputFunction;", itemOutputFunction);
+        this.itemOutputFunction = Assertions.notNull("itemOutputFunction", itemOutputFunction);
         this.resultHandler = resultHandler;
         this.addParameters(itemOutputFunction, resultHandler);
     }
 
     @Override
-    public Void apply(UQI uqi, SingleItemStream input) {
-        Tout result = itemOutputFunction.apply(uqi, input.read());
+    protected void onInput(Item item) {
+        if (item.isEndOfStream()) this.finish();
+        Tout result = itemOutputFunction.apply(this.getUQI(), item);
         if (this.resultHandler != null)
-            this.resultHandler.apply(uqi, result);
-        return null;
+            this.resultHandler.apply(this.getUQI(), result);
     }
-
 }

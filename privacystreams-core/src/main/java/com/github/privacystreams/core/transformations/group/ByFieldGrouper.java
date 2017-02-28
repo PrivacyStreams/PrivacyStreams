@@ -22,14 +22,10 @@ final class ByFieldGrouper extends StreamGrouper {
         this.addParameters(groupField);
     }
 
-    @Override
-    protected void applyInBackground(MultiItemStream input, MultiItemStream output) {
-        if (this.isCancelled() || output.isClosed()) return;
-
+    private void group(List<Item> items) {
         HashMap<Integer, Object> groupFieldMap = new HashMap<>();
         HashMap<Integer, List<Item>> groupItemsMap = new HashMap<>();
 
-        List<Item> items = input.readAll();
         for (Item item : items) {
             Object groupFieldValue = item.getValueByField(this.groupField);
             int groupKey = HashUtils.valueHash(groupFieldValue);
@@ -42,7 +38,19 @@ final class ByFieldGrouper extends StreamGrouper {
         }
 
         for (Integer groupKey : groupItemsMap.keySet()) {
-            output.write(new GroupItem(this.groupField, groupFieldMap.get(groupKey), groupItemsMap.get(groupKey)));
+            this.output(new GroupItem(this.groupField, groupFieldMap.get(groupKey), groupItemsMap.get(groupKey)));
         }
+        this.finish();
+    }
+
+    private transient List<Item> items;
+    @Override
+    protected void onInput(Item item) {
+        if (this.items == null) this.items = new ArrayList<>();
+        if (item.isEndOfStream()) {
+            this.group(items);
+            return;
+        }
+        this.items.add(item);
     }
 }

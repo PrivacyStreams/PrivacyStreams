@@ -12,17 +12,16 @@ import com.github.privacystreams.core.transformations.M2STransformation;
  */
 
 public abstract class Reducer extends M2STransformation {
-
-    @Override
-    protected Item applyInBackground(MultiItemStream stream) {
-        Item result = stream.read();
-        while (true) {
-            Item item = stream.read();
-            if (item == null) break;
-            result = this.reduce(result, item);
-        }
-        return result;
-    }
-
     protected abstract Item reduce(Item item1, Item item2);
+
+    private transient Item reducedItem = null;
+    @Override
+    protected final void onInput(Item item) {
+        if (item.isEndOfStream()) {
+            this.output(reducedItem);
+            this.finish();
+            return;
+        }
+        this.reducedItem = this.reduce(this.reducedItem, item);
+    }
 }

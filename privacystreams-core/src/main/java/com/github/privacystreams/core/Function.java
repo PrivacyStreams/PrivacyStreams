@@ -13,8 +13,10 @@ import java.util.Set;
 
 public abstract class Function<Tin, Tout> {
 
-    private Set<String> requiredPermissions;
-    private List<Object> parameters;
+    private transient Set<String> requiredPermissions;
+    private transient List<Object> parameters;
+
+    protected transient volatile boolean isCancelled;
 
     public final Set<String> getRequiredPermissions() {
         return this.requiredPermissions;
@@ -43,6 +45,7 @@ public abstract class Function<Tin, Tout> {
     public Function() {
         this.requiredPermissions = new HashSet<>();
         this.parameters = new ArrayList<>();
+        this.isCancelled = false;
     }
 
     /**
@@ -57,12 +60,13 @@ public abstract class Function<Tin, Tout> {
      * Cancel this function
      * @param uqi the instance of UQI
      */
-    final void cancel(UQI uqi) {
+    protected final void cancel(UQI uqi) {
         for (Object parameter : this.parameters) {
             if (parameter instanceof Function<?,?>) {
                 ((Function<?,?>) parameter).cancel(uqi);
             }
         }
+        this.isCancelled = true;
         this.onCancelled(uqi);
     }
 
@@ -89,8 +93,8 @@ public abstract class Function<Tin, Tout> {
     }
 
     public Function<Tin, ?> getHead() {
-        if (this instanceof ICompoundFunction<?, ?>) {
-            return ((ICompoundFunction<Tin, Tout>) this).getFunction1().getHead();
+        if (this instanceof CompoundFunction<?, ?, ?>) {
+            return ((CompoundFunction<Tin, ?, Tout>) this).getFunction1().getHead();
         }
         else {
             return this;
@@ -98,8 +102,8 @@ public abstract class Function<Tin, Tout> {
     }
 
     public Function<?, Tout> getTail() {
-        if (this instanceof ICompoundFunction<?, ?>) {
-            return ((ICompoundFunction<Tin, Tout>) this).getFunction2().getTail();
+        if (this instanceof CompoundFunction<?, ?, ?>) {
+            return ((CompoundFunction<Tin, ?, Tout>) this).getFunction2().getTail();
         }
         else {
             return this;
