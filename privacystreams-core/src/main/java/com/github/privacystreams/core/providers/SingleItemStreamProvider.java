@@ -10,9 +10,8 @@ import com.github.privacystreams.core.SingleItemStream;
 public abstract class SingleItemStreamProvider extends StreamProvider<SingleItemStream> {
 
     protected final void init() {
-        super.init();
         this.output = new SingleItemStream(this.getUQI(), this);
+        super.init();
     }
 
-    protected abstract void provide();
 }

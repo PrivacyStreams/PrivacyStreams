@@ -16,20 +16,19 @@ import static com.github.privacystreams.core.utils.Assertions.notNull;
  */
 final class PerItemMapper extends M2MTransformation {
 
-    @Override
-    protected final void applyInBackground(MultiItemStream input, MultiItemStream output) {
-        while (!this.isCancelled() && !output.isClosed()) {
-            Item item = input.read();
-            if (item == null) break;
-            Item outputItem = this.itemMapper.apply(this.getUQI(), item);
-            output.write(outputItem);
-        }
-    }
-
     private final Function<Item, Item> itemMapper;
 
     PerItemMapper(final Function<Item, Item> itemMapper) {
         this.itemMapper = notNull("itemMapper", itemMapper);
         this.addParameters(itemMapper);
+    }
+
+    @Override
+    protected final void onInput(Item item) {
+        if (!this.isCancelled) {
+            if (item.isEndOfStream()) this.finish();
+            Item outputItem = this.itemMapper.apply(this.getUQI(), item);
+            this.output(outputItem);
+        }
     }
 }

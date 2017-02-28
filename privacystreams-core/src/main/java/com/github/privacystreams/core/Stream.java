@@ -2,10 +2,14 @@ package com.github.privacystreams.core;
 
 import android.content.Context;
 
+import com.github.privacystreams.core.utils.Logging;
+
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 
 /**
@@ -30,6 +34,8 @@ public abstract class Stream {
     private final UQI uqi;
     private final EventBus eventBus;
 
+    private final Set<Function<? extends Stream, ?>> streamReceivers;
+
     private volatile boolean isClosed = false;
     private volatile boolean isEmpty = false;
     private volatile boolean isActive = false;
@@ -37,31 +43,39 @@ public abstract class Stream {
     Stream(UQI uqi) {
         this.uqi = uqi;
         this.eventBus = new EventBus();
+        this.streamReceivers = new HashSet<>();
     }
 
     /**
      * Write an item to the stream,
      * or write a null to end the stream.
      * @param item  the item to write to the stream, null indicates the end of the stream
+     * @param streamProvider the function that provide current stream
      */
-    public void write(Item item) {
+    public void write(Item item, Function<?, ? extends Stream> streamProvider) {
+        if (streamProvider != this.getStreamProvider()) {
+            Logging.warn("Illegal StreamProvider trying to write stream!");
+            return;
+        }
         this.eventBus.post(item);
     }
 
     /**
      * register a function to current stream
-     * @param receiverFunction the function that receives stream items
+     * @param streamReceiver the function that receives stream items
      */
-    public void register(Function<? extends Stream, ?> receiverFunction) {
-        this.eventBus.register(receiverFunction);
+    public void register(Function<? extends Stream, ?> streamReceiver) {
+        this.streamReceivers.add(streamReceiver);
+        this.eventBus.register(streamReceiver);
     }
 
     /**
      * unregister a function from current stream
-     * @param receiverFunction the function that receives stream items
+     * @param streamReceiver the function that receives stream items
      */
-    public void unregister(Function<? extends Stream, ?> receiverFunction) {
-        this.eventBus.unregister(receiverFunction);
+    public void unregister(Function<? extends Stream, ?> streamReceiver) {
+        this.streamReceivers.remove(streamReceiver);
+        this.eventBus.unregister(streamReceiver);
     }
 
     /**

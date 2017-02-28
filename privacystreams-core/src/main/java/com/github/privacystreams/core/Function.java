@@ -16,6 +16,8 @@ public abstract class Function<Tin, Tout> {
     private transient Set<String> requiredPermissions;
     private transient List<Object> parameters;
 
+    protected transient volatile boolean isCancelled;
+
     public final Set<String> getRequiredPermissions() {
         return this.requiredPermissions;
     }
@@ -43,6 +45,7 @@ public abstract class Function<Tin, Tout> {
     public Function() {
         this.requiredPermissions = new HashSet<>();
         this.parameters = new ArrayList<>();
+        this.isCancelled = false;
     }
 
     /**
@@ -57,12 +60,13 @@ public abstract class Function<Tin, Tout> {
      * Cancel this function
      * @param uqi the instance of UQI
      */
-    final void cancel(UQI uqi) {
+    protected final void cancel(UQI uqi) {
         for (Object parameter : this.parameters) {
             if (parameter instanceof Function<?,?>) {
                 ((Function<?,?>) parameter).cancel(uqi);
             }
         }
+        this.isCancelled = true;
         this.onCancelled(uqi);
     }
 

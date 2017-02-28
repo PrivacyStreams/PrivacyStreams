@@ -3,6 +3,7 @@ package com.github.privacystreams.core.transformations;
 import com.github.privacystreams.core.EventDrivenFunction;
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.Stream;
+import com.github.privacystreams.core.UQI;
 
 import org.greenrobot.eventbus.Subscribe;
 
@@ -16,11 +17,15 @@ public abstract class StreamTransformation<InStream extends Stream, OutStream ex
     protected abstract void onInput(Item item);
 
     protected final void output(Item item) {
-        this.output.write(item);
+        if (this.output.isClosed()) {
+            this.cancel(this.getUQI());
+        }
+        this.output.write(item, this);
     }
 
     @Subscribe
-    protected void onEvent(Item item) {
+    protected final void onEvent(Item item) {
+        if (this.isCancelled) return;
         this.onInput(item);
     }
 
@@ -29,7 +34,15 @@ public abstract class StreamTransformation<InStream extends Stream, OutStream ex
         this.input.register(this);
     }
 
-    protected void finish() {
+    protected final void finish() {
         this.input.unregister(this);
+        this.output(Item.EOS);
+    }
+
+    @Override
+    protected final void onCancelled(UQI uqi) {
+        super.onCancelled(uqi);
+        this.input.unregister(this);
+        this.output(Item.EOS);
     }
 }

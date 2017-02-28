@@ -22,13 +22,17 @@ class StreamItemPicker extends M2STransformation {
         this.addParameters(itemIndex);
     }
 
+    private transient int itemCount = 0;
     @Override
-    protected Item applyInBackground(MultiItemStream stream) {
-        int itemCount = 0;
-        while (true) {
-            Item item = stream.read();
-            if (itemCount == this.itemIndex) return item;
-            if (item == null) return null;
+    protected final void onInput(Item item) {
+        if (!this.isCancelled) {
+            if (itemCount == this.itemIndex) {
+                this.output(item);
+                this.finish();
+            }
+            if (item.isEndOfStream()) {
+                this.finish();
+            }
             itemCount++;
         }
     }

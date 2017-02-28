@@ -1,5 +1,6 @@
 package com.github.privacystreams.core.transformations.reorder;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.github.privacystreams.core.MultiItemStream;
@@ -11,16 +12,17 @@ import com.github.privacystreams.core.transformations.M2MTransformation;
  * A sorter reorder the items in a stream
  */
 abstract class StreamReorder extends M2MTransformation {
+    protected abstract void reorder(List<Item> item);
+
+    private transient List<Item> items;
     @Override
-    protected void applyInBackground(MultiItemStream input, MultiItemStream output) {
-        if (!this.isCancelled() && !output.isClosed()) {
-            List<Item> items = input.readAll();
+    protected void onInput(Item item) {
+        if (this.items == null) this.items = new ArrayList<>();
+        if (item.isEndOfStream()) {
             this.reorder(items);
-            for (Item item : items) {
-                output.write(item);
-            }
+        }
+        else {
+            this.items.add(item);
         }
     }
-
-    protected abstract void reorder(List<Item> item);
 }

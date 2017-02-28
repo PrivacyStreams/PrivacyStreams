@@ -3,7 +3,6 @@ package com.github.privacystreams.core.transformations.group;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.github.privacystreams.core.MultiItemStream;
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.utils.Assertions;
 import com.github.privacystreams.core.utils.HashUtils;
@@ -22,19 +21,18 @@ final class ByFieldLocalGrouper extends StreamGrouper {
         this.addParameters(groupField);
     }
 
-    @Override
-    protected void applyInBackground(MultiItemStream input, MultiItemStream output) {
-        Object lastGroupFieldValue = null;
-        int lastGroupKey = 0;
-        List<Item> groupItems = null;
+    private transient Object lastGroupFieldValue = null;
+    private transient int lastGroupKey = 0;
+    private transient List<Item> groupItems = null;
 
-        while (!this.isCancelled() && !output.isClosed()) {
-            Item item = input.read();
-            if (item == null) {
+    @Override
+    protected void onInput(Item item) {
+        if (!this.isCancelled && !output.isClosed()) {
+            if (item.isEndOfStream()) {
                 if (groupItems != null) {
-                    output.write(new GroupItem(this.groupField, lastGroupFieldValue, groupItems));
+                    this.output(new GroupItem(this.groupField, lastGroupFieldValue, groupItems));
                 }
-                break;
+                this.finish();
             }
 
             Object groupFieldValue = item.getValueByField(this.groupField);
@@ -49,7 +47,7 @@ final class ByFieldLocalGrouper extends StreamGrouper {
 
             // If group key changes, stop the last group stream and create a new group stream
             if (groupKey != lastGroupKey) {
-                output.write(new GroupItem(this.groupField, lastGroupFieldValue, groupItems));
+                this.output(new GroupItem(this.groupField, lastGroupFieldValue, groupItems));
                 groupItems = new ArrayList<>();
             }
 

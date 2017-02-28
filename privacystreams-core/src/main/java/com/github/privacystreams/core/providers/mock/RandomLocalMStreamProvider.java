@@ -27,14 +27,14 @@ class RandomLocalMStreamProvider extends MultiItemStreamProvider {
     @Override
     protected void provide() {
         int id = 0;
-        if (!this.isCancelled() && !output.isClosed()) {
+        if (!this.isCancelled) {
             List<MockObject> mockObjects = MockObject.getRandomList(this.maxInt, maxDouble, count);
             for (MockObject mockObject : mockObjects) {
                 mockObject.setId(id);
                 id++;
                 this.output(new MockItem(mockObject));
             }
-            this.output(Item.EOS);
+            this.finish();
         }
     }
 }

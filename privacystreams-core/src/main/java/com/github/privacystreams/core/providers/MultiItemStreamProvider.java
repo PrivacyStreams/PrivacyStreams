@@ -10,9 +10,8 @@ import com.github.privacystreams.core.MultiItemStream;
 public abstract class MultiItemStreamProvider extends StreamProvider<MultiItemStream> {
 
     protected final void init() {
-        super.init();
         this.output = new MultiItemStream(this.getUQI(), this);
+        super.init();
     }
 
-    protected abstract void provide();
 }

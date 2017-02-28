@@ -24,9 +24,9 @@ class MockSStreamProvider extends SingleItemStreamProvider {
 
     @Override
     protected void provide() {
-        if (this.isCancelled() || output.isClosed()) return;
+        if (this.isCancelled) return;
         this.output(new MockItem(mockObject));
-        this.output(Item.EOS);
+        this.finish();
     }
 
 }

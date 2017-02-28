@@ -27,7 +27,7 @@ class MockLiveMStreamProvider extends MultiItemStreamProvider {
     @Override
     protected void provide() {
         for (MockObject mockObject : this.mockObjects) {
-            if (!this.isCancelled() && !output.isClosed()) {
+            if (!this.isCancelled) {
                 this.output(new MockItem(mockObject));
                 try {
                     Thread.sleep(this.delay);
@@ -39,6 +39,6 @@ class MockLiveMStreamProvider extends MultiItemStreamProvider {
                 break;
             }
         }
-        this.output(null);
+        this.finish();
     }
 }

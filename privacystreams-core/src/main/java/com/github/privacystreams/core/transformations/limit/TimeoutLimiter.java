@@ -51,8 +51,7 @@ final class TimeoutLimiter extends StreamLimiter {
                 Logging.warn("TimeoutLimiter failed.");
                 e.printStackTrace();
             }
-            input.write(null);
-            TimeoutLimiter.this.cancel();
+            TimeoutLimiter.this.cancel(TimeoutLimiter.this.getUQI());
         }
     }
 }

@@ -13,21 +13,29 @@ import com.github.privacystreams.core.UQI;
 public abstract class StreamProvider<OutStream extends Stream> extends EventDrivenFunction<Void, OutStream> {
     protected void init() {
         this.isCancelled = false;
+        Thread providingThread = new Thread() {
+            @Override
+            public void run() {
+                provide();
+            }
+        };
+        providingThread.start();
     }
 
     protected final void output(Item item) {
-        this.output.write(item);
+        if (this.output.isClosed()) {
+            this.cancel(this.getUQI());
+        }
+        else this.output.write(item, this);
     }
 
-    @Override
-    protected void onCancelled(UQI uqi) {
-        super.onCancelled(uqi);
-        this.isCancelled = true;
-    }
+    /**
+     * Provide stream data
+     * This method will be running in background, and should be stopped when isCancelled turns true.
+     */
+    protected abstract void provide();
 
-    protected transient volatile boolean isCancelled;
-
-    protected boolean isCancelled() {
-        return this.isCancelled;
+    protected void finish() {
+        this.output(Item.EOS);
     }
 }

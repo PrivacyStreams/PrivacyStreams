@@ -25,11 +25,11 @@ class MockLocalMStreamProvider extends MultiItemStreamProvider {
     @Override
     protected void provide() {
         for(MockObject mockObject : mockObjects){
-            if (this.isCancelled() || output.isClosed()) break;
+            if (this.isCancelled) break;
             MockItem item = new MockItem(mockObject);
             this.output(item);
         }
-        this.output(Item.EOS);
+        this.finish();
     }
 
 }

@@ -3,6 +3,7 @@ package com.github.privacystreams.core.actions;
 import com.github.privacystreams.core.EventDrivenFunction;
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.Stream;
+import com.github.privacystreams.core.UQI;
 
 import org.greenrobot.eventbus.Subscribe;
 
@@ -17,6 +18,7 @@ public abstract class StreamAction<InStream extends Stream> extends EventDrivenF
 
     @Subscribe
     protected final void onEvent(Item item) {
+        if (this.isCancelled) return;
         this.onInput(item);
     }
 
@@ -26,6 +28,12 @@ public abstract class StreamAction<InStream extends Stream> extends EventDrivenF
     }
 
     protected final void finish() {
+        this.input.unregister(this);
+    }
+
+    @Override
+    protected final void onCancelled(UQI uqi) {
+        super.onCancelled(uqi);
         this.input.unregister(this);
     }
 }
