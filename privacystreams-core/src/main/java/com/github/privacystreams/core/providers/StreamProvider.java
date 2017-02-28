@@ -24,7 +24,7 @@ public abstract class StreamProvider<OutStream extends Stream> extends EventDriv
 
     protected final void output(Item item) {
         if (this.output == null || this.output.isClosed()) {
-            this.cancel(this.getUQI());
+            if (!this.isCancelled) this.cancel(this.getUQI());
         }
         else this.output.write(item, this);
     }

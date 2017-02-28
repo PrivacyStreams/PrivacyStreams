@@ -21,17 +21,6 @@ import java.util.Set;
  */
 
 public class UQI {
-    private Context context;
-    public Context getContext() {
-        return this.context;
-    }
-    public void setContext(Context context) { this.context = context; }
-
-    private Gson gson;
-    public Gson getGson() {
-        return this.gson;
-    }
-
     private Purpose purpose;
     public Purpose getPurpose() {
         return this.purpose;
@@ -43,7 +32,18 @@ public class UQI {
     }
     void setQuery(Function<Void, Void> query) { this.query = query; }
 
-    private String uuid;
+    private transient Context context;
+    public Context getContext() {
+        return this.context;
+    }
+    public void setContext(Context context) { this.context = context; }
+
+    private transient Gson gson;
+    public Gson getGson() {
+        return this.gson;
+    }
+
+    private transient String uuid;
     public String getUUID() {
         if (this.uuid == null) {
             // TODO change this to other identifier as using device id is not privacy friendly.
@@ -54,9 +54,17 @@ public class UQI {
         return this.uuid;
     }
 
-    private PrivacyStreamsException exception;
+    private transient PrivacyStreamsException exception;
     public PrivacyStreamsException getException() {
         return exception;
+    }
+
+    private transient boolean streamDebug = false;
+    public void setStreamDebug(boolean streamDebug) {
+        this.streamDebug = streamDebug;
+    }
+    public boolean isStreamDebug() {
+        return streamDebug;
     }
 
     public UQI(Context context) {

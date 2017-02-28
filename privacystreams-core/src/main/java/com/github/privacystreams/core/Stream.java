@@ -6,8 +6,11 @@ import com.github.privacystreams.core.utils.Logging;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -37,6 +40,7 @@ public abstract class Stream {
     private final Set<Function<? extends Stream, ?>> streamReceivers;
 
     private transient volatile int receiverCount = 1;
+    private transient List<Item> streamCache = new ArrayList<>();
 
     Stream(UQI uqi) {
         this.uqi = uqi;
@@ -50,12 +54,32 @@ public abstract class Stream {
      * @param item  the item to write to the stream, null indicates the end of the stream
      * @param streamProvider the function that provide current stream
      */
-    public void write(Item item, Function<?, ? extends Stream> streamProvider) {
+    public synchronized void write(Item item, Function<?, ? extends Stream> streamProvider) {
         if (streamProvider != this.getStreamProvider() && streamProvider != this.getStreamProvider().getTail()) {
             Logging.warn("Illegal StreamProvider trying to write stream!");
             return;
         }
-        Logging.debug("Stream.write(" + item + ", " + streamProvider + ")");
+
+        // If receivers are not ready, cache the items
+        if (this.streamReceivers.size() != this.receiverCount) {
+            if (this.getUQI().isStreamDebug())
+                Logging.debug("Receivers are not ready, caching...");
+            this.streamCache.add(item);
+            return;
+        }
+        else if (!this.streamCache.isEmpty()) {
+            for (Item cachedItem : this.streamCache) {
+                this.doWrite(cachedItem);
+            }
+            this.streamCache.clear();
+        }
+
+        this.doWrite(item);
+    }
+
+    private void doWrite(Item item) {
+        if (this.getUQI().isStreamDebug())
+            Logging.debug("Item " + item + " written to stream " + this.getStreamProvider());
         this.eventBus.post(item);
     }
 
@@ -63,22 +87,23 @@ public abstract class Stream {
      * register a function to current stream
      * @param streamReceiver the function that receives stream items
      */
-    public void register(Function<? extends Stream, ?> streamReceiver) {
+    public synchronized void register(Function<? extends Stream, ?> streamReceiver) {
         if (this.streamReceivers.size() > this.receiverCount) {
             Logging.warn("Unknown StreamProvider trying to subscribe to stream!");
             return;
         }
-        this.streamReceivers.add(streamReceiver);
         this.eventBus.register(streamReceiver);
+        this.streamReceivers.add(streamReceiver);
     }
 
     /**
      * unregister a function from current stream
      * @param streamReceiver the function that receives stream items
      */
-    public void unregister(Function<? extends Stream, ?> streamReceiver) {
+    public synchronized void unregister(Function<? extends Stream, ?> streamReceiver) {
         if (!this.streamReceivers.contains(streamReceiver)) return;
         this.eventBus.unregister(streamReceiver);
+        this.streamReceivers.remove(streamReceiver);
         this.receiverCount--;
     }
 

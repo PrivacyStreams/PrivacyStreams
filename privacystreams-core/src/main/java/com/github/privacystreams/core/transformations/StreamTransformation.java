@@ -18,9 +18,9 @@ public abstract class StreamTransformation<InStream extends Stream, OutStream ex
 
     protected final void output(Item item) {
         if (this.output == null || this.output.isClosed()) {
-            this.cancel(this.getUQI());
+            if (!this.isCancelled) this.cancel(this.getUQI());
         }
-        this.output.write(item, this);
+        else this.output.write(item, this);
     }
 
     @Subscribe
