@@ -6,4 +6,4 @@
     android:accessibilityFeedbackType="feedbackAllMask"
     android:notificationTimeout="0"
     android:canRetrieveWindowContent="true"
-    android:settingsActivity="edu.cmu.hcii.gmailsearchtracker.MainActivity" />
+    android:settingsActivity="com.github.privacystreams.MainActivity" />
