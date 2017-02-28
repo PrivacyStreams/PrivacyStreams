@@ -36,9 +36,8 @@ public abstract class Stream {
 
     private final Set<Function<? extends Stream, ?>> streamReceivers;
 
-    private volatile boolean isClosed = false;
-    private volatile boolean isEmpty = false;
-    private volatile boolean isActive = false;
+    private transient volatile boolean isClosed = false;
+    private transient volatile int receiverCount = 1;
 
     Stream(UQI uqi) {
         this.uqi = uqi;
@@ -77,6 +76,7 @@ public abstract class Stream {
     public void unregister(Function<? extends Stream, ?> streamReceiver) {
         this.streamReceivers.remove(streamReceiver);
         this.eventBus.unregister(streamReceiver);
+        if (this.streamReceivers.size() == 0) this.isClosed = true;
     }
 
     /**
@@ -89,14 +89,6 @@ public abstract class Stream {
     }
 
     public abstract Function<Void, ? extends Stream> getStreamProvider();
-
-    /**
-     * Close the stream
-     * By closing the stream, it does not accept new items from the MultiItemStreamProvider any more.
-     */
-    public void close() {
-        this.isClosed = true;
-    }
 
     public Map<String, Object> toMap() {
         Map<String, Object> outputMap = new HashMap<>();

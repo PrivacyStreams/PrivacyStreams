@@ -17,20 +17,6 @@ import java.util.List;
  */
 
 public interface IMultiItemStream {
-
-    /**
-     * Check whether the stream is closed,
-     * MultiItemStream generator functions should make sure the stream is not closed this writing items to it.
-     * @return true if the stream is closed, meaning the stream does not accept new items
-     */
-    boolean isClosed();
-
-    /**
-     * Close the stream
-     * By closing the stream, it does not accept new items from the MultiItemStreamProvider any more.
-     */
-    void close();
-
     /**
      * Transform the stream to another stream
      * @param mStreamTransformation the function used to transform current stream
