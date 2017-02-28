@@ -31,11 +31,11 @@ class LastKnownLocationProvider extends SingleItemStreamProvider {
     }
 
     @Override
-    protected void provide(SingleItemStream output) {
-        this.getLastKnownLocation(output);
+    protected void provide() {
+        this.getLastKnownLocation();
     }
 
-    private void getLastKnownLocation(SingleItemStream output) {
+    private void getLastKnownLocation() {
         Context context = this.getContext();
 
         LocationManager lm = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
@@ -59,7 +59,8 @@ class LastKnownLocationProvider extends SingleItemStreamProvider {
 
         Location location = betterLocation(gpsLocation, networkLocation);
         if (location == null) return;
-        output.write(new GeoLocation(location));
+        this.output(new GeoLocation(location));
+        this.finish();
     }
 
     /**
