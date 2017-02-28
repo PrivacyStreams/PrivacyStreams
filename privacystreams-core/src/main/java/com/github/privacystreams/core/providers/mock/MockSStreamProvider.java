@@ -1,5 +1,6 @@
 package com.github.privacystreams.core.providers.mock;
 
+import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.SingleItemStream;
 import com.github.privacystreams.core.providers.SingleItemStreamProvider;
 
@@ -22,9 +23,10 @@ class MockSStreamProvider extends SingleItemStreamProvider {
     }
 
     @Override
-    protected void provide(SingleItemStream output) {
+    protected void provide() {
         if (this.isCancelled() || output.isClosed()) return;
-        output.write(new MockItem(mockObject));
+        this.output(new MockItem(mockObject));
+        this.output(Item.EOS);
     }
 
 }

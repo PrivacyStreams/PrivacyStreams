@@ -14,5 +14,5 @@ public abstract class SingleItemStreamProvider extends StreamProvider<SingleItem
         this.output = new SingleItemStream(this.getUQI(), this);
     }
 
-    protected abstract void provide(SingleItemStream output);
+    protected abstract void provide();
 }

@@ -1,6 +1,8 @@
 package com.github.privacystreams.core.providers.mock;
 
+import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.MultiItemStream;
+import com.github.privacystreams.core.UQI;
 import com.github.privacystreams.core.providers.MultiItemStreamProvider;
 
 import java.util.ArrayList;
@@ -23,14 +25,16 @@ class RandomLocalMStreamProvider extends MultiItemStreamProvider {
     }
 
     @Override
-    protected void provide(MultiItemStream output) {
+    protected void provide() {
         int id = 0;
         if (!this.isCancelled() && !output.isClosed()) {
             List<MockObject> mockObjects = MockObject.getRandomList(this.maxInt, maxDouble, count);
             for (MockObject mockObject : mockObjects) {
-                output.write(new MockItem(mockObject));
+                mockObject.setId(id);
+                id++;
+                this.output(new MockItem(mockObject));
             }
+            this.output(Item.EOS);
         }
     }
-
 }

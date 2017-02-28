@@ -20,13 +20,13 @@ class RandomLiveMStreamProvider extends MultiItemStreamProvider {
     }
 
     @Override
-    protected void provide(MultiItemStream output) {
+    protected void provide() {
         int id = 0;
         while (!this.isCancelled() && !output.isClosed()) {
             MockObject mockObject = MockObject.getRandomInstance(this.maxInt, this.maxDouble);
             mockObject.setId(id);
             id++;
-            output.write(new MockItem(mockObject));
+            this.output(new MockItem(mockObject));
             try {
                 Thread.sleep(this.interval);
             } catch (InterruptedException e) {

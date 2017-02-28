@@ -21,11 +21,11 @@ public abstract class StreamAction<InStream extends Stream> extends EventDrivenF
     }
 
     @Override
-    protected void init() {
+    protected final void init() {
         this.input.register(this);
     }
 
-    protected void finish() {
+    protected final void finish() {
         this.input.unregister(this);
     }
 }

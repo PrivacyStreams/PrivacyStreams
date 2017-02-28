@@ -14,5 +14,5 @@ public abstract class MultiItemStreamProvider extends StreamProvider<MultiItemSt
         this.output = new MultiItemStream(this.getUQI(), this);
     }
 
-    protected abstract void provide(MultiItemStream output);
+    protected abstract void provide();
 }

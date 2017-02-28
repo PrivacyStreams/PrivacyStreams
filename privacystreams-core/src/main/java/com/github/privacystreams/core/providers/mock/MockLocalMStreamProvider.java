@@ -1,5 +1,6 @@
 package com.github.privacystreams.core.providers.mock;
 
+import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.MultiItemStream;
 import com.github.privacystreams.core.providers.MultiItemStreamProvider;
 
@@ -22,13 +23,13 @@ class MockLocalMStreamProvider extends MultiItemStreamProvider {
     }
 
     @Override
-    protected void provide(MultiItemStream output) {
+    protected void provide() {
         for(MockObject mockObject : mockObjects){
             if (this.isCancelled() || output.isClosed()) break;
             MockItem item = new MockItem(mockObject);
-            output.write(item);
+            this.output(item);
         }
-        output.write(null);
+        this.output(Item.EOS);
     }
 
 }
