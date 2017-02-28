@@ -20,9 +20,8 @@ abstract class StreamReorder extends M2MTransformation {
         if (this.items == null) this.items = new ArrayList<>();
         if (item.isEndOfStream()) {
             this.reorder(items);
+            return;
         }
-        else {
-            this.items.add(item);
-        }
+        this.items.add(item);
     }
 }

@@ -17,7 +17,7 @@ public abstract class StreamTransformation<InStream extends Stream, OutStream ex
     protected abstract void onInput(Item item);
 
     protected final void output(Item item) {
-        if (this.output.isClosed()) {
+        if (this.output == null || this.output.isClosed()) {
             this.cancel(this.getUQI());
         }
         this.output.write(item, this);
@@ -42,7 +42,8 @@ public abstract class StreamTransformation<InStream extends Stream, OutStream ex
     @Override
     protected final void onCancelled(UQI uqi) {
         super.onCancelled(uqi);
-        this.input.unregister(this);
+        if (this.input != null)
+            this.input.unregister(this);
         this.output(Item.EOS);
     }
 }

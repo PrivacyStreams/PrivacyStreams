@@ -21,7 +21,10 @@ class ForEachCallback extends StreamAction<MultiItemStream> {
 
     @Override
     protected void onInput(Item item) {
-        if (item.isEndOfStream()) this.finish();
+        if (item.isEndOfStream()) {
+            this.finish();
+            return;
+        }
         this.itemCallback.apply(this.getUQI(), item);
     }
 }

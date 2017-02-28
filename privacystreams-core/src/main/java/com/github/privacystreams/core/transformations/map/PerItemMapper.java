@@ -25,7 +25,10 @@ final class PerItemMapper extends M2MTransformation {
 
     @Override
     protected final void onInput(Item item) {
-        if (item.isEndOfStream()) this.finish();
+        if (item.isEndOfStream()) {
+            this.finish();
+            return;
+        }
         Item outputItem = this.itemMapper.apply(this.getUQI(), item);
         this.output(outputItem);
     }

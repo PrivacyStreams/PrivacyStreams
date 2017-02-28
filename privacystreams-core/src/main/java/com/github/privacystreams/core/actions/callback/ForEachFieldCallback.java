@@ -24,7 +24,10 @@ class ForEachFieldCallback<TValue, Void> extends AsyncMultiItemStreamAction {
 
     @Override
     protected void onInput(Item item) {
-        if (item.isEndOfStream()) this.finish();
+        if (item.isEndOfStream()) {
+            this.finish();
+            return;
+        }
         TValue fieldValue = item.getValueByField(this.fieldToSelect);
         this.fieldValueCallback.apply(this.getUQI(), fieldValue);
     }

@@ -21,7 +21,10 @@ class OnChangeCallback extends AsyncMultiItemStreamAction {
     private transient Item lastItem;
     @Override
     protected void onInput(Item item) {
-        if (item.isEndOfStream()) this.finish();
+        if (item.isEndOfStream()) {
+            this.finish();
+            return;
+        }
         if (item.equals(lastItem)) return;
         this.itemCallback.apply(this.getUQI(), item);
         this.lastItem = item;

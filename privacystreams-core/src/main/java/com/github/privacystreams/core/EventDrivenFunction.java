@@ -43,9 +43,4 @@ public abstract class EventDrivenFunction<T1, T2> extends Function<T1, T2> {
     }
 
     protected abstract void init();
-
-    protected void onStart(T1 input, T2 output) {}
-    protected void onStop(T1 input, T2 output) {}
-    protected void onFinish(T1 input, T2 output) {}
-    protected void onCancel(T1 input, T2 output) {}
 }

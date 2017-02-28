@@ -45,7 +45,7 @@ public class UseCases {
     public void testMockData() {
         uqi
                 .getDataItems(MockItem.asRandomUpdates(20, 100, 500), Purpose.test("test"))
-                .limit(100)
+                .limit(10)
                 .timeout(Duration.seconds(100))
                 .map(ItemCommons.setField("time_round", Arithmetics.roundUp(MockItem.TIME_CREATED, Duration.seconds(5))))
                 .localGroupBy("time_round")

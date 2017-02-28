@@ -12,6 +12,10 @@ abstract class StreamLimiter extends M2MTransformation {
 
     @Override
     protected void onInput(Item item) {
+        if (item.isEndOfStream()) {
+            this.finish();
+            return;
+        }
         if (this.keep(item)) this.output(item);
         else this.finish();
     }

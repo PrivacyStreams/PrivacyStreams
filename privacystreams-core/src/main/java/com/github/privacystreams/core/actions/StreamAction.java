@@ -34,6 +34,7 @@ public abstract class StreamAction<InStream extends Stream> extends EventDrivenF
     @Override
     protected final void onCancelled(UQI uqi) {
         super.onCancelled(uqi);
-        this.input.unregister(this);
+        if (this.input != null)
+            this.input.unregister(this);
     }
 }

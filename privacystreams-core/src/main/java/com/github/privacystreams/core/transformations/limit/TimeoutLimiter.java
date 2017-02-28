@@ -22,8 +22,9 @@ final class TimeoutLimiter extends StreamLimiter {
     /*
      * Start the timer when the function starts evaluating
      */
-    protected void onStart(MultiItemStream input, MultiItemStream output) {
-        new TimeoutCancelTask(input, output, this.timeoutMillis).start();
+    protected void init() {
+        super.init();
+        new TimeoutCancelTask(this.timeoutMillis).start();
     }
 
     @Override
@@ -36,17 +37,20 @@ final class TimeoutLimiter extends StreamLimiter {
      */
     private class TimeoutCancelTask extends Thread {
         private long millis;
-        private MultiItemStream input;
 
-        TimeoutCancelTask(MultiItemStream input, MultiItemStream output, long millis) {
-            this.input = input;
+        TimeoutCancelTask(long millis) {
             this.millis = millis;
         }
 
         @Override
         public void run() {
             try {
-                Thread.sleep(this.millis);
+                long startTime = System.currentTimeMillis();
+                while (!TimeoutLimiter.this.isCancelled) {
+                    Thread.sleep(100);
+                    long timeElapsed = System.currentTimeMillis() - startTime;
+                    if (timeElapsed >= this.millis) break;
+                }
             } catch (InterruptedException e) {
                 Logging.warn("TimeoutLimiter failed.");
                 e.printStackTrace();

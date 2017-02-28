@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
         protected Object doInBackground(Object[] objects) {
             UseCases useCases = new UseCases(MainActivity.this);
             useCases.testContacts();
+            useCases.testMockData();
             return null;
         }
     }

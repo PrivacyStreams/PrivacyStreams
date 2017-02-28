@@ -24,7 +24,10 @@ class OnFieldChangeCallback<TValue, Void> extends AsyncMultiItemStreamAction {
     private transient TValue lastFieldValue;
     @Override
     protected void onInput(Item item) {
-        if (item.isEndOfStream()) this.finish();
+        if (item.isEndOfStream()) {
+            this.finish();
+            return;
+        }
         TValue fieldValue = item.getValueByField(this.fieldToSelect);
         if (fieldValue.equals(this.lastFieldValue)) return;
         this.fieldValueCallback.apply(this.getUQI(), fieldValue);

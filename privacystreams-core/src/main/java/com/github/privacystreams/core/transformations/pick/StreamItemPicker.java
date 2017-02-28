@@ -25,12 +25,14 @@ class StreamItemPicker extends M2STransformation {
     private transient int itemCount = 0;
     @Override
     protected final void onInput(Item item) {
+        if (item.isEndOfStream()) {
+            this.finish();
+            return;
+        }
         if (itemCount == this.itemIndex) {
             this.output(item);
             this.finish();
-        }
-        if (item.isEndOfStream()) {
-            this.finish();
+            return;
         }
         itemCount++;
     }

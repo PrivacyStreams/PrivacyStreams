@@ -20,6 +20,7 @@ public abstract class Reducer extends M2STransformation {
         if (item.isEndOfStream()) {
             this.output(reducedItem);
             this.finish();
+            return;
         }
         this.reducedItem = this.reduce(this.reducedItem, item);
     }

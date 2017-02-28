@@ -53,10 +53,11 @@ public abstract class Stream {
      * @param streamProvider the function that provide current stream
      */
     public void write(Item item, Function<?, ? extends Stream> streamProvider) {
-        if (streamProvider != this.getStreamProvider()) {
+        if (streamProvider != this.getStreamProvider() && streamProvider != this.getStreamProvider().getTail()) {
             Logging.warn("Illegal StreamProvider trying to write stream!");
             return;
         }
+        Logging.debug("Stream.write " + item + " from " + streamProvider);
         this.eventBus.post(item);
     }
 

@@ -32,6 +32,7 @@ final class ByFieldLocalGrouper extends StreamGrouper {
                 this.output(new GroupItem(this.groupField, lastGroupFieldValue, groupItems));
             }
             this.finish();
+            return;
         }
 
         Object groupFieldValue = item.getValueByField(this.groupField);

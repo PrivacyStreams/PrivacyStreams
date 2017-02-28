@@ -23,7 +23,10 @@ class IfFieldPresentCallback<TValue, Void> extends AsyncMultiItemStreamAction {
 
     @Override
     protected void onInput(Item item) {
-        if (item.isEndOfStream()) this.finish();
+        if (item.isEndOfStream()) {
+            this.finish();
+            return;
+        }
         TValue fieldValue = item.getValueByField(this.fieldToSelect);
         if (fieldValue == null) return;
         this.fieldValueCallback.apply(this.getUQI(), fieldValue);

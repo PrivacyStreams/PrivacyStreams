@@ -49,9 +49,8 @@ final class ByFieldGrouper extends StreamGrouper {
         if (this.items == null) this.items = new ArrayList<>();
         if (item.isEndOfStream()) {
             this.group(items);
+            return;
         }
-        else {
-            this.items.add(item);
-        }
+        this.items.add(item);
     }
 }
