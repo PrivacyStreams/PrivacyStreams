@@ -23,10 +23,8 @@ final class ItemMapper extends S2STransformation {
 
     @Override
     protected final void onInput(Item item) {
-        if (!this.isCancelled) {
-            if (item.isEndOfStream()) this.finish();
-            Item outputItem = this.itemMapper.apply(this.getUQI(), item);
-            this.output(outputItem);
-        }
+        if (item.isEndOfStream()) this.finish();
+        Item outputItem = this.itemMapper.apply(this.getUQI(), item);
+        this.output(outputItem);
     }
 }
