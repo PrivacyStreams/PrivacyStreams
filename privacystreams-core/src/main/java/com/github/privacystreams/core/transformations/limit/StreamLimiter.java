@@ -11,13 +11,13 @@ import com.github.privacystreams.core.transformations.M2MTransformation;
 abstract class StreamLimiter extends M2MTransformation {
 
     @Override
-    protected void applyInBackground(MultiItemStream input, MultiItemStream output) {
-        while (!this.isCancelled() && !output.isClosed()) {
-            Item item = input.read();
-            if (item == null) break;
-            if (this.keep(item)) output.write(item);
-            else break;
+    protected void onInput(Item item) {
+        if (item.isEndOfStream()) {
+            this.finish();
+            return;
         }
+        if (this.keep(item)) this.output(item);
+        else this.finish();
     }
 
     protected abstract boolean keep(Item item);

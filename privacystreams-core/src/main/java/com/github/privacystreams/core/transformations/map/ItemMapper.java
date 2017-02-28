@@ -14,15 +14,20 @@ import static com.github.privacystreams.core.utils.Assertions.notNull;
  * Map an item by changing the fields in an item.
  */
 final class ItemMapper extends S2STransformation {
-    @Override
-    protected final Item applyInBackground(Item input) {
-        return this.itemMapper.apply(this.getUQI(), input);
-    }
-
     private final Function<Item, Item> itemMapper;
 
     ItemMapper(final Function<Item, Item> itemMapper) {
         this.itemMapper = notNull("itemMapper", itemMapper);
         this.addParameters(itemMapper);
+    }
+
+    @Override
+    protected final void onInput(Item item) {
+        if (item.isEndOfStream()) {
+            this.finish();
+            return;
+        }
+        Item outputItem = this.itemMapper.apply(this.getUQI(), item);
+        this.output(outputItem);
     }
 }

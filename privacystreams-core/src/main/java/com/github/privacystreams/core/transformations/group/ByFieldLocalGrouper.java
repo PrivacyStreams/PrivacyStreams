@@ -3,7 +3,6 @@ package com.github.privacystreams.core.transformations.group;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.github.privacystreams.core.MultiItemStream;
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.utils.Assertions;
 import com.github.privacystreams.core.utils.HashUtils;
@@ -22,41 +21,39 @@ final class ByFieldLocalGrouper extends StreamGrouper {
         this.addParameters(groupField);
     }
 
+    private transient Object lastGroupFieldValue = null;
+    private transient int lastGroupKey = 0;
+    private transient List<Item> groupItems = null;
+
     @Override
-    protected void applyInBackground(MultiItemStream input, MultiItemStream output) {
-        Object lastGroupFieldValue = null;
-        int lastGroupKey = 0;
-        List<Item> groupItems = null;
-
-        while (!this.isCancelled() && !output.isClosed()) {
-            Item item = input.read();
-            if (item == null) {
-                if (groupItems != null) {
-                    output.write(new GroupItem(this.groupField, lastGroupFieldValue, groupItems));
-                }
-                break;
+    protected void onInput(Item item) {
+        if (item.isEndOfStream()) {
+            if (groupItems != null) {
+                this.output(new GroupItem(this.groupField, lastGroupFieldValue, groupItems));
             }
+            this.finish();
+            return;
+        }
 
-            Object groupFieldValue = item.getValueByField(this.groupField);
-            int groupKey = HashUtils.valueHash(groupFieldValue);
+        Object groupFieldValue = item.getValueByField(this.groupField);
+        int groupKey = HashUtils.valueHash(groupFieldValue);
 
-            // If it is the first stream item, initialize lastGroupFieldValue and groupItems
-            if (groupItems == null) {
-                lastGroupFieldValue = groupFieldValue;
-                lastGroupKey = groupKey;
-                groupItems = new ArrayList<>();
-            }
-
-            // If group key changes, stop the last group stream and create a new group stream
-            if (groupKey != lastGroupKey) {
-                output.write(new GroupItem(this.groupField, lastGroupFieldValue, groupItems));
-                groupItems = new ArrayList<>();
-            }
-
-            groupItems.add(item);
+        // If it is the first stream item, initialize lastGroupFieldValue and groupItems
+        if (groupItems == null) {
             lastGroupFieldValue = groupFieldValue;
             lastGroupKey = groupKey;
+            groupItems = new ArrayList<>();
         }
+
+        // If group key changes, stop the last group stream and create a new group stream
+        if (groupKey != lastGroupKey) {
+            this.output(new GroupItem(this.groupField, lastGroupFieldValue, groupItems));
+            groupItems = new ArrayList<>();
+        }
+
+        groupItems.add(item);
+        lastGroupFieldValue = groupFieldValue;
+        lastGroupKey = groupKey;
     }
 
 }

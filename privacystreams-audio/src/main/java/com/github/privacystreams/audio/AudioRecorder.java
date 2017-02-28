@@ -23,7 +23,7 @@ class AudioRecorder extends SingleItemStreamProvider {
     }
 
     @Override
-    protected void provide(SingleItemStream output) {
+    protected void provide() {
         // TODO implement this
     }
 }

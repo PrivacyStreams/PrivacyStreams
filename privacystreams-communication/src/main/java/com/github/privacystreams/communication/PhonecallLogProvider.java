@@ -20,7 +20,7 @@ class PhonecallLogProvider extends MultiItemStreamProvider {
     }
 
     @Override
-    protected void provide(MultiItemStream output) {
+    protected void provide() {
         // TODO implement this
     }
 

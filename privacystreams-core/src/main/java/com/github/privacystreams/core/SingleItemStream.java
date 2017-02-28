@@ -19,20 +19,14 @@ import com.github.privacystreams.core.transformations.map.Mappers;
  * Similar to a MultiItemStream, an SingleItemStream could be transformed and collected with multiple functions.
  */
 public class SingleItemStream extends Stream implements ISingleItemStream {
-    private LazyFunction<Void, SingleItemStream> streamProvider;
+    private Function<Void, SingleItemStream> streamProvider;
 
     @Override
-    public LazyFunction<Void, SingleItemStream> getStreamProvider() {
+    public Function<Void, SingleItemStream> getStreamProvider() {
         return this.streamProvider;
     }
 
-    @Override
-    public void write(Item item) {
-        super.write(item);
-        super.write(null);
-    }
-
-    public SingleItemStream(LazyFunction<Void, SingleItemStream> streamProvider, UQI uqi) {
+    public SingleItemStream(UQI uqi, Function<Void, SingleItemStream> streamProvider) {
         super(uqi);
         this.streamProvider = streamProvider;
     }
@@ -43,8 +37,8 @@ public class SingleItemStream extends Stream implements ISingleItemStream {
      * @param sStreamTransformation the function used to transform the current item
      * @return the transformed item
      */
-    public ISingleItemStream transform(LazyFunction<SingleItemStream, SingleItemStream> sStreamTransformation) {
-        return sStreamTransformation.apply(this.getUQI(), this);
+    public SingleItemStream transform(Function<SingleItemStream, SingleItemStream> sStreamTransformation) {
+        return new SingleItemStream(this.getUQI(), this.streamProvider.compound(sStreamTransformation));
     }
 
     /**
@@ -53,7 +47,7 @@ public class SingleItemStream extends Stream implements ISingleItemStream {
      * @param sStreamAction the function used to output the current item
      */
     public void output(Function<SingleItemStream, Void> sStreamAction) {
-        this.getUQI().setQuery(this.getStreamProvider().compound(sStreamAction));
+        this.getUQI().setQuery(this.streamProvider.compound(sStreamAction));
         this.getUQI().evaluate(true);
     }
 
@@ -64,7 +58,7 @@ public class SingleItemStream extends Stream implements ISingleItemStream {
      * @param function      the function to convert the item
      * @return The item after mapping
      */
-    public ISingleItemStream map(Function<Item, Item> function) {
+    public SingleItemStream map(Function<Item, Item> function) {
         return this.transform(Mappers.mapItem(function));
     }
 
@@ -76,7 +70,7 @@ public class SingleItemStream extends Stream implements ISingleItemStream {
      * @param fieldsToInclude the fields to include
      * @return The item after projection
      */
-    public ISingleItemStream project(String... fieldsToInclude) {
+    public SingleItemStream project(String... fieldsToInclude) {
         return this.map(ItemCommons.includeFields(fieldsToInclude));
     }
 
@@ -87,16 +81,14 @@ public class SingleItemStream extends Stream implements ISingleItemStream {
      * @param <TValue> the type of the new field value
      * @return the item with the new field set
      */
-    public <TValue> ISingleItemStream setField(String newField, Function<Item, TValue> functionToComputeField) {
+    public <TValue> SingleItemStream setField(String newField, Function<Item, TValue> functionToComputeField) {
         return this.map(ItemCommons.setField(newField, functionToComputeField));
     }
 
-    @Override
     public <Tout> void outputItem(Function<Item, Tout> itemOutputFunction, Function<Tout, Void> resultHandler) {
         this.output(new SingleItemStreamAction<>(itemOutputFunction, resultHandler));
     }
 
-    @Override
     public <Tout> Tout outputItem(Function<Item, Tout> itemOutputFunction) throws PrivacyStreamsException {
         final BlockingQueue<Object> resultQueue = new LinkedBlockingQueue<>();
         Function<Tout, Void> resultHandler = new Callback<Tout>() {

@@ -30,11 +30,11 @@ class ContactListProvider extends MultiItemStreamProvider {
     }
 
     @Override
-    protected void provide(MultiItemStream output) {
-        this.getContactList(output);
+    protected void provide() {
+        this.getContactList();
     }
 
-    private void getContactList(MultiItemStream output) {
+    private void getContactList() {
         ContentResolver contentResolver = this.getContext().getContentResolver();
 
         Cursor contactCur = contentResolver.query(
@@ -86,7 +86,7 @@ class ContactListProvider extends MultiItemStreamProvider {
                 emailCur.close();
 
                 Contact contact = new Contact(name, phones, emails);
-                output.write(contact);
+                this.output(contact);
 //                Contact contact = new Contact(_ID, contactID, lookup, displayName);
 //                contactQuery.write(contact);
 
@@ -98,6 +98,6 @@ class ContactListProvider extends MultiItemStreamProvider {
             contactCur.close();
         }
 
-        if (!output.isClosed()) output.write(null);
+        this.finish();
     }
 }

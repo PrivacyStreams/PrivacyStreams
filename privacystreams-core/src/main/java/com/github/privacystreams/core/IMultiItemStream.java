@@ -17,33 +17,19 @@ import java.util.List;
  */
 
 public interface IMultiItemStream {
-
-    /**
-     * Check whether the stream is closed,
-     * MultiItemStream generator functions should make sure the stream is not closed this writing items to it.
-     * @return true if the stream is closed, meaning the stream does not accept new items
-     */
-    boolean isClosed();
-
-    /**
-     * Close the stream
-     * By closing the stream, it does not accept new items from the MultiItemStreamProvider any more.
-     */
-    void close();
-
     /**
      * Transform the stream to another stream
      * @param mStreamTransformation the function used to transform current stream
      * @return the transformed stream
      */
-    IMultiItemStream transform(LazyFunction<MultiItemStream, MultiItemStream> mStreamTransformation);
+    IMultiItemStream transform(Function<MultiItemStream, MultiItemStream> mStreamTransformation);
 
     /**
      * Collect an item in the stream, the item can be further processed using item functions
      * @param m2sStreamTransformation the function used to convert the current stream to an item
      * @return the collected item
      */
-    ISingleItemStream transformToItem(LazyFunction<MultiItemStream, SingleItemStream> m2sStreamTransformation);
+    ISingleItemStream transformToItem(Function<MultiItemStream, SingleItemStream> m2sStreamTransformation);
 
     /**
      * Collect the items in the stream for output
