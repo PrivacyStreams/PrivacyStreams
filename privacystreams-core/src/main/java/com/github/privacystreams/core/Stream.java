@@ -36,7 +36,6 @@ public abstract class Stream {
 
     private final Set<Function<? extends Stream, ?>> streamReceivers;
 
-    private transient volatile boolean isClosed = false;
     private transient volatile int receiverCount = 1;
 
     Stream(UQI uqi) {
@@ -56,7 +55,7 @@ public abstract class Stream {
             Logging.warn("Illegal StreamProvider trying to write stream!");
             return;
         }
-        Logging.debug("Stream.write " + item + " from " + streamProvider);
+        Logging.debug("Stream.write(" + item + ", " + streamProvider + ")");
         this.eventBus.post(item);
     }
 
@@ -65,6 +64,10 @@ public abstract class Stream {
      * @param streamReceiver the function that receives stream items
      */
     public void register(Function<? extends Stream, ?> streamReceiver) {
+        if (this.streamReceivers.size() > this.receiverCount) {
+            Logging.warn("Unknown StreamProvider trying to subscribe to stream!");
+            return;
+        }
         this.streamReceivers.add(streamReceiver);
         this.eventBus.register(streamReceiver);
     }
@@ -74,9 +77,9 @@ public abstract class Stream {
      * @param streamReceiver the function that receives stream items
      */
     public void unregister(Function<? extends Stream, ?> streamReceiver) {
-        this.streamReceivers.remove(streamReceiver);
+        if (!this.streamReceivers.contains(streamReceiver)) return;
         this.eventBus.unregister(streamReceiver);
-        if (this.streamReceivers.size() == 0) this.isClosed = true;
+        this.receiverCount--;
     }
 
     /**
@@ -85,7 +88,7 @@ public abstract class Stream {
      * @return true if the stream is closed, meaning the stream does not accept new items
      */
     public boolean isClosed() {
-        return this.isClosed;
+        return this.receiverCount <= 0;
     }
 
     public abstract Function<Void, ? extends Stream> getStreamProvider();
