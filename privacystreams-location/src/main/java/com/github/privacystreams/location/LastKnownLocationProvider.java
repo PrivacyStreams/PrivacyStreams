@@ -38,28 +38,19 @@ class LastKnownLocationProvider extends SingleItemStreamProvider {
     private void getLastKnownLocation() {
         Context context = this.getContext();
 
+        Location gpsLocation = null;
+        Location networkLocation = null;
+
         LocationManager lm = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED
-                &&
-            ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            Logging.warn("Need location permission.");
-            return;
-        }
-        Location gpsLocation = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        Location networkLocation = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+                != PackageManager.PERMISSION_GRANTED)
+            gpsLocation = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED)
+            networkLocation = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 
         Location location = betterLocation(gpsLocation, networkLocation);
-        if (location == null) return;
-        this.output(new GeoLocation(location));
+        if (location != null) this.output(new GeoLocation(location));
         this.finish();
     }
 
