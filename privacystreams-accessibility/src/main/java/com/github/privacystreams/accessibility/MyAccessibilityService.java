@@ -65,6 +65,6 @@ public class MyAccessibilityService extends AccessibilityService {
     }
 
     public void unregisterProvider(AccessibilityEventProvider provider){
-        accessibilityEventProviders.add(provider);
+        accessibilityEventProviders.remove(provider);
     }
 }
