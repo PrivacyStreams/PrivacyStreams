@@ -18,6 +18,11 @@ public abstract class MultiItemStreamProvider extends LazyFunction<Void, MultiIt
     protected final void applyInBackground(Void input, MultiItemStream output) {
         this.provide(output);
     }
+    @Override
+    protected void onCancel(Void input, MultiItemStream output) {
+        super.onCancel(input, output);
+    }
+
 
     protected abstract void provide(MultiItemStream output);
 }
