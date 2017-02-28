@@ -7,15 +7,11 @@ import com.github.privacystreams.core.MultiItemStream;
  * Create a new stream of data
  */
 
-public abstract class MultiItemStreamProvider extends LazyFunction<Void, MultiItemStream> {
+public abstract class MultiItemStreamProvider extends StreamProvider<MultiItemStream> {
 
-    protected final MultiItemStream initOutput(Void input) {
-        return new MultiItemStream(this, this.getUQI());
-    }
-
-    @Override
-    protected final void applyInBackground(Void input, MultiItemStream output) {
-        this.provide(output);
+    protected final void init() {
+        super.init();
+        this.output = new MultiItemStream(this.getUQI(), this);
     }
 
     protected abstract void provide(MultiItemStream output);

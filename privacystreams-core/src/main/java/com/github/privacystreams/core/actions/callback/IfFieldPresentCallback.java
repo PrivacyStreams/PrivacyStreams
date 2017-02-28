@@ -1,8 +1,5 @@
 package com.github.privacystreams.core.actions.callback;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.MultiItemStream;
 import com.github.privacystreams.core.Item;
@@ -13,32 +10,23 @@ import com.github.privacystreams.core.utils.Assertions;
  * Callback with a field value in a item once the field value is present
  */
 
-class IfFieldPresentCallback<TValue, Void> extends AsyncMultiItemStreamAction<Void> {
+class IfFieldPresentCallback<TValue, Void> extends AsyncMultiItemStreamAction {
 
     private final String fieldToSelect;
-    private final Function<TValue, Void> callback;
+    private final Function<TValue, Void> fieldValueCallback;
 
-    IfFieldPresentCallback(String fieldToSelect, Function<TValue, Void> callback) {
+    IfFieldPresentCallback(String fieldToSelect, Function<TValue, Void> fieldValueCallback) {
         this.fieldToSelect = Assertions.notNull("fieldToSelect", fieldToSelect);
-        this.callback = Assertions.notNull("callback", callback);
-        this.addParameters(fieldToSelect, callback);
+        this.fieldValueCallback = Assertions.notNull("fieldValueCallback", fieldValueCallback);
+        this.addParameters(fieldToSelect, fieldValueCallback);
     }
 
     @Override
-    protected Void init(MultiItemStream input) {
-        return null;
-    }
-
-    @Override
-    protected void applyInBackground(MultiItemStream input, Void output) {
-        while (!this.isCancelled()) {
-            Item item = input.read();
-            if (item == null) break;
-            TValue fieldValue = item.getValueByField(this.fieldToSelect);
-            if (fieldValue == null) continue;
-            this.callback.apply(this.getUQI(), fieldValue);
-            break;
-        }
+    protected void onInput(Item item) {
+        if (item.isEndOfStream()) this.finish();
+        TValue fieldValue = item.getValueByField(this.fieldToSelect);
+        if (fieldValue == null) return;
+        this.fieldValueCallback.apply(this.getUQI(), fieldValue);
     }
 
 }

@@ -19,19 +19,20 @@ import android.content.Context;
  * 4. onCancel method which is invoked when the function is cancelled
  */
 
-public abstract class AsyncFunction<T1, T2> extends Function<T1, T2> {
+public abstract class EventDrivenFunction<T1, T2> extends Function<T1, T2> {
     private transient UQI uqi;
-    private transient T1 input;
-    private transient T2 output;
 
-    protected AsyncFunction() {
+    protected transient T1 input;
+    protected transient T2 output;
+
+    protected EventDrivenFunction() {
     }
 
     public final T2 apply(UQI uqi, T1 input) {
         this.uqi = uqi;
         this.input = input;
-        this.output = this.init(input);
-        return output;
+        this.init();
+        return this.output;
     }
 
     protected UQI getUQI() {
@@ -41,18 +42,10 @@ public abstract class AsyncFunction<T1, T2> extends Function<T1, T2> {
         return this.getUQI().getContext();
     }
 
-    protected abstract T2 init(T1 input);
+    protected abstract void init();
 
     protected void onStart(T1 input, T2 output) {}
     protected void onStop(T1 input, T2 output) {}
     protected void onFinish(T1 input, T2 output) {}
     protected void onCancel(T1 input, T2 output) {}
-
-    protected T1 getInput() {
-        return input;
-    }
-
-    protected T2 getOutput() {
-        return output;
-    }
 }

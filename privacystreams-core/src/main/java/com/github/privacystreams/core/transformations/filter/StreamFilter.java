@@ -12,12 +12,8 @@ import com.github.privacystreams.core.transformations.M2MTransformation;
 abstract class StreamFilter extends M2MTransformation {
 
     @Override
-    protected void applyInBackground(MultiItemStream input, MultiItemStream output) {
-        while (!this.isCancelled() && !output.isClosed()) {
-            Item item = input.read();
-            if (item == null) break;
-            if (this.keep(item)) output.write(item);
-        }
+    protected void onInput(Item item) {
+        if (this.keep(item)) this.output(item);
     }
 
     protected abstract boolean keep(Item item);

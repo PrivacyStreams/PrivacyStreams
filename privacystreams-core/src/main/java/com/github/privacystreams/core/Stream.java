@@ -49,18 +49,18 @@ public abstract class Stream {
     }
 
     /**
-     * Subscribe current stream
+     * register a function to current stream
      * @param receiverFunction the function that receives stream items
      */
-    public void subscribe(Function<? extends Stream, ?> receiverFunction) {
+    public void register(Function<? extends Stream, ?> receiverFunction) {
         this.eventBus.register(receiverFunction);
     }
 
     /**
-     * Unsubscribe current stream
+     * unregister a function from current stream
      * @param receiverFunction the function that receives stream items
      */
-    public void unSubscribe(Function<? extends Stream, ?> receiverFunction) {
+    public void unregister(Function<? extends Stream, ?> receiverFunction) {
         this.eventBus.unregister(receiverFunction);
     }
 

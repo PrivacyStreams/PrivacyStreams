@@ -11,7 +11,8 @@ import com.github.privacystreams.core.SingleItemStream;
 
 public abstract class S2MTransformation extends StreamTransformation<SingleItemStream, MultiItemStream> {
 
-    protected MultiItemStream init(SingleItemStream input) {
-        return new MultiItemStream(this.getUQI(), input.getStreamProvider().compound(this));
+    protected void init() {
+        super.init();
+        this.output = new MultiItemStream(this.getUQI(), input.getStreamProvider().compound(this));
     }
 }

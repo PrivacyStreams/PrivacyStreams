@@ -7,19 +7,11 @@ import com.github.privacystreams.core.SingleItemStream;
  * Create a new stream of data
  */
 
-public abstract class SingleItemStreamProvider extends LazyFunction<Void, SingleItemStream> {
+public abstract class SingleItemStreamProvider extends StreamProvider<SingleItemStream> {
 
-    protected final SingleItemStream initOutput(Void input) {
-        return new SingleItemStream(this, this.getUQI());
-    }
-
-    protected void onStop(Void input, SingleItemStream output) {
-        if (!output.isClosed()) output.write(null);
-    }
-
-    @Override
-    protected final void applyInBackground(Void input, SingleItemStream output) {
-        this.provide(output);
+    protected final void init() {
+        super.init();
+        this.output = new SingleItemStream(this.getUQI(), this);
     }
 
     protected abstract void provide(SingleItemStream output);
