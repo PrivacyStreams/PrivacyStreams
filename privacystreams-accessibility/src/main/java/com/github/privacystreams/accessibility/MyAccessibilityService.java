@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
 
+import com.github.privacystreams.core.utils.Logging;
+
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -13,22 +15,15 @@ import java.util.Set;
  * Created by yuanchun on 26/02/2017.
  * Test accessibility service
  */
+public class MyAccessibilityService extends AccessibilityService {
 
-class MyAccessibilityService extends AccessibilityService {
-
-    private Set<AccessibilityEventProvider> accessibilityEventProviders = new HashSet<>();
-
-    private static MyAccessibilityService sharedServiceInstance;
-
-    @Override
-    protected void onServiceConnected() {
-        sharedServiceInstance = this;
-    }
+    private static Set<AccessibilityEventProvider> accessibilityEventProviders = new HashSet<>();
 
     @Override
     public void onAccessibilityEvent(AccessibilityEvent accessibilityEvent) {
-        //Logging.debug("Accessibility event: " + accessibilityEvent);
+//        Logging.debug("Accessibility event: " + accessibilityEvent);
         AccessibilityNodeInfo rootNode = getRootInActiveWindow();
+//        Logging.debug("Providers: " + accessibilityEventProviders);
         for(AccessibilityEventProvider provider : accessibilityEventProviders){
             provider.handleAccessibilityEvent(accessibilityEvent, rootNode, new Date());
         }
@@ -36,24 +31,13 @@ class MyAccessibilityService extends AccessibilityService {
 
     @Override
     public void onInterrupt() {
-
     }
 
-    @Override
-    public boolean onUnbind(Intent intent) {
-        sharedServiceInstance = null;
-        return super.onUnbind(intent);
-    }
-
-    static MyAccessibilityService getSharedInstance() {
-        return sharedServiceInstance;
-    }
-
-    protected void registerProvider(AccessibilityEventProvider provider){
+    static void registerProvider(AccessibilityEventProvider provider){
         accessibilityEventProviders.add(provider);
     }
 
-    protected void unregisterProvider(AccessibilityEventProvider provider){
+    static void unregisterProvider(AccessibilityEventProvider provider){
         accessibilityEventProviders.remove(provider);
     }
 }

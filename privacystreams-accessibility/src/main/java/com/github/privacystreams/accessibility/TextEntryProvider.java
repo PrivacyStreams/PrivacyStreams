@@ -15,6 +15,6 @@ class TextEntryProvider extends AccessibilityEventProvider {
     public void handleAccessibilityEvent(AccessibilityEvent event, AccessibilityNodeInfo rootNode, Date timeStamp){
         int eventType = event.getEventType();
         if (eventType == AccessibilityEvent.TYPE_VIEW_TEXT_CHANGED)
-            this.output(new BaseAccessibilityEvent(event, rootNode, timeStamp));
+            this.output(new TextEntry(event, rootNode, timeStamp));
     }
 }

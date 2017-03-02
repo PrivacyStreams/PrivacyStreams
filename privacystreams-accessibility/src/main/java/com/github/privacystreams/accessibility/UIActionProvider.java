@@ -18,6 +18,6 @@ class UIActionProvider extends AccessibilityEventProvider {
                 || eventType == AccessibilityEvent.TYPE_VIEW_LONG_CLICKED
                 || eventType == AccessibilityEvent.TYPE_VIEW_FOCUSED
                 || eventType == AccessibilityEvent.TYPE_VIEW_SELECTED)
-            this.output(new BaseAccessibilityEvent(event, rootNode, timeStamp));
+            this.output(new UIAction(event, rootNode, timeStamp));
     }
 }

@@ -19,20 +19,14 @@ abstract class AccessibilityEventProvider extends MultiItemStreamProvider {
 
     @Override
     protected void provide() {
-        MyAccessibilityService sharedServiceInstance = MyAccessibilityService.getSharedInstance();
-        if(sharedServiceInstance != null) {
-            sharedServiceInstance.registerProvider(this);
-            registered = true;
-        }
+        MyAccessibilityService.registerProvider(this);
+        registered = true;
     }
 
     @Override
     protected void onCancelled(UQI uqi) {
-        MyAccessibilityService sharedServiceInstance = MyAccessibilityService.getSharedInstance();
-        if(sharedServiceInstance != null) {
-            sharedServiceInstance.unregisterProvider(this);
-            registered = false;
-        }
+        MyAccessibilityService.unregisterProvider(this);
+        registered = false;
     }
 
     public abstract void handleAccessibilityEvent(AccessibilityEvent event, AccessibilityNodeInfo rootNode, Date timeStamp);

@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
             UseCases useCases = new UseCases(MainActivity.this);
             useCases.testContacts();
             useCases.testMockData();
+            useCases.testTextEntry();
             return null;
         }
     }
