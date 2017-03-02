@@ -3,6 +3,7 @@ package com.github.privacystreams;
 import android.content.Context;
 import android.location.LocationManager;
 
+import com.github.privacystreams.accessibility.TextEntry;
 import com.github.privacystreams.audio.Audio;
 import com.github.privacystreams.communication.Message;
 import com.github.privacystreams.communication.Phonecall;
@@ -51,6 +52,13 @@ public class UseCases {
                 .localGroupBy("time_round")
                 .debug();
 //                .forEach(Outputs.uploadToDropbox("<dropbox token here>", "dummy"));
+    }
+
+    /*
+     * Getting a stream of text entries and printing
+     */
+    public void testTextEntry() {
+        uqi.getDataItems(TextEntry.asUpdates(), Purpose.feature("test")).debug();
     }
 
 //    public void testBrowerSearchUpdates(){

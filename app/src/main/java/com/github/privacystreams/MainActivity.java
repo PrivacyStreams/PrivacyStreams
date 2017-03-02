@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new TestAccessibilityTask().execute();
+                new MyAsyncTask().execute();
             }
         });
 
@@ -30,15 +30,6 @@ public class MainActivity extends AppCompatActivity {
             UseCases useCases = new UseCases(MainActivity.this);
             useCases.testContacts();
             useCases.testMockData();
-            return null;
-        }
-    }
-
-    private class TestAccessibilityTask extends AsyncTask<Object, Object, Object> {
-        @Override
-        protected Object doInBackground(Object[] objects) {
-            AccessibilityTestUseCase useCase = new AccessibilityTestUseCase(MainActivity.this);
-            useCase.startTracking();
             return null;
         }
     }

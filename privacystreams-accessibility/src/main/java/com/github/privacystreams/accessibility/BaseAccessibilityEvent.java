@@ -4,6 +4,7 @@ import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
 
 import com.github.privacystreams.core.Item;
+import com.github.privacystreams.core.providers.MultiItemStreamProvider;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -16,36 +17,19 @@ import java.util.List;
  * @date 2/28/17
  * @time 10:53 AM
  */
-public class BaseAccessibilityEventItem extends Item {
+public class BaseAccessibilityEvent extends Item {
 
     public static final String TIMESTAMP = "timestamp";
     public static final String EVENT_TYPE = "event_type";
     public static final String PACKAGE_NAME = "package_name";
     public static final String UI_NODE_LIST = "ui_node_list";
 
-    public static boolean isABaseAccessibilityEventType (AccessibilityEvent event){
-        int eventType = event.getEventType();
-        return (eventType == AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED
-                || eventType == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED
-                || eventType == AccessibilityEvent.TYPE_WINDOWS_CHANGED);
-    }
-
-
-    public BaseAccessibilityEventItem(){
-
-    }
-    /*
-    * Possible EVENT_TYPE for the basic BaseAccessibilityEventItem:
-    * TYPE_WINDOW_STATE_CHANGED, TYPE_WINDOW_CONTENT_CHANGED, TYPE_WINDOWS_CHANGED,
-    */
-
-    public BaseAccessibilityEventItem(AccessibilityEvent accessibilityEvent, AccessibilityNodeInfo rootNode, Date timeStamp){
+    BaseAccessibilityEvent(AccessibilityEvent accessibilityEvent, AccessibilityNodeInfo rootNode, Date timeStamp){
         this.setFieldValue(EVENT_TYPE, accessibilityEvent.getEventType());
         this.setFieldValue(TIMESTAMP, timeStamp);
         this.setFieldValue(PACKAGE_NAME, accessibilityEvent.getPackageName() != null ? accessibilityEvent.getPackageName() : "NULL");
         this.setFieldValue(UI_NODE_LIST, getUINodeList(rootNode));
     }
-
 
     private List<AccessibilityNodeInfo> getUINodeList(AccessibilityNodeInfo rootNode){
         List<AccessibilityNodeInfo> list = new ArrayList<>();
@@ -60,7 +44,6 @@ public class BaseAccessibilityEventItem extends Item {
         }
         return list;
     }
-
 
     //TODO: FOR TESTING PURPOSE ONLY
     @Override
@@ -91,5 +74,7 @@ public class BaseAccessibilityEventItem extends Item {
 
     }
 
-
+    public static MultiItemStreamProvider asUpdates() {
+        return new BaseAccessibilityEventProvider();
+    }
 }

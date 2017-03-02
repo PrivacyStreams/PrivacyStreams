@@ -5,13 +5,8 @@ import android.content.Intent;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
 
-import com.github.privacystreams.core.providers.MultiItemStreamProvider;
-import com.github.privacystreams.core.utils.Logging;
-
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -19,10 +14,9 @@ import java.util.Set;
  * Test accessibility service
  */
 
-public class MyAccessibilityService extends AccessibilityService {
+class MyAccessibilityService extends AccessibilityService {
 
     private Set<AccessibilityEventProvider> accessibilityEventProviders = new HashSet<>();
-
 
     private static MyAccessibilityService sharedServiceInstance;
 
@@ -45,21 +39,16 @@ public class MyAccessibilityService extends AccessibilityService {
 
     }
 
-
     @Override
     public boolean onUnbind(Intent intent) {
         sharedServiceInstance = null;
         return super.onUnbind(intent);
     }
 
-    public static MyAccessibilityService getSharedInstance() {
+    static MyAccessibilityService getSharedInstance() {
         return sharedServiceInstance;
     }
 
-    /**
-     *
-     * @param provider
-     */
     protected void registerProvider(AccessibilityEventProvider provider){
         accessibilityEventProviders.add(provider);
     }

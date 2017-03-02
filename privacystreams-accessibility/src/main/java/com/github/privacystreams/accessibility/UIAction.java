@@ -3,6 +3,8 @@ package com.github.privacystreams.accessibility;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
 
+import com.github.privacystreams.core.providers.MultiItemStreamProvider;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -12,22 +14,10 @@ import java.util.List;
  * @date 2/28/17
  * @time 10:53 AM
  */
-public class UserUIActionAccessibilityEventItem extends BaseAccessibilityEventItem {
+public class UIAction extends BaseAccessibilityEvent {
     public static final String SOURCE_NODE = "source_node";
 
-    public static boolean isAUserUIActionAccessibilityEventType (AccessibilityEvent event){
-        int eventType = event.getEventType();
-        return (eventType == AccessibilityEvent.TYPE_VIEW_CLICKED
-                || eventType == AccessibilityEvent.TYPE_VIEW_LONG_CLICKED
-                || eventType == AccessibilityEvent.TYPE_VIEW_FOCUSED
-                || eventType == AccessibilityEvent.TYPE_VIEW_SELECTED);
-    }
-
-    public UserUIActionAccessibilityEventItem(){
-        super();
-    }
-
-    public UserUIActionAccessibilityEventItem(AccessibilityEvent event, AccessibilityNodeInfo rootNode, Date timeStamp){
+    public UIAction(AccessibilityEvent event, AccessibilityNodeInfo rootNode, Date timeStamp){
         super(event, rootNode, timeStamp);
         this.setFieldValue(SOURCE_NODE, event.getSource());
     }
@@ -64,6 +54,10 @@ public class UserUIActionAccessibilityEventItem extends BaseAccessibilityEventIt
 
         return timeStamp + " " + eventType + " " + packageName + " " + "NODE_COUNT: " + listSize + " {" + sourceNode + "}";
 
+    }
+
+    public static MultiItemStreamProvider asUpdates() {
+        return new UIActionProvider();
     }
 
 }
