@@ -149,8 +149,8 @@ public class PAMActivity extends AppCompatActivity {
     public void onDestroy() {
         super.onDestroy();
     }
-
-    private void onSubmit() {
+    
+    private String onSubmit(String para) {
         try {
 
             int idx = Integer.valueOf(pam_photo_id.split("_")[0]);
@@ -182,6 +182,7 @@ public class PAMActivity extends AppCompatActivity {
         } catch (Exception e) {
             Toast.makeText(PAMActivity.this, "Submission failed. Please contact study coordinator", Toast.LENGTH_LONG).show();
         }
+        return null;
     }
 
     /**
