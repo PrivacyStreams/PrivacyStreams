@@ -28,11 +28,14 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected Object doInBackground(Object[] objects) {
             UseCases useCases = new UseCases(MainActivity.this);
+
 //            useCases.testContacts();
 //            useCases.testMockData();
 //            useCases.testTextEntry();
+//            useCases.testBrowserSearchUpdates();
+            useCases.testBrowserHistoryUpdates();
 //            useCases.testUIAction();
-            useCases.testIMUpdates();
+//            useCases.testIMUpdates();
             return null;
         }
     }

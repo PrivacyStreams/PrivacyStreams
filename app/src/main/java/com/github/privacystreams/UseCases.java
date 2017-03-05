@@ -3,6 +3,8 @@ package com.github.privacystreams;
 import android.content.Context;
 import android.location.LocationManager;
 
+import com.github.privacystreams.accessibility.BrowserHistory;
+import com.github.privacystreams.accessibility.BrowserSearch;
 import com.github.privacystreams.accessibility.TextEntry;
 import com.github.privacystreams.accessibility.UIAction;
 import com.github.privacystreams.audio.Audio;
@@ -61,6 +63,13 @@ public class UseCases {
      */
     public void testTextEntry() {
         uqi.getDataItems(TextEntry.asUpdates(), Purpose.feature("test")).debug();
+    }
+
+    public void testBrowserHistoryUpdates(){
+        uqi.getDataItems(BrowserHistory.asUpdates(), Purpose.feature("browser history")).debug();
+    }
+    public void testBrowserSearchUpdates(){
+        uqi.getDataItems(BrowserSearch.asUpdates(), Purpose.feature("browser search")).debug();
     }
 
     public void testUIAction(){

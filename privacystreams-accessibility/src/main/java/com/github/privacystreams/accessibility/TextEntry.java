@@ -13,13 +13,11 @@ import java.util.Date;
  * @time 10:54 AM
  */
 public class TextEntry extends UIAction {
-    public static final String BEFORE_TEXT = "before_text";
-    public static final String AFTER_TEXT = "after_text";
+    public static final String CONTENT = "content";
 
-    TextEntry(AccessibilityEvent event, AccessibilityNodeInfo rootNode, Date timeStamp){
-        super(event, rootNode, timeStamp);
-        this.setFieldValue(BEFORE_TEXT, event.getBeforeText() != null ? event.getBeforeText() : "NULL");
-        this.setFieldValue(AFTER_TEXT, event.getSource() != null ? event.getSource().getText() : "NULL");
+    TextEntry(AccessibilityEvent event, AccessibilityNodeInfo sourceNode, String content, Date timeStamp){
+        super(event, sourceNode, timeStamp);
+        this.setFieldValue(CONTENT, content);
     }
 
     //TODO: FOR TESTING PURPOSE ONLY

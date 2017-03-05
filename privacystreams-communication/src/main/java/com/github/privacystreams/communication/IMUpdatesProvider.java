@@ -7,6 +7,7 @@ import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
 
 import com.github.privacystreams.accessibility.BaseAccessibilityEvent;
+import com.github.privacystreams.accessibility.utils.AccessibilityUtils;
 import com.github.privacystreams.core.Callback;
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.commons.common.ItemCommons;
@@ -42,13 +43,11 @@ public class IMUpdatesProvider extends MultiItemStreamProvider {
 
         getUQI().getDataItems(BaseAccessibilityEvent.asUpdates(),
                 Purpose.internal("Event Triggers"))
-//                .filter(Comparisons.eq(BaseAccessibilityEvent.PACKAGE_NAME,APP_PACKAGE_WHATSAPP))
                 .filter(ItemCommons.isFieldIn(BaseAccessibilityEvent.PACKAGE_NAME,
                         new String[]{APP_PACKAGE_WHATSAPP, APP_PACKAGE_FACEBOOK_MESSENGER}))
                 .filter(Comparisons.eq(BaseAccessibilityEvent.EVENT_TYPE, AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED))
-//                .filter(Comparisons.gt(BaseAccessibilityEvent.ITEM_COUNT, 2))
+                .filter(Comparisons.gt(BaseAccessibilityEvent.ITEM_COUNT, 2))
                 .forEach(new Callback<Item>() {
-
                     @Override
                     protected void onSuccess(Item input) {
 
@@ -66,12 +65,9 @@ public class IMUpdatesProvider extends MultiItemStreamProvider {
 
                         int eventItemCount = input.getValueByField(BaseAccessibilityEvent.ITEM_COUNT);
                         eventItemCount-=2;
-                        if(textBox==null || nodeInfos!=null || nodeInfos.size()==0){
+                        if(textBox==null || nodeInfos==null || nodeInfos.size()==0){
                             return;
                         }
-                        Log.e("contactName",contactName);
-
-                        Log.e("nodeInfo",nodeInfos.get(nodeInfos.size()-1).toString());
                         if(totalNumberOfMessages==0){
                             initializing(eventItemCount);
                         }
