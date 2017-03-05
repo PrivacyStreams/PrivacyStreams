@@ -8,13 +8,9 @@ import android.provider.ContactsContract;
 import android.provider.ContactsContract.CommonDataKinds.Email;
 import android.provider.ContactsContract.CommonDataKinds.Phone;
 
-import com.github.privacystreams.core.MultiItemStream;
 import com.github.privacystreams.core.providers.MultiItemStreamProvider;
-import com.github.privacystreams.core.utils.Logging;
-import com.github.privacystreams.core.utils.permission.PermissionActivity;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -30,11 +26,11 @@ class ContactListProvider extends MultiItemStreamProvider {
     }
 
     @Override
-    protected void provide(MultiItemStream output) {
-        this.getContactList(output);
+    protected void provide() {
+        this.getContactList();
     }
 
-    private void getContactList(MultiItemStream output) {
+    private void getContactList() {
         ContentResolver contentResolver = this.getContext().getContentResolver();
 
         Cursor contactCur = contentResolver.query(
@@ -86,7 +82,7 @@ class ContactListProvider extends MultiItemStreamProvider {
                 emailCur.close();
 
                 Contact contact = new Contact(name, phones, emails);
-                output.write(contact);
+                this.output(contact);
 //                Contact contact = new Contact(_ID, contactID, lookup, displayName);
 //                contactQuery.write(contact);
 
@@ -98,6 +94,6 @@ class ContactListProvider extends MultiItemStreamProvider {
             contactCur.close();
         }
 
-        if (!output.isClosed()) output.write(null);
+        this.finish();
     }
 }

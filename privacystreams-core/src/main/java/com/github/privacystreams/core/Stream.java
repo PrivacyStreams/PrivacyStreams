@@ -2,15 +2,16 @@ package com.github.privacystreams.core;
 
 import android.content.Context;
 
-import org.json.JSONObject;
 import com.github.privacystreams.core.utils.Logging;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
+import java.util.Set;
 
 
 /**
@@ -32,75 +33,77 @@ import java.util.concurrent.LinkedBlockingQueue;
  */
 
 public abstract class Stream {
-    private final BlockingQueue<Item> dataQueue;
     private final UQI uqi;
+    private final EventBus eventBus;
 
-    private volatile boolean isClosed = false;
-    private volatile boolean isEmpty = false;
-    private volatile boolean isActive = false;
+    private final Set<Function<? extends Stream, ?>> streamReceivers;
+
+    private transient volatile int receiverCount = 1;
+    private transient List<Item> streamCache = new ArrayList<>();
 
     Stream(UQI uqi) {
         this.uqi = uqi;
-        this.dataQueue = new LinkedBlockingQueue<>();
+        this.eventBus = new EventBus();
+        this.streamReceivers = new HashSet<>();
     }
 
     /**
      * Write an item to the stream,
      * or write a null to end the stream.
      * @param item  the item to write to the stream, null indicates the end of the stream
+     * @param streamProvider the function that provide current stream
      */
-    public void write(Item item) {
-        if (this.isClosed) {
-//            Logging.warn("Writing to a closed stream!");
+    public synchronized void write(Item item, Function<?, ? extends Stream> streamProvider) {
+        if (streamProvider != this.getStreamProvider() && streamProvider != this.getStreamProvider().getTail()) {
+            Logging.warn("Illegal StreamProvider trying to write stream!");
             return;
         }
-        if (item == null) {
-            item = Item.EOS;
+
+        // If receivers are not ready, cache the items
+        if (this.streamReceivers.size() != this.receiverCount) {
+            if (this.getUQI().isStreamDebug())
+                Logging.debug("Receivers are not ready, caching...");
+            this.streamCache.add(item);
+            return;
         }
-        try {
-            dataQueue.put(item);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        else if (!this.streamCache.isEmpty()) {
+            for (Item cachedItem : this.streamCache) {
+                this.doWrite(cachedItem);
+            }
+            this.streamCache.clear();
         }
+
+        this.doWrite(item);
+    }
+
+    private void doWrite(Item item) {
+        if (this.getUQI().isStreamDebug())
+            Logging.debug("Item " + item + " written to stream " + this.getStreamProvider());
+        this.eventBus.post(item);
     }
 
     /**
-     * Read an item from the stream,
-     * if the item is null, it means the stream is ended.
-     * The method might block if the stream has no item but is not ended.
-     * @return the item read from the stream, or null meaning end of stream
+     * register a function to current stream
+     * @param streamReceiver the function that receives stream items
      */
-    public Item read() {
-        if (this.isEmpty) {
-            Logging.warn("Reading from a empty stream!");
+    public synchronized void register(Function<? extends Stream, ?> streamReceiver) {
+        if (this.streamReceivers.size() > this.receiverCount) {
+            Logging.warn("Unknown StreamProvider trying to subscribe to stream!");
+            return;
         }
-//        if (!this.isActive) {
-//            this.getStreamProvider().evaluate();
-//            this.isActive = true;
-//        }
-        try {
-            Item item = this.dataQueue.take();
-            if (item != Item.EOS) return item;
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        this.isEmpty = true;
-        return null;
+        this.eventBus.register(streamReceiver);
+        this.streamReceivers.add(streamReceiver);
     }
 
     /**
-     * Read all items from the stream to a List,
-     * The method blocks until the stream is ended.
-     * @return the List of items read from the stream
+     * unregister a function from current stream
+     * @param streamReceiver the function that receives stream items
      */
-    public List<Item> readAll() {
-        List<Item> items = new ArrayList<>();
-        while (true) {
-            Item item = this.read();
-            if (item == null) break;
-            items.add(item);
-        }
-        return items;
+    public synchronized void unregister(Function<? extends Stream, ?> streamReceiver) {
+        if (!this.streamReceivers.contains(streamReceiver)) return;
+        this.eventBus.unregister(streamReceiver);
+        this.streamReceivers.remove(streamReceiver);
+        this.receiverCount--;
     }
 
     /**
@@ -109,18 +112,10 @@ public abstract class Stream {
      * @return true if the stream is closed, meaning the stream does not accept new items
      */
     public boolean isClosed() {
-        return this.isClosed;
+        return this.receiverCount <= 0;
     }
 
-    public abstract LazyFunction<Void, ? extends Stream> getStreamProvider();
-
-    /**
-     * Close the stream
-     * By closing the stream, it does not accept new items from the MultiItemStreamProvider any more.
-     */
-    public void close() {
-        this.isClosed = true;
-    }
+    public abstract Function<Void, ? extends Stream> getStreamProvider();
 
     public Map<String, Object> toMap() {
         Map<String, Object> outputMap = new HashMap<>();

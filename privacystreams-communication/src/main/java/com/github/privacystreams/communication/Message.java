@@ -11,9 +11,10 @@ import com.github.privacystreams.core.providers.MultiItemStreamProvider;
 public class Message extends Item {
     public static final String TYPE = "type";
     public static final String CONTENT = "content";
-    public static final String APP = "app";
+    public static final String PACKAGE_NAME = "package_name";
     public static final String CONTACT = "contact";
     public static final String TIMESTAMP = "timestamp";
+
 
     public enum Type {
         RECEIVED("received"),
@@ -29,6 +30,14 @@ public class Message extends Item {
             return type;
         }
     };
+
+    Message(Type type, String content, String packageName, String contact, long timestamp){
+        this.setFieldValue(TYPE, type);
+        this.setFieldValue(CONTENT, content);
+        this.setFieldValue(PACKAGE_NAME, packageName);
+        this.setFieldValue(CONTACT, contact);
+        this.setFieldValue(TIMESTAMP, timestamp);
+    }
 
     /**
      * Get a provider that provides a live stream of instant messaging messages

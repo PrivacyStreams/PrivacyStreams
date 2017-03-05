@@ -1,20 +1,19 @@
 package com.github.privacystreams.core.actions;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.MultiItemStream;
-import com.github.privacystreams.core.UQI;
 import com.github.privacystreams.core.utils.Assertions;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by yuanchun on 28/11/2016.
  * Transform a stream to a stream
  */
 
-public class MultiItemStreamAction<Tout> extends Function<MultiItemStream, Void> {
+public class MultiItemStreamAction<Tout> extends StreamAction<MultiItemStream> {
 
     private Function<List<Item>, Tout> itemsOutputFunction;
     private Function<Tout, Void> resultHandler;
@@ -25,12 +24,18 @@ public class MultiItemStreamAction<Tout> extends Function<MultiItemStream, Void>
         this.addParameters(itemsOutputFunction, resultHandler);
     }
 
+    private transient List<Item> items;
     @Override
-    public Void apply(UQI uqi, MultiItemStream input) {
-        Tout result = itemsOutputFunction.apply(uqi, input.readAll());
-        if (this.resultHandler != null)
-            this.resultHandler.apply(uqi, result);
-        return null;
+    protected void onInput(Item item) {
+        if (this.items == null) this.items = new ArrayList<>();
+        if (item.isEndOfStream()) {
+            Tout result = itemsOutputFunction.apply(this.getUQI(), this.items);
+            if (this.resultHandler != null)
+                this.resultHandler.apply(this.getUQI(), result);
+            this.finish();
+        }
+        else {
+            this.items.add(item);
+        }
     }
-
 }

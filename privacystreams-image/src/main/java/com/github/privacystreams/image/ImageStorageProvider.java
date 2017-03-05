@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 
+import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.MultiItemStream;
 import com.github.privacystreams.core.providers.MultiItemStreamProvider;
 import com.github.privacystreams.core.utils.Logging;
@@ -23,7 +24,7 @@ public class ImageStorageProvider extends MultiItemStreamProvider {
     }
 
     @Override
-    protected void provide(MultiItemStream output) {
+    protected void provide() {
         if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED)
             this.getImageInfo(output);
@@ -64,11 +65,11 @@ public class ImageStorageProvider extends MultiItemStreamProvider {
 
             } while (cur.moveToNext());
             Image image = new Image(date, Uri.parse(dataUri));
-            output.write(image);
+            this.output(image);
             cur.close();
         }
 
-        if (!output.isClosed()) output.write(null);
+        if (!output.isClosed()) this.output(Item.EOS);
     }
 
 }
