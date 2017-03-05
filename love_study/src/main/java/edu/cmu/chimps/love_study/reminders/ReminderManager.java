@@ -11,10 +11,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-import com.github.privacystreams.R;
-import com.github.privacystreams.collector.Constants;
-import com.github.privacystreams.collector.QualtricActivity;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 
@@ -22,6 +18,10 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
+
+import edu.cmu.chimps.love_study.Constants;
+import edu.cmu.chimps.love_study.QualtricActivity;
+import edu.cmu.chimps.love_study.R;
 
 
 public class ReminderManager extends BroadcastReceiver {

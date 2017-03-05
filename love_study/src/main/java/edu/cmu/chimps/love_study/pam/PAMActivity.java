@@ -27,15 +27,16 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.github.privacystreams.R;
-import com.github.privacystreams.collector.GeneralSettingActivity;
-import com.github.privacystreams.collector.reminders.MissedSurveyListActivity;
-
 import org.joda.time.DateTime;
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.Random;
+
+import edu.cmu.chimps.love_study.GeneralSettingActivity;
+import edu.cmu.chimps.love_study.R;
+import edu.cmu.chimps.love_study.reminders.MissedSurveyListActivity;
+
 
 
 public class PAMActivity extends AppCompatActivity {

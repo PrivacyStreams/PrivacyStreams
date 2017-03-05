@@ -36,6 +36,4 @@ dependencies {
     compile project(':privacystreams-storage')
     compile project(':privacystreams-communication')
     compile project(':privacystreams-accessibility')
-    compile 'joda-time:joda-time:2.3'
-
 }

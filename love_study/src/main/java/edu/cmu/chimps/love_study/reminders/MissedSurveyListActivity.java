@@ -12,11 +12,11 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.github.privacystreams.R;
-import com.github.privacystreams.collector.Constants;
-import com.github.privacystreams.collector.QualtricActivity;
-
 import java.util.ArrayList;
+
+import edu.cmu.chimps.love_study.Constants;
+import edu.cmu.chimps.love_study.QualtricActivity;
+import edu.cmu.chimps.love_study.R;
 
 
 public class MissedSurveyListActivity extends ListActivity {

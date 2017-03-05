@@ -1,0 +1,53 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent" >
+	<TextView
+	    android:id="@+id/pam_instructions"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:text="Select the photo that best captures how you feel right now:"
+	    android:padding="10dip"/>
+	
+    <GridView
+        android:id="@+id/pam_grid"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:listSelector="@null"
+        android:numColumns="4" >
+    </GridView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true" >
+	    <Button
+	        android:id="@+id/pam_reload"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_weight="1"
+	        android:text="Reload" />
+	    
+	    <Button
+	        android:id="@+id/pam_reminders"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_weight="1"
+	        android:text="Reminders" />
+	    
+	    <Button
+	        android:id="@+id/pam_logout"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_weight="1"
+	        android:text="Logout" />
+	
+	    <Button
+	        android:id="@+id/post_submit"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_weight="1"
+	        android:text="Submit" />
+	</LinearLayout>
+</RelativeLayout>

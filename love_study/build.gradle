@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "edu.cmu.chimps.love_study"
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
@@ -29,4 +29,14 @@ dependencies {
     })
     compile 'com.android.support:appcompat-v7:25.2.0'
     testCompile 'junit:junit:4.12'
+    compile project(':privacystreams-core')
+    compile project(':privacystreams-audio')
+    compile project(':privacystreams-location')
+    compile project(':privacystreams-image')
+    compile project(':privacystreams-app_info')
+    compile project(':privacystreams-online_service')
+    compile project(':privacystreams-storage')
+    compile project(':privacystreams-communication')
+    compile project(':privacystreams-accessibility')
+    compile 'joda-time:joda-time:2.3'
 }
