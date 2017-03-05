@@ -1,11 +1,10 @@
 package com.github.privacystreams.core.commons.common;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-
 import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.Item;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by yuanchun on 29/12/2016.
@@ -22,7 +21,7 @@ public class ItemCommons {
      * @param <TValue> the type of list elements
      * @return the predicate
      */
-    public static <TValue extends Collection> Function<Item, Boolean> isFieldIn(final String field, final Collection<TValue> collectionToCompare) {
+    public static <TValue> Function<Item, Boolean> isFieldIn(final String field, final TValue[] collectionToCompare) {
         return new FieldInCollectionPredicate<>(field, collectionToCompare);
     }
 

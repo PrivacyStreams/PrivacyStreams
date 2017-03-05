@@ -6,6 +6,7 @@ import android.support.annotation.RequiresApi;
 import android.view.accessibility.AccessibilityNodeInfo;
 
 import com.github.privacystreams.accessibility.utils.AppUtils;
+import com.github.privacystreams.core.utils.Logging;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +25,12 @@ public class AccessibilityUtils {
     private static String WHATSAPP_MESSAGE_TEXT = "message_text";
     private static String WHATSAPP_MESSAGE_CONTACT = "conversation_contact_name";
     private static String WHATSAPP_MESSAGE_ENTRY = "entry";
+
+    // Facebook Resource IDs
+    public static String FACEBOOK_MESSAGE_TEXT = "message_text";
+    public static String FACEBOOK_MESSAGE_CONTACT = "thread_title_name";
+    public static String FACEBOOK_MESSAGE_ENTRY = "text_input_bar";
+
 
     private static final int WHATSAPP_MESSAGE_LEFT_BOUND_THRESHOLD = 100;
 
@@ -73,6 +80,8 @@ public class AccessibilityUtils {
         switch (appName) {
             case AppUtils.APP_PACKAGE_WHATSAPP:
                 return getFullResID(AppUtils.APP_PACKAGE_WHATSAPP, WHATSAPP_MESSAGE_CONTACT);
+            case AppUtils.APP_PACKAGE_FACEBOOK_MESSENGER:
+                return getFullResID(AppUtils.APP_PACKAGE_FACEBOOK_MESSENGER, FACEBOOK_MESSAGE_CONTACT);
         }
         return null;
     }
@@ -87,6 +96,9 @@ public class AccessibilityUtils {
         switch (appName) {
             case AppUtils.APP_PACKAGE_WHATSAPP:
                 return getFullResID(AppUtils.APP_PACKAGE_WHATSAPP, WHATSAPP_MESSAGE_TEXT);
+            case AppUtils.APP_PACKAGE_FACEBOOK_MESSENGER:
+                return getFullResID(AppUtils.APP_PACKAGE_FACEBOOK_MESSENGER, FACEBOOK_MESSAGE_TEXT);
+
         }
         return null;
     }
@@ -103,6 +115,8 @@ public class AccessibilityUtils {
         switch (appName) {
             case AppUtils.APP_PACKAGE_WHATSAPP:
                 return getFullResID(AppUtils.APP_PACKAGE_WHATSAPP, WHATSAPP_MESSAGE_ENTRY);
+            case AppUtils.APP_PACKAGE_FACEBOOK_MESSENGER:
+                return getFullResID(AppUtils.APP_PACKAGE_FACEBOOK_MESSENGER,FACEBOOK_MESSAGE_ENTRY);
         }
         return null;
     }
@@ -194,6 +208,7 @@ public class AccessibilityUtils {
             return root.findAccessibilityNodeInfosByViewId(getContactNameInChatResourceId(packageName)).get(0).getText().toString();
         }
         catch (Exception exception){
+            Logging.debug(exception.toString());
             return null;
         }
     }

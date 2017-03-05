@@ -4,6 +4,7 @@ import android.content.Context;
 import android.location.LocationManager;
 
 import com.github.privacystreams.accessibility.TextEntry;
+import com.github.privacystreams.accessibility.UIAction;
 import com.github.privacystreams.audio.Audio;
 import com.github.privacystreams.communication.Message;
 import com.github.privacystreams.communication.Phonecall;
@@ -42,6 +43,7 @@ public class UseCases {
     }
 
 
+
     // For testing
     public void testMockData() {
         uqi
@@ -59,6 +61,17 @@ public class UseCases {
      */
     public void testTextEntry() {
         uqi.getDataItems(TextEntry.asUpdates(), Purpose.feature("test")).debug();
+    }
+
+    public void testUIAction(){
+        uqi.getDataItems(UIAction.asUpdates(), Purpose.feature("ui action")).debug();
+    }
+
+    public void testAccessibility(){
+
+    }
+    public void testIMUpdates(){
+        uqi.getDataItems(Message.asIMUpdates(),Purpose.feature("im updates")).debug();
     }
 
 //    public void testBrowerSearchUpdates(){
@@ -120,7 +133,7 @@ public class UseCases {
                 .asList(Phonecall.PHONE_NUMBER);
         List<String> recentCalledNames = uqi
                 .getDataItems(Contact.asList(), Purpose.feature("getDataItems names of recent called phone numbers"))
-                .filter(Lists.intersects(Contact.PHONES, recentCalledPhoneNumbers))
+                .filter(Lists.intersects(Contact.PHONES, recentCalledPhoneNumbers.toArray()))
                 .asList(Contact.NAME);
         return recentCalledNames;
     }

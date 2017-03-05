@@ -21,6 +21,11 @@ public class Purpose {
         return new Purpose(PURPOSE_FEATURE + ": " + description);
     }
 
+    private static final String PURPOSE_INTERNAL = "Internal";
+    public static Purpose internal(String description) {
+        return new Purpose(PURPOSE_INTERNAL + ": " + description);
+    }
+
     private static final String PURPOSE_TEST = "Test";
     public static Purpose test(String description) {
         return new Purpose(PURPOSE_TEST + ": " + description);

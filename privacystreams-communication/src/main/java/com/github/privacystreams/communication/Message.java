@@ -1,7 +1,10 @@
 package com.github.privacystreams.communication;
 
+import android.os.Build;
+
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.providers.MultiItemStreamProvider;
+import com.github.privacystreams.core.utils.Logging;
 
 /**
  * Created by yuanchun on 07/12/2016.
@@ -43,9 +46,14 @@ public class Message extends Item {
      * Get a provider that provides a live stream of instant messaging messages
      * @return
      */
-//     public static MultiItemStreamProvider asIMUpdates(){
-//        return new
-//    }
+     public static MultiItemStreamProvider asIMUpdates(){
+         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2)
+             return new IMUpdatesProvider();
+         else {
+             Logging.warn("Illegal SDK version.");
+             return null;
+         }
+    }
     /**
      * Get a provider that provides a live stream of incoming Message messages
      * @return the provider

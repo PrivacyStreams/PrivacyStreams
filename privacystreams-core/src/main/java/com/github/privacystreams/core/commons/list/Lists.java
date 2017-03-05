@@ -1,7 +1,5 @@
 package com.github.privacystreams.core.commons.list;
 
-import java.util.List;
-
 import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.Item;
 
@@ -27,7 +25,7 @@ public class Lists {
      * @param listToCompare the list to compare
      * @return the predicate
      */
-    public static <TValue> Function<Item, Boolean> intersects(final String listField, final List<TValue> listToCompare) {
-        return new ListContainsPredicate(listField, listToCompare);
+    public static <TValue> Function<Item, Boolean> intersects(final String listField, final TValue[] listToCompare) {
+        return new ListIntersectsPredicate(listField, listToCompare);
     }
 }
