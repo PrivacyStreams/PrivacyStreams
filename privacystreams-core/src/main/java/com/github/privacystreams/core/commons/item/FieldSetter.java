@@ -1,8 +1,9 @@
-package com.github.privacystreams.core.commons.common;
+package com.github.privacystreams.core.commons.item;
 
 import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.UQI;
+import com.github.privacystreams.core.commons.ItemFunction;
 
 import static com.github.privacystreams.core.utils.Assertions.notNull;
 
@@ -11,7 +12,7 @@ import static com.github.privacystreams.core.utils.Assertions.notNull;
  * Set a value to a field in the item
  */
 
-class FieldSetter<TValue> extends Function<Item, Item> {
+class FieldSetter<TValue> extends ItemFunction<Item> {
 
     private final String fieldToSet;
     private final Function<Item, TValue> functionToComputeValue;

@@ -17,7 +17,7 @@ import com.github.privacystreams.location.GeoLocation;
 import com.github.privacystreams.core.providers.mock.MockItem;
 import com.github.privacystreams.core.purposes.Purpose;
 import com.github.privacystreams.core.commons.arithmetic.Arithmetics;
-import com.github.privacystreams.core.commons.common.ItemCommons;
+import com.github.privacystreams.core.commons.item.Items;
 import com.github.privacystreams.core.commons.comparison.Comparisons;
 import com.github.privacystreams.core.commons.list.Lists;
 import com.github.privacystreams.core.commons.statistic.Statistics;
@@ -48,7 +48,7 @@ public class UseCases {
                 .getDataItems(MockItem.asRandomUpdates(20, 100, 500), Purpose.test("test"))
                 .limit(100)
                 .timeout(Duration.seconds(100))
-                .map(ItemCommons.setField("time_round", Arithmetics.roundUp(MockItem.TIME_CREATED, Duration.seconds(2))))
+                .map(Items.setField("time_round", Arithmetics.roundUp(MockItem.TIME_CREATED, Duration.seconds(2))))
                 .localGroupBy("time_round")
                 .debug();
 //                .forEach(Outputs.uploadToDropbox("<dropbox token here>", "dummy"));

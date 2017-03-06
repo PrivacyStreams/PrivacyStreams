@@ -8,8 +8,8 @@ import com.github.privacystreams.core.actions.MultiItemStreamAction;
 import com.github.privacystreams.core.actions.callback.Callbacks;
 import com.github.privacystreams.core.exceptions.PipelineInterruptedException;
 import com.github.privacystreams.core.exceptions.PrivacyStreamsException;
-import com.github.privacystreams.core.commons.common.ItemCommons;
-import com.github.privacystreams.core.commons.common.StreamCommons;
+import com.github.privacystreams.core.commons.item.Items;
+import com.github.privacystreams.core.commons.stream.Streams;
 import com.github.privacystreams.core.commons.comparison.Comparisons;
 import com.github.privacystreams.core.commons.print.Printers;
 import com.github.privacystreams.core.commons.statistic.Statistics;
@@ -172,7 +172,7 @@ public class MultiItemStream extends Stream implements IMultiItemStream {
      * @return The stream with items after projection
      */
     public MultiItemStream project(String... fieldsToInclude) {
-        return this.map(ItemCommons.includeFields(fieldsToInclude));
+        return this.map(Items.includeFields(fieldsToInclude));
     }
 
     /**
@@ -183,7 +183,7 @@ public class MultiItemStream extends Stream implements IMultiItemStream {
      * @return the stream of items with the new field set
      */
     public <TValue> MultiItemStream setField(String newField, Function<Item, TValue> functionToComputeValue) {
-        return this.map(ItemCommons.setField(newField, functionToComputeValue));
+        return this.map(Items.setField(newField, functionToComputeValue));
     }
 
     /**
@@ -196,7 +196,7 @@ public class MultiItemStream extends Stream implements IMultiItemStream {
      * @return the stream of items with the new field set
      */
     public <TValue> MultiItemStream setGroupField(String newField, Function<List<Item>, TValue> subStreamFunction) {
-        return this.setField(newField, ItemCommons.outputSubStream(subStreamFunction));
+        return this.setField(newField, Items.outputSubStream(subStreamFunction));
     }
 
     // *****************************
@@ -338,7 +338,7 @@ public class MultiItemStream extends Stream implements IMultiItemStream {
      * @return a list of key-value maps, each map represents an item
      */
     public List<Item> asList() throws PrivacyStreamsException {
-        return this.outputItems(StreamCommons.asList());
+        return this.outputItems(Streams.asList());
     }
 
     /**
@@ -348,7 +348,7 @@ public class MultiItemStream extends Stream implements IMultiItemStream {
      * @return a list of field values
      */
     public <TValue> List<TValue> asList(String fieldToSelect) throws PrivacyStreamsException {
-        return this.outputItems(StreamCommons.<TValue>asList(fieldToSelect));
+        return this.outputItems(Streams.<TValue>asList(fieldToSelect));
     }
 
     /**

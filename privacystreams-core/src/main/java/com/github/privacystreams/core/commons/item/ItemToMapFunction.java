@@ -1,4 +1,4 @@
-package com.github.privacystreams.core.commons.common;
+package com.github.privacystreams.core.commons.item;
 
 import java.util.Map;
 

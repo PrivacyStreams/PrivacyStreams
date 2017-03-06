@@ -1,4 +1,4 @@
-package com.github.privacystreams.core.commons.common;
+package com.github.privacystreams.core.commons.stream;
 
 import java.util.List;
 
@@ -10,7 +10,7 @@ import com.github.privacystreams.core.Item;
  * A helper class to access common stream functions
  */
 
-public class StreamCommons {
+public class Streams {
 
     /**
      * A function that converts a stream to a list.

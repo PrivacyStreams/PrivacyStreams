@@ -21,7 +21,6 @@ public class MainActivity extends AppCompatActivity {
                 new MyAsyncTask().execute();
             }
         });
-
     }
 
     private class MyAsyncTask extends AsyncTask<Object, Object, Object> {

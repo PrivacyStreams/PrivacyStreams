@@ -1,4 +1,4 @@
-package com.github.privacystreams.core.commons.common;
+package com.github.privacystreams.core.commons.item;
 
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.UQI;

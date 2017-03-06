@@ -1,8 +1,9 @@
-package com.github.privacystreams.core.commons.common;
+package com.github.privacystreams.core.commons.item;
 
 import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.UQI;
+import com.github.privacystreams.core.commons.ItemFunction;
 
 import static com.github.privacystreams.core.utils.Assertions.notNull;
 
@@ -11,7 +12,7 @@ import static com.github.privacystreams.core.utils.Assertions.notNull;
  * Project the fields in an item.
  * either include some fields or exclude some fields.
  */
-class ItemProjector extends Function<Item, Item> {
+class ItemProjector extends ItemFunction<Item> {
     final static String OPERATOR_INCLUDE = "$include_fields";
     final static String OPERATOR_EXCLUDE = "$exclude_fields";
 

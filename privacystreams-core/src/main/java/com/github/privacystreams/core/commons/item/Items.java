@@ -1,4 +1,4 @@
-package com.github.privacystreams.core.commons.common;
+package com.github.privacystreams.core.commons.item;
 
 import java.util.Collection;
 import java.util.List;
@@ -12,9 +12,7 @@ import com.github.privacystreams.core.Item;
  * A helper class to access common item functions
  */
 
-public class ItemCommons {
-    private ItemCommons() {}
-
+public class Items {
     /**
      * A predicate that checks whether the field value in a item is in the given list
      * @param field the field name

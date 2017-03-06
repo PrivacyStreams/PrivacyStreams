@@ -1,10 +1,11 @@
-package com.github.privacystreams.core.commons.common;
+package com.github.privacystreams.core.commons.item;
 
 import java.util.Map;
 
 import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.UQI;
+import com.github.privacystreams.core.commons.ItemFunction;
 
 import static com.github.privacystreams.core.utils.Assertions.notNull;
 
@@ -13,7 +14,7 @@ import static com.github.privacystreams.core.utils.Assertions.notNull;
  * A function that gets the value of a field
  */
 
-final class SubItemGetter extends Function<Item, Item> {
+final class SubItemGetter extends ItemFunction<Item> {
     private final String subItemField;
 
     SubItemGetter(String subItemField) {
