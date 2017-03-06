@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="reminder_empty_list">No surveys are missed.</string>
-    <string name="reminder_time_title">Reminder Time</string>
-    <string name="reminder_enable_title">Enabled</string>
-    <string name="reminder_enable_summary">Deliver this reminder</string>
-    <string name="reminder_repeat_title">Repeat</string>
-</resources>

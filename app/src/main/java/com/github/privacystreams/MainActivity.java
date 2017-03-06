@@ -32,10 +32,16 @@ public class MainActivity extends AppCompatActivity {
 //            useCases.testContacts();
 //            useCases.testMockData();
 //            useCases.testTextEntry();
+
   //          useCases.testBrowserSearchUpdates();
 //            useCases.testBrowserHistoryUpdates();
 
             //useCases.testWifiUpdates(30);
+
+//            useCases.testBrowserSearchUpdates();
+ //           useCases.testBrowserHistoryUpdates();
+//           useCases.testWifiUpdates(30);
+             useCases.testLightUpdatesProvider();
 
 //            useCases.testUIAction();
             useCases.testIMUpdates();

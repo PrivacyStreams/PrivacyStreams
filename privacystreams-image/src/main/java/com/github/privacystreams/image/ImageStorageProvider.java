@@ -1,16 +1,17 @@
 package com.github.privacystreams.image;
 
 import android.Manifest;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.provider.MediaStore;
-import android.support.v4.app.ActivityCompat;
 
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.MultiItemStream;
 import com.github.privacystreams.core.providers.MultiItemStreamProvider;
 import com.github.privacystreams.core.utils.Logging;
+
+import java.io.IOException;
 
 
 /**
@@ -25,11 +26,8 @@ public class ImageStorageProvider extends MultiItemStreamProvider {
 
     @Override
     protected void provide() {
-        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED)
-            this.getImageInfo(output);
-        else
-            Logging.warn("Need storage reading permission");
+        this.getImageInfo(output);
+
     }
 
     private void getImageInfo(MultiItemStream output){
@@ -47,10 +45,12 @@ public class ImageStorageProvider extends MultiItemStreamProvider {
         );
 
         if (cur!=null && cur.moveToFirst()) {
-            long size;
+            ExifInterface exifInterface;
+
             String date;
-            String name;
             String dataUri;
+            double exifLatitude =-1;
+            double exifLongitude =-1;
 
             int dateColumn = cur.getColumnIndex(
                     MediaStore.Images.Media.DATE_TAKEN);
@@ -62,9 +62,18 @@ public class ImageStorageProvider extends MultiItemStreamProvider {
                 // Get the field values
                 date = cur.getString(dateColumn);
                 dataUri = cur.getString(dataColumn);
+                try{
+                    exifInterface = new ExifInterface(dataUri);
+                    exifLatitude = Double.valueOf(exifInterface.getAttribute(ExifInterface.TAG_GPS_LATITUDE));
+                    exifLongitude = Double.valueOf(exifInterface.getAttribute(ExifInterface.TAG_GPS_LONGITUDE));
+                }
+                catch (IOException exception){
+                    Logging.debug(exception.toString());
+                }
 
             } while (cur.moveToNext());
-            Image image = new Image(date, Uri.parse(dataUri));
+            Image image = new Image(date,
+                    Uri.parse(dataUri),exifLatitude, exifLongitude);
             this.output(image);
             cur.close();
         }
