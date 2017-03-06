@@ -2,23 +2,19 @@ package com.github.privacystreams;
 
 import android.content.Context;
 import android.location.LocationManager;
+import android.os.Build;
 
 import com.github.privacystreams.accessibility.BrowserHistory;
 import com.github.privacystreams.accessibility.BrowserSearch;
 import com.github.privacystreams.accessibility.TextEntry;
 import com.github.privacystreams.accessibility.UIAction;
 import com.github.privacystreams.audio.Audio;
+import com.github.privacystreams.communication.Contact;
 import com.github.privacystreams.communication.Message;
 import com.github.privacystreams.communication.Phonecall;
 import com.github.privacystreams.core.Callback;
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.UQI;
-import com.github.privacystreams.communication.Contact;
-import com.github.privacystreams.core.exceptions.PrivacyStreamsException;
-import com.github.privacystreams.image.Image;
-import com.github.privacystreams.location.GeoLocation;
-import com.github.privacystreams.core.providers.mock.MockItem;
-import com.github.privacystreams.core.purposes.Purpose;
 import com.github.privacystreams.core.commons.arithmetic.Arithmetics;
 import com.github.privacystreams.core.commons.common.ItemCommons;
 import com.github.privacystreams.core.commons.comparison.Comparisons;
@@ -26,8 +22,14 @@ import com.github.privacystreams.core.commons.list.Lists;
 import com.github.privacystreams.core.commons.statistic.Statistics;
 import com.github.privacystreams.core.commons.string.Strings;
 import com.github.privacystreams.core.commons.time.Times;
+import com.github.privacystreams.core.exceptions.PrivacyStreamsException;
+import com.github.privacystreams.core.providers.mock.MockItem;
+import com.github.privacystreams.core.purposes.Purpose;
 import com.github.privacystreams.core.utils.time.Duration;
 import com.github.privacystreams.core.utils.time.TimeUtils;
+import com.github.privacystreams.device.WifiAp;
+import com.github.privacystreams.image.Image;
+import com.github.privacystreams.location.GeoLocation;
 
 import java.util.List;
 import java.util.Map;
@@ -63,6 +65,12 @@ public class UseCases {
      */
     public void testTextEntry() {
         uqi.getDataItems(TextEntry.asUpdates(), Purpose.feature("test")).debug();
+    }
+
+    public void testWifiUpdates(int seconds){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            uqi.getDataItems(WifiAp.asUpdates(seconds), Purpose.feature("wifi updates")).debug();
+        }
     }
 
     public void testBrowserHistoryUpdates(){

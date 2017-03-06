@@ -36,4 +36,6 @@ dependencies {
     compile project(':privacystreams-storage')
     compile project(':privacystreams-communication')
     compile project(':privacystreams-accessibility')
+    compile project(':privacystreams-environment')
+    compile project(':privacystreams-device')
 }
