@@ -59,7 +59,3 @@ keystores/
 .arc/
 out/
 gradle-app.setting
-
-privacystreams-communication/src/main/java/com/github/privacystreams/communication/AccessibilityUtils.java
-
-privacystreams-communication/src/main/java/com/github/privacystreams/communication/IMUpdatesProvider.java
