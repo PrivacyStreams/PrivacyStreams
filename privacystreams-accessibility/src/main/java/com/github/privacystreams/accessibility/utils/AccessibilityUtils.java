@@ -5,6 +5,8 @@ import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.view.accessibility.AccessibilityNodeInfo;
 
+import com.github.privacystreams.core.utils.Logging;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +18,8 @@ import java.util.List;
 public class AccessibilityUtils {
 
     private static String ANDROID_WEBVIEW_CLASSNAME = "android.webkit.WebView";
+    //public static String ANDROID_VIEW_FIREFOXCLASSNAME="org.mozilla.gecko.GeckoView";
+    public static String ANDROID_VIEW_FIREFOXCLASSNAME="android.widget.TextView";
 
 
     // WhatsApp Resource IDs
@@ -24,12 +28,20 @@ public class AccessibilityUtils {
     private static String WHATSAPP_MESSAGE_ENTRY = "entry";
 
     private static final int WHATSAPP_MESSAGE_LEFT_BOUND_THRESHOLD = 100;
+    private static final int FACEBOOK_MESSAGE_LEFT_BOUND_THRESHOLD = 100;
+
+    public static final String APP_PACKAGE_WHATSAPP = "com.whatsapp";
+    public static final String APP_PACKAGE_FACEBOOK_MESSENGER = "com.facebook.orca";
 
     // Browser App URL Resource IDs
     private static String CHROME_URL_BAR = "url_bar";
     private static String FIREFOX_URL_BAR = "url_bar_title";
     private static String OPERA_URL_BAR = "url_field";
 
+    // Facebook Resource IDs
+    public static String FACEBOOK_MESSAGE_TEXT = "message_text";
+    public static String FACEBOOK_MESSAGE_CONTACT = "thread_title_name";
+    public static String FACEBOOK_MESSAGE_ENTRY = "text_input_bar";
     /**
      * traverse a tree from the root, and return all the notes in the tree
      * @param root
@@ -71,6 +83,8 @@ public class AccessibilityUtils {
         switch (appName) {
             case AppUtils.APP_PACKAGE_WHATSAPP:
                 return getFullResID(AppUtils.APP_PACKAGE_WHATSAPP, WHATSAPP_MESSAGE_CONTACT);
+            case AppUtils.APP_PACKAGE_FACEBOOK_MESSENGER:
+                return getFullResID(AppUtils.APP_PACKAGE_FACEBOOK_MESSENGER,FACEBOOK_MESSAGE_CONTACT);
         }
         return null;
     }
@@ -85,6 +99,8 @@ public class AccessibilityUtils {
         switch (appName) {
             case AppUtils.APP_PACKAGE_WHATSAPP:
                 return getFullResID(AppUtils.APP_PACKAGE_WHATSAPP, WHATSAPP_MESSAGE_TEXT);
+            case AppUtils.APP_PACKAGE_FACEBOOK_MESSENGER:
+                return getFullResID(AppUtils.APP_PACKAGE_FACEBOOK_MESSENGER,FACEBOOK_MESSAGE_TEXT);
         }
         return null;
     }
@@ -101,6 +117,8 @@ public class AccessibilityUtils {
         switch (appName) {
             case AppUtils.APP_PACKAGE_WHATSAPP:
                 return getFullResID(AppUtils.APP_PACKAGE_WHATSAPP, WHATSAPP_MESSAGE_ENTRY);
+            case AppUtils.APP_PACKAGE_FACEBOOK_MESSENGER:
+                return getFullResID(AppUtils.APP_PACKAGE_FACEBOOK_MESSENGER,FACEBOOK_MESSAGE_ENTRY);
         }
         return null;
     }
@@ -134,6 +152,8 @@ public class AccessibilityUtils {
             case AppUtils.APP_PACKAGE_WHATSAPP:
                 left_bound_threshold = WHATSAPP_MESSAGE_LEFT_BOUND_THRESHOLD;
                 break;
+            case AppUtils.APP_PACKAGE_FACEBOOK_MESSENGER:
+                left_bound_threshold= FACEBOOK_MESSAGE_LEFT_BOUND_THRESHOLD;
             default:
                 break;
         }
@@ -189,7 +209,13 @@ public class AccessibilityUtils {
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
     public static String getContactNameInChat(AccessibilityNodeInfo root, String packageName){
         try{
-            return root.findAccessibilityNodeInfosByViewId(getContactNameInChatResourceId(packageName)).get(0).getText().toString();
+            if(packageName.equals(APP_PACKAGE_WHATSAPP)) {
+                return root.findAccessibilityNodeInfosByViewId(getContactNameInChatResourceId(packageName)).get(0).getText().toString();
+            }else if(packageName.equals(APP_PACKAGE_FACEBOOK_MESSENGER)){
+                return root.findAccessibilityNodeInfosByViewId(getContactNameInChatResourceId(packageName)).get(0).getContentDescription().toString();
+            }else{
+                return null;
+            }
         }
         catch (Exception exception){
             return null;
@@ -201,10 +227,13 @@ public class AccessibilityUtils {
      * @param nodeInfoList is the complete list of node infos in a page.
      * @return the first webview node.
      */
-    public static String getWebViewTitle(List<AccessibilityNodeInfo> nodeInfoList){
-        for(AccessibilityNodeInfo nodeInfo: nodeInfoList){
-            if(nodeInfo.getClassName().equals(ANDROID_WEBVIEW_CLASSNAME)){
+    public static String getWebViewTitle(List<AccessibilityNodeInfo> nodeInfoList) {
+        for (AccessibilityNodeInfo nodeInfo : nodeInfoList) {
+            Logging.debug(nodeInfo.getClassName().toString());
+            if (nodeInfo.getClassName().equals(ANDROID_WEBVIEW_CLASSNAME)) {
                 return nodeInfo.getContentDescription().toString();
+            }else if (nodeInfo.getClassName().equals(ANDROID_VIEW_FIREFOXCLASSNAME)) {
+                return nodeInfo.getText().toString();
             }
         }
         return null;

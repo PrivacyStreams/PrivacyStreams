@@ -32,13 +32,24 @@ public class MainActivity extends AppCompatActivity {
 //            useCases.testContacts();
 //            useCases.testMockData();
 //            useCases.testTextEntry();
+
+  //          useCases.testBrowserSearchUpdates();
+//            useCases.testBrowserHistoryUpdates();
+
+            //useCases.testWifiUpdates(30);
+
 //            useCases.testBrowserSearchUpdates();
  //           useCases.testBrowserHistoryUpdates();
 //           useCases.testWifiUpdates(30);
+<<<<<<< HEAD
  //          useCases.testLightUpdatesProvider();
             useCases.testBlueToothUpatesProvider();
+=======
+ //            useCases.testLightUpdatesProvider();
+
+>>>>>>> b7a3d6b66ac3a0f95f1a7d14a16de3d72994e3de
 //            useCases.testUIAction();
-//            useCases.testIMUpdates();
+            useCases.testIMUpdates();
             return null;
         }
     }
