@@ -13,7 +13,7 @@ import java.util.List;
  * a dummy data source
  */
 
-class MockLiveMStreamProvider extends MultiItemStreamProvider {
+class MockLiveMStreamProvider extends MultiItemStreamProvider{
 
     private final List<MockObject> mockObjects;
     private final long delay;

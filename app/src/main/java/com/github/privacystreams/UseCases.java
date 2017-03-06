@@ -27,6 +27,7 @@ import com.github.privacystreams.core.providers.mock.MockItem;
 import com.github.privacystreams.core.purposes.Purpose;
 import com.github.privacystreams.core.utils.time.Duration;
 import com.github.privacystreams.core.utils.time.TimeUtils;
+import com.github.privacystreams.device.BTDevice;
 import com.github.privacystreams.device.DeviceStateChange;
 import com.github.privacystreams.device.WifiAp;
 import com.github.privacystreams.environment.Light;
@@ -54,6 +55,9 @@ public class UseCases {
         uqi.getDataItems(Light.asUpdates(), Purpose.feature("light")).debug();
     }
 
+    public void testBlueToothUpatesProvider(){
+        uqi.getDataItems(BTDevice.asUpdates(), Purpose.feature("blueTooth device")).debug();
+    }
     // For testing
     public void testMockData() {
         uqi

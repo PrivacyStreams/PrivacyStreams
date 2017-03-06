@@ -23,6 +23,7 @@ public class WifiAp extends Item {
 
     WifiAp(ScanResult scanResult, boolean connected) {
         this.setFieldValue(TIMESTAMP, scanResult.timestamp);
+
         this.setFieldValue(BSSID, scanResult.BSSID);
         this.setFieldValue(SSID, scanResult.SSID);
         this.setFieldValue(FREQUENCY, scanResult.frequency);
