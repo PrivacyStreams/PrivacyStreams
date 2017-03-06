@@ -27,6 +27,7 @@ import com.github.privacystreams.core.providers.mock.MockItem;
 import com.github.privacystreams.core.purposes.Purpose;
 import com.github.privacystreams.core.utils.time.Duration;
 import com.github.privacystreams.core.utils.time.TimeUtils;
+import com.github.privacystreams.device.DeviceStateChange;
 import com.github.privacystreams.device.WifiAp;
 import com.github.privacystreams.image.Image;
 import com.github.privacystreams.location.GeoLocation;
@@ -163,6 +164,9 @@ public class UseCases {
                 .count();
     }
 
+    void testDeviceStateChangeUpdates(){
+        uqi.getDataItems(DeviceStateChange.asUpdates(), Purpose.feature("device states")).debug();
+    }
 
     // get whether at home
     boolean isAtHome() throws PrivacyStreamsException {
