@@ -28,6 +28,7 @@ import com.github.privacystreams.core.purposes.Purpose;
 import com.github.privacystreams.core.utils.time.Duration;
 import com.github.privacystreams.core.utils.time.TimeUtils;
 import com.github.privacystreams.device.WifiAp;
+import com.github.privacystreams.environment.Light;
 import com.github.privacystreams.image.Image;
 import com.github.privacystreams.location.GeoLocation;
 
@@ -45,8 +46,12 @@ public class UseCases {
         this.context = context;
         this.uqi = new UQI(context);
     }
-
-
+    /*
+     For testing the new lightUpdatesProvider
+     */
+    public void testLightUpdatesProvider(){
+        uqi.getDataItems(Light.asUpdates(), Purpose.feature("light")).debug();
+    }
 
     // For testing
     public void testMockData() {

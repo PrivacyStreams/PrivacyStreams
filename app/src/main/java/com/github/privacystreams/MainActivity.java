@@ -3,6 +3,7 @@ package com.github.privacystreams;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -33,9 +34,9 @@ public class MainActivity extends AppCompatActivity {
 //            useCases.testMockData();
 //            useCases.testTextEntry();
 //            useCases.testBrowserSearchUpdates();
-//            useCases.testBrowserHistoryUpdates();
-
-            useCases.testWifiUpdates(30);
+ //           useCases.testBrowserHistoryUpdates();
+           useCases.testWifiUpdates(30);
+         //    useCases.testLightUpdatesProvider();
 
 //            useCases.testUIAction();
 //            useCases.testIMUpdates();
