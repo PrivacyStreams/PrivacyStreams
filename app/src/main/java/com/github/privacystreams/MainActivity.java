@@ -32,13 +32,13 @@ public class MainActivity extends AppCompatActivity {
 //            useCases.testContacts();
 //            useCases.testMockData();
 //            useCases.testTextEntry();
-            useCases.testBrowserSearchUpdates();
-            useCases.testBrowserHistoryUpdates();
+  //          useCases.testBrowserSearchUpdates();
+//            useCases.testBrowserHistoryUpdates();
 
             //useCases.testWifiUpdates(30);
 
 //            useCases.testUIAction();
-            //useCases.testIMUpdates();
+            useCases.testIMUpdates();
             return null;
         }
     }
