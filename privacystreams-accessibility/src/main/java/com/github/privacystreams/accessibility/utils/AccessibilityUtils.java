@@ -5,6 +5,8 @@ import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.view.accessibility.AccessibilityNodeInfo;
 
+import com.github.privacystreams.core.utils.Logging;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +18,8 @@ import java.util.List;
 public class AccessibilityUtils {
 
     private static String ANDROID_WEBVIEW_CLASSNAME = "android.webkit.WebView";
+    //public static String ANDROID_VIEW_FIREFOXCLASSNAME="org.mozilla.gecko.GeckoView";
+    public static String ANDROID_VIEW_FIREFOXCLASSNAME="android.widget.TextView";
 
 
     // WhatsApp Resource IDs
@@ -223,10 +227,13 @@ public class AccessibilityUtils {
      * @param nodeInfoList is the complete list of node infos in a page.
      * @return the first webview node.
      */
-    public static String getWebViewTitle(List<AccessibilityNodeInfo> nodeInfoList){
-        for(AccessibilityNodeInfo nodeInfo: nodeInfoList){
-            if(nodeInfo.getClassName().equals(ANDROID_WEBVIEW_CLASSNAME)){
+    public static String getWebViewTitle(List<AccessibilityNodeInfo> nodeInfoList) {
+        for (AccessibilityNodeInfo nodeInfo : nodeInfoList) {
+            Logging.debug(nodeInfo.getClassName().toString());
+            if (nodeInfo.getClassName().equals(ANDROID_WEBVIEW_CLASSNAME)) {
                 return nodeInfo.getContentDescription().toString();
+            }else if (nodeInfo.getClassName().equals(ANDROID_VIEW_FIREFOXCLASSNAME)) {
+                return nodeInfo.getText().toString();
             }
         }
         return null;
