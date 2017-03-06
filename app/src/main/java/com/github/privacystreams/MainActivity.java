@@ -35,10 +35,10 @@ public class MainActivity extends AppCompatActivity {
 //            useCases.testBrowserSearchUpdates();
 //            useCases.testBrowserHistoryUpdates();
 
-            useCases.testWifiUpdates(30);
+            //useCases.testWifiUpdates(30);
 
 //            useCases.testUIAction();
-//            useCases.testIMUpdates();
+            useCases.testIMUpdates();
             return null;
         }
     }
