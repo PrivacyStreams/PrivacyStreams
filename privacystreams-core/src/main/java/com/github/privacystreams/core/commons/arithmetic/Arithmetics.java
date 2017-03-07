@@ -56,4 +56,44 @@ public class Arithmetics {
     public static Function<Item, Number> add(final String numField1, final String numField2) {
         return new AddFunction(numField1, numField2);
     }
+
+    /**
+     * A function that subtracts two fields in an item
+     * @param numField1 the name of the first field
+     * @param numField2 the name of the second field
+     * @return the function
+     */
+    public static Function<Item, Number> sub(final String numField1, final String numField2) {
+        return new SubtractFunction(numField1, numField2);
+    }
+
+    /**
+     * A function that multiplies two fields in an item
+     * @param numField1 the name of the first field
+     * @param numField2 the name of the second field
+     * @return the function
+     */
+    public static Function<Item, Number> multiply(final String numField1, final String numField2) {
+        return new MultiplyFunction(numField1, numField2);
+    }
+
+    /**
+     * A function that divides two fields in an item
+     * @param numField1 the name of the first field
+     * @param numField2 the name of the second field
+     * @return the function
+     */
+    public static Function<Item, Number> divide(final String numField1, final String numField2) {
+        return new DivideFunction(numField1, numField2);
+    }
+
+    /**
+     * A function that modes two fields in an item
+     * @param numField1 the name of the first field
+     * @param numField2 the name of the second field
+     * @return the function
+     */
+    public static Function<Item, Number> mode(final String numField1, final String numField2) {
+        return new ModeFunction(numField1, numField2);
+    }
 }
