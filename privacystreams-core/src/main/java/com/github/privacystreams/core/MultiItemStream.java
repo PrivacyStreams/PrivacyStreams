@@ -53,11 +53,11 @@ public class MultiItemStream extends Stream implements IMultiItemStream {
 
     /**
      * Transform the stream to another stream
-     * @param mStreamTransformation the function used to transform current stream
+     * @param m2mStreamTransformation the function used to transform current stream
      * @return the transformed stream
      */
-    public MultiItemStream transform(Function<MultiItemStream, MultiItemStream> mStreamTransformation) {
-        return new MultiItemStream(this.getUQI(), this.streamProvider.compound(mStreamTransformation));
+    public MultiItemStream transform(Function<MultiItemStream, MultiItemStream> m2mStreamTransformation) {
+        return new MultiItemStream(this.getUQI(), this.streamProvider.compound(m2mStreamTransformation));
     }
 
     /**

@@ -1,36 +1,43 @@
 package com.github.privacystreams.core;
 
 import com.github.privacystreams.core.exceptions.PrivacyStreamsException;
+import com.github.privacystreams.core.providers.MultiItemStreamProvider;
+import com.github.privacystreams.core.providers.SingleItemStreamProvider;
+import com.github.privacystreams.core.purposes.Purpose;
 
 import java.util.Map;
 
 /**
- * Created by yuanchun on 29/11/2016.
- * The interface of SingleItemStream class.
- * An SingleItemStream is the basic element in a stream.
- * An SingleItemStream can be directly produced by a provider (e.g. CurrentLocationProvider)
- * or from a stream (e.g. stream.first()).
- * Similar to a MultiItemStream, an SingleItemStream could be transformed and collected with multiple functions.
+ * The interface of single-item stream.
+ * An ISingleItemStream is a stream containing only one item, which is an instance of {@link Item}.
+ *
+ * An ISingleItemStream is produced by <code>uqi.getDataItem</code> method.
+ * @see UQI#getDataItem(SingleItemStreamProvider, Purpose)
+ *
+ * It can be transformed to another ISingleItemProvider with transformation functions,
+ * such as {@link #setField(String, Function)}, {{@link #project(String...)}}, {{@link #map(Function)}}, etc.
+ *
+ * Finally, it can be outputted using {{@link #asMap()}}, {{@link #getField(String)}}, etc.
  */
 public interface ISingleItemStream {
     /**
-     * Transform an item using a transformation function
+     * Transform current single-item stream to another single-item stream a transformation function.
      *
-     * @param sStreamTransformation the function used to transform the current item
+     * @param s2sStreamTransformation the function used to transform the stream
      * @return the transformed item
      */
-    ISingleItemStream transform(Function<SingleItemStream, SingleItemStream> sStreamTransformation);
+    ISingleItemStream transform(Function<SingleItemStream, SingleItemStream> s2sStreamTransformation);
 
     /**
-     * Collect the item for output
+     * Output the item in the current stream.
      *
      * @param sStreamAction the function used to output the current item
      */
     void output(Function<SingleItemStream, Void> sStreamAction);
 
     /**
-     * Convert the item with a function.
-     * eg. map(Images.blur("image")) will blur the "image" field of the item
+     * Convert the item in the stream with a function.
+     * Eg. map(Images.blur("image")) will blur the "image" field of the item.
      *
      * @param function      the function to convert the item
      * @return The item after mapping
@@ -48,7 +55,8 @@ public interface ISingleItemStream {
     ISingleItemStream project(String... fieldsToInclude);
 
     /**
-     * set the value of a field with a function
+     * Set a field with a function that takes the item as input.
+     *
      * @param newField the new field name
      * @param functionToComputeField the function to compute the new field value
      * @param <TValue> the type of the new field value
@@ -57,7 +65,8 @@ public interface ISingleItemStream {
     <TValue> ISingleItemStream setField(String newField, Function<Item, TValue> functionToComputeField);
 
     /**
-     * Collect the item for output
+     * Output the item in the stream with a function, and the result is delivered to a callback function.
+     * This method will NOT block.
      *
      * @param itemOutputFunction the function used to output the current item
      * @param resultHandler the function to handle the result
@@ -66,16 +75,19 @@ public interface ISingleItemStream {
     <Tout> void outputItem(Function<Item, Tout> itemOutputFunction, Function<Tout, Void> resultHandler);
 
     /**
-     * Collect the item for output
+     * Output the item in the stream with a function.
+     * This method will block until the result returns.
      *
      * @param itemOutputFunction the function used to output the current item
      * @param <Tout>           the type of result
      * @return the result of itemOutputFunction
+     * @throws PrivacyStreamsException if something goes wrong during getting results.
      */
     <Tout> Tout outputItem(Function<Item, Tout> itemOutputFunction) throws PrivacyStreamsException;
 
     /**
-     * get the value of a field
+     * Get the value of a field.
+     *
      * @param field the name of the field to get
      * @param <TValue> the type of the new field value
      * @return the field value
@@ -85,16 +97,18 @@ public interface ISingleItemStream {
     /**
      * Output the item by returning the key-value map.
      * The keys in the map can be selected using project(String... fieldsToInclude) method.
+     *
+     * @return the key-value map of the item
      */
     Map<String, Object> asMap() throws PrivacyStreamsException;
 
     /**
-     * Print the item
+     * Print the item.
      */
     void print();
 
     /**
-     * Debug print the item
+     * Debug print the item.
      */
     void debug();
 

@@ -34,11 +34,11 @@ public class SingleItemStream extends Stream implements ISingleItemStream {
     /**
      * Transform an item using a transformation function
      *
-     * @param sStreamTransformation the function used to transform the current item
+     * @param s2sStreamTransformation the function used to transform the current item
      * @return the transformed item
      */
-    public SingleItemStream transform(Function<SingleItemStream, SingleItemStream> sStreamTransformation) {
-        return new SingleItemStream(this.getUQI(), this.streamProvider.compound(sStreamTransformation));
+    public SingleItemStream transform(Function<SingleItemStream, SingleItemStream> s2sStreamTransformation) {
+        return new SingleItemStream(this.getUQI(), this.streamProvider.compound(s2sStreamTransformation));
     }
 
     /**
