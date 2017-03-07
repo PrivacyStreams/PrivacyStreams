@@ -112,6 +112,11 @@ public class UQI {
         return new SingleItemStream(uqi, sStreamProvider);
     }
 
+    /**
+     * Evaluate current UQI.
+     *
+     * @param retry whether to try again if the permission is denied.
+     */
     public void evaluate(boolean retry) {
         Logging.debug("Trying to evaluate PrivacyStreams Query.");
         Logging.debug("Purpose: " + this.purpose);

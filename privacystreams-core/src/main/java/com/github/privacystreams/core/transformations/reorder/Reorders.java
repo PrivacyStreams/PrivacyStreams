@@ -5,8 +5,7 @@ import com.github.privacystreams.core.MultiItemStream;
 import com.github.privacystreams.core.transformations.M2MTransformation;
 
 /**
- * Created by yuanchun on 30/12/2016.
- * A helper class to access reorder functions
+ * A helper class to access reorder functions.
  */
 public class Reorders {
     /**
@@ -19,7 +18,7 @@ public class Reorders {
     }
 
     /**
-     * A function that shuffles the order items in stream.
+     * A function that randomizes the order of items in stream.
      * @return the function.
      */
     public static M2MTransformation shuffle() {

@@ -10,7 +10,7 @@ import com.github.privacystreams.core.Item;
 
 public class Arithmetics {
     /**
-     * A function that round up a number.
+     * A function that rounds up a number.
      * @param numField the name of the number field
      * @param value the value to round
      * @return the function
@@ -20,7 +20,7 @@ public class Arithmetics {
     }
 
     /**
-     * A function that round down a number.
+     * A function that rounds down a number.
      * @param numField the name of the number field
      * @param value the value to round
      * @return the function
@@ -30,7 +30,7 @@ public class Arithmetics {
     }
 
     /**
-     * A function that cast a number to long.
+     * A function that casts a number to long.
      * @param numField the name of the number field
      * @return the function
      */
@@ -39,11 +39,21 @@ public class Arithmetics {
     }
 
     /**
-     * A function that cast a number to integer.
+     * A function that casts a number to integer.
      * @param numField the name of the number field
      * @return the function
      */
     public static Function<Item, Integer> castToInt(final String numField) {
         return new CastToIntFunction(numField);
+    }
+
+    /**
+     * A function that adds two fields in an item
+     * @param numField1 the name of the first field
+     * @param numField2 the name of the second field
+     * @return the function
+     */
+    public static Function<Item, Number> add(final String numField1, final String numField2) {
+        return new AddFunction(numField1, numField2);
     }
 }

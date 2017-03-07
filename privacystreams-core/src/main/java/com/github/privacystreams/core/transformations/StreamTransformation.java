@@ -12,7 +12,7 @@ import org.greenrobot.eventbus.Subscribe;
  * Transform a stream to a stream
  */
 
-public abstract class StreamTransformation<InStream extends Stream, OutStream extends Stream> extends EventDrivenFunction<InStream, OutStream> {
+abstract class StreamTransformation<InStream extends Stream, OutStream extends Stream> extends EventDrivenFunction<InStream, OutStream> {
 
     protected abstract void onInput(Item item);
 
