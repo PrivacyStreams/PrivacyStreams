@@ -23,7 +23,7 @@ abstract class StreamTransformation<InStream extends Stream, OutStream extends S
     }
 
     @Subscribe
-    protected final void onEvent(Item item) {
+    public final void onEvent(Item item) {
         if (this.isCancelled) return;
         this.onInput(item);
     }

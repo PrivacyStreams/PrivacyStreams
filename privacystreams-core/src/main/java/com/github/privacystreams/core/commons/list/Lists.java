@@ -2,7 +2,6 @@ package com.github.privacystreams.core.commons.list;
 
 import java.util.Arrays;
 import java.util.List;
-
 import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.Item;
 

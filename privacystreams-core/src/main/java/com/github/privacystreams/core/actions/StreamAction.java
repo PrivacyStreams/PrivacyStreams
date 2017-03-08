@@ -16,7 +16,7 @@ public abstract class StreamAction<InStream extends Stream> extends EventDrivenF
     protected abstract void onInput(Item item);
 
     @Subscribe
-    protected final void onEvent(Item item) {
+    public final void onEvent(Item item) {
         if (this.isCancelled) return;
         this.onInput(item);
     }

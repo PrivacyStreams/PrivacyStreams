@@ -1,12 +1,12 @@
 package com.github.privacystreams.image;
 
+import android.net.Uri;
+
 import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.providers.MultiItemStreamProvider;
 import com.github.privacystreams.core.providers.SingleItemStreamProvider;
 
-import java.net.URI;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -17,13 +17,18 @@ import java.util.Map;
 public class Image extends Item {
 
     // type: Long
-    public static final String TIMESTAMP = "timestamp";
+    private static final String TIMESTAMP = "timestamp";
+
     // type: String, representing the URI of photo file
     public static final String URI = "uri";
+    private static final String LAT = "lat";
+    private static final String LNG = "lng";
 
-    Image(String timestamp, java.net.URI file_uri) {
+    Image(String timestamp, Uri file_uri, double lat, double lng) {
         this.setFieldValue(TIMESTAMP, timestamp);
         this.setFieldValue(URI, file_uri.toString());
+        this.setFieldValue(LAT,lat);
+        this.setFieldValue(LNG,lng);
     }
 
     /**
@@ -42,8 +47,7 @@ public class Image extends Item {
      * @return the provider
      */
     public static MultiItemStreamProvider readFromStorage() {
-        // TODO implement this
-        return null;
+        return new ImageStorageProvider();
     }
 
     /**

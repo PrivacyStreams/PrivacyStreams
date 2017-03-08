@@ -8,13 +8,9 @@ import android.provider.ContactsContract;
 import android.provider.ContactsContract.CommonDataKinds.Email;
 import android.provider.ContactsContract.CommonDataKinds.Phone;
 
-import com.github.privacystreams.core.MultiItemStream;
 import com.github.privacystreams.core.providers.MultiItemStreamProvider;
-import com.github.privacystreams.core.utils.Logging;
-import com.github.privacystreams.core.utils.permission.PermissionActivity;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**

@@ -4,9 +4,11 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-
 import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.Item;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * A helper class to access common item functions

@@ -54,6 +54,8 @@ dependencies {
     })
     testCompile 'junit:junit:4.12'
     compile project(':privacystreams-core')
+    //compile 'com.google.android.gms:play-services:10.2.0'
+    compile 'com.google.android.gms:play-services:9.8.0'
 }
 
 group = publishedGroupId                               // Maven Group ID for the artifact

@@ -7,15 +7,11 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.support.v4.app.ActivityCompat;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import com.github.privacystreams.core.SingleItemStream;
 import com.github.privacystreams.core.providers.SingleItemStreamProvider;
 import com.github.privacystreams.core.utils.Logging;
-import com.github.privacystreams.core.utils.permission.PermissionActivity;
 import com.github.privacystreams.core.utils.time.Duration;
+
 
 /**
  * Created by yuanchun on 21/11/2016.

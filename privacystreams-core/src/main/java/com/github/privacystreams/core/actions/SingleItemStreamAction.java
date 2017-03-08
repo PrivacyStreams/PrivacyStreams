@@ -3,7 +3,6 @@ package com.github.privacystreams.core.actions;
 import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.SingleItemStream;
-import com.github.privacystreams.core.UQI;
 import com.github.privacystreams.core.utils.Assertions;
 
 /**
