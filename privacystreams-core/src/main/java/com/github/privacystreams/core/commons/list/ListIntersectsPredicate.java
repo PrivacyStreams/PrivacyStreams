@@ -2,6 +2,7 @@ package com.github.privacystreams.core.commons.list;
 
 import com.github.privacystreams.core.utils.Assertions;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -10,9 +11,9 @@ import java.util.List;
  */
 final class ListIntersectsPredicate extends ListProcessor<Boolean> {
 
-    private final List<Object> listToCompare;
+    private final Object[] listToCompare;
 
-    ListIntersectsPredicate(final String listField, final List<Object> listToCompare) {
+    ListIntersectsPredicate(final String listField, final Object[] listToCompare) {
         super(listField);
         this.listToCompare = Assertions.notNull("listToCompare", listToCompare);
         this.addParameters(listToCompare);
@@ -20,8 +21,9 @@ final class ListIntersectsPredicate extends ListProcessor<Boolean> {
 
     @Override
     protected Boolean processList(List<Object> list) {
+        List<Object> objectList = Arrays.asList(this.listToCompare);
         for (Object element : list) {
-            if (listToCompare.contains(element))
+            if (objectList.contains(element))
                 return true;
         }
         return false;

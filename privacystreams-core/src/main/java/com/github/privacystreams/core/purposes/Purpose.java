@@ -42,6 +42,12 @@ public class Purpose {
         return new Purpose(PURPOSE_TEST + ": " + description);
     }
 
+    // TODO modify this, distinguish INTERNAL purpose and FEATURE purpose
+    private static final String PURPOSE_INTERNAL = "Internal";
+    public static Purpose internal(String description) {
+        return new Purpose(PURPOSE_INTERNAL + ": " + description);
+    }
+
     // TODO more purposes
 
     public String toString() {

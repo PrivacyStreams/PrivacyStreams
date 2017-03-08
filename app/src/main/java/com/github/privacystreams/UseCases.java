@@ -2,20 +2,19 @@ package com.github.privacystreams;
 
 import android.content.Context;
 import android.location.LocationManager;
+import android.os.Build;
 
+import com.github.privacystreams.accessibility.BrowserHistory;
+import com.github.privacystreams.accessibility.BrowserSearch;
 import com.github.privacystreams.accessibility.TextEntry;
+import com.github.privacystreams.accessibility.UIAction;
 import com.github.privacystreams.audio.Audio;
+import com.github.privacystreams.communication.Contact;
 import com.github.privacystreams.communication.Message;
 import com.github.privacystreams.communication.Phonecall;
 import com.github.privacystreams.core.Callback;
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.UQI;
-import com.github.privacystreams.communication.Contact;
-import com.github.privacystreams.core.exceptions.PrivacyStreamsException;
-import com.github.privacystreams.image.Image;
-import com.github.privacystreams.location.GeoLocation;
-import com.github.privacystreams.core.providers.mock.MockItem;
-import com.github.privacystreams.core.purposes.Purpose;
 import com.github.privacystreams.core.commons.arithmetic.Arithmetics;
 import com.github.privacystreams.core.commons.item.Items;
 import com.github.privacystreams.core.commons.comparison.Comparisons;
@@ -23,8 +22,18 @@ import com.github.privacystreams.core.commons.list.Lists;
 import com.github.privacystreams.core.commons.statistic.Statistics;
 import com.github.privacystreams.core.commons.string.Strings;
 import com.github.privacystreams.core.commons.time.Times;
+import com.github.privacystreams.core.exceptions.PrivacyStreamsException;
+import com.github.privacystreams.core.providers.mock.MockItem;
+import com.github.privacystreams.core.purposes.Purpose;
 import com.github.privacystreams.core.utils.time.Duration;
 import com.github.privacystreams.core.utils.time.TimeUtils;
+import com.github.privacystreams.device.BTDevice;
+import com.github.privacystreams.device.DeviceStateChange;
+import com.github.privacystreams.device.WifiAp;
+import com.github.privacystreams.environment.Light;
+import com.github.privacystreams.image.Image;
+import com.github.privacystreams.location.GeoLocation;
+import com.github.privacystreams.motion.PhysicalActivity;
 
 import java.util.List;
 import java.util.Map;
@@ -40,8 +49,20 @@ public class UseCases {
         this.context = context;
         this.uqi = new UQI(context);
     }
+    /*
+     For testing the new lightUpdatesProvider
+     */
+    public void testLightUpdatesProvider(){
+        uqi.getDataItems(Light.asUpdates(), Purpose.feature("light")).debug();
+    }
 
+    public void testBlueToothUpatesProvider(){
+        uqi.getDataItems(BTDevice.asUpdates(), Purpose.feature("blueTooth device")).debug();
+    }
 
+    public void testPhysicalMotionUpdatesProvider(){
+        uqi.getDataItems(PhysicalActivity.asUpdates(),Purpose.feature("Physical Activity")).debug();
+    }
     // For testing
     public void testMockData() {
         uqi
@@ -59,6 +80,30 @@ public class UseCases {
      */
     public void testTextEntry() {
         uqi.getDataItems(TextEntry.asUpdates(), Purpose.feature("test")).debug();
+    }
+
+    public void testWifiUpdates(int seconds){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            uqi.getDataItems(WifiAp.asUpdates(seconds), Purpose.feature("wifi updates")).debug();
+        }
+    }
+
+    public void testBrowserHistoryUpdates(){
+        uqi.getDataItems(BrowserHistory.asUpdates(), Purpose.feature("browser history")).debug();
+    }
+    public void testBrowserSearchUpdates(){
+        uqi.getDataItems(BrowserSearch.asUpdates(), Purpose.feature("browser search")).debug();
+    }
+
+    public void testUIAction(){
+        uqi.getDataItems(UIAction.asUpdates(), Purpose.feature("ui action")).debug();
+    }
+
+    public void testAccessibility(){
+
+    }
+    public void testIMUpdates(){
+        uqi.getDataItems(Message.asIMUpdates(),Purpose.feature("im updates")).debug();
     }
 
 //    public void testBrowerSearchUpdates(){
@@ -133,6 +178,9 @@ public class UseCases {
                 .count();
     }
 
+    void testDeviceStateChangeUpdates(){
+        uqi.getDataItems(DeviceStateChange.asUpdates(), Purpose.feature("device states")).debug();
+    }
 
     // get whether at home
     boolean isAtHome() throws PrivacyStreamsException {

@@ -1,11 +1,8 @@
 package com.github.privacystreams.accessibility;
 
 import android.accessibilityservice.AccessibilityService;
-import android.content.Intent;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
-
-import com.github.privacystreams.core.utils.Logging;
 
 import java.util.Date;
 import java.util.HashSet;
@@ -21,9 +18,7 @@ public class MyAccessibilityService extends AccessibilityService {
 
     @Override
     public void onAccessibilityEvent(AccessibilityEvent accessibilityEvent) {
-//        Logging.debug("Accessibility event: " + accessibilityEvent);
         AccessibilityNodeInfo rootNode = getRootInActiveWindow();
-//        Logging.debug("Providers: " + accessibilityEventProviders);
         for(AccessibilityEventProvider provider : accessibilityEventProviders){
             provider.handleAccessibilityEvent(accessibilityEvent, rootNode, new Date());
         }
