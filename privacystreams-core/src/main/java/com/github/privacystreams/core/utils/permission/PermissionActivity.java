@@ -19,7 +19,7 @@ import com.github.privacystreams.core.Callback;
 import com.github.privacystreams.core.UQI;
 
 /**
- * Created by yuanchun on 14/11/2016.
+ * This Activity is to request permissions from users.
  * From API 23, it is needed to request permissions at runtime.
  */
 public class PermissionActivity extends Activity {

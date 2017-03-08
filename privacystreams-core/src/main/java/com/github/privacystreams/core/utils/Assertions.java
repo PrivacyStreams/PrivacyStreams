@@ -1,5 +1,8 @@
 package com.github.privacystreams.core.utils;
 
+/**
+ * A helper class to get access to assertion-related utilities.
+ */
 public final class Assertions {
     /**
      * Throw IllegalArgumentException if the value is null.
@@ -31,20 +34,7 @@ public final class Assertions {
     }
 
     /**
-     * Throw IllegalArgumentException if the condition is false.
-     *
-     * @param name      the name of the state that is being checked
-     * @param condition the condition about the parameter to check
-     * @throws java.lang.IllegalArgumentException if the condition is false
-     */
-    public static void isTrueArgument(final String name, final boolean condition) {
-        if (!condition) {
-            throw new IllegalArgumentException("state should be: " + name);
-        }
-    }
-
-    /**
-     * Cast an object to T
+     * Cast an object to T.
      * Throw IllegalArgumentException if the the value is not castable.
      *
      * @param name      the parameter name

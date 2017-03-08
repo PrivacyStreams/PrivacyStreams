@@ -6,8 +6,7 @@ import java.util.Date;
 import java.util.Locale;
 
 /**
- * Created by yuanchun on 08/12/2016.
- * A helper class to get timestamp value
+ * A helper class to get Unix timestamp value from time format.
  */
 
 public class TimeUtils {

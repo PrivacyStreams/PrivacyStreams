@@ -1,8 +1,7 @@
 package com.github.privacystreams.core.utils.time;
 
 /**
- * Created by yuanchun on 08/12/2016.
- * A helper class to get millisecond duration time
+ * A helper class to get millisecond duration time.
  */
 
 public class Duration {

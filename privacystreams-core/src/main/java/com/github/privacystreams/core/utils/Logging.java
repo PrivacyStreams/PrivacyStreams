@@ -3,8 +3,7 @@ package com.github.privacystreams.core.utils;
 import android.util.Log;
 
 /**
- * Created by yuanchun on 05/11/2016.
- * Logging utils
+ * A helper class to get access to log-related utilities.
  */
 
 public class Logging {

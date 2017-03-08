@@ -19,8 +19,7 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Created by yuanchun on 30/12/2016.
- * Fine-grained permission provided by PrivacyStreams
+ * Permission-related utilities in PrivacyStreams.
  */
 
 public class PermissionUtils {
