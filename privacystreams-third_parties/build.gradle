@@ -56,7 +56,8 @@ dependencies {
     compile 'org.apache.commons:commons-lang3:3.0'
     provided 'com.dropbox.core:dropbox-core-sdk:2.1.1'
     provided 'com.google.android.gms:play-services:9.8.0'
-    compile project(':privacystreams-core')
+    provided 'com.google.code.gson:gson:2.8.0'
+    provided project(':privacystreams-core')
 }
 
 group = publishedGroupId                               // Maven Group ID for the artifact

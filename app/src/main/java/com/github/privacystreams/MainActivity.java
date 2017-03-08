@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
 
             useCases.testContacts();
             useCases.testMockData();
-//            useCases.testTextEntry();
+            useCases.testTextEntry();
 //
 //            useCases.testBrowserSearchUpdates();
 //            useCases.testBrowserHistoryUpdates();
