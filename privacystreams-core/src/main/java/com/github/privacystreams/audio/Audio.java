@@ -8,8 +8,7 @@ import com.github.privacystreams.core.providers.MultiItemStreamProvider;
 import com.github.privacystreams.core.providers.SingleItemStreamProvider;
 
 /**
- * Created by yuanchun on 28/12/2016.
- * An Audio SingleItemStream represents a period of audio record
+ * An Audio item represents an audio record
  */
 
 public class Audio extends Item {
