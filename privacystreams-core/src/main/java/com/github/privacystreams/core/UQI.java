@@ -7,8 +7,8 @@ import com.github.privacystreams.core.exceptions.PrivacyStreamsException;
 import com.github.privacystreams.core.providers.MultiItemStreamProvider;
 import com.github.privacystreams.core.providers.SingleItemStreamProvider;
 import com.github.privacystreams.core.purposes.Purpose;
-import com.github.privacystreams.core.utils.Logging;
-import com.github.privacystreams.core.utils.permission.PermissionUtils;
+import com.github.privacystreams.utils.Logging;
+import com.github.privacystreams.utils.permission.PermissionUtils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 

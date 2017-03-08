@@ -2,7 +2,7 @@ package com.github.privacystreams.commons.string;
 
 import com.github.privacystreams.core.UQI;
 import com.github.privacystreams.commons.ItemFunction;
-import com.github.privacystreams.core.utils.Assertions;
+import com.github.privacystreams.utils.Assertions;
 import com.github.privacystreams.core.Item;
 
 /**

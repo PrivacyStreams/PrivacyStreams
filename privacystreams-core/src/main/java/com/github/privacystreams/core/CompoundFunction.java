@@ -1,6 +1,6 @@
 package com.github.privacystreams.core;
 
-import com.github.privacystreams.core.utils.Assertions;
+import com.github.privacystreams.utils.Assertions;
 
 /**
  * Created by yuanchun on 19/12/2016.

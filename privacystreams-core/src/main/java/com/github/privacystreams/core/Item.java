@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 
-import static com.github.privacystreams.core.utils.Assertions.cast;
+import static com.github.privacystreams.utils.Assertions.cast;
 
 /**
  * Created by yuanchun on 29/11/2016.

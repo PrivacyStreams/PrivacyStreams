@@ -1,6 +1,6 @@
 package com.github.privacystreams.commons.time;
 
-import com.github.privacystreams.core.utils.time.TimeUtils;
+import com.github.privacystreams.utils.time.TimeUtils;
 
 /**
  * Created by yuanchun on 28/11/2016.

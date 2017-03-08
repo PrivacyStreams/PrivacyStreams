@@ -25,15 +25,15 @@ import com.github.privacystreams.commons.time.Times;
 import com.github.privacystreams.core.exceptions.PrivacyStreamsException;
 import com.github.privacystreams.core.providers.mock.MockItem;
 import com.github.privacystreams.core.purposes.Purpose;
-import com.github.privacystreams.core.utils.time.Duration;
-import com.github.privacystreams.core.utils.time.TimeUtils;
-import com.github.privacystreams.device.BTDevice;
+import com.github.privacystreams.utils.time.Duration;
+import com.github.privacystreams.utils.time.TimeUtils;
+import com.github.privacystreams.device.BluetoothDevice;
 import com.github.privacystreams.device.DeviceStateChange;
 import com.github.privacystreams.device.WifiAp;
 import com.github.privacystreams.environment.Light;
 import com.github.privacystreams.image.Image;
 import com.github.privacystreams.location.GeoLocation;
-import com.github.privacystreams.motion.PhysicalActivity;
+import com.github.privacystreams.google_awareness.PhysicalActivity;
 
 import java.util.List;
 import java.util.Map;
@@ -57,7 +57,7 @@ public class UseCases {
     }
 
     public void testBlueToothUpatesProvider(){
-        uqi.getDataItems(BTDevice.asUpdates(), Purpose.feature("blueTooth device")).debug();
+        uqi.getDataItems(BluetoothDevice.asUpdates(), Purpose.feature("blueTooth device")).debug();
     }
 
     public void testPhysicalMotionUpdatesProvider(){

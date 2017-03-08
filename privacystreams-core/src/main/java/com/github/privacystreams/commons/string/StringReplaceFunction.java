@@ -1,6 +1,6 @@
 package com.github.privacystreams.commons.string;
 
-import com.github.privacystreams.core.utils.Assertions;
+import com.github.privacystreams.utils.Assertions;
 
 import org.apache.commons.lang3.StringUtils;
 

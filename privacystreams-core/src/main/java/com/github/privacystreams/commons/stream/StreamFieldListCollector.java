@@ -7,7 +7,7 @@ import com.github.privacystreams.core.UQI;
 import com.github.privacystreams.commons.ItemsFunction;
 import com.github.privacystreams.core.Item;
 
-import static com.github.privacystreams.core.utils.Assertions.notNull;
+import static com.github.privacystreams.utils.Assertions.notNull;
 
 /**
  * Created by yuanchun on 28/12/2016.

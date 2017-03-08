@@ -2,7 +2,7 @@ package com.github.privacystreams.commons.string;
 
 import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.Item;
-import com.github.privacystreams.core.utils.HashUtils;
+import com.github.privacystreams.utils.HashUtils;
 
 /**
  * A helper class to access string-related functions

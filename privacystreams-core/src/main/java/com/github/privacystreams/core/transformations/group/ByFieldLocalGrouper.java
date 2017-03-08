@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.github.privacystreams.core.Item;
-import com.github.privacystreams.core.utils.Assertions;
-import com.github.privacystreams.core.utils.HashUtils;
+import com.github.privacystreams.utils.Assertions;
+import com.github.privacystreams.utils.HashUtils;
 
 /**
  * Created by yuanchun on 22/12/2016.

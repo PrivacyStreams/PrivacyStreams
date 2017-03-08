@@ -3,7 +3,7 @@ package com.github.privacystreams.commons.item;
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.UQI;
 import com.github.privacystreams.commons.ItemFunction;
-import com.github.privacystreams.core.utils.Assertions;
+import com.github.privacystreams.utils.Assertions;
 
 import java.util.Arrays;
 import java.util.List;

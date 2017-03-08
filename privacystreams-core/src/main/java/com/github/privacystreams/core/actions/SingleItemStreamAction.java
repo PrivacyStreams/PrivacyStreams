@@ -3,7 +3,7 @@ package com.github.privacystreams.core.actions;
 import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.SingleItemStream;
-import com.github.privacystreams.core.utils.Assertions;
+import com.github.privacystreams.utils.Assertions;
 
 /**
  * A function that outputs a single-item stream.

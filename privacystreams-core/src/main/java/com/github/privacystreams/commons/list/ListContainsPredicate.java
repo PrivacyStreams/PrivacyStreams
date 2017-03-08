@@ -1,6 +1,6 @@
 package com.github.privacystreams.commons.list;
 
-import com.github.privacystreams.core.utils.Assertions;
+import com.github.privacystreams.utils.Assertions;
 
 import java.util.List;
 

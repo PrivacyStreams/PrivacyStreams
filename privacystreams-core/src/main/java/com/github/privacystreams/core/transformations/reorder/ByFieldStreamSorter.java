@@ -1,12 +1,11 @@
 package com.github.privacystreams.core.transformations.reorder;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
 import com.github.privacystreams.core.Item;
-import com.github.privacystreams.core.utils.Assertions;
+import com.github.privacystreams.utils.Assertions;
 
 /**
  * Created by yuanchun on 22/12/2016.

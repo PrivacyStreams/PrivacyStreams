@@ -2,7 +2,7 @@ package com.github.privacystreams.core;
 
 import android.content.Context;
 
-import com.github.privacystreams.core.utils.Logging;
+import com.github.privacystreams.utils.Logging;
 
 import org.greenrobot.eventbus.EventBus;
 

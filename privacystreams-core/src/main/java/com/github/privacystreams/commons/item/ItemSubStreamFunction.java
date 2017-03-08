@@ -8,7 +8,7 @@ import com.github.privacystreams.commons.ItemFunction;
 import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.transformations.group.GroupItem;
-import com.github.privacystreams.core.utils.Assertions;
+import com.github.privacystreams.utils.Assertions;
 
 /**
  * Created by yuanchun on 29/12/2016.

@@ -1,11 +1,7 @@
 package com.github.privacystreams.core.transformations.limit;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.github.privacystreams.core.MultiItemStream;
 import com.github.privacystreams.core.Item;
-import com.github.privacystreams.core.utils.Logging;
+import com.github.privacystreams.utils.Logging;
 
 /**
  * Created by yuanchun on 28/11/2016.
