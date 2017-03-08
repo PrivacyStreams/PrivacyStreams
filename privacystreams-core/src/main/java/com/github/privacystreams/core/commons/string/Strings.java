@@ -5,7 +5,6 @@ import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.utils.HashUtils;
 
 /**
- * Created by yuanchun on 29/12/2016.
  * A helper class to access string-related functions
  */
 
@@ -81,7 +80,7 @@ public class Strings {
      * @param replaceString the string used to replace the searchString
      * @return the function
      */
-    public static Function<Item, String> subString(String stringField, String searchString, String replaceString) {
+    public static Function<Item, String> replace(String stringField, String searchString, String replaceString) {
         return new StringReplaceFunction(stringField, searchString, replaceString);
     }
 
@@ -89,9 +88,9 @@ public class Strings {
      * A function that gets a substring of a string field in an item.
      *
      * @param stringField the name of the string field to calculate length
-     * @param start  the position to start from, negative means
+     * @param start the position to start from, negative means
      *  count back from the end of the String by this many characters
-     * @param end  the position to end at (exclusive), negative means
+     * @param end the position to end at (exclusive), negative means
      *  count back from the end of the String by this many characters
      * @return the function
      */

@@ -8,8 +8,7 @@ import com.github.privacystreams.core.UQI;
 import org.greenrobot.eventbus.Subscribe;
 
 /**
- * Created by yuanchun on 28/11/2016.
- * Transform a stream to a stream
+ * A StreamAction is a function that outputs a stream.
  */
 
 public abstract class StreamAction<InStream extends Stream> extends EventDrivenFunction<InStream, Void> {

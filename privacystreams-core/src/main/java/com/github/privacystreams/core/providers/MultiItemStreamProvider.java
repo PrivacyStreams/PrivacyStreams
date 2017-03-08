@@ -3,8 +3,7 @@ package com.github.privacystreams.core.providers;
 import com.github.privacystreams.core.MultiItemStream;
 
 /**
- * Created by yuanchun on 29/11/2016.
- * Create a new stream of data
+ * A function that produces a multi-item stream.
  */
 
 public abstract class MultiItemStreamProvider extends StreamProvider<MultiItemStream> {

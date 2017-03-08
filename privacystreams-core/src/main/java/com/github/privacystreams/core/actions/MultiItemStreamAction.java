@@ -10,8 +10,7 @@ import com.github.privacystreams.core.UQI;
 import com.github.privacystreams.core.utils.Assertions;
 
 /**
- * Created by yuanchun on 28/11/2016.
- * Transform a stream to a stream
+ * A function that outputs a multi-item stream.
  */
 
 public class MultiItemStreamAction<Tout> extends StreamAction<MultiItemStream> {

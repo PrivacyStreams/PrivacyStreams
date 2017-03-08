@@ -5,8 +5,7 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * Created by yuanchun on 14/02/2017.
- * A mock object for testing
+ * A mock object for testing.
  */
 
 public class MockObject {
