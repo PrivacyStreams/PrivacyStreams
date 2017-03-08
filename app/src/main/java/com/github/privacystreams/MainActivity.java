@@ -6,12 +6,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
+
 public class MainActivity extends AppCompatActivity {
     public Button mButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        android.content.Context context;                                    // For the google service api
+
         setContentView(R.layout.activity_main);
         mButton = (Button) findViewById(R.id.button);
 
@@ -43,7 +47,8 @@ public class MainActivity extends AppCompatActivity {
 //           useCases.testWifiUpdates(30);
 
  //          useCases.testLightUpdatesProvider();
-            useCases.testBlueToothUpatesProvider();
+ //           useCases.testBlueToothUpatesProvider();
+           useCases.testPhysicalMotionUpdatesProvider();
  //            useCases.testLightUpdatesProvider();
 
 //            useCases.testUIAction();
