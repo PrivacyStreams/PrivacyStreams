@@ -2,7 +2,7 @@ package com.github.privacystreams.accessibility;
 
 import com.github.privacystreams.core.Callback;
 import com.github.privacystreams.core.Item;
-import com.github.privacystreams.core.commons.common.ItemCommons;
+import com.github.privacystreams.core.commons.item.Items;
 import com.github.privacystreams.core.providers.MultiItemStreamProvider;
 import com.github.privacystreams.core.purposes.Purpose;
 
@@ -21,7 +21,7 @@ public class BrowserSearchUpdatesProvider extends MultiItemStreamProvider {
     protected void provide() {
         getUQI().getDataItems(TextEntry.asUpdates(),
                 Purpose.internal("Event Triggers"))
-                .filter(ItemCommons.isFieldIn(BaseAccessibilityEvent.PACKAGE_NAME,
+                .filter(Items.isFieldIn(BaseAccessibilityEvent.PACKAGE_NAME,
                         new String[]{APP_PACKAGE_SEARCHBOX, APP_PACKAGE_FIREFOX, APP_PACKAGE_OPERA, APP_PACKAGE_CHROME}))
                 .forEach(new Callback<Item>() {
 

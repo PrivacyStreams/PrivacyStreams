@@ -9,8 +9,8 @@ import com.github.privacystreams.accessibility.BaseAccessibilityEvent;
 import com.github.privacystreams.accessibility.utils.AccessibilityUtils;
 import com.github.privacystreams.core.Callback;
 import com.github.privacystreams.core.Item;
-import com.github.privacystreams.core.commons.common.ItemCommons;
 import com.github.privacystreams.core.commons.comparison.Comparisons;
+import com.github.privacystreams.core.commons.item.Items;
 import com.github.privacystreams.core.providers.MultiItemStreamProvider;
 import com.github.privacystreams.core.purposes.Purpose;
 
@@ -43,7 +43,7 @@ public class IMUpdatesProvider extends MultiItemStreamProvider {
 
         getUQI().getDataItems(BaseAccessibilityEvent.asUpdates(),
                 Purpose.internal("Event Triggers"))
-                .filter(ItemCommons.isFieldIn(BaseAccessibilityEvent.PACKAGE_NAME,
+                .filter(Items.isFieldIn(BaseAccessibilityEvent.PACKAGE_NAME,
                         new String[]{APP_PACKAGE_WHATSAPP, APP_PACKAGE_FACEBOOK_MESSENGER}))
                 .filter(Comparisons.eq(BaseAccessibilityEvent.EVENT_TYPE, AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED))
                 .filter(Comparisons.gt(BaseAccessibilityEvent.ITEM_COUNT, 2))
