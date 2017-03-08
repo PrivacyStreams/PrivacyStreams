@@ -17,7 +17,7 @@ import java.util.ArrayList;
 
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.UQI;
-import com.github.privacystreams.core.commons.ItemFunction;
+import com.github.privacystreams.commons.ItemFunction;
 import com.github.privacystreams.core.utils.Assertions;
 import com.github.privacystreams.core.utils.Consts;
 import com.github.privacystreams.core.utils.Logging;

@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.UQI;
-import com.github.privacystreams.core.commons.ItemFunction;
+import com.github.privacystreams.commons.ItemFunction;
 import com.github.privacystreams.core.utils.Assertions;
 
 /**

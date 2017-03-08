@@ -4,7 +4,7 @@ import android.Manifest;
 
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.UQI;
-import com.github.privacystreams.core.commons.ItemFunction;
+import com.github.privacystreams.commons.ItemFunction;
 import com.github.privacystreams.core.utils.Assertions;
 import com.github.privacystreams.core.utils.Logging;
 import com.github.privacystreams.core.utils.time.TimeUtils;

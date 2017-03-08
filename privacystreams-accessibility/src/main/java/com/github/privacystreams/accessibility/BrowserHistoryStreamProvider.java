@@ -8,8 +8,8 @@ import android.view.accessibility.AccessibilityNodeInfo;
 import com.github.privacystreams.accessibility.utils.AccessibilityUtils;
 import com.github.privacystreams.core.Callback;
 import com.github.privacystreams.core.Item;
-import com.github.privacystreams.core.commons.item.Items;
-import com.github.privacystreams.core.commons.comparison.Comparisons;
+import com.github.privacystreams.commons.item.Items;
+import com.github.privacystreams.commons.comparison.Comparisons;
 import com.github.privacystreams.core.providers.MultiItemStreamProvider;
 import com.github.privacystreams.core.purposes.Purpose;
 
