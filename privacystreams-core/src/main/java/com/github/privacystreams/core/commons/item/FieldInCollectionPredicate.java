@@ -11,7 +11,7 @@ import com.github.privacystreams.core.utils.Assertions;
  * Created by yuanchun on 28/11/2016.
  * a predicate that returns true if a field value is in a given collection
  */
-final class FieldInCollectionPredicate<TValue extends Collection> extends ItemFunction<Boolean> {
+final class FieldInCollectionPredicate<TValue> extends ItemFunction<Boolean> {
 
     private final String field;
     private final Collection<TValue> collectionToCompare;

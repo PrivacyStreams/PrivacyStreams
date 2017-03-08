@@ -120,7 +120,7 @@ public class UseCases {
                 .asList(Phonecall.PHONE_NUMBER);
         List<String> recentCalledNames = uqi
                 .getDataItems(Contact.asList(), Purpose.feature("getDataItems names of recent called phone numbers"))
-                .filter(Lists.intersects(Contact.PHONES, recentCalledPhoneNumbers))
+                .filter(Lists.intersects(Contact.PHONES, recentCalledPhoneNumbers.toArray()))
                 .asList(Contact.NAME);
         return recentCalledNames;
     }
@@ -210,12 +210,12 @@ public class UseCases {
     }
 
     // calculating sentiment across all Message
-    double getAverageSentimentOfSMS() throws PrivacyStreamsException {
-        return uqi
-                .getDataItems(Message.asSMSHistory(), Purpose.feature("calculate the sentiment across all Message messages"))
-                .setField("sentiment", Strings.sentiment(Message.CONTENT))
-                .outputItems(Statistics.average("sentiment"));
-    }
+//    double getAverageSentimentOfSMS() throws PrivacyStreamsException {
+//        return uqi
+//                .getDataItems(Message.asSMSHistory(), Purpose.feature("calculate the sentiment across all Message messages"))
+//                .setField("sentiment", Strings.sentiment(Message.CONTENT))
+//                .outputItems(Statistics.average("sentiment"));
+//    }
 
     // figure out place where person spends the most time (ie home)
     String getPlaceSpentMostTime() throws PrivacyStreamsException {

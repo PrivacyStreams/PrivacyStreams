@@ -15,6 +15,7 @@ public class Streams {
     /**
      * A function that converts a stream to a list.
      * Each element in the list is an item map.
+     *
      * @return the function
      */
     public static Function<List<Item>, List<Item>> asList() {
@@ -24,6 +25,7 @@ public class Streams {
     /**
      * A function that converts a stream to a list.
      * Each element in the list is the value of a selected field.
+     *
      * @param fieldToSelect the name of the field to select.
      * @return the function
      */

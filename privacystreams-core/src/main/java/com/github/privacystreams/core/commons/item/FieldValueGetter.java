@@ -11,10 +11,10 @@ import static com.github.privacystreams.core.utils.Assertions.notNull;
  * A function that gets the value of a field
  */
 
-class FieldGetter<TValue> extends ItemFunction<TValue> {
+class FieldValueGetter<TValue> extends ItemFunction<TValue> {
     private final String fieldToGet;
 
-    FieldGetter(String fieldToGet) {
+    FieldValueGetter(String fieldToGet) {
         this.fieldToGet = notNull("fieldToGet", fieldToGet);
         this.addParameters(fieldToGet);
     }
