@@ -12,29 +12,32 @@ import com.github.privacystreams.core.transformations.M2MTransformation;
 public class Limiters {
     /**
      * A function that limit the stream with a timeout.
+     *
      * @param timeoutMillis the timeout time, in milliseconds.
      * @return the stream-limiting function.
      */
-    public static M2MTransformation timeout(long timeoutMillis) {
+    public static Function<MultiItemStream, MultiItemStream> timeout(long timeoutMillis) {
         return new TimeoutLimiter(timeoutMillis);
     }
 
     /**
      * A function that limit the stream to at most n items.
+     *
      * @param countLimit the count of items at most.
      * @return the stream-limiting function.
      */
-    public static M2MTransformation limitCount(int countLimit) {
+    public static Function<MultiItemStream, MultiItemStream> limitCount(int countLimit) {
         return new CountLimiter(countLimit);
     }
 
     /**
      * A function that limit the stream with a predicate.
      * The stream will stop if the predicate is dissatisfied.
+     *
      * @param predicate the predicate to check for each item.
      * @return the stream-limiting function.
      */
-    public static M2MTransformation limit(Function<Item, Boolean> predicate) {
+    public static Function<MultiItemStream, MultiItemStream> limit(Function<Item, Boolean> predicate) {
         return new PredicateLimiter(predicate);
     }
 

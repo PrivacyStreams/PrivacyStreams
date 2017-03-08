@@ -10,6 +10,7 @@ import com.github.privacystreams.core.transformations.M2MTransformation;
 public class Reorders {
     /**
      * A function that sorts the items in stream by the value of a field.
+     *
      * @param fieldToSort the name of the field to reorder by.
      * @return the function.
      */
@@ -19,6 +20,7 @@ public class Reorders {
 
     /**
      * A function that randomizes the order of items in stream.
+     *
      * @return the function.
      */
     public static Function<MultiItemStream, MultiItemStream> shuffle() {
@@ -27,6 +29,7 @@ public class Reorders {
 
     /**
      * A function that reverses the order of items in stream.
+     *
      * @return the function.
      */
     public static Function<MultiItemStream, MultiItemStream> reverse() {

@@ -84,7 +84,7 @@ public abstract class Stream {
     }
 
     /**
-     * register a function to current stream
+     * Register a function to current stream
      * @param streamReceiver the function that receives stream items
      */
     public synchronized void register(Function<? extends Stream, ?> streamReceiver) {
@@ -97,7 +97,7 @@ public abstract class Stream {
     }
 
     /**
-     * unregister a function from current stream
+     * Unregister a function from current stream.
      * @param streamReceiver the function that receives stream items
      */
     public synchronized void unregister(Function<? extends Stream, ?> streamReceiver) {

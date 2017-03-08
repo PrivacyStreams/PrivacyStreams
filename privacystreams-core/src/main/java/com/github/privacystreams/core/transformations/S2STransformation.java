@@ -3,8 +3,7 @@ package com.github.privacystreams.core.transformations;
 import com.github.privacystreams.core.SingleItemStream;
 
 /**
- * Created by yuanchun on 28/11/2016.
- * Transform a stream to a stream
+ * Transform a single-item stream to another single-item stream
  */
 
 public abstract class S2STransformation extends StreamTransformation<SingleItemStream, SingleItemStream> {
