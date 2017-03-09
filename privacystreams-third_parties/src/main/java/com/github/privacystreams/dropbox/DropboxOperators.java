@@ -8,7 +8,7 @@ import com.github.privacystreams.core.Item;
  * Dropbox service integration
  */
 
-public class Dropbox {
+public class DropboxOperators {
     /**
      * A function that upload an item to Dropbox
      */
