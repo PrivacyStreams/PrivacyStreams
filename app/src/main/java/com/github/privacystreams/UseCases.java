@@ -1,7 +1,6 @@
 package com.github.privacystreams;
 
 import android.content.Context;
-import android.location.Location;
 import android.location.LocationManager;
 import android.os.Build;
 
@@ -32,7 +31,7 @@ import com.github.privacystreams.location.LocationOperators;
 import com.github.privacystreams.utils.time.Duration;
 import com.github.privacystreams.utils.time.TimeUtils;
 import com.github.privacystreams.device.BluetoothDevice;
-import com.github.privacystreams.device.DeviceStateChange;
+import com.github.privacystreams.device.DeviceEvent;
 import com.github.privacystreams.device.WifiAp;
 import com.github.privacystreams.environment.Light;
 import com.github.privacystreams.image.Image;
@@ -181,7 +180,7 @@ public class UseCases {
     }
 
     void testDeviceStateChangeUpdates(){
-        uqi.getDataItems(DeviceStateChange.asUpdates(), Purpose.feature("device states")).debug();
+        uqi.getDataItems(DeviceEvent.asUpdates(), Purpose.feature("device states")).debug();
     }
 
     // get whether at home

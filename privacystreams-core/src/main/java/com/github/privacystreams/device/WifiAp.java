@@ -31,8 +31,8 @@ public class WifiAp extends Item {
         this.setFieldValue(CONNECTED, connected);
     }
 
-    public static MultiItemStreamProvider asUpdates(int samplingPeriodInSeconds) {
-        return new WifiUpdatesProvider(samplingPeriodInSeconds);
+    public static MultiItemStreamProvider asScanList() {
+        return new WifiApListProvider();
     }
 
 }

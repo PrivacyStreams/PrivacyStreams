@@ -9,87 +9,88 @@ import android.media.AudioManager;
 import com.github.privacystreams.core.providers.MultiItemStreamProvider;
 
 /**
- * Created by fanglinchen on 2/19/17.
+ * Provide a stream of device state updates, including screen, boot, battery, ringer, etc.
  */
 
-class DeviceStateUpdatesProvider extends MultiItemStreamProvider {
-    String TYPE_SCREEN = "screen";
-    String TYPE_POWER = "power";
-    String TYPE_RINGER = "ringer";
+class DeviceEventUpdatesProvider extends MultiItemStreamProvider {
 
     class DeviceStateReceiver extends BroadcastReceiver {
-        private String state;
-        private String type;
 
         @Override
         public void onReceive(Context context, Intent intent) {
+            String event = null;
+            String type = null;
 
             switch(intent.getAction()){
                 case Intent.ACTION_SCREEN_OFF:
-                    state = DeviceStateChange.SCREEN_LOCK;
-                    type = TYPE_SCREEN;
+                    event = DeviceEvent.ScreenEvents.OFF;
+                    type = DeviceEvent.Types.SCREEN;
                     break;
 
                 case Intent.ACTION_SCREEN_ON:
-                    state = DeviceStateChange.SCREEN_ON;
-                    type = TYPE_SCREEN;
+                    event = DeviceEvent.ScreenEvents.ON;
+                    type = DeviceEvent.Types.SCREEN;
                     break;
 
                 case Intent.ACTION_USER_PRESENT:
-                    state = DeviceStateChange.SCREEN_UNLOCK;
-                    type = TYPE_SCREEN;
+                    event = DeviceEvent.ScreenEvents.USER_PRESENT;
+                    type = DeviceEvent.Types.SCREEN;
                     break;
 
                 case Intent.ACTION_BOOT_COMPLETED:
-                    state = DeviceStateChange.POWER_ON;
-                    type = TYPE_POWER;
+                    event = DeviceEvent.BootEvents.BOOT_COMPLETED;
+                    type = DeviceEvent.Types.BOOT;
                     break;
 
                 case Intent.ACTION_SHUTDOWN:
-                    state = DeviceStateChange.POWER_OFF;
-                    type = TYPE_POWER;
+                    event = DeviceEvent.BootEvents.SHUTDOWN;
+                    type = DeviceEvent.Types.BOOT;
                     break;
+
                 case Intent.ACTION_BATTERY_LOW:
-                    state = DeviceStateChange.BATTERY_LOW;
-                    type = TYPE_POWER;
+                    event = DeviceEvent.BatteryEvents.LOW;
+                    type = DeviceEvent.Types.BATTERY;
                     break;
 
                 case Intent.ACTION_BATTERY_OKAY:
-                    state = DeviceStateChange.BATTERY_OK;
-                    type = TYPE_POWER;
+                    event = DeviceEvent.BatteryEvents.OKAY;
+                    type = DeviceEvent.Types.BATTERY;
                     break;
+
                 case Intent.ACTION_POWER_CONNECTED:
-                    state = DeviceStateChange.AC_CONNECTED;
-                    type = TYPE_POWER;
+                    event = DeviceEvent.BatteryEvents.AC_CONNECTED;
+                    type = DeviceEvent.Types.BATTERY;
                     break;
 
                 case Intent.ACTION_POWER_DISCONNECTED:
-                    state = DeviceStateChange.AC_DISCONNECTED;
-                    type = TYPE_POWER;
+                    event = DeviceEvent.BatteryEvents.AC_DISCONNECTED;
+                    type = DeviceEvent.Types.BATTERY;
                     break;
 
                 case AudioManager.RINGER_MODE_CHANGED_ACTION:
                     AudioManager am = (AudioManager)getContext().getSystemService(Context.AUDIO_SERVICE);
                     switch (am.getRingerMode()) {
                         case AudioManager.RINGER_MODE_SILENT:
-                            state = DeviceStateChange.RINGER_SILENT;
-                            type = TYPE_RINGER;
+                            event = DeviceEvent.RingerEvents.SILENT;
+                            type = DeviceEvent.Types.RINGER;
                             break;
 
                         case AudioManager.RINGER_MODE_VIBRATE:
-                            state = DeviceStateChange.RINGER_VIBRATE;
-                            type = TYPE_RINGER;
+                            event = DeviceEvent.RingerEvents.VIBRATE;
+                            type = DeviceEvent.Types.RINGER;
                             break;
 
                         case AudioManager.RINGER_MODE_NORMAL:
-                            state = DeviceStateChange.RINGER_NORMAL;
-                            type = TYPE_RINGER;
+                            event = DeviceEvent.RingerEvents.NORMAL;
+                            type = DeviceEvent.Types.RINGER;
                             break;
                     }
                 default:
                     break;
             }
-            output(new DeviceStateChange(System.currentTimeMillis(), type, state));
+
+            if (type != null)
+                output(new DeviceEvent(System.currentTimeMillis(), type, event));
         }
     }
 

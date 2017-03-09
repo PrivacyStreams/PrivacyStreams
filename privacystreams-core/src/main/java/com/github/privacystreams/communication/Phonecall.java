@@ -5,10 +5,8 @@ import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.providers.MultiItemStreamProvider;
 
 /**
- * Created by yuanchun on 07/12/2016.
  * A Phonecall item represents a phonecall record
  */
-
 public class Phonecall extends Item {
     public static final String TIMESTAMP = "timestamp";
     public static final String PHONE_NUMBER = "phone_number";

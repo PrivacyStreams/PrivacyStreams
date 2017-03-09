@@ -20,6 +20,7 @@ import com.github.privacystreams.core.providers.MultiItemStreamProvider;
 
 /**
  * Created by fanglinchen on 1/31/17.
+ * TODO carefully define what is Wifi updates.
  */
 @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
 class WifiUpdatesProvider extends MultiItemStreamProvider {
