@@ -19,22 +19,12 @@ public class Message extends Item {
     public static final String TIMESTAMP = "timestamp";
 
 
-    public enum Type {
-        RECEIVED("received"),
-        SENT("sent");
-
-        private String type;
-        private Type(String type) {
-            this.type = type;
-        }
-
-        @Override
-        public String toString(){
-            return type;
-        }
+    public static class Types {
+        public static final String RECEIVED = "received";
+        public static final String SENT = "sent";
     };
 
-    Message(Type type, String content, String packageName, String contact, long timestamp){
+    Message(String type, String content, String packageName, String contact, long timestamp){
         this.setFieldValue(TYPE, type);
         this.setFieldValue(CONTENT, content);
         this.setFieldValue(PACKAGE_NAME, packageName);

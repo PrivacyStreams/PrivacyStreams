@@ -16,6 +16,7 @@ import static android.telephony.TelephonyManager.CALL_STATE_RINGING;
  */
 
 public class CallReceiver extends BroadcastReceiver {
+
     @Override
     public void onReceive(Context context, Intent intent) {
         try {

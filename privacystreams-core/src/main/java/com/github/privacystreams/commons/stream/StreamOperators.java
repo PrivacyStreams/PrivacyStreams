@@ -9,7 +9,7 @@ import com.github.privacystreams.core.Item;
  * A helper class to access common stream functions
  */
 
-public class Streams {
+public class StreamOperators {
 
     /**
      * A function that converts a stream to a list.

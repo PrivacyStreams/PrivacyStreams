@@ -7,8 +7,7 @@ import java.util.List;
 
 
 /**
- * Created by yuanchun on 07/12/2016.
- * Contact item
+ * A Contact item represents a contact.
  */
 
 public class Contact extends Item {

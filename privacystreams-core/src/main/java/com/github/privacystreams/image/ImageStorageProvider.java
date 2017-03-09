@@ -18,7 +18,7 @@ import java.io.IOException;
  * Created by fanglinchen on 2/2/17.
  */
 
-public class ImageStorageProvider extends MultiItemStreamProvider {
+class ImageStorageProvider extends MultiItemStreamProvider {
 
     ImageStorageProvider(){
         this.addRequiredPermissions(Manifest.permission.READ_EXTERNAL_STORAGE);

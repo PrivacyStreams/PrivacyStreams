@@ -14,8 +14,7 @@ import static android.content.Context.SENSOR_SERVICE;
 /**
  * Created by fanglinchen on 3/5/17.
  */
-
-public class LightUpdatesProvider extends MultiItemStreamProvider {
+class LightUpdatesProvider extends MultiItemStreamProvider {
 
     private transient MyLightListener lightListener;
     private transient SensorManager sensorManager;

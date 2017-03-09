@@ -8,7 +8,7 @@ import com.github.privacystreams.utils.HashUtils;
  * A helper class to access string-related functions
  */
 
-public class Strings {
+public class StringOperators {
 
     /**
      * A function that checks whether a string field in the item contains a certain substring.

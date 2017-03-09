@@ -65,20 +65,27 @@ public abstract class Stream {
         }
 
         // If receivers are not ready, cache the item
-        if (this.streamReceivers.size() != this.receiverCount) {
-            if (this.getUQI().isStreamDebug())
-                Logging.debug("Receivers are not ready, caching...");
-            this.streamCache.add(item);
-            return;
-        }
-
-        // send all cached items
-        while (true) {
-            Item cachedItem = this.streamCache.poll();
-            if (cachedItem != null)
-                this.doWrite(cachedItem);
-            else
-                break;
+//        if (this.streamReceivers.size() != this.receiverCount) {
+//            if (this.getUQI().isStreamDebug())
+//                Logging.debug("Receivers are not ready, caching...");
+//            this.streamCache.add(item);
+//            return;
+//        }
+//
+//        // send all cached items
+//        while (true) {
+//            Item cachedItem = this.streamCache.poll();
+//            if (cachedItem != null)
+//                this.doWrite(cachedItem);
+//            else
+//                break;
+//        }
+        while (this.streamReceivers.size() != this.receiverCount) {
+            try {
+                Thread.sleep(10);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
 
         this.doWrite(item);

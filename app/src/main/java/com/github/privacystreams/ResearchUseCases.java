@@ -2,7 +2,7 @@ package com.github.privacystreams;//package xyz.ylimit.personaldataapp;
 //
 //import xyz.ylimit.personaldataapp.privacystreams.UQI;
 //import xyz.ylimit.personaldataapp.privacystreams.collectors.location.Locations;
-//import xyz.ylimit.personaldataapp.privacystreams.collectors.statistic.Statistics;
+//import xyz.ylimit.personaldataapp.privacystreams.collectors.statistic.StatisticOperators;
 //import xyz.ylimit.personaldataapp.privacystreams.generic.Callback;
 //import xyz.ylimit.personaldataapp.privacystreams.generic.MultiItemStream;
 //import xyz.ylimit.personaldataapp.privacystreams.providers.app.AppEvent;
@@ -39,7 +39,7 @@ package com.github.privacystreams;//package xyz.ylimit.personaldataapp;
 //                .getDataItems(GeoLocation.asUpdates(), Purpose.feature("displaying location amongst your friends"))
 //                .map(setField("semantic_loc", Locations.geotag(GeoLocation.COORDINATES)))
 //                .localGroupBy("semantic_loc")
-//                .setGroupField("duration", Statistics.range(GeoLocation.TIMESTAMP))
+//                .setGroupField("duration", StatisticOperators.range(GeoLocation.TIMESTAMP))
 //                .list();
 //    }
 //

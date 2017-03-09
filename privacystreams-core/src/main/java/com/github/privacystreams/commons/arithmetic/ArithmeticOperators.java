@@ -8,7 +8,7 @@ import com.github.privacystreams.core.Item;
  * A helper class to access list-related functions
  */
 
-public class Arithmetics {
+public class ArithmeticOperators {
     /**
      * A function that rounds up a number.
      * @param numField the name of the number field

@@ -8,7 +8,7 @@ import com.github.privacystreams.core.Item;
  * A helper class to access logic-related functions
  */
 
-public class Logics {
+public class LogicOperators {
     /**
      * A predicate that returns the logical NOT of a function.
      *

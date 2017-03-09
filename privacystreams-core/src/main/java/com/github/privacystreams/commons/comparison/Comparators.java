@@ -8,7 +8,7 @@ import com.github.privacystreams.core.Item;
  * A helper class to access comparison-related functions
  */
 
-public class Comparisons {
+public class Comparators {
     /**
      * A function that checks if the value of a field is equal to a given value
      * @param field the name of the field to compare

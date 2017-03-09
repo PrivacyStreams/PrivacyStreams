@@ -43,14 +43,4 @@ public class Audio extends Item {
     public static MultiItemStreamProvider recordPeriodically(long duration_per_record, long interval) {
         return new AudioPeriodicRecorder(duration_per_record, interval);
     }
-
-    /**
-     * calculate the loudness of an audio field.
-     * the loudness is an integer in dB.
-     * @param audioUriField the name of the audio uri field.
-     * @return the function
-     */
-    public static Function<Item, Integer> getLoudness(String audioUriField) {
-        return new AudioLoudnessCalculator(audioUriField);
-    }
 }

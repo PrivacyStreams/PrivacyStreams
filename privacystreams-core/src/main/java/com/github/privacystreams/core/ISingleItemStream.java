@@ -103,11 +103,6 @@ public interface ISingleItemStream {
     Map<String, Object> asMap() throws PrivacyStreamsException;
 
     /**
-     * Print the item.
-     */
-    void print();
-
-    /**
      * Debug print the item.
      */
     void debug();

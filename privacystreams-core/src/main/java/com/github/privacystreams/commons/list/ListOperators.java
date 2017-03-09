@@ -10,7 +10,7 @@ import com.github.privacystreams.core.Item;
  * A helper class to access list-related functions
  */
 
-public class Lists {
+public class ListOperators {
     /**
      * A predicate that checks whether the list field value in a item contains a given value
      * @param listField the name of the list field

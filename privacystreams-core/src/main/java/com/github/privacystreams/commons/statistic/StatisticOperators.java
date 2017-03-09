@@ -9,7 +9,7 @@ import com.github.privacystreams.core.Item;
  * A helper class to access statistic-related functions
  */
 
-public class Statistics {
+public class StatisticOperators {
     /**
      * A function that counts the items in the stream and returns the count.
      *

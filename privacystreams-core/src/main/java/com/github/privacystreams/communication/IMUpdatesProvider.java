@@ -8,8 +8,8 @@ import android.view.accessibility.AccessibilityNodeInfo;
 import com.github.privacystreams.accessibility.BaseAccessibilityEvent;
 import com.github.privacystreams.core.Callback;
 import com.github.privacystreams.core.Item;
-import com.github.privacystreams.commons.comparison.Comparisons;
-import com.github.privacystreams.commons.item.Items;
+import com.github.privacystreams.commons.comparison.Comparators;
+import com.github.privacystreams.commons.item.ItemOperators;
 import com.github.privacystreams.core.providers.MultiItemStreamProvider;
 import com.github.privacystreams.core.purposes.Purpose;
 import com.github.privacystreams.utils.AccessibilityUtils;
@@ -21,7 +21,7 @@ import java.util.List;
  * Created by fanglinchen on 1/31/17.
  */
 @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
-public class IMUpdatesProvider extends MultiItemStreamProvider {
+class IMUpdatesProvider extends MultiItemStreamProvider {
     private int totalNumberOfMessages=0;
     private int result=0;
     private String detPackage="";
@@ -34,19 +34,20 @@ public class IMUpdatesProvider extends MultiItemStreamProvider {
         totalNumberOfMessages += 1;
         AccessibilityNodeInfo nodeInfo = nodeInfoList.get(nodeInfoList.size() - 1);
         String messageContent = nodeInfoList.get(nodeInfoList.size() - 1).getText().toString();
-        Message.Type messageType = AccessibilityUtils.isIncomingMessage(nodeInfo,packageName) ? Message.Type.RECEIVED : Message.Type.SENT;
+        String messageType = AccessibilityUtils.isIncomingMessage(nodeInfo,packageName) ? Message.Types.RECEIVED : Message.Types.SENT;
         this.output(new Message(messageType,messageContent,packageName,contactName,System.currentTimeMillis()));
 
     }
+
     @Override
     protected void provide() {
 
         getUQI().getDataItems(BaseAccessibilityEvent.asUpdates(),
                 Purpose.internal("Event Triggers"))
-                .filter(Items.isFieldIn(BaseAccessibilityEvent.PACKAGE_NAME,
+                .filter(ItemOperators.isFieldIn(BaseAccessibilityEvent.PACKAGE_NAME,
                         new String[]{APP_PACKAGE_WHATSAPP, APP_PACKAGE_FACEBOOK_MESSENGER}))
-                .filter(Comparisons.eq(BaseAccessibilityEvent.EVENT_TYPE, AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED))
-                .filter(Comparisons.gt(BaseAccessibilityEvent.ITEM_COUNT, 2))
+                .filter(Comparators.eq(BaseAccessibilityEvent.EVENT_TYPE, AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED))
+                .filter(Comparators.gt(BaseAccessibilityEvent.ITEM_COUNT, 2))
                 .forEach(new Callback<Item>() {
                     @Override
                     protected void onSuccess(Item input) {
@@ -82,6 +83,7 @@ public class IMUpdatesProvider extends MultiItemStreamProvider {
                 });
 
     }
+
     public int getEventItemCount(String pckName,  Item input){
         int temp = input.getValueByField(BaseAccessibilityEvent.ITEM_COUNT);
         if(pckName.equals(APP_PACKAGE_WHATSAPP)){
@@ -91,6 +93,7 @@ public class IMUpdatesProvider extends MultiItemStreamProvider {
         }
         return result;
     }
+
     public boolean initializing(int eventItemCount) {
         try {
             totalNumberOfMessages = eventItemCount;

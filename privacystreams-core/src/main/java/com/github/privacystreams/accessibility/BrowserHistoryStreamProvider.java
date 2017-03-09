@@ -5,8 +5,8 @@ import android.support.annotation.RequiresApi;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
 
-import com.github.privacystreams.commons.comparison.Comparisons;
-import com.github.privacystreams.commons.item.Items;
+import com.github.privacystreams.commons.comparison.Comparators;
+import com.github.privacystreams.commons.item.ItemOperators;
 import com.github.privacystreams.core.Callback;
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.providers.MultiItemStreamProvider;
@@ -21,18 +21,15 @@ import java.util.List;
  */
 
 @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
-public class BrowserHistoryStreamProvider extends MultiItemStreamProvider {
-    public static String lastSavedUrl = null;
-    public static String lastSavedUrlTitle = null;
+class BrowserHistoryStreamProvider extends MultiItemStreamProvider {
+    private static String lastSavedUrl = null;
+    private static String lastSavedUrlTitle = null;
 
     @Override
     protected void provide() {
-        getUQI().getDataItems(BaseAccessibilityEvent.asUpdates(),
-                Purpose.internal("Event Triggers"))
-                .filter(Items.isFieldIn(BaseAccessibilityEvent.PACKAGE_NAME,
-                        new String[]{AppUtils.APP_PACKAGE_FIREFOX, AppUtils.APP_PACKAGE_OPERA, AppUtils.APP_PACKAGE_CHROME}))
-                .filter(Comparisons.eq(BaseAccessibilityEvent.EVENT_TYPE,
-                        AccessibilityEvent.TYPE_VIEW_TEXT_SELECTION_CHANGED))
+        getUQI().getDataItems(BaseAccessibilityEvent.asUpdates(), Purpose.internal("Event Triggers"))
+                .filter(ItemOperators.isFieldIn(BaseAccessibilityEvent.PACKAGE_NAME, new String[]{AppUtils.APP_PACKAGE_FIREFOX, AppUtils.APP_PACKAGE_OPERA, AppUtils.APP_PACKAGE_CHROME}))
+                .filter(Comparators.eq(BaseAccessibilityEvent.EVENT_TYPE, AccessibilityEvent.TYPE_VIEW_TEXT_SELECTION_CHANGED))
                 .forEach(new Callback<Item>() {
                     @Override
                     protected void onSuccess(Item input) {
@@ -46,7 +43,7 @@ public class BrowserHistoryStreamProvider extends MultiItemStreamProvider {
                                 && !title.equals(lastSavedUrl)){
                             lastSavedUrl = url;
                             lastSavedUrlTitle = title;
-                            output(new BrowserHistory(title,packageName,url, System.currentTimeMillis()));
+                            output(new BrowserHistory(title,packageName, url, System.currentTimeMillis()));
                         }
 
                     }

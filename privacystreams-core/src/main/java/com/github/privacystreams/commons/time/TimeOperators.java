@@ -7,7 +7,7 @@ import com.github.privacystreams.core.Item;
  * A helper class to access time-related functions
  */
 
-public class Times {
+public class TimeOperators {
 
     /**
      * A predicate that checks whether the timestamp field value in a item is since a given timestamp.

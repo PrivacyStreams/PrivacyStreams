@@ -4,7 +4,7 @@ import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.providers.MultiItemStreamProvider;
 
 /**
- * Created by fanglinchen on 3/5/17.
+ * A BrowserHistory item represents a browser history entry.
  */
 
 public class BrowserHistory extends Item {

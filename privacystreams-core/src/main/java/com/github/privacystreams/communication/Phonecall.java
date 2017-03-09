@@ -6,7 +6,7 @@ import com.github.privacystreams.core.providers.MultiItemStreamProvider;
 
 /**
  * Created by yuanchun on 07/12/2016.
- * A Phonecall SingleItemStream represents a call log
+ * A Phonecall item represents a phonecall record
  */
 
 public class Phonecall extends Item {
@@ -15,23 +15,13 @@ public class Phonecall extends Item {
     public static final String DURATION = "duration";
     public static final String TYPE = "type";
 
-    public enum Type {
-        INCOMING("incoming"),
-        OUTGOING("outgoing"),
-        MISSED("missed");
-
-        private String callType;
-        private Type(String callType) {
-            this.callType = callType;
-        }
-
-        @Override
-        public String toString(){
-            return callType;
-        }
+    public static class Types {
+        public static final String INCOMING = "incoming";
+        public static final String OUTGOING = "outgoing";
+        public static final String MISSED = "missed";
     };
 
-    Phonecall(Long timestamp, String phone_number, Long duration, Type call_type) {
+    Phonecall(Long timestamp, String phone_number, Long duration, String call_type) {
         this.setFieldValue(TIMESTAMP, timestamp);
         this.setFieldValue(PHONE_NUMBER, phone_number);
         this.setFieldValue(DURATION, duration);
