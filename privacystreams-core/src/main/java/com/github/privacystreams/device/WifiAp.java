@@ -9,7 +9,7 @@ import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.providers.MultiItemStreamProvider;
 
 /**
- * Created by yuanchun on 07/12/2016.
+ * A WifiAp item represents the information of a WIFI AP.
  */
 
 @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
@@ -23,7 +23,6 @@ public class WifiAp extends Item {
 
     WifiAp(ScanResult scanResult, boolean connected) {
         this.setFieldValue(TIMESTAMP, scanResult.timestamp);
-
         this.setFieldValue(BSSID, scanResult.BSSID);
         this.setFieldValue(SSID, scanResult.SSID);
         this.setFieldValue(FREQUENCY, scanResult.frequency);
