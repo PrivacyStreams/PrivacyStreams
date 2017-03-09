@@ -11,7 +11,12 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
 import java.util.Set;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.LinkedBlockingDeque;
+import java.util.concurrent.LinkedBlockingQueue;
 
 
 /**
@@ -39,7 +44,7 @@ public abstract class Stream {
     private final Set<Function<? extends Stream, ?>> streamReceivers;
 
     private transient volatile int receiverCount = 1;
-    private transient List<Item> streamCache = new ArrayList<>();
+    private transient Queue<Item> streamCache = new ConcurrentLinkedQueue<>();
 
     Stream(UQI uqi) {
         this.uqi = uqi;
@@ -53,24 +58,27 @@ public abstract class Stream {
      * @param item  the item to write to the stream, null indicates the end of the stream
      * @param streamProvider the function that provide current stream
      */
-    public synchronized void write(Item item, Function<?, ? extends Stream> streamProvider) {
+    public void write(Item item, Function<?, ? extends Stream> streamProvider) {
         if (streamProvider != this.getStreamProvider() && streamProvider != this.getStreamProvider().getTail()) {
             Logging.warn("Illegal StreamProvider trying to write stream!");
             return;
         }
 
-        // If receivers are not ready, cache the items
+        // If receivers are not ready, cache the item
         if (this.streamReceivers.size() != this.receiverCount) {
             if (this.getUQI().isStreamDebug())
                 Logging.debug("Receivers are not ready, caching...");
             this.streamCache.add(item);
             return;
         }
-        else if (!this.streamCache.isEmpty()) {
-            for (Item cachedItem : this.streamCache) {
+
+        // send all cached items
+        while (true) {
+            Item cachedItem = this.streamCache.poll();
+            if (cachedItem != null)
                 this.doWrite(cachedItem);
-            }
-            this.streamCache.clear();
+            else
+                break;
         }
 
         this.doWrite(item);
@@ -78,7 +86,8 @@ public abstract class Stream {
 
     private void doWrite(Item item) {
         if (this.getUQI().isStreamDebug())
-            Logging.debug("Item " + item + " written to stream " + this.getStreamProvider());
+            Logging.debug("Item " + item + " writing to stream " + this.getStreamProvider());
+
         this.eventBus.post(item);
     }
 
