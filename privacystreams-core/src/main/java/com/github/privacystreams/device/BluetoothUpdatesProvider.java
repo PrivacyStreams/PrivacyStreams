@@ -15,7 +15,7 @@ import com.github.privacystreams.core.providers.MultiItemStreamProvider;
  * Created by lenovo on 2017/3/6.
  */
 
-public class BluetoothUpdatesProvider extends MultiItemStreamProvider{
+class BluetoothUpdatesProvider extends MultiItemStreamProvider{
     private int count;                      // count how many devices have been checked
     private BluetoothAdapter BTAdapter;
     private IntentFilter intentFilter;

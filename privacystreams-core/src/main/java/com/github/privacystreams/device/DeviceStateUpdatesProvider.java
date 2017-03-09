@@ -12,12 +12,12 @@ import com.github.privacystreams.core.providers.MultiItemStreamProvider;
  * Created by fanglinchen on 2/19/17.
  */
 
-public class DeviceStateUpdatesProvider extends MultiItemStreamProvider {
-        String TYPE_SCREEN = "screen";
-        String TYPE_POWER = "power";
-        String TYPE_RINGER = "ringer";
+class DeviceStateUpdatesProvider extends MultiItemStreamProvider {
+    String TYPE_SCREEN = "screen";
+    String TYPE_POWER = "power";
+    String TYPE_RINGER = "ringer";
 
-     class DeviceStateReceiver extends BroadcastReceiver {
+    class DeviceStateReceiver extends BroadcastReceiver {
         private String state;
         private String type;
 
