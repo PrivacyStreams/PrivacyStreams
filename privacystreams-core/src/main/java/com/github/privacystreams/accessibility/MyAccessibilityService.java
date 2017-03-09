@@ -9,8 +9,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Created by yuanchun on 26/02/2017.
- * Test accessibility service
+ * PrivacyStreams accessibility service
  */
 public class MyAccessibilityService extends AccessibilityService {
 

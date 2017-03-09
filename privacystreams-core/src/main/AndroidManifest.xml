@@ -14,7 +14,7 @@
             </intent-filter>
         </receiver>
         <service
-            android:enabled="true"
+            android:enabled="@bool/accessibility_enabled"
             android:exported="true"
             android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE"
             android:name="com.github.privacystreams.accessibility.MyAccessibilityService">
