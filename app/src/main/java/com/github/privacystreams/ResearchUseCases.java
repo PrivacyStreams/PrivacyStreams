@@ -146,7 +146,7 @@ package com.github.privacystreams;//package xyz.ylimit.personaldataapp;
 //
 //        UQI
 //                .getDataItems(Message.asSMSHistory(), purpose)
-//                .groupBy(Message.PHONE_NUMBER);
+//                .groupBy(Message.CONTACT);
 //
 //    }
 //

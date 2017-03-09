@@ -40,6 +40,7 @@ public class AccessibilityUtils {
     public static String FACEBOOK_MESSAGE_TEXT = "message_text";
     public static String FACEBOOK_MESSAGE_CONTACT = "thread_title_name";
     public static String FACEBOOK_MESSAGE_ENTRY = "text_input_bar";
+
     /**
      * traverse a tree from the root, and return all the notes in the tree
      * @param root

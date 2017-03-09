@@ -2,6 +2,7 @@ package com.github.privacystreams.communication;
 
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.providers.MultiItemStreamProvider;
+import com.github.privacystreams.utils.annotations.ItemField;
 
 import java.util.List;
 
@@ -11,14 +12,20 @@ import java.util.List;
  */
 
 public class Contact extends Item {
+    @ItemField(name=ID, type = String.class, description = "The contact ID in Android database.")
     public static final String ID = "id";
 
+    @ItemField(name=NAME, type = String.class, description = "The contact name.")
     public static final String NAME = "name";
 
+    @ItemField(name=PHONES, type = List.class, description = "The phone numbers of the contact.")
     public static final String PHONES = "phone_numbers";
+
+    @ItemField(name=EMAILS, type = List.class, description = "The emails of the contact.")
     public static final String EMAILS = "emails";
 
-    Contact(String name, List<String> phones, List<String> emails) {
+    Contact(String id, String name, List<String> phones, List<String> emails) {
+        this.setFieldValue(ID, id);
         this.setFieldValue(NAME, name);
         this.setFieldValue(PHONES, phones);
         this.setFieldValue(EMAILS, emails);

@@ -21,7 +21,7 @@ import java.util.List;
  */
 
 @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
-class BrowserHistoryStreamProvider extends MultiItemStreamProvider {
+class BrowserVisitStreamProvider extends MultiItemStreamProvider {
     private static String lastSavedUrl = null;
     private static String lastSavedUrlTitle = null;
 
@@ -34,7 +34,7 @@ class BrowserHistoryStreamProvider extends MultiItemStreamProvider {
                     @Override
                     protected void onSuccess(Item input) {
                         AccessibilityNodeInfo rootView = input.getValueByField(BaseAccessibilityEvent.ROOT_VIEW);
-                        List<AccessibilityNodeInfo> nodeInfos = input.getValueByField(BaseAccessibilityEvent.UI_NODE_LIST);
+                        List<AccessibilityNodeInfo> nodeInfos = AccessibilityUtils.preOrderTraverse(rootView);
                         String packageName = input.getValueByField(BaseAccessibilityEvent.PACKAGE_NAME);
                         String url = AccessibilityUtils.getBrowserCurrentUrl(rootView, packageName);
                         String title = AccessibilityUtils.getWebViewTitle(nodeInfos);
@@ -43,7 +43,7 @@ class BrowserHistoryStreamProvider extends MultiItemStreamProvider {
                                 && !title.equals(lastSavedUrl)){
                             lastSavedUrl = url;
                             lastSavedUrlTitle = title;
-                            output(new BrowserHistory(title,packageName, url, System.currentTimeMillis()));
+                            output(new BrowserVisit(title,packageName, url, System.currentTimeMillis()));
                         }
 
                     }

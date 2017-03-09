@@ -6,15 +6,17 @@ import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.providers.MultiItemStreamProvider;
 import com.github.privacystreams.core.providers.SingleItemStreamProvider;
+import com.github.privacystreams.utils.annotations.ItemField;
 
 /**
  * An Audio item represents an audio record
  */
 
 public class Audio extends Item {
-    // type: Long
+    @ItemField(name=TIMESTAMP, type = Long.class, description = "The timestamp of when current item is generated.")
     public static final String TIMESTAMP = "timestamp";
-    // type: String, representing the URI of audio file
+
+    @ItemField(name=URI, type = String.class, description = "The URI of the audio file.")
     public static final String URI = "uri";
 
     Audio(long timestamp, Uri file_uri) {

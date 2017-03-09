@@ -44,7 +44,7 @@ class ContactListProvider extends MultiItemStreamProvider {
         if (contactCur != null && contactCur.getCount() > 0) {
             contactCur.moveToFirst();
             while (!contactCur.isAfterLast()) {
-                String _ID = contactCur.getString(contactCur.getColumnIndex(ContactsContract.Data._ID));
+                String _id = contactCur.getString(contactCur.getColumnIndex(ContactsContract.Data._ID));
                 // The primary display name
                 String displayNameKey = Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB ?
                         ContactsContract.Data.DISPLAY_NAME_PRIMARY :
@@ -57,7 +57,7 @@ class ContactListProvider extends MultiItemStreamProvider {
                 Cursor phoneCur = contentResolver.query(
                         Phone.CONTENT_URI,
                         null,
-                        Phone.CONTACT_ID + " = " + _ID,
+                        Phone.CONTACT_ID + " = " + _id,
                         null,
                         null);
                 while (phoneCur.moveToNext()) {
@@ -71,7 +71,7 @@ class ContactListProvider extends MultiItemStreamProvider {
                 Cursor emailCur = contentResolver.query(
                         Email.CONTENT_URI,
                         null,
-                        Email.CONTACT_ID + " = " + _ID,
+                        Email.CONTACT_ID + " = " + _id,
                         null,
                         null);
                 while (emailCur.moveToNext()) {
@@ -81,9 +81,9 @@ class ContactListProvider extends MultiItemStreamProvider {
                 }
                 emailCur.close();
 
-                Contact contact = new Contact(name, phones, emails);
+                Contact contact = new Contact(_id, name, phones, emails);
                 this.output(contact);
-//                Contact contact = new Contact(_ID, contactID, lookup, displayName);
+//                Contact contact = new Contact(_id, contactID, lookup, displayName);
 //                contactQuery.write(contact);
 
                 contactCur.moveToNext();

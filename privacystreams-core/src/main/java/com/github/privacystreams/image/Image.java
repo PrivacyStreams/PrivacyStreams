@@ -2,12 +2,10 @@ package com.github.privacystreams.image;
 
 import android.net.Uri;
 
-import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.providers.MultiItemStreamProvider;
 import com.github.privacystreams.core.providers.SingleItemStreamProvider;
-
-import java.util.Map;
+import com.github.privacystreams.utils.annotations.ItemField;
 
 /**
  * An Image item represents an image file.
@@ -15,10 +13,10 @@ import java.util.Map;
 
 public class Image extends Item {
 
-    // type: Long
+    @ItemField(name="timestamp", type = Long.class, description = "The timestamp of when the image is generated.")
     private static final String TIMESTAMP = "timestamp";
 
-    // type: String, representing the URI of photo file
+    @ItemField(name="uri", type = String.class, description = "The URI of image file.")
     public static final String URI = "uri";
 
     // TODO create a metadata field, put lat and lng to metadata

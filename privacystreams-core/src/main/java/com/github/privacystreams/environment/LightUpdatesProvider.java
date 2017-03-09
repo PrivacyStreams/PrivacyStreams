@@ -38,12 +38,12 @@ class LightUpdatesProvider extends MultiItemStreamProvider {
         MyLightListener(){
             sensorManager = (SensorManager)getContext().getSystemService(SENSOR_SERVICE);
             lightSensor = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
-            sensorManager.registerListener(this,lightSensor,SensorManager.SENSOR_DELAY_NORMAL);
+            sensorManager.registerListener(this,lightSensor, SensorManager.SENSOR_DELAY_NORMAL);
         }
 
         @Override
         public void onSensorChanged(SensorEvent event) {
-            output(new Light(event.values[0],System.currentTimeMillis()));
+            output(new Light(event.values[0], System.currentTimeMillis()));
         }
 
         @Override

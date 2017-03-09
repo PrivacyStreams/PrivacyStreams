@@ -4,15 +4,15 @@ import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
 
 import com.github.privacystreams.core.providers.MultiItemStreamProvider;
+import com.github.privacystreams.utils.annotations.ItemField;
 
 import java.util.Date;
 
 /**
- * @author toby
- * @date 2/28/17
- * @time 10:54 AM
+ * A TextEntry represents a piece of text typed by the user.
  */
 public class TextEntry extends UIAction {
+    @ItemField(name=CONTENT, type = String.class, description = "The user-typed content.")
     public static final String CONTENT = "content";
 
     TextEntry(AccessibilityEvent event, AccessibilityNodeInfo sourceNode, String content, Date timeStamp){

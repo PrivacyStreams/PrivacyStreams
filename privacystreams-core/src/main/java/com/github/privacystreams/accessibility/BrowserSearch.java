@@ -2,13 +2,17 @@ package com.github.privacystreams.accessibility;
 
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.providers.MultiItemStreamProvider;
+import com.github.privacystreams.utils.annotations.ItemField;
 
 /**
- * A BrowserHistory item represents a browser search entry.
+ * A BrowserSearch item represents a browser search event.
  */
 
 public class BrowserSearch extends Item {
-    public static final String TEXT = "title";
+    @ItemField(name=TEXT, type = String.class, description = "The searched text.")
+    public static final String TEXT = "text";
+
+    @ItemField(name=TIMESTAMP, type = Long.class, description = "The timestamp of when the search event is happened.")
     public static final String TIMESTAMP = "timestamp";
 
     public BrowserSearch(String title,

@@ -5,6 +5,7 @@ import android.os.Build;
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.providers.MultiItemStreamProvider;
 import com.github.privacystreams.utils.Logging;
+import com.github.privacystreams.utils.annotations.ItemField;
 
 /**
  * Created by yuanchun on 07/12/2016.
@@ -12,12 +13,20 @@ import com.github.privacystreams.utils.Logging;
  */
 
 public class Message extends Item {
+    @ItemField(name=TYPE, type = String.class, description = "The message type, could be \"received\" or \"sent\".")
     public static final String TYPE = "type";
-    public static final String CONTENT = "content";
-    public static final String PACKAGE_NAME = "package_name";
-    public static final String CONTACT = "contact";
-    public static final String TIMESTAMP = "timestamp";
 
+    @ItemField(name=CONTENT, type = String.class, description = "The message content.")
+    public static final String CONTENT = "content";
+
+    @ItemField(name=PACKAGE_NAME, type = String.class, description = "The package name of the app where message is captured.")
+    public static final String PACKAGE_NAME = "package_name";
+
+    @ItemField(name=CONTACT, type = String.class, description = "The contact (phone number or name) of the message.")
+    public static final String CONTACT = "contact";
+
+    @ItemField(name=TIMESTAMP, type = Long.class, description = "The timestamp of when the message is sent/received.")
+    public static final String TIMESTAMP = "timestamp";
 
     public static class Types {
         public static final String RECEIVED = "received";

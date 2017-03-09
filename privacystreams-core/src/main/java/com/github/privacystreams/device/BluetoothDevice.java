@@ -8,6 +8,7 @@ import com.github.privacystreams.core.providers.MultiItemStreamProvider;
  */
 
 public class BluetoothDevice extends Item {
+
     private static final String NAME = "name";          // The device name for the bluetooth device
     private static final String MAC_ADDRESS = "mac_address";                      // The mac address for the bluetooth device
     private static final String BONDED = "bonded";                     // The bonded information for the bluetooth device

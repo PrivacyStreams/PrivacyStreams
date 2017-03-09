@@ -4,7 +4,7 @@ import android.content.Context;
 import android.location.LocationManager;
 import android.os.Build;
 
-import com.github.privacystreams.accessibility.BrowserHistory;
+import com.github.privacystreams.accessibility.BrowserVisit;
 import com.github.privacystreams.accessibility.BrowserSearch;
 import com.github.privacystreams.accessibility.TextEntry;
 import com.github.privacystreams.accessibility.UIAction;
@@ -90,7 +90,7 @@ public class UseCases {
     }
 
     public void testBrowserHistoryUpdates(){
-        uqi.getDataItems(BrowserHistory.asUpdates(), Purpose.feature("browser history")).debug();
+        uqi.getDataItems(BrowserVisit.asUpdates(), Purpose.feature("browser history")).debug();
     }
     public void testBrowserSearchUpdates(){
         uqi.getDataItems(BrowserSearch.asUpdates(), Purpose.feature("browser search")).debug();
@@ -115,7 +115,7 @@ public class UseCases {
 //
 //    public void testBrowerHistoryUpdates(){
 //        uqi
-//                .getDataItems(BrowserHistory.asUpdates(),Purpose.ads("browser history"))
+//                .getDataItems(BrowserVisit.asUpdates(),Purpose.ads("browser history"))
 //                .debug();
 //    }
 //
@@ -134,7 +134,7 @@ public class UseCases {
 //
 //    public void testBrowserHistoryUpdates(){
 //        uqi.
-//                getDataItems(BrowserHistory.asUpdates(),Purpose.feature("browser_history"))
+//                getDataItems(BrowserVisit.asUpdates(),Purpose.feature("browser_history"))
 //                .debug();
 //    }
 //
@@ -163,7 +163,7 @@ public class UseCases {
                 .getDataItems(Phonecall.asLogs(), Purpose.feature("getDataItems recent called phone numbers"))
                 .sortBy(Phonecall.TIMESTAMP)
                 .limit(n)
-                .asList(Phonecall.PHONE_NUMBER);
+                .asList(Phonecall.CONTACT);
         List<String> recentCalledNames = uqi
                 .getDataItems(Contact.asList(), Purpose.feature("getDataItems names of recent called phone numbers"))
                 .filter(ListOperators.intersects(Contact.PHONES, recentCalledPhoneNumbers.toArray()))
@@ -285,10 +285,10 @@ public class UseCases {
         // each Map element is like {"phone_number": "xxxxxxx", "num_of_calls": 10, "length_of_calls": 30000}
         List<Item> totalNumberOfCallsPerPerson = uqi
                 .getDataItems(Phonecall.asLogs(), Purpose.feature("get the tie relationship with people"))
-                .groupBy(Phonecall.PHONE_NUMBER)
+                .groupBy(Phonecall.CONTACT)
                 .setGroupField("num_of_calls", StatisticOperators.count())
                 .setGroupField("length_of_calls", StatisticOperators.sum(Phonecall.DURATION))
-                .project(Phonecall.PHONE_NUMBER, "num_of_calls", "length_of_calls")
+                .project(Phonecall.CONTACT, "num_of_calls", "length_of_calls")
                 .asList();
     }
 

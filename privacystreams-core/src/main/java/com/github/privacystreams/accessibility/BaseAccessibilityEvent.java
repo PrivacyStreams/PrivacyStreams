@@ -5,6 +5,7 @@ import android.view.accessibility.AccessibilityNodeInfo;
 
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.providers.MultiItemStreamProvider;
+import com.github.privacystreams.utils.annotations.ItemField;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -15,35 +16,27 @@ import java.util.List;
  */
 public class BaseAccessibilityEvent extends Item {
 
-    // TODO: @toby @fanglin 1. serialize this item; 2. remove redundant fields
+    @ItemField(name=TIMESTAMP, type = Long.class, description = "The timestamp of when the item is generated.")
     public static final String TIMESTAMP = "timestamp";
+
+    @ItemField(name=EVENT_TYPE, type = Integer.class, description = "The type of the event, see https://developer.android.com/reference/android/view/accessibility/AccessibilityEvent.html for a list of event types.")
     public static final String EVENT_TYPE = "event_type";
+
+    @ItemField(name=PACKAGE_NAME, type = String.class, description = "The package name of the current app (could be null).")
     public static final String PACKAGE_NAME = "package_name";
-    public static final String UI_NODE_LIST = "ui_node_list";
+
+    @ItemField(name=ROOT_VIEW, type = AccessibilityNodeInfo.class, description = "The root view of current event.")
     public static final String ROOT_VIEW = "root_view";
+
+    @ItemField(name=ITEM_COUNT, type = Integer.class, description = "The number of items in current event.")
     public static final String ITEM_COUNT = "item_count";
 
     BaseAccessibilityEvent(AccessibilityEvent accessibilityEvent, AccessibilityNodeInfo rootNode, Date timeStamp){
         this.setFieldValue(EVENT_TYPE, accessibilityEvent.getEventType());
         this.setFieldValue(TIMESTAMP, timeStamp);
         this.setFieldValue(PACKAGE_NAME, accessibilityEvent.getPackageName() != null ? accessibilityEvent.getPackageName() : "NULL");
-        this.setFieldValue(UI_NODE_LIST, getUINodeList(rootNode));
-        this.setFieldValue(ROOT_VIEW,rootNode);
-        this.setFieldValue(ITEM_COUNT,accessibilityEvent.getItemCount());
-    }
-
-    private List<AccessibilityNodeInfo> getUINodeList(AccessibilityNodeInfo rootNode){
-        List<AccessibilityNodeInfo> list = new ArrayList<>();
-        if(rootNode == null)
-            return list;
-        list.add(rootNode);
-        int childCount = rootNode.getChildCount();
-        for(int i = 0; i < childCount; i ++){
-            AccessibilityNodeInfo node = rootNode.getChild(i);
-            if(node != null)
-                list.addAll(getUINodeList(node));
-        }
-        return list;
+        this.setFieldValue(ROOT_VIEW, rootNode);
+        this.setFieldValue(ITEM_COUNT, accessibilityEvent.getItemCount());
     }
 
     public static MultiItemStreamProvider asUpdates() {
