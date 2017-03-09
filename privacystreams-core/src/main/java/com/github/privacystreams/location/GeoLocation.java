@@ -16,23 +16,23 @@ import java.util.List;
  */
 
 public class GeoLocation extends Item {
-    @ItemField(name=TIMESTAMP, type = Long.class, description = "The timestamp of the location.")
+    @ItemField(name = "timestamp", type = Long.class, description = "The timestamp of the location.")
     public static final String TIMESTAMP = "timestamp";
 
     // type: List<Double>, the elements are latitude, longitude, altitude
-    @ItemField(name=COORDINATES, type = List.class, description = "The coordinates of the location, including latitude, longitude, and (optional) altitude.")
+    @ItemField(name = "coordinates", type = List.class, description = "The coordinates of the location, including latitude, longitude, and (optional) altitude.")
     public static final String COORDINATES = "coordinates";
 
     // type: Double
-    @ItemField(name=SPEED, type = Float.class, description = "The speed at the location, in meters/second.")
+    @ItemField(name = "speed", type = Float.class, description = "The speed at the location, in meters/second.")
     public static final String SPEED = "speed";
 
     // type: String, the provider of the location data, e.g. "gps", "network"
-    @ItemField(name=PROVIDER, type = String.class, description = "The provider of the location data, e.g., \"gps\" or \"network\".")
+    @ItemField(name = "provider", type = String.class, description = "The provider of the location data, e.g., \"gps\" or \"network\".")
     public static final String PROVIDER = "provider";
 
     // type: Double, the accuracy of the location data, in meters
-    @ItemField(name=ACCURACY, type = Float.class, description = "The accuracy of the location data, in meters.")
+    @ItemField(name = "accuracy", type = Float.class, description = "The accuracy of the location data, in meters.")
     public static final String ACCURACY = "accuracy";
 
     GeoLocation(long time, String provider, double latitude, double longitude,

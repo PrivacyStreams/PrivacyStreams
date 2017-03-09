@@ -9,10 +9,10 @@ import com.github.privacystreams.utils.annotations.ItemField;
  */
 
 public class Light extends Item {
-    @ItemField(name=INTENSITY, type = Float.class, description = "The light intensity, in .")
+    @ItemField(name = "intensity", type = Float.class, description = "The light intensity, in ??.")
     public static final String INTENSITY = "intensity";
 
-    @ItemField(name=TIMESTAMP, type = Long.class, description = "The timestamp of when the light sensor value is read.")
+    @ItemField(name = "timestamp", type = Long.class, description = "The timestamp of when the light sensor value is read.")
     public static final String TIMESTAMP = "timestamp";
 
     public Light(float intensity, long timestamp) {

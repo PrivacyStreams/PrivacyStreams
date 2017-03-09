@@ -13,19 +13,19 @@ import com.github.privacystreams.utils.annotations.ItemField;
  */
 
 public class Message extends Item {
-    @ItemField(name=TYPE, type = String.class, description = "The message type, could be \"received\" or \"sent\".")
+    @ItemField(name="type", type = String.class, description = "The message type, could be \"received\" or \"sent\".")
     public static final String TYPE = "type";
 
-    @ItemField(name=CONTENT, type = String.class, description = "The message content.")
+    @ItemField(name="content", type = String.class, description = "The message content.")
     public static final String CONTENT = "content";
 
-    @ItemField(name=PACKAGE_NAME, type = String.class, description = "The package name of the app where message is captured.")
+    @ItemField(name="package_name", type = String.class, description = "The package name of the app where message is captured.")
     public static final String PACKAGE_NAME = "package_name";
 
-    @ItemField(name=CONTACT, type = String.class, description = "The contact (phone number or name) of the message.")
+    @ItemField(name="contact", type = String.class, description = "The contact (phone number or name) of the message.")
     public static final String CONTACT = "contact";
 
-    @ItemField(name=TIMESTAMP, type = Long.class, description = "The timestamp of when the message is sent/received.")
+    @ItemField(name="timestamp", type = Long.class, description = "The timestamp of when the message is sent/received.")
     public static final String TIMESTAMP = "timestamp";
 
     public static class Types {

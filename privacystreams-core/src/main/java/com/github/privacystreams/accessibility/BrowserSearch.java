@@ -9,10 +9,10 @@ import com.github.privacystreams.utils.annotations.ItemField;
  */
 
 public class BrowserSearch extends Item {
-    @ItemField(name=TEXT, type = String.class, description = "The searched text.")
+    @ItemField(name="text", type = String.class, description = "The searched text.")
     public static final String TEXT = "text";
 
-    @ItemField(name=TIMESTAMP, type = Long.class, description = "The timestamp of when the search event is happened.")
+    @ItemField(name="timestamp", type = Long.class, description = "The timestamp of when the search event is happened.")
     public static final String TIMESTAMP = "timestamp";
 
     public BrowserSearch(String title,

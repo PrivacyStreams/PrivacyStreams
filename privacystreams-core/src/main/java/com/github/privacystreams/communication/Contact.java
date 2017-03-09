@@ -12,16 +12,16 @@ import java.util.List;
  */
 
 public class Contact extends Item {
-    @ItemField(name=ID, type = String.class, description = "The contact ID in Android database.")
+    @ItemField(name="id", type = String.class, description = "The contact ID in Android database.")
     public static final String ID = "id";
 
-    @ItemField(name=NAME, type = String.class, description = "The contact name.")
+    @ItemField(name="name", type = String.class, description = "The contact name.")
     public static final String NAME = "name";
 
-    @ItemField(name=PHONES, type = List.class, description = "The phone numbers of the contact.")
+    @ItemField(name="phone_numbers", type = List.class, description = "The phone numbers of the contact.")
     public static final String PHONES = "phone_numbers";
 
-    @ItemField(name=EMAILS, type = List.class, description = "The emails of the contact.")
+    @ItemField(name="emails", type = List.class, description = "The emails of the contact.")
     public static final String EMAILS = "emails";
 
     Contact(String id, String name, List<String> phones, List<String> emails) {

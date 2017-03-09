@@ -13,10 +13,10 @@ import com.github.privacystreams.utils.annotations.ItemField;
  */
 
 public class Audio extends Item {
-    @ItemField(name=TIMESTAMP, type = Long.class, description = "The timestamp of when current item is generated.")
+    @ItemField(name="timestamp", type = Long.class, description = "The timestamp of when current item is generated.")
     public static final String TIMESTAMP = "timestamp";
 
-    @ItemField(name=URI, type = String.class, description = "The URI of the audio file.")
+    @ItemField(name="uri", type = String.class, description = "The URI of the audio file.")
     public static final String URI = "uri";
 
     Audio(long timestamp, Uri file_uri) {

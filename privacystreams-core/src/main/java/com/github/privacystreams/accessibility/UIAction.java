@@ -12,7 +12,7 @@ import java.util.Date;
  * A UIAction item represents a UI action.
  */
 public class UIAction extends BaseAccessibilityEvent {
-    @ItemField(name=SOURCE_NODE, type = AccessibilityNodeInfo.class, description = "The source node of current accessibility event.")
+    @ItemField(name="source_node", type = AccessibilityNodeInfo.class, description = "The source node of current accessibility event.")
     public static final String SOURCE_NODE = "source_node";
 
     public UIAction(AccessibilityEvent event, AccessibilityNodeInfo rootNode, Date timeStamp){

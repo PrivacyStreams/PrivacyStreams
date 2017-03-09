@@ -14,19 +14,19 @@ import java.util.List;
 
 public class MockItem extends Item {
 
-    @ItemField(name=ID, type = Long.class, description = "The index of current item.")
+    @ItemField(name = "id", type = Long.class, description = "The index of current item.")
     public static final String ID = "id";
 
-    @ItemField(name=X, type = Integer.class, description = "A random integer.")
+    @ItemField(name = "x", type = Integer.class, description = "A random integer.")
     public static final String X = "x";
 
-    @ItemField(name=Y, type = String.class, description = "A random String.")
+    @ItemField(name = "y", type = String.class, description = "A random String.")
     public static final String Y = "y";
 
-    @ItemField(name=Z, type = Double.class, description = "A random float number.")
+    @ItemField(name = "z", type = Double.class, description = "A random float number.")
     public static final String Z = "z";
 
-    @ItemField(name=TIME_CREATED, type = Long.class, description = "The timestamp of when current item is created.")
+    @ItemField(name = "time_created", type = Long.class, description = "The timestamp of when current item is created.")
     public static final String TIME_CREATED = "time_created";
 
     public MockItem(long id, Integer x, String y, Double z) {

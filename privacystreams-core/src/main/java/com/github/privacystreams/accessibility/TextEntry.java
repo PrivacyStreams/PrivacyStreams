@@ -12,7 +12,7 @@ import java.util.Date;
  * A TextEntry represents a piece of text typed by the user.
  */
 public class TextEntry extends UIAction {
-    @ItemField(name=CONTENT, type = String.class, description = "The user-typed content.")
+    @ItemField(name="content", type = String.class, description = "The user-typed content.")
     public static final String CONTENT = "content";
 
     TextEntry(AccessibilityEvent event, AccessibilityNodeInfo sourceNode, String content, Date timeStamp){
