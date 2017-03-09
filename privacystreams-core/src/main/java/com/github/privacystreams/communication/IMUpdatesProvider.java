@@ -6,10 +6,10 @@ import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
 
 import com.github.privacystreams.accessibility.BaseAccessibilityEvent;
-import com.github.privacystreams.core.Callback;
-import com.github.privacystreams.core.Item;
 import com.github.privacystreams.commons.comparison.Comparators;
 import com.github.privacystreams.commons.item.ItemOperators;
+import com.github.privacystreams.core.Callback;
+import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.providers.MultiItemStreamProvider;
 import com.github.privacystreams.core.purposes.Purpose;
 import com.github.privacystreams.utils.AccessibilityUtils;

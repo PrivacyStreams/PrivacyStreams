@@ -1,7 +1,6 @@
 package com.github.privacystreams.core.transformations.reduce;
 
 import com.github.privacystreams.core.Item;
-import com.github.privacystreams.core.MultiItemStream;
 import com.github.privacystreams.core.transformations.M2STransformation;
 
 

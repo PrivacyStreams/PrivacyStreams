@@ -9,7 +9,6 @@ import android.net.wifi.ScanResult;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Build;
-import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.RequiresApi;
 

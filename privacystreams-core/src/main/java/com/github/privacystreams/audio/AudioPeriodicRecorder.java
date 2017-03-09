@@ -2,11 +2,7 @@ package com.github.privacystreams.audio;
 
 import android.Manifest;
 
-import com.github.privacystreams.core.MultiItemStream;
 import com.github.privacystreams.core.providers.MultiItemStreamProvider;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by yuanchun on 28/12/2016.

@@ -3,7 +3,6 @@ package com.github.privacystreams.core.transformations.pick;
 import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.MultiItemStream;
 import com.github.privacystreams.core.SingleItemStream;
-import com.github.privacystreams.core.transformations.M2STransformation;
 
 /**
  * A helper class to access picker functions

@@ -1,10 +1,9 @@
 package com.github.privacystreams.core.transformations.reorder;
 
-import java.util.ArrayList;
+import com.github.privacystreams.core.Item;
+
 import java.util.Collections;
 import java.util.List;
-
-import com.github.privacystreams.core.Item;
 
 /**
  * Created by yuanchun on 22/12/2016.

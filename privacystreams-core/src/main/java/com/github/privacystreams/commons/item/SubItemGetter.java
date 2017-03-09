@@ -1,10 +1,10 @@
 package com.github.privacystreams.commons.item;
 
-import java.util.Map;
-
+import com.github.privacystreams.commons.ItemFunction;
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.UQI;
-import com.github.privacystreams.commons.ItemFunction;
+
+import java.util.Map;
 
 import static com.github.privacystreams.utils.Assertions.notNull;
 

@@ -1,9 +1,9 @@
 package com.github.privacystreams.commons.stream;
 
-import java.util.List;
-
 import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.Item;
+
+import java.util.List;
 
 /**
  * A helper class to access common stream functions

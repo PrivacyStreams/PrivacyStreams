@@ -1,10 +1,6 @@
 package com.github.privacystreams.core.transformations.pick;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.github.privacystreams.core.Item;
-import com.github.privacystreams.core.MultiItemStream;
 import com.github.privacystreams.core.transformations.M2STransformation;
 
 

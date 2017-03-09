@@ -1,7 +1,6 @@
 package com.github.privacystreams.core;
 
 import com.github.privacystreams.core.exceptions.PrivacyStreamsException;
-import com.github.privacystreams.core.providers.MultiItemStreamProvider;
 import com.github.privacystreams.core.providers.SingleItemStreamProvider;
 import com.github.privacystreams.core.purposes.Purpose;
 

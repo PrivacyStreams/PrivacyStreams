@@ -1,10 +1,10 @@
 package com.github.privacystreams.commons.string;
 
-import java.security.NoSuchAlgorithmException;
-
 import com.github.privacystreams.utils.Assertions;
-import com.github.privacystreams.utils.Logging;
 import com.github.privacystreams.utils.HashUtils;
+import com.github.privacystreams.utils.Logging;
+
+import java.security.NoSuchAlgorithmException;
 
 /**
  * A function that hash a given string and return the hashed string

@@ -4,8 +4,6 @@ import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.MultiItemStream;
 import com.github.privacystreams.core.SingleItemStream;
-import com.github.privacystreams.core.transformations.M2MTransformation;
-import com.github.privacystreams.core.transformations.S2STransformation;
 
 /**
  * A helper class to access reorder functions

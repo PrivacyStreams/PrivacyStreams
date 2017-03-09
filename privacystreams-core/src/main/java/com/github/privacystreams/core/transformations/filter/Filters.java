@@ -3,7 +3,6 @@ package com.github.privacystreams.core.transformations.filter;
 import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.MultiItemStream;
-import com.github.privacystreams.core.transformations.M2MTransformation;
 
 /**
  * A helper class to access filter functions

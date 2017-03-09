@@ -4,7 +4,6 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.util.Log;
 
 import com.github.privacystreams.core.UQI;
 import com.github.privacystreams.core.providers.MultiItemStreamProvider;

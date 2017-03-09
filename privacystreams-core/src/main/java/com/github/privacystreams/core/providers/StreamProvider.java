@@ -3,7 +3,6 @@ package com.github.privacystreams.core.providers;
 import com.github.privacystreams.core.EventDrivenFunction;
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.Stream;
-import com.github.privacystreams.core.UQI;
 
 /**
  * A StreamProvider is a function that produces a stream.

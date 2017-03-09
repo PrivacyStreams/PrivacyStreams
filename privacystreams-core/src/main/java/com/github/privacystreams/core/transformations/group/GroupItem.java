@@ -1,8 +1,8 @@
 package com.github.privacystreams.core.transformations.group;
 
-import java.util.List;
-
 import com.github.privacystreams.core.Item;
+
+import java.util.List;
 
 /**
  * Created by yuanchun on 22/12/2016.

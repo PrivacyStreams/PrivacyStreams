@@ -1,9 +1,9 @@
 package com.github.privacystreams.commons.time;
 
-import com.github.privacystreams.core.UQI;
 import com.github.privacystreams.commons.ItemFunction;
-import com.github.privacystreams.utils.Assertions;
 import com.github.privacystreams.core.Item;
+import com.github.privacystreams.core.UQI;
+import com.github.privacystreams.utils.Assertions;
 
 /**
  * Created by yuanchun on 28/12/2016.

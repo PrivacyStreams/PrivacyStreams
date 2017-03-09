@@ -1,23 +1,23 @@
 package com.github.privacystreams.core;
 
-import java.util.List;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
-
 import com.github.privacystreams.commons.comparison.Comparators;
 import com.github.privacystreams.commons.item.ItemOperators;
+import com.github.privacystreams.commons.statistic.StatisticOperators;
+import com.github.privacystreams.commons.stream.StreamOperators;
 import com.github.privacystreams.core.actions.MultiItemStreamAction;
 import com.github.privacystreams.core.actions.callback.Callbacks;
 import com.github.privacystreams.core.exceptions.PipelineInterruptedException;
 import com.github.privacystreams.core.exceptions.PrivacyStreamsException;
-import com.github.privacystreams.commons.stream.StreamOperators;
-import com.github.privacystreams.commons.statistic.StatisticOperators;
 import com.github.privacystreams.core.transformations.filter.Filters;
 import com.github.privacystreams.core.transformations.group.Groupers;
 import com.github.privacystreams.core.transformations.limit.Limiters;
 import com.github.privacystreams.core.transformations.map.Mappers;
 import com.github.privacystreams.core.transformations.pick.Pickers;
 import com.github.privacystreams.core.transformations.reorder.Reorders;
+
+import java.util.List;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 /**
  * Created by yuanchun on 28/11/2016.

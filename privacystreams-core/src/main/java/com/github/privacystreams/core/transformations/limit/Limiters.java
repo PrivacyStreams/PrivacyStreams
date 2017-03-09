@@ -1,9 +1,8 @@
 package com.github.privacystreams.core.transformations.limit;
 
 import com.github.privacystreams.core.Function;
-import com.github.privacystreams.core.MultiItemStream;
 import com.github.privacystreams.core.Item;
-import com.github.privacystreams.core.transformations.M2MTransformation;
+import com.github.privacystreams.core.MultiItemStream;
 
 /**
  * Created by yuanchun on 30/12/2016.

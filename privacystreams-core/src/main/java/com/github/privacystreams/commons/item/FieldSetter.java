@@ -1,9 +1,9 @@
 package com.github.privacystreams.commons.item;
 
+import com.github.privacystreams.commons.ItemFunction;
 import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.UQI;
-import com.github.privacystreams.commons.ItemFunction;
 
 import static com.github.privacystreams.utils.Assertions.notNull;
 

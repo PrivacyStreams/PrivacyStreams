@@ -1,14 +1,14 @@
 package com.github.privacystreams.core;
 
-import java.util.Map;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
-
 import com.github.privacystreams.commons.item.ItemOperators;
 import com.github.privacystreams.core.actions.SingleItemStreamAction;
 import com.github.privacystreams.core.exceptions.PipelineInterruptedException;
 import com.github.privacystreams.core.exceptions.PrivacyStreamsException;
 import com.github.privacystreams.core.transformations.map.Mappers;
+
+import java.util.Map;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 /**
  * Created by yuanchun on 29/11/2016.

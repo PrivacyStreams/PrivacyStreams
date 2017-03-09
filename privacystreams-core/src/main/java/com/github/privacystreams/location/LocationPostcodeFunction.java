@@ -1,7 +1,5 @@
 package com.github.privacystreams.location;
 
-import java.util.List;
-
 /**
  * Created by yuanchun on 29/12/2016.
  * A function that computes the blurred coordinates

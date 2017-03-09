@@ -2,7 +2,6 @@ package com.github.privacystreams.core.transformations.group;
 
 import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.MultiItemStream;
-import com.github.privacystreams.core.transformations.M2MTransformation;
 
 /**
  * A helper class to access grouping functions

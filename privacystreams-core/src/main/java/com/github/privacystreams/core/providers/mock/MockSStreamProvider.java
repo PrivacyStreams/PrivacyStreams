@@ -1,11 +1,6 @@
 package com.github.privacystreams.core.providers.mock;
 
-import com.github.privacystreams.core.Item;
-import com.github.privacystreams.core.SingleItemStream;
 import com.github.privacystreams.core.providers.SingleItemStreamProvider;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 /**

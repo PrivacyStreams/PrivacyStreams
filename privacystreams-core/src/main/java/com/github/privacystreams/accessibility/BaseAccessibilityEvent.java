@@ -7,9 +7,7 @@ import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.providers.MultiItemStreamProvider;
 import com.github.privacystreams.utils.annotations.ItemField;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 /**
  * Base Accessibility event.

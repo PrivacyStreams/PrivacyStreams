@@ -1,11 +1,10 @@
 package com.github.privacystreams.core.transformations.reorder;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.github.privacystreams.core.MultiItemStream;
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.transformations.M2MTransformation;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A function that reorders the items in a stream

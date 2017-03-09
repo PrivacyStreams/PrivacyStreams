@@ -1,11 +1,11 @@
 package com.github.privacystreams.location;
 
-import java.util.List;
-
+import com.github.privacystreams.commons.ItemFunction;
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.UQI;
-import com.github.privacystreams.commons.ItemFunction;
 import com.github.privacystreams.utils.Assertions;
+
+import java.util.List;
 
 /**
  * Created by yuanchun on 28/12/2016.

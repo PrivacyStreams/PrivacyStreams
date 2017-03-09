@@ -2,7 +2,6 @@ package com.github.privacystreams.location;
 
 import android.location.Location;
 
-import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.providers.MultiItemStreamProvider;
 import com.github.privacystreams.core.providers.SingleItemStreamProvider;

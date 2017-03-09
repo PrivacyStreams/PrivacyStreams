@@ -12,7 +12,6 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.RequiresApi;
-import android.util.Log;
 
 import com.github.privacystreams.core.UQI;
 import com.github.privacystreams.core.providers.MultiItemStreamProvider;

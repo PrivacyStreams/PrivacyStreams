@@ -1,9 +1,9 @@
 package com.github.privacystreams.commons.list;
 
-import java.util.Arrays;
-
 import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.Item;
+
+import java.util.Arrays;
 
 /**
  * Created by yuanchun on 29/12/2016.
