@@ -20,6 +20,6 @@ public class BTDevice extends Item {
         this.setFieldValue(BONDED,scannedDevice.getBondState());
     }
     public static MultiItemStreamProvider asUpdates(){
-        return new blueToothUpdatesProvider();
+        return new BlueToothUpdatesProvider();
     }
 }

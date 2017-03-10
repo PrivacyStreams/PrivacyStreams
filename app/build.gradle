@@ -10,6 +10,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+       // multiDexEnabled true
     }
     buildTypes {
         release {
@@ -38,4 +39,6 @@ dependencies {
     compile project(':privacystreams-accessibility')
     compile project(':privacystreams-environment')
     compile project(':privacystreams-device')
+    compile project(':privacystreams-motion')
+    //compile 'com.android.support:multidex:1.0.0'
 }

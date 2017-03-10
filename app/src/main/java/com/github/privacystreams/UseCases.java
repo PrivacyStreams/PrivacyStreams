@@ -33,6 +33,7 @@ import com.github.privacystreams.device.WifiAp;
 import com.github.privacystreams.environment.Light;
 import com.github.privacystreams.image.Image;
 import com.github.privacystreams.location.GeoLocation;
+import com.github.privacystreams.motion.PhysicalActivity;
 
 import java.util.List;
 import java.util.Map;
@@ -57,6 +58,10 @@ public class UseCases {
 
     public void testBlueToothUpatesProvider(){
         uqi.getDataItems(BTDevice.asUpdates(), Purpose.feature("blueTooth device")).debug();
+    }
+
+    public void testPhysicalMotionUpdatesProvider(){
+        uqi.getDataItems(PhysicalActivity.asUpdates(),Purpose.feature("Physical Activity")).debug();
     }
     // For testing
     public void testMockData() {
