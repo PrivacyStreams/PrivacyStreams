@@ -2,13 +2,14 @@ package com.github.privacystreams.location;
 
 import android.Manifest;
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
-import android.support.v4.app.ActivityCompat;
 
 import com.github.privacystreams.core.providers.SingleItemStreamProvider;
+import com.github.privacystreams.utils.permission.PermissionUtils;
 import com.github.privacystreams.utils.time.Duration;
+
+import java.util.HashSet;
 
 
 /**
@@ -36,11 +37,9 @@ class LastKnownLocationProvider extends SingleItemStreamProvider {
         Location networkLocation = null;
 
         LocationManager lm = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
-        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED)
+        if (PermissionUtils.checkPermission(context, Manifest.permission.ACCESS_FINE_LOCATION))
             gpsLocation = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED)
+        if (PermissionUtils.checkPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION))
             networkLocation = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 
         Location location = betterLocation(gpsLocation, networkLocation);

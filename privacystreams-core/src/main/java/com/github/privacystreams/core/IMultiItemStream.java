@@ -11,7 +11,7 @@ import java.util.List;
  * An IMultiItemStream is a stream containing many items, and each item is an instance of {@link Item}.
  *
  * An IMultiItemStream is produced by <code>uqi.getDataItems</code> method.
- * @see UQI#getDataItems(MultiItemStreamProvider, Purpose)
+ * @see UQI#getDataItems(Function, Purpose)
  *
  * It can be transformed to another IMultiItemStream by transformation functions,
  * such as {@link #filter(String, Object)}, {{@link #groupBy(String)}}, {{@link #map(Function)}}, etc.

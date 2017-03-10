@@ -19,6 +19,18 @@ import java.util.Set;
 
 public class PermissionUtils {
     /**
+     * Check if the permission are granted in current context
+     * @param context the context instance
+     * @param requiredPermission the permissions to check
+     * @return true if the permission is granted
+     */
+    public static boolean checkPermission(Context context, String requiredPermission) {
+        Set<String> permissions = new HashSet<>();
+        permissions.add(requiredPermission);
+        return getDeniedPermissions(context, permissions).isEmpty();
+    }
+
+    /**
      * Check if the permissions are granted in current context
      * @param context the context instance
      * @param requiredPermissions the list of permissions to check

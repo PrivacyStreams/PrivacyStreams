@@ -43,7 +43,7 @@ public class Message extends Item {
 
     /**
      * Get a provider that provides a live stream of instant messaging messages
-     * @return
+     * @return the provider
      */
      public static MultiItemStreamProvider asIMUpdates(){
          if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2)

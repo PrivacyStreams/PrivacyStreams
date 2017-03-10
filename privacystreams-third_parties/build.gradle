@@ -32,7 +32,7 @@ ext {
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "25.0.0"
+    buildToolsVersion "25.0.1"
     defaultConfig {
         minSdkVersion 16
         targetSdkVersion 25
@@ -103,21 +103,22 @@ install {
 
 version = libraryVersion
 
-if (project.hasProperty("android")) { // Android libraries
-    task sourcesJar(type: Jar) {
-        classifier = 'sources'
-        from android.sourceSets.main.java.srcDirs
-    }
 
-    task javadoc(type: Javadoc) {
-        source = android.sourceSets.main.java.srcDirs
-        classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
-    }
-} else { // Java libraries
-    task sourcesJar(type: Jar, dependsOn: classes) {
-        classifier = 'sources'
-        from sourceSets.main.allSource
-    }
+task sourcesJar(type: Jar) {
+    classifier = 'sources'
+    from android.sourceSets.main.java.srcDirs
+}
+
+task javadoc(type: Javadoc, dependsOn: tasks.getByPath(':doc_gen:jar')) {
+    source = android.sourceSets.main.java.srcDirs
+    destinationDir = file("build/docs/").absoluteFile
+
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+    classpath += configurations.compile
+    classpath += configurations.provided
+
+    options.docletpath = [file('../doc_gen/build/libs/doc_gen.jar')]
+    options.doclet = "com.github.privacystreams.DocGenerator"
 }
 
 task javadocJar(type: Jar, dependsOn: javadoc) {
