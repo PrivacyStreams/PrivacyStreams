@@ -11,7 +11,7 @@ import static com.github.privacystreams.utils.Assertions.cast;
 
 /**
  * Created by yuanchun on 29/11/2016.
- * An Item is a basic element in a stream.
+ * An PSItem is a basic element in a stream.
  */
 public class Item {
     private final Map<String, Object> itemMap;

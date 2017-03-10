@@ -3,11 +3,12 @@ package com.github.privacystreams.core.transformations.pick;
 import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.MultiItemStream;
 import com.github.privacystreams.core.SingleItemStream;
+import com.github.privacystreams.utils.annotations.PSOperatorWrapper;
 
 /**
  * A helper class to access picker functions
  */
-
+@PSOperatorWrapper
 public class Pickers {
     /**
      * A function that picks an item from a stream

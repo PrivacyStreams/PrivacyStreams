@@ -3,22 +3,24 @@ package com.github.privacystreams.communication;
 
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.providers.MultiItemStreamProvider;
-import com.github.privacystreams.utils.annotations.ItemField;
+import com.github.privacystreams.utils.annotations.PSItem;
+import com.github.privacystreams.utils.annotations.PSItemField;
 
 /**
  * A Phonecall item represents a phonecall record
  */
+@PSItem
 public class Phonecall extends Item {
-    @ItemField(name = "timestamp", type = Long.class, description = "The timestamp of when the phonecall is happened.")
+    @PSItemField(name = "timestamp", type = Long.class, description = "The timestamp of when the phonecall is happened.")
     public static final String TIMESTAMP = "timestamp";
 
-    @ItemField(name = "contact", type = String.class, description = "The contact (phone number or name) of the phonecall.")
+    @PSItemField(name = "contact", type = String.class, description = "The contact (phone number or name) of the phonecall.")
     public static final String CONTACT = "contact";
 
-    @ItemField(name = "duration", type = Long.class, description = "The duration of the phonecall, in milliseconds.")
+    @PSItemField(name = "duration", type = Long.class, description = "The duration of the phonecall, in milliseconds.")
     public static final String DURATION = "duration";
 
-    @ItemField(name = "type", type = String.class, description = "The phonecall type, could be \"incoming\", \"outgoing\" or \"missed\".")
+    @PSItemField(name = "type", type = String.class, description = "The phonecall type, could be \"incoming\", \"outgoing\" or \"missed\".")
     public static final String TYPE = "type";
 
     public static class Types {

@@ -3,10 +3,10 @@ package com.github.privacystreams.utils.annotations;
 import java.lang.annotation.Documented;
 
 /**
- * An annotation representing a item field
+ * An annotation representing an item field
  */
 @Documented
-public @interface ItemField {
+public @interface PSItemField {
     String name();
     Class type();
     String description();

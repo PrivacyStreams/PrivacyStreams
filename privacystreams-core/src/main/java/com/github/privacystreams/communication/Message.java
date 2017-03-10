@@ -5,27 +5,27 @@ import android.os.Build;
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.providers.MultiItemStreamProvider;
 import com.github.privacystreams.utils.Logging;
-import com.github.privacystreams.utils.annotations.ItemField;
+import com.github.privacystreams.utils.annotations.PSItem;
+import com.github.privacystreams.utils.annotations.PSItemField;
 
 /**
- * Created by yuanchun on 07/12/2016.
- * Message message
+ * A Message item represents a message. It could be from SMS, WhatsApp, Facebook, etc.
  */
-
+@PSItem
 public class Message extends Item {
-    @ItemField(name="type", type = String.class, description = "The message type, could be \"received\" or \"sent\".")
+    @PSItemField(name="type", type = String.class, description = "The message type, could be \"received\" or \"sent\".")
     public static final String TYPE = "type";
 
-    @ItemField(name="content", type = String.class, description = "The message content.")
+    @PSItemField(name="content", type = String.class, description = "The message content.")
     public static final String CONTENT = "content";
 
-    @ItemField(name="package_name", type = String.class, description = "The package name of the app where message is captured.")
+    @PSItemField(name="package_name", type = String.class, description = "The package name of the app where message is captured.")
     public static final String PACKAGE_NAME = "package_name";
 
-    @ItemField(name="contact", type = String.class, description = "The contact (phone number or name) of the message.")
+    @PSItemField(name="contact", type = String.class, description = "The contact (phone number or name) of the message.")
     public static final String CONTACT = "contact";
 
-    @ItemField(name="timestamp", type = Long.class, description = "The timestamp of when the message is sent/received.")
+    @PSItemField(name="timestamp", type = Long.class, description = "The timestamp of when the message is sent/received.")
     public static final String TIMESTAMP = "timestamp";
 
     public static class Types {

@@ -19,16 +19,16 @@ import android.content.Context;
  * 4. onCancel method which is invoked when the function is cancelled
  */
 
-public abstract class EventDrivenFunction<T1, T2> extends Function<T1, T2> {
+public abstract class EventDrivenFunction<Tin, Tout> extends Function<Tin, Tout> {
     private transient UQI uqi;
 
-    protected transient T1 input;
-    protected transient T2 output;
+    protected transient Tin input;
+    protected transient Tout output;
 
     protected EventDrivenFunction() {
     }
 
-    public final T2 apply(UQI uqi, T1 input) {
+    public final Tout apply(UQI uqi, Tin input) {
         this.uqi = uqi;
         this.input = input;
         this.init();

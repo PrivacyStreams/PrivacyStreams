@@ -4,11 +4,12 @@ import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.MultiItemStream;
 import com.github.privacystreams.core.SingleItemStream;
+import com.github.privacystreams.utils.annotations.PSOperatorWrapper;
 
 /**
  * A helper class to access reorder functions
  */
-
+@PSOperatorWrapper
 public class Mappers {
     /**
      * A function that transforms a multi-item stream by mapping each items with a item-to-item mapper.

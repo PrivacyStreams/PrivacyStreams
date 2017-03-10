@@ -2,10 +2,12 @@ package com.github.privacystreams.core.transformations.group;
 
 import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.MultiItemStream;
+import com.github.privacystreams.utils.annotations.PSOperatorWrapper;
 
 /**
  * A helper class to access grouping functions
  */
+@PSOperatorWrapper
 public class Groupers {
 
     /**

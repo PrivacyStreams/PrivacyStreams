@@ -2,6 +2,7 @@ package com.github.privacystreams.commons.item;
 
 import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.Item;
+import com.github.privacystreams.utils.annotations.PSOperatorWrapper;
 
 import java.util.Arrays;
 import java.util.List;
@@ -10,7 +11,7 @@ import java.util.Map;
 /**
  * A helper class to access common item functions
  */
-
+@PSOperatorWrapper
 public class ItemOperators {
     /**
      * A predicate that checks whether the field value in a item is in the given list.

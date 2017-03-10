@@ -2,14 +2,12 @@ package com.github.privacystreams.core.transformations.reduce;
 
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.transformations.M2STransformation;
+import com.github.privacystreams.utils.annotations.PSOperatorWrapper;
 
 
 /**
- * Created by yuanchun on 14/11/2016.
- * pick an item from the stream
- * return null if fails to find an item
+ * Reduce two items to one item.
  */
-
 public abstract class Reducer extends M2STransformation {
     protected abstract Item reduce(Item item1, Item item2);
 

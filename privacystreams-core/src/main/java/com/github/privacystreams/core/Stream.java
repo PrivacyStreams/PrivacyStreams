@@ -69,7 +69,7 @@ public abstract class Stream {
 //
 //        // send all cached items
 //        while (true) {
-//            Item cachedItem = this.streamCache.poll();
+//            PSItem cachedItem = this.streamCache.poll();
 //            if (cachedItem != null)
 //                this.doWrite(cachedItem);
 //            else
@@ -88,7 +88,7 @@ public abstract class Stream {
 
     private void doWrite(Item item) {
         if (this.getUQI().isStreamDebug())
-            Logging.debug("Item " + item + " writing to stream " + this.getStreamProvider());
+            Logging.debug("PSItem " + item + " writing to stream " + this.getStreamProvider());
 
         this.eventBus.post(item);
     }

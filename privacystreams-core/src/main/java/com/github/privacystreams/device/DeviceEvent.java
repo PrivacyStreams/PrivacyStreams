@@ -3,19 +3,30 @@ package com.github.privacystreams.device;
 
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.providers.MultiItemStreamProvider;
+import com.github.privacystreams.utils.annotations.PSItem;
+import com.github.privacystreams.utils.annotations.PSItemField;
 
 /**
- * Created by yuanchun on 19/01/2017.
- * DeviceState item
+ * A DeviceEvent item represents an event about the device.
  */
-
+@PSItem
 public class DeviceEvent extends Item {
-    // type: Long
+    @PSItemField(name = "timestamp", type = Long.class,
+            description = "The timestamp of when the event is happened.")
     private static final String TIMESTAMP = "timestamp";
-    // type: Boolean
-    private static final String Event = "event";
-    // type: String
+
+    @PSItemField(name = "type", type = String.class,
+            description = "the type of the event, " +
+                    "could be \"screen\", \"boot\", \"battery\", \"ringer\", etc.")
     private static final String TYPE = "type";
+
+    @PSItemField(name = "event", type = String.class,
+            description = "The event name. " +
+                    "For screen events, could be on/off/user_present; " +
+                    "For boot events, could be boot_completed/shutdown; " +
+                    "For battery events, could be low/okay/ac_connected/ac_disconnected; " +
+                    "For ringer events, could be silent/vibrate/normal.")
+    private static final String Event = "event";
 
     public static class Types {
         public static final String SCREEN = "screen";

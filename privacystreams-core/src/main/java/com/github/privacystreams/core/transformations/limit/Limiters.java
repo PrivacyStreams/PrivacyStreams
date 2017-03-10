@@ -3,11 +3,12 @@ package com.github.privacystreams.core.transformations.limit;
 import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.MultiItemStream;
+import com.github.privacystreams.utils.annotations.PSOperatorWrapper;
 
 /**
- * Created by yuanchun on 30/12/2016.
  * A helper class to access stream-limiting functions
  */
+@PSOperatorWrapper
 public class Limiters {
     /**
      * A function that limit the stream with a timeout.

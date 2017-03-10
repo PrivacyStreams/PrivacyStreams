@@ -3,7 +3,8 @@ package com.github.privacystreams.core.providers.mock;
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.providers.MultiItemStreamProvider;
 import com.github.privacystreams.core.providers.SingleItemStreamProvider;
-import com.github.privacystreams.utils.annotations.ItemField;
+import com.github.privacystreams.utils.annotations.PSItem;
+import com.github.privacystreams.utils.annotations.PSItemField;
 
 import java.util.List;
 
@@ -11,22 +12,22 @@ import java.util.List;
  * Created by yuanchun on 21/11/2016.
  * an item representing MockObject
  */
-
+@PSItem
 public class MockItem extends Item {
 
-    @ItemField(name = "id", type = Long.class, description = "The index of current item.")
+    @PSItemField(name = "id", type = Long.class, description = "The index of current item.")
     public static final String ID = "id";
 
-    @ItemField(name = "x", type = Integer.class, description = "A random integer.")
+    @PSItemField(name = "x", type = Integer.class, description = "A random integer.")
     public static final String X = "x";
 
-    @ItemField(name = "y", type = String.class, description = "A random String.")
+    @PSItemField(name = "y", type = String.class, description = "A random String.")
     public static final String Y = "y";
 
-    @ItemField(name = "z", type = Double.class, description = "A random float number.")
+    @PSItemField(name = "z", type = Double.class, description = "A random float number.")
     public static final String Z = "z";
 
-    @ItemField(name = "time_created", type = Long.class, description = "The timestamp of when current item is created.")
+    @PSItemField(name = "time_created", type = Long.class, description = "The timestamp of when current item is created.")
     public static final String TIME_CREATED = "time_created";
 
     public MockItem(long id, Integer x, String y, Double z) {

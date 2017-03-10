@@ -2,13 +2,14 @@ package com.github.privacystreams.commons.statistic;
 
 import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.Item;
+import com.github.privacystreams.utils.annotations.PSOperatorWrapper;
 
 import java.util.List;
 
 /**
  * A helper class to access statistic-related functions
  */
-
+@PSOperatorWrapper
 public class StatisticOperators {
     /**
      * A function that counts the items in the stream and returns the count.

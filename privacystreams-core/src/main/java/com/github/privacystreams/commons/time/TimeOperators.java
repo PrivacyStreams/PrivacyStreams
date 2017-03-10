@@ -2,11 +2,12 @@ package com.github.privacystreams.commons.time;
 
 import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.Item;
+import com.github.privacystreams.utils.annotations.PSOperatorWrapper;
 
 /**
  * A helper class to access time-related functions
  */
-
+@PSOperatorWrapper
 public class TimeOperators {
 
     /**

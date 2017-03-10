@@ -2,13 +2,14 @@ package com.github.privacystreams.commons.stream;
 
 import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.Item;
+import com.github.privacystreams.utils.annotations.PSOperatorWrapper;
 
 import java.util.List;
 
 /**
  * A helper class to access common stream functions
  */
-
+@PSOperatorWrapper
 public class StreamOperators {
 
     /**

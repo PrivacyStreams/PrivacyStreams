@@ -2,13 +2,14 @@ package com.github.privacystreams.image;
 
 import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.Item;
+import com.github.privacystreams.utils.annotations.PSOperatorWrapper;
 
 import java.util.Map;
 
 /**
  * A helper class to access image-related operators
  */
-
+@PSOperatorWrapper
 public class ImageOperators {
 
     /**

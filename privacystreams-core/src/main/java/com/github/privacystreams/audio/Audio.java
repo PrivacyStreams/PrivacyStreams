@@ -5,17 +5,18 @@ import android.net.Uri;
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.providers.MultiItemStreamProvider;
 import com.github.privacystreams.core.providers.SingleItemStreamProvider;
-import com.github.privacystreams.utils.annotations.ItemField;
+import com.github.privacystreams.utils.annotations.PSItem;
+import com.github.privacystreams.utils.annotations.PSItemField;
 
 /**
  * An Audio item represents an audio record
  */
-
+@PSItem
 public class Audio extends Item {
-    @ItemField(name="timestamp", type = Long.class, description = "The timestamp of when current item is generated.")
+    @PSItemField(name="timestamp", type = Long.class, description = "The timestamp of when current item is generated.")
     public static final String TIMESTAMP = "timestamp";
 
-    @ItemField(name="uri", type = String.class, description = "The URI of the audio file.")
+    @PSItemField(name="uri", type = String.class, description = "The URI of the audio file.")
     public static final String URI = "uri";
 
     Audio(long timestamp, Uri file_uri) {

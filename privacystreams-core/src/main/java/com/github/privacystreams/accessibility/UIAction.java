@@ -4,15 +4,17 @@ import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
 
 import com.github.privacystreams.core.providers.MultiItemStreamProvider;
-import com.github.privacystreams.utils.annotations.ItemField;
+import com.github.privacystreams.utils.annotations.PSItemField;
+import com.github.privacystreams.utils.annotations.PSItem;
 
 import java.util.Date;
 
 /**
  * A UIAction item represents a UI action.
  */
+@PSItem
 public class UIAction extends BaseAccessibilityEvent {
-    @ItemField(name="source_node", type = AccessibilityNodeInfo.class, description = "The source node of current accessibility event.")
+    @PSItemField(name="source_node", type = AccessibilityNodeInfo.class, description = "The source node of current accessibility event.")
     public static final String SOURCE_NODE = "source_node";
 
     public UIAction(AccessibilityEvent event, AccessibilityNodeInfo rootNode, Date timeStamp){

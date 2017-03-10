@@ -2,11 +2,12 @@ package com.github.privacystreams.audio;
 
 import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.Item;
+import com.github.privacystreams.utils.annotations.PSOperatorWrapper;
 
 /**
  * A helper class to access audio-related operators
  */
-
+@PSOperatorWrapper
 public class AudioOperators {
     /**
      * calculate the loudness of an audio field.
