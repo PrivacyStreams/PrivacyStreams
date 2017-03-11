@@ -16,28 +16,41 @@ import com.github.privacystreams.utils.annotations.PSItemField;
 @PSItem
 @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
 public class WifiAp extends Item {
-    @PSItemField(name = "timestamp", type = Long.class,
-            description = "The timestamp of when the WIFI AP information is found.")
+
+    /**
+     * The timestamp of when the WIFI AP information is found.
+     */
+    @PSItemField(type = Long.class)
     private static final String TIMESTAMP = "timestamp";
 
-    @PSItemField(name = "bssid", type = String.class,
-            description = "The BSSID.")
+    /**
+     * The BSSID.
+     */
+    @PSItemField(type = String.class)
     private static final String BSSID = "bssid";
 
-    @PSItemField(name = "ssid", type = String.class,
-            description = "The SSID.")
+    /**
+     * The SSID.
+     */
+    @PSItemField(type = String.class)
     private static final String SSID = "ssid";
 
-    @PSItemField(name = "frequency", type = String.class,
-            description = "The frequency.")
+    /**
+     * The frequency.
+     */
+    @PSItemField(type = String.class)
     private static final String FREQUENCY = "frequency";
 
-    @PSItemField(name = "rssi", type = String.class,
-            description = "The RSSI.")
+    /**
+     * The RSSI.
+     */
+    @PSItemField(type = String.class)
     private static final String RSSI = "rssi";
 
-    @PSItemField(name = "connected", type = Boolean.class,
-            description = "Whether this AP is connected.")
+    /**
+     * Whether this AP is connected.
+     */
+    @PSItemField(type = Boolean.class)
     private static final String CONNECTED = "connected";
 
     WifiAp(ScanResult scanResult, boolean connected) {

@@ -11,21 +11,26 @@ import com.github.privacystreams.utils.annotations.PSItemField;
  */
 @PSItem
 public class DeviceEvent extends Item {
-    @PSItemField(name = "timestamp", type = Long.class,
-            description = "The timestamp of when the event is happened.")
+
+    /**
+     * The timestamp of when the event is happened.
+     */
+    @PSItemField(type = Long.class)
     private static final String TIMESTAMP = "timestamp";
 
-    @PSItemField(name = "type", type = String.class,
-            description = "the type of the event, " +
-                    "could be \"screen\", \"boot\", \"battery\", \"ringer\", etc.")
+    /**
+     * The type of the event, could be "screen", "boot", "battery", "ringer", etc.
+     */
+    @PSItemField(type = String.class)
     private static final String TYPE = "type";
 
-    @PSItemField(name = "event", type = String.class,
-            description = "The event name. " +
-                    "For screen events, could be on/off/user_present; " +
-                    "For boot events, could be boot_completed/shutdown; " +
-                    "For battery events, could be low/okay/ac_connected/ac_disconnected; " +
-                    "For ringer events, could be silent/vibrate/normal.")
+    /**
+     * The event name. For screen events, could be on/off/user_present;
+     * For boot events, could be boot_completed/shutdown;
+     * For battery events, could be low/okay/ac_connected/ac_disconnected;
+     * For ringer events, could be silent/vibrate/normal.
+     */
+    @PSItemField(type = String.class)
     private static final String Event = "event";
 
     public static class Types {
