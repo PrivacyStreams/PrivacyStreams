@@ -25,7 +25,6 @@ public class MainActivity extends AppCompatActivity {
                 new MyAsyncTask().execute();
             }
         });
-
     }
 
     private class MyAsyncTask extends AsyncTask<Object, Object, Object> {
@@ -33,26 +32,21 @@ public class MainActivity extends AppCompatActivity {
         protected Object doInBackground(Object[] objects) {
             UseCases useCases = new UseCases(MainActivity.this);
 
-//            useCases.testContacts();
-//            useCases.testMockData();
+            useCases.testContacts();
+            useCases.testMockData();
 //            useCases.testTextEntry();
-
-  //          useCases.testBrowserSearchUpdates();
-//            useCases.testBrowserHistoryUpdates();
-
-            //useCases.testWifiUpdates(30);
-
+//
 //            useCases.testBrowserSearchUpdates();
- //           useCases.testBrowserHistoryUpdates();
-//           useCases.testWifiUpdates(30);
-
- //          useCases.testLightUpdatesProvider();
- //           useCases.testBlueToothUpatesProvider();
-           useCases.testPhysicalMotionUpdatesProvider();
- //            useCases.testLightUpdatesProvider();
-
+//            useCases.testBrowserHistoryUpdates();
+//            useCases.testWifiUpdates(30);
+//
+//            useCases.testLightUpdatesProvider();
+//            useCases.testBlueToothUpatesProvider();
+//            useCases.testPhysicalMotionUpdatesProvider();
+//            useCases.testLightUpdatesProvider();
+//
 //            useCases.testUIAction();
-            useCases.testIMUpdates();
+//            useCases.testIMUpdates();
             return null;
         }
     }
