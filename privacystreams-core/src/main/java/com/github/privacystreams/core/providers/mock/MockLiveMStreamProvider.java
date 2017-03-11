@@ -14,12 +14,12 @@ import java.util.List;
 class MockLiveMStreamProvider extends MultiItemStreamProvider{
 
     private final List<MockObject> mockObjects;
-    private final long delay;
+    private final long interval;
 
-    MockLiveMStreamProvider(List<MockObject> mockObjects, long delay) {
+    MockLiveMStreamProvider(List<MockObject> mockObjects, long interval) {
         this.mockObjects = Assertions.notNull("mockObjects", mockObjects);
-        this.delay = delay;
-        this.addParameters(mockObjects, delay);
+        this.interval = interval;
+        this.addParameters(mockObjects, interval);
     }
 
     @Override
@@ -28,7 +28,7 @@ class MockLiveMStreamProvider extends MultiItemStreamProvider{
             if (!this.isCancelled) {
                 this.output(new MockItem(mockObject));
                 try {
-                    Thread.sleep(this.delay);
+                    Thread.sleep(this.interval);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
