@@ -12,23 +12,40 @@ public class Purpose {
     }
 
     private static final String PURPOSE_ADS = "Advertisement";
+    private static final String PURPOSE_FEATURE = "Feature";
+    private static final String PURPOSE_TEST = "Test";
+
+    /**
+     * Advertising purpose.
+     * @param description a short description of the purpose.
+     * @return the Purpose instance
+     */
     public static Purpose ads(String description) {
         return new Purpose(PURPOSE_ADS + ": " + description);
     }
 
-    private static final String PURPOSE_FEATURE = "Feature";
+    /**
+     * The purpose for app's features.
+     * @param description a short description of the purpose.
+     * @return the Purpose instance
+     */
     public static Purpose feature(String description) {
         return new Purpose(PURPOSE_FEATURE + ": " + description);
     }
 
+    /**
+     * Testing purpose.
+     * @param description a short description of the purpose.
+     * @return the Purpose instance
+     */
+    public static Purpose test(String description) {
+        return new Purpose(PURPOSE_TEST + ": " + description);
+    }
+
+    // TODO modify this, distinguish INTERNAL purpose and FEATURE purpose
     private static final String PURPOSE_INTERNAL = "Internal";
     public static Purpose internal(String description) {
         return new Purpose(PURPOSE_INTERNAL + ": " + description);
-    }
-
-    private static final String PURPOSE_TEST = "Test";
-    public static Purpose test(String description) {
-        return new Purpose(PURPOSE_TEST + ": " + description);
     }
 
     // TODO more purposes

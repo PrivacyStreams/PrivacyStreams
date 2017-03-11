@@ -15,25 +15,25 @@ import com.github.privacystreams.communication.Phonecall;
 import com.github.privacystreams.core.Callback;
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.UQI;
-import com.github.privacystreams.core.commons.arithmetic.Arithmetics;
-import com.github.privacystreams.core.commons.common.ItemCommons;
-import com.github.privacystreams.core.commons.comparison.Comparisons;
-import com.github.privacystreams.core.commons.list.Lists;
-import com.github.privacystreams.core.commons.statistic.Statistics;
-import com.github.privacystreams.core.commons.string.Strings;
-import com.github.privacystreams.core.commons.time.Times;
+import com.github.privacystreams.commons.arithmetic.Arithmetics;
+import com.github.privacystreams.commons.item.Items;
+import com.github.privacystreams.commons.comparison.Comparisons;
+import com.github.privacystreams.commons.list.Lists;
+import com.github.privacystreams.commons.statistic.Statistics;
+import com.github.privacystreams.commons.string.Strings;
+import com.github.privacystreams.commons.time.Times;
 import com.github.privacystreams.core.exceptions.PrivacyStreamsException;
 import com.github.privacystreams.core.providers.mock.MockItem;
 import com.github.privacystreams.core.purposes.Purpose;
-import com.github.privacystreams.core.utils.time.Duration;
-import com.github.privacystreams.core.utils.time.TimeUtils;
-import com.github.privacystreams.device.BTDevice;
+import com.github.privacystreams.utils.time.Duration;
+import com.github.privacystreams.utils.time.TimeUtils;
+import com.github.privacystreams.device.BluetoothDevice;
 import com.github.privacystreams.device.DeviceStateChange;
 import com.github.privacystreams.device.WifiAp;
 import com.github.privacystreams.environment.Light;
 import com.github.privacystreams.image.Image;
 import com.github.privacystreams.location.GeoLocation;
-import com.github.privacystreams.motion.PhysicalActivity;
+import com.github.privacystreams.google_awareness.PhysicalActivity;
 
 import java.util.List;
 import java.util.Map;
@@ -57,7 +57,7 @@ public class UseCases {
     }
 
     public void testBlueToothUpatesProvider(){
-        uqi.getDataItems(BTDevice.asUpdates(), Purpose.feature("blueTooth device")).debug();
+        uqi.getDataItems(BluetoothDevice.asUpdates(), Purpose.feature("blueTooth device")).debug();
     }
 
     public void testPhysicalMotionUpdatesProvider(){
@@ -66,10 +66,10 @@ public class UseCases {
     // For testing
     public void testMockData() {
         uqi
-                .getDataItems(MockItem.asRandomUpdates(20, 100, 500), Purpose.test("test"))
-                .limit(100)
-                .timeout(Duration.seconds(100))
-                .map(ItemCommons.setField("time_round", Arithmetics.roundUp(MockItem.TIME_CREATED, Duration.seconds(2))))
+                .getDataItems(MockItem.asRandomHistory(20, 100, 50), Purpose.test("test"))
+                .limit(10)
+                .timeout(Duration.seconds(10))
+                .map(Items.setField("time_round", Arithmetics.roundUp(MockItem.TIME_CREATED, Duration.seconds(2))))
                 .localGroupBy("time_round")
                 .debug();
 //                .forEach(Outputs.uploadToDropbox("<dropbox token here>", "dummy"));
@@ -258,12 +258,12 @@ public class UseCases {
     }
 
     // calculating sentiment across all Message
-    double getAverageSentimentOfSMS() throws PrivacyStreamsException {
-        return uqi
-                .getDataItems(Message.asSMSHistory(), Purpose.feature("calculate the sentiment across all Message messages"))
-                .setField("sentiment", Strings.sentiment(Message.CONTENT))
-                .outputItems(Statistics.average("sentiment"));
-    }
+//    double getAverageSentimentOfSMS() throws PrivacyStreamsException {
+//        return uqi
+//                .getDataItems(Message.asSMSHistory(), Purpose.feature("calculate the sentiment across all Message messages"))
+//                .setField("sentiment", Strings.sentiment(Message.CONTENT))
+//                .outputItems(Statistics.average("sentiment"));
+//    }
 
     // figure out place where person spends the most time (ie home)
     String getPlaceSpentMostTime() throws PrivacyStreamsException {

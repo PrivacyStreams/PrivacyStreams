@@ -1,10 +1,8 @@
 package com.github.privacystreams.core.providers.mock;
 
-import com.github.privacystreams.core.MultiItemStream;
 import com.github.privacystreams.core.providers.MultiItemStreamProvider;
-import com.github.privacystreams.core.utils.Assertions;
+import com.github.privacystreams.utils.Assertions;
 
-import java.util.ArrayList;
 import java.util.List;
 
 

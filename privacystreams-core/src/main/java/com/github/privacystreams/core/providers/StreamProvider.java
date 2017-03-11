@@ -6,10 +6,8 @@ import com.github.privacystreams.core.Stream;
 import com.github.privacystreams.core.UQI;
 
 /**
- * Created by yuanchun on 28/11/2016.
- * Transform a stream to a stream
+ * A StreamProvider is a function that produces a stream.
  */
-
 public abstract class StreamProvider<OutStream extends Stream> extends EventDrivenFunction<Void, OutStream> {
     protected void init() {
         this.isCancelled = false;

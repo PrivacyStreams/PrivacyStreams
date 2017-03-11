@@ -5,8 +5,7 @@ import com.github.privacystreams.core.MultiItemStream;
 import com.github.privacystreams.core.SingleItemStream;
 
 /**
- * Created by yuanchun on 28/11/2016.
- * Transform a stream to a stream
+ * Transform a multi-item stream to a single-item stream
  */
 
 public abstract class M2STransformation extends StreamTransformation<MultiItemStream, SingleItemStream> {

@@ -1,2 +1,3 @@
 <resources>
+    <string name="accessibility_service_description">The accessibility service for PrivacyStreams.</string>
 </resources>

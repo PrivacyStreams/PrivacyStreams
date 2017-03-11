@@ -10,7 +10,7 @@ ext {
     artifact = 'privacystreams-core'
 
     libraryName = 'PrivacyStreams-core'
-    libraryDescription = 'The core package in PrivacyStreams framework.'
+    libraryDescription = 'The core packages in PrivacyStreams framework.'
     libraryVersion = '0.0.2'
 
     bintrayRepo = 'privacystreams-android'

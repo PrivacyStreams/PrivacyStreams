@@ -7,8 +7,8 @@ import com.github.privacystreams.core.exceptions.PrivacyStreamsException;
 import com.github.privacystreams.core.providers.MultiItemStreamProvider;
 import com.github.privacystreams.core.providers.SingleItemStreamProvider;
 import com.github.privacystreams.core.purposes.Purpose;
-import com.github.privacystreams.core.utils.Logging;
-import com.github.privacystreams.core.utils.permission.PermissionUtils;
+import com.github.privacystreams.utils.Logging;
+import com.github.privacystreams.utils.permission.PermissionUtils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -16,8 +16,10 @@ import java.util.Set;
 
 
 /**
- * Created by yuanchun on 02/11/2016.
- * Universal query interface for personal data access
+ * The unified query interface for all kinds of personal data.
+ * You will need to construct an UQI with <code>UQI uqi = new UQI(context);</code>
+ * Then, to get multi-item stream data, call <code>uqi.getDataItems</code> ({@link #getDataItems(MultiItemStreamProvider, Purpose)});
+ * To get single-item data, call <code>uqi.getDataItem</code> ({@link #getDataItem(SingleItemStreamProvider, Purpose)}).
  */
 
 public class UQI {
@@ -87,8 +89,9 @@ public class UQI {
     }
 
     /**
-     * Get a personal data stream from a provider with a purpose
-     * @param mStreamProvider the function to provide the personal data stream, e.g. Location.asUpdates(), SMS.asHistory().
+     * Get a multi-item personal data stream from a provider with a purpose.
+     * For example, using <code>uqi.getDataItems(Contact.asList(), Purpose.feature("..."))</code> will return a stream of contacts.
+     * @param mStreamProvider the function to provide the personal data stream, e.g. GeoLocation.asUpdates(), SMS.asHistory().
      * @param purpose the purpose of personal data use, e.g. Purpose.ads("xxx").
      * @return the personal data stream
      */
@@ -98,7 +101,8 @@ public class UQI {
     }
 
     /**
-     * Get a personal data item from a provider with a purpose
+     * Get a single-item personal data item from a provider with a purpose
+     * For example, using <code>uqi.getDataItem(Location.asLastKnown(), Purpose.feature("..."))</code> will return a stream that contains one location item.
      * @param sStreamProvider the function to provide the personal data item, e.g. Location.asLastKnown(), Audio.record(100).
      * @param purpose the purpose of personal data use, e.g. Purpose.ads("xxx").
      * @return the personal data item
@@ -108,6 +112,11 @@ public class UQI {
         return new SingleItemStream(uqi, sStreamProvider);
     }
 
+    /**
+     * Evaluate current UQI.
+     *
+     * @param retry whether to try again if the permission is denied.
+     */
     public void evaluate(boolean retry) {
         Logging.debug("Trying to evaluate PrivacyStreams Query.");
         Logging.debug("Purpose: " + this.purpose);

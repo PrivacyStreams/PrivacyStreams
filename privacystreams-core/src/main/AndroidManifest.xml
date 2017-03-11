@@ -5,9 +5,27 @@
 
     <application>
         <activity
-            android:name=".utils.permission.PermissionActivity"
+            android:name="com.github.privacystreams.utils.permission.PermissionActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true" />
+        <receiver android:name="com.github.privacystreams.communication.CallReceiver" >
+            <intent-filter>
+                <action android:name="android.intent.action.PHONE_STATE" />
+            </intent-filter>
+        </receiver>
+        <service
+            android:enabled="true"
+            android:exported="true"
+            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE"
+            android:name="com.github.privacystreams.accessibility.MyAccessibilityService">
+            <intent-filter>
+                <action android:name="android.accessibilityservice.AccessibilityService" />
+                <category android:name="android.accessibilityservice.category.FEEDBACK_GENERIC" />
+            </intent-filter>
+            <meta-data
+                android:name="android.accessibilityservice"
+                android:resource="@xml/accessibility_config" />
+        </service>
     </application>
 
 </manifest>

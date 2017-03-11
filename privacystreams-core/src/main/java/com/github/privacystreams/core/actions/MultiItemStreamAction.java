@@ -3,14 +3,13 @@ package com.github.privacystreams.core.actions;
 import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.MultiItemStream;
-import com.github.privacystreams.core.utils.Assertions;
+import com.github.privacystreams.utils.Assertions;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by yuanchun on 28/11/2016.
- * Transform a stream to a stream
+ * A function that outputs a multi-item stream.
  */
 
 public class MultiItemStreamAction<Tout> extends StreamAction<MultiItemStream> {

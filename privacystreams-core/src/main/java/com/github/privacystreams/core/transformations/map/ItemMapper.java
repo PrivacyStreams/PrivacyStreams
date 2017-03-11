@@ -1,13 +1,10 @@
 package com.github.privacystreams.core.transformations.map;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.transformations.S2STransformation;
 
-import static com.github.privacystreams.core.utils.Assertions.notNull;
+import static com.github.privacystreams.utils.Assertions.notNull;
 
 /**
  * Created by yuanchun on 27/12/2016.

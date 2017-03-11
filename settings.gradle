@@ -1,1 +1,1 @@
-include ':app', ':privacystreams-location', ':privacystreams-image', ':privacystreams-storage', ':privacystreams-communication', ':privacystreams-motion', ':privacystreams-environment', ':privacystreams-accessibility', ':privacystreams-app_info', ':privacystreams-device', ':privacystreams-audio', ':privacystreams-core', ':privacystreams-online_service', ':love_study'
+include ':app', ':privacystreams-core', ':privacystreams-third_parties', ':love_study'

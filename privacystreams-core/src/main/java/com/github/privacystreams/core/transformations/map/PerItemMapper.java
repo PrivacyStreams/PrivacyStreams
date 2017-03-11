@@ -1,14 +1,10 @@
 package com.github.privacystreams.core.transformations.map;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.github.privacystreams.core.Function;
-import com.github.privacystreams.core.MultiItemStream;
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.transformations.M2MTransformation;
 
-import static com.github.privacystreams.core.utils.Assertions.notNull;
+import static com.github.privacystreams.utils.Assertions.notNull;
 
 /**
  * Created by yuanchun on 28/11/2016.

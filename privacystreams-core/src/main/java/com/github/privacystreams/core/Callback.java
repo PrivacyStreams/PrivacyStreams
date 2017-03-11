@@ -3,8 +3,7 @@ package com.github.privacystreams.core;
 import com.github.privacystreams.core.exceptions.PrivacyStreamsException;
 
 /**
- * Created by yuanchun on 14/12/2016.
- * A Function convert a input in type Tin to a output in type Tout
+ * This function is mainly used to handle a result as a callback.
  */
 
 public abstract class Callback<Tin> extends Function<Tin, Void> {
@@ -15,11 +14,19 @@ public abstract class Callback<Tin> extends Function<Tin, Void> {
     }
 
     @Override
-    public void onCancelled(UQI uqi) {
+    public final void onCancelled(UQI uqi) {
         this.onFail(uqi.getException());
     }
 
+    /**
+     * This method will be invoked if successfully got the result.
+     * @param input the result
+     */
     protected abstract void onSuccess(Tin input);
 
+    /**
+     * This method will be invoked if failed to get the result.
+     * @param exception the exception happened during getting the result.
+     */
     protected void onFail(PrivacyStreamsException exception) {};
 }
