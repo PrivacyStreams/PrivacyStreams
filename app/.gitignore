@@ -1,2 +1,2 @@
 /build
-**/*/res/values/secrets.xml
+/src/main/res/values/secrets.xml
