@@ -5,7 +5,6 @@ import com.github.privacystreams.core.Item;
 import com.github.privacystreams.utils.annotations.PSOperatorWrapper;
 
 /**
- * Created by yuanchun on 29/12/2016.
  * A helper class to access comparison-related functions
  */
 @PSOperatorWrapper

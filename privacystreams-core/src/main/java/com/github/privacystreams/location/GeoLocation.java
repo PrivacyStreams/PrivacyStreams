@@ -6,8 +6,6 @@ import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.MultiItemStream;
 import com.github.privacystreams.core.SingleItemStream;
-import com.github.privacystreams.core.providers.MultiItemStreamProvider;
-import com.github.privacystreams.core.providers.SingleItemStreamProvider;
 import com.github.privacystreams.utils.annotations.PSItem;
 import com.github.privacystreams.utils.annotations.PSItemField;
 
@@ -15,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * An GeoLocation PSItem represents a geolocation value.
+ * An GeoLocation item represents a geolocation value.
  */
 @PSItem
 public class GeoLocation extends Item {
@@ -28,7 +26,7 @@ public class GeoLocation extends Item {
 
     /**
      * The coordinates of the location.
-     * A list of double numbers, including latitude, longitude, and (optional) altitude.
+     * The value is a list of double numbers, including latitude, longitude, and (optional) altitude.
      */
     @PSItemField(type = List.class)
     public static final String COORDINATES = "coordinates";

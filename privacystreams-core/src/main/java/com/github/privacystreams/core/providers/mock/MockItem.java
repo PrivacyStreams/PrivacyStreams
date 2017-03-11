@@ -47,7 +47,7 @@ public class MockItem extends Item {
     @PSItemField(type = Long.class)
     public static final String TIME_CREATED = "time_created";
 
-    public MockItem(long id, Integer x, String y, Double z) {
+    private MockItem(long id, Integer x, String y, Double z) {
         this.setFieldValue(ID, id);
         this.setFieldValue(X, x);
         this.setFieldValue(Y, y);

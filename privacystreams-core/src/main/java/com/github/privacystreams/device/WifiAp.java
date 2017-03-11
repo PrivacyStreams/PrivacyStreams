@@ -15,8 +15,8 @@ import com.github.privacystreams.utils.annotations.PSItemField;
 /**
  * A WifiAp item represents the information of a WIFI AP.
  */
-@PSItem
 @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
+@PSItem
 public class WifiAp extends Item {
 
     /**

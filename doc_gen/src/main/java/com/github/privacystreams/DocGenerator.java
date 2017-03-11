@@ -53,19 +53,24 @@ public class DocGenerator extends HtmlDoclet {
 
     public static String genItemDocs(ClassDoc itemClass) {
         String itemDoc = "";
-        itemDoc += "Class: " + itemClass.name() + "\n";
-        itemDoc += "Description: " + itemClass.commentText() + "\n";
-        itemDoc += "Fields:\n";
+        itemDoc += "## " + itemClass.name() + "\n";
+        itemDoc += itemClass.commentText() + "\n";
+        itemDoc += "### Fields\n";
+        itemDoc += "| Field | Name | Type | Description |\n";
+        itemDoc += "|----|----|----|----|\n";
         for (FieldDoc fieldDoc : itemClass.fields()) {
             AnnotationDesc[] annotations = fieldDoc.annotations();
             for (AnnotationDesc annotation : annotations) {
                 AnnotationTypeDoc annotationType = annotation.annotationType();
                 if (ITEM_FIELD_ANNOTATION.equals(annotationType.toString())) {
-                    itemDoc += fieldDoc.commentText() + "\n";
-                    itemDoc += fieldDoc.name() + " " + fieldDoc.constantValue() + "\n";
+                    String itemType = "<unknown>";
                     for (AnnotationDesc.ElementValuePair elementValuePair : annotation.elementValues()) {
-                        itemDoc += elementValuePair.element().name() + " " + elementValuePair.value() + "\n";
+                        if ("type".equals(elementValuePair.element().name())) {
+                            itemType = elementValuePair.value().value().toString();
+                        }
                     }
+                    String comment = fieldDoc.commentText().replace('\n', ',');
+                    itemDoc += "| " + fieldDoc.name() + " | " + fieldDoc.constantValue() + " | " + itemType + " | " + comment +  " |\n";
 
                     break;
                 }
