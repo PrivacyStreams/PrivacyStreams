@@ -2,7 +2,10 @@ package com.github.privacystreams.image;
 
 import android.net.Uri;
 
+import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.Item;
+import com.github.privacystreams.core.MultiItemStream;
+import com.github.privacystreams.core.SingleItemStream;
 import com.github.privacystreams.core.providers.MultiItemStreamProvider;
 import com.github.privacystreams.core.providers.SingleItemStreamProvider;
 import com.github.privacystreams.utils.annotations.PSItem;
@@ -42,7 +45,7 @@ public class Image extends Item {
      * the photo item represents the taken photo
      * @return the provider
      */
-    public static SingleItemStreamProvider takeFromCamera() {
+    public static Function<Void, SingleItemStream> takeFromCamera() {
         // TODO implement this
         return null;
     }
@@ -52,7 +55,7 @@ public class Image extends Item {
      * each photo item represents a photo in storage
      * @return the provider
      */
-    public static MultiItemStreamProvider readFromStorage() {
+    public static Function<Void, MultiItemStream> readFromStorage() {
         return new ImageStorageProvider();
     }
 

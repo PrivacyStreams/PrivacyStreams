@@ -1,7 +1,9 @@
 package com.github.privacystreams.device;
 
 
+import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.Item;
+import com.github.privacystreams.core.MultiItemStream;
 import com.github.privacystreams.core.providers.MultiItemStreamProvider;
 import com.github.privacystreams.utils.annotations.PSItem;
 import com.github.privacystreams.utils.annotations.PSItemField;
@@ -70,7 +72,7 @@ public class DeviceEvent extends Item {
         this.setFieldValue(Event, state);
     }
 
-    public static MultiItemStreamProvider asUpdates() {
+    public static Function<Void, MultiItemStream> asUpdates() {
         return new DeviceEventUpdatesProvider();
     }
 }

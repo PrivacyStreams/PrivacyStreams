@@ -1,7 +1,9 @@
 package com.github.privacystreams.communication;
 
 
+import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.Item;
+import com.github.privacystreams.core.MultiItemStream;
 import com.github.privacystreams.core.providers.MultiItemStreamProvider;
 import com.github.privacystreams.utils.annotations.PSItem;
 import com.github.privacystreams.utils.annotations.PSItemField;
@@ -53,7 +55,7 @@ public class Phonecall extends Item {
      * Get a provider that provides a stream of Phonecall asLogs
      * @return the stream provider
      */
-    public static MultiItemStreamProvider asLogs() {
+    public static Function<Void, MultiItemStream> asLogs() {
         return new PhonecallLogProvider();
     }
 }

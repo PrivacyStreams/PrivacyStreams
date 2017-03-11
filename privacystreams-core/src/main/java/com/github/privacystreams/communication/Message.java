@@ -2,7 +2,9 @@ package com.github.privacystreams.communication;
 
 import android.os.Build;
 
+import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.Item;
+import com.github.privacystreams.core.MultiItemStream;
 import com.github.privacystreams.core.providers.MultiItemStreamProvider;
 import com.github.privacystreams.utils.Logging;
 import com.github.privacystreams.utils.annotations.PSItem;
@@ -61,7 +63,7 @@ public class Message extends Item {
      * Get a provider that provides a live stream of instant messaging messages
      * @return the provider
      */
-     public static MultiItemStreamProvider asIMUpdates(){
+     public static Function<Void, MultiItemStream> asIMUpdates(){
          if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2)
              return new IMUpdatesProvider();
          else {
@@ -73,7 +75,7 @@ public class Message extends Item {
      * Get a provider that provides a live stream of incoming Message messages
      * @return the provider
      */
-    public static MultiItemStreamProvider asSMSUpdates() {
+    public static Function<Void, MultiItemStream> asSMSUpdates() {
         return new SMSMessageUpdatesProvider();
     }
 
@@ -81,7 +83,7 @@ public class Message extends Item {
      * Get a provider that provides a stream of Message messages asSMSHistory
      * @return the provider
      */
-    public static MultiItemStreamProvider asSMSHistory() {
+    public static Function<Void, MultiItemStream> asSMSHistory() {
         // TODO implement SMSHistoryProvider
         return null;
     }

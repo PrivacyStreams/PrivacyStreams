@@ -5,7 +5,9 @@ import android.net.wifi.ScanResult;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 
+import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.Item;
+import com.github.privacystreams.core.MultiItemStream;
 import com.github.privacystreams.core.providers.MultiItemStreamProvider;
 import com.github.privacystreams.utils.annotations.PSItem;
 import com.github.privacystreams.utils.annotations.PSItemField;
@@ -62,7 +64,7 @@ public class WifiAp extends Item {
         this.setFieldValue(CONNECTED, connected);
     }
 
-    public static MultiItemStreamProvider asScanList() {
+    public static Function<Void, MultiItemStream> asScanList() {
         return new WifiApListProvider();
     }
 

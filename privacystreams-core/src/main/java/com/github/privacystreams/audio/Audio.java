@@ -2,7 +2,10 @@ package com.github.privacystreams.audio;
 
 import android.net.Uri;
 
+import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.Item;
+import com.github.privacystreams.core.MultiItemStream;
+import com.github.privacystreams.core.SingleItemStream;
 import com.github.privacystreams.core.providers.MultiItemStreamProvider;
 import com.github.privacystreams.core.providers.SingleItemStreamProvider;
 import com.github.privacystreams.utils.annotations.PSItem;
@@ -37,7 +40,7 @@ public class Audio extends Item {
      * @param duration the time duration of audio
      * @return the provider
      */
-    public static SingleItemStreamProvider record(long duration) {
+    public static Function<Void, SingleItemStream> record(long duration) {
         return new AudioRecorder(duration);
     }
 
@@ -49,7 +52,7 @@ public class Audio extends Item {
      * @param interval the interval between each audio record
      * @return the provider
      */
-    public static MultiItemStreamProvider recordPeriodically(long duration_per_record, long interval) {
+    public static Function<Void, MultiItemStream> recordPeriodically(long duration_per_record, long interval) {
         return new AudioPeriodicRecorder(duration_per_record, interval);
     }
 }

@@ -2,7 +2,10 @@ package com.github.privacystreams.location;
 
 import android.location.Location;
 
+import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.Item;
+import com.github.privacystreams.core.MultiItemStream;
+import com.github.privacystreams.core.SingleItemStream;
 import com.github.privacystreams.core.providers.MultiItemStreamProvider;
 import com.github.privacystreams.core.providers.SingleItemStreamProvider;
 import com.github.privacystreams.utils.annotations.PSItem;
@@ -24,7 +27,8 @@ public class GeoLocation extends Item {
     public static final String TIMESTAMP = "timestamp";
 
     /**
-     * The coordinates of the location, including latitude, longitude, and (optional) altitude.
+     * The coordinates of the location.
+     * A list of double numbers, including latitude, longitude, and (optional) altitude.
      */
     @PSItemField(type = List.class)
     public static final String COORDINATES = "coordinates";
@@ -69,14 +73,13 @@ public class GeoLocation extends Item {
             location.getAltitude(),
             location.getAccuracy(),
             location.getSpeed());
-
     }
 
     /**
      * Get a provider that provides a live stream of updated geolocation continuously
      * @return the stream provider
      */
-    public static MultiItemStreamProvider asUpdates(String provider, long minTime, float minDistance) {
+    public static Function<Void, MultiItemStream> asUpdates(String provider, long minTime, float minDistance) {
         return new LocationUpdatesProvider(provider, minTime, minDistance);
     }
 
@@ -84,7 +87,7 @@ public class GeoLocation extends Item {
      * Get a provider that provides a item of asLastKnown geolocation
      * @return the stream provider
      */
-    public static SingleItemStreamProvider asLastKnown() {
+    public static Function<Void, SingleItemStream> asLastKnown() {
         return null;
     }
 
@@ -92,7 +95,7 @@ public class GeoLocation extends Item {
      * Get a provider that provides a stream of historic geolocation
      * @return the stream provider
      */
-    public static MultiItemStreamProvider asHistory() {
+    public static Function<Void, MultiItemStream> asHistory() {
         // TODO implement this
         return null;
     }
