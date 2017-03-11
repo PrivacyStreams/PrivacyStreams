@@ -10,10 +10,17 @@ import com.github.privacystreams.utils.annotations.PSItemField;
  */
 @PSItem
 public class Light extends Item {
-    @PSItemField(name = "intensity", type = Float.class, description = "The light intensity, in ??.")
+
+    /**
+     * The light intensity, in ??.
+     */
+    @PSItemField(type = Float.class)
     public static final String INTENSITY = "intensity";
 
-    @PSItemField(name = "timestamp", type = Long.class, description = "The timestamp of when the light sensor value is read.")
+    /**
+     * The timestamp of when the light sensor value is read.
+     */
+    @PSItemField(type = Long.class)
     public static final String TIMESTAMP = "timestamp";
 
     public Light(float intensity, long timestamp) {

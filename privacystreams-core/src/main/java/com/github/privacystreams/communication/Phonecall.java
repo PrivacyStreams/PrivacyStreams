@@ -11,16 +11,29 @@ import com.github.privacystreams.utils.annotations.PSItemField;
  */
 @PSItem
 public class Phonecall extends Item {
-    @PSItemField(name = "timestamp", type = Long.class, description = "The timestamp of when the phonecall is happened.")
+
+    /**
+     * The timestamp of when the phonecall is happened.
+     */
+    @PSItemField(type = Long.class)
     public static final String TIMESTAMP = "timestamp";
 
-    @PSItemField(name = "contact", type = String.class, description = "The contact (phone number or name) of the phonecall.")
+    /**
+     * The contact (phone number or name) of the phonecall.
+     */
+    @PSItemField(type = String.class)
     public static final String CONTACT = "contact";
 
-    @PSItemField(name = "duration", type = Long.class, description = "The duration of the phonecall, in milliseconds.")
+    /**
+     * The duration of the phonecall, in milliseconds.
+     */
+    @PSItemField(type = Long.class)
     public static final String DURATION = "duration";
 
-    @PSItemField(name = "type", type = String.class, description = "The phonecall type, could be \"incoming\", \"outgoing\" or \"missed\".")
+    /**
+     * The phonecall type, could be "incoming", "outgoing" or "missed".
+     */
+    @PSItemField(type = String.class)
     public static final String TYPE = "type";
 
     public static class Types {

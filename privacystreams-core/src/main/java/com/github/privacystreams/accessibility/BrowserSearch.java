@@ -10,18 +10,27 @@ import com.github.privacystreams.utils.annotations.PSItemField;
  */
 @PSItem
 public class BrowserSearch extends Item {
-    @PSItemField(name="text", type = String.class, description = "The searched text.")
+    /**
+     * The searched text.
+     */
+    @PSItemField(type = String.class)
     public static final String TEXT = "text";
 
-    @PSItemField(name="timestamp", type = Long.class, description = "The timestamp of when the search event is happened.")
+    /**
+     * The timestamp of when the search event is happened.
+     */
+    @PSItemField(type = Long.class)
     public static final String TIMESTAMP = "timestamp";
 
-    public BrowserSearch(String title,
-                         long timestamp) {
+    BrowserSearch(String title, long timestamp) {
         this.setFieldValue(TEXT, title);
         this.setFieldValue(TIMESTAMP,timestamp);
     }
 
+    /**
+     * A function that provides a live stream of user's browser search activities
+     * @return the provider function
+     */
     public static MultiItemStreamProvider asUpdates(){
         return new BrowserSearchUpdatesProvider();
     }

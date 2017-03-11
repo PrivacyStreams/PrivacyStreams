@@ -15,19 +15,34 @@ import java.util.List;
 @PSItem
 public class MockItem extends Item {
 
-    @PSItemField(name = "id", type = Long.class, description = "The index of current item.")
+    /**
+     * The index of current item.
+     */
+    @PSItemField(type = Long.class)
     public static final String ID = "id";
 
-    @PSItemField(name = "x", type = Integer.class, description = "A random integer.")
+    /**
+     * A random integer.
+     */
+    @PSItemField(type = Integer.class)
     public static final String X = "x";
 
-    @PSItemField(name = "y", type = String.class, description = "A random String.")
+    /**
+     * A random String.
+     */
+    @PSItemField(type = String.class)
     public static final String Y = "y";
 
-    @PSItemField(name = "z", type = Double.class, description = "A random float number.")
+    /**
+     * A random float number.
+     */
+    @PSItemField(type = Double.class)
     public static final String Z = "z";
 
-    @PSItemField(name = "time_created", type = Long.class, description = "The timestamp of when current item is created.")
+    /**
+     * The timestamp of when current item is created.
+     */
+    @PSItemField(type = Long.class)
     public static final String TIME_CREATED = "time_created";
 
     public MockItem(long id, Integer x, String y, Double z) {

@@ -13,16 +13,29 @@ import java.util.List;
  */
 @PSItem
 public class Contact extends Item {
-    @PSItemField(name="id", type = String.class, description = "The contact ID in Android database.")
+
+    /**
+     * The contact ID in Android database.
+     */
+    @PSItemField(type = String.class)
     public static final String ID = "id";
 
-    @PSItemField(name="name", type = String.class, description = "The contact name.")
+    /**
+     * The contact name.
+     */
+    @PSItemField(type = String.class)
     public static final String NAME = "name";
 
-    @PSItemField(name="phone_numbers", type = List.class, description = "The phone numbers of the contact.")
+    /**
+     * The phone numbers of the contact.
+     */
+    @PSItemField(type = List.class)
     public static final String PHONES = "phone_numbers";
 
-    @PSItemField(name="emails", type = List.class, description = "The emails of the contact.")
+    /**
+     * The emails of the contact.
+     */
+    @PSItemField(type = List.class)
     public static final String EMAILS = "emails";
 
     Contact(String id, String name, List<String> phones, List<String> emails) {

@@ -61,6 +61,7 @@ public class DocGenerator extends HtmlDoclet {
             for (AnnotationDesc annotation : annotations) {
                 AnnotationTypeDoc annotationType = annotation.annotationType();
                 if (ITEM_FIELD_ANNOTATION.equals(annotationType.toString())) {
+                    itemDoc += fieldDoc.commentText() + "\n";
                     itemDoc += fieldDoc.name() + " " + fieldDoc.constantValue() + "\n";
                     for (AnnotationDesc.ElementValuePair elementValuePair : annotation.elementValues()) {
                         itemDoc += elementValuePair.element().name() + " " + elementValuePair.value() + "\n";

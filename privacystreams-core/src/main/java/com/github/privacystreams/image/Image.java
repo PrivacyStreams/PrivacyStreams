@@ -14,10 +14,16 @@ import com.github.privacystreams.utils.annotations.PSItemField;
 @PSItem
 public class Image extends Item {
 
-    @PSItemField(name="timestamp", type = Long.class, description = "The timestamp of when the image is generated.")
+    /**
+     * The timestamp of when the image is generated.
+     */
+    @PSItemField(type = Long.class)
     private static final String TIMESTAMP = "timestamp";
 
-    @PSItemField(name="uri", type = String.class, description = "The URI of image file.")
+    /**
+     * The URI of image file.
+     */
+    @PSItemField(type = String.class)
     public static final String URI = "uri";
 
     // TODO create a metadata field, put lat and lng to metadata

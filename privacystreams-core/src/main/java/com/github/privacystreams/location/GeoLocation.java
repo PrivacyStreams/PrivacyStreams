@@ -16,23 +16,35 @@ import java.util.List;
  */
 @PSItem
 public class GeoLocation extends Item {
-    @PSItemField(name = "timestamp", type = Long.class, description = "The timestamp of the location.")
+
+    /**
+     * The timestamp of the location.
+     */
+    @PSItemField(type = Long.class)
     public static final String TIMESTAMP = "timestamp";
 
-    // type: List<Double>, the elements are latitude, longitude, altitude
-    @PSItemField(name = "coordinates", type = List.class, description = "The coordinates of the location, including latitude, longitude, and (optional) altitude.")
+    /**
+     * The coordinates of the location, including latitude, longitude, and (optional) altitude.
+     */
+    @PSItemField(type = List.class)
     public static final String COORDINATES = "coordinates";
 
-    // type: Double
-    @PSItemField(name = "speed", type = Float.class, description = "The speed at the location, in meters/second.")
+    /**
+     * The speed at the location, in meters/second.
+     */
+    @PSItemField(type = Float.class)
     public static final String SPEED = "speed";
 
-    // type: String, the provider of the location data, e.g. "gps", "network"
-    @PSItemField(name = "provider", type = String.class, description = "The provider of the location data, e.g., \"gps\" or \"network\".")
+    /**
+     * The provider of the location data, e.g., "gps" or "network".
+     */
+    @PSItemField(type = String.class)
     public static final String PROVIDER = "provider";
 
-    // type: Double, the accuracy of the location data, in meters
-    @PSItemField(name = "accuracy", type = Float.class, description = "The accuracy of the location data, in meters.")
+    /**
+     * The accuracy of the location data, in meters.
+     */
+    @PSItemField(type = Float.class)
     public static final String ACCURACY = "accuracy";
 
     GeoLocation(long time, String provider, double latitude, double longitude,

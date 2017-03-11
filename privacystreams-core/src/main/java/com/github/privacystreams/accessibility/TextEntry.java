@@ -14,7 +14,10 @@ import java.util.Date;
  */
 @PSItem
 public class TextEntry extends UIAction {
-    @PSItemField(name="content", type = String.class, description = "The user-typed content.")
+    /**
+     * The user-typed content.
+     */
+    @PSItemField(type = String.class)
     public static final String CONTENT = "content";
 
     TextEntry(AccessibilityEvent event, AccessibilityNodeInfo sourceNode, String content, Date timeStamp){

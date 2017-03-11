@@ -15,20 +15,34 @@ import java.util.Date;
  */
 @PSItem
 public class BaseAccessibilityEvent extends Item {
-
-    @PSItemField(name="timestamp", type = Long.class, description = "The timestamp of when the item is generated.")
+    /**
+     * The timestamp of when the item is generated.
+     */
+    @PSItemField(type = Long.class)
     public static final String TIMESTAMP = "timestamp";
 
-    @PSItemField(name="event_type", type = Integer.class, description = "The type of the event, see https://developer.android.com/reference/android/view/accessibility/AccessibilityEvent.html for a list of event types.")
+    /**
+     * The type of the event, see https://developer.android.com/reference/android/view/accessibility/AccessibilityEvent.html for a list of event types.
+     */
+    @PSItemField(type = Integer.class)
     public static final String EVENT_TYPE = "event_type";
 
-    @PSItemField(name="package_name", type = String.class, description = "The package name of the current app (could be null).")
+    /**
+     * The package name of the current app (could be null).
+     */
+    @PSItemField(type = String.class)
     public static final String PACKAGE_NAME = "package_name";
 
-    @PSItemField(name="root_view", type = AccessibilityNodeInfo.class, description = "The root view of current event.")
+    /**
+     * The root view of current event.
+     */
+    @PSItemField(type = AccessibilityNodeInfo.class)
     public static final String ROOT_VIEW = "root_view";
 
-    @PSItemField(name="item_count", type = Integer.class, description = "The number of items in current event.")
+    /**
+     * The number of items in current event.
+     */
+    @PSItemField(type = Integer.class)
     public static final String ITEM_COUNT = "item_count";
 
     BaseAccessibilityEvent(AccessibilityEvent accessibilityEvent, AccessibilityNodeInfo rootNode, Date timeStamp){

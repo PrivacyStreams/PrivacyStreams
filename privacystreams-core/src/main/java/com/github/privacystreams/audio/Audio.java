@@ -13,10 +13,17 @@ import com.github.privacystreams.utils.annotations.PSItemField;
  */
 @PSItem
 public class Audio extends Item {
-    @PSItemField(name="timestamp", type = Long.class, description = "The timestamp of when current item is generated.")
+
+    /**
+     * The timestamp of when current item is generated.
+     */
+    @PSItemField(type = Long.class)
     public static final String TIMESTAMP = "timestamp";
 
-    @PSItemField(name="uri", type = String.class, description = "The URI of the audio file.")
+    /**
+     * The URI of the audio file.
+     */
+    @PSItemField(type = String.class)
     public static final String URI = "uri";
 
     Audio(long timestamp, Uri file_uri) {

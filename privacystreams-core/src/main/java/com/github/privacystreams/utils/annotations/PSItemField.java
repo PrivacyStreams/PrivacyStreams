@@ -7,7 +7,5 @@ import java.lang.annotation.Documented;
  */
 @Documented
 public @interface PSItemField {
-    String name();
     Class type();
-    String description();
 }

@@ -10,16 +10,29 @@ import com.github.privacystreams.utils.annotations.PSItemField;
  */
 @PSItem
 public class BrowserVisit extends Item {
-    @PSItemField(name="title", type = String.class, description = "The title of current web view.")
+
+    /**
+     * The title of current web view.
+     */
+    @PSItemField(type = String.class)
     public static final String TITLE = "title";
 
-    @PSItemField(name="package_name", type = String.class, description = "The package name of used browser.")
+    /**
+     * The package name of used browser.
+     */
+    @PSItemField(type = String.class)
     public static final String PACKAGE_NAME = "package_name";
 
-    @PSItemField(name="url", type = String.class, description = "The URL of visited webpage.")
+    /**
+     * The URL of visited webpage.
+     */
+    @PSItemField(type = String.class)
     public static final String URL = "url";
 
-    @PSItemField(name="timestamp", type = Long.class, description = "The timestamp of when the web page is visited.")
+    /**
+     * The timestamp of when the web page is visited.
+     */
+    @PSItemField(type = Long.class)
     public static final String TIMESTAMP = "timestamp";
 
     public BrowserVisit(String title,

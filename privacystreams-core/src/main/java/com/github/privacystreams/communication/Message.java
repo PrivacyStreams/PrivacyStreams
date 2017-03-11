@@ -13,19 +13,35 @@ import com.github.privacystreams.utils.annotations.PSItemField;
  */
 @PSItem
 public class Message extends Item {
-    @PSItemField(name="type", type = String.class, description = "The message type, could be \"received\" or \"sent\".")
+
+    /**
+     * The message type, could be "received" or "sent".
+     */
+    @PSItemField(type = String.class)
     public static final String TYPE = "type";
 
-    @PSItemField(name="content", type = String.class, description = "The message content.")
+    /**
+     * The message content.
+     */
+    @PSItemField(type = String.class)
     public static final String CONTENT = "content";
 
-    @PSItemField(name="package_name", type = String.class, description = "The package name of the app where message is captured.")
+    /**
+     * The package name of the app where message is captured.
+     */
+    @PSItemField(type = String.class)
     public static final String PACKAGE_NAME = "package_name";
 
-    @PSItemField(name="contact", type = String.class, description = "The contact (phone number or name) of the message.")
+    /**
+     * The contact (phone number or name) of the message.
+     */
+    @PSItemField(type = String.class)
     public static final String CONTACT = "contact";
 
-    @PSItemField(name="timestamp", type = Long.class, description = "The timestamp of when the message is sent/received.")
+    /**
+     * The timestamp of when the message is sent/received.
+     */
+    @PSItemField(type = Long.class)
     public static final String TIMESTAMP = "timestamp";
 
     public static class Types {

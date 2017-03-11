@@ -14,7 +14,11 @@ import java.util.Date;
  */
 @PSItem
 public class UIAction extends BaseAccessibilityEvent {
-    @PSItemField(name="source_node", type = AccessibilityNodeInfo.class, description = "The source node of current accessibility event.")
+
+    /**
+     * The source node of current accessibility event.
+     */
+    @PSItemField(type = AccessibilityNodeInfo.class)
     public static final String SOURCE_NODE = "source_node";
 
     public UIAction(AccessibilityEvent event, AccessibilityNodeInfo rootNode, Date timeStamp){
