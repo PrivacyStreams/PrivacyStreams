@@ -15,8 +15,9 @@ import java.io.IOException;
 
 
 /**
- * Created by fanglinchen on 2/2/17.
+ * Provide a stream of images stored in local sd card.
  */
+
 
 class ImageStorageProvider extends MultiItemStreamProvider {
 

@@ -9,7 +9,6 @@ import android.net.wifi.ScanResult;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Build;
-import android.os.Looper;
 import android.support.annotation.RequiresApi;
 
 import com.github.privacystreams.core.UQI;
@@ -58,8 +57,6 @@ class WifiApListProvider extends MultiItemStreamProvider {
     protected void provide() {
 
         WifiManager wifiMgr = (WifiManager) this.getContext().getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-
-        Looper.prepare();
 
         if(wifiMgr.isWifiEnabled()) {
             this.getContext().registerReceiver(this.wifiReceiver, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));

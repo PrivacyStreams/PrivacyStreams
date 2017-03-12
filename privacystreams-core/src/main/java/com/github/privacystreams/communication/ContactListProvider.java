@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A provider that provides a list of contacts
+ * Provide a stream of contact list.
  */
 
 class ContactListProvider extends MultiItemStreamProvider {

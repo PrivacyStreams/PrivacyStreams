@@ -14,8 +14,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        android.content.Context context;                                    // For the google service api
-
         setContentView(R.layout.activity_main);
         mButton = (Button) findViewById(R.id.button);
 
