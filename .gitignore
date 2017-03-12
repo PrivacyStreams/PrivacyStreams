@@ -60,4 +60,4 @@ keystores/
 out/
 gradle-app.setting
 
-/app/src/main/res/values/secrets.xml
+app/src/main/res/values/secrets.xml
