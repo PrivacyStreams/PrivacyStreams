@@ -22,7 +22,7 @@ public class PSItemFieldDoc {
         this.psItemDoc = psItemDoc;
         this.reference = psItemDoc.name + "." + fieldDoc.name();
         this.name = fieldDoc.constantValue().toString();
-        this.description = fieldDoc.commentText().replace('\n', ',');
+        this.description = fieldDoc.commentText().replace('\n', ' ');
 
         for (AnnotationDesc.ElementValuePair elementValuePair : annotation.elementValues()) {
             if ("type".equals(elementValuePair.element().name())) {

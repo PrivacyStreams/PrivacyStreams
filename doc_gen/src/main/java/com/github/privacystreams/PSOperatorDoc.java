@@ -26,7 +26,7 @@ public class PSOperatorDoc {
     private PSOperatorDoc(ClassDoc classDoc, MethodDoc methodDoc) {
         this.declaringClassDoc = classDoc;
         this.methodDoc = methodDoc;
-        this.description = methodDoc.commentText();
+        this.description = methodDoc.commentText().replace('\n', ' ');;
 
         ParameterizedType returnType = methodDoc.returnType().asParameterizedType();
         this.inputType = returnType.typeArguments()[0];

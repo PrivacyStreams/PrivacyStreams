@@ -31,7 +31,7 @@ public class ArithmeticOperators {
     }
 
     /**
-     * A function that casts a number to long.
+     * A function that casts a number to long type.
      * @param numField the name of the number field
      * @return the function
      */
@@ -40,7 +40,7 @@ public class ArithmeticOperators {
     }
 
     /**
-     * A function that casts a number to integer.
+     * A function that casts a number to integer type.
      * @param numField the name of the number field
      * @return the function
      */
@@ -49,7 +49,7 @@ public class ArithmeticOperators {
     }
 
     /**
-     * A function that adds two fields in an item
+     * A function that adds two fields in an item.
      * @param numField1 the name of the first field
      * @param numField2 the name of the second field
      * @return the function
@@ -59,7 +59,7 @@ public class ArithmeticOperators {
     }
 
     /**
-     * A function that subtracts two fields in an item
+     * A function that subtracts two fields in an item.
      * @param numField1 the name of the first field
      * @param numField2 the name of the second field
      * @return the function
@@ -69,7 +69,7 @@ public class ArithmeticOperators {
     }
 
     /**
-     * A function that multiplies two fields in an item
+     * A function that multiplies two fields in an item.
      * @param numField1 the name of the first field
      * @param numField2 the name of the second field
      * @return the function
@@ -79,7 +79,7 @@ public class ArithmeticOperators {
     }
 
     /**
-     * A function that divides two fields in an item
+     * A function that divides two fields in an item.
      * @param numField1 the name of the first field
      * @param numField2 the name of the second field
      * @return the function
@@ -89,7 +89,7 @@ public class ArithmeticOperators {
     }
 
     /**
-     * A function that modes two fields in an item
+     * A function that modes two fields in an item.
      * @param numField1 the name of the first field
      * @param numField2 the name of the second field
      * @return the function

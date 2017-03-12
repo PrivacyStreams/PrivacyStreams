@@ -24,7 +24,7 @@ public class BaseAccessibilityEvent extends Item {
     public static final String TIMESTAMP = "timestamp";
 
     /**
-     * The type of the event, see https://developer.android.com/reference/android/view/accessibility/AccessibilityEvent.html for a list of event types.
+     * The type of the event, see Android official document of [AccessibilityEvent](https://developer.android.com/reference/android/view/accessibility/AccessibilityEvent.html) for a list of event types.
      */
     @PSItemField(type = Integer.class)
     public static final String EVENT_TYPE = "event_type";
@@ -36,7 +36,7 @@ public class BaseAccessibilityEvent extends Item {
     public static final String PACKAGE_NAME = "package_name";
 
     /**
-     * The root view of current event.
+     * The root view of current event, which is an instance of [AccessibilityNodeInfo](https://developer.android.com/reference/android/view/accessibility/AccessibilityNodeInfo.html).
      */
     @PSItemField(type = AccessibilityNodeInfo.class)
     public static final String ROOT_VIEW = "root_view";

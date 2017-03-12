@@ -18,7 +18,7 @@ import java.util.Date;
 public class UIAction extends BaseAccessibilityEvent {
 
     /**
-     * The source node of current accessibility event.
+     * The source node of current accessibility event, which is an instance of [AccessibilityNodeInfo](https://developer.android.com/reference/android/view/accessibility/AccessibilityNodeInfo.html).
      */
     @PSItemField(type = AccessibilityNodeInfo.class)
     public static final String SOURCE_NODE = "source_node";

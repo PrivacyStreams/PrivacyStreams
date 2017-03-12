@@ -35,7 +35,7 @@ public class Audio extends Item {
     }
 
     /**
-     * get a item provider that provides a audio item
+     * Get a item provider that provides a audio item,
      * the audio item represents a recorded audio with certain length of time
      * @param duration the time duration of audio
      * @return the provider
@@ -45,9 +45,10 @@ public class Audio extends Item {
     }
 
     /**
-     * get a stream provider that provides a audio item
-     * each audio item represents a recorded audio with certain length of time
-     * audio is recorded every certain time
+     * Get a stream provider that provides a audio item,
+     * each audio item represents a recorded audio with certain length of time.
+     * Audio is recorded every certain time.
+     *
      * @param duration_per_record the time duration per audio record
      * @param interval the interval between each audio record
      * @return the provider

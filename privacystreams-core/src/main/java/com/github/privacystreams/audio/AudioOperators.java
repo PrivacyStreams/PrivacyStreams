@@ -10,8 +10,7 @@ import com.github.privacystreams.utils.annotations.PSOperatorWrapper;
 @PSOperatorWrapper
 public class AudioOperators {
     /**
-     * calculate the loudness of an audio field.
-     * the loudness is an integer in dB.
+     * Calculate the loudness of an audio field. The loudness is an integer in dB.
      * @param audioUriField the name of the audio uri field.
      * @return the function
      */
