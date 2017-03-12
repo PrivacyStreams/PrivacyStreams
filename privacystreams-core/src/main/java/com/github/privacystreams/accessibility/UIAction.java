@@ -3,16 +3,24 @@ package com.github.privacystreams.accessibility;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
 
+import com.github.privacystreams.core.Function;
+import com.github.privacystreams.core.MultiItemStream;
 import com.github.privacystreams.core.providers.MultiItemStreamProvider;
+import com.github.privacystreams.utils.annotations.PSItemField;
+import com.github.privacystreams.utils.annotations.PSItem;
 
 import java.util.Date;
 
 /**
- * @author toby
- * @date 2/28/17
- * @time 10:53 AM
+ * A UIAction item represents a UI action.
  */
+@PSItem
 public class UIAction extends BaseAccessibilityEvent {
+
+    /**
+     * The source node of current accessibility event.
+     */
+    @PSItemField(type = AccessibilityNodeInfo.class)
     public static final String SOURCE_NODE = "source_node";
 
     public UIAction(AccessibilityEvent event, AccessibilityNodeInfo rootNode, Date timeStamp){
@@ -54,7 +62,7 @@ public class UIAction extends BaseAccessibilityEvent {
 //
 //    }
 
-    public static MultiItemStreamProvider asUpdates() {
+    public static Function<Void, MultiItemStream> asUpdates() {
         return new UIActionProvider();
     }
 

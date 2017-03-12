@@ -5,25 +5,58 @@ import android.net.wifi.ScanResult;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 
+import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.Item;
+import com.github.privacystreams.core.MultiItemStream;
 import com.github.privacystreams.core.providers.MultiItemStreamProvider;
+import com.github.privacystreams.utils.annotations.PSItem;
+import com.github.privacystreams.utils.annotations.PSItemField;
 
 /**
- * Created by yuanchun on 07/12/2016.
+ * A WifiAp item represents the information of a WIFI AP.
  */
-
 @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
+@PSItem
 public class WifiAp extends Item {
-    private static final String TIMESTAMP = "timestamp";
-    private static final String BSSID = "bssid";
-    private static final String SSID = "ssid";
-    private static final String FREQUENCY = "frequency";
-    private static final String RSSI = "rssi";
-    private static final String CONNECTED = "connected";
+
+    /**
+     * The timestamp of when the WIFI AP information is found.
+     */
+    @PSItemField(type = Long.class)
+    public static final String TIMESTAMP = "timestamp";
+
+    /**
+     * The BSSID.
+     */
+    @PSItemField(type = String.class)
+    public static final String BSSID = "bssid";
+
+    /**
+     * The SSID.
+     */
+    @PSItemField(type = String.class)
+    public static final String SSID = "ssid";
+
+    /**
+     * The frequency.
+     */
+    @PSItemField(type = String.class)
+    public static final String FREQUENCY = "frequency";
+
+    /**
+     * The RSSI.
+     */
+    @PSItemField(type = String.class)
+    public static final String RSSI = "rssi";
+
+    /**
+     * Whether this AP is connected.
+     */
+    @PSItemField(type = Boolean.class)
+    public static final String CONNECTED = "connected";
 
     WifiAp(ScanResult scanResult, boolean connected) {
         this.setFieldValue(TIMESTAMP, scanResult.timestamp);
-
         this.setFieldValue(BSSID, scanResult.BSSID);
         this.setFieldValue(SSID, scanResult.SSID);
         this.setFieldValue(FREQUENCY, scanResult.frequency);
@@ -31,8 +64,8 @@ public class WifiAp extends Item {
         this.setFieldValue(CONNECTED, connected);
     }
 
-    public static MultiItemStreamProvider asUpdates(int samplingPeriodInSeconds) {
-        return new WifiUpdatesProvider(samplingPeriodInSeconds);
+    public static Function<Void, MultiItemStream> asScanList() {
+        return new WifiApListProvider();
     }
 
 }

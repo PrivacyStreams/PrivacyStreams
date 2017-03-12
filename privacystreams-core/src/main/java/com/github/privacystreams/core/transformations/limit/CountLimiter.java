@@ -1,8 +1,5 @@
 package com.github.privacystreams.core.transformations.limit;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.github.privacystreams.core.Item;
 
 /**

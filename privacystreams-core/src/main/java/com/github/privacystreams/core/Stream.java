@@ -6,17 +6,12 @@ import com.github.privacystreams.utils.Logging;
 
 import org.greenrobot.eventbus.EventBus;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
-import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.concurrent.LinkedBlockingDeque;
-import java.util.concurrent.LinkedBlockingQueue;
 
 
 /**
@@ -65,20 +60,27 @@ public abstract class Stream {
         }
 
         // If receivers are not ready, cache the item
-        if (this.streamReceivers.size() != this.receiverCount) {
-            if (this.getUQI().isStreamDebug())
-                Logging.debug("Receivers are not ready, caching...");
-            this.streamCache.add(item);
-            return;
-        }
-
-        // send all cached items
-        while (true) {
-            Item cachedItem = this.streamCache.poll();
-            if (cachedItem != null)
-                this.doWrite(cachedItem);
-            else
-                break;
+//        if (this.streamReceivers.size() != this.receiverCount) {
+//            if (this.getUQI().isStreamDebug())
+//                Logging.debug("Receivers are not ready, caching...");
+//            this.streamCache.add(item);
+//            return;
+//        }
+//
+//        // send all cached items
+//        while (true) {
+//            PSItem cachedItem = this.streamCache.poll();
+//            if (cachedItem != null)
+//                this.doWrite(cachedItem);
+//            else
+//                break;
+//        }
+        while (this.streamReceivers.size() != this.receiverCount) {
+            try {
+                Thread.sleep(10);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
 
         this.doWrite(item);
@@ -86,7 +88,7 @@ public abstract class Stream {
 
     private void doWrite(Item item) {
         if (this.getUQI().isStreamDebug())
-            Logging.debug("Item " + item + " writing to stream " + this.getStreamProvider());
+            Logging.debug("PSItem " + item + " writing to stream " + this.getStreamProvider());
 
         this.eventBus.post(item);
     }

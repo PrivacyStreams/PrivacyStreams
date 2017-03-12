@@ -6,10 +6,9 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 
+import com.github.privacystreams.core.UQI;
 
 import java.util.Set;
-
-import com.github.privacystreams.core.UQI;
 
 /**
  * This Activity is to request permissions from users.

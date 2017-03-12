@@ -4,6 +4,7 @@ import com.github.privacystreams.core.Item;
 
 /**
  * Application information item
+ * TODO implement this.
  */
 
 public class AppInfo extends Item {

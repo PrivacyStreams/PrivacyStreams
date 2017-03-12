@@ -2,13 +2,13 @@ package com.github.privacystreams.storage;
 
 import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.Item;
+import com.github.privacystreams.utils.annotations.PSOperatorWrapper;
 
 /**
- * Created by yuanchun on 30/12/2016.
- * A helper class to access print-related functions
+ * A helper class to access storage-related operators
  */
-
-public class Storage {
+@PSOperatorWrapper
+public class StorageOperators {
     /**
      * A function that writes an item to file
      */

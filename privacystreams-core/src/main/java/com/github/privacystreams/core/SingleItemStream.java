@@ -1,15 +1,14 @@
 package com.github.privacystreams.core;
 
-import java.util.Map;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
-
+import com.github.privacystreams.commons.item.ItemOperators;
 import com.github.privacystreams.core.actions.SingleItemStreamAction;
 import com.github.privacystreams.core.exceptions.PipelineInterruptedException;
 import com.github.privacystreams.core.exceptions.PrivacyStreamsException;
-import com.github.privacystreams.commons.item.Items;
-import com.github.privacystreams.commons.print.Printers;
 import com.github.privacystreams.core.transformations.map.Mappers;
+
+import java.util.Map;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 /**
  * Created by yuanchun on 29/11/2016.
@@ -71,7 +70,7 @@ public class SingleItemStream extends Stream implements ISingleItemStream {
      * @return The item after projection
      */
     public SingleItemStream project(String... fieldsToInclude) {
-        return this.map(Items.includeFields(fieldsToInclude));
+        return this.map(ItemOperators.includeFields(fieldsToInclude));
     }
 
     /**
@@ -82,7 +81,7 @@ public class SingleItemStream extends Stream implements ISingleItemStream {
      * @return the item with the new field set
      */
     public <TValue> SingleItemStream setField(String newField, Function<Item, TValue> functionToComputeField) {
-        return this.map(Items.setField(newField, functionToComputeField));
+        return this.map(ItemOperators.setField(newField, functionToComputeField));
     }
 
     public <Tout> void outputItem(Function<Item, Tout> itemOutputFunction, Function<Tout, Void> resultHandler) {
@@ -122,7 +121,7 @@ public class SingleItemStream extends Stream implements ISingleItemStream {
      * @return the field value
      */
     public <TValue> TValue getField(String field) throws PrivacyStreamsException {
-        return this.outputItem(Items.<TValue>getField(field));
+        return this.outputItem(ItemOperators.<TValue>getField(field));
     }
 
     /**
@@ -130,20 +129,13 @@ public class SingleItemStream extends Stream implements ISingleItemStream {
      * The keys in the map can be selected using project(String... fieldsToInclude) method.
      */
     public Map<String, Object> asMap() throws PrivacyStreamsException {
-        return this.outputItem(Items.asMap());
-    }
-
-    /**
-     * Print the item
-     */
-    public void print() {
-        this.outputItem(Printers.print(), null);
+        return this.outputItem(ItemOperators.asMap());
     }
 
     /**
      * Debug print the item
      */
     public void debug() {
-        this.outputItem(Printers.debug(), null);
+        this.outputItem(ItemOperators.debug(), null);
     }
 }

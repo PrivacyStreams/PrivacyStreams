@@ -11,7 +11,7 @@ import java.util.List;
  * An IMultiItemStream is a stream containing many items, and each item is an instance of {@link Item}.
  *
  * An IMultiItemStream is produced by <code>uqi.getDataItems</code> method.
- * @see UQI#getDataItems(MultiItemStreamProvider, Purpose)
+ * @see UQI#getDataItems(Function, Purpose)
  *
  * It can be transformed to another IMultiItemStream by transformation functions,
  * such as {@link #filter(String, Object)}, {{@link #groupBy(String)}}, {{@link #map(Function)}}, etc.
@@ -108,7 +108,7 @@ public interface IMultiItemStream {
 
     /**
      * Convert each item in the stream with a function.
-     * Eg. map(Items.setField("x", 10)) will set the "x" field of each item to 10 in the stream.
+     * Eg. map(ItemOperators.setField("x", 10)) will set the "x" field of each item to 10 in the stream.
      *
      * @param function      the function to convert the item
      * @return The stream with items after mapping
@@ -128,7 +128,7 @@ public interface IMultiItemStream {
     /**
      * Set a field to a new value for each item in the stream.
      * The value is computed with a function that take the item as input.
-     * Eg. setField("x", Comparisons.gt("y", 10)) will set a new boolean field "x" to each item,
+     * Eg. setField("x", Comparators.gt("y", 10)) will set a new boolean field "x" to each item,
      * which indicates whether the "y" field is greater than 10.
      *
      * @param newField the new field name
@@ -244,11 +244,6 @@ public interface IMultiItemStream {
      * @return the item with the given index as a single-item stream.
      */
     ISingleItemStream pick(int index);
-
-    /**
-     * Print the items.
-     */
-    void print();
 
     /**
      * Debug print the items.

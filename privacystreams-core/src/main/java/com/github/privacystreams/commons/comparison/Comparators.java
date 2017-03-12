@@ -2,13 +2,13 @@ package com.github.privacystreams.commons.comparison;
 
 import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.Item;
+import com.github.privacystreams.utils.annotations.PSOperatorWrapper;
 
 /**
- * Created by yuanchun on 29/12/2016.
  * A helper class to access comparison-related functions
  */
-
-public class Comparisons {
+@PSOperatorWrapper
+public class Comparators {
     /**
      * A function that checks if the value of a field is equal to a given value
      * @param field the name of the field to compare

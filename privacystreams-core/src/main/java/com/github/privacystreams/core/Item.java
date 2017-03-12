@@ -10,7 +10,6 @@ import java.util.Map;
 import static com.github.privacystreams.utils.Assertions.cast;
 
 /**
- * Created by yuanchun on 29/11/2016.
  * An Item is a basic element in a stream.
  */
 public class Item {

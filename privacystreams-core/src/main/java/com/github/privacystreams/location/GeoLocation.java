@@ -4,31 +4,49 @@ import android.location.Location;
 
 import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.Item;
-import com.github.privacystreams.core.providers.MultiItemStreamProvider;
-import com.github.privacystreams.core.providers.SingleItemStreamProvider;
+import com.github.privacystreams.core.MultiItemStream;
+import com.github.privacystreams.core.SingleItemStream;
+import com.github.privacystreams.utils.annotations.PSItem;
+import com.github.privacystreams.utils.annotations.PSItemField;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by yuanchun on 07/12/2016.
- * An GeoLocation SingleItemStream represents a geolocation value
+ * An GeoLocation item represents a geolocation value.
  */
-
+@PSItem
 public class GeoLocation extends Item {
-    // type: Long
+
+    /**
+     * The timestamp of the location.
+     */
+    @PSItemField(type = Long.class)
     public static final String TIMESTAMP = "timestamp";
 
-    // type: List<Double>, the elements are latitude, longitude, altitude
+    /**
+     * The coordinates of the location.
+     * The value is a list of double numbers, including latitude, longitude, and (optional) altitude.
+     */
+    @PSItemField(type = List.class)
     public static final String COORDINATES = "coordinates";
 
-    // type: Double
+    /**
+     * The speed at the location, in meters/second.
+     */
+    @PSItemField(type = Float.class)
     public static final String SPEED = "speed";
 
-    // type: String, the provider of the location data, e.g. "gps", "network"
+    /**
+     * The provider of the location data, e.g., "gps" or "network".
+     */
+    @PSItemField(type = String.class)
     public static final String PROVIDER = "provider";
 
-    // type: Double, the accuracy of the location data, in meters
+    /**
+     * The accuracy of the location data, in meters.
+     */
+    @PSItemField(type = Float.class)
     public static final String ACCURACY = "accuracy";
 
     GeoLocation(long time, String provider, double latitude, double longitude,
@@ -53,84 +71,34 @@ public class GeoLocation extends Item {
             location.getAltitude(),
             location.getAccuracy(),
             location.getSpeed());
-
     }
 
     /**
-     * Get a provider that provides a live stream of updated geolocation continuously
+     * Get a provider that provides a live stream of geolocation updates continuously.
+     * @param provider the location provider, could be "gps", "network", etc.
+     * @param minTime minimum time interval between location updates, in milliseconds.
+     * @param minDistance minimum distance between location updates, in meters.
      * @return the stream provider
      */
-    public static MultiItemStreamProvider asUpdates(String provider, long minTime, float minDistance) {
+    public static Function<Void, MultiItemStream> asUpdates(String provider, long minTime, float minDistance) {
         return new LocationUpdatesProvider(provider, minTime, minDistance);
     }
 
     /**
-     * Get a provider that provides a item of asLastKnown geolocation
+     * Get a provider that provides an item of last known geolocation.
      * @return the stream provider
      */
-    public static SingleItemStreamProvider asLastKnown() {
+    public static Function<Void, SingleItemStream> asLastKnown() {
         return null;
     }
 
     /**
-     * Get a provider that provides a stream of historic geolocation
+     * Get a provider that provides a list of geolocation history.
      * @return the stream provider
      */
-    public static MultiItemStreamProvider asHistory() {
+    public static Function<Void, MultiItemStream> asHistory() {
         // TODO implement this
         return null;
     }
 
-
-    /**
-     * A predicate that returns true if the coordinate is at home.
-     * @param coordinatesField the coordinates field to check
-     * @return the predicate
-     */
-    public static Function<Item, Boolean> atHome(String coordinatesField) {
-        return new LocationAtHomePredicate(coordinatesField);
-    }
-
-    /**
-     * A predicate that returns true if the coordinate is in an given round area.
-     * @param coordinatesField the coordinates field to check
-     * @param center_latitude latitude of the center of the area
-     * @param center_longitude longtitude of the center of the area
-     * @param radius radius of the given area
-     * @return the predicate
-     */
-    public static Function<Item, Boolean> inArea(String coordinatesField,
-                                                 double center_latitude, double center_longitude, double radius) {
-        return new LocationInAreaPredicate(coordinatesField, center_latitude, center_longitude, radius);
-    }
-
-    /**
-     * A function that blurs the coordinates of an item and return the blurred coordinates.
-     * The blurred coordinates is a list of double, the first double element is the latitude,
-     * the second double element is the longitude.
-     * @param coordinatesField the coordinates field to blur
-     * @param blurMeters the distance to blur, in meters
-     * @return the function
-     */
-    public static Function<Item, List<Double>> blur(String coordinatesField, double blurMeters) {
-        return new LocationBlurFunction(coordinatesField, blurMeters);
-    }
-
-    /**
-     * A function that returns the postcode based on the coordinates
-     * @param coordinatesField the coordinates field
-     * @return the function
-     */
-    public static Function<Item, String> asPostcode(String coordinatesField) {
-        return new LocationPostcodeFunction(coordinatesField);
-    }
-
-    /**
-     * A function that returns the geotag based on the coordinates
-     * @param coordinatesField the coordinates field
-     * @return the function
-     */
-    public static Function<Item, String> asGeotag(String coordinatesField) {
-        return new LocationGeoTagger(coordinatesField);
-    }
 }

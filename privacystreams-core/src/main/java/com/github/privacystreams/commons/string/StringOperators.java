@@ -3,12 +3,13 @@ package com.github.privacystreams.commons.string;
 import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.utils.HashUtils;
+import com.github.privacystreams.utils.annotations.PSOperatorWrapper;
 
 /**
  * A helper class to access string-related functions
  */
-
-public class Strings {
+@PSOperatorWrapper
+public class StringOperators {
 
     /**
      * A function that checks whether a string field in the item contains a certain substring.

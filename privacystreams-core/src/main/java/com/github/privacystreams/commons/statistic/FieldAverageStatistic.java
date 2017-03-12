@@ -1,9 +1,9 @@
 package com.github.privacystreams.commons.statistic;
 
-import java.util.List;
-
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.utils.Assertions;
+
+import java.util.List;
 
 /**
  * Created by yuanchun on 23/12/2016.

@@ -2,13 +2,13 @@ package com.github.privacystreams.commons.logic;
 
 import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.Item;
+import com.github.privacystreams.utils.annotations.PSOperatorWrapper;
 
 /**
- * Created by yuanchun on 29/12/2016.
  * A helper class to access logic-related functions
  */
-
-public class Logics {
+@PSOperatorWrapper
+public class LogicOperators {
     /**
      * A predicate that returns the logical NOT of a function.
      *

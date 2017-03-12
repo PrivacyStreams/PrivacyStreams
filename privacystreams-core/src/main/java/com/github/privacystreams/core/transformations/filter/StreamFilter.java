@@ -1,12 +1,11 @@
 package com.github.privacystreams.core.transformations.filter;
 
 import com.github.privacystreams.core.Item;
-import com.github.privacystreams.core.MultiItemStream;
 import com.github.privacystreams.core.transformations.M2MTransformation;
 
 /**
  * Created by yuanchun on 28/11/2016.
- * A StreamFilter excludes some Items from MultiItemStream
+ * A StreamFilter excludes some ItemOperators from MultiItemStream
  */
 
 abstract class StreamFilter extends M2MTransformation {

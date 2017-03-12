@@ -2,9 +2,9 @@ package com.github.privacystreams.image;
 
 import android.net.Uri;
 
+import com.github.privacystreams.commons.ItemFunction;
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.UQI;
-import com.github.privacystreams.commons.ItemFunction;
 import com.github.privacystreams.utils.Assertions;
 
 /**

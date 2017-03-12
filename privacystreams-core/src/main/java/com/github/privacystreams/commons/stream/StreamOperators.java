@@ -1,15 +1,16 @@
 package com.github.privacystreams.commons.stream;
 
-import java.util.List;
-
 import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.Item;
+import com.github.privacystreams.utils.annotations.PSOperatorWrapper;
+
+import java.util.List;
 
 /**
  * A helper class to access common stream functions
  */
-
-public class Streams {
+@PSOperatorWrapper
+public class StreamOperators {
 
     /**
      * A function that converts a stream to a list.

@@ -2,9 +2,7 @@ package com.github.privacystreams.core;
 
 import org.junit.Test;
 
-import java.util.List;
-
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Created by yuanchun on 19/02/2017.

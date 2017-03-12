@@ -1,24 +1,23 @@
 package com.github.privacystreams.core;
 
-import java.util.List;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
-
+import com.github.privacystreams.commons.comparison.Comparators;
+import com.github.privacystreams.commons.item.ItemOperators;
+import com.github.privacystreams.commons.statistic.StatisticOperators;
+import com.github.privacystreams.commons.stream.StreamOperators;
 import com.github.privacystreams.core.actions.MultiItemStreamAction;
 import com.github.privacystreams.core.actions.callback.Callbacks;
 import com.github.privacystreams.core.exceptions.PipelineInterruptedException;
 import com.github.privacystreams.core.exceptions.PrivacyStreamsException;
-import com.github.privacystreams.commons.item.Items;
-import com.github.privacystreams.commons.stream.Streams;
-import com.github.privacystreams.commons.comparison.Comparisons;
-import com.github.privacystreams.commons.print.Printers;
-import com.github.privacystreams.commons.statistic.Statistics;
 import com.github.privacystreams.core.transformations.filter.Filters;
 import com.github.privacystreams.core.transformations.group.Groupers;
 import com.github.privacystreams.core.transformations.limit.Limiters;
 import com.github.privacystreams.core.transformations.map.Mappers;
 import com.github.privacystreams.core.transformations.pick.Pickers;
 import com.github.privacystreams.core.transformations.reorder.Reorders;
+
+import java.util.List;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 /**
  * Created by yuanchun on 28/11/2016.
@@ -104,7 +103,7 @@ public class MultiItemStream extends Stream implements IMultiItemStream {
      * @return The filtered stream.
      */
     public <TValue> MultiItemStream filter(String fieldName, TValue fieldValue) {
-        return this.filter(Comparisons.eq(fieldName, fieldValue));
+        return this.filter(Comparators.eq(fieldName, fieldValue));
     }
 
     // *****************************
@@ -172,7 +171,7 @@ public class MultiItemStream extends Stream implements IMultiItemStream {
      * @return The stream with items after projection
      */
     public MultiItemStream project(String... fieldsToInclude) {
-        return this.map(Items.includeFields(fieldsToInclude));
+        return this.map(ItemOperators.includeFields(fieldsToInclude));
     }
 
     /**
@@ -183,7 +182,7 @@ public class MultiItemStream extends Stream implements IMultiItemStream {
      * @return the stream of items with the new field set
      */
     public <TValue> MultiItemStream setField(String newField, Function<Item, TValue> functionToComputeValue) {
-        return this.map(Items.setField(newField, functionToComputeValue));
+        return this.map(ItemOperators.setField(newField, functionToComputeValue));
     }
 
     /**
@@ -196,7 +195,7 @@ public class MultiItemStream extends Stream implements IMultiItemStream {
      * @return the stream of items with the new field set
      */
     public <TValue> MultiItemStream setGroupField(String newField, Function<List<Item>, TValue> subStreamFunction) {
-        return this.setField(newField, Items.outputSubStream(subStreamFunction));
+        return this.setField(newField, ItemOperators.outputSubStream(subStreamFunction));
     }
 
     // *****************************
@@ -311,17 +310,10 @@ public class MultiItemStream extends Stream implements IMultiItemStream {
     }
 
     /**
-     * Print the items
-     */
-    public void print() {
-        this.forEach(Printers.print());
-    }
-
-    /**
      * Debug print the items
      */
     public void debug() {
-        this.forEach(Printers.debug());
+        this.forEach(ItemOperators.debug());
     }
 
     /**
@@ -329,7 +321,7 @@ public class MultiItemStream extends Stream implements IMultiItemStream {
      * @return the count of number of items in the stream
      */
     public int count() throws PrivacyStreamsException {
-        return this.outputItems(Statistics.count());
+        return this.outputItems(StatisticOperators.count());
     }
 
     /**
@@ -338,7 +330,7 @@ public class MultiItemStream extends Stream implements IMultiItemStream {
      * @return a list of key-value maps, each map represents an item
      */
     public List<Item> asList() throws PrivacyStreamsException {
-        return this.outputItems(Streams.asList());
+        return this.outputItems(StreamOperators.asList());
     }
 
     /**
@@ -348,7 +340,7 @@ public class MultiItemStream extends Stream implements IMultiItemStream {
      * @return a list of field values
      */
     public <TValue> List<TValue> asList(String fieldToSelect) throws PrivacyStreamsException {
-        return this.outputItems(Streams.<TValue>asList(fieldToSelect));
+        return this.outputItems(StreamOperators.<TValue>asList(fieldToSelect));
     }
 
     /**

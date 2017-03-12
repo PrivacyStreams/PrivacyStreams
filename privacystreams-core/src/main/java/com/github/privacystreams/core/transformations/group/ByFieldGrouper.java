@@ -1,12 +1,12 @@
 package com.github.privacystreams.core.transformations.group;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.utils.Assertions;
 import com.github.privacystreams.utils.HashUtils;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by yuanchun on 22/12/2016.

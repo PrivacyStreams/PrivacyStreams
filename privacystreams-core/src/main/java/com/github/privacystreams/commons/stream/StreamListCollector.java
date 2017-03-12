@@ -1,11 +1,10 @@
 package com.github.privacystreams.commons.stream;
 
-import java.util.List;
-
-import com.github.privacystreams.core.UQI;
 import com.github.privacystreams.commons.ItemsFunction;
-
 import com.github.privacystreams.core.Item;
+import com.github.privacystreams.core.UQI;
+
+import java.util.List;
 
 /**
  * Created by yuanchun on 28/12/2016.

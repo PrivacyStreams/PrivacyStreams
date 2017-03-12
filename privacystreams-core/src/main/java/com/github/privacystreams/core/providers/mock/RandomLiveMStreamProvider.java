@@ -1,6 +1,5 @@
 package com.github.privacystreams.core.providers.mock;
 
-import com.github.privacystreams.core.MultiItemStream;
 import com.github.privacystreams.core.providers.MultiItemStreamProvider;
 
 /**

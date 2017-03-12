@@ -12,7 +12,6 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.RequiresApi;
-import android.util.Log;
 
 import com.github.privacystreams.core.UQI;
 import com.github.privacystreams.core.providers.MultiItemStreamProvider;
@@ -20,10 +19,11 @@ import com.github.privacystreams.core.providers.MultiItemStreamProvider;
 
 /**
  * Created by fanglinchen on 1/31/17.
+ * TODO carefully define what is Wifi updates.
  */
 @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
-public class WifiUpdatesProvider extends MultiItemStreamProvider {
-    transient WifiManager wifi;
+class WifiUpdatesProvider extends MultiItemStreamProvider {
+    private transient WifiManager wifi;
     private final int samplingPeriodInSeconds;
 
     class WifiReceiver extends  BroadcastReceiver

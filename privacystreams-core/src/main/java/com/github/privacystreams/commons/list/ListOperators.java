@@ -1,16 +1,16 @@
 package com.github.privacystreams.commons.list;
 
-import java.util.Arrays;
-
 import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.Item;
+import com.github.privacystreams.utils.annotations.PSOperatorWrapper;
+
+import java.util.Arrays;
 
 /**
- * Created by yuanchun on 29/12/2016.
- * A helper class to access list-related functions
+ * A helper class to access list-related functions.
  */
-
-public class Lists {
+@PSOperatorWrapper
+public class ListOperators {
     /**
      * A predicate that checks whether the list field value in a item contains a given value
      * @param listField the name of the list field

@@ -1,6 +1,5 @@
 package com.github.privacystreams.accessibility;
 
-import android.support.v4.media.TransportMediator;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
 
@@ -64,10 +63,10 @@ class TextEntryProvider extends AccessibilityEventProvider {
     public void handleAccessibilityEvent(AccessibilityEvent event, AccessibilityNodeInfo rootNode, Date timeStamp){
 
         switch (event.getEventType()) {
-            case TransportMediator.FLAG_KEY_MEDIA_PLAY_PAUSE:
+            case AccessibilityEvent.TYPE_VIEW_FOCUSED:
                 onViewFocused(event);
                 break;
-            case TransportMediator.FLAG_KEY_MEDIA_PAUSE:
+            case AccessibilityEvent.TYPE_VIEW_TEXT_CHANGED:
                 onViewTextChanged(event);
                 break;
             default:

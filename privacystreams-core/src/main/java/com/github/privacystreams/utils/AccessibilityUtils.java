@@ -40,10 +40,11 @@ public class AccessibilityUtils {
     public static String FACEBOOK_MESSAGE_TEXT = "message_text";
     public static String FACEBOOK_MESSAGE_CONTACT = "thread_title_name";
     public static String FACEBOOK_MESSAGE_ENTRY = "text_input_bar";
+
     /**
      * traverse a tree from the root, and return all the notes in the tree
-     * @param root
-     * @return
+     * @param root the root node
+     * @return a list of AccessibilityNodeInfo
      */
     public static List<AccessibilityNodeInfo> preOrderTraverse(AccessibilityNodeInfo root){
         if(root == null)
@@ -62,9 +63,9 @@ public class AccessibilityUtils {
 
     /**
      * Get the complete resource id, to retrieve accessibility nodes.
-     * @param packageName
-     * @param id is the in-app resource id for a specific widget
-     * @return the complete resource id.
+     * @param packageName the package name of app
+     * @param id the in-app resource id for a specific widget
+     * @return the complete resource id
      */
 
     public static String getFullResID(String packageName, final String id) {
@@ -73,8 +74,8 @@ public class AccessibilityUtils {
 
     /**
      * Get the complete resource id of a contact name in a given chat app.
-     * @param appName
-     * @return
+     * @param appName the package name of the chat app
+     * @return the complete resource id of contact name
      */
 
     private static String getContactNameInChatResourceId(String appName){
@@ -89,8 +90,8 @@ public class AccessibilityUtils {
 
     /**
      * Get the complete resource id of a message list in a given chat app.
-     * @param appName
-     * @return
+     * @param appName the package name of the chat app
+     * @return the complete resource id of a message list
      */
     private static String getMessageListResourceId(String appName){
 
@@ -106,7 +107,7 @@ public class AccessibilityUtils {
 
     /**
      * Get the text box resource id of a given app.
-     * @param appName
+     * @param appName the complete resource id of a message list
      * @return the complete text box resource id
      */
 
@@ -123,7 +124,7 @@ public class AccessibilityUtils {
 
     /**
      * Get the url resource id, to retrieve url related accessibility nodes.
-     * @param appName
+     * @param appName the complete resource id of a message list
      * @return the complete url id
      */
     private static String getUrlResourceId(String appName){

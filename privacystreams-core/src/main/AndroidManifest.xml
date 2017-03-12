@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     package="com.github.privacystreams.core">
 
     <application>
@@ -14,7 +13,7 @@
             </intent-filter>
         </receiver>
         <service
-            android:enabled="true"
+            android:enabled="@bool/accessibility_enabled"
             android:exported="true"
             android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE"
             android:name="com.github.privacystreams.accessibility.MyAccessibilityService">

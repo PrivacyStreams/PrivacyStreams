@@ -1,7 +1,6 @@
 package com.github.privacystreams.core;
 
 import com.github.privacystreams.core.exceptions.PrivacyStreamsException;
-import com.github.privacystreams.core.providers.MultiItemStreamProvider;
 import com.github.privacystreams.core.providers.SingleItemStreamProvider;
 import com.github.privacystreams.core.purposes.Purpose;
 
@@ -12,7 +11,7 @@ import java.util.Map;
  * An ISingleItemStream is a stream containing only one item, which is an instance of {@link Item}.
  *
  * An ISingleItemStream is produced by <code>uqi.getDataItem</code> method.
- * @see UQI#getDataItem(SingleItemStreamProvider, Purpose)
+ * @see UQI#getDataItem(Function, Purpose)
  *
  * It can be transformed to another ISingleItemProvider with transformation functions,
  * such as {@link #setField(String, Function)}, {{@link #project(String...)}}, {{@link #map(Function)}}, etc.
@@ -101,11 +100,6 @@ public interface ISingleItemStream {
      * @return the key-value map of the item
      */
     Map<String, Object> asMap() throws PrivacyStreamsException;
-
-    /**
-     * Print the item.
-     */
-    void print();
 
     /**
      * Debug print the item.

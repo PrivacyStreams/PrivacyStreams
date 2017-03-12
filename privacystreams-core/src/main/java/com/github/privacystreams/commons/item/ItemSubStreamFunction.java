@@ -1,14 +1,14 @@
 package com.github.privacystreams.commons.item;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.github.privacystreams.core.UQI;
 import com.github.privacystreams.commons.ItemFunction;
 import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.Item;
+import com.github.privacystreams.core.UQI;
 import com.github.privacystreams.core.transformations.group.GroupItem;
 import com.github.privacystreams.utils.Assertions;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by yuanchun on 29/12/2016.

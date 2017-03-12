@@ -1,13 +1,15 @@
 package com.github.privacystreams.core.transformations.group;
 
+import com.github.privacystreams.core.Item;
+import com.github.privacystreams.utils.annotations.PSItem;
+
 import java.util.List;
 
-import com.github.privacystreams.core.Item;
-
 /**
- * Created by yuanchun on 22/12/2016.
- * A GroupItem represent the item in a grouped stream
+ * A GroupItem represent the item in a grouped stream.
+ * GroupItem cannot be produced directly, instead it can be generated using groupBy or localGroupBy functions.
  */
+@PSItem
 public final class GroupItem extends Item {
     public static final String GROUPED_ITEMS = "grouped_items";
 

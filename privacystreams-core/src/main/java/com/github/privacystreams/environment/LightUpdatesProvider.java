@@ -4,7 +4,6 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.util.Log;
 
 import com.github.privacystreams.core.UQI;
 import com.github.privacystreams.core.providers.MultiItemStreamProvider;
@@ -14,8 +13,7 @@ import static android.content.Context.SENSOR_SERVICE;
 /**
  * Created by fanglinchen on 3/5/17.
  */
-
-public class LightUpdatesProvider extends MultiItemStreamProvider {
+class LightUpdatesProvider extends MultiItemStreamProvider {
 
     private transient MyLightListener lightListener;
     private transient SensorManager sensorManager;
@@ -39,12 +37,12 @@ public class LightUpdatesProvider extends MultiItemStreamProvider {
         MyLightListener(){
             sensorManager = (SensorManager)getContext().getSystemService(SENSOR_SERVICE);
             lightSensor = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
-            sensorManager.registerListener(this,lightSensor,SensorManager.SENSOR_DELAY_NORMAL);
+            sensorManager.registerListener(this,lightSensor, SensorManager.SENSOR_DELAY_NORMAL);
         }
 
         @Override
         public void onSensorChanged(SensorEvent event) {
-            output(new Light(event.values[0],System.currentTimeMillis()));
+            output(new Light(event.values[0], System.currentTimeMillis()));
         }
 
         @Override

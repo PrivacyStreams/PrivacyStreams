@@ -3,10 +3,12 @@ package com.github.privacystreams.core.actions.callback;
 import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.MultiItemStream;
+import com.github.privacystreams.utils.annotations.PSOperatorWrapper;
 
 /**
  * A helper class to access callback-related functions
  */
+@PSOperatorWrapper
 public class Callbacks {
 
     /**

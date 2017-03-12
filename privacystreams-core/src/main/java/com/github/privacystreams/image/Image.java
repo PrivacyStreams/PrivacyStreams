@@ -4,21 +4,29 @@ import android.net.Uri;
 
 import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.Item;
+import com.github.privacystreams.core.MultiItemStream;
+import com.github.privacystreams.core.SingleItemStream;
 import com.github.privacystreams.core.providers.MultiItemStreamProvider;
 import com.github.privacystreams.core.providers.SingleItemStreamProvider;
-
-import java.util.Map;
+import com.github.privacystreams.utils.annotations.PSItem;
+import com.github.privacystreams.utils.annotations.PSItemField;
 
 /**
  * An Image item represents an image file.
  */
-
+@PSItem
 public class Image extends Item {
 
-    // type: Long
-    private static final String TIMESTAMP = "timestamp";
+    /**
+     * The timestamp of when the image is generated.
+     */
+    @PSItemField(type = Long.class)
+    public static final String TIMESTAMP = "timestamp";
 
-    // type: String, representing the URI of photo file
+    /**
+     * The URI of image file.
+     */
+    @PSItemField(type = String.class)
     public static final String URI = "uri";
 
     // TODO create a metadata field, put lat and lng to metadata
@@ -33,41 +41,22 @@ public class Image extends Item {
     }
 
     /**
-     * get a item provider that takes a photo using camera
+     * Get a item provider that takes a photo using camera,
      * the photo item represents the taken photo
      * @return the provider
      */
-    public static SingleItemStreamProvider takeFromCamera() {
+    public static Function<Void, SingleItemStream> takeFromCamera() {
         // TODO implement this
         return null;
     }
 
     /**
-     * get a stream provider that provides the photo items from file system
+     * Get a stream provider that provides the photo items from file system,
      * each photo item represents a photo in storage
      * @return the provider
      */
-    public static MultiItemStreamProvider readFromStorage() {
+    public static Function<Void, MultiItemStream> readFromStorage() {
         return new ImageStorageProvider();
     }
 
-    /**
-     * A function that retrieves the metadata of the photo field in an item.
-     * The metadata of a photo is a Map, in which each key-value pair represents a metadata item.
-     * @param photoUriField the name of photo uri field
-     * @return the function
-     */
-    public static Function<Item, Map<String, String>> getMetadata(String photoUriField) {
-        return new ImageMetadataRetriever(photoUriField);
-    }
-
-    /**
-     * A function that blurs the photo specified by the photo uri field in an item,
-     * and returns the uri string of blurred photo.
-     * @param photoUriField the name of photo uri field
-     * @return the function
-     */
-    public static Function<Item, String> blur(String photoUriField) {
-        return new ImageBlurFunction(photoUriField);
-    }
 }

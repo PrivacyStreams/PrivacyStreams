@@ -4,17 +4,19 @@ import android.content.Context;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
+import com.github.privacystreams.core.providers.mock.MockItem;
+import com.github.privacystreams.core.providers.mock.MockObject;
+import com.github.privacystreams.core.purposes.Purpose;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import com.github.privacystreams.core.providers.mock.MockObject;
-import com.github.privacystreams.core.providers.mock.MockItem;
-import com.github.privacystreams.core.purposes.Purpose;
 
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 /**
  * Created by yuanchun on 18/02/2017.

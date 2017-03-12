@@ -1,39 +1,52 @@
 package com.github.privacystreams.communication;
 
 
+import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.Item;
+import com.github.privacystreams.core.MultiItemStream;
 import com.github.privacystreams.core.providers.MultiItemStreamProvider;
+import com.github.privacystreams.utils.annotations.PSItem;
+import com.github.privacystreams.utils.annotations.PSItemField;
 
 /**
- * Created by yuanchun on 07/12/2016.
- * A Phonecall SingleItemStream represents a call log
+ * A Phonecall item represents a phonecall record
  */
-
+@PSItem
 public class Phonecall extends Item {
+
+    /**
+     * The timestamp of when the phonecall is happened.
+     */
+    @PSItemField(type = Long.class)
     public static final String TIMESTAMP = "timestamp";
-    public static final String PHONE_NUMBER = "phone_number";
+
+    /**
+     * The contact (phone number or name) of the phonecall.
+     */
+    @PSItemField(type = String.class)
+    public static final String CONTACT = "contact";
+
+    /**
+     * The duration of the phonecall, in milliseconds.
+     */
+    @PSItemField(type = Long.class)
     public static final String DURATION = "duration";
+
+    /**
+     * The phonecall type, could be "incoming", "outgoing" or "missed".
+     */
+    @PSItemField(type = String.class)
     public static final String TYPE = "type";
 
-    public enum Type {
-        INCOMING("incoming"),
-        OUTGOING("outgoing"),
-        MISSED("missed");
-
-        private String callType;
-        private Type(String callType) {
-            this.callType = callType;
-        }
-
-        @Override
-        public String toString(){
-            return callType;
-        }
+    public static class Types {
+        public static final String INCOMING = "incoming";
+        public static final String OUTGOING = "outgoing";
+        public static final String MISSED = "missed";
     };
 
-    Phonecall(Long timestamp, String phone_number, Long duration, Type call_type) {
+    Phonecall(Long timestamp, String phone_number, Long duration, String call_type) {
         this.setFieldValue(TIMESTAMP, timestamp);
-        this.setFieldValue(PHONE_NUMBER, phone_number);
+        this.setFieldValue(CONTACT, phone_number);
         this.setFieldValue(DURATION, duration);
         this.setFieldValue(TYPE, call_type);
     }
@@ -42,7 +55,7 @@ public class Phonecall extends Item {
      * Get a provider that provides a stream of Phonecall asLogs
      * @return the stream provider
      */
-    public static MultiItemStreamProvider asLogs() {
+    public static Function<Void, MultiItemStream> asLogs() {
         return new PhonecallLogProvider();
     }
 }

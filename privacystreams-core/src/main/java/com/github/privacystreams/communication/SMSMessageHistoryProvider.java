@@ -2,7 +2,6 @@ package com.github.privacystreams.communication;
 
 import android.Manifest;
 
-import com.github.privacystreams.core.MultiItemStream;
 import com.github.privacystreams.core.providers.MultiItemStreamProvider;
 
 /**

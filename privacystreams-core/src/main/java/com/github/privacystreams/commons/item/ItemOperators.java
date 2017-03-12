@@ -2,6 +2,7 @@ package com.github.privacystreams.commons.item;
 
 import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.Item;
+import com.github.privacystreams.utils.annotations.PSOperatorWrapper;
 
 import java.util.Arrays;
 import java.util.List;
@@ -10,8 +11,8 @@ import java.util.Map;
 /**
  * A helper class to access common item functions
  */
-
-public class Items {
+@PSOperatorWrapper
+public class ItemOperators {
     /**
      * A predicate that checks whether the field value in a item is in the given list.
      *
@@ -75,8 +76,7 @@ public class Items {
      * @param <TValue> the type of the new field value.
      * @return the item mapper function.
      */
-    public static <TValue> Function<Item, Item> setField(
-            String fieldToSet, Function<Item, TValue> functionToComputeValue) {
+    public static <TValue> Function<Item, Item> setField(String fieldToSet, Function<Item, TValue> functionToComputeValue) {
         return new FieldSetter<>(fieldToSet, functionToComputeValue);
     }
 
@@ -122,5 +122,13 @@ public class Items {
      */
     public static Function<Item, Item> getSubItem(String subItemField) {
         return new SubItemGetter(subItemField);
+    }
+
+    /**
+     * A function that prints an item for debugging
+     * @return the function
+     */
+    public static Function<Item, Void> debug() {
+        return new ItemDebugPrinter();
     }
 }
