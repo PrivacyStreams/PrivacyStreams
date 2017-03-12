@@ -18,13 +18,13 @@ public class DeviceEvent extends Item {
      * The timestamp of when the event is happened.
      */
     @PSItemField(type = Long.class)
-    private static final String TIMESTAMP = "timestamp";
+    public static final String TIMESTAMP = "timestamp";
 
     /**
      * The type of the event, could be "screen", "boot", "battery", "ringer", etc.
      */
     @PSItemField(type = String.class)
-    private static final String TYPE = "type";
+    public static final String TYPE = "type";
 
     /**
      * The event name. For screen events, could be on/off/user_present;
@@ -33,7 +33,7 @@ public class DeviceEvent extends Item {
      * For ringer events, could be silent/vibrate/normal.
      */
     @PSItemField(type = String.class)
-    private static final String Event = "event";
+    public static final String Event = "event";
 
     public static class Types {
         public static final String SCREEN = "screen";

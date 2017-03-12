@@ -74,7 +74,10 @@ public class GeoLocation extends Item {
     }
 
     /**
-     * Get a provider that provides a live stream of updated geolocation continuously
+     * Get a provider that provides a live stream of geolocation updates continuously.
+     * @param provider the location provider, could be "gps", "network", etc.
+     * @param minTime minimum time interval between location updates, in milliseconds.
+     * @param minDistance minimum distance between location updates, in meters.
      * @return the stream provider
      */
     public static Function<Void, MultiItemStream> asUpdates(String provider, long minTime, float minDistance) {
@@ -82,7 +85,7 @@ public class GeoLocation extends Item {
     }
 
     /**
-     * Get a provider that provides a item of asLastKnown geolocation
+     * Get a provider that provides an item of last known geolocation.
      * @return the stream provider
      */
     public static Function<Void, SingleItemStream> asLastKnown() {
@@ -90,7 +93,7 @@ public class GeoLocation extends Item {
     }
 
     /**
-     * Get a provider that provides a stream of historic geolocation
+     * Get a provider that provides a list of geolocation history.
      * @return the stream provider
      */
     public static Function<Void, MultiItemStream> asHistory() {

@@ -23,37 +23,37 @@ public class WifiAp extends Item {
      * The timestamp of when the WIFI AP information is found.
      */
     @PSItemField(type = Long.class)
-    private static final String TIMESTAMP = "timestamp";
+    public static final String TIMESTAMP = "timestamp";
 
     /**
      * The BSSID.
      */
     @PSItemField(type = String.class)
-    private static final String BSSID = "bssid";
+    public static final String BSSID = "bssid";
 
     /**
      * The SSID.
      */
     @PSItemField(type = String.class)
-    private static final String SSID = "ssid";
+    public static final String SSID = "ssid";
 
     /**
      * The frequency.
      */
     @PSItemField(type = String.class)
-    private static final String FREQUENCY = "frequency";
+    public static final String FREQUENCY = "frequency";
 
     /**
      * The RSSI.
      */
     @PSItemField(type = String.class)
-    private static final String RSSI = "rssi";
+    public static final String RSSI = "rssi";
 
     /**
      * Whether this AP is connected.
      */
     @PSItemField(type = Boolean.class)
-    private static final String CONNECTED = "connected";
+    public static final String CONNECTED = "connected";
 
     WifiAp(ScanResult scanResult, boolean connected) {
         this.setFieldValue(TIMESTAMP, scanResult.timestamp);

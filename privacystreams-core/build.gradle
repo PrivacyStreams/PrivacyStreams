@@ -118,7 +118,7 @@ task javadoc(type: Javadoc, dependsOn: tasks.getByPath(':doc_gen:jar')) {
     classpath += configurations.compile
 
     options.docletpath = [file('../doc_gen/build/libs/doc_gen.jar')]
-    options.doclet = "com.github.privacystreams.DocGenerator"
+    options.doclet = "com.github.privacystreams.PSDoclet"
 }
 
 task javadocJar(type: Jar, dependsOn: javadoc) {

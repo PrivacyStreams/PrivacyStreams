@@ -21,7 +21,7 @@ public class Image extends Item {
      * The timestamp of when the image is generated.
      */
     @PSItemField(type = Long.class)
-    private static final String TIMESTAMP = "timestamp";
+    public static final String TIMESTAMP = "timestamp";
 
     /**
      * The URI of image file.
@@ -41,7 +41,7 @@ public class Image extends Item {
     }
 
     /**
-     * get a item provider that takes a photo using camera
+     * Get a item provider that takes a photo using camera,
      * the photo item represents the taken photo
      * @return the provider
      */
@@ -51,7 +51,7 @@ public class Image extends Item {
     }
 
     /**
-     * get a stream provider that provides the photo items from file system
+     * Get a stream provider that provides the photo items from file system,
      * each photo item represents a photo in storage
      * @return the provider
      */
