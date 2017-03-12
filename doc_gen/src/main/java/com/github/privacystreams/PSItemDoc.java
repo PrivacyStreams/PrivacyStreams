@@ -86,7 +86,7 @@ public class PSItemDoc {
         }
 
         itemDocStr += "\n### Providers\n";
-        itemDocStr += "| Type | Signature & Description |\n";
+        itemDocStr += "| Input-->Output | Reference & Description |\n";
         itemDocStr += "|----|----|\n";
 
         for (PSOperatorDoc providerDoc : this.providerDocs) {

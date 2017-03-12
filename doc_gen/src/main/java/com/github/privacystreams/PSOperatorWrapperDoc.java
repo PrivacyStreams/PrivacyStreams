@@ -50,7 +50,7 @@ public class PSOperatorWrapperDoc {
         operatorWrapperDocStr += this.description + "\n";
 
         operatorWrapperDocStr += "### Operators\n";
-        operatorWrapperDocStr += "| Type | Signature & Description |\n";
+        operatorWrapperDocStr += "| Input-->Output | Reference & Description |\n";
         operatorWrapperDocStr += "|----|----|\n";
 
         for (PSOperatorDoc operatorDoc : this.operatorDocs) {

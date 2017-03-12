@@ -26,7 +26,9 @@ public class PSItemFieldDoc {
 
         for (AnnotationDesc.ElementValuePair elementValuePair : annotation.elementValues()) {
             if ("type".equals(elementValuePair.element().name())) {
-                this.type = elementValuePair.value().value().toString();
+                Object typeValue = elementValuePair.value().value();
+                System.out.println(typeValue.getClass());
+                this.type = typeValue.toString();
             }
         }
     }

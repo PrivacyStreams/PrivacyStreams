@@ -39,11 +39,11 @@ public class PSOperatorDoc {
         boolean firstParameter = true;
         for (Parameter parameter : methodDoc.parameters()) {
             if (firstParameter) {
-                shortSignature += parameter.typeName() + " " + parameter.name();
+                shortSignature += parameter.type().simpleTypeName() + " " + parameter.name();
                 firstParameter = false;
             }
             else {
-                shortSignature += ", " + parameter.typeName() + " " + parameter.name();
+                shortSignature += ", " + parameter.type().simpleTypeName() + " " + parameter.name();
             }
         }
         shortSignature += ")";
@@ -58,7 +58,7 @@ public class PSOperatorDoc {
     }
 
     public String toString() {
-        String operatorDocStr = "| `" + this.returnTypeStr + "` | `" + this.shortSignature + "` <br> " + this.description + " |";
+        String operatorDocStr = "| " + this.inputType.typeName() + "-->" + this.outputType.typeName() + " | `" + this.shortSignature + "` <br> " + this.description + " |";
         return operatorDocStr;
     }
 

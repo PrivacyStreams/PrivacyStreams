@@ -82,7 +82,7 @@ public class PSDoclet extends HtmlDoclet {
             PrintStream operatorDocsPrinter = new PrintStream(operatorDocsFile);
             operatorDocsPrinter.println("# " + this.docTitle + " - Operators\n");
 
-            operatorDocsPrinter.println("| Type | Signature & Description |");
+            operatorDocsPrinter.println("| Input-->Output | Reference & Description |");
             operatorDocsPrinter.println("|----|----|");
 
             List<PSOperatorDoc> allOperatorDocs = new ArrayList<>();
