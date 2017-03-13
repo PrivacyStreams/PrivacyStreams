@@ -33,7 +33,7 @@ public class PSOperatorDoc {
             String paraStr = paramTag.text();
             String paraName = paraStr.substring(0, paraStr.indexOf(' ')).replace('\n', ' ');;
             String paraDesc = paraStr.substring(paraStr.indexOf(' ') + 1).replace('\n', ' ');;
-            this.description += "<br> `" + paraName + "`: " + paraDesc;
+            this.description += "<br> - `" + paraName + "`: " + paraDesc;
         }
 
         this.returnType = methodDoc.returnType();
@@ -66,7 +66,7 @@ public class PSOperatorDoc {
     }
 
     public String toString() {
-        String operatorDocStr = "| `" + Utils.getSimpleTypeName(this.returnType) + "` | `" + this.shortSignature + "` <br> - " + this.description + " |";
+        String operatorDocStr = "| `" + Utils.getSimpleTypeName(this.returnType) + "` | `" + this.shortSignature + "` <br> " + this.description + " |";
         return operatorDocStr;
     }
 
