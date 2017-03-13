@@ -2,6 +2,7 @@ package com.github.privacystreams.core.transformations.group;
 
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.utils.annotations.PSItem;
+import com.github.privacystreams.utils.annotations.PSItemField;
 
 import java.util.List;
 
@@ -15,6 +16,11 @@ import java.util.List;
  */
 @PSItem
 public final class GroupItem extends Item {
+
+    /**
+     * A list of the grouped items.
+     */
+    @PSItemField(type = List.class)
     public static final String GROUPED_ITEMS = "grouped_items";
 
     GroupItem(String groupField, Object groupFieldValue, List<Item> groupedItems) {

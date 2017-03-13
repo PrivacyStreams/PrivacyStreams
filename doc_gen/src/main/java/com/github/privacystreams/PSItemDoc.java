@@ -77,18 +77,23 @@ public class PSItemDoc {
         itemDocStr += "## " + this.name + "\n\n";
         itemDocStr += "Package: `" + this.classDoc.containingPackage() + "`\n\n";
         itemDocStr += this.description + "\n\n";
-        itemDocStr += "### Fields\n\n";
-        itemDocStr += Consts.FIELDS_TABLE_HEADER;
 
-        for (PSItemFieldDoc itemFieldDoc : this.itemFieldDocs) {
-            itemDocStr += itemFieldDoc.toString() + "\n";
+        if (this.itemFieldDocs.size() > 0) {
+            itemDocStr += "### Fields\n\n";
+            itemDocStr += Consts.FIELDS_TABLE_HEADER;
+
+            for (PSItemFieldDoc itemFieldDoc : this.itemFieldDocs) {
+                itemDocStr += itemFieldDoc.toString() + "\n";
+            }
         }
 
-        itemDocStr += "\n### Providers\n\n";
-        itemDocStr += Consts.OPERATORS_TABLE_HEADER;
+        if (this.providerDocs.size() > 0) {
+            itemDocStr += "\n### Providers\n\n";
+            itemDocStr += Consts.OPERATORS_TABLE_HEADER;
 
-        for (PSOperatorDoc providerDoc : this.providerDocs) {
-            itemDocStr += providerDoc.toString() + "\n";
+            for (PSOperatorDoc providerDoc : this.providerDocs) {
+                itemDocStr += providerDoc.toString() + "\n";
+            }
         }
 
         return itemDocStr;
