@@ -35,7 +35,7 @@ public interface SStreamInterface {
 
     /**
      * Convert the item in the stream with a function.
-     * Eg. map(Images.blur("image")) will blur the "image" field of the item.
+     * Eg. <code>map(ImageOperators.blur("image"))</code> will blur the image specified by "image" field in the item.
      *
      * @param function      the function to convert the item
      * @return The item after mapping
@@ -45,7 +45,7 @@ public interface SStreamInterface {
     /**
      * Project the item by including some fields.
      * Other fields will not appear in collectors, such as toMap().
-     * eg. project("name", "email") will only keep the "name" and "email" field in the item
+     * eg. <code>project("name", "email")</code> will only keep the "name" and "email" field in the item
      *
      * @param fieldsToInclude the fields to include
      * @return The item after projection
