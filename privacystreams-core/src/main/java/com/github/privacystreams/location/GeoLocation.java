@@ -74,7 +74,8 @@ public class GeoLocation extends Item {
     }
 
     /**
-     * Get a provider that provides a live stream of geolocation updates continuously.
+     * Provide a live stream of GeoLocation items from device's location sensors.
+     *
      * @param provider the location provider, could be "gps", "network", etc.
      * @param minTime minimum time interval between location updates, in milliseconds.
      * @param minDistance minimum distance between location updates, in meters.
@@ -85,7 +86,8 @@ public class GeoLocation extends Item {
     }
 
     /**
-     * Get a provider that provides an item of last known geolocation.
+     * Provide a GeoLocation item, which is the last known location.
+     *
      * @return the stream provider
      */
     public static Function<Void, SingleItemStream> asLastKnown() {
@@ -93,7 +95,8 @@ public class GeoLocation extends Item {
     }
 
     /**
-     * Get a provider that provides a list of geolocation history.
+     * Provide a list of GeoLocation items, which are the location history of the device.
+     *
      * @return the stream provider
      */
     public static Function<Void, MultiItemStream> asHistory() {

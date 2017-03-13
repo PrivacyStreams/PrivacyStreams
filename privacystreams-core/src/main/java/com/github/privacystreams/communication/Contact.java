@@ -11,7 +11,7 @@ import java.util.List;
 
 
 /**
- * A Contact item represents a contact.
+ * The information of a contact.
  */
 @PSItem
 public class Contact extends Item {
@@ -48,8 +48,9 @@ public class Contact extends Item {
     }
 
     /**
-     * Get a provider that provides a stream of contact list
-     * @return the stream provider
+     * Provide a list of Contact items from device's contacts database.
+     *
+     * @return the provider function.
      */
     public static Function<Void, MultiItemStream> asList() {
         return new ContactListProvider();

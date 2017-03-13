@@ -1,8 +1,12 @@
 package com.github.privacystreams;
 
+import com.sun.corba.se.impl.javax.rmi.CORBA.Util;
 import com.sun.javadoc.AnnotationDesc;
 import com.sun.javadoc.AnnotationTypeDoc;
+import com.sun.javadoc.ClassDoc;
 import com.sun.javadoc.FieldDoc;
+import com.sun.javadoc.ParameterizedType;
+import com.sun.javadoc.Type;
 
 /**
  * Created by yuanchun on 11/03/2017.
@@ -15,7 +19,7 @@ public class PSItemFieldDoc {
 
     String reference;
     String name;
-    String type;
+    Type type;
     String description;
 
     private PSItemFieldDoc(PSItemDoc psItemDoc, FieldDoc fieldDoc, AnnotationDesc annotation) {
@@ -27,8 +31,7 @@ public class PSItemFieldDoc {
         for (AnnotationDesc.ElementValuePair elementValuePair : annotation.elementValues()) {
             if ("type".equals(elementValuePair.element().name())) {
                 Object typeValue = elementValuePair.value().value();
-                System.out.println(typeValue.getClass());
-                this.type = typeValue.toString();
+                this.type = (Type) typeValue;
             }
         }
     }
@@ -45,7 +48,7 @@ public class PSItemFieldDoc {
     }
 
     public String toString() {
-        return "| `" + this.reference + "` | " + this.name + " | " + this.type + " | " + this.description +  " |";
+        return "| " + this.reference + " | " + this.name + " | " + Utils.getSimpleTypeName(this.type) + " | " + this.description +  " |";
     }
 
 }

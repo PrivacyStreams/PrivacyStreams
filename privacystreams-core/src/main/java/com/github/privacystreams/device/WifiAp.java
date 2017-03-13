@@ -64,6 +64,10 @@ public class WifiAp extends Item {
         this.setFieldValue(CONNECTED, connected);
     }
 
+    /**
+     * Provide a list of WifiAp items from WIFI scan result.
+     * @return the provider function.
+     */
     public static Function<Void, MultiItemStream> asScanList() {
         return new WifiApListProvider();
     }

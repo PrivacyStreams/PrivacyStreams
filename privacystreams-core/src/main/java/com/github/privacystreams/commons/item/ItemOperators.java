@@ -14,7 +14,7 @@ import java.util.Map;
 @PSOperatorWrapper
 public class ItemOperators {
     /**
-     * A predicate that checks whether the field value in a item is in the given list.
+     * Check whether the value of a field is in a given list.
      *
      * @param field the field name
      * @param listToCompare the list to check whether the field is in
@@ -26,7 +26,7 @@ public class ItemOperators {
     }
 
     /**
-     * A predicate that checks whether the item contains a given field.
+     * Check whether the item contains a given field.
      *
      * @param fieldToCheck the name of field to check
      * @return the predicate
@@ -36,7 +36,7 @@ public class ItemOperators {
     }
 
     /**
-     * A function that gets the value of a given field in the item.
+     * Get the value of a given field in the item.
      *
      * @param field the name of the field to get.
      * @param <TValue> the type of field value
@@ -47,9 +47,8 @@ public class ItemOperators {
     }
 
     /**
-     * A function that outputs the sub stream in the item.
-     * This function must be applied to a group item,
-     * That is, each item must have a "sub_stream" field and the field is a list of items.
+     * Output the sub stream in the item with a function.
+     * This function must be applied to a group item, i.e. must be used after <code>groupBy</code> or <code>localGroupBy</code>.
      *
      * @param subStreamFunction the function to output sub stream.
      * @param <Tout> the type of sub stream collection result.
@@ -60,7 +59,7 @@ public class ItemOperators {
     }
 
     /**
-     * A function that returns the item as a key-value map.
+     * Output the item as a key-value map.
      *
      * @return the function.
      */
@@ -69,7 +68,7 @@ public class ItemOperators {
     }
 
     /**
-     * A function that maps an item by setting a new field to a value computed with a function.
+     * Set the value of a new field with a function.
      *
      * @param fieldToSet the name of the field to set, it can be a new name.
      * @param functionToComputeValue the function to compute the value of the field.
@@ -81,7 +80,7 @@ public class ItemOperators {
     }
 
     /**
-     * A function that maps an item by setting a new field to a certain value.
+     * Set the value of a new field to a given value.
      *
      * @param fieldToSet the name of the field to set, it can be a new name.
      * @param fieldValue the value of the field.
@@ -93,8 +92,8 @@ public class ItemOperators {
     }
 
     /**
-     * A function that projects an item by including some fields.
-     * The fields that are not included will not be present in output.
+     * Project an item by including some fields.
+     * The fields that are not included will be removed from the item.
      *
      * @param fieldsToInclude the names of the fields to include.
      * @return the item mapper function.
@@ -104,8 +103,8 @@ public class ItemOperators {
     }
 
     /**
-     * A function that projects an item by excluding some fields.
-     * The excluded fields will not be present in output.
+     * Project an item by excluding some fields.
+     * The excluded fields will be removed from the item.
      *
      * @param fieldsToExclude the names of the fields to exclude.
      * @return the item mapper function.
@@ -115,7 +114,7 @@ public class ItemOperators {
     }
 
     /**
-     * A function that gets the sub item in a given field.
+     * Get the sub item value of a given field.
      *
      * @param subItemField the name of sub item field.
      * @return the function.
@@ -125,7 +124,8 @@ public class ItemOperators {
     }
 
     /**
-     * A function that prints an item for debugging
+     * Print the item for debugging.
+     *
      * @return the function
      */
     public static Function<Item, Void> debug() {

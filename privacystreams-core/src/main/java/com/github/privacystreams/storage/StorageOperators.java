@@ -10,7 +10,11 @@ import com.github.privacystreams.utils.annotations.PSOperatorWrapper;
 @PSOperatorWrapper
 public class StorageOperators {
     /**
-     * A function that writes an item to file
+     * Output an item to file system, the output file name will be `<tag><timestamp>.json`.
+     *
+     * @param dirPath the directory to output the item.
+     * @param fileTag the tag of the output file.
+     * @return the function.
      */
     public static Function<Item, Void> writeToFile(String dirPath, String fileTag) {
         return new ExternalStorageWriter(dirPath, fileTag);

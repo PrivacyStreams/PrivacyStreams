@@ -30,6 +30,10 @@ public class Light extends Item {
         this.setFieldValue(TIMESTAMP,timestamp);
     }
 
+    /**
+     * Provide a live stream of Light items that are read from the light sensor.
+     * @return the provider function.
+     */
     public static Function<Void, MultiItemStream> asUpdates(){
         return new LightUpdatesProvider();
     }

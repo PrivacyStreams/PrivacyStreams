@@ -12,7 +12,7 @@ import com.github.privacystreams.utils.annotations.PSItem;
 import java.util.Date;
 
 /**
- * A UIAction item represents a UI action.
+ * A UI action, such as a view is clicked, selected, etc.
  */
 @PSItem
 public class UIAction extends BaseAccessibilityEvent {
@@ -62,6 +62,10 @@ public class UIAction extends BaseAccessibilityEvent {
 //
 //    }
 
+    /**
+     * Provide a live stream of UIAction items.
+     * @return the provider function.
+     */
     public static Function<Void, MultiItemStream> asUpdates() {
         return new UIActionProvider();
     }

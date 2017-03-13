@@ -9,7 +9,7 @@ import com.github.privacystreams.utils.annotations.PSItem;
 import com.github.privacystreams.utils.annotations.PSItemField;
 
 /**
- * A Phonecall item represents a phonecall record
+ * The information of a phonecall.
  */
 @PSItem
 public class Phonecall extends Item {
@@ -52,7 +52,7 @@ public class Phonecall extends Item {
     }
 
     /**
-     * Get a provider that provides a stream of Phonecall asLogs
+     * Provide a list of Phonecall items from the device call log.
      * @return the stream provider
      */
     public static Function<Void, MultiItemStream> asLogs() {

@@ -12,7 +12,8 @@ import java.util.Arrays;
 @PSOperatorWrapper
 public class ListOperators {
     /**
-     * A predicate that checks whether the list field value in a item contains a given value
+     * Check whether the list value of a field contains a given value.
+     *
      * @param listField the name of the list field
      * @param value the value to check if is in the list
      * @return the predicate
@@ -22,7 +23,8 @@ public class ListOperators {
     }
 
     /**
-     * A predicate that checks whether the list field value in a item has intersection with a given list
+     * Check whether the list field value of a field has intersection with a given list.
+     *
      * @param listField the name of the list field
      * @param listToCompare the list to compare
      * @return the predicate

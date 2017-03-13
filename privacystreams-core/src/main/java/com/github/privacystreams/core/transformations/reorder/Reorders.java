@@ -10,7 +10,7 @@ import com.github.privacystreams.utils.annotations.PSOperatorWrapper;
 @PSOperatorWrapper
 public class Reorders {
     /**
-     * A function that sorts the items in stream by the value of a field.
+     * Sort the items in stream by the value of a field.
      *
      * @param fieldToSort the name of the field to reorder by.
      * @return the function.
@@ -20,7 +20,7 @@ public class Reorders {
     }
 
     /**
-     * A function that randomizes the order of items in stream.
+     * Shuffle the order of the items in stream.
      *
      * @return the function.
      */
@@ -29,7 +29,7 @@ public class Reorders {
     }
 
     /**
-     * A function that reverses the order of items in stream.
+     * Reverse the order of the items in stream.
      *
      * @return the function.
      */

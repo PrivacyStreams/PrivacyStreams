@@ -41,9 +41,8 @@ public class Image extends Item {
     }
 
     /**
-     * Get a item provider that takes a photo using camera,
-     * the photo item represents the taken photo
-     * @return the provider
+     * Provide an Image item, which represents a photo taken from camera.
+     * @return the provider function.
      */
     public static Function<Void, SingleItemStream> takeFromCamera() {
         // TODO implement this
@@ -51,9 +50,9 @@ public class Image extends Item {
     }
 
     /**
-     * Get a stream provider that provides the photo items from file system,
-     * each photo item represents a photo in storage
-     * @return the provider
+     * Provide a list of Image items that are read from file system.
+     *
+     * @return the provider function.
      */
     public static Function<Void, MultiItemStream> readFromStorage() {
         return new ImageStorageProvider();

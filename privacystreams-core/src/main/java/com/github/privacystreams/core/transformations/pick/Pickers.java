@@ -11,8 +11,9 @@ import com.github.privacystreams.utils.annotations.PSOperatorWrapper;
 @PSOperatorWrapper
 public class Pickers {
     /**
-     * A function that picks an item from a stream
-     * @param index the mapper function to map each item in the stream.
+     * Pick an item from a stream.
+     *
+     * @param index the index of the item to pick.
      * @return the stream mapper function.
      */
     public static Function<MultiItemStream, SingleItemStream> pick(int index) {

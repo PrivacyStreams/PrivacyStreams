@@ -55,6 +55,10 @@ public class BaseAccessibilityEvent extends Item {
         this.setFieldValue(ITEM_COUNT, accessibilityEvent.getItemCount());
     }
 
+    /**
+     * Provide a live stream of BaseAccessibilityEvent items.
+     * @return the provider function.
+     */
     public static Function<Void, MultiItemStream> asUpdates() {
         return new BaseAccessibilityEventProvider();
     }

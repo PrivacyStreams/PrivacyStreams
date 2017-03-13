@@ -12,7 +12,7 @@ import java.util.List;
 @PSOperatorWrapper
 public class StatisticOperators {
     /**
-     * A function that counts the items in the stream and returns the count.
+     * Count the number of items in the stream and output the number.
      *
      * @return the function.
      */
@@ -21,7 +21,7 @@ public class StatisticOperators {
     }
 
     /**
-     * A function that calculate the range of the values of a field in the stream.
+     * Calculate the range of the number values of a field in the stream.
      * The field values must be in Number type, such as Integer, Double, Long, ...
      * If calculation fails (e.g. there is no item in the stream), the "range" result will be null.
      *
@@ -33,7 +33,7 @@ public class StatisticOperators {
     }
 
     /**
-     * A function that calculate the sum of the values of a field in the stream.
+     * Calculate the sum of the number values of a field in the stream.
      * The field values must be in Number type, such as Integer, Double, Long, ...
      * If there is no valid field value in the stream, the "sum" result will be 0.0
      *
@@ -45,7 +45,7 @@ public class StatisticOperators {
     }
 
     /**
-     * A function that calculate the average of the values of a field in the stream.
+     * Calculate the average of the number values of a field in the stream.
      * The field values must be in Number type, such as Integer, Double, Long, ...
      * If calculation fails (e.g. there is no item in the stream), the "average" result will be null.
      *

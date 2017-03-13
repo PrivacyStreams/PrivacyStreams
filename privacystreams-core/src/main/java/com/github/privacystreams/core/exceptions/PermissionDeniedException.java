@@ -3,8 +3,7 @@ package com.github.privacystreams.core.exceptions;
 import java.util.Arrays;
 
 /**
- * Created by yuanchun on 25/02/2017.
- * PrivacyStreamsException happens if the required permissions are denied
+ * An exception which will be thrown if the required permissions are denied.
  */
 
 public class PermissionDeniedException extends PrivacyStreamsException {

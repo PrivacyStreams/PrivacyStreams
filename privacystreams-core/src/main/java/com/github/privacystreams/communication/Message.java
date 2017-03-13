@@ -11,7 +11,7 @@ import com.github.privacystreams.utils.annotations.PSItem;
 import com.github.privacystreams.utils.annotations.PSItemField;
 
 /**
- * A Message item represents a message. It could be from SMS, WhatsApp, Facebook, etc.
+ * A text message. It could be from SMS, WhatsApp, Facebook, etc.
  */
 @PSItem
 public class Message extends Item {
@@ -60,8 +60,8 @@ public class Message extends Item {
     }
 
     /**
-     * Get a provider that provides a live stream of instant messaging messages
-     * @return the provider
+     * Provide a live stream of Message items from IM apps, including WhatsApp and Facebook.
+     * @return the provider function
      */
      public static Function<Void, MultiItemStream> asIMUpdates(){
          if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2)
@@ -72,7 +72,7 @@ public class Message extends Item {
          }
     }
     /**
-     * Get a provider that provides a live stream of incoming Message messages
+     * Provide a live stream of Message items from the Android SMS app.
      * @return the provider
      */
     public static Function<Void, MultiItemStream> asSMSUpdates() {
@@ -80,11 +80,10 @@ public class Message extends Item {
     }
 
     /**
-     * Get a provider that provides a stream of Message messages asSMSHistory
+     * Provide a list of historic Message items from the Android SMS app.
      * @return the provider
      */
     public static Function<Void, MultiItemStream> asSMSHistory() {
-        // TODO implement SMSHistoryProvider
-        return null;
+        return new SMSMessageHistoryProvider();
     }
 }

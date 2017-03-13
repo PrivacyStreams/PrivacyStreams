@@ -12,7 +12,7 @@ import com.github.privacystreams.utils.annotations.PSItemField;
 import java.util.List;
 
 /**
- * A MockItem is a randomly generated item for testing.
+ * A random item for testing.
  */
 @PSItem
 public class MockItem extends Item {
@@ -60,7 +60,8 @@ public class MockItem extends Item {
     }
 
     /**
-     * A function that provides a live stream of MockItem updates, the items are from an existing list.
+     * Provide a live stream of MockItem items, which are from a given list.
+     *
      * @param mockObjects the list of mock data
      * @param interval the interval between each two items, in milliseconds
      * @return the provider function
@@ -70,7 +71,8 @@ public class MockItem extends Item {
     }
 
     /**
-     * A function that provides a live stream of random MockItem updates.
+     * Provide a live stream of MockItem items, which are randomly generated.
+     *
      * @param maxInt the max value of the int field of the random mock items
      * @param maxDouble the max value of the double field of the random mock items
      * @param interval the interval between each two items, in milliseconds
@@ -81,7 +83,8 @@ public class MockItem extends Item {
     }
 
     /**
-     * A function that provides a stream of MockItem history, the items are from an existing list.
+     * Provide a list of MockItem items, which are from a given list.
+     *
      * @param mockObjects the list of mock data
      * @return the provider function
      */
@@ -90,7 +93,8 @@ public class MockItem extends Item {
     }
 
     /**
-     * A function that provides a stream of random MockItem history.
+     * Provide a list of MockItem items, which are randomly generated.
+     *
      * @param maxInt the max value of the int field of the random mock items
      * @param maxDouble the max value of the double field of the random mock items
      * @param count the number of random items
@@ -101,7 +105,8 @@ public class MockItem extends Item {
     }
 
     /**
-     * A function that provides a single-item stream, the item is based on an existing MockObject
+     * Provide a MockItem item, which is based on an given MockObject.
+     *
      * @param mockObject the mock data
      * @return the provider function
      */
@@ -110,7 +115,8 @@ public class MockItem extends Item {
     }
 
     /**
-     * A function that provides a single-item stream, the item is randomly generated.
+     * Provide a MockItem item, which is randomly generated.
+     *
      * @return the provider function
      */
     public static Function<Void, SingleItemStream> asRandomItem() {

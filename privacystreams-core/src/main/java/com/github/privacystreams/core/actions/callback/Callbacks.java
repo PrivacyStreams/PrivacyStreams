@@ -12,8 +12,9 @@ import com.github.privacystreams.utils.annotations.PSOperatorWrapper;
 public class Callbacks {
 
     /**
-     * A function that callbacks with each item in the stream.
+     * Callback with each item in the stream.
      * The callback will be invoked with each item as a parameter.
+     *
      * @param itemCallback the callback to be invoked for each item
      * @return the function
      */
@@ -22,8 +23,9 @@ public class Callbacks {
     }
 
     /**
-     * A function that callbacks with the field value for each item in the stream.
+     * Callback with the field value for each item in the stream.
      * The callback will be invoked with each field value.
+     *
      * @param fieldToSelect the field to select
      * @param fieldValueCallback the callback function to be invoked for each field value
      * @param <TValue> the type of field value
@@ -34,9 +36,10 @@ public class Callbacks {
     }
 
     /**
-     * A function that callbacks with the first item in the stream.
+     * Callback with the first item in the stream.
      * If there is no present item, the callback will not be invoked.
      * The callback will be invoked with the present item as a parameter.
+     *
      * @param itemCallback the callback to be invoked with the first item.
      * @return the function
      */
@@ -45,9 +48,10 @@ public class Callbacks {
     }
 
     /**
-     * A function that callbacks with the first present field value in the stream.
+     * Callback with the first present field value in the stream.
      * If there is no item with a present field value, the callback will not be invoked.
      * The callback will be invoked with the present field value.
+     *
      * @param fieldToSelect the field to select
      * @param fieldValueCallback the callback function to be invoked with the first field value
      * @param <TValue> the type of field value
@@ -58,9 +62,10 @@ public class Callbacks {
     }
 
     /**
-     * A function that callbacks with the changed items in the stream.
+     * Callback with the changed items in the stream.
      * A changed item is the item that is different from the former item.
      * The callback will be invoked with the item as a parameter.
+     *
      * @param itemCallback the callback to be invoked with the changed item.
      * @return the function
      */
@@ -69,9 +74,10 @@ public class Callbacks {
     }
 
     /**
-     * A function that callbacks with the changed field value in the stream.
+     * Callback with the changed field value of a given field in the stream.
      * A changed field value is the field value that is different from the former field value.
-     * The callback will be invoked with the field value.
+     * The callback will be invoked with the field value as a parameter.
+     *
      * @param fieldToSelect the field to select
      * @param fieldValueCallback the callback function to be invoked with the changed field value.
      * @param <TValue> the type of field value

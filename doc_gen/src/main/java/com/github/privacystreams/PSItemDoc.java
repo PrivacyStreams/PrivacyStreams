@@ -78,16 +78,14 @@ public class PSItemDoc {
         itemDocStr += "Package: `" + this.classDoc.containingPackage() + "`\n\n";
         itemDocStr += this.description + "\n";
         itemDocStr += "### Fields\n";
-        itemDocStr += "| Reference | Name | Type | Description |\n";
-        itemDocStr += "|----|----|----|----|\n";
+        itemDocStr += Consts.FIELDS_TABLE_HEADER;
 
         for (PSItemFieldDoc itemFieldDoc : this.itemFieldDocs) {
             itemDocStr += itemFieldDoc.toString() + "\n";
         }
 
         itemDocStr += "\n### Providers\n";
-        itemDocStr += "| Input-->Output | Reference & Description |\n";
-        itemDocStr += "|----|----|\n";
+        itemDocStr += Consts.OPERATORS_TABLE_HEADER;
 
         for (PSOperatorDoc providerDoc : this.providerDocs) {
             itemDocStr += providerDoc.toString() + "\n";

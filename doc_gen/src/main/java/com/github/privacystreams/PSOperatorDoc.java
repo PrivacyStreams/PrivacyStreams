@@ -17,9 +17,9 @@ public class PSOperatorDoc {
     String description;
 
     String shortSignature;
-    String returnTypeStr;
 //    String completeSignature;
 
+    Type returnType;
     Type inputType;
     Type outputType;
 
@@ -28,10 +28,10 @@ public class PSOperatorDoc {
         this.methodDoc = methodDoc;
         this.description = methodDoc.commentText().replace('\n', ' ');;
 
+        this.returnType = methodDoc.returnType();
         ParameterizedType returnType = methodDoc.returnType().asParameterizedType();
         this.inputType = returnType.typeArguments()[0];
         this.outputType = returnType.typeArguments()[1];
-        this.returnTypeStr = "Function<" + this.inputType.typeName() + ", " + this.outputType.typeName() + ">";
 
 //        this.completeSignature = "Function<" + this.inputType + ", " + this.outputType + "> " + methodDoc.toString();
 
@@ -39,11 +39,11 @@ public class PSOperatorDoc {
         boolean firstParameter = true;
         for (Parameter parameter : methodDoc.parameters()) {
             if (firstParameter) {
-                shortSignature += parameter.type().simpleTypeName() + " " + parameter.name();
+                shortSignature += Utils.getSimpleTypeName(parameter.type()) + " " + parameter.name();
                 firstParameter = false;
             }
             else {
-                shortSignature += ", " + parameter.type().simpleTypeName() + " " + parameter.name();
+                shortSignature += ", " + Utils.getSimpleTypeName(parameter.type()) + " " + parameter.name();
             }
         }
         shortSignature += ")";
@@ -58,7 +58,7 @@ public class PSOperatorDoc {
     }
 
     public String toString() {
-        String operatorDocStr = "| " + this.inputType.typeName() + "-->" + this.outputType.typeName() + " | `" + this.shortSignature + "` <br> " + this.description + " |";
+        String operatorDocStr = "| `" + Utils.getSimpleTypeName(this.returnType) + "` | `" + this.shortSignature + "` <br> - " + this.description + " |";
         return operatorDocStr;
     }
 

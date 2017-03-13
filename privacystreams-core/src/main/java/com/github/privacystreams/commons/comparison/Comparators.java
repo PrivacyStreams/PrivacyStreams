@@ -5,12 +5,13 @@ import com.github.privacystreams.core.Item;
 import com.github.privacystreams.utils.annotations.PSOperatorWrapper;
 
 /**
- * A helper class to access comparison-related functions
+ * A helper class to access comparison functions
  */
 @PSOperatorWrapper
 public class Comparators {
     /**
-     * A function that checks if the value of a field is equal to a given value
+     * Check if the value of a field equals to a given value.
+     *
      * @param field the name of the field to compare
      * @param valueToCompare the value to compare with
      * @param <TValue> the type of value
@@ -21,7 +22,8 @@ public class Comparators {
     }
 
     /**
-     * A function that checks if the value of a field is not equal to a given value
+     * Check if the value of a field is not equal to a given value.
+     *
      * @param field the name of the field to compare
      * @param valueToCompare the value to compare with
      * @param <TValue> the type of value
@@ -32,7 +34,8 @@ public class Comparators {
     }
 
     /**
-     * A function that checks if the value of a field is greater than a given value
+     * Check if the value of a field is greater than a given value.
+     *
      * @param field the name of the field to compare
      * @param valueToCompare the value to compare with
      * @param <TValue> the type of value
@@ -43,7 +46,8 @@ public class Comparators {
     }
 
     /**
-     * A function that checks if the value of a field is less than a given value
+     * Check if the value of a field is less than a given value.
+     *
      * @param field the name of the field to compare
      * @param valueToCompare the value to compare with
      * @param <TValue> the type of value
@@ -54,7 +58,8 @@ public class Comparators {
     }
 
     /**
-     * A function that checks if the value of a field is greater than or equal to a given value
+     * Check if the value of a field is greater than or equal to a given value.
+     *
      * @param field the name of the field to compare
      * @param valueToCompare the value to compare with
      * @param <TValue> the type of value
@@ -65,7 +70,8 @@ public class Comparators {
     }
 
     /**
-     * A function that checks if the value of a field is less than or equal to a given value
+     * Check if the value of a field is less than or equal to a given value.
+     *
      * @param field the name of the field to compare
      * @param valueToCompare the value to compare with
      * @param <TValue> the type of value

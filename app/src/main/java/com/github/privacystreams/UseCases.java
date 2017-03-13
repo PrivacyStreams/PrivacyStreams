@@ -252,9 +252,9 @@ public class UseCases {
     // getting how loud it is over the past m seconds,  every n minutes
     void getAverageLoudnessEveryNSeconds(int m, int n, Callback<Double> loudnessCallback) {
         uqi
-                .getDataItems(Audio.recordPeriodically(Duration.seconds(m), Duration.seconds(n)),
+                .getDataItems(Audio.recordPeriodic(Duration.seconds(m), Duration.seconds(n)),
                         Purpose.feature("how loud it is periodically"))
-                .setField("loudness", AudioOperators.calcLoudness(Audio.URI))
+                .setField("loudness", AudioOperators.calcLoudness(Audio.AUDIO_URI))
                 .forEach("loudness", loudnessCallback);
     }
 

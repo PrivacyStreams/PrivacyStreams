@@ -13,8 +13,8 @@ import java.util.List;
 public class StreamOperators {
 
     /**
-     * A function that converts a stream to a list.
-     * Each element in the list is an item map.
+     * Collect the items in the stream to a list.
+     * Each element in the list is an instance of Item.
      *
      * @return the function
      */
@@ -23,14 +23,14 @@ public class StreamOperators {
     }
 
     /**
-     * A function that converts a stream to a list.
-     * Each element in the list is the value of a selected field.
+     * Collect the values of a field in the stream to a list.
+     * Each element in the list is the value of the specified field in an item.
      *
-     * @param fieldToSelect the name of the field to select.
+     * @param fieldToCollect the name of the field to collect.
      * @return the function
      */
-    public static <TValue> Function<List<Item>, List<TValue>> asList(String fieldToSelect) {
-        return new StreamFieldListCollector<>(fieldToSelect);
+    public static <TValue> Function<List<Item>, List<TValue>> asList(String fieldToCollect) {
+        return new StreamFieldListCollector<>(fieldToCollect);
     }
 
 }

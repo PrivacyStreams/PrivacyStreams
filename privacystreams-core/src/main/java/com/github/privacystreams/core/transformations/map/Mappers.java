@@ -12,7 +12,7 @@ import com.github.privacystreams.utils.annotations.PSOperatorWrapper;
 @PSOperatorWrapper
 public class Mappers {
     /**
-     * A function that transforms a multi-item stream by mapping each items with a item-to-item mapper.
+     * Transform a multi-item stream by mapping each items with a item-to-item mapper.
      *
      * @param perItemMapper the mapper function to map each item in the stream.
      * @return the stream mapper function.
@@ -22,7 +22,7 @@ public class Mappers {
     }
 
     /**
-     * A function that transforms a single-item stream by mapping the item with a item-to-item mapper.
+     * Transform a single-item stream by mapping the item with a item-to-item mapper.
      * @param itemMapper the mapper function to map the item in the stream.
      * @return the stream mapper function.
      */

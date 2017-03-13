@@ -50,8 +50,7 @@ public class PSOperatorWrapperDoc {
         operatorWrapperDocStr += this.description + "\n";
 
         operatorWrapperDocStr += "### Operators\n";
-        operatorWrapperDocStr += "| Input-->Output | Reference & Description |\n";
-        operatorWrapperDocStr += "|----|----|\n";
+        operatorWrapperDocStr += Consts.OPERATORS_TABLE_HEADER;
 
         for (PSOperatorDoc operatorDoc : this.operatorDocs) {
             operatorWrapperDocStr += operatorDoc.toString() + "\n";

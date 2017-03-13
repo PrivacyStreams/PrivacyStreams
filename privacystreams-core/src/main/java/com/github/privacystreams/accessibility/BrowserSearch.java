@@ -8,7 +8,7 @@ import com.github.privacystreams.utils.annotations.PSItem;
 import com.github.privacystreams.utils.annotations.PSItemField;
 
 /**
- * A BrowserSearch item represents a browser search event.
+ * A browser search activity.
  */
 @PSItem
 public class BrowserSearch extends Item {
@@ -30,7 +30,7 @@ public class BrowserSearch extends Item {
     }
 
     /**
-     * A function that provides a live stream of user's browser search activities
+     * Provide a live stream of BrowserSearch items.
      * @return the provider function
      */
     public static Function<Void, MultiItemStream> asUpdates(){

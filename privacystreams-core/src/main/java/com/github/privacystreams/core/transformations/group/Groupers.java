@@ -11,30 +11,24 @@ import com.github.privacystreams.utils.annotations.PSOperatorWrapper;
 public class Groupers {
 
     /**
-     * A function that groups together the items with same field value.
+     * Group the items with same field value together.
      * This function will change the order of items.
-     * The stream after grouping is a stream of "group items", which has two fields:
-     *   ItemField 1. The field name is @param fieldToGroup, and the value is the field value
-     *   ItemField 2. The field name is "group_items", and the value is the grouped items
-     * You can use setGroupField value to produce more fields.
+     * The stream after grouping is a stream of GroupItem items.
      *
      * @param fieldToGroup the field used to group the stream.
-     * @return the stream-grouping function.
+     * @return the grouper function.
      */
     public static Function<MultiItemStream, MultiItemStream> groupBy(String fieldToGroup) {
         return new ByFieldGrouper(fieldToGroup);
     }
 
     /**
-     * A function that groups together the contiguous items with same field value.
+     * Group the contiguous items with same field value together.
      * This function will not change the order of items.
-     * The stream after grouping is a stream of "group items", which has two fields:
-     *   ItemField 1. The field name is @param fieldToGroup, and the value is the field value
-     *   ItemField 2. The field name is "group_items", and the value is the grouped items
-     * You can use setGroupField value to produce more fields.
+     * The stream after grouping is a stream of GroupItem items.
      *
      * @param fieldToGroup the field used to group the stream.
-     * @return the stream-grouping function.
+     * @return the grouper function.
      */
     public static Function<MultiItemStream, MultiItemStream> localGroupBy(String fieldToGroup) {
         return new ByFieldLocalGrouper(fieldToGroup);
