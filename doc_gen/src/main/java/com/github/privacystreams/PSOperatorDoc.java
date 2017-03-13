@@ -4,6 +4,7 @@ import com.sun.javadoc.ClassDoc;
 import com.sun.javadoc.MethodDoc;
 import com.sun.javadoc.Parameter;
 import com.sun.javadoc.ParameterizedType;
+import com.sun.javadoc.Tag;
 import com.sun.javadoc.Type;
 
 /**
@@ -27,6 +28,13 @@ public class PSOperatorDoc {
         this.declaringClassDoc = classDoc;
         this.methodDoc = methodDoc;
         this.description = methodDoc.commentText().replace('\n', ' ');;
+        Tag[] paramTags = methodDoc.tags("param");
+        for (Tag paramTag : paramTags) {
+            String paraStr = paramTag.text();
+            String paraName = paraStr.substring(0, paraStr.indexOf(' ')).replace('\n', ' ');;
+            String paraDesc = paraStr.substring(paraStr.indexOf(' ') + 1).replace('\n', ' ');;
+            this.description += "<br> `" + paraName + "`: " + paraDesc;
+        }
 
         this.returnType = methodDoc.returnType();
         ParameterizedType returnType = methodDoc.returnType().asParameterizedType();

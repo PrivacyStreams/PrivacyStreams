@@ -74,17 +74,17 @@ public class PSItemDoc {
 
     public String toString() {
         String itemDocStr = "";
-        itemDocStr += "## " + this.name + "\n";
+        itemDocStr += "## " + this.name + "\n\n";
         itemDocStr += "Package: `" + this.classDoc.containingPackage() + "`\n\n";
-        itemDocStr += this.description + "\n";
-        itemDocStr += "### Fields\n";
+        itemDocStr += this.description + "\n\n";
+        itemDocStr += "### Fields\n\n";
         itemDocStr += Consts.FIELDS_TABLE_HEADER;
 
         for (PSItemFieldDoc itemFieldDoc : this.itemFieldDocs) {
             itemDocStr += itemFieldDoc.toString() + "\n";
         }
 
-        itemDocStr += "\n### Providers\n";
+        itemDocStr += "\n### Providers\n\n";
         itemDocStr += Consts.OPERATORS_TABLE_HEADER;
 
         for (PSOperatorDoc providerDoc : this.providerDocs) {

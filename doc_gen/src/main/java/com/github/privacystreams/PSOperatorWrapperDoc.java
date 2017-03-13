@@ -45,11 +45,11 @@ public class PSOperatorWrapperDoc {
 
     public String toString() {
         String operatorWrapperDocStr = "";
-        operatorWrapperDocStr += "## " + this.name + "\n";
+        operatorWrapperDocStr += "## " + this.name + "\n\n";
         operatorWrapperDocStr += "Package: `" + this.classDoc.containingPackage() + "`\n\n";
-        operatorWrapperDocStr += this.description + "\n";
+        operatorWrapperDocStr += this.description + "\n\n";
 
-        operatorWrapperDocStr += "### Operators\n";
+        operatorWrapperDocStr += "### Operators\n\n";
         operatorWrapperDocStr += Consts.OPERATORS_TABLE_HEADER;
 
         for (PSOperatorDoc operatorDoc : this.operatorDocs) {

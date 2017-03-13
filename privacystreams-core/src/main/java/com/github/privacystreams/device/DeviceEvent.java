@@ -72,6 +72,11 @@ public class DeviceEvent extends Item {
         this.setFieldValue(Event, state);
     }
 
+    /**
+     * Provide a live stream of device events, including screen/boot/battery/ringer events.
+     *
+     * @return the provider function.
+     */
     public static Function<Void, MultiItemStream> asUpdates() {
         return new DeviceEventUpdatesProvider();
     }
