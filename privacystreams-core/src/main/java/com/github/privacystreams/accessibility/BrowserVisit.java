@@ -47,7 +47,7 @@ public class BrowserVisit extends Item {
     }
 
     /**
-     * Provider a live stream of BrowserVisit items.
+     * Provide a live stream of BrowserVisit items.
      * @return the provider function.
      */
     public static Function<Void, MStream> asUpdates(){
