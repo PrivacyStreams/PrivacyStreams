@@ -2,8 +2,7 @@ package com.github.privacystreams.communication;
 
 import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.Item;
-import com.github.privacystreams.core.MultiItemStream;
-import com.github.privacystreams.core.providers.MultiItemStreamProvider;
+import com.github.privacystreams.core.MStream;
 import com.github.privacystreams.utils.annotations.PSItem;
 import com.github.privacystreams.utils.annotations.PSItemField;
 
@@ -52,7 +51,7 @@ public class Contact extends Item {
      *
      * @return the provider function.
      */
-    public static Function<Void, MultiItemStream> asList() {
+    public static Function<Void, MStream> asList() {
         return new ContactListProvider();
     }
 }

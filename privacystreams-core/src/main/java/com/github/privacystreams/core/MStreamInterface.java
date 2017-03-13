@@ -1,19 +1,18 @@
 package com.github.privacystreams.core;
 
 import com.github.privacystreams.core.exceptions.PrivacyStreamsException;
-import com.github.privacystreams.core.providers.MultiItemStreamProvider;
 import com.github.privacystreams.core.purposes.Purpose;
 
 import java.util.List;
 
 /**
- * The interface of multi-item stream.
- * An IMultiItemStream is a stream containing many items, and each item is an instance of {@link Item}.
+ * The interface of MStream (multi-item stream).
+ * An MStreamInterface is a stream containing many items, and each item is an instance of {@link Item}.
  *
- * An IMultiItemStream is produced by <code>uqi.getDataItems</code> method.
+ * An MStreamInterface is produced by <code>uqi.getDataItems</code> method.
  * @see UQI#getDataItems(Function, Purpose)
  *
- * It can be transformed to another IMultiItemStream by transformation functions,
+ * It can be transformed to another MStreamInterface by transformation functions,
  * such as {@link #filter(String, Object)}, {{@link #groupBy(String)}}, {{@link #map(Function)}}, etc.
  *
  * It can also be transformed to an ISingleItemProvider by transformation functions,
@@ -21,26 +20,26 @@ import java.util.List;
  *
  * Finally, it can be outputted using {{@link #asList()}}, {{@link #count()}}, etc.
  */
-public interface IMultiItemStream {
+public interface MStreamInterface {
     /**
      * Transform the current multi-item stream to another multi-item stream.
      * @param m2mStreamTransformation the function used to transform the stream
      * @return the transformed stream
      */
-    IMultiItemStream transform(Function<MultiItemStream, MultiItemStream> m2mStreamTransformation);
+    MStreamInterface transform(Function<MStream, MStream> m2mStreamTransformation);
 
     /**
      * Transform the current multi-item stream to an single-item stream.
      * @param m2sStreamTransformation the function used to transform the stream
      * @return the collected item
      */
-    ISingleItemStream transformToItem(Function<MultiItemStream, SingleItemStream> m2sStreamTransformation);
+    SStreamInterface transformToItem(Function<MStream, SStream> m2sStreamTransformation);
 
     /**
      * Output the current multi-item stream.
      * @param mStreamAction the function used to output stream
      */
-    void output(Function<MultiItemStream, Void> mStreamAction);
+    void output(Function<MStream, Void> mStreamAction);
 
     // *****************************
     // Filters
@@ -54,7 +53,7 @@ public interface IMultiItemStream {
      * @param predicate     the predicate to test the item
      * @return The filtered stream.
      */
-    IMultiItemStream filter(Function<Item, Boolean> predicate);
+    MStreamInterface filter(Function<Item, Boolean> predicate);
 
     /**
      * Filter the stream by checking whether a field equals a value.
@@ -65,7 +64,7 @@ public interface IMultiItemStream {
      * @param fieldValue    the value to compare with the field
      * @return The filtered stream.
      */
-    <TValue> IMultiItemStream filter(String fieldName, TValue fieldValue);
+    <TValue> MStreamInterface filter(String fieldName, TValue fieldValue);
 
     // *****************************
     // Limiters
@@ -80,7 +79,7 @@ public interface IMultiItemStream {
      * @param predicate     the predicate to test the field
      * @return The limited stream.
      */
-    IMultiItemStream limit(Function<Item, Boolean> predicate);
+    MStreamInterface limit(Function<Item, Boolean> predicate);
 
     /**
      * Limit the stream with a max number of items.
@@ -90,7 +89,7 @@ public interface IMultiItemStream {
      * @param maxCount      the max number of items
      * @return The limited stream.
      */
-    IMultiItemStream limit(int maxCount);
+    MStreamInterface limit(int maxCount);
 
     /**
      * limit the stream with a timeout,
@@ -100,7 +99,7 @@ public interface IMultiItemStream {
      * @param timeoutMilliseconds      the timeout millis seconds
      * @return The limited stream.
      */
-    IMultiItemStream timeout(long timeoutMilliseconds);
+    MStreamInterface timeout(long timeoutMilliseconds);
 
     // *****************************
     // Mappers
@@ -113,7 +112,7 @@ public interface IMultiItemStream {
      * @param function      the function to convert the item
      * @return The stream with items after mapping
      */
-    IMultiItemStream map(Function<Item, Item> function);
+    MStreamInterface map(Function<Item, Item> function);
 
     /**
      * Project each item by including some fields.
@@ -123,7 +122,7 @@ public interface IMultiItemStream {
      * @param fieldsToInclude the fields to include
      * @return The stream with items after projection
      */
-    IMultiItemStream project(String... fieldsToInclude);
+    MStreamInterface project(String... fieldsToInclude);
 
     /**
      * Set a field to a new value for each item in the stream.
@@ -136,7 +135,7 @@ public interface IMultiItemStream {
      * @param <TValue> the type of the new field value
      * @return the stream of items with the new field set
      */
-    <TValue> IMultiItemStream setField(String newField, Function<Item, TValue> functionToComputeValue);
+    <TValue> MStreamInterface setField(String newField, Function<Item, TValue> functionToComputeValue);
 
     /**
      * Set a field to a new value for each item in the stream.
@@ -150,7 +149,7 @@ public interface IMultiItemStream {
      * @param <TValue> the type of the new field value
      * @return the stream of items with the new field set
      */
-    <TValue> IMultiItemStream setGroupField(String newField, Function<List<Item>, TValue> subStreamFunction);
+    <TValue> MStreamInterface setGroupField(String newField, Function<List<Item>, TValue> subStreamFunction);
 
     // *****************************
     // Reorders
@@ -163,7 +162,7 @@ public interface IMultiItemStream {
      * @param fieldName     the field used to reorder the stream, in ascending order
      * @return The sorted stream
      */
-    IMultiItemStream sortBy(String fieldName);
+    MStreamInterface sortBy(String fieldName);
     
     /**
      * Shuffle the items.
@@ -171,7 +170,7 @@ public interface IMultiItemStream {
      *
      * @return The shuffled stream
      */
-    IMultiItemStream shuffle();
+    MStreamInterface shuffle();
 
     /**
      * Reverse the order of items
@@ -179,7 +178,7 @@ public interface IMultiItemStream {
      *
      * @return The reversed stream
      */
-    IMultiItemStream reverse();
+    MStreamInterface reverse();
 
     // *****************************
     // StreamGrouper
@@ -192,7 +191,7 @@ public interface IMultiItemStream {
      * @param fieldName     the field used to reorder the stream
      * @return The grouped stream
      */
-    IMultiItemStream groupBy(String fieldName);
+    MStreamInterface groupBy(String fieldName);
     
     /**
      * Group the contiguous items according to a field.
@@ -201,7 +200,7 @@ public interface IMultiItemStream {
      * @param fieldName     the field used to reorder the stream
      * @return The grouped stream
      */
-    IMultiItemStream localGroupBy(String fieldName);
+    MStreamInterface localGroupBy(String fieldName);
 
     // *****************************
     // Output functions
@@ -235,7 +234,7 @@ public interface IMultiItemStream {
      *
      * @return the first item as a single-item stream.
      */
-    ISingleItemStream first();
+    SStreamInterface first();
     
     /**
      * Pick an item in the stream.
@@ -243,7 +242,7 @@ public interface IMultiItemStream {
      * @param index the index of target item.
      * @return the item with the given index as a single-item stream.
      */
-    ISingleItemStream pick(int index);
+    SStreamInterface pick(int index);
 
     /**
      * Debug print the items.

@@ -4,8 +4,8 @@ import android.location.Location;
 
 import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.Item;
-import com.github.privacystreams.core.MultiItemStream;
-import com.github.privacystreams.core.SingleItemStream;
+import com.github.privacystreams.core.MStream;
+import com.github.privacystreams.core.SStream;
 import com.github.privacystreams.utils.annotations.PSItem;
 import com.github.privacystreams.utils.annotations.PSItemField;
 
@@ -81,7 +81,7 @@ public class GeoLocation extends Item {
      * @param minDistance minimum distance between location updates, in meters.
      * @return the stream provider
      */
-    public static Function<Void, MultiItemStream> asUpdates(String provider, long minTime, float minDistance) {
+    public static Function<Void, MStream> asUpdates(String provider, long minTime, float minDistance) {
         return new LocationUpdatesProvider(provider, minTime, minDistance);
     }
 
@@ -90,7 +90,7 @@ public class GeoLocation extends Item {
      *
      * @return the stream provider
      */
-    public static Function<Void, SingleItemStream> asLastKnown() {
+    public static Function<Void, SStream> asLastKnown() {
         return null;
     }
 
@@ -99,7 +99,7 @@ public class GeoLocation extends Item {
      *
      * @return the stream provider
      */
-    public static Function<Void, MultiItemStream> asHistory() {
+    public static Function<Void, MStream> asHistory() {
         // TODO implement this
         return null;
     }

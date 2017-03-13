@@ -2,10 +2,8 @@ package com.github.privacystreams.core.providers.mock;
 
 import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.Item;
-import com.github.privacystreams.core.MultiItemStream;
-import com.github.privacystreams.core.SingleItemStream;
-import com.github.privacystreams.core.providers.MultiItemStreamProvider;
-import com.github.privacystreams.core.providers.SingleItemStreamProvider;
+import com.github.privacystreams.core.MStream;
+import com.github.privacystreams.core.SStream;
 import com.github.privacystreams.utils.annotations.PSItem;
 import com.github.privacystreams.utils.annotations.PSItemField;
 
@@ -66,7 +64,7 @@ public class MockItem extends Item {
      * @param interval the interval between each two items, in milliseconds
      * @return the provider function
      */
-    public static Function<Void, MultiItemStream> asUpdates(List<MockObject> mockObjects, long interval) {
+    public static Function<Void, MStream> asUpdates(List<MockObject> mockObjects, long interval) {
         return new MockLiveMStreamProvider(mockObjects, interval);
     }
 
@@ -78,7 +76,7 @@ public class MockItem extends Item {
      * @param interval the interval between each two items, in milliseconds
      * @return the provider function
      */
-    public static Function<Void, MultiItemStream> asRandomUpdates(int maxInt, double maxDouble, long interval) {
+    public static Function<Void, MStream> asRandomUpdates(int maxInt, double maxDouble, long interval) {
         return new RandomLiveMStreamProvider(maxInt, maxDouble, interval);
     }
 
@@ -88,7 +86,7 @@ public class MockItem extends Item {
      * @param mockObjects the list of mock data
      * @return the provider function
      */
-    public static Function<Void, MultiItemStream> asHistory(List<MockObject> mockObjects) {
+    public static Function<Void, MStream> asHistory(List<MockObject> mockObjects) {
         return new MockLocalMStreamProvider(mockObjects);
     }
 
@@ -100,7 +98,7 @@ public class MockItem extends Item {
      * @param count the number of random items
      * @return the provider function
      */
-    public static Function<Void, MultiItemStream> asRandomHistory(int maxInt, double maxDouble, int count) {
+    public static Function<Void, MStream> asRandomHistory(int maxInt, double maxDouble, int count) {
         return new RandomLocalMStreamProvider(maxInt, maxDouble, count);
     }
 
@@ -110,7 +108,7 @@ public class MockItem extends Item {
      * @param mockObject the mock data
      * @return the provider function
      */
-    public static Function<Void, SingleItemStream> asItem(MockObject mockObject) {
+    public static Function<Void, SStream> asItem(MockObject mockObject) {
         return new MockSStreamProvider(mockObject);
     }
 
@@ -119,7 +117,7 @@ public class MockItem extends Item {
      *
      * @return the provider function
      */
-    public static Function<Void, SingleItemStream> asRandomItem() {
+    public static Function<Void, SStream> asRandomItem() {
         return new MockSStreamProvider(MockObject.getRandomInstance());
     }
 }

@@ -2,8 +2,7 @@ package com.github.privacystreams.device;
 
 import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.Item;
-import com.github.privacystreams.core.MultiItemStream;
-import com.github.privacystreams.core.providers.MultiItemStreamProvider;
+import com.github.privacystreams.core.MStream;
 
 /**
  * Created by Mingquan Liu 2017/3/6.
@@ -21,7 +20,7 @@ public class BluetoothDevice extends Item {
         this.setFieldValue(BONDED, scannedDevice.getBondState());
     }
 
-    public static Function<Void, MultiItemStream> asUpdates(){
+    public static Function<Void, MStream> asUpdates(){
         return new BluetoothUpdatesProvider();
     }
 }

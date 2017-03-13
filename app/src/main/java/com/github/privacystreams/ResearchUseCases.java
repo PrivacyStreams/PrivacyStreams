@@ -4,7 +4,7 @@ package com.github.privacystreams;//package xyz.ylimit.personaldataapp;
 //import xyz.ylimit.personaldataapp.privacystreams.collectors.location.Locations;
 //import xyz.ylimit.personaldataapp.privacystreams.collectors.statistic.StatisticOperators;
 //import xyz.ylimit.personaldataapp.privacystreams.generic.Callback;
-//import xyz.ylimit.personaldataapp.privacystreams.generic.MultiItemStream;
+//import xyz.ylimit.personaldataapp.privacystreams.generic.MStream;
 //import xyz.ylimit.personaldataapp.privacystreams.providers.app.AppEvent;
 //import xyz.ylimit.personaldataapp.privacystreams.providers.audio.Audio;
 //import xyz.ylimit.personaldataapp.privacystreams.providers.call.Phonecall;
@@ -51,27 +51,27 @@ package com.github.privacystreams;//package xyz.ylimit.personaldataapp;
 //     */
 //    void BES_PervasiveHealth_2013() {
 //        Purpose purpose = Purpose.feature("sleep monitoring");
-//        MultiItemStream lightStream = UQI
+//        MStream lightStream = UQI
 //                .getDataItems(Light.asUpdates(Duration.seconds(60)), purpose)
 //                .project("timestamp", Light.ILLUMINANCE);
 //
-//        MultiItemStream phoneLockStream = UQI
+//        MStream phoneLockStream = UQI
 //                .getDataItems(DeviceState.asUpdates(Duration.seconds(60)), purpose)
 //                .project("timestamp", DeviceState.LOCKED);
 //
-//        MultiItemStream stationaryStream = UQI
+//        MStream stationaryStream = UQI
 //                .getDataItems(Accelerometer.asUpdates(), purpose)
 //                .map(setField("timestamp", round(Motion.TIMESTAMP, Duration.seconds(60))))
 //                .localGroupBy("timestamp")
 //                .setGroupField("isStationary", underThreshold(Motion.values, 0));
 //
-//        MultiItemStream silenceStream = UQI
+//        MStream silenceStream = UQI
 //                .getDataItems(Microphone.asUpdates(Duration.seconds(60), Duration.seconds(60)), purpose)
 //                .map(setField("timestamp", round(Audio.TIMESTAMP, Duration.seconds(60))))
 //                .map("loudness", calculateLoudness(Audio.URI))
 //                .map(setField("isSlient", underThreshold(Motion.values, 0));
 //
-//        MultiItemStream fusionStream = UQI
+//        MStream fusionStream = UQI
 //                .fusionStream("timestamp", lightStream, phoneLockStream, stationaryStream, silenceStream);
 //    }
 //
@@ -84,21 +84,21 @@ package com.github.privacystreams;//package xyz.ylimit.personaldataapp;
 //     */
 //    void IODetector_SenSys_2012() {
 //        Purpose purpose = Purpose.feature("sleep monitoring");
-//        MultiItemStream lightStream = UQI
+//        MStream lightStream = UQI
 //                .getDataItems(Light.asUpdates(Duration.seconds(60)), purpose)
 //                .project("timestamp", Light.ILLUMINANCE);
 //
-//        MultiItemStream cellurSignalStream = UQI
+//        MStream cellurSignalStream = UQI
 //                .getDataItems(Cellular.asUpdates(Duration.seconds(60)), purpose)
 //                .project("timestamp", Cellular.SIGNAL_STRENGTH);
 //
-//        MultiItemStream magneticIntensityStream = UQI
+//        MStream magneticIntensityStream = UQI
 //                .getDataItems(MagnetFieldSensor.asUpdates(), purpose)
 //                .map(setField("timestamp", round(EnvSensor.TIMESTAMP, Duration.seconds(60))))
 //                .localGroupBy("timestamp")
 //                .setGroupField("magnet_field_intensity", average(EnvSensor.values));
 //
-//        MultiItemStream fusionStream = UQI
+//        MStream fusionStream = UQI
 //                .fusionStream("timestamp", lightStream, cellurSignalStream, magneticIntensityStream);
 //    }
 //

@@ -20,32 +20,31 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 /**
- * Created by yuanchun on 28/11/2016.
- * MultiItemStream is one of the essential classes used in PrivacyStreams.
- * Most personal data access/process operation in PrivacyStreams use MultiItemStream as the intermediate.
+ * MStream is one of the essential classes used in PrivacyStreams.
+ * Most personal data access/process operation in PrivacyStreams use MStream as the intermediate.
  *
- * A MultiItemStream is consist of a list of items.
+ * A MStream is consist of a list of items.
  * The items are produced by MultiItemStreamProvider functions (like LocationUpdatesProvider, CallLogProvider, etc.),
  * transformed by M2MTransformation functions (like filter, reorder, map, etc.),
  * and outputted by ItemsFunction functions (like print, toList, etc.).
  *
- * MultiItemStream producer functions (including MultiItemStreamProvider and M2MTransformation)
+ * MStream producer functions (including MultiItemStreamProvider and M2MTransformation)
  * should make sure the stream is not closed before writing items to it, using:
  *      stream.isClosed()
- * MultiItemStream consumer functions (including M2MTransformation and ItemsFunction)
- * should stop reading from MultiItemStream if the stream is ended.
+ * MStream consumer functions (including M2MTransformation and ItemsFunction)
+ * should stop reading from MStream if the stream is ended.
  *      If stream.read() returns a null, it means the stream is ended.
  */
 
-public class MultiItemStream extends Stream implements IMultiItemStream {
-    private Function<Void, MultiItemStream> streamProvider;
+public class MStream extends Stream implements MStreamInterface {
+    private Function<Void, MStream> streamProvider;
 
     @Override
-    public Function<Void, MultiItemStream> getStreamProvider() {
+    public Function<Void, MStream> getStreamProvider() {
         return this.streamProvider;
     }
 
-    public MultiItemStream(UQI uqi, Function<Void, MultiItemStream> streamProvider) {
+    public MStream(UQI uqi, Function<Void, MStream> streamProvider) {
         super(uqi);
         this.streamProvider = streamProvider;
     }
@@ -55,8 +54,8 @@ public class MultiItemStream extends Stream implements IMultiItemStream {
      * @param m2mStreamTransformation the function used to transform current stream
      * @return the transformed stream
      */
-    public MultiItemStream transform(Function<MultiItemStream, MultiItemStream> m2mStreamTransformation) {
-        return new MultiItemStream(this.getUQI(), this.streamProvider.compound(m2mStreamTransformation));
+    public MStream transform(Function<MStream, MStream> m2mStreamTransformation) {
+        return new MStream(this.getUQI(), this.streamProvider.compound(m2mStreamTransformation));
     }
 
     /**
@@ -64,15 +63,15 @@ public class MultiItemStream extends Stream implements IMultiItemStream {
      * @param m2sStreamTransformation the function used to convert the stream to an item
      * @return the collected item
      */
-    public SingleItemStream transformToItem(Function<MultiItemStream, SingleItemStream> m2sStreamTransformation) {
-        return new SingleItemStream(this.getUQI(), this.streamProvider.compound(m2sStreamTransformation));
+    public SStream transformToItem(Function<MStream, SStream> m2sStreamTransformation) {
+        return new SStream(this.getUQI(), this.streamProvider.compound(m2sStreamTransformation));
     }
 
     /**
      * Collect the items in the stream for output
      * @param mStreamAction the function used to output current stream
      */
-    public void output(Function<MultiItemStream, Void> mStreamAction) {
+    public void output(Function<MStream, Void> mStreamAction) {
         this.getUQI().setQuery(this.getStreamProvider().compound(mStreamAction));
         this.getUQI().evaluate(true);
     }
@@ -89,7 +88,7 @@ public class MultiItemStream extends Stream implements IMultiItemStream {
      * @param predicate     the predicate to test the item
      * @return The filtered stream.
      */
-    public MultiItemStream filter(Function<Item, Boolean> predicate) {
+    public MStream filter(Function<Item, Boolean> predicate) {
         return this.transform(Filters.keep(predicate));
     }
 
@@ -102,7 +101,7 @@ public class MultiItemStream extends Stream implements IMultiItemStream {
      * @param fieldValue    the value to compare with the field
      * @return The filtered stream.
      */
-    public <TValue> MultiItemStream filter(String fieldName, TValue fieldValue) {
+    public <TValue> MStream filter(String fieldName, TValue fieldValue) {
         return this.filter(Comparators.eq(fieldName, fieldValue));
     }
 
@@ -119,7 +118,7 @@ public class MultiItemStream extends Stream implements IMultiItemStream {
      * @param predicate     the predicate to test the field
      * @return The limited stream.
      */
-    public MultiItemStream limit(Function<Item, Boolean> predicate) {
+    public MStream limit(Function<Item, Boolean> predicate) {
         return this.transform(Limiters.limit(predicate));
     }
 
@@ -131,7 +130,7 @@ public class MultiItemStream extends Stream implements IMultiItemStream {
      * @param maxCount      the threshold of count
      * @return The limited stream.
      */
-    public MultiItemStream limit(int maxCount) {
+    public MStream limit(int maxCount) {
         return this.transform(Limiters.limitCount(maxCount));
     }
 
@@ -143,7 +142,7 @@ public class MultiItemStream extends Stream implements IMultiItemStream {
      * @param timeoutMilliseconds      the timeout millis seconds
      * @return The limited stream.
      */
-    public MultiItemStream timeout(long timeoutMilliseconds) {
+    public MStream timeout(long timeoutMilliseconds) {
         return this.transform(Limiters.timeout(timeoutMilliseconds));
     }
 
@@ -158,7 +157,7 @@ public class MultiItemStream extends Stream implements IMultiItemStream {
      * @param function      the function to convert the item
      * @return The stream with items after mapping
      */
-    public MultiItemStream map(Function<Item, Item> function) {
+    public MStream map(Function<Item, Item> function) {
         return this.transform(Mappers.mapEachItem(function));
     }
 
@@ -170,7 +169,7 @@ public class MultiItemStream extends Stream implements IMultiItemStream {
      * @param fieldsToInclude the fields to include
      * @return The stream with items after projection
      */
-    public MultiItemStream project(String... fieldsToInclude) {
+    public MStream project(String... fieldsToInclude) {
         return this.map(ItemOperators.includeFields(fieldsToInclude));
     }
 
@@ -181,7 +180,7 @@ public class MultiItemStream extends Stream implements IMultiItemStream {
      * @param <TValue> the type of the new field value
      * @return the stream of items with the new field set
      */
-    public <TValue> MultiItemStream setField(String newField, Function<Item, TValue> functionToComputeValue) {
+    public <TValue> MStream setField(String newField, Function<Item, TValue> functionToComputeValue) {
         return this.map(ItemOperators.setField(newField, functionToComputeValue));
     }
 
@@ -194,7 +193,7 @@ public class MultiItemStream extends Stream implements IMultiItemStream {
      * @param <TValue> the type of the new field value
      * @return the stream of items with the new field set
      */
-    public <TValue> MultiItemStream setGroupField(String newField, Function<List<Item>, TValue> subStreamFunction) {
+    public <TValue> MStream setGroupField(String newField, Function<List<Item>, TValue> subStreamFunction) {
         return this.setField(newField, ItemOperators.outputSubStream(subStreamFunction));
     }
 
@@ -209,7 +208,7 @@ public class MultiItemStream extends Stream implements IMultiItemStream {
      * @param fieldName     the field used to reorder the stream, in ascending order
      * @return The sorted stream
      */
-    public MultiItemStream sortBy(String fieldName) {
+    public MStream sortBy(String fieldName) {
         return this.transform(Reorders.sortBy(fieldName));
     }
 
@@ -219,7 +218,7 @@ public class MultiItemStream extends Stream implements IMultiItemStream {
      *
      * @return The shuffled stream
      */
-    public MultiItemStream shuffle() {
+    public MStream shuffle() {
         return this.transform(Reorders.shuffle());
     }
 
@@ -229,7 +228,7 @@ public class MultiItemStream extends Stream implements IMultiItemStream {
      *
      * @return The reversed stream
      */
-    public MultiItemStream reverse() {
+    public MStream reverse() {
         return this.transform(Reorders.reverse());
     }
 
@@ -244,7 +243,7 @@ public class MultiItemStream extends Stream implements IMultiItemStream {
      * @param fieldName     the field used to reorder the stream
      * @return The grouped stream
      */
-    public MultiItemStream groupBy(String fieldName) {
+    public MStream groupBy(String fieldName) {
         return this.transform(Groupers.groupBy(fieldName));
     }
 
@@ -255,7 +254,7 @@ public class MultiItemStream extends Stream implements IMultiItemStream {
      * @param fieldName     the field used to reorder the stream
      * @return The grouped stream
      */
-    public MultiItemStream localGroupBy(String fieldName) {
+    public MStream localGroupBy(String fieldName) {
         return this.transform(Groupers.localGroupBy(fieldName));
     }
 
@@ -296,7 +295,7 @@ public class MultiItemStream extends Stream implements IMultiItemStream {
      * Get the first item in the stream.
      * @return the first item in the stream
      */
-    public SingleItemStream first() {
+    public SStream first() {
         return this.transformToItem(Pickers.pick(0));
     }
 
@@ -305,7 +304,7 @@ public class MultiItemStream extends Stream implements IMultiItemStream {
      * @param index the index of target item
      * @return the item with the given index in the stream
      */
-    public SingleItemStream pick(int index) {
+    public SStream pick(int index) {
         return this.transformToItem(Pickers.pick(index));
     }
 

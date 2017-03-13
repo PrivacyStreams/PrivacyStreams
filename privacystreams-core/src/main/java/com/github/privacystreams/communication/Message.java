@@ -4,8 +4,7 @@ import android.os.Build;
 
 import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.Item;
-import com.github.privacystreams.core.MultiItemStream;
-import com.github.privacystreams.core.providers.MultiItemStreamProvider;
+import com.github.privacystreams.core.MStream;
 import com.github.privacystreams.utils.Logging;
 import com.github.privacystreams.utils.annotations.PSItem;
 import com.github.privacystreams.utils.annotations.PSItemField;
@@ -63,7 +62,7 @@ public class Message extends Item {
      * Provide a live stream of Message items from IM apps, including WhatsApp and Facebook.
      * @return the provider function
      */
-     public static Function<Void, MultiItemStream> asIMUpdates(){
+     public static Function<Void, MStream> asIMUpdates(){
          if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2)
              return new IMUpdatesProvider();
          else {
@@ -75,7 +74,7 @@ public class Message extends Item {
      * Provide a live stream of Message items from the Android SMS app.
      * @return the provider
      */
-    public static Function<Void, MultiItemStream> asSMSUpdates() {
+    public static Function<Void, MStream> asSMSUpdates() {
         return new SMSMessageUpdatesProvider();
     }
 
@@ -83,7 +82,7 @@ public class Message extends Item {
      * Provide a list of historic Message items from the Android SMS app.
      * @return the provider
      */
-    public static Function<Void, MultiItemStream> asSMSHistory() {
+    public static Function<Void, MStream> asSMSHistory() {
         return new SMSMessageHistoryProvider();
     }
 }

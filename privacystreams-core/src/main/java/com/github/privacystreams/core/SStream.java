@@ -11,21 +11,20 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 /**
- * Created by yuanchun on 29/11/2016.
- * An SingleItemStream is the basic element in a stream.
- * An SingleItemStream can be directly produced by a provider (e.g. CurrentLocationProvider)
+ * An SStream is the basic element in a stream.
+ * An SStream can be directly produced by a provider (e.g. CurrentLocationProvider)
  * or from a stream (e.g. stream.first()).
- * Similar to a MultiItemStream, an SingleItemStream could be transformed and collected with multiple functions.
+ * Similar to a MStream, an SStream could be transformed and collected with multiple functions.
  */
-public class SingleItemStream extends Stream implements ISingleItemStream {
-    private Function<Void, SingleItemStream> streamProvider;
+public class SStream extends Stream implements SStreamInterface {
+    private Function<Void, SStream> streamProvider;
 
     @Override
-    public Function<Void, SingleItemStream> getStreamProvider() {
+    public Function<Void, SStream> getStreamProvider() {
         return this.streamProvider;
     }
 
-    public SingleItemStream(UQI uqi, Function<Void, SingleItemStream> streamProvider) {
+    public SStream(UQI uqi, Function<Void, SStream> streamProvider) {
         super(uqi);
         this.streamProvider = streamProvider;
     }
@@ -36,8 +35,8 @@ public class SingleItemStream extends Stream implements ISingleItemStream {
      * @param s2sStreamTransformation the function used to transform the current item
      * @return the transformed item
      */
-    public SingleItemStream transform(Function<SingleItemStream, SingleItemStream> s2sStreamTransformation) {
-        return new SingleItemStream(this.getUQI(), this.streamProvider.compound(s2sStreamTransformation));
+    public SStream transform(Function<SStream, SStream> s2sStreamTransformation) {
+        return new SStream(this.getUQI(), this.streamProvider.compound(s2sStreamTransformation));
     }
 
     /**
@@ -45,7 +44,7 @@ public class SingleItemStream extends Stream implements ISingleItemStream {
      *
      * @param sStreamAction the function used to output the current item
      */
-    public void output(Function<SingleItemStream, Void> sStreamAction) {
+    public void output(Function<SStream, Void> sStreamAction) {
         this.getUQI().setQuery(this.streamProvider.compound(sStreamAction));
         this.getUQI().evaluate(true);
     }
@@ -57,7 +56,7 @@ public class SingleItemStream extends Stream implements ISingleItemStream {
      * @param function      the function to convert the item
      * @return The item after mapping
      */
-    public SingleItemStream map(Function<Item, Item> function) {
+    public SStream map(Function<Item, Item> function) {
         return this.transform(Mappers.mapItem(function));
     }
 
@@ -69,7 +68,7 @@ public class SingleItemStream extends Stream implements ISingleItemStream {
      * @param fieldsToInclude the fields to include
      * @return The item after projection
      */
-    public SingleItemStream project(String... fieldsToInclude) {
+    public SStream project(String... fieldsToInclude) {
         return this.map(ItemOperators.includeFields(fieldsToInclude));
     }
 
@@ -80,7 +79,7 @@ public class SingleItemStream extends Stream implements ISingleItemStream {
      * @param <TValue> the type of the new field value
      * @return the item with the new field set
      */
-    public <TValue> SingleItemStream setField(String newField, Function<Item, TValue> functionToComputeField) {
+    public <TValue> SStream setField(String newField, Function<Item, TValue> functionToComputeField) {
         return this.map(ItemOperators.setField(newField, functionToComputeField));
     }
 

@@ -7,7 +7,6 @@ import android.net.Uri;
 import android.provider.MediaStore;
 
 import com.github.privacystreams.core.Item;
-import com.github.privacystreams.core.MultiItemStream;
 import com.github.privacystreams.core.providers.MultiItemStreamProvider;
 import com.github.privacystreams.utils.Logging;
 
@@ -26,11 +25,11 @@ class ImageStorageProvider extends MultiItemStreamProvider {
 
     @Override
     protected void provide() {
-        this.getImageInfo(output);
+        this.getImageInfo();
 
     }
 
-    private void getImageInfo(MultiItemStream output){
+    private void getImageInfo(){
         Cursor cur = this.getContext().getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
                 new String[]{
                         MediaStore.Images.Media.BUCKET_ID,
@@ -78,7 +77,7 @@ class ImageStorageProvider extends MultiItemStreamProvider {
             cur.close();
         }
 
-        if (!output.isClosed()) this.output(Item.EOS);
+        this.output(Item.EOS);
     }
 
 }
