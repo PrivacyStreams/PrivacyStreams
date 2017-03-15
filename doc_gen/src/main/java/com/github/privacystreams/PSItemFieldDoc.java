@@ -1,8 +1,12 @@
 package com.github.privacystreams;
 
+import com.sun.corba.se.impl.javax.rmi.CORBA.Util;
 import com.sun.javadoc.AnnotationDesc;
 import com.sun.javadoc.AnnotationTypeDoc;
+import com.sun.javadoc.ClassDoc;
 import com.sun.javadoc.FieldDoc;
+import com.sun.javadoc.ParameterizedType;
+import com.sun.javadoc.Type;
 
 /**
  * Created by yuanchun on 11/03/2017.
@@ -15,18 +19,19 @@ public class PSItemFieldDoc {
 
     String reference;
     String name;
-    String type;
+    Type type;
     String description;
 
     private PSItemFieldDoc(PSItemDoc psItemDoc, FieldDoc fieldDoc, AnnotationDesc annotation) {
         this.psItemDoc = psItemDoc;
         this.reference = psItemDoc.name + "." + fieldDoc.name();
         this.name = fieldDoc.constantValue().toString();
-        this.description = fieldDoc.commentText().replace('\n', ',');
+        this.description = fieldDoc.commentText().replace('\n', ' ');
 
         for (AnnotationDesc.ElementValuePair elementValuePair : annotation.elementValues()) {
             if ("type".equals(elementValuePair.element().name())) {
-                this.type = elementValuePair.value().value().toString();
+                Object typeValue = elementValuePair.value().value();
+                this.type = (Type) typeValue;
             }
         }
     }
@@ -43,7 +48,7 @@ public class PSItemFieldDoc {
     }
 
     public String toString() {
-        return "| `" + this.reference + "` | " + this.name + " | " + this.type + " | " + this.description +  " |";
+        return "| `" + this.reference + "` | `\"" + this.name + "\"` | `" + Utils.getSimpleTypeName(this.type) + "` | " + this.description +  " |";
     }
 
 }

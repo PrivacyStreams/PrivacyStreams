@@ -1,16 +1,15 @@
 package com.github.privacystreams.core;
 
 import com.github.privacystreams.core.exceptions.PrivacyStreamsException;
-import com.github.privacystreams.core.providers.SingleItemStreamProvider;
 import com.github.privacystreams.core.purposes.Purpose;
 
 import java.util.Map;
 
 /**
- * The interface of single-item stream.
- * An ISingleItemStream is a stream containing only one item, which is an instance of {@link Item}.
+ * The interface of SStream (single-item stream).
+ * An SStreamInterface is a stream containing only one item, which is an instance of {@link Item}.
  *
- * An ISingleItemStream is produced by <code>uqi.getDataItem</code> method.
+ * An SStreamInterface is produced by <code>uqi.getDataItem</code> method.
  * @see UQI#getDataItem(Function, Purpose)
  *
  * It can be transformed to another ISingleItemProvider with transformation functions,
@@ -18,40 +17,40 @@ import java.util.Map;
  *
  * Finally, it can be outputted using {{@link #asMap()}}, {{@link #getField(String)}}, etc.
  */
-public interface ISingleItemStream {
+public interface SStreamInterface {
     /**
      * Transform current single-item stream to another single-item stream a transformation function.
      *
      * @param s2sStreamTransformation the function used to transform the stream
      * @return the transformed item
      */
-    ISingleItemStream transform(Function<SingleItemStream, SingleItemStream> s2sStreamTransformation);
+    SStreamInterface transform(Function<SStream, SStream> s2sStreamTransformation);
 
     /**
      * Output the item in the current stream.
      *
      * @param sStreamAction the function used to output the current item
      */
-    void output(Function<SingleItemStream, Void> sStreamAction);
+    void output(Function<SStream, Void> sStreamAction);
 
     /**
      * Convert the item in the stream with a function.
-     * Eg. map(Images.blur("image")) will blur the "image" field of the item.
+     * Eg. <code>map(ImageOperators.blur("image"))</code> will blur the image specified by "image" field in the item.
      *
      * @param function      the function to convert the item
      * @return The item after mapping
      */
-    ISingleItemStream map(Function<Item, Item> function);
+    SStreamInterface map(Function<Item, Item> function);
 
     /**
      * Project the item by including some fields.
      * Other fields will not appear in collectors, such as toMap().
-     * eg. project("name", "email") will only keep the "name" and "email" field in the item
+     * eg. <code>project("name", "email")</code> will only keep the "name" and "email" field in the item
      *
      * @param fieldsToInclude the fields to include
      * @return The item after projection
      */
-    ISingleItemStream project(String... fieldsToInclude);
+    SStreamInterface project(String... fieldsToInclude);
 
     /**
      * Set a field with a function that takes the item as input.
@@ -61,7 +60,7 @@ public interface ISingleItemStream {
      * @param <TValue> the type of the new field value
      * @return the item with the new field set
      */
-    <TValue> ISingleItemStream setField(String newField, Function<Item, TValue> functionToComputeField);
+    <TValue> SStreamInterface setField(String newField, Function<Item, TValue> functionToComputeField);
 
     /**
      * Output the item in the stream with a function, and the result is delivered to a callback function.

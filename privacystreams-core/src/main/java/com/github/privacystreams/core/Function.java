@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * Created by yuanchun on 14/12/2016.
- * A Function convert a input in type Tin to a output in type Tout
+ * The abstraction of all function in PrivacyStreams.
+ * A Function converts a input in type Tin to a output in type Tout.
  */
 
 public abstract class Function<Tin, Tout> {

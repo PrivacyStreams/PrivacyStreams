@@ -4,21 +4,20 @@ import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
 
 import com.github.privacystreams.core.Function;
-import com.github.privacystreams.core.MultiItemStream;
-import com.github.privacystreams.core.providers.MultiItemStreamProvider;
+import com.github.privacystreams.core.MStream;
 import com.github.privacystreams.utils.annotations.PSItemField;
 import com.github.privacystreams.utils.annotations.PSItem;
 
 import java.util.Date;
 
 /**
- * A UIAction item represents a UI action.
+ * A UI action, such as a view is clicked, selected, etc.
  */
 @PSItem
 public class UIAction extends BaseAccessibilityEvent {
 
     /**
-     * The source node of current accessibility event.
+     * The source node of current accessibility event, which is an instance of [AccessibilityNodeInfo](https://developer.android.com/reference/android/view/accessibility/AccessibilityNodeInfo.html).
      */
     @PSItemField(type = AccessibilityNodeInfo.class)
     public static final String SOURCE_NODE = "source_node";
@@ -62,7 +61,11 @@ public class UIAction extends BaseAccessibilityEvent {
 //
 //    }
 
-    public static Function<Void, MultiItemStream> asUpdates() {
+    /**
+     * Provide a live stream of UIAction items.
+     * @return the provider function.
+     */
+    public static Function<Void, MStream> asUpdates() {
         return new UIActionProvider();
     }
 

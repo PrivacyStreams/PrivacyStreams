@@ -1,7 +1,7 @@
 package com.github.privacystreams.core.transformations.reorder;
 
 import com.github.privacystreams.core.Function;
-import com.github.privacystreams.core.MultiItemStream;
+import com.github.privacystreams.core.MStream;
 import com.github.privacystreams.utils.annotations.PSOperatorWrapper;
 
 /**
@@ -10,30 +10,30 @@ import com.github.privacystreams.utils.annotations.PSOperatorWrapper;
 @PSOperatorWrapper
 public class Reorders {
     /**
-     * A function that sorts the items in stream by the value of a field.
+     * Sort the items in stream by the value of a field.
      *
      * @param fieldToSort the name of the field to reorder by.
      * @return the function.
      */
-    public static Function<MultiItemStream, MultiItemStream> sortBy(String fieldToSort) {
+    public static Function<MStream, MStream> sortBy(String fieldToSort) {
         return new ByFieldStreamSorter(fieldToSort);
     }
 
     /**
-     * A function that randomizes the order of items in stream.
+     * Shuffle the order of the items in stream.
      *
      * @return the function.
      */
-    public static Function<MultiItemStream, MultiItemStream> shuffle() {
+    public static Function<MStream, MStream> shuffle() {
         return new StreamShuffler();
     }
 
     /**
-     * A function that reverses the order of items in stream.
+     * Reverse the order of the items in stream.
      *
      * @return the function.
      */
-    public static Function<MultiItemStream, MultiItemStream> reverse() {
+    public static Function<MStream, MStream> reverse() {
         return new StreamReverser();
     }
 }

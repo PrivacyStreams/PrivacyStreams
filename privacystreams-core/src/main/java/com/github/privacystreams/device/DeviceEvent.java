@@ -3,8 +3,7 @@ package com.github.privacystreams.device;
 
 import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.Item;
-import com.github.privacystreams.core.MultiItemStream;
-import com.github.privacystreams.core.providers.MultiItemStreamProvider;
+import com.github.privacystreams.core.MStream;
 import com.github.privacystreams.utils.annotations.PSItem;
 import com.github.privacystreams.utils.annotations.PSItemField;
 
@@ -72,7 +71,12 @@ public class DeviceEvent extends Item {
         this.setFieldValue(Event, state);
     }
 
-    public static Function<Void, MultiItemStream> asUpdates() {
+    /**
+     * Provide a live stream of device events, including screen/boot/battery/ringer events.
+     *
+     * @return the provider function.
+     */
+    public static Function<Void, MStream> asUpdates() {
         return new DeviceEventUpdatesProvider();
     }
 }

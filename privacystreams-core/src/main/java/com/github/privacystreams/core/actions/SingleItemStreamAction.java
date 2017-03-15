@@ -2,14 +2,14 @@ package com.github.privacystreams.core.actions;
 
 import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.Item;
-import com.github.privacystreams.core.SingleItemStream;
+import com.github.privacystreams.core.SStream;
 import com.github.privacystreams.utils.Assertions;
 
 /**
  * A function that outputs a single-item stream.
  */
 
-public class SingleItemStreamAction<Tout> extends StreamAction<SingleItemStream> {
+public class SingleItemStreamAction<Tout> extends StreamAction<SStream> {
 
     private Function<Item, Tout> itemOutputFunction;
     private Function<Tout, Void> resultHandler;

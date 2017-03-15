@@ -1,15 +1,15 @@
 package com.github.privacystreams.core.transformations;
 
-import com.github.privacystreams.core.MultiItemStream;
+import com.github.privacystreams.core.MStream;
 
 /**
  * Transform a multi-item stream to another multi-item stream
  */
 
-public abstract class M2MTransformation extends StreamTransformation<MultiItemStream, MultiItemStream> {
+public abstract class M2MTransformation extends StreamTransformation<MStream, MStream> {
     @Override
     protected void init() {
         super.init();
-        this.output = new MultiItemStream(this.getUQI(), input.getStreamProvider().compound(this));
+        this.output = new MStream(this.getUQI(), input.getStreamProvider().compound(this));
     }
 }

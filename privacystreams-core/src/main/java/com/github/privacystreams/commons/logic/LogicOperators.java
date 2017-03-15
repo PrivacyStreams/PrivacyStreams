@@ -10,7 +10,7 @@ import com.github.privacystreams.utils.annotations.PSOperatorWrapper;
 @PSOperatorWrapper
 public class LogicOperators {
     /**
-     * A predicate that returns the logical NOT of a function.
+     * Compute the logical NOT of a function.
      *
      * @param predicate the function to test an item
      * @return the function
@@ -20,7 +20,7 @@ public class LogicOperators {
     }
 
     /**
-     * A predicate that returns the logical AND of two functions.
+     * Compute the logical AND of two functions.
      *
      * @param predicate1 the first function to test an item
      * @param predicate2 the second function to test an item
@@ -31,7 +31,7 @@ public class LogicOperators {
     }
 
     /**
-     * A predicate that returns the logical OR of two functions.
+     * Compute the logical OR of two functions.
      *
      * @param predicate1 the first function to test an item
      * @param predicate2 the second function to test an item

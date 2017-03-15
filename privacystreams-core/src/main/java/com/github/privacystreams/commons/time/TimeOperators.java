@@ -11,10 +11,10 @@ import com.github.privacystreams.utils.annotations.PSOperatorWrapper;
 public class TimeOperators {
 
     /**
-     * A predicate that checks whether the timestamp field value in a item is since a given timestamp.
+     * Check whether the timestamp value of a field is after a given timestamp.
      *
      * @param timestampField the name of the timestamp field
-     * @param timestampToCompare the timestamp value to compare
+     * @param timestampToCompare the timestamp to compare
      * @return the predicate
      */
     public static Function<Item, Boolean> since(final String timestampField, final Long timestampToCompare) {
@@ -22,7 +22,7 @@ public class TimeOperators {
     }
 
     /**
-     * A predicate that checks whether the timestamp field value in a item is a given duration recent from now.
+     * Check whether the timestamp field value of a field is recent from now (less than a given duration).
      *
      * @param timestampField the name of the timestamp field
      * @param duration the millisecond duration from now

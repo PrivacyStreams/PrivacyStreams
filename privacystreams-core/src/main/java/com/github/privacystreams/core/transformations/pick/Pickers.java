@@ -1,8 +1,8 @@
 package com.github.privacystreams.core.transformations.pick;
 
 import com.github.privacystreams.core.Function;
-import com.github.privacystreams.core.MultiItemStream;
-import com.github.privacystreams.core.SingleItemStream;
+import com.github.privacystreams.core.MStream;
+import com.github.privacystreams.core.SStream;
 import com.github.privacystreams.utils.annotations.PSOperatorWrapper;
 
 /**
@@ -11,11 +11,12 @@ import com.github.privacystreams.utils.annotations.PSOperatorWrapper;
 @PSOperatorWrapper
 public class Pickers {
     /**
-     * A function that picks an item from a stream
-     * @param index the mapper function to map each item in the stream.
+     * Pick an item from a stream.
+     *
+     * @param index the index of the item to pick.
      * @return the stream mapper function.
      */
-    public static Function<MultiItemStream, SingleItemStream> pick(int index) {
+    public static Function<MStream, SStream> pick(int index) {
         return new StreamItemPicker(index);
     }
 }

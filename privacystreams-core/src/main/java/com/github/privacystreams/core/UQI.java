@@ -4,8 +4,6 @@ import android.content.Context;
 
 import com.github.privacystreams.core.exceptions.PermissionDeniedException;
 import com.github.privacystreams.core.exceptions.PrivacyStreamsException;
-import com.github.privacystreams.core.providers.MultiItemStreamProvider;
-import com.github.privacystreams.core.providers.SingleItemStreamProvider;
 import com.github.privacystreams.core.purposes.Purpose;
 import com.github.privacystreams.utils.Logging;
 import com.github.privacystreams.utils.permission.PermissionUtils;
@@ -95,9 +93,9 @@ public class UQI {
      * @param purpose the purpose of personal data use, e.g. Purpose.ads("xxx").
      * @return a multi-item stream
      */
-    public IMultiItemStream getDataItems(Function<Void, MultiItemStream> mStreamProvider, Purpose purpose) {
+    public MStreamInterface getDataItems(Function<Void, MStream> mStreamProvider, Purpose purpose) {
         UQI uqi = this.getUQIWithPurpose(purpose);
-        return new MultiItemStream(uqi, mStreamProvider);
+        return new MStream(uqi, mStreamProvider);
     }
 
     /**
@@ -107,9 +105,9 @@ public class UQI {
      * @param purpose the purpose of personal data use, e.g. Purpose.ads("xxx").
      * @return a single-item stream
      */
-    public ISingleItemStream getDataItem(Function<Void, SingleItemStream> sStreamProvider, Purpose purpose) {
+    public SStreamInterface getDataItem(Function<Void, SStream> sStreamProvider, Purpose purpose) {
         UQI uqi = this.getUQIWithPurpose(purpose);
-        return new SingleItemStream(uqi, sStreamProvider);
+        return new SStream(uqi, sStreamProvider);
     }
 
     /**

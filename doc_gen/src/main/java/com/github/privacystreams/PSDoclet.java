@@ -62,13 +62,20 @@ public class PSDoclet extends HtmlDoclet {
     private void dump() {
         String destDirName = this.outputDir;
 
-        System.out.println(destDirName);
-        System.out.println("????");
-
         try {
             File itemDocsFile = new File(destDirName, "items.md");
             PrintStream itemDocsPrinter = new PrintStream(itemDocsFile);
+
             itemDocsPrinter.println("# " + this.docTitle + " - Items\n");
+
+            itemDocsPrinter.println("This document contains all types of personal data available in PrivacyStreams.\n");
+
+            for (PSItemDoc psItemDoc : this.psItems) {
+                itemDocsPrinter.println("- [" + psItemDoc.name + "](#" + psItemDoc.name.toLowerCase() + ")");
+            }
+
+            itemDocsPrinter.println();
+
             for (PSItemDoc psItemDoc : this.psItems) {
                 itemDocsPrinter.println(psItemDoc);
             }
@@ -82,8 +89,9 @@ public class PSDoclet extends HtmlDoclet {
             PrintStream operatorDocsPrinter = new PrintStream(operatorDocsFile);
             operatorDocsPrinter.println("# " + this.docTitle + " - Operators\n");
 
-            operatorDocsPrinter.println("| Type | Signature & Description |");
-            operatorDocsPrinter.println("|----|----|");
+            operatorDocsPrinter.println("This document contains all operators available in PrivacyStreams.\n");
+
+            operatorDocsPrinter.print(Consts.OPERATORS_TABLE_HEADER);
 
             List<PSOperatorDoc> allOperatorDocs = new ArrayList<>();
             for (PSItemDoc psItemDoc : this.psItems) {

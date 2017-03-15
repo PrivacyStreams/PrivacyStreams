@@ -5,8 +5,7 @@ import android.view.accessibility.AccessibilityNodeInfo;
 
 import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.Item;
-import com.github.privacystreams.core.MultiItemStream;
-import com.github.privacystreams.core.providers.MultiItemStreamProvider;
+import com.github.privacystreams.core.MStream;
 import com.github.privacystreams.utils.annotations.PSItem;
 import com.github.privacystreams.utils.annotations.PSItemField;
 
@@ -24,7 +23,7 @@ public class BaseAccessibilityEvent extends Item {
     public static final String TIMESTAMP = "timestamp";
 
     /**
-     * The type of the event, see https://developer.android.com/reference/android/view/accessibility/AccessibilityEvent.html for a list of event types.
+     * The type of the event, see Android official document of [AccessibilityEvent](https://developer.android.com/reference/android/view/accessibility/AccessibilityEvent.html) for a list of event types.
      */
     @PSItemField(type = Integer.class)
     public static final String EVENT_TYPE = "event_type";
@@ -36,7 +35,7 @@ public class BaseAccessibilityEvent extends Item {
     public static final String PACKAGE_NAME = "package_name";
 
     /**
-     * The root view of current event.
+     * The root view of current event, which is an instance of [AccessibilityNodeInfo](https://developer.android.com/reference/android/view/accessibility/AccessibilityNodeInfo.html).
      */
     @PSItemField(type = AccessibilityNodeInfo.class)
     public static final String ROOT_VIEW = "root_view";
@@ -55,7 +54,11 @@ public class BaseAccessibilityEvent extends Item {
         this.setFieldValue(ITEM_COUNT, accessibilityEvent.getItemCount());
     }
 
-    public static Function<Void, MultiItemStream> asUpdates() {
+    /**
+     * Provide a live stream of BaseAccessibilityEvent items.
+     * @return the provider function.
+     */
+    public static Function<Void, MStream> asUpdates() {
         return new BaseAccessibilityEventProvider();
     }
 }

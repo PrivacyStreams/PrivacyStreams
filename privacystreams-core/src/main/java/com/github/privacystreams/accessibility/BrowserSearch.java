@@ -2,13 +2,12 @@ package com.github.privacystreams.accessibility;
 
 import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.Item;
-import com.github.privacystreams.core.MultiItemStream;
-import com.github.privacystreams.core.providers.MultiItemStreamProvider;
+import com.github.privacystreams.core.MStream;
 import com.github.privacystreams.utils.annotations.PSItem;
 import com.github.privacystreams.utils.annotations.PSItemField;
 
 /**
- * A BrowserSearch item represents a browser search event.
+ * A browser search activity.
  */
 @PSItem
 public class BrowserSearch extends Item {
@@ -30,10 +29,10 @@ public class BrowserSearch extends Item {
     }
 
     /**
-     * A function that provides a live stream of user's browser search activities
+     * Provide a live stream of BrowserSearch items.
      * @return the provider function
      */
-    public static Function<Void, MultiItemStream> asUpdates(){
+    public static Function<Void, MStream> asUpdates(){
         return new BrowserSearchUpdatesProvider();
     }
 

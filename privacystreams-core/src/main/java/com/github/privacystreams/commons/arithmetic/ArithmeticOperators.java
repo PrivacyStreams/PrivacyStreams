@@ -5,13 +5,14 @@ import com.github.privacystreams.core.Item;
 import com.github.privacystreams.utils.annotations.PSOperatorWrapper;
 
 /**
- * Created by yuanchun on 29/12/2016.
- * A helper class to access list-related functions
+ * A helper class to access arithmetic functions
  */
 @PSOperatorWrapper
 public class ArithmeticOperators {
     /**
-     * A function that rounds up a number.
+     * Round up a number.
+     * For example, given an item with field "x"=17, <code>roundUp("x", 10)</code> will produce 20.
+     *
      * @param numField the name of the number field
      * @param value the value to round
      * @return the function
@@ -21,7 +22,9 @@ public class ArithmeticOperators {
     }
 
     /**
-     * A function that rounds down a number.
+     * Round down a number.
+     * For example, given an item with field "x"=0.027, roundUp("x", 0.01) will produce 0.02.
+     *
      * @param numField the name of the number field
      * @param value the value to round
      * @return the function
@@ -31,7 +34,8 @@ public class ArithmeticOperators {
     }
 
     /**
-     * A function that casts a number to long.
+     * Cast a number to long type.
+     *
      * @param numField the name of the number field
      * @return the function
      */
@@ -40,7 +44,8 @@ public class ArithmeticOperators {
     }
 
     /**
-     * A function that casts a number to integer.
+     * Cast a number to integer type.
+     *
      * @param numField the name of the number field
      * @return the function
      */
@@ -49,7 +54,8 @@ public class ArithmeticOperators {
     }
 
     /**
-     * A function that adds two fields in an item
+     * Add the values of two fields in an item.
+     *
      * @param numField1 the name of the first field
      * @param numField2 the name of the second field
      * @return the function
@@ -59,7 +65,8 @@ public class ArithmeticOperators {
     }
 
     /**
-     * A function that subtracts two fields in an item
+     * Subtract the values of two fields in an item.
+     *
      * @param numField1 the name of the first field
      * @param numField2 the name of the second field
      * @return the function
@@ -69,7 +76,8 @@ public class ArithmeticOperators {
     }
 
     /**
-     * A function that multiplies two fields in an item
+     * Multiply the values of two fields in an item.
+     *
      * @param numField1 the name of the first field
      * @param numField2 the name of the second field
      * @return the function
@@ -79,7 +87,8 @@ public class ArithmeticOperators {
     }
 
     /**
-     * A function that divides two fields in an item
+     * Divide the values of two fields in an item.
+     *
      * @param numField1 the name of the first field
      * @param numField2 the name of the second field
      * @return the function
@@ -89,7 +98,8 @@ public class ArithmeticOperators {
     }
 
     /**
-     * A function that modes two fields in an item
+     * Mode the values of two fields in an item.
+     *
      * @param numField1 the name of the first field
      * @param numField2 the name of the second field
      * @return the function

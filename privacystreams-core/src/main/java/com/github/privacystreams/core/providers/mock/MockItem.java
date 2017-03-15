@@ -2,17 +2,15 @@ package com.github.privacystreams.core.providers.mock;
 
 import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.Item;
-import com.github.privacystreams.core.MultiItemStream;
-import com.github.privacystreams.core.SingleItemStream;
-import com.github.privacystreams.core.providers.MultiItemStreamProvider;
-import com.github.privacystreams.core.providers.SingleItemStreamProvider;
+import com.github.privacystreams.core.MStream;
+import com.github.privacystreams.core.SStream;
 import com.github.privacystreams.utils.annotations.PSItem;
 import com.github.privacystreams.utils.annotations.PSItemField;
 
 import java.util.List;
 
 /**
- * A MockItem is a randomly generated item for testing.
+ * A random item for testing.
  */
 @PSItem
 public class MockItem extends Item {
@@ -60,60 +58,66 @@ public class MockItem extends Item {
     }
 
     /**
-     * A function that provides a live stream of MockItem updates, the items are from an existing list.
+     * Provide a live stream of MockItem items, which are from a given list.
+     *
      * @param mockObjects the list of mock data
      * @param interval the interval between each two items, in milliseconds
      * @return the provider function
      */
-    public static Function<Void, MultiItemStream> asUpdates(List<MockObject> mockObjects, long interval) {
+    public static Function<Void, MStream> asUpdates(List<MockObject> mockObjects, long interval) {
         return new MockLiveMStreamProvider(mockObjects, interval);
     }
 
     /**
-     * A function that provides a live stream of random MockItem updates.
+     * Provide a live stream of MockItem items, which are randomly generated.
+     *
      * @param maxInt the max value of the int field of the random mock items
      * @param maxDouble the max value of the double field of the random mock items
      * @param interval the interval between each two items, in milliseconds
      * @return the provider function
      */
-    public static Function<Void, MultiItemStream> asRandomUpdates(int maxInt, double maxDouble, long interval) {
+    public static Function<Void, MStream> asRandomUpdates(int maxInt, double maxDouble, long interval) {
         return new RandomLiveMStreamProvider(maxInt, maxDouble, interval);
     }
 
     /**
-     * A function that provides a stream of MockItem history, the items are from an existing list.
+     * Provide a list of MockItem items, which are from a given list.
+     *
      * @param mockObjects the list of mock data
      * @return the provider function
      */
-    public static Function<Void, MultiItemStream> asHistory(List<MockObject> mockObjects) {
+    public static Function<Void, MStream> asHistory(List<MockObject> mockObjects) {
         return new MockLocalMStreamProvider(mockObjects);
     }
 
     /**
-     * A function that provides a stream of random MockItem history.
+     * Provide a list of MockItem items, which are randomly generated.
+     *
      * @param maxInt the max value of the int field of the random mock items
      * @param maxDouble the max value of the double field of the random mock items
      * @param count the number of random items
      * @return the provider function
      */
-    public static Function<Void, MultiItemStream> asRandomHistory(int maxInt, double maxDouble, int count) {
+    public static Function<Void, MStream> asRandomHistory(int maxInt, double maxDouble, int count) {
         return new RandomLocalMStreamProvider(maxInt, maxDouble, count);
     }
 
     /**
-     * A function that provides a single-item stream, the item is based on an existing MockObject
+     * Provide a MockItem item, which is based on an given MockObject.
+     *
      * @param mockObject the mock data
      * @return the provider function
      */
-    public static Function<Void, SingleItemStream> asItem(MockObject mockObject) {
+    public static Function<Void, SStream> asItem(MockObject mockObject) {
         return new MockSStreamProvider(mockObject);
     }
 
     /**
-     * A function that provides a single-item stream, the item is randomly generated.
+     * Provide a MockItem item, which is randomly generated.
+     *
      * @return the provider function
      */
-    public static Function<Void, SingleItemStream> asRandomItem() {
+    public static Function<Void, SStream> asRandomItem() {
         return new MockSStreamProvider(MockObject.getRandomInstance());
     }
 }

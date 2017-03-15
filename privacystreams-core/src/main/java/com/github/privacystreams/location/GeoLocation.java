@@ -4,8 +4,8 @@ import android.location.Location;
 
 import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.Item;
-import com.github.privacystreams.core.MultiItemStream;
-import com.github.privacystreams.core.SingleItemStream;
+import com.github.privacystreams.core.MStream;
+import com.github.privacystreams.core.SStream;
 import com.github.privacystreams.utils.annotations.PSItem;
 import com.github.privacystreams.utils.annotations.PSItemField;
 
@@ -74,29 +74,32 @@ public class GeoLocation extends Item {
     }
 
     /**
-     * Get a provider that provides a live stream of geolocation updates continuously.
+     * Provide a live stream of GeoLocation items from device's location sensors.
+     *
      * @param provider the location provider, could be "gps", "network", etc.
      * @param minTime minimum time interval between location updates, in milliseconds.
      * @param minDistance minimum distance between location updates, in meters.
      * @return the stream provider
      */
-    public static Function<Void, MultiItemStream> asUpdates(String provider, long minTime, float minDistance) {
+    public static Function<Void, MStream> asUpdates(String provider, long minTime, float minDistance) {
         return new LocationUpdatesProvider(provider, minTime, minDistance);
     }
 
     /**
-     * Get a provider that provides an item of last known geolocation.
+     * Provide a GeoLocation item, which is the last known location.
+     *
      * @return the stream provider
      */
-    public static Function<Void, SingleItemStream> asLastKnown() {
+    public static Function<Void, SStream> asLastKnown() {
         return null;
     }
 
     /**
-     * Get a provider that provides a list of geolocation history.
+     * Provide a list of GeoLocation items, which are the location history of the device.
+     *
      * @return the stream provider
      */
-    public static Function<Void, MultiItemStream> asHistory() {
+    public static Function<Void, MStream> asHistory() {
         // TODO implement this
         return null;
     }

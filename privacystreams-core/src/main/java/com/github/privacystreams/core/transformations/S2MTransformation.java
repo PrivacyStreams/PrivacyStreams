@@ -1,16 +1,16 @@
 package com.github.privacystreams.core.transformations;
 
-import com.github.privacystreams.core.MultiItemStream;
-import com.github.privacystreams.core.SingleItemStream;
+import com.github.privacystreams.core.MStream;
+import com.github.privacystreams.core.SStream;
 
 /**
  * Transform a single-item stream to a multi-item stream
  */
 
-public abstract class S2MTransformation extends StreamTransformation<SingleItemStream, MultiItemStream> {
+public abstract class S2MTransformation extends StreamTransformation<SStream, MStream> {
 
     protected void init() {
         super.init();
-        this.output = new MultiItemStream(this.getUQI(), input.getStreamProvider().compound(this));
+        this.output = new MStream(this.getUQI(), input.getStreamProvider().compound(this));
     }
 }

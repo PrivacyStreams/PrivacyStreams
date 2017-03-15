@@ -13,8 +13,9 @@ import java.util.Map;
 public class ImageOperators {
 
     /**
-     * A function that retrieves the metadata of the photo field in an item.
+     * Retrieve the metadata of a photo, the photo's URI is specified by a field.
      * The metadata of a photo is a Map, in which each key-value pair represents a metadata item.
+     *
      * @param photoUriField the name of photo uri field
      * @return the function
      */
@@ -23,8 +24,9 @@ public class ImageOperators {
     }
 
     /**
-     * A function that blurs the photo specified by the photo uri field in an item,
-     * and returns the uri string of blurred photo.
+     * Blur a photo whose URI is specified by a field,
+     * and output the uri string of the blurred photo.
+     *
      * @param photoUriField the name of photo uri field
      * @return the function
      */

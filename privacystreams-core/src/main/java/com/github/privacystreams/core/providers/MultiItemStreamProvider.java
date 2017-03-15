@@ -1,15 +1,15 @@
 package com.github.privacystreams.core.providers;
 
-import com.github.privacystreams.core.MultiItemStream;
+import com.github.privacystreams.core.MStream;
 
 /**
  * A function that produces a multi-item stream.
  */
 
-public abstract class MultiItemStreamProvider extends StreamProvider<MultiItemStream> {
+public abstract class MultiItemStreamProvider extends StreamProvider<MStream> {
 
     protected final void init() {
-        this.output = new MultiItemStream(this.getUQI(), this);
+        this.output = new MStream(this.getUQI(), this);
         super.init();
     }
 

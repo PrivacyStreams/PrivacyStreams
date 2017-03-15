@@ -2,14 +2,15 @@ package com.github.privacystreams.communication;
 
 import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.Item;
-import com.github.privacystreams.core.MultiItemStream;
+import com.github.privacystreams.core.MStream;
 import com.github.privacystreams.utils.annotations.PSItem;
 import com.github.privacystreams.utils.annotations.PSItemField;
 
 import java.util.List;
 
+
 /**
- * A Contact item represents a contact.
+ * The information of a contact.
  */
 @PSItem
 public class Contact extends Item {
@@ -46,10 +47,11 @@ public class Contact extends Item {
     }
 
     /**
-     * Get a provider that provides a stream of contact list
-     * @return the stream provider
+     * Provide a list of Contact items from device's contacts database.
+     *
+     * @return the provider function.
      */
-    public static Function<Void, MultiItemStream> asList() {
+    public static Function<Void, MStream> asList() {
         return new ContactListProvider();
     }
 }

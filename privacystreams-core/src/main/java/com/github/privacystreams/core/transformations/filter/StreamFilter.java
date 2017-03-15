@@ -5,7 +5,7 @@ import com.github.privacystreams.core.transformations.M2MTransformation;
 
 /**
  * Created by yuanchun on 28/11/2016.
- * A StreamFilter excludes some ItemOperators from MultiItemStream
+ * A StreamFilter excludes some ItemOperators from MStream
  */
 
 abstract class StreamFilter extends M2MTransformation {

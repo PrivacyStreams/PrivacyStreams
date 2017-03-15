@@ -2,7 +2,7 @@ package com.github.privacystreams.core.actions;
 
 import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.Item;
-import com.github.privacystreams.core.MultiItemStream;
+import com.github.privacystreams.core.MStream;
 import com.github.privacystreams.utils.Assertions;
 
 import java.util.ArrayList;
@@ -12,7 +12,7 @@ import java.util.List;
  * A function that outputs a multi-item stream.
  */
 
-public class MultiItemStreamAction<Tout> extends StreamAction<MultiItemStream> {
+public class MultiItemStreamAction<Tout> extends StreamAction<MStream> {
 
     private Function<List<Item>, Tout> itemsOutputFunction;
     private Function<Tout, Void> resultHandler;

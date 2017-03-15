@@ -13,7 +13,8 @@ import java.util.List;
 public class LocationOperators {
 
     /**
-     * A predicate that returns true if the coordinate is at home.
+     * Check if the coordinates value of a field is a location at home.
+     *
      * @param coordinatesField the coordinates field to check
      * @return the predicate
      */
@@ -22,7 +23,8 @@ public class LocationOperators {
     }
 
     /**
-     * A predicate that returns true if the coordinate is in an given round area.
+     * Check if the coordinates value of a field is a location in an given round area.
+     *
      * @param coordinatesField the coordinates field to check
      * @param center_latitude latitude of the center of the area
      * @param center_longitude longtitude of the center of the area
@@ -35,9 +37,10 @@ public class LocationOperators {
     }
 
     /**
-     * A function that blurs the coordinates of an item and return the blurred coordinates.
+     * Blur the coordinates value of a field and return the blurred coordinates.
      * The blurred coordinates is a list of double, the first double element is the latitude,
      * the second double element is the longitude.
+     *
      * @param coordinatesField the coordinates field to blur
      * @param blurMeters the distance to blur, in meters
      * @return the function
@@ -47,7 +50,8 @@ public class LocationOperators {
     }
 
     /**
-     * A function that returns the postcode based on the coordinates
+     * Get the postcode string based on the coordinates value of a field.
+     *
      * @param coordinatesField the coordinates field
      * @return the function
      */
@@ -56,7 +60,8 @@ public class LocationOperators {
     }
 
     /**
-     * A function that returns the geotag based on the coordinates
+     * Get the geotag string based on the coordinates value of a field.
+     *
      * @param coordinatesField the coordinates field
      * @return the function
      */

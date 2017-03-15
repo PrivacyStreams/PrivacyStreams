@@ -4,20 +4,19 @@ import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
 
 import com.github.privacystreams.core.Function;
-import com.github.privacystreams.core.MultiItemStream;
-import com.github.privacystreams.core.providers.MultiItemStreamProvider;
+import com.github.privacystreams.core.MStream;
 import com.github.privacystreams.utils.annotations.PSItemField;
 import com.github.privacystreams.utils.annotations.PSItem;
 
 import java.util.Date;
 
 /**
- * A TextEntry represents a piece of text typed by the user.
+ * User input text.
  */
 @PSItem
 public class TextEntry extends UIAction {
     /**
-     * The user-typed content.
+     * The user-typed text content.
      */
     @PSItemField(type = String.class)
     public static final String CONTENT = "content";
@@ -27,7 +26,11 @@ public class TextEntry extends UIAction {
         this.setFieldValue(CONTENT, content);
     }
 
-    public static Function<Void, MultiItemStream> asUpdates() {
+    /**
+     * Provide a live stream of TextEntry items.
+     * @return the provider function.
+     */
+    public static Function<Void, MStream> asUpdates() {
         return new TextEntryProvider();
     }
 }

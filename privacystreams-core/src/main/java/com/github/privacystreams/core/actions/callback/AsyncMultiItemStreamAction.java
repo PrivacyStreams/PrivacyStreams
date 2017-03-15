@@ -1,6 +1,6 @@
 package com.github.privacystreams.core.actions.callback;
 
-import com.github.privacystreams.core.MultiItemStream;
+import com.github.privacystreams.core.MStream;
 import com.github.privacystreams.core.actions.StreamAction;
 
 /**
@@ -8,5 +8,5 @@ import com.github.privacystreams.core.actions.StreamAction;
  * A stream collector collects the stream for output
  */
 
-abstract class AsyncMultiItemStreamAction extends StreamAction<MultiItemStream> {
+abstract class AsyncMultiItemStreamAction extends StreamAction<MStream> {
 }

@@ -2,7 +2,7 @@ package com.github.privacystreams.core.transformations.limit;
 
 import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.Item;
-import com.github.privacystreams.core.MultiItemStream;
+import com.github.privacystreams.core.MStream;
 import com.github.privacystreams.utils.annotations.PSOperatorWrapper;
 
 /**
@@ -11,33 +11,35 @@ import com.github.privacystreams.utils.annotations.PSOperatorWrapper;
 @PSOperatorWrapper
 public class Limiters {
     /**
-     * A function that limit the stream with a timeout.
+     * Limit the stream with a timeout.
+     * The stream will stop after the timeout.
      *
-     * @param timeoutMillis the timeout time, in milliseconds.
-     * @return the stream-limiting function.
+     * @param timeoutMillis the timeout milliseconds.
+     * @return the limiter function.
      */
-    public static Function<MultiItemStream, MultiItemStream> timeout(long timeoutMillis) {
+    public static Function<MStream, MStream> timeout(long timeoutMillis) {
         return new TimeoutLimiter(timeoutMillis);
     }
 
     /**
-     * A function that limit the stream to at most n items.
+     * Limit the stream to at most n items.
+     * The stream will stop after n items.
      *
-     * @param countLimit the count of items at most.
-     * @return the stream-limiting function.
+     * @param countLimit the maximum number of items.
+     * @return the limiter function.
      */
-    public static Function<MultiItemStream, MultiItemStream> limitCount(int countLimit) {
+    public static Function<MStream, MStream> limitCount(int countLimit) {
         return new CountLimiter(countLimit);
     }
 
     /**
-     * A function that limit the stream with a predicate.
+     * Limit the stream with a predicate.
      * The stream will stop if the predicate is dissatisfied.
      *
      * @param predicate the predicate to check for each item.
-     * @return the stream-limiting function.
+     * @return the limiter function.
      */
-    public static Function<MultiItemStream, MultiItemStream> limit(Function<Item, Boolean> predicate) {
+    public static Function<MStream, MStream> limit(Function<Item, Boolean> predicate) {
         return new PredicateLimiter(predicate);
     }
 

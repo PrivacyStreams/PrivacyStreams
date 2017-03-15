@@ -74,23 +74,26 @@ public class PSItemDoc {
 
     public String toString() {
         String itemDocStr = "";
-        itemDocStr += "## " + this.name + "\n";
+        itemDocStr += "## " + this.name + "\n\n";
         itemDocStr += "Package: `" + this.classDoc.containingPackage() + "`\n\n";
-        itemDocStr += this.description + "\n";
-        itemDocStr += "### Fields\n";
-        itemDocStr += "| Reference | Name | Type | Description |\n";
-        itemDocStr += "|----|----|----|----|\n";
+        itemDocStr += this.description + "\n\n";
 
-        for (PSItemFieldDoc itemFieldDoc : this.itemFieldDocs) {
-            itemDocStr += itemFieldDoc.toString() + "\n";
+        if (this.itemFieldDocs.size() > 0) {
+            itemDocStr += "### Fields\n\n";
+            itemDocStr += Consts.FIELDS_TABLE_HEADER;
+
+            for (PSItemFieldDoc itemFieldDoc : this.itemFieldDocs) {
+                itemDocStr += itemFieldDoc.toString() + "\n";
+            }
         }
 
-        itemDocStr += "\n### Providers\n";
-        itemDocStr += "| Type | Signature & Description |\n";
-        itemDocStr += "|----|----|\n";
+        if (this.providerDocs.size() > 0) {
+            itemDocStr += "\n### Providers\n\n";
+            itemDocStr += Consts.OPERATORS_TABLE_HEADER;
 
-        for (PSOperatorDoc providerDoc : this.providerDocs) {
-            itemDocStr += providerDoc.toString() + "\n";
+            for (PSOperatorDoc providerDoc : this.providerDocs) {
+                itemDocStr += providerDoc.toString() + "\n";
+            }
         }
 
         return itemDocStr;
