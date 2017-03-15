@@ -92,9 +92,9 @@ public class PSDoclet extends HtmlDoclet {
             operatorDocsPrinter.print(Consts.OPERATORS_TABLE_HEADER);
 
             List<PSOperatorDoc> allOperatorDocs = new ArrayList<>();
-            for (PSItemDoc psItemDoc : this.psItems) {
-                allOperatorDocs.addAll(psItemDoc.providerDocs);
-            }
+//            for (PSItemDoc psItemDoc : this.psItems) {
+//                allOperatorDocs.addAll(psItemDoc.providerDocs);
+//            }
             for (PSOperatorWrapperDoc psOperatorWrapperDoc : psOperatorWrappers) {
                 allOperatorDocs.addAll(psOperatorWrapperDoc.operatorDocs);
             }

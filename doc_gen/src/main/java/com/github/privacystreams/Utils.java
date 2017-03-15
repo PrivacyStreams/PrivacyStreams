@@ -1,5 +1,6 @@
 package com.github.privacystreams;
 
+import com.sun.javadoc.ClassDoc;
 import com.sun.javadoc.ParameterizedType;
 import com.sun.javadoc.Type;
 
@@ -25,5 +26,15 @@ public class Utils {
             return typeName;
         }
         return type.typeName();
+    }
+
+    public static boolean instanceOf(ClassDoc classDoc, String superClassName) {
+        if (classDoc == null || superClassName == null) return false;
+        String className = classDoc.containingPackage().name() + "." + classDoc.name();
+//        System.out.println(className + " " + superClassName);
+        if (className.startsWith(superClassName)) {
+            return true;
+        }
+        return instanceOf(classDoc.superclass(), superClassName);
     }
 }
