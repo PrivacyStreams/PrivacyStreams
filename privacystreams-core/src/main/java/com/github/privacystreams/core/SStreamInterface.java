@@ -9,7 +9,7 @@ import java.util.Map;
  * The interface of SStream (single-item stream).
  * An SStreamInterface is a stream containing only one item, which is an instance of {@link Item}.
  *
- * An SStreamInterface is produced by <code>uqi.getDataItem</code> method.
+ * An SStreamInterface is produced by <code>uqi.getData</code> method.
  * @see UQI#getDataItem(Function, Purpose)
  *
  * It can be transformed to another ISingleItemProvider with transformation functions,

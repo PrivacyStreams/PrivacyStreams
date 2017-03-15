@@ -1,7 +1,7 @@
 package com.github.privacystreams.google_awareness;
 
 import com.github.privacystreams.core.Item;
-import com.github.privacystreams.core.providers.MultiItemStreamProvider;
+import com.github.privacystreams.core.providers.MStreamProvider;
 
 /**
  * Created by lenovo on 2017/3/6.
@@ -18,7 +18,7 @@ public class PhysicalActivity extends Item{
         this.setFieldValue(MOTIONTYPE, motionType);
     }
 
-    public static MultiItemStreamProvider asUpdates() {
+    public static MStreamProvider asUpdates() {
         return new PhysicalMotionUpdatesProvider();
     }
 }

@@ -9,7 +9,7 @@ import java.util.List;
  * The interface of MStream (multi-item stream).
  * An MStreamInterface is a stream containing many items, and each item is an instance of {@link Item}.
  *
- * An MStreamInterface is produced by <code>uqi.getDataItems</code> method.
+ * An MStreamInterface is produced by <code>uqi.getData</code> method.
  * @see UQI#getDataItems(Function, Purpose)
  *
  * It can be transformed to another MStreamInterface by transformation functions,

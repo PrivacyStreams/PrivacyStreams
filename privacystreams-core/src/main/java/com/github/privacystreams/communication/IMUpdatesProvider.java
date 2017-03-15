@@ -10,7 +10,7 @@ import com.github.privacystreams.commons.comparison.Comparators;
 import com.github.privacystreams.commons.item.ItemOperators;
 import com.github.privacystreams.core.Callback;
 import com.github.privacystreams.core.Item;
-import com.github.privacystreams.core.providers.MultiItemStreamProvider;
+import com.github.privacystreams.core.providers.MStreamProvider;
 import com.github.privacystreams.core.purposes.Purpose;
 import com.github.privacystreams.utils.AccessibilityUtils;
 
@@ -21,7 +21,7 @@ import java.util.List;
  * Created by fanglinchen on 1/31/17.
  */
 @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
-class IMUpdatesProvider extends MultiItemStreamProvider {
+class IMUpdatesProvider extends MStreamProvider {
     private int totalNumberOfMessages=0;
     private int result=0;
     private String detPackage="";
@@ -42,8 +42,8 @@ class IMUpdatesProvider extends MultiItemStreamProvider {
     @Override
     protected void provide() {
 
-        getUQI().getDataItems(BaseAccessibilityEvent.asUpdates(),
-                Purpose.internal("Event Triggers"))
+        getUQI().getData(BaseAccessibilityEvent.asUpdates(),
+                Purpose.INTERNAL("Event Triggers"))
                 .filter(ItemOperators.isFieldIn(BaseAccessibilityEvent.PACKAGE_NAME,
                         new String[]{APP_PACKAGE_WHATSAPP, APP_PACKAGE_FACEBOOK_MESSENGER}))
                 .filter(Comparators.eq(BaseAccessibilityEvent.EVENT_TYPE, AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED))

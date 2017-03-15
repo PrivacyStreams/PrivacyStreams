@@ -7,7 +7,7 @@ import android.net.Uri;
 import android.provider.MediaStore;
 
 import com.github.privacystreams.core.Item;
-import com.github.privacystreams.core.providers.MultiItemStreamProvider;
+import com.github.privacystreams.core.providers.MStreamProvider;
 import com.github.privacystreams.utils.Logging;
 
 import java.io.IOException;
@@ -17,7 +17,7 @@ import java.io.IOException;
  * Created by fanglinchen on 2/2/17.
  */
 
-class ImageStorageProvider extends MultiItemStreamProvider {
+class ImageStorageProvider extends MStreamProvider {
 
     ImageStorageProvider(){
         this.addRequiredPermissions(Manifest.permission.READ_EXTERNAL_STORAGE);

@@ -9,9 +9,9 @@ import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.github.privacystreams.core.*;
 import com.github.privacystreams.core.BuildConfig;
-import com.github.privacystreams.core.providers.MultiItemStreamProvider;
+import com.github.privacystreams.core.UQI;
+import com.github.privacystreams.core.providers.MStreamProvider;
 import com.google.android.gms.awareness.Awareness;
 import com.google.android.gms.awareness.fence.AwarenessFence;
 import com.google.android.gms.awareness.fence.DetectedActivityFence;
@@ -25,7 +25,7 @@ import com.google.android.gms.common.api.Status;
  * Created by lenovo on 2017/3/6.
  */
 
-public class PhysicalMotionUpdatesProvider extends MultiItemStreamProvider {
+public class PhysicalMotionUpdatesProvider extends MStreamProvider {
     private static final String WALKINGFENCE = "Walking Fence";                     //Set up the fence key for the four fences we need
     private static final String TILTINGFENCE = "Tilting Fence";
     private static final String ONFOOTFENCE = "On Foot Fence";

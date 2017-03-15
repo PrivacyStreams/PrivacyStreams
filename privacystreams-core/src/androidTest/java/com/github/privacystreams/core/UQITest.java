@@ -31,7 +31,7 @@ public class UQITest {
     public void setUp() throws Exception {
         Context appContext = InstrumentationRegistry.getTargetContext();
         this.uqi = new UQI(appContext);
-        this.testPurpose = Purpose.test("unit test.");
+        this.testPurpose = Purpose.TEST("unit test.");
 
     }
 
@@ -60,7 +60,7 @@ public class UQITest {
     public void getDataItems() throws Exception {
         List<MockObject> mockObjectList = MockObject.getRandomList(10);
         int itemCount = this.uqi
-                .getDataItems(MockItem.asHistory(mockObjectList), this.testPurpose)
+                .getData(MockItem.asHistory(mockObjectList), this.testPurpose)
                 .count();
         assertEquals(10, itemCount);
     }
@@ -69,7 +69,7 @@ public class UQITest {
     public void getDataItem() throws Exception {
         MockObject mockObject = MockObject.getRandomInstance();
         int mockItemX = this.uqi
-                .getDataItem(MockItem.asItem(mockObject), this.testPurpose)
+                .getData(MockItem.asItem(mockObject), this.testPurpose)
                 .getField(MockItem.X);
 //        System.out.println("mockItemX: " + mockItemX);
         assertEquals(mockObject.getX(), mockItemX);

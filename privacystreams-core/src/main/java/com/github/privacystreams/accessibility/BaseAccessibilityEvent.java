@@ -3,9 +3,8 @@ package com.github.privacystreams.accessibility;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
 
-import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.Item;
-import com.github.privacystreams.core.MStream;
+import com.github.privacystreams.core.providers.MStreamProvider;
 import com.github.privacystreams.utils.annotations.PSItem;
 import com.github.privacystreams.utils.annotations.PSItemField;
 
@@ -58,7 +57,7 @@ public class BaseAccessibilityEvent extends Item {
      * Provide a live stream of BaseAccessibilityEvent items.
      * @return the provider function.
      */
-    public static Function<Void, MStream> asUpdates() {
+    public static MStreamProvider asUpdates() {
         return new BaseAccessibilityEventProvider();
     }
 }

@@ -10,7 +10,7 @@ import com.github.privacystreams.utils.Assertions;
  * The callback will be invoked with the field value.
  */
 
-class ForEachFieldCallback<TValue, Void> extends AsyncMultiItemStreamAction {
+class ForEachFieldCallback<TValue, Void> extends AsyncMStreamAction {
 
     private final String fieldToSelect;
     private final Function<TValue, Void> fieldValueCallback;

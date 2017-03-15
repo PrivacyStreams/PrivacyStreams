@@ -54,20 +54,20 @@ public class UseCases {
      For testing the new lightUpdatesProvider
      */
     public void testLightUpdatesProvider(){
-        uqi.getDataItems(Light.asUpdates(), Purpose.feature("light")).debug();
+        uqi.getData(Light.asUpdates(), Purpose.FEATURE("light")).debug();
     }
 
     public void testBlueToothUpatesProvider(){
-        uqi.getDataItems(BluetoothDevice.asUpdates(), Purpose.feature("blueTooth device")).debug();
+        uqi.getData(BluetoothDevice.asUpdates(), Purpose.FEATURE("blueTooth device")).debug();
     }
 
     public void testPhysicalMotionUpdatesProvider(){
-        uqi.getDataItems(PhysicalActivity.asUpdates(),Purpose.feature("Physical Activity")).debug();
+        uqi.getData(PhysicalActivity.asUpdates(),Purpose.FEATURE("Physical Activity")).debug();
     }
     // For testing
     public void testMockData() {
         uqi
-                .getDataItems(MockItem.asRandomHistory(20, 100, 50), Purpose.test("test"))
+                .getData(MockItem.asRandomList(20, 100, 50), Purpose.TEST("test"))
                 .limit(10)
                 .timeout(Duration.seconds(10))
                 .map(ItemOperators.setField("time_round", ArithmeticOperators.roundUp(MockItem.TIME_CREATED, Duration.seconds(2))))
@@ -80,67 +80,67 @@ public class UseCases {
      * Getting a stream of text entries and printing
      */
     public void testTextEntry() {
-        uqi.getDataItems(TextEntry.asUpdates(), Purpose.feature("test")).debug();
+        uqi.getData(TextEntry.asUpdates(), Purpose.FEATURE("test")).debug();
     }
 
     public void testWifiUpdates(int seconds){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            uqi.getDataItems(WifiAp.asScanList(), Purpose.feature("wifi updates")).debug();
+            uqi.getData(WifiAp.asScanList(), Purpose.FEATURE("wifi updates")).debug();
         }
     }
 
     public void testBrowserHistoryUpdates(){
-        uqi.getDataItems(BrowserVisit.asUpdates(), Purpose.feature("browser history")).debug();
+        uqi.getData(BrowserVisit.asUpdates(), Purpose.FEATURE("browser history")).debug();
     }
     public void testBrowserSearchUpdates(){
-        uqi.getDataItems(BrowserSearch.asUpdates(), Purpose.feature("browser search")).debug();
+        uqi.getData(BrowserSearch.asUpdates(), Purpose.FEATURE("browser search")).debug();
     }
 
     public void testUIAction(){
-        uqi.getDataItems(UIAction.asUpdates(), Purpose.feature("ui action")).debug();
+        uqi.getData(UIAction.asUpdates(), Purpose.FEATURE("ui action")).debug();
     }
 
     public void testAccessibility(){
 
     }
     public void testIMUpdates(){
-        uqi.getDataItems(Message.asIMUpdates(),Purpose.feature("im updates")).debug();
+        uqi.getData(Message.asIMUpdates(),Purpose.FEATURE("im updates")).debug();
     }
 
 //    public void testBrowerSearchUpdates(){
 //        uqi
-//                .getDataItems(BrowserSearch.asUpdates(),Purpose.ads("browser search"))
+//                .getData(BrowserSearch.asUpdates(),Purpose.ADS("browser search"))
 //                .debug();
 //    }
 //
 //    public void testBrowerHistoryUpdates(){
 //        uqi
-//                .getDataItems(BrowserVisit.asUpdates(),Purpose.ads("browser history"))
+//                .getData(BrowserVisit.asUpdates(),Purpose.ADS("browser history"))
 //                .debug();
 //    }
 //
 //    public void testDocumentUpdates(){
 //        uqi
-//                .getDataItems(Document.asUpdates(),Purpose.ads("document update"))
+//                .getData(Document.asUpdates(),Purpose.ADS("document update"))
 //                .debug();
 //    }
 //
 //    public void testBrowserSearchUpdates(){
 //        uqi.
-//                getDataItems(BrowserSearch.asUpdates(),Purpose.feature("browser_search"))
+//                getData(BrowserSearch.asUpdates(),Purpose.FEATURE("browser_search"))
 //                .debug();
 //    }
 //
 //
 //    public void testBrowserHistoryUpdates(){
 //        uqi.
-//                getDataItems(BrowserVisit.asUpdates(),Purpose.feature("browser_history"))
+//                getData(BrowserVisit.asUpdates(),Purpose.FEATURE("browser_history"))
 //                .debug();
 //    }
 //
 //    public void testNotifications() {
 //        uqi
-//                .getDataItems(Notification.asUpdates(), Purpose.feature("test"))
+//                .getData(Notification.asUpdates(), Purpose.FEATURE("test"))
 //                .print();
 //    }
 
@@ -148,7 +148,7 @@ public class UseCases {
     void testContacts() {
         try {
             int count = uqi
-                    .getDataItems(Contact.asList(), Purpose.feature("estimate how popular you are."))
+                    .getData(Contact.asList(), Purpose.FEATURE("estimate how popular you are."))
                     .count();
             System.out.println(count);
         } catch (PrivacyStreamsException e) {
@@ -160,12 +160,12 @@ public class UseCases {
     // get recent called 10 contacts’ names
     List<String> getRecentCalledNames(int n) throws PrivacyStreamsException {
         List<String> recentCalledPhoneNumbers = uqi
-                .getDataItems(Phonecall.asLogs(), Purpose.feature("getDataItems recent called phone numbers"))
+                .getData(Phonecall.asLogs(), Purpose.FEATURE("getData recent called phone numbers"))
                 .sortBy(Phonecall.TIMESTAMP)
                 .limit(n)
                 .asList(Phonecall.CONTACT);
         List<String> recentCalledNames = uqi
-                .getDataItems(Contact.asList(), Purpose.feature("getDataItems names of recent called phone numbers"))
+                .getData(Contact.asList(), Purpose.FEATURE("getData names of recent called phone numbers"))
                 .filter(ListOperators.intersects(Contact.PHONES, recentCalledPhoneNumbers.toArray()))
                 .asList(Contact.NAME);
         return recentCalledNames;
@@ -174,31 +174,31 @@ public class UseCases {
     // get a count of calls since 31Oct2015
     int getCallCountSince() throws PrivacyStreamsException {
         return uqi
-                .getDataItems(Phonecall.asLogs(), Purpose.feature("know how many calls you made"))
+                .getData(Phonecall.asLogs(), Purpose.FEATURE("know how many calls you made"))
                 .filter(TimeOperators.since(Phonecall.TIMESTAMP, TimeUtils.format("yyyy-MM-dd", "2015-10-31")))
                 .count();
     }
 
     void testDeviceStateChangeUpdates(){
-        uqi.getDataItems(DeviceEvent.asUpdates(), Purpose.feature("device states")).debug();
+        uqi.getData(DeviceEvent.asUpdates(), Purpose.FEATURE("device states")).debug();
     }
 
     // get whether at home
     boolean isAtHome() throws PrivacyStreamsException {
         return uqi
-                .getDataItem(GeoLocation.asLastKnown(), Purpose.feature("know whether you are at home."))
+                .getData(GeoLocation.asLastKnown(), Purpose.FEATURE("know whether you are at home."))
                 .outputItem(LocationOperators.atHome(GeoLocation.COORDINATES));
     }
 
     void callbackWhenReceivesMessage(String appName, Callback<String> messageCallback){
         uqi
-                .getDataItems(Message.asSMSUpdates(), Purpose.feature(""));
+                .getData(Message.asSMSUpdates(), Purpose.FEATURE(""));
     }
 
     // get the intent when enter an area, the callback will be invoked when the use enters or exits an area
     void callbackWhenEntersArea(double x, double y, double r, Callback<Boolean> enterAreaCallback) {
         uqi
-                .getDataItems(GeoLocation.asUpdates(LocationManager.GPS_PROVIDER, 10, 10), Purpose.feature("know when you enter an area"))
+                .getData(GeoLocation.asUpdates(LocationManager.GPS_PROVIDER, 10, 10), Purpose.FEATURE("know when you enter an area"))
                 .setField("inArea", LocationOperators.inArea(GeoLocation.COORDINATES, x,y,r))
                 .onChange("inArea", enterAreaCallback);
     }
@@ -206,7 +206,7 @@ public class UseCases {
     // handle two-factor auth Message message
     void getTwoFactorAuthSMS(String serverPhoneNum, Callback<String> messageCallback) {
         uqi
-                .getDataItems(Message.asSMSUpdates(), Purpose.feature("Two-factor authentication"))
+                .getData(Message.asSMSUpdates(), Purpose.FEATURE("Two-factor authentication"))
                 .filter(Comparators.eq(Message.CONTACT, serverPhoneNum))
                 .filter(Comparators.eq(Message.TYPE, Message.Types.RECEIVED))
                 .ifPresent(Message.CONTENT, messageCallback);
@@ -215,26 +215,26 @@ public class UseCases {
     // get location and blur 100 meters for advertisement
     void passLocationToAd() throws PrivacyStreamsException {
         List<Double> coordinates = uqi
-                .getDataItem(GeoLocation.asLastKnown(), Purpose.ads("targeted advertisement"))
+                .getData(GeoLocation.asLastKnown(), Purpose.ADS("targeted advertisement"))
                 .outputItem(LocationOperators.blur(GeoLocation.COORDINATES, 100));
     }
 
     // get postcode of asLastKnown location
     String getPostcode() throws PrivacyStreamsException {
         return uqi
-                .getDataItem(GeoLocation.asLastKnown(), Purpose.feature("get postcode for nearby search"))
+                .getData(GeoLocation.asLastKnown(), Purpose.FEATURE("get postcode for nearby search"))
                 .outputItem(LocationOperators.asPostcode(GeoLocation.COORDINATES));
     }
 
     // knowing if a person is making more or less calls than normal
     boolean isMakingMoreCallsThanNormal() throws PrivacyStreamsException {
         int callCountLastWeek = uqi
-                .getDataItems(Phonecall.asLogs(), Purpose.feature("get how many calls you made recently"))
+                .getData(Phonecall.asLogs(), Purpose.FEATURE("get how many calls you made recently"))
                 .filter(TimeOperators.recent(Phonecall.TIMESTAMP, Duration.days(7)))
                 .count();
         double callFrequencyLastWeek = (double) callCountLastWeek / 7;
         int callCountLastYear = uqi
-                .getDataItems(Phonecall.asLogs(), Purpose.feature("get how many calls you made normally"))
+                .getData(Phonecall.asLogs(), Purpose.FEATURE("get how many calls you made normally"))
                 .filter(TimeOperators.recent(Phonecall.TIMESTAMP, Duration.days(365)))
                 .count();
         double callFrequencyLastYear = (double) callCountLastYear / 365;
@@ -244,7 +244,7 @@ public class UseCases {
     // getting all the photo metadata (but not photos)
     List<Map<String, String>> getAllPhotoMetadata() throws PrivacyStreamsException {
         return uqi
-                .getDataItems(Image.readFromStorage(), Purpose.feature("get metadata of the photos in storage"))
+                .getData(Image.readFromStorage(), Purpose.FEATURE("get metadata of the photos in storage"))
                 .setField("metadata", ImageOperators.getMetadata(Image.URI))
                 .asList("metadata");
     }
@@ -252,8 +252,8 @@ public class UseCases {
     // getting how loud it is over the past m seconds,  every n minutes
     void getAverageLoudnessEveryNSeconds(int m, int n, Callback<Double> loudnessCallback) {
         uqi
-                .getDataItems(Audio.recordPeriodic(Duration.seconds(m), Duration.seconds(n)),
-                        Purpose.feature("how loud it is periodically"))
+                .getData(Audio.recordPeriodic(Duration.seconds(m), Duration.seconds(n)),
+                        Purpose.FEATURE("how loud it is periodically"))
                 .setField("loudness", AudioOperators.calcLoudness(Audio.AUDIO_URI))
                 .forEach("loudness", loudnessCallback);
     }
@@ -261,7 +261,7 @@ public class UseCases {
     // calculating sentiment across all Message
 //    double getAverageSentimentOfSMS() throws PrivacyStreamsException {
 //        return uqi
-//                .getDataItems(Message.asSMSHistory(), Purpose.feature("calculate the sentiment across all Message messages"))
+//                .getData(Message.asSMSHistory(), Purpose.FEATURE("calculate the sentiment across all Message messages"))
 //                .setField("sentiment", StringOperators.sentiment(Message.CONTENT))
 //                .outputItems(StatisticOperators.average("sentiment"));
 //    }
@@ -269,7 +269,7 @@ public class UseCases {
     // figure out place where person spends the most time (ie home)
     String getPlaceSpentMostTime() throws PrivacyStreamsException {
         return uqi
-                .getDataItems(GeoLocation.asHistory(), Purpose.feature("get the place you spent the most time"))
+                .getData(GeoLocation.asHistory(), Purpose.FEATURE("get the place you spent the most time"))
                 .setField("geo_tag", LocationOperators.asGeotag(GeoLocation.COORDINATES))
                 .localGroupBy("geo_tag")
                 .setGroupField("time_spent", StatisticOperators.range(GeoLocation.TIMESTAMP))
@@ -284,7 +284,7 @@ public class UseCases {
     void getTotalNumberOfCallsPerPerson() throws PrivacyStreamsException {
         // each Map element is like {"phone_number": "xxxxxxx", "num_of_calls": 10, "length_of_calls": 30000}
         List<Item> totalNumberOfCallsPerPerson = uqi
-                .getDataItems(Phonecall.asLogs(), Purpose.feature("get the tie relationship with people"))
+                .getData(Phonecall.asLogs(), Purpose.FEATURE("get the tie relationship with people"))
                 .groupBy(Phonecall.CONTACT)
                 .setGroupField("num_of_calls", StatisticOperators.count())
                 .setGroupField("length_of_calls", StatisticOperators.sum(Phonecall.DURATION))
@@ -296,7 +296,7 @@ public class UseCases {
     // hash the names or phone#s in Message or call logs, so we can get data like above while mitigating privacy concerns
     List<String> getHashedPhoneNumbersInSMS() throws PrivacyStreamsException {
         return uqi
-                .getDataItems(Message.asSMSHistory(), Purpose.feature("get hashed phone numbers."))
+                .getData(Message.asSMSHistory(), Purpose.FEATURE("get hashed phone numbers."))
                 .setField("hashed_phone_number", StringOperators.sha1(Message.CONTACT))
                 .asList("hashed_phone_number");
     }

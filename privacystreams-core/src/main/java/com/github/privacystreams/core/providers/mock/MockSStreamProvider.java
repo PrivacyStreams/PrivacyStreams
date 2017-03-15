@@ -1,6 +1,6 @@
 package com.github.privacystreams.core.providers.mock;
 
-import com.github.privacystreams.core.providers.SingleItemStreamProvider;
+import com.github.privacystreams.core.providers.SStreamProvider;
 
 
 /**
@@ -8,7 +8,7 @@ import com.github.privacystreams.core.providers.SingleItemStreamProvider;
  * a dummy data source
  */
 
-class MockSStreamProvider extends SingleItemStreamProvider {
+class MockSStreamProvider extends SStreamProvider {
 
     private final MockObject mockObject;
 

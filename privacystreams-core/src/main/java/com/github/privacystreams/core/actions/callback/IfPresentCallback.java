@@ -9,7 +9,7 @@ import com.github.privacystreams.utils.Assertions;
  * Callback once an item is present in the stream
  */
 
-class IfPresentCallback extends AsyncMultiItemStreamAction {
+class IfPresentCallback extends AsyncMStreamAction {
     private final Function<Item, Void> itemCallback;
 
     IfPresentCallback(Function<Item, Void> itemCallback) {

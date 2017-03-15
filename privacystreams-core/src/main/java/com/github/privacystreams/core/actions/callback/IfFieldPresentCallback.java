@@ -9,7 +9,7 @@ import com.github.privacystreams.utils.Assertions;
  * Callback with a field value in a item once the field value is present
  */
 
-class IfFieldPresentCallback<TValue, Void> extends AsyncMultiItemStreamAction {
+class IfFieldPresentCallback<TValue, Void> extends AsyncMStreamAction {
 
     private final String fieldToSelect;
     private final Function<TValue, Void> fieldValueCallback;

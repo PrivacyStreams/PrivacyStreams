@@ -1,7 +1,5 @@
 package com.github.privacystreams;
 
-import com.sun.javadoc.ClassDoc;
-import com.sun.javadoc.Parameter;
 import com.sun.javadoc.ParameterizedType;
 import com.sun.javadoc.Type;
 

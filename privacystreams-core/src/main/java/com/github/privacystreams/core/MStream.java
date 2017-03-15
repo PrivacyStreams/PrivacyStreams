@@ -4,7 +4,7 @@ import com.github.privacystreams.commons.comparison.Comparators;
 import com.github.privacystreams.commons.item.ItemOperators;
 import com.github.privacystreams.commons.statistic.StatisticOperators;
 import com.github.privacystreams.commons.stream.StreamOperators;
-import com.github.privacystreams.core.actions.MultiItemStreamAction;
+import com.github.privacystreams.core.actions.MStreamAction;
 import com.github.privacystreams.core.actions.callback.Callbacks;
 import com.github.privacystreams.core.exceptions.PipelineInterruptedException;
 import com.github.privacystreams.core.exceptions.PrivacyStreamsException;
@@ -24,11 +24,11 @@ import java.util.concurrent.LinkedBlockingQueue;
  * Most personal data access/process operation in PrivacyStreams use MStream as the intermediate.
  *
  * A MStream is consist of a list of items.
- * The items are produced by MultiItemStreamProvider functions (like LocationUpdatesProvider, CallLogProvider, etc.),
+ * The items are produced by MStreamProvider functions (like LocationUpdatesProvider, CallLogProvider, etc.),
  * transformed by M2MTransformation functions (like filter, reorder, map, etc.),
  * and outputted by ItemsFunction functions (like print, toList, etc.).
  *
- * MStream producer functions (including MultiItemStreamProvider and M2MTransformation)
+ * MStream producer functions (including MStreamProvider and M2MTransformation)
  * should make sure the stream is not closed before writing items to it, using:
  *      stream.isClosed()
  * MStream consumer functions (including M2MTransformation and ItemsFunction)
@@ -263,7 +263,7 @@ public class MStream extends Stream implements MStreamInterface {
     // Output functions are used to output the items in a stream
 
     public <Tout> void outputItems(Function<List<Item>, Tout> itemsOutputFunction, Function<Tout, Void> resultHandler) {
-        this.output(new MultiItemStreamAction<>(itemsOutputFunction, resultHandler));
+        this.output(new MStreamAction<>(itemsOutputFunction, resultHandler));
     }
 
     public <Tout> Tout outputItems(Function<List<Item>, Tout> itemsOutputFunction) throws PrivacyStreamsException {

@@ -1,7 +1,7 @@
 package com.github.privacystreams.core;
 
 import com.github.privacystreams.commons.item.ItemOperators;
-import com.github.privacystreams.core.actions.SingleItemStreamAction;
+import com.github.privacystreams.core.actions.SStreamAction;
 import com.github.privacystreams.core.exceptions.PipelineInterruptedException;
 import com.github.privacystreams.core.exceptions.PrivacyStreamsException;
 import com.github.privacystreams.core.transformations.map.Mappers;
@@ -84,7 +84,7 @@ public class SStream extends Stream implements SStreamInterface {
     }
 
     public <Tout> void outputItem(Function<Item, Tout> itemOutputFunction, Function<Tout, Void> resultHandler) {
-        this.output(new SingleItemStreamAction<>(itemOutputFunction, resultHandler));
+        this.output(new SStreamAction<>(itemOutputFunction, resultHandler));
     }
 
     public <Tout> Tout outputItem(Function<Item, Tout> itemOutputFunction) throws PrivacyStreamsException {

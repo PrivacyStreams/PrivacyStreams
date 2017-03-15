@@ -9,13 +9,13 @@ import android.content.IntentFilter;
 import android.util.Log;
 
 import com.github.privacystreams.core.UQI;
-import com.github.privacystreams.core.providers.MultiItemStreamProvider;
+import com.github.privacystreams.core.providers.MStreamProvider;
 
 /**
  * Created by lenovo on 2017/3/6.
  */
 
-class BluetoothUpdatesProvider extends MultiItemStreamProvider{
+class BluetoothUpdatesProvider extends MStreamProvider {
     private int count;                      // count how many devices have been checked
     private BluetoothAdapter BTAdapter;
     private IntentFilter intentFilter;

@@ -1,6 +1,6 @@
 package com.github.privacystreams.core.providers.mock;
 
-import com.github.privacystreams.core.providers.MultiItemStreamProvider;
+import com.github.privacystreams.core.providers.MStreamProvider;
 
 import java.util.List;
 
@@ -10,7 +10,7 @@ import java.util.List;
  * a dummy data source
  */
 
-class MockLocalMStreamProvider extends MultiItemStreamProvider {
+class MockLocalMStreamProvider extends MStreamProvider {
 
     private final List<MockObject> mockObjects;
 

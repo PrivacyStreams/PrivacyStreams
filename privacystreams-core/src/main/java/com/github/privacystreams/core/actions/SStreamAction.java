@@ -9,12 +9,12 @@ import com.github.privacystreams.utils.Assertions;
  * A function that outputs a single-item stream.
  */
 
-public class SingleItemStreamAction<Tout> extends StreamAction<SStream> {
+public class SStreamAction<Tout> extends StreamAction<SStream> {
 
     private Function<Item, Tout> itemOutputFunction;
     private Function<Tout, Void> resultHandler;
 
-    public SingleItemStreamAction(Function<Item, Tout> itemOutputFunction, Function<Tout, Void> resultHandler) {
+    public SStreamAction(Function<Item, Tout> itemOutputFunction, Function<Tout, Void> resultHandler) {
         this.itemOutputFunction = Assertions.notNull("itemOutputFunction", itemOutputFunction);
         this.resultHandler = resultHandler;
         this.addParameters(itemOutputFunction, resultHandler);

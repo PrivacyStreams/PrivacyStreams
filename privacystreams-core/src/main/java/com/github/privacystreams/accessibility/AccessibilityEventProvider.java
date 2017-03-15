@@ -4,7 +4,7 @@ import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
 
 import com.github.privacystreams.core.UQI;
-import com.github.privacystreams.core.providers.MultiItemStreamProvider;
+import com.github.privacystreams.core.providers.MStreamProvider;
 
 import java.util.Date;
 
@@ -13,7 +13,7 @@ import java.util.Date;
  * @date 2/28/17
  * @time 11:23 AM
  */
-abstract class AccessibilityEventProvider extends MultiItemStreamProvider {
+abstract class AccessibilityEventProvider extends MStreamProvider {
 
     private boolean registered = false;
 

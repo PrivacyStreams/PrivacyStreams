@@ -6,14 +6,14 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 
 import com.github.privacystreams.core.UQI;
-import com.github.privacystreams.core.providers.MultiItemStreamProvider;
+import com.github.privacystreams.core.providers.MStreamProvider;
 
 import static android.content.Context.SENSOR_SERVICE;
 
 /**
  * Created by fanglinchen on 3/5/17.
  */
-class LightUpdatesProvider extends MultiItemStreamProvider {
+class LightUpdatesProvider extends MStreamProvider {
 
     private transient MyLightListener lightListener;
     private transient SensorManager sensorManager;

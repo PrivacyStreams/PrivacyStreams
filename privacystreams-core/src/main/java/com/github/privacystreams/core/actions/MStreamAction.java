@@ -12,12 +12,12 @@ import java.util.List;
  * A function that outputs a multi-item stream.
  */
 
-public class MultiItemStreamAction<Tout> extends StreamAction<MStream> {
+public class MStreamAction<Tout> extends StreamAction<MStream> {
 
     private Function<List<Item>, Tout> itemsOutputFunction;
     private Function<Tout, Void> resultHandler;
 
-    public MultiItemStreamAction(Function<List<Item>, Tout> itemsOutputFunction, Function<Tout, Void> resultHandler) {
+    public MStreamAction(Function<List<Item>, Tout> itemsOutputFunction, Function<Tout, Void> resultHandler) {
         this.itemsOutputFunction = Assertions.notNull("itemsOutputFunction", itemsOutputFunction);
         this.resultHandler = resultHandler;
         this.addParameters(itemsOutputFunction, resultHandler);

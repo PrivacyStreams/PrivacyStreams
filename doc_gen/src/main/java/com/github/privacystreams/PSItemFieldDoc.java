@@ -1,11 +1,8 @@
 package com.github.privacystreams;
 
-import com.sun.corba.se.impl.javax.rmi.CORBA.Util;
 import com.sun.javadoc.AnnotationDesc;
 import com.sun.javadoc.AnnotationTypeDoc;
-import com.sun.javadoc.ClassDoc;
 import com.sun.javadoc.FieldDoc;
-import com.sun.javadoc.ParameterizedType;
 import com.sun.javadoc.Type;
 
 /**

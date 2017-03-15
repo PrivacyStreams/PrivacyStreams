@@ -4,6 +4,8 @@ import android.content.Context;
 
 import com.github.privacystreams.core.exceptions.PermissionDeniedException;
 import com.github.privacystreams.core.exceptions.PrivacyStreamsException;
+import com.github.privacystreams.core.providers.MStreamProvider;
+import com.github.privacystreams.core.providers.SStreamProvider;
 import com.github.privacystreams.core.purposes.Purpose;
 import com.github.privacystreams.utils.Logging;
 import com.github.privacystreams.utils.permission.PermissionUtils;
@@ -16,8 +18,8 @@ import java.util.Set;
 /**
  * The unified query interface for all kinds of personal data.
  * You will need to construct an UQI with <code>UQI uqi = new UQI(context);</code>
- * Then, to get multi-item stream data, call <code>uqi.getDataItems</code> ({@link #getDataItems(Function, Purpose)});
- * To get single-item data, call <code>uqi.getDataItem</code> ({@link #getDataItem(Function, Purpose)}).
+ * Then, to get multi-item stream data, call <code>uqi.getData</code> ({@link #getDataItems(Function, Purpose)});
+ * To get single-item data, call <code>uqi.getData</code> ({@link #getDataItem(Function, Purpose)}).
  */
 
 public class UQI {
@@ -88,24 +90,24 @@ public class UQI {
 
     /**
      * Get a multi-item personal data stream from a provider with a purpose.
-     * For example, using <code>uqi.getDataItems(Contact.asList(), Purpose.feature("..."))</code> will return a stream of contacts.
+     * For example, using <code>uqi.getData(Contact.asList(), Purpose.FEATURE("..."))</code> will return a stream of contacts.
      * @param mStreamProvider the function to provide the personal data stream, e.g. GeoLocation.asUpdates(), SMS.asHistory().
-     * @param purpose the purpose of personal data use, e.g. Purpose.ads("xxx").
+     * @param purpose the purpose of personal data use, e.g. Purpose.ADS("xxx").
      * @return a multi-item stream
      */
-    public MStreamInterface getDataItems(Function<Void, MStream> mStreamProvider, Purpose purpose) {
+    public MStreamInterface getData(MStreamProvider mStreamProvider, Purpose purpose) {
         UQI uqi = this.getUQIWithPurpose(purpose);
         return new MStream(uqi, mStreamProvider);
     }
 
     /**
      * Get a single-item personal data item from a provider with a purpose
-     * For example, using <code>uqi.getDataItem(Location.asLastKnown(), Purpose.feature("..."))</code> will return a stream that contains one location item.
+     * For example, using <code>uqi.getData(Location.asLastKnown(), Purpose.FEATURE("..."))</code> will return a stream that contains one location item.
      * @param sStreamProvider the function to provide the personal data item, e.g. Location.asLastKnown(), Audio.record(100).
-     * @param purpose the purpose of personal data use, e.g. Purpose.ads("xxx").
+     * @param purpose the purpose of personal data use, e.g. Purpose.ADS("xxx").
      * @return a single-item stream
      */
-    public SStreamInterface getDataItem(Function<Void, SStream> sStreamProvider, Purpose purpose) {
+    public SStreamInterface getData(SStreamProvider sStreamProvider, Purpose purpose) {
         UQI uqi = this.getUQIWithPurpose(purpose);
         return new SStream(uqi, sStreamProvider);
     }

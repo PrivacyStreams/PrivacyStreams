@@ -9,7 +9,7 @@ import com.github.privacystreams.utils.Assertions;
  * Callback with an item if the item is different from the former one.
  */
 
-class OnChangeCallback extends AsyncMultiItemStreamAction {
+class OnChangeCallback extends AsyncMStreamAction {
     private final Function<Item, Void> itemCallback;
 
     OnChangeCallback(Function<Item, Void> itemCallback) {

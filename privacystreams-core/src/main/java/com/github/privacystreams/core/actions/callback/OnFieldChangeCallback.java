@@ -10,7 +10,7 @@ import com.github.privacystreams.utils.Assertions;
  * if the field value is different from the field value of the former item.
  */
 
-class OnFieldChangeCallback<TValue, Void> extends AsyncMultiItemStreamAction {
+class OnFieldChangeCallback<TValue, Void> extends AsyncMStreamAction {
     private final String fieldToSelect;
     private final Function<TValue, Void> fieldValueCallback;
 

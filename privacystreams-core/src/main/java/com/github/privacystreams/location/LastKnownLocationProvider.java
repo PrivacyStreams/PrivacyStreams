@@ -5,11 +5,9 @@ import android.content.Context;
 import android.location.Location;
 import android.location.LocationManager;
 
-import com.github.privacystreams.core.providers.SingleItemStreamProvider;
+import com.github.privacystreams.core.providers.SStreamProvider;
 import com.github.privacystreams.utils.permission.PermissionUtils;
 import com.github.privacystreams.utils.time.Duration;
-
-import java.util.HashSet;
 
 
 /**
@@ -17,7 +15,7 @@ import java.util.HashSet;
  * location asUpdates
  */
 
-class LastKnownLocationProvider extends SingleItemStreamProvider {
+class LastKnownLocationProvider extends SStreamProvider {
 
     LastKnownLocationProvider() {
         // TODO add a parameter in order to only require one of COARSE_LOCATION and FINE_LOCATION
