@@ -6,7 +6,6 @@ import com.github.privacystreams.commons.statistic.StatisticOperators;
 import com.github.privacystreams.commons.stream.StreamOperators;
 import com.github.privacystreams.core.actions.MStreamAction;
 import com.github.privacystreams.core.actions.callback.Callbacks;
-import com.github.privacystreams.core.exceptions.PipelineInterruptedException;
 import com.github.privacystreams.core.exceptions.PrivacyStreamsException;
 import com.github.privacystreams.core.transformations.filter.Filters;
 import com.github.privacystreams.core.transformations.group.Groupers;
@@ -287,7 +286,7 @@ public class MStream extends Stream implements MStreamInterface {
             }
             return (Tout) resultOrException;
         } catch (InterruptedException e) {
-            throw new PipelineInterruptedException();
+            throw PrivacyStreamsException.INTERRUPTED(e.getMessage());
         }
     }
 

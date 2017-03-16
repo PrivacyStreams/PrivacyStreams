@@ -2,7 +2,6 @@ package com.github.privacystreams.core;
 
 import com.github.privacystreams.commons.item.ItemOperators;
 import com.github.privacystreams.core.actions.SStreamAction;
-import com.github.privacystreams.core.exceptions.PipelineInterruptedException;
 import com.github.privacystreams.core.exceptions.PrivacyStreamsException;
 import com.github.privacystreams.core.transformations.map.Mappers;
 
@@ -108,7 +107,7 @@ public class SStream extends Stream implements SStreamInterface {
             }
             return (Tout) resultOrException;
         } catch (InterruptedException e) {
-            throw new PipelineInterruptedException();
+            throw PrivacyStreamsException.INTERRUPTED(e.getMessage());
         }
 
     }

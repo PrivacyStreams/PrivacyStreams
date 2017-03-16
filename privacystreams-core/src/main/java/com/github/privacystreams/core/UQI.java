@@ -2,7 +2,6 @@ package com.github.privacystreams.core;
 
 import android.content.Context;
 
-import com.github.privacystreams.core.exceptions.PermissionDeniedException;
 import com.github.privacystreams.core.exceptions.PrivacyStreamsException;
 import com.github.privacystreams.core.providers.MStreamProvider;
 import com.github.privacystreams.core.providers.SStreamProvider;
@@ -18,8 +17,8 @@ import java.util.Set;
 /**
  * The unified query interface for all kinds of personal data.
  * You will need to construct an UQI with <code>UQI uqi = new UQI(context);</code>
- * Then, to get multi-item stream data, call <code>uqi.getData</code> ({@link #getDataItems(Function, Purpose)});
- * To get single-item data, call <code>uqi.getData</code> ({@link #getDataItem(Function, Purpose)}).
+ * Then, to get multi-item stream data, call <code>uqi.getData</code> ({@link #getData(MStreamProvider, Purpose)});
+ * To get single-item data, call <code>uqi.getData</code> ({@link #getData(SStreamProvider, Purpose)}).
  */
 
 public class UQI {
@@ -136,7 +135,7 @@ public class UQI {
             // If retry is false, cancel all functions.
             Logging.debug("Permission denied, cancelling...");
             Set<String> deniedPermissions = PermissionUtils.getDeniedPermissions(this.context, this.query.getRequiredPermissions());
-            this.exception = new PermissionDeniedException(deniedPermissions.toArray(new String[]{}));
+            this.exception = PrivacyStreamsException.PERMISSION_DENIED(deniedPermissions.toArray(new String[]{}));
             this.query.cancel(this);
             this.context = null; // remove context
         }
