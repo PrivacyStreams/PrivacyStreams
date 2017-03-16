@@ -2,6 +2,7 @@ package com.github.privacystreams.core.actions.callback;
 
 import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.Item;
+import com.github.privacystreams.core.actions.MStreamAction;
 import com.github.privacystreams.utils.Assertions;
 
 /**
@@ -10,7 +11,7 @@ import com.github.privacystreams.utils.Assertions;
  * The callback will be invoked with the field value.
  */
 
-class ForEachFieldCallback<TValue, Void> extends AsyncMStreamAction {
+class ForEachFieldCallback<TValue, Void> extends MStreamAction {
 
     private final String fieldToSelect;
     private final Function<TValue, Void> fieldValueCallback;

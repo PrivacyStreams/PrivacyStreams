@@ -2,7 +2,7 @@ package com.github.privacystreams.core.actions.callback;
 
 import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.Item;
-import com.github.privacystreams.core.MStream;
+import com.github.privacystreams.core.actions.MStreamAction;
 import com.github.privacystreams.utils.annotations.PSOperatorWrapper;
 
 /**
@@ -18,7 +18,7 @@ public class Callbacks {
      * @param itemCallback the callback to be invoked for each item
      * @return the function
      */
-    public static Function<MStream, Void> forEach(Function<Item, Void> itemCallback) {
+    public static MStreamAction forEach(Function<Item, Void> itemCallback) {
         return new ForEachCallback(itemCallback);
     }
 
@@ -31,7 +31,7 @@ public class Callbacks {
      * @param <TValue> the type of field value
      * @return the function
      */
-    public static <TValue> Function<MStream, Void> forEachField(String fieldToSelect, Function<TValue, Void> fieldValueCallback) {
+    public static <TValue> MStreamAction forEachField(String fieldToSelect, Function<TValue, Void> fieldValueCallback) {
         return new ForEachFieldCallback<>(fieldToSelect, fieldValueCallback);
     }
 
@@ -43,7 +43,7 @@ public class Callbacks {
      * @param itemCallback the callback to be invoked with the first item.
      * @return the function
      */
-    public static Function<MStream, Void> ifPresent(Function<Item, Void> itemCallback) {
+    public static MStreamAction ifPresent(Function<Item, Void> itemCallback) {
         return new IfPresentCallback(itemCallback);
     }
 
@@ -57,7 +57,7 @@ public class Callbacks {
      * @param <TValue> the type of field value
      * @return the function
      */
-    public static <TValue> Function<MStream, Void> ifFieldPresent(String fieldToSelect, Function<TValue, Void> fieldValueCallback) {
+    public static <TValue> MStreamAction ifFieldPresent(String fieldToSelect, Function<TValue, Void> fieldValueCallback) {
         return new IfFieldPresentCallback<>(fieldToSelect, fieldValueCallback);
     }
 
@@ -69,7 +69,7 @@ public class Callbacks {
      * @param itemCallback the callback to be invoked with the changed item.
      * @return the function
      */
-    public static Function<MStream, Void> onChange(Function<Item, Void> itemCallback) {
+    public static MStreamAction onChange(Function<Item, Void> itemCallback) {
         return new OnChangeCallback(itemCallback);
     }
 
@@ -83,7 +83,9 @@ public class Callbacks {
      * @param <TValue> the type of field value
      * @return the function
      */
-    public static <TValue> Function<MStream, Void> onFieldChange(String fieldToSelect, Function<TValue, Void> fieldValueCallback) {
+    public static <TValue> MStreamAction onFieldChange(String fieldToSelect, Function<TValue, Void> fieldValueCallback) {
         return new OnFieldChangeCallback<>(fieldToSelect, fieldValueCallback);
     }
+
+
 }

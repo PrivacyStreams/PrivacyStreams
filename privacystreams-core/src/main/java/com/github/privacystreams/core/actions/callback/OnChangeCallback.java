@@ -2,6 +2,7 @@ package com.github.privacystreams.core.actions.callback;
 
 import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.Item;
+import com.github.privacystreams.core.actions.MStreamAction;
 import com.github.privacystreams.utils.Assertions;
 
 /**
@@ -9,7 +10,7 @@ import com.github.privacystreams.utils.Assertions;
  * Callback with an item if the item is different from the former one.
  */
 
-class OnChangeCallback extends AsyncMStreamAction {
+class OnChangeCallback extends MStreamAction {
     private final Function<Item, Void> itemCallback;
 
     OnChangeCallback(Function<Item, Void> itemCallback) {

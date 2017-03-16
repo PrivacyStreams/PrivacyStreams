@@ -6,6 +6,7 @@ import com.github.privacystreams.commons.statistic.StatisticOperators;
 import com.github.privacystreams.commons.stream.StreamOperators;
 import com.github.privacystreams.core.actions.MStreamAction;
 import com.github.privacystreams.core.actions.callback.Callbacks;
+import com.github.privacystreams.core.actions.collect.Collectors;
 import com.github.privacystreams.core.exceptions.PrivacyStreamsException;
 import com.github.privacystreams.core.transformations.filter.Filters;
 import com.github.privacystreams.core.transformations.group.Groupers;
@@ -70,7 +71,7 @@ public class MStream extends Stream implements MStreamInterface {
      * Collect the items in the stream for output
      * @param mStreamAction the function used to output current stream
      */
-    public void output(Function<MStream, Void> mStreamAction) {
+    public void output(MStreamAction mStreamAction) {
         this.getUQI().setQuery(this.getStreamProvider().compound(mStreamAction));
         this.getUQI().evaluate(true);
     }
@@ -261,13 +262,13 @@ public class MStream extends Stream implements MStreamInterface {
     // Output functions
     // Output functions are used to output the items in a stream
 
-    public <Tout> void outputItems(Function<List<Item>, Tout> itemsOutputFunction, Function<Tout, Void> resultHandler) {
-        this.output(new MStreamAction<>(itemsOutputFunction, resultHandler));
+    public <Tout> void output(Function<List<Item>, Tout> itemsCollector, Callback<Tout> resultHandler) {
+        this.output(Collectors.collectItems(itemsCollector, resultHandler));
     }
 
-    public <Tout> Tout outputItems(Function<List<Item>, Tout> itemsOutputFunction) throws PrivacyStreamsException {
+    public <Tout> Tout output(Function<List<Item>, Tout> itemsCollector) throws PrivacyStreamsException {
         final BlockingQueue<Object> resultQueue = new LinkedBlockingQueue<>();
-        Function<Tout, Void> resultHandler = new Callback<Tout>() {
+        Callback<Tout> resultHandler = new Callback<Tout>() {
             @Override
             protected void onSuccess(Tout input) {
                 resultQueue.add(input);
@@ -278,7 +279,7 @@ public class MStream extends Stream implements MStreamInterface {
                 resultQueue.add(exception);
             }
         };
-        this.outputItems(itemsOutputFunction, resultHandler);
+        this.output(itemsCollector, resultHandler);
         try {
             Object resultOrException = resultQueue.take();
             if (resultOrException instanceof PrivacyStreamsException) {
@@ -319,7 +320,7 @@ public class MStream extends Stream implements MStreamInterface {
      * @return the count of number of items in the stream
      */
     public int count() throws PrivacyStreamsException {
-        return this.outputItems(StatisticOperators.count());
+        return this.output(StatisticOperators.count());
     }
 
     /**
@@ -328,7 +329,7 @@ public class MStream extends Stream implements MStreamInterface {
      * @return a list of key-value maps, each map represents an item
      */
     public List<Item> asList() throws PrivacyStreamsException {
-        return this.outputItems(StreamOperators.asList());
+        return this.output(StreamOperators.asList());
     }
 
     /**
@@ -338,7 +339,7 @@ public class MStream extends Stream implements MStreamInterface {
      * @return a list of field values
      */
     public <TValue> List<TValue> asList(String fieldToSelect) throws PrivacyStreamsException {
-        return this.outputItems(StreamOperators.<TValue>asList(fieldToSelect));
+        return this.output(StreamOperators.<TValue>asList(fieldToSelect));
     }
 
     /**

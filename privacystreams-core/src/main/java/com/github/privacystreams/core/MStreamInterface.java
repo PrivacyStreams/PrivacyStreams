@@ -1,5 +1,6 @@
 package com.github.privacystreams.core;
 
+import com.github.privacystreams.core.actions.MStreamAction;
 import com.github.privacystreams.core.exceptions.PrivacyStreamsException;
 import com.github.privacystreams.core.purposes.Purpose;
 
@@ -10,7 +11,7 @@ import java.util.List;
  * An MStreamInterface is a stream containing many items, and each item is an instance of {@link Item}.
  *
  * An MStreamInterface is produced by <code>uqi.getData</code> method.
- * @see UQI#getDataItems(Function, Purpose)
+ * @see UQI#getData(com.github.privacystreams.core.providers.MStreamProvider, Purpose)
  *
  * It can be transformed to another MStreamInterface by transformation functions,
  * such as {@link #filter(String, Object)}, {{@link #groupBy(String)}}, {{@link #map(Function)}}, etc.
@@ -22,14 +23,14 @@ import java.util.List;
  */
 public interface MStreamInterface {
     /**
-     * Transform the current multi-item stream to another multi-item stream.
+     * Transform the current MStream to another MStream.
      * @param m2mStreamTransformation the function used to transform the stream
      * @return the transformed stream
      */
     MStreamInterface transform(Function<MStream, MStream> m2mStreamTransformation);
 
     /**
-     * Transform the current multi-item stream to an single-item stream.
+     * Transform the current MStream to an SStream.
      * @param m2sStreamTransformation the function used to transform the stream
      * @return the collected item
      */
@@ -39,7 +40,7 @@ public interface MStreamInterface {
      * Output the current multi-item stream.
      * @param mStreamAction the function used to output stream
      */
-    void output(Function<MStream, Void> mStreamAction);
+    void output(MStreamAction mStreamAction);
 
     // *****************************
     // Filters
@@ -212,23 +213,23 @@ public interface MStreamInterface {
      * Eg. <code>outputItems(Statistic.count(), new Callback<Integer>(){...})</code>
      * will count the number of items and callback with the number.
      *
-     * @param itemsOutputFunction the function used to output current stream
+     * @param itemsCollector the function used to output current stream
      * @param resultHandler the function to handle the result
      * @param <Tout> the type of the result
      */
-    <Tout> void outputItems(Function<List<Item>, Tout> itemsOutputFunction, Function<Tout, Void> resultHandler);
+    <Tout> void output(Function<List<Item>, Tout> itemsCollector, Callback<Tout> resultHandler);
 
     /**
      * Output the items in the stream with a function.
      * This method will block until the result returns.
      * Eg. <code>outputItems(Statistic.count())</code> will output the number of items.
      *
-     * @param itemsOutputFunction the function used to output current stream
+     * @param itemsCollector the function used to output current stream
      * @param <Tout> the type of the result
      * @return the result
      * @throws PrivacyStreamsException if failed to the result.
      */
-    <Tout> Tout outputItems(Function<List<Item>, Tout> itemsOutputFunction) throws PrivacyStreamsException;
+    <Tout> Tout output(Function<List<Item>, Tout> itemsCollector) throws PrivacyStreamsException;
 
     /**
      * Get the first item in the stream.

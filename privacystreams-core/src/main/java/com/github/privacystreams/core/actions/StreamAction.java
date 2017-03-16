@@ -8,10 +8,10 @@ import com.github.privacystreams.core.UQI;
 import org.greenrobot.eventbus.Subscribe;
 
 /**
- * A StreamAction is a function that outputs a stream.
+ * Output a stream.
  */
 
-public abstract class StreamAction<InStream extends Stream> extends EventDrivenFunction<InStream, Void> {
+abstract class StreamAction<InStream extends Stream> extends EventDrivenFunction<InStream, Void> {
 
     protected abstract void onInput(Item item);
 
