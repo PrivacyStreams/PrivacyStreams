@@ -3,6 +3,7 @@ package com.github.privacystreams.core.transformations.pick;
 import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.MStream;
 import com.github.privacystreams.core.SStream;
+import com.github.privacystreams.core.transformations.M2STransformation;
 import com.github.privacystreams.utils.annotations.PSOperatorWrapper;
 
 /**
@@ -16,7 +17,7 @@ public class Pickers {
      * @param index the index of the item to pick.
      * @return the stream mapper function.
      */
-    public static Function<MStream, SStream> pick(int index) {
+    public static M2STransformation pick(int index) {
         return new StreamItemPicker(index);
     }
 }

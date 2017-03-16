@@ -2,6 +2,7 @@ package com.github.privacystreams.core.transformations.group;
 
 import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.MStream;
+import com.github.privacystreams.core.transformations.M2MTransformation;
 import com.github.privacystreams.utils.annotations.PSOperatorWrapper;
 
 /**
@@ -18,7 +19,7 @@ public class Groupers {
      * @param fieldToGroup the field used to group the stream.
      * @return the grouper function.
      */
-    public static Function<MStream, MStream> groupBy(String fieldToGroup) {
+    public static M2MTransformation groupBy(String fieldToGroup) {
         return new ByFieldGrouper(fieldToGroup);
     }
 
@@ -30,7 +31,7 @@ public class Groupers {
      * @param fieldToGroup the field used to group the stream.
      * @return the grouper function.
      */
-    public static Function<MStream, MStream> localGroupBy(String fieldToGroup) {
+    public static M2MTransformation localGroupBy(String fieldToGroup) {
         return new ByFieldLocalGrouper(fieldToGroup);
     }
 

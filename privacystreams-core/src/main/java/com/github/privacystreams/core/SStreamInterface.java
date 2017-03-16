@@ -3,6 +3,8 @@ package com.github.privacystreams.core;
 import com.github.privacystreams.core.actions.SStreamAction;
 import com.github.privacystreams.core.exceptions.PrivacyStreamsException;
 import com.github.privacystreams.core.purposes.Purpose;
+import com.github.privacystreams.core.transformations.S2MTransformation;
+import com.github.privacystreams.core.transformations.S2STransformation;
 
 import java.util.Map;
 
@@ -23,9 +25,17 @@ public interface SStreamInterface {
      * Transform current SStream to another SStream.
      *
      * @param s2sStreamTransformation the function used to transform the stream
-     * @return the transformed item
+     * @return the transformed stream
      */
-    SStreamInterface transform(Function<SStream, SStream> s2sStreamTransformation);
+    SStreamInterface transform(S2STransformation s2sStreamTransformation);
+
+    /**
+     * Transform current SStream to a MStream.
+     *
+     * @param s2mStreamTransformation the function used to transform the stream
+     * @return the transformed stream
+     */
+    MStreamInterface transform(S2MTransformation s2mStreamTransformation);
 
     /**
      * Output the item in the current stream.

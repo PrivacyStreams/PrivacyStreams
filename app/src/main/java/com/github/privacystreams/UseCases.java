@@ -187,7 +187,7 @@ public class UseCases {
     boolean isAtHome() throws PrivacyStreamsException {
         return uqi
                 .getData(GeoLocation.asLastKnown(), Purpose.FEATURE("know whether you are at home."))
-                .outputItem(LocationOperators.atHome(GeoLocation.COORDINATES));
+                .output(LocationOperators.atHome(GeoLocation.COORDINATES));
     }
 
     void callbackWhenReceivesMessage(String appName, Callback<String> messageCallback){
@@ -216,14 +216,14 @@ public class UseCases {
     void passLocationToAd() throws PrivacyStreamsException {
         List<Double> coordinates = uqi
                 .getData(GeoLocation.asLastKnown(), Purpose.ADS("targeted advertisement"))
-                .outputItem(LocationOperators.blur(GeoLocation.COORDINATES, 100));
+                .output(LocationOperators.blur(GeoLocation.COORDINATES, 100));
     }
 
     // get postcode of asLastKnown location
     String getPostcode() throws PrivacyStreamsException {
         return uqi
                 .getData(GeoLocation.asLastKnown(), Purpose.FEATURE("get postcode for nearby search"))
-                .outputItem(LocationOperators.asPostcode(GeoLocation.COORDINATES));
+                .output(LocationOperators.asPostcode(GeoLocation.COORDINATES));
     }
 
     // knowing if a person is making more or less calls than normal

@@ -3,6 +3,7 @@ package com.github.privacystreams.core.transformations.limit;
 import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.MStream;
+import com.github.privacystreams.core.transformations.M2MTransformation;
 import com.github.privacystreams.utils.annotations.PSOperatorWrapper;
 
 /**
@@ -17,7 +18,7 @@ public class Limiters {
      * @param timeoutMillis the timeout milliseconds.
      * @return the limiter function.
      */
-    public static Function<MStream, MStream> timeout(long timeoutMillis) {
+    public static M2MTransformation timeout(long timeoutMillis) {
         return new TimeoutLimiter(timeoutMillis);
     }
 
@@ -28,7 +29,7 @@ public class Limiters {
      * @param countLimit the maximum number of items.
      * @return the limiter function.
      */
-    public static Function<MStream, MStream> limitCount(int countLimit) {
+    public static M2MTransformation limitCount(int countLimit) {
         return new CountLimiter(countLimit);
     }
 
@@ -39,7 +40,7 @@ public class Limiters {
      * @param predicate the predicate to check for each item.
      * @return the limiter function.
      */
-    public static Function<MStream, MStream> limit(Function<Item, Boolean> predicate) {
+    public static M2MTransformation limit(Function<Item, Boolean> predicate) {
         return new PredicateLimiter(predicate);
     }
 

@@ -2,8 +2,8 @@ package com.github.privacystreams.core.transformations.map;
 
 import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.Item;
-import com.github.privacystreams.core.MStream;
-import com.github.privacystreams.core.SStream;
+import com.github.privacystreams.core.transformations.M2MTransformation;
+import com.github.privacystreams.core.transformations.S2STransformation;
 import com.github.privacystreams.utils.annotations.PSOperatorWrapper;
 
 /**
@@ -17,7 +17,7 @@ public class Mappers {
      * @param perItemMapper the mapper function to map each item in the stream.
      * @return the stream mapper function.
      */
-    public static Function<MStream, MStream> mapEachItem(Function<Item, Item> perItemMapper) {
+    public static M2MTransformation mapEachItem(Function<Item, Item> perItemMapper) {
         return new PerItemMapper(perItemMapper);
     }
 
@@ -26,7 +26,7 @@ public class Mappers {
      * @param itemMapper the mapper function to map the item in the stream.
      * @return the stream mapper function.
      */
-    public static Function<SStream, SStream> mapItem(Function<Item, Item> itemMapper) {
+    public static S2STransformation mapItem(Function<Item, Item> itemMapper) {
         return new ItemMapper(itemMapper);
     }
 }

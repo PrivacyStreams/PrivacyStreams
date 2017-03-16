@@ -4,6 +4,8 @@ import com.github.privacystreams.commons.item.ItemOperators;
 import com.github.privacystreams.core.actions.SStreamAction;
 import com.github.privacystreams.core.actions.collect.Collectors;
 import com.github.privacystreams.core.exceptions.PrivacyStreamsException;
+import com.github.privacystreams.core.transformations.S2MTransformation;
+import com.github.privacystreams.core.transformations.S2STransformation;
 import com.github.privacystreams.core.transformations.map.Mappers;
 
 import java.util.Map;
@@ -30,13 +32,23 @@ public class SStream extends Stream implements SStreamInterface {
     }
 
     /**
-     * Transform an item using a transformation function
+     * Transform current SStream to another SStream.
      *
-     * @param s2sStreamTransformation the function used to transform the current item
-     * @return the transformed item
+     * @param s2sStreamTransformation the function used to transform the stream
+     * @return the transformed stream
      */
-    public SStream transform(Function<SStream, SStream> s2sStreamTransformation) {
+    public SStream transform(S2STransformation s2sStreamTransformation) {
         return new SStream(this.getUQI(), this.streamProvider.compound(s2sStreamTransformation));
+    }
+
+    /**
+     * Transform current SStream to a MStream.
+     *
+     * @param s2mStreamTransformation the function used to transform the stream
+     * @return the transformed stream
+     */
+    public MStream transform(S2MTransformation s2mStreamTransformation) {
+        return new MStream(this.getUQI(), this.streamProvider.compound(s2mStreamTransformation));
     }
 
     /**

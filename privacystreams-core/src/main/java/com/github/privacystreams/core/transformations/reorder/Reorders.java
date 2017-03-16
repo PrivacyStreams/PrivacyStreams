@@ -2,6 +2,7 @@ package com.github.privacystreams.core.transformations.reorder;
 
 import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.MStream;
+import com.github.privacystreams.core.transformations.M2MTransformation;
 import com.github.privacystreams.utils.annotations.PSOperatorWrapper;
 
 /**
@@ -15,7 +16,7 @@ public class Reorders {
      * @param fieldToSort the name of the field to reorder by.
      * @return the function.
      */
-    public static Function<MStream, MStream> sortBy(String fieldToSort) {
+    public static M2MTransformation sortBy(String fieldToSort) {
         return new ByFieldStreamSorter(fieldToSort);
     }
 
@@ -24,7 +25,7 @@ public class Reorders {
      *
      * @return the function.
      */
-    public static Function<MStream, MStream> shuffle() {
+    public static M2MTransformation shuffle() {
         return new StreamShuffler();
     }
 
@@ -33,7 +34,7 @@ public class Reorders {
      *
      * @return the function.
      */
-    public static Function<MStream, MStream> reverse() {
+    public static M2MTransformation reverse() {
         return new StreamReverser();
     }
 }

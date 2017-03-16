@@ -3,6 +3,8 @@ package com.github.privacystreams.core;
 import com.github.privacystreams.core.actions.MStreamAction;
 import com.github.privacystreams.core.exceptions.PrivacyStreamsException;
 import com.github.privacystreams.core.purposes.Purpose;
+import com.github.privacystreams.core.transformations.M2MTransformation;
+import com.github.privacystreams.core.transformations.M2STransformation;
 
 import java.util.List;
 
@@ -27,14 +29,14 @@ public interface MStreamInterface {
      * @param m2mStreamTransformation the function used to transform the stream
      * @return the transformed stream
      */
-    MStreamInterface transform(Function<MStream, MStream> m2mStreamTransformation);
+    MStreamInterface transform(M2MTransformation m2mStreamTransformation);
 
     /**
      * Transform the current MStream to an SStream.
      * @param m2sStreamTransformation the function used to transform the stream
      * @return the collected item
      */
-    SStreamInterface transformToItem(Function<MStream, SStream> m2sStreamTransformation);
+    SStreamInterface transform(M2STransformation m2sStreamTransformation);
 
     /**
      * Output the current multi-item stream.

@@ -8,6 +8,8 @@ import com.github.privacystreams.core.actions.MStreamAction;
 import com.github.privacystreams.core.actions.callback.Callbacks;
 import com.github.privacystreams.core.actions.collect.Collectors;
 import com.github.privacystreams.core.exceptions.PrivacyStreamsException;
+import com.github.privacystreams.core.transformations.M2MTransformation;
+import com.github.privacystreams.core.transformations.M2STransformation;
 import com.github.privacystreams.core.transformations.filter.Filters;
 import com.github.privacystreams.core.transformations.group.Groupers;
 import com.github.privacystreams.core.transformations.limit.Limiters;
@@ -54,7 +56,7 @@ public class MStream extends Stream implements MStreamInterface {
      * @param m2mStreamTransformation the function used to transform current stream
      * @return the transformed stream
      */
-    public MStream transform(Function<MStream, MStream> m2mStreamTransformation) {
+    public MStream transform(M2MTransformation m2mStreamTransformation) {
         return new MStream(this.getUQI(), this.streamProvider.compound(m2mStreamTransformation));
     }
 
@@ -63,7 +65,7 @@ public class MStream extends Stream implements MStreamInterface {
      * @param m2sStreamTransformation the function used to convert the stream to an item
      * @return the collected item
      */
-    public SStream transformToItem(Function<MStream, SStream> m2sStreamTransformation) {
+    public SStream transform(M2STransformation m2sStreamTransformation) {
         return new SStream(this.getUQI(), this.streamProvider.compound(m2sStreamTransformation));
     }
 
@@ -296,7 +298,7 @@ public class MStream extends Stream implements MStreamInterface {
      * @return the first item in the stream
      */
     public SStream first() {
-        return this.transformToItem(Pickers.pick(0));
+        return this.transform(Pickers.pick(0));
     }
 
     /**
@@ -305,7 +307,7 @@ public class MStream extends Stream implements MStreamInterface {
      * @return the item with the given index in the stream
      */
     public SStream pick(int index) {
-        return this.transformToItem(Pickers.pick(index));
+        return this.transform(Pickers.pick(index));
     }
 
     /**
