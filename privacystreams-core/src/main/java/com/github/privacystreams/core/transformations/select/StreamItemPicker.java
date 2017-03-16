@@ -1,4 +1,4 @@
-package com.github.privacystreams.core.transformations.pick;
+package com.github.privacystreams.core.transformations.select;
 
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.transformations.M2STransformation;

@@ -19,7 +19,7 @@ import java.util.List;
  * such as {@link #filter(String, Object)}, {{@link #groupBy(String)}}, {{@link #map(Function)}}, etc.
  *
  * It can also be transformed to an ISingleItemProvider by transformation functions,
- * such as {{@link #first()}}, {{@link #pick(int)}}, etc.
+ * such as {{@link #getFirst()}}, {{@link #getItemAt(int)}}, etc.
  *
  * Finally, it can be outputted using {{@link #asList()}}, {{@link #count()}}, etc.
  */
@@ -236,17 +236,25 @@ public interface MStreamInterface {
     /**
      * Get the first item in the stream.
      *
-     * @return the first item as a single-item stream.
+     * @return SStream whose item is the first item of current MStream
      */
-    SStreamInterface first();
+    SStreamInterface getFirst();
     
     /**
      * Pick an item in the stream.
      *
      * @param index the index of target item.
-     * @return the item with the given index as a single-item stream.
+     * @return SStream whose item is selected from current MStream with the given index
      */
-    SStreamInterface pick(int index);
+    SStreamInterface getItemAt(int index);
+
+    /**
+     * Select an item in the stream with a function.
+     *
+     * @param selector the selector funtion to select the target item.
+     * @return SStream whose item is selected from current MStream with the given function
+     */
+    SStreamInterface select(Function<List<Item>, Item> selector);
 
     /**
      * Print the items for debugging.

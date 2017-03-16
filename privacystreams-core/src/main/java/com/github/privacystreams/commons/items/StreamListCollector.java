@@ -1,4 +1,4 @@
-package com.github.privacystreams.commons.stream;
+package com.github.privacystreams.commons.items;
 
 import com.github.privacystreams.commons.ItemsFunction;
 import com.github.privacystreams.core.Item;

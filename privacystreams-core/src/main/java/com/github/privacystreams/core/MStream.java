@@ -3,7 +3,7 @@ package com.github.privacystreams.core;
 import com.github.privacystreams.commons.comparison.Comparators;
 import com.github.privacystreams.commons.item.ItemOperators;
 import com.github.privacystreams.commons.statistic.StatisticOperators;
-import com.github.privacystreams.commons.stream.StreamOperators;
+import com.github.privacystreams.commons.items.ItemsOperators;
 import com.github.privacystreams.core.actions.MStreamAction;
 import com.github.privacystreams.core.actions.callback.Callbacks;
 import com.github.privacystreams.core.actions.collect.Collectors;
@@ -14,7 +14,7 @@ import com.github.privacystreams.core.transformations.filter.Filters;
 import com.github.privacystreams.core.transformations.group.Groupers;
 import com.github.privacystreams.core.transformations.limit.Limiters;
 import com.github.privacystreams.core.transformations.map.Mappers;
-import com.github.privacystreams.core.transformations.pick.Pickers;
+import com.github.privacystreams.core.transformations.select.Selectors;
 import com.github.privacystreams.core.transformations.reorder.Reorders;
 
 import java.util.List;
@@ -297,8 +297,8 @@ public class MStream extends Stream implements MStreamInterface {
      * Get the first item in the stream.
      * @return the first item in the stream
      */
-    public SStream first() {
-        return this.transform(Pickers.pick(0));
+    public SStream getFirst() {
+        return this.transform(Selectors.getItemAt(0));
     }
 
     /**
@@ -306,8 +306,18 @@ public class MStream extends Stream implements MStreamInterface {
      * @param index the index of target item
      * @return the item with the given index in the stream
      */
-    public SStream pick(int index) {
-        return this.transform(Pickers.pick(index));
+    public SStream getItemAt(int index) {
+        return this.transform(Selectors.getItemAt(index));
+    }
+
+    /**
+     * Select an item in the stream with a function.
+     *
+     * @param selector the selector funtion to select the target item.
+     * @return SStream whose item is selected from current MStream with the given function
+     */
+    public SStream select(Function<List<Item>, Item> selector) {
+        return this.transform(Selectors.select(selector));
     }
 
     /**
@@ -331,7 +341,7 @@ public class MStream extends Stream implements MStreamInterface {
      * @return a list of key-value maps, each map represents an item
      */
     public List<Item> asList() throws PrivacyStreamsException {
-        return this.output(StreamOperators.asList());
+        return this.output(ItemsOperators.asList());
     }
 
     /**
@@ -341,7 +351,7 @@ public class MStream extends Stream implements MStreamInterface {
      * @return a list of field values
      */
     public <TValue> List<TValue> asList(String fieldToSelect) throws PrivacyStreamsException {
-        return this.output(StreamOperators.<TValue>asList(fieldToSelect));
+        return this.output(ItemsOperators.<TValue>asList(fieldToSelect));
     }
 
     /**

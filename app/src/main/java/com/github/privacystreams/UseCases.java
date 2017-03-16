@@ -275,7 +275,7 @@ public class UseCases {
                 .setGroupField("time_spent", StatisticOperators.range(GeoLocation.TIMESTAMP))
                 .sortBy("time_spent")
                 .reverse()
-                .first()
+                .getFirst()
                 .getField("geo_tag");
     }
 
