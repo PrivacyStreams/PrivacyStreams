@@ -30,7 +30,6 @@ import com.github.privacystreams.dropbox.DropboxOperators;
 import com.github.privacystreams.environment.Light;
 import com.github.privacystreams.google_awareness.PhysicalActivity;
 import com.github.privacystreams.image.Image;
-import com.github.privacystreams.location.LocationStay;
 
 import edu.cmu.chimps.love_study.pam.PAMActivity;
 
