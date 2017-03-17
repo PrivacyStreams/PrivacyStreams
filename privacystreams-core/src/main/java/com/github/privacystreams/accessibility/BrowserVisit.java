@@ -1,8 +1,7 @@
 package com.github.privacystreams.accessibility;
 
-import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.Item;
-import com.github.privacystreams.core.MStream;
+import com.github.privacystreams.core.providers.MStreamProvider;
 import com.github.privacystreams.utils.annotations.PSItem;
 import com.github.privacystreams.utils.annotations.PSItemField;
 
@@ -50,7 +49,7 @@ public class BrowserVisit extends Item {
      * Provide a live stream of BrowserVisit items.
      * @return the provider function.
      */
-    public static Function<Void, MStream> asUpdates(){
+    public static MStreamProvider asUpdates(){
         return new BrowserVisitStreamProvider();
     }
 

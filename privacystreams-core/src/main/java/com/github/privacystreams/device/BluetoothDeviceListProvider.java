@@ -8,13 +8,14 @@ import android.content.Intent;
 import android.content.IntentFilter;
 
 import com.github.privacystreams.core.UQI;
-import com.github.privacystreams.core.providers.MultiItemStreamProvider;
+import com.github.privacystreams.core.providers.MStreamProvider;
 
 /**
  * Provide a stream of current visible bluetooth device list.
  */
 
-class BluetoothDeviceListProvider extends MultiItemStreamProvider{
+class BluetoothDeviceListProvider extends MStreamProvider {
+    private int count;                      // count how many devices have been checked
     private BluetoothAdapter BTAdapter;
     private IntentFilter intentFilter;
 

@@ -1,7 +1,10 @@
 package com.github.privacystreams.core;
 
+import com.github.privacystreams.core.actions.MStreamAction;
 import com.github.privacystreams.core.exceptions.PrivacyStreamsException;
 import com.github.privacystreams.core.purposes.Purpose;
+import com.github.privacystreams.core.transformations.M2MTransformation;
+import com.github.privacystreams.core.transformations.M2STransformation;
 
 import java.util.List;
 
@@ -9,37 +12,37 @@ import java.util.List;
  * The interface of MStream (multi-item stream).
  * An MStreamInterface is a stream containing many items, and each item is an instance of {@link Item}.
  *
- * An MStreamInterface is produced by <code>uqi.getDataItems</code> method.
- * @see UQI#getDataItems(Function, Purpose)
+ * An MStreamInterface is produced by <code>uqi.getData</code> method.
+ * @see UQI#getData(com.github.privacystreams.core.providers.MStreamProvider, Purpose)
  *
  * It can be transformed to another MStreamInterface by transformation functions,
  * such as {@link #filter(String, Object)}, {{@link #groupBy(String)}}, {{@link #map(Function)}}, etc.
  *
  * It can also be transformed to an ISingleItemProvider by transformation functions,
- * such as {{@link #first()}}, {{@link #pick(int)}}, etc.
+ * such as {{@link #getFirst()}}, {{@link #getItemAt(int)}}, etc.
  *
  * Finally, it can be outputted using {{@link #asList()}}, {{@link #count()}}, etc.
  */
 public interface MStreamInterface {
     /**
-     * Transform the current multi-item stream to another multi-item stream.
+     * Transform the current MStream to another MStream.
      * @param m2mStreamTransformation the function used to transform the stream
      * @return the transformed stream
      */
-    MStreamInterface transform(Function<MStream, MStream> m2mStreamTransformation);
+    MStreamInterface transform(M2MTransformation m2mStreamTransformation);
 
     /**
-     * Transform the current multi-item stream to an single-item stream.
+     * Transform the current MStream to an SStream.
      * @param m2sStreamTransformation the function used to transform the stream
      * @return the collected item
      */
-    SStreamInterface transformToItem(Function<MStream, SStream> m2sStreamTransformation);
+    SStreamInterface transform(M2STransformation m2sStreamTransformation);
 
     /**
      * Output the current multi-item stream.
      * @param mStreamAction the function used to output stream
      */
-    void output(Function<MStream, Void> mStreamAction);
+    void output(MStreamAction mStreamAction);
 
     // *****************************
     // Filters
@@ -212,38 +215,46 @@ public interface MStreamInterface {
      * Eg. <code>outputItems(Statistic.count(), new Callback<Integer>(){...})</code>
      * will count the number of items and callback with the number.
      *
-     * @param itemsOutputFunction the function used to output current stream
+     * @param itemsCollector the function used to output current stream
      * @param resultHandler the function to handle the result
      * @param <Tout> the type of the result
      */
-    <Tout> void outputItems(Function<List<Item>, Tout> itemsOutputFunction, Function<Tout, Void> resultHandler);
+    <Tout> void output(Function<List<Item>, Tout> itemsCollector, Callback<Tout> resultHandler);
 
     /**
      * Output the items in the stream with a function.
      * This method will block until the result returns.
      * Eg. <code>outputItems(Statistic.count())</code> will output the number of items.
      *
-     * @param itemsOutputFunction the function used to output current stream
+     * @param itemsCollector the function used to output current stream
      * @param <Tout> the type of the result
      * @return the result
      * @throws PrivacyStreamsException if failed to the result.
      */
-    <Tout> Tout outputItems(Function<List<Item>, Tout> itemsOutputFunction) throws PrivacyStreamsException;
+    <Tout> Tout output(Function<List<Item>, Tout> itemsCollector) throws PrivacyStreamsException;
 
     /**
      * Get the first item in the stream.
      *
-     * @return the first item as a single-item stream.
+     * @return SStream whose item is the first item of current MStream
      */
-    SStreamInterface first();
+    SStreamInterface getFirst();
     
     /**
      * Pick an item in the stream.
      *
      * @param index the index of target item.
-     * @return the item with the given index as a single-item stream.
+     * @return SStream whose item is selected from current MStream with the given index
      */
-    SStreamInterface pick(int index);
+    SStreamInterface getItemAt(int index);
+
+    /**
+     * Select an item in the stream with a function.
+     *
+     * @param selector the selector funtion to select the target item.
+     * @return SStream whose item is selected from current MStream with the given function
+     */
+    SStreamInterface select(Function<List<Item>, Item> selector);
 
     /**
      * Print the items for debugging.
@@ -321,4 +332,11 @@ public interface MStreamInterface {
      * @param <TValue> the type of the field
      */
     <TValue> void ifPresent(String fieldToSelect, Callback<TValue> callback);
+
+    /**
+     * Fork current stream for reusing.
+     * @param numOfForks number of reuses
+     * @return the forked stream
+     */
+    MStreamInterface fork(int numOfForks);
 }

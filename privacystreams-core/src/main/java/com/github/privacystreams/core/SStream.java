@@ -1,9 +1,11 @@
 package com.github.privacystreams.core;
 
 import com.github.privacystreams.commons.item.ItemOperators;
-import com.github.privacystreams.core.actions.SingleItemStreamAction;
-import com.github.privacystreams.core.exceptions.PipelineInterruptedException;
+import com.github.privacystreams.core.actions.SStreamAction;
+import com.github.privacystreams.core.actions.collect.Collectors;
 import com.github.privacystreams.core.exceptions.PrivacyStreamsException;
+import com.github.privacystreams.core.transformations.S2MTransformation;
+import com.github.privacystreams.core.transformations.S2STransformation;
 import com.github.privacystreams.core.transformations.map.Mappers;
 
 import java.util.Map;
@@ -30,13 +32,23 @@ public class SStream extends Stream implements SStreamInterface {
     }
 
     /**
-     * Transform an item using a transformation function
+     * Transform current SStream to another SStream.
      *
-     * @param s2sStreamTransformation the function used to transform the current item
-     * @return the transformed item
+     * @param s2sStreamTransformation the function used to transform the stream
+     * @return the transformed stream
      */
-    public SStream transform(Function<SStream, SStream> s2sStreamTransformation) {
+    public SStream transform(S2STransformation s2sStreamTransformation) {
         return new SStream(this.getUQI(), this.streamProvider.compound(s2sStreamTransformation));
+    }
+
+    /**
+     * Transform current SStream to a MStream.
+     *
+     * @param s2mStreamTransformation the function used to transform the stream
+     * @return the transformed stream
+     */
+    public MStream transform(S2MTransformation s2mStreamTransformation) {
+        return new MStream(this.getUQI(), this.streamProvider.compound(s2mStreamTransformation));
     }
 
     /**
@@ -44,7 +56,7 @@ public class SStream extends Stream implements SStreamInterface {
      *
      * @param sStreamAction the function used to output the current item
      */
-    public void output(Function<SStream, Void> sStreamAction) {
+    public void output(SStreamAction sStreamAction) {
         this.getUQI().setQuery(this.streamProvider.compound(sStreamAction));
         this.getUQI().evaluate(true);
     }
@@ -83,13 +95,13 @@ public class SStream extends Stream implements SStreamInterface {
         return this.map(ItemOperators.setField(newField, functionToComputeField));
     }
 
-    public <Tout> void outputItem(Function<Item, Tout> itemOutputFunction, Function<Tout, Void> resultHandler) {
-        this.output(new SingleItemStreamAction<>(itemOutputFunction, resultHandler));
+    public <Tout> void output(Function<Item, Tout> itemCollector, Callback<Tout> resultHandler) {
+        this.output(Collectors.collectItem(itemCollector, resultHandler));
     }
 
-    public <Tout> Tout outputItem(Function<Item, Tout> itemOutputFunction) throws PrivacyStreamsException {
+    public <Tout> Tout output(Function<Item, Tout> itemCollector) throws PrivacyStreamsException {
         final BlockingQueue<Object> resultQueue = new LinkedBlockingQueue<>();
-        Function<Tout, Void> resultHandler = new Callback<Tout>() {
+        Callback<Tout> resultHandler = new Callback<Tout>() {
             @Override
             protected void onSuccess(Tout input) {
                 resultQueue.add(input);
@@ -100,7 +112,7 @@ public class SStream extends Stream implements SStreamInterface {
                 resultQueue.add(exception);
             }
         };
-        this.outputItem(itemOutputFunction, resultHandler);
+        this.output(itemCollector, resultHandler);
         try {
             Object resultOrException = resultQueue.take();
             if (resultOrException instanceof PrivacyStreamsException) {
@@ -108,7 +120,7 @@ public class SStream extends Stream implements SStreamInterface {
             }
             return (Tout) resultOrException;
         } catch (InterruptedException e) {
-            throw new PipelineInterruptedException();
+            throw PrivacyStreamsException.INTERRUPTED(e.getMessage());
         }
 
     }
@@ -120,7 +132,7 @@ public class SStream extends Stream implements SStreamInterface {
      * @return the field value
      */
     public <TValue> TValue getField(String field) throws PrivacyStreamsException {
-        return this.outputItem(ItemOperators.<TValue>getField(field));
+        return this.output(ItemOperators.<TValue>getField(field));
     }
 
     /**
@@ -128,13 +140,13 @@ public class SStream extends Stream implements SStreamInterface {
      * The keys in the map can be selected using project(String... fieldsToInclude) method.
      */
     public Map<String, Object> asMap() throws PrivacyStreamsException {
-        return this.outputItem(ItemOperators.asMap());
+        return this.output(ItemOperators.asMap());
     }
 
     /**
      * Debug print the item
      */
     public void debug() {
-        this.outputItem(ItemOperators.debug(), null);
+        this.output(ItemOperators.debug(), null);
     }
 }

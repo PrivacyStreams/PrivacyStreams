@@ -3,9 +3,7 @@ package com.github.privacystreams;
 import com.sun.javadoc.ClassDoc;
 import com.sun.javadoc.DocErrorReporter;
 import com.sun.javadoc.RootDoc;
-import com.sun.tools.doclets.formats.html.ConfigurationImpl;
 import com.sun.tools.doclets.formats.html.HtmlDoclet;
-import com.sun.tools.doclets.internal.toolkit.AbstractDoclet;
 
 import java.io.File;
 import java.io.FileNotFoundException;

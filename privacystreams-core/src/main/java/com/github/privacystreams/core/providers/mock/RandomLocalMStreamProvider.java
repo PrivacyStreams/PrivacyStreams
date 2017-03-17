@@ -1,6 +1,6 @@
 package com.github.privacystreams.core.providers.mock;
 
-import com.github.privacystreams.core.providers.MultiItemStreamProvider;
+import com.github.privacystreams.core.providers.MStreamProvider;
 
 import java.util.List;
 
@@ -8,7 +8,7 @@ import java.util.List;
  * Created by yuanchun on 18/02/2017.
  * A Provider that provides continuous random MockItem updates
  */
-class RandomLocalMStreamProvider extends MultiItemStreamProvider {
+class RandomLocalMStreamProvider extends MStreamProvider {
     private final int maxInt;
     private final double maxDouble;
     private final int count;

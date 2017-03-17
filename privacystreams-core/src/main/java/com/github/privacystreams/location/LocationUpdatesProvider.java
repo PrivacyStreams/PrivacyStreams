@@ -8,7 +8,7 @@ import android.location.LocationManager;
 import android.os.Bundle;
 
 import com.github.privacystreams.core.UQI;
-import com.github.privacystreams.core.providers.MultiItemStreamProvider;
+import com.github.privacystreams.core.providers.MStreamProvider;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -20,7 +20,7 @@ import java.util.LinkedList;
  * location asUpdates
  */
 
-final class LocationUpdatesProvider extends MultiItemStreamProvider {
+final class LocationUpdatesProvider extends MStreamProvider {
 
     private String provider;
     private long minTime;

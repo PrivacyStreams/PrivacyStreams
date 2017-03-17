@@ -12,14 +12,14 @@ import android.os.Build;
 import android.support.annotation.RequiresApi;
 
 import com.github.privacystreams.core.UQI;
-import com.github.privacystreams.core.providers.MultiItemStreamProvider;
+import com.github.privacystreams.core.providers.MStreamProvider;
 
 
 /**
  * Provide a stream of current WIFI AP list.
  */
 @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
-class WifiApListProvider extends MultiItemStreamProvider {
+class WifiApListProvider extends MStreamProvider {
 
     class WifiReceiver extends BroadcastReceiver
     {

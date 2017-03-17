@@ -9,7 +9,7 @@ import com.github.privacystreams.commons.comparison.Comparators;
 import com.github.privacystreams.commons.item.ItemOperators;
 import com.github.privacystreams.core.Callback;
 import com.github.privacystreams.core.Item;
-import com.github.privacystreams.core.providers.MultiItemStreamProvider;
+import com.github.privacystreams.core.providers.MStreamProvider;
 import com.github.privacystreams.core.purposes.Purpose;
 import com.github.privacystreams.utils.AccessibilityUtils;
 import com.github.privacystreams.utils.AppUtils;
@@ -21,13 +21,13 @@ import java.util.List;
  */
 
 @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
-class BrowserVisitStreamProvider extends MultiItemStreamProvider {
+class BrowserVisitStreamProvider extends MStreamProvider {
     private static String lastSavedUrl = null;
     private static String lastSavedUrlTitle = null;
 
     @Override
     protected void provide() {
-        getUQI().getDataItems(BaseAccessibilityEvent.asUpdates(), Purpose.internal("Event Triggers"))
+        getUQI().getData(BaseAccessibilityEvent.asUpdates(), Purpose.INTERNAL("Event Triggers"))
                 .filter(ItemOperators.isFieldIn(BaseAccessibilityEvent.PACKAGE_NAME, new String[]{AppUtils.APP_PACKAGE_FIREFOX, AppUtils.APP_PACKAGE_OPERA, AppUtils.APP_PACKAGE_CHROME}))
                 .filter(Comparators.eq(BaseAccessibilityEvent.EVENT_TYPE, AccessibilityEvent.TYPE_VIEW_TEXT_SELECTION_CHANGED))
                 .forEach(new Callback<Item>() {

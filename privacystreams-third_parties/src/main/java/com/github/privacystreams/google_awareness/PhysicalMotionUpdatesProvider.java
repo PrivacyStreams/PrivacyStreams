@@ -9,9 +9,9 @@ import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.github.privacystreams.core.*;
 import com.github.privacystreams.core.BuildConfig;
-import com.github.privacystreams.core.providers.MultiItemStreamProvider;
+import com.github.privacystreams.core.UQI;
+import com.github.privacystreams.core.providers.MStreamProvider;
 import com.google.android.gms.awareness.Awareness;
 import com.google.android.gms.awareness.fence.AwarenessFence;
 import com.google.android.gms.awareness.fence.DetectedActivityFence;
@@ -25,31 +25,39 @@ import com.google.android.gms.common.api.Status;
  * Created by lenovo on 2017/3/6.
  */
 
-public class PhysicalMotionUpdatesProvider extends MultiItemStreamProvider {
-    //Set up the fence key for the four fences we need
-    private static final String WALKING = "Walking";
-    private static final String TILTING  = "Tilting";
-    private static final String ONFOOT = "On Foot";
-    private static final String RUNNING = "Running";
+public class PhysicalMotionUpdatesProvider extends MStreamProvider {
+    private static final String WALKINGFENCE = "Walking Fence";                     //Set up the fence key for the four fences we need
+    private static final String TILTINGFENCE = "Tilting Fence";
+    private static final String ONFOOTFENCE = "On Foot Fence";
+    private static final String RUNNINGFENCE = "Running Fence";
     private final String FENCE_RECEIVER_ACTION = BuildConfig.APPLICATION_ID+ "FENCE_RECEIVER_ACTION";
+    private PendingIntent myPendingIntent;
     private GoogleApiClient client;                                                 //While using google awarenesss, a google api client is needed for connection
     private FenceReceiver myFenceReceiver;
-
-
+    private Intent intent;
+    private IntentFilter myFillter;
+    AwarenessFence walkingFence, tiltingFence, onFootFence, runningFence;  //Objects for detecting the physical motion
     @Override
     protected void provide() {
-        //Establish Connection
-        client = new GoogleApiClient.Builder(getContext())
+        client = new GoogleApiClient.Builder(getContext())                              //Establish Connection
                 .addApi(Awareness.API)
                 .build();
         client.connect();
-        //Set up the receiver
-        myFenceReceiver = new FenceReceiver();
-        getContext().registerReceiver(myFenceReceiver, new IntentFilter(FENCE_RECEIVER_ACTION));
-        registerFence(WALKING, DetectedActivityFence.during(DetectedActivityFence.WALKING));                                       //register the fences
-        registerFence(TILTING, DetectedActivityFence.during(DetectedActivityFence.TILTING));
-        registerFence(ONFOOT, DetectedActivityFence.during(DetectedActivityFence.ON_FOOT));
-        registerFence(RUNNING, DetectedActivityFence.during(DetectedActivityFence.RUNNING));
+        walkingFence = DetectedActivityFence.during(DetectedActivityFence.WALKING);     //Create Fence
+        tiltingFence = DetectedActivityFence.during(DetectedActivityFence.TILTING);
+        onFootFence = DetectedActivityFence.during(DetectedActivityFence.ON_FOOT);
+        runningFence = DetectedActivityFence.during(DetectedActivityFence.RUNNING);
+
+        intent = new Intent(FENCE_RECEIVER_ACTION);                                     //Set up the intent and intent filter
+        myFillter = new IntentFilter(FENCE_RECEIVER_ACTION);
+        myPendingIntent = PendingIntent.getBroadcast(getContext(), 0, intent, 0);           //Set up the pendingIntent
+        myFenceReceiver = new FenceReceiver();                                              //Set up the receiver
+        getContext().registerReceiver(myFenceReceiver, myFillter);
+        registerFence(WALKINGFENCE, walkingFence);                                       //register the fences
+        registerFence(TILTINGFENCE, tiltingFence);
+        registerFence(ONFOOTFENCE, onFootFence);
+        registerFence(RUNNINGFENCE, runningFence);
+        //printSnapshot();
     }
 
     // Register the fence and add it to the pending intent
@@ -57,7 +65,7 @@ public class PhysicalMotionUpdatesProvider extends MultiItemStreamProvider {
         Awareness.FenceApi.updateFences(
                 client,
                 new FenceUpdateRequest.Builder()
-                        .addFence(fenceKey, fence, PendingIntent.getBroadcast(getContext(), 0, new Intent(FENCE_RECEIVER_ACTION), 0))             //Add fence to the pendingIntent
+                        .addFence(fenceKey, fence, myPendingIntent)             //Add fence to the pendingIntent
                         .build())
                 .setResultCallback(new ResultCallback<Status>() {
                     @Override
@@ -74,14 +82,13 @@ public class PhysicalMotionUpdatesProvider extends MultiItemStreamProvider {
     public class FenceReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
-            //Check if it is the desired action that we are looking for
-            if(TextUtils.equals(FENCE_RECEIVER_ACTION,intent.getAction())){
+
+            if(TextUtils.equals(FENCE_RECEIVER_ACTION,intent.getAction())){    //Check if is the desired action that we are looking for
                 FenceState fenceState = FenceState.extract(intent);
-                //Check the state info in case some error happened
-                switch (fenceState.getCurrentState()) {
+                switch (fenceState.getCurrentState()) {                         //Check the state info incase some error happened
                     case FenceState.TRUE:
-                        // When new motion has been detected, output a new physical activity
-                        output(new PhysicalActivity(System.currentTimeMillis(),fenceState.getFenceKey()));
+                        Log.e(fenceState.getFenceKey(), "Active");
+                        output(new PhysicalActivity(System.currentTimeMillis(),fenceState.getFenceKey())); // When new motion has been detected, output a new physical activity
                         break;
                 }
             }
@@ -109,12 +116,10 @@ public class PhysicalMotionUpdatesProvider extends MultiItemStreamProvider {
     @Override
     protected void onCancelled(UQI uqi) {
         super.onCancelled(uqi);
-        //Unregister the fences
-        unregisterFence(WALKING);
-        unregisterFence(TILTING);
-        unregisterFence(ONFOOT);
-        unregisterFence(RUNNING);
-        // unregister the Receiver
-        getContext().unregisterReceiver(myFenceReceiver);
+        unregisterFence(WALKINGFENCE);                              //Unregister the fences
+        unregisterFence(TILTINGFENCE);
+        unregisterFence(ONFOOTFENCE);
+        unregisterFence(RUNNINGFENCE);
+        getContext().unregisterReceiver(myFenceReceiver);           // unregister the Receiver
     }
 }

@@ -3,16 +3,18 @@ package com.github.privacystreams.core;
 import com.github.privacystreams.commons.comparison.Comparators;
 import com.github.privacystreams.commons.item.ItemOperators;
 import com.github.privacystreams.commons.statistic.StatisticOperators;
-import com.github.privacystreams.commons.stream.StreamOperators;
-import com.github.privacystreams.core.actions.MultiItemStreamAction;
+import com.github.privacystreams.commons.items.ItemsOperators;
+import com.github.privacystreams.core.actions.MStreamAction;
 import com.github.privacystreams.core.actions.callback.Callbacks;
-import com.github.privacystreams.core.exceptions.PipelineInterruptedException;
+import com.github.privacystreams.core.actions.collect.Collectors;
 import com.github.privacystreams.core.exceptions.PrivacyStreamsException;
+import com.github.privacystreams.core.transformations.M2MTransformation;
+import com.github.privacystreams.core.transformations.M2STransformation;
 import com.github.privacystreams.core.transformations.filter.Filters;
 import com.github.privacystreams.core.transformations.group.Groupers;
 import com.github.privacystreams.core.transformations.limit.Limiters;
 import com.github.privacystreams.core.transformations.map.Mappers;
-import com.github.privacystreams.core.transformations.pick.Pickers;
+import com.github.privacystreams.core.transformations.select.Selectors;
 import com.github.privacystreams.core.transformations.reorder.Reorders;
 
 import java.util.List;
@@ -24,11 +26,11 @@ import java.util.concurrent.LinkedBlockingQueue;
  * Most personal data access/process operation in PrivacyStreams use MStream as the intermediate.
  *
  * A MStream is consist of a list of items.
- * The items are produced by MultiItemStreamProvider functions (like LocationUpdatesProvider, CallLogProvider, etc.),
+ * The items are produced by MStreamProvider functions (like LocationUpdatesProvider, CallLogProvider, etc.),
  * transformed by M2MTransformation functions (like filter, reorder, map, etc.),
  * and outputted by ItemsFunction functions (like print, toList, etc.).
  *
- * MStream producer functions (including MultiItemStreamProvider and M2MTransformation)
+ * MStream producer functions (including MStreamProvider and M2MTransformation)
  * should make sure the stream is not closed before writing items to it, using:
  *      stream.isClosed()
  * MStream consumer functions (including M2MTransformation and ItemsFunction)
@@ -54,7 +56,7 @@ public class MStream extends Stream implements MStreamInterface {
      * @param m2mStreamTransformation the function used to transform current stream
      * @return the transformed stream
      */
-    public MStream transform(Function<MStream, MStream> m2mStreamTransformation) {
+    public MStream transform(M2MTransformation m2mStreamTransformation) {
         return new MStream(this.getUQI(), this.streamProvider.compound(m2mStreamTransformation));
     }
 
@@ -63,7 +65,7 @@ public class MStream extends Stream implements MStreamInterface {
      * @param m2sStreamTransformation the function used to convert the stream to an item
      * @return the collected item
      */
-    public SStream transformToItem(Function<MStream, SStream> m2sStreamTransformation) {
+    public SStream transform(M2STransformation m2sStreamTransformation) {
         return new SStream(this.getUQI(), this.streamProvider.compound(m2sStreamTransformation));
     }
 
@@ -71,7 +73,7 @@ public class MStream extends Stream implements MStreamInterface {
      * Collect the items in the stream for output
      * @param mStreamAction the function used to output current stream
      */
-    public void output(Function<MStream, Void> mStreamAction) {
+    public void output(MStreamAction mStreamAction) {
         this.getUQI().setQuery(this.getStreamProvider().compound(mStreamAction));
         this.getUQI().evaluate(true);
     }
@@ -194,7 +196,7 @@ public class MStream extends Stream implements MStreamInterface {
      * @return the stream of items with the new field set
      */
     public <TValue> MStream setGroupField(String newField, Function<List<Item>, TValue> subStreamFunction) {
-        return this.setField(newField, ItemOperators.outputSubStream(subStreamFunction));
+        return this.setField(newField, ItemOperators.collectGroupedItems(subStreamFunction));
     }
 
     // *****************************
@@ -262,13 +264,13 @@ public class MStream extends Stream implements MStreamInterface {
     // Output functions
     // Output functions are used to output the items in a stream
 
-    public <Tout> void outputItems(Function<List<Item>, Tout> itemsOutputFunction, Function<Tout, Void> resultHandler) {
-        this.output(new MultiItemStreamAction<>(itemsOutputFunction, resultHandler));
+    public <Tout> void output(Function<List<Item>, Tout> itemsCollector, Callback<Tout> resultHandler) {
+        this.output(Collectors.collectItems(itemsCollector, resultHandler));
     }
 
-    public <Tout> Tout outputItems(Function<List<Item>, Tout> itemsOutputFunction) throws PrivacyStreamsException {
+    public <Tout> Tout output(Function<List<Item>, Tout> itemsCollector) throws PrivacyStreamsException {
         final BlockingQueue<Object> resultQueue = new LinkedBlockingQueue<>();
-        Function<Tout, Void> resultHandler = new Callback<Tout>() {
+        Callback<Tout> resultHandler = new Callback<Tout>() {
             @Override
             protected void onSuccess(Tout input) {
                 resultQueue.add(input);
@@ -279,7 +281,7 @@ public class MStream extends Stream implements MStreamInterface {
                 resultQueue.add(exception);
             }
         };
-        this.outputItems(itemsOutputFunction, resultHandler);
+        this.output(itemsCollector, resultHandler);
         try {
             Object resultOrException = resultQueue.take();
             if (resultOrException instanceof PrivacyStreamsException) {
@@ -287,7 +289,7 @@ public class MStream extends Stream implements MStreamInterface {
             }
             return (Tout) resultOrException;
         } catch (InterruptedException e) {
-            throw new PipelineInterruptedException();
+            throw PrivacyStreamsException.INTERRUPTED(e.getMessage());
         }
     }
 
@@ -295,8 +297,8 @@ public class MStream extends Stream implements MStreamInterface {
      * Get the first item in the stream.
      * @return the first item in the stream
      */
-    public SStream first() {
-        return this.transformToItem(Pickers.pick(0));
+    public SStream getFirst() {
+        return this.transform(Selectors.getItemAt(0));
     }
 
     /**
@@ -304,8 +306,18 @@ public class MStream extends Stream implements MStreamInterface {
      * @param index the index of target item
      * @return the item with the given index in the stream
      */
-    public SStream pick(int index) {
-        return this.transformToItem(Pickers.pick(index));
+    public SStream getItemAt(int index) {
+        return this.transform(Selectors.getItemAt(index));
+    }
+
+    /**
+     * Select an item in the stream with a function.
+     *
+     * @param selector the selector funtion to select the target item.
+     * @return SStream whose item is selected from current MStream with the given function
+     */
+    public SStream select(Function<List<Item>, Item> selector) {
+        return this.transform(Selectors.select(selector));
     }
 
     /**
@@ -320,7 +332,7 @@ public class MStream extends Stream implements MStreamInterface {
      * @return the count of number of items in the stream
      */
     public int count() throws PrivacyStreamsException {
-        return this.outputItems(StatisticOperators.count());
+        return this.output(StatisticOperators.count());
     }
 
     /**
@@ -329,7 +341,7 @@ public class MStream extends Stream implements MStreamInterface {
      * @return a list of key-value maps, each map represents an item
      */
     public List<Item> asList() throws PrivacyStreamsException {
-        return this.outputItems(StreamOperators.asList());
+        return this.output(ItemsOperators.asList());
     }
 
     /**
@@ -339,7 +351,7 @@ public class MStream extends Stream implements MStreamInterface {
      * @return a list of field values
      */
     public <TValue> List<TValue> asList(String fieldToSelect) throws PrivacyStreamsException {
-        return this.outputItems(StreamOperators.<TValue>asList(fieldToSelect));
+        return this.output(ItemsOperators.<TValue>asList(fieldToSelect));
     }
 
     /**

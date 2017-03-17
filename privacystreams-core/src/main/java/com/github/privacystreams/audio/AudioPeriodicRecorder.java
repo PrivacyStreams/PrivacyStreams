@@ -2,14 +2,14 @@ package com.github.privacystreams.audio;
 
 import android.Manifest;
 
-import com.github.privacystreams.core.providers.MultiItemStreamProvider;
+import com.github.privacystreams.core.providers.MStreamProvider;
 
 /**
  * Created by yuanchun on 28/12/2016.
  * record audio periodically with microphone
  */
 
-class AudioPeriodicRecorder extends MultiItemStreamProvider {
+class AudioPeriodicRecorder extends MStreamProvider {
     private final Long duration_per_record;
     private final Long interval;
 

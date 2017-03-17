@@ -2,6 +2,7 @@ package com.github.privacystreams.core.actions.callback;
 
 import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.Item;
+import com.github.privacystreams.core.actions.MStreamAction;
 import com.github.privacystreams.utils.Assertions;
 
 /**
@@ -9,7 +10,7 @@ import com.github.privacystreams.utils.Assertions;
  * Callback with a field value in a item once the field value is present
  */
 
-class IfFieldPresentCallback<TValue, Void> extends AsyncMultiItemStreamAction {
+class IfFieldPresentCallback<TValue, Void> extends MStreamAction {
 
     private final String fieldToSelect;
     private final Function<TValue, Void> fieldValueCallback;

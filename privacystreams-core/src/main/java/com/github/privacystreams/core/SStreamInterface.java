@@ -1,7 +1,10 @@
 package com.github.privacystreams.core;
 
+import com.github.privacystreams.core.actions.SStreamAction;
 import com.github.privacystreams.core.exceptions.PrivacyStreamsException;
 import com.github.privacystreams.core.purposes.Purpose;
+import com.github.privacystreams.core.transformations.S2MTransformation;
+import com.github.privacystreams.core.transformations.S2STransformation;
 
 import java.util.Map;
 
@@ -9,8 +12,8 @@ import java.util.Map;
  * The interface of SStream (single-item stream).
  * An SStreamInterface is a stream containing only one item, which is an instance of {@link Item}.
  *
- * An SStreamInterface is produced by <code>uqi.getDataItem</code> method.
- * @see UQI#getDataItem(Function, Purpose)
+ * An SStreamInterface is produced by <code>uqi.getData</code> method.
+ * @see UQI#getData(com.github.privacystreams.core.providers.SStreamProvider, Purpose)
  *
  * It can be transformed to another ISingleItemProvider with transformation functions,
  * such as {@link #setField(String, Function)}, {{@link #project(String...)}}, {{@link #map(Function)}}, etc.
@@ -19,19 +22,27 @@ import java.util.Map;
  */
 public interface SStreamInterface {
     /**
-     * Transform current single-item stream to another single-item stream a transformation function.
+     * Transform current SStream to another SStream.
      *
      * @param s2sStreamTransformation the function used to transform the stream
-     * @return the transformed item
+     * @return the transformed stream
      */
-    SStreamInterface transform(Function<SStream, SStream> s2sStreamTransformation);
+    SStreamInterface transform(S2STransformation s2sStreamTransformation);
+
+    /**
+     * Transform current SStream to a MStream.
+     *
+     * @param s2mStreamTransformation the function used to transform the stream
+     * @return the transformed stream
+     */
+    MStreamInterface transform(S2MTransformation s2mStreamTransformation);
 
     /**
      * Output the item in the current stream.
      *
      * @param sStreamAction the function used to output the current item
      */
-    void output(Function<SStream, Void> sStreamAction);
+    void output(SStreamAction sStreamAction);
 
     /**
      * Convert the item in the stream with a function.
@@ -66,22 +77,22 @@ public interface SStreamInterface {
      * Output the item in the stream with a function, and the result is delivered to a callback function.
      * This method will NOT block.
      *
-     * @param itemOutputFunction the function used to output the current item
+     * @param itemCollector the function used to output the current item
      * @param resultHandler the function to handle the result
      * @param <Tout>           the type of result
      */
-    <Tout> void outputItem(Function<Item, Tout> itemOutputFunction, Function<Tout, Void> resultHandler);
+    <Tout> void output(Function<Item, Tout> itemCollector, Callback<Tout> resultHandler);
 
     /**
      * Output the item in the stream with a function.
      * This method will block until the result returns.
      *
-     * @param itemOutputFunction the function used to output the current item
+     * @param itemCollector the function used to output the current item
      * @param <Tout>           the type of result
-     * @return the result of itemOutputFunction
+     * @return the result of itemCollector
      * @throws PrivacyStreamsException if something goes wrong during getting results.
      */
-    <Tout> Tout outputItem(Function<Item, Tout> itemOutputFunction) throws PrivacyStreamsException;
+    <Tout> Tout output(Function<Item, Tout> itemCollector) throws PrivacyStreamsException;
 
     /**
      * Get the value of a field.
@@ -105,4 +116,10 @@ public interface SStreamInterface {
      */
     void debug();
 
+    /**
+     * Fork current stream for reusing.
+     * @param numOfForks number of reuses
+     * @return the forked stream
+     */
+    MStreamInterface fork(int numOfForks);
 }

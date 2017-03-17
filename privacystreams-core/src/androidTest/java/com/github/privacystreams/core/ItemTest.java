@@ -16,7 +16,7 @@ import static org.junit.Assert.assertTrue;
 
 /**
  * Created by yuanchun on 19/02/2017.
- * Test cases for PSItem class
+ * Test cases for Item class
  */
 public class ItemTest {
     private MockObject mockObject;

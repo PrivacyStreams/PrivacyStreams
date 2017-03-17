@@ -15,7 +15,7 @@ final class FieldEqualPredicate<TValue> extends ItemFieldPredicate<TValue> {
     }
 
     @Override
-    protected boolean testField(Object fieldValue) {
+    protected boolean testField(TValue fieldValue) {
         switch (this.operator) {
             case OPERATOR_EQ:
                 return ObjectUtils.equals(fieldValue, this.valueToCompare);

@@ -2,10 +2,9 @@ package com.github.privacystreams.audio;
 
 import android.net.Uri;
 
-import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.Item;
-import com.github.privacystreams.core.MStream;
-import com.github.privacystreams.core.SStream;
+import com.github.privacystreams.core.providers.MStreamProvider;
+import com.github.privacystreams.core.providers.SStreamProvider;
 import com.github.privacystreams.utils.annotations.PSItem;
 import com.github.privacystreams.utils.annotations.PSItemField;
 
@@ -39,7 +38,7 @@ public class Audio extends Item {
      * @param duration the time duration of audio.
      * @return the provider.
      */
-    public static Function<Void, SStream> record(long duration) {
+    public static SStreamProvider record(long duration) {
         return new AudioRecorder(duration);
     }
 
@@ -53,7 +52,7 @@ public class Audio extends Item {
      * @param interval the time interval between each two records, in milliseconds.
      * @return the provider
      */
-    public static Function<Void, MStream> recordPeriodic(long durationPerRecord, long interval) {
+    public static MStreamProvider recordPeriodic(long durationPerRecord, long interval) {
         return new AudioPeriodicRecorder(durationPerRecord, interval);
     }
 }

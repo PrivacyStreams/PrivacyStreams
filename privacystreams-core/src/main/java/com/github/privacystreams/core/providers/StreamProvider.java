@@ -7,7 +7,7 @@ import com.github.privacystreams.core.Stream;
 /**
  * A StreamProvider is a function that produces a stream.
  */
-public abstract class StreamProvider<OutStream extends Stream> extends EventDrivenFunction<Void, OutStream> {
+abstract class StreamProvider<OutStream extends Stream> extends EventDrivenFunction<Void, OutStream> {
     protected void init() {
         this.isCancelled = false;
         Thread providingThread = new Thread() {

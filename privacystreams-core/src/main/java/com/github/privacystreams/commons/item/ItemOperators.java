@@ -47,15 +47,29 @@ public class ItemOperators {
     }
 
     /**
-     * Output the sub stream in the item with a function.
+     * Output the grouped items in the item with a function.
      * This function must be applied to a group item, i.e. must be used after <code>groupBy</code> or <code>localGroupBy</code>.
      *
      * @param subStreamFunction the function to output sub stream.
      * @param <Tout> the type of sub stream collection result.
      * @return the function
      */
-    public static <Tout> Function<Item, Tout> outputSubStream(Function<List<Item>, Tout> subStreamFunction) {
+    public static <Tout> Function<Item, Tout> collectGroupedItems(Function<List<Item>, Tout> subStreamFunction) {
         return new ItemSubStreamFunction<>(subStreamFunction);
+    }
+
+    /**
+     * Set the value of a new field with a function.
+     * This function must be applied to a group item, i.e. must be used after <code>groupBy</code> or <code>localGroupBy</code>.
+     *
+     * @param fieldToSet the name of the field to set, it can be a new name.
+     * @param functionToComputeValue the function to compute the value of the field.
+     * @param <TValue> the type of the new field value.
+     * @return the item mapper function.
+     */
+    public static <TValue> Function<Item, Item> setGroupField(String fieldToSet,
+                                                              Function<List<Item>, TValue> functionToComputeValue) {
+        return new FieldSetter<>(fieldToSet, new ItemSubStreamFunction<>(functionToComputeValue));
     }
 
     /**

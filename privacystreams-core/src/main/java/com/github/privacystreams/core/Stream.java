@@ -20,11 +20,11 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  * Most personal data access/process operation in PrivacyStreams use Stream as the intermediate.
  *
  * A Stream is consist of one or multiple items.
- * The items are produced by MultiItemStreamProvider functions (like LocationUpdatesProvider, CallLogProvider, etc.),
+ * The items are produced by MStreamProvider functions (like LocationUpdatesProvider, CallLogProvider, etc.),
  * transformed by M2MTransformation functions (like filter, reorder, map, etc.),
  * and outputted by ItemsFunction functions (like print, toList, etc.).
  *
- * Stream producer functions (including MultiItemStreamProvider and M2MTransformation)
+ * Stream producer functions (including MStreamProvider and M2MTransformation)
  * should make sure the stream is not closed before writing items to it, using:
  *      stream.isClosed()
  * Stream consumer functions (including M2MTransformation and ItemsFunction)
@@ -69,7 +69,7 @@ public abstract class Stream {
 //
 //        // send all cached items
 //        while (true) {
-//            PSItem cachedItem = this.streamCache.poll();
+//            Item cachedItem = this.streamCache.poll();
 //            if (cachedItem != null)
 //                this.doWrite(cachedItem);
 //            else
@@ -88,7 +88,7 @@ public abstract class Stream {
 
     private void doWrite(Item item) {
         if (this.getUQI().isStreamDebug())
-            Logging.debug("PSItem " + item + " writing to stream " + this.getStreamProvider());
+            Logging.debug("Item " + item + " writing to stream " + this.getStreamProvider());
 
         this.eventBus.post(item);
     }
@@ -145,4 +145,10 @@ public abstract class Stream {
     public UQI getUQI() {
         return this.uqi;
     }
+
+    public Stream fork(int numOfForks) {
+        this.receiverCount = numOfForks;
+        return this;
+    }
+
 }

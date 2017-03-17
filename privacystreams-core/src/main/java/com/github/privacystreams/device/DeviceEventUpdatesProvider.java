@@ -6,13 +6,13 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.media.AudioManager;
 
-import com.github.privacystreams.core.providers.MultiItemStreamProvider;
+import com.github.privacystreams.core.providers.MStreamProvider;
 
 /**
  * Provide a stream of device state updates, including screen, boot, battery, ringer, etc.
  */
 
-class DeviceEventUpdatesProvider extends MultiItemStreamProvider {
+class DeviceEventUpdatesProvider extends MStreamProvider {
 
     class DeviceStateReceiver extends BroadcastReceiver {
 

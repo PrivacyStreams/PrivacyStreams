@@ -1,12 +1,12 @@
 package com.github.privacystreams.core.providers.mock;
 
-import com.github.privacystreams.core.providers.MultiItemStreamProvider;
+import com.github.privacystreams.core.providers.MStreamProvider;
 
 /**
  * Created by yuanchun on 18/02/2017.
  * A Provider that provides continuous random MockItem updates
  */
-class RandomLiveMStreamProvider extends MultiItemStreamProvider {
+class RandomLiveMStreamProvider extends MStreamProvider {
     private final int maxInt;
     private final double maxDouble;
     private final long interval;

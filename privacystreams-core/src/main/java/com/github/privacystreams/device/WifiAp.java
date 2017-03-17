@@ -5,9 +5,8 @@ import android.net.wifi.ScanResult;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 
-import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.Item;
-import com.github.privacystreams.core.MStream;
+import com.github.privacystreams.core.providers.MStreamProvider;
 import com.github.privacystreams.utils.annotations.PSItem;
 import com.github.privacystreams.utils.annotations.PSItemField;
 
@@ -67,7 +66,7 @@ public class WifiAp extends Item {
      * Provide a list of WifiAp items from WIFI scan result.
      * @return the provider function.
      */
-    public static Function<Void, MStream> asScanList() {
+    public static MStreamProvider asScanList() {
         return new WifiApListProvider();
     }
 

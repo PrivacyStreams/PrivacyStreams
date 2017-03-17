@@ -5,7 +5,7 @@ import com.github.privacystreams.core.SStream;
 /**
  * A function that produces a single-item stream.
  */
-public abstract class SingleItemStreamProvider extends StreamProvider<SStream> {
+public abstract class SStreamProvider extends StreamProvider<SStream> {
 
     protected final void init() {
         this.output = new SStream(this.getUQI(), this);

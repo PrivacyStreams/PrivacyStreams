@@ -7,6 +7,13 @@ import com.dropbox.core.DbxException;
 import com.dropbox.core.DbxRequestConfig;
 import com.dropbox.core.v2.DbxClientV2;
 import com.dropbox.core.v2.files.WriteMode;
+import com.github.privacystreams.commons.ItemFunction;
+import com.github.privacystreams.core.Item;
+import com.github.privacystreams.core.UQI;
+import com.github.privacystreams.utils.Assertions;
+import com.github.privacystreams.utils.Consts;
+import com.github.privacystreams.utils.Logging;
+import com.github.privacystreams.utils.time.TimeUtils;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -14,14 +21,6 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-
-import com.github.privacystreams.core.Item;
-import com.github.privacystreams.core.UQI;
-import com.github.privacystreams.commons.ItemFunction;
-import com.github.privacystreams.utils.Assertions;
-import com.github.privacystreams.utils.Consts;
-import com.github.privacystreams.utils.Logging;
-import com.github.privacystreams.utils.time.TimeUtils;
 
 /**
  * Created by yuanchun on 27/12/2016.
