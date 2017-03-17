@@ -86,6 +86,19 @@ public class GeoLocation extends Item {
     }
 
     /**
+     * Provide a live stream of GeoLocation items from device's location sensors.
+     *
+     * @param provider the location provider, could be "gps", "network", etc.
+     * @param minTime minimum time interval between location updates, in milliseconds.
+     * @param minDistance minimum distance between location updates, in meters.
+     * @return the stream provider
+     */
+    public static Function<Void, MStream> asLocationStayUpdates(String provider, long minTime, float minDistance) {
+        return new LocationUpdatesProvider(provider, minTime, minDistance);
+    }
+
+
+    /**
      * Provide a GeoLocation item, which is the last known location.
      *
      * @return the stream provider
@@ -103,5 +116,6 @@ public class GeoLocation extends Item {
         // TODO implement this
         return null;
     }
+
 
 }

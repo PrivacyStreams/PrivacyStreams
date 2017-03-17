@@ -58,7 +58,7 @@ public class ReminderManager extends BroadcastReceiver {
 				Intent surveyIntent = new Intent();
 				surveyIntent.setClass(mContext, QualtricActivity.class);
 				surveyIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK); // this is required for calling an activity when outside of an activity
-				surveyIntent.putExtra(Constants.KEY_SURVEY_URL,reminder.url);
+				surveyIntent.putExtra(Constants.URL.KEY_SURVEY_URL,reminder.url);
 				PendingIntent contentIntent = PendingIntent.getActivity(mContext.getApplicationContext(),
 						reminder.id, surveyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
@@ -94,7 +94,7 @@ public class ReminderManager extends BroadcastReceiver {
 		endOfTheDaySurveyReminder.hour = 22;
 		endOfTheDaySurveyReminder.minute = 0;
 		endOfTheDaySurveyReminder.type = REMINDER_TYPE_DAILY;
-		endOfTheDaySurveyReminder.url = Constants.END_OF_THE_DAY_EMA_URL;
+		endOfTheDaySurveyReminder.url = Constants.URL.END_OF_THE_DAY_EMA_URL;
 		endOfTheDaySurveyReminder.notifText = "Self report";
 		endOfTheDaySurveyReminder.notifTitle = "Survey";
 
@@ -102,7 +102,7 @@ public class ReminderManager extends BroadcastReceiver {
 
 		Reminder dailyRandomSurveyReminder = new Reminder();
 		dailyRandomSurveyReminder.type = REMINDER_TYPE_DAILY_RANDOM;
-		dailyRandomSurveyReminder.url = Constants.DAILY_EMA_URL;
+		dailyRandomSurveyReminder.url = Constants.URL.DAILY_EMA_URL;
 		dailyRandomSurveyReminder.notifText = "Self report";
 		dailyRandomSurveyReminder.notifTitle = "Survey";
 
@@ -112,7 +112,7 @@ public class ReminderManager extends BroadcastReceiver {
 		weeklySurveyReminder.hour = 22;
 		weeklySurveyReminder.minute = 0;
 		weeklySurveyReminder.type = REMINDER_TYPE_DAILY;
-		weeklySurveyReminder.url = Constants.WEEKLY_EMA_URL;
+		weeklySurveyReminder.url = Constants.URL.WEEKLY_EMA_URL;
 		weeklySurveyReminder.notifText = "Self report";
 		weeklySurveyReminder.notifTitle = "Survey";
 

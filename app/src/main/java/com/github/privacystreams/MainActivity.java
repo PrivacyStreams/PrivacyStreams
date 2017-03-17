@@ -6,7 +6,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
-
 public class MainActivity extends AppCompatActivity {
     public Button mButton;
 
@@ -30,8 +29,8 @@ public class MainActivity extends AppCompatActivity {
         protected Object doInBackground(Object[] objects) {
             UseCases useCases = new UseCases(MainActivity.this);
 
-            useCases.testContacts();
-            useCases.testMockData();
+//            useCases.testContacts();
+            useCases.testMockData(MainActivity.this);
 //            useCases.testTextEntry();
 //
 //            useCases.testBrowserSearchUpdates();

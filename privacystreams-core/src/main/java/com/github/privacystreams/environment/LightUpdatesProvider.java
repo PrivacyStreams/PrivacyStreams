@@ -33,7 +33,6 @@ class LightUpdatesProvider extends MultiItemStreamProvider {
 
         private Sensor lightSensor;
 
-
         MyLightListener(){
             sensorManager = (SensorManager)getContext().getSystemService(SENSOR_SERVICE);
             lightSensor = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);

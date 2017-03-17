@@ -29,6 +29,7 @@ import com.github.privacystreams.core.purposes.Purpose;
 import com.github.privacystreams.device.BluetoothDevice;
 import com.github.privacystreams.device.DeviceEvent;
 import com.github.privacystreams.device.WifiAp;
+import com.github.privacystreams.dropbox.DropboxOperators;
 import com.github.privacystreams.environment.Light;
 import com.github.privacystreams.google_awareness.PhysicalActivity;
 import com.github.privacystreams.image.Image;
@@ -65,15 +66,15 @@ public class UseCases {
         uqi.getDataItems(PhysicalActivity.asUpdates(),Purpose.feature("Physical Activity")).debug();
     }
     // For testing
-    public void testMockData() {
+    public void testMockData(Context context) {
         uqi
                 .getDataItems(MockItem.asRandomHistory(20, 100, 50), Purpose.test("test"))
                 .limit(10)
                 .timeout(Duration.seconds(10))
                 .map(ItemOperators.setField("time_round", ArithmeticOperators.roundUp(MockItem.TIME_CREATED, Duration.seconds(2))))
                 .localGroupBy("time_round")
-                .debug();
-//                .forEach(Outputs.uploadToDropbox("<dropbox token here>", "dummy"));
+//                .debug();
+                .forEach(DropboxOperators.upload(context.getResources().getString(R.string.dropbox_access_token), "device state"));
     }
 
     /*

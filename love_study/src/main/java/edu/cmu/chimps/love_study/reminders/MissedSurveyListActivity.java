@@ -40,7 +40,7 @@ public class MissedSurveyListActivity extends ListActivity {
     		public void onItemClick(AdapterView parent, View v, int position, long id)
     		{
 				final Intent intent = new Intent(MissedSurveyListActivity.this, QualtricActivity.class);
-				intent.putExtra(Constants.KEY_SURVEY_URL, Constants.DAILY_EMA_URL);
+				intent.putExtra(Constants.URL.KEY_SURVEY_URL, Constants.URL.DAILY_EMA_URL);
 				startActivity(intent);
     		}
     	});

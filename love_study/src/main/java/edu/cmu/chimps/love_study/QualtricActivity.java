@@ -14,7 +14,7 @@ public class QualtricActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.qualtrics);
-        String surveyUrl = getIntent().getStringExtra(Constants.KEY_SURVEY_URL);
+        String surveyUrl = getIntent().getStringExtra(Constants.URL.KEY_SURVEY_URL);
         WebView webView = (WebView) findViewById(R.id.webView1);
         webView.getSettings().setJavaScriptEnabled(true);
         webView.setAccessibilityDelegate(new View.AccessibilityDelegate());

@@ -12,11 +12,9 @@ import com.github.privacystreams.utils.Logging;
 
 import java.io.IOException;
 
-
 /**
  * Provide a stream of images stored in local sd card.
  */
-
 
 class ImageStorageProvider extends MultiItemStreamProvider {
 
@@ -64,10 +62,14 @@ class ImageStorageProvider extends MultiItemStreamProvider {
                 dataUri = cur.getString(dataColumn);
                 try{
                     exifInterface = new ExifInterface(dataUri);
-                    exifLatitude = Double.valueOf(exifInterface.getAttribute(ExifInterface.TAG_GPS_LATITUDE));
-                    exifLongitude = Double.valueOf(exifInterface.getAttribute(ExifInterface.TAG_GPS_LONGITUDE));
+                    float[] latLong = new float[2];
+                    boolean hasLatLong = exifInterface.getLatLong(latLong);
+                    if(hasLatLong){
+                        exifLatitude = (double) latLong[0];
+                        exifLongitude = (double) latLong[1];
+                    }
                 }
-                catch (IOException exception){
+                catch (IOException | NullPointerException exception){
                     Logging.debug(exception.toString());
                 }
 

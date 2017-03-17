@@ -12,6 +12,8 @@ import com.github.privacystreams.core.providers.MultiItemStreamProvider;
 
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
 
 /**
  * Created by yuanchun on 21/11/2016.
@@ -23,7 +25,6 @@ final class LocationUpdatesProvider extends MultiItemStreamProvider {
     private String provider;
     private long minTime;
     private float minDistance;
-
     private transient LocationManager locationManager;
     private transient LocationListener locationListener;
 
