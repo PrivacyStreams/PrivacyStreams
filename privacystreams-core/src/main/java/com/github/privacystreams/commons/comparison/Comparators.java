@@ -38,11 +38,10 @@ public class Comparators {
      *
      * @param field the name of the field to compare
      * @param valueToCompare the value to compare with
-     * @param <TValue> the type of value
      * @return the function
      */
-    public static <TValue extends Comparable<TValue>> Function<Item, Boolean> gt(final String field, final TValue valueToCompare) {
-        return new FieldComparePredicate<>(FieldComparePredicate.OPERATOR_GT, field, valueToCompare);
+    public static Function<Item, Boolean> gt(final String field, final Number valueToCompare) {
+        return new FieldComparePredicate(FieldComparePredicate.OPERATOR_GT, field, valueToCompare);
     }
 
     /**
@@ -50,11 +49,10 @@ public class Comparators {
      *
      * @param field the name of the field to compare
      * @param valueToCompare the value to compare with
-     * @param <TValue> the type of value
      * @return the function
      */
-    public static <TValue extends Comparable<TValue>> Function<Item, Boolean> lt(final String field, final TValue valueToCompare) {
-        return new FieldComparePredicate<>(FieldComparePredicate.OPERATOR_LT, field, valueToCompare);
+    public static Function<Item, Boolean> lt(final String field, final Number valueToCompare) {
+        return new FieldComparePredicate(FieldComparePredicate.OPERATOR_LT, field, valueToCompare);
     }
 
     /**
@@ -62,11 +60,10 @@ public class Comparators {
      *
      * @param field the name of the field to compare
      * @param valueToCompare the value to compare with
-     * @param <TValue> the type of value
      * @return the function
      */
-    public static <TValue extends Comparable<TValue>> Function<Item, Boolean> gte(final String field, final TValue valueToCompare) {
-        return new FieldComparePredicate<>(FieldComparePredicate.OPERATOR_GTE, field, valueToCompare);
+    public static Function<Item, Boolean> gte(final String field, final Number valueToCompare) {
+        return new FieldComparePredicate(FieldComparePredicate.OPERATOR_GTE, field, valueToCompare);
     }
 
     /**
@@ -74,10 +71,9 @@ public class Comparators {
      *
      * @param field the name of the field to compare
      * @param valueToCompare the value to compare with
-     * @param <TValue> the type of value
      * @return the function
      */
-    public static <TValue extends Comparable<TValue>> Function<Item, Boolean> lte(final String field, final TValue valueToCompare) {
-        return new FieldComparePredicate<>(FieldComparePredicate.OPERATOR_LTE, field, valueToCompare);
+    public static Function<Item, Boolean> lte(final String field, final Number valueToCompare) {
+        return new FieldComparePredicate(FieldComparePredicate.OPERATOR_LTE, field, valueToCompare);
     }
 }
