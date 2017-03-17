@@ -196,7 +196,7 @@ public class MStream extends Stream implements MStreamInterface {
      * @return the stream of items with the new field set
      */
     public <TValue> MStream setGroupField(String newField, Function<List<Item>, TValue> subStreamFunction) {
-        return this.setField(newField, ItemOperators.outputSubStream(subStreamFunction));
+        return this.setField(newField, ItemOperators.collectGroupedItems(subStreamFunction));
     }
 
     // *****************************

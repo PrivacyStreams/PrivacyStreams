@@ -28,7 +28,7 @@ abstract class ItemFieldPredicate<TValue> extends ItemFunction<Boolean> {
         return testField(fieldValue);
     }
 
-    protected abstract boolean testField(Object fieldValue);
+    protected abstract boolean testField(TValue fieldValue);
 
     public final Boolean apply(UQI uqi, Item input) {
         return this.test(input);

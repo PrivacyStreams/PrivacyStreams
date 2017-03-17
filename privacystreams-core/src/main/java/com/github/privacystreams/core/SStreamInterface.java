@@ -116,4 +116,10 @@ public interface SStreamInterface {
      */
     void debug();
 
+    /**
+     * Fork current stream for reusing.
+     * @param numOfForks number of reuses
+     * @return the forked stream
+     */
+    MStreamInterface fork(int numOfForks);
 }

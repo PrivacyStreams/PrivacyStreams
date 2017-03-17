@@ -332,4 +332,11 @@ public interface MStreamInterface {
      * @param <TValue> the type of the field
      */
     <TValue> void ifPresent(String fieldToSelect, Callback<TValue> callback);
+
+    /**
+     * Fork current stream for reusing.
+     * @param numOfForks number of reuses
+     * @return the forked stream
+     */
+    MStreamInterface fork(int numOfForks);
 }

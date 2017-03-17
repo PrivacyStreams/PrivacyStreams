@@ -6,21 +6,20 @@ import com.github.privacystreams.utils.Assertions;
  * Created by yuanchun on 28/11/2016.
  * a predicate that makes numeric comparisons on field values
  */
-final class FieldComparePredicate<TValue extends Comparable<TValue>> extends ItemFieldPredicate<TValue> {
+final class FieldComparePredicate extends ItemFieldPredicate<Number> {
     final static String OPERATOR_GT = "$field_gt";
     final static String OPERATOR_LT = "$field_lt";
     final static String OPERATOR_GTE = "$field_gte";
     final static String OPERATOR_LTE = "$field_lte";
 
-    FieldComparePredicate(final String operator, final String field, final TValue valueToCompare) {
+    FieldComparePredicate(final String operator, final String field, final Number valueToCompare) {
         super(operator, field, valueToCompare);
     }
 
     @Override
-    protected boolean testField(Object fieldValue) {
+    protected boolean testField(Number fieldValue) {
         if (fieldValue == null) return false;
-        Comparable<TValue> fieldComparable = Assertions.cast("compared_field_value", fieldValue);
-        int compareResult = fieldComparable.compareTo(this.valueToCompare);
+        double compareResult = fieldValue.doubleValue() - this.valueToCompare.doubleValue();
         switch (this.operator) {
             case OPERATOR_GT:
                 return compareResult > 0;

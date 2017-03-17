@@ -145,4 +145,10 @@ public abstract class Stream {
     public UQI getUQI() {
         return this.uqi;
     }
+
+    public Stream fork(int numOfForks) {
+        this.receiverCount = numOfForks;
+        return this;
+    }
+
 }

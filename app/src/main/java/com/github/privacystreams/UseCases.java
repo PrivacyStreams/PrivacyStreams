@@ -13,6 +13,7 @@ import com.github.privacystreams.audio.AudioOperators;
 import com.github.privacystreams.commons.arithmetic.ArithmeticOperators;
 import com.github.privacystreams.commons.comparison.Comparators;
 import com.github.privacystreams.commons.item.ItemOperators;
+import com.github.privacystreams.commons.items.ItemsOperators;
 import com.github.privacystreams.commons.list.ListOperators;
 import com.github.privacystreams.commons.statistic.StatisticOperators;
 import com.github.privacystreams.commons.string.StringOperators;
@@ -23,9 +24,14 @@ import com.github.privacystreams.communication.Phonecall;
 import com.github.privacystreams.core.Callback;
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.UQI;
+import com.github.privacystreams.core.actions.collect.Collectors;
 import com.github.privacystreams.core.exceptions.PrivacyStreamsException;
 import com.github.privacystreams.core.providers.mock.MockItem;
 import com.github.privacystreams.core.purposes.Purpose;
+import com.github.privacystreams.core.transformations.filter.Filters;
+import com.github.privacystreams.core.transformations.group.Groupers;
+import com.github.privacystreams.core.transformations.map.Mappers;
+import com.github.privacystreams.core.transformations.select.Selectors;
 import com.github.privacystreams.device.BluetoothDevice;
 import com.github.privacystreams.device.DeviceEvent;
 import com.github.privacystreams.device.WifiAp;
@@ -38,8 +44,13 @@ import com.github.privacystreams.location.LocationOperators;
 import com.github.privacystreams.utils.time.Duration;
 import com.github.privacystreams.utils.time.TimeUtils;
 
+import java.sql.Time;
 import java.util.List;
 import java.util.Map;
+
+import static com.github.privacystreams.commons.items.ItemsOperators.getItemWithMax;
+import static com.github.privacystreams.commons.time.TimeOperators.recent;
+import static com.github.privacystreams.commons.statistic.StatisticOperators.count;
 
 /**
  * Some show cases of PrivacyStreams
@@ -151,6 +162,41 @@ public class UseCases {
                     .getData(Contact.asList(), Purpose.FEATURE("estimate how popular you are."))
                     .count();
             System.out.println(count);
+
+            String mostCalledContact = uqi
+                    .getData(Phonecall.asLogs(), Purpose.SOCIAL("finding your closest contact."))
+                    .transform(Filters.keep(recent(Phonecall.TIMESTAMP, Duration.days(365))))
+                    .transform(Groupers.groupBy(Phonecall.CONTACT))
+                    .transform(Mappers.mapEachItem(ItemOperators.setGroupField("#calls", StatisticOperators.count())))
+                    .transform(Selectors.select(getItemWithMax("#calls")))
+                    .output(ItemOperators.<String>getField(Phonecall.CONTACT));
+
+            mostCalledContact = uqi
+                    .getData(Phonecall.asLogs(), Purpose.SOCIAL("finding your closest contact."))
+                    .filter(recent(Phonecall.TIMESTAMP, Duration.days(365)))
+                    .groupBy(Phonecall.CONTACT)
+                    .setGroupField("#calls", count())
+                    .select(getItemWithMax("#calls"))
+                    .getField(Phonecall.CONTACT);
+
+            uqi
+                    .getData(Phonecall.asLogs(), Purpose.SOCIAL("finding your closest contact."))
+                    .filter(recent(Phonecall.TIMESTAMP, Duration.days(365)))
+                    .groupBy(Phonecall.CONTACT)
+                    .setGroupField("#calls", count())
+                    .select(getItemWithMax("#calls"))
+                    .output(ItemOperators.<String>getField(Phonecall.CONTACT), new Callback<String>() {
+                        @Override
+                        protected void onSuccess(String contact) {
+                            System.out.println("Most-called contact: " + contact);
+                        }
+
+                        @Override
+                        protected void onFail(PrivacyStreamsException e) {
+                            System.out.println(e.getMessage());
+                        }
+                    });
+
         } catch (PrivacyStreamsException e) {
             System.out.println(e.getMessage());
             e.printStackTrace();
@@ -230,12 +276,12 @@ public class UseCases {
     boolean isMakingMoreCallsThanNormal() throws PrivacyStreamsException {
         int callCountLastWeek = uqi
                 .getData(Phonecall.asLogs(), Purpose.FEATURE("get how many calls you made recently"))
-                .filter(TimeOperators.recent(Phonecall.TIMESTAMP, Duration.days(7)))
+                .filter(recent(Phonecall.TIMESTAMP, Duration.days(7)))
                 .count();
         double callFrequencyLastWeek = (double) callCountLastWeek / 7;
         int callCountLastYear = uqi
                 .getData(Phonecall.asLogs(), Purpose.FEATURE("get how many calls you made normally"))
-                .filter(TimeOperators.recent(Phonecall.TIMESTAMP, Duration.days(365)))
+                .filter(recent(Phonecall.TIMESTAMP, Duration.days(365)))
                 .count();
         double callFrequencyLastYear = (double) callCountLastYear / 365;
         return callFrequencyLastWeek > callFrequencyLastYear;
