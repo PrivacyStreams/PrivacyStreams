@@ -149,4 +149,13 @@ public class SStream extends Stream implements SStreamInterface {
     public void debug() {
         this.output(ItemOperators.debug(), null);
     }
+
+    /**
+     * Fork current stream for reusing.
+     * @param numOfForks number of reuses
+     * @return the forked stream
+     */
+    public SStream fork(int numOfForks) {
+        return (SStream) super.fork(numOfForks);
+    }
 }

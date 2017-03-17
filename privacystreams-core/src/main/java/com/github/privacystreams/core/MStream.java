@@ -407,4 +407,13 @@ public class MStream extends Stream implements MStreamInterface {
     public <TValue> void ifPresent(String fieldToSelect, Callback<TValue> callback) {
         this.output(Callbacks.ifFieldPresent(fieldToSelect, callback));
     }
+
+    /**
+     * Fork current stream for reusing.
+     * @param numOfForks number of reuses
+     * @return the forked stream
+     */
+    public MStream fork(int numOfForks) {
+        return (MStream) super.fork(numOfForks);
+    }
 }
