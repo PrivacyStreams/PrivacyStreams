@@ -22,10 +22,10 @@ import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 
 /**
- * Created by lenovo on 2017/3/6.
+ * Provide motion context with Google Awareness API
  */
 
-public class PhysicalMotionUpdatesProvider extends MStreamProvider {
+class AwarenessMotionUpdatesProvider extends MStreamProvider {
     private static final String WALKINGFENCE = "Walking Fence";                     //Set up the fence key for the four fences we need
     private static final String TILTINGFENCE = "Tilting Fence";
     private static final String ONFOOTFENCE = "On Foot Fence";
@@ -88,7 +88,9 @@ public class PhysicalMotionUpdatesProvider extends MStreamProvider {
                 switch (fenceState.getCurrentState()) {                         //Check the state info incase some error happened
                     case FenceState.TRUE:
                         Log.e(fenceState.getFenceKey(), "Active");
-                        output(new PhysicalActivity(System.currentTimeMillis(),fenceState.getFenceKey())); // When new motion has been detected, output a new physical activity
+
+                        // When new motion has been detected, output a new physical activity
+                        output(new AwarenessMotion(System.currentTimeMillis(), fenceState.getFenceKey()));
                         break;
                 }
             }

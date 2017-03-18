@@ -13,7 +13,6 @@ import com.github.privacystreams.audio.AudioOperators;
 import com.github.privacystreams.commons.arithmetic.ArithmeticOperators;
 import com.github.privacystreams.commons.comparison.Comparators;
 import com.github.privacystreams.commons.item.ItemOperators;
-import com.github.privacystreams.commons.items.ItemsOperators;
 import com.github.privacystreams.commons.list.ListOperators;
 import com.github.privacystreams.commons.statistic.StatisticOperators;
 import com.github.privacystreams.commons.string.StringOperators;
@@ -24,7 +23,6 @@ import com.github.privacystreams.communication.Phonecall;
 import com.github.privacystreams.core.Callback;
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.UQI;
-import com.github.privacystreams.core.actions.collect.Collectors;
 import com.github.privacystreams.core.exceptions.PrivacyStreamsException;
 import com.github.privacystreams.core.providers.mock.MockItem;
 import com.github.privacystreams.core.purposes.Purpose;
@@ -36,7 +34,7 @@ import com.github.privacystreams.device.BluetoothDevice;
 import com.github.privacystreams.device.DeviceEvent;
 import com.github.privacystreams.device.WifiAp;
 import com.github.privacystreams.environment.Light;
-import com.github.privacystreams.google_awareness.PhysicalActivity;
+import com.github.privacystreams.google_awareness.AwarenessMotion;
 import com.github.privacystreams.image.Image;
 import com.github.privacystreams.image.ImageOperators;
 import com.github.privacystreams.location.GeoLocation;
@@ -44,7 +42,6 @@ import com.github.privacystreams.location.LocationOperators;
 import com.github.privacystreams.utils.time.Duration;
 import com.github.privacystreams.utils.time.TimeUtils;
 
-import java.sql.Time;
 import java.util.List;
 import java.util.Map;
 
@@ -73,7 +70,7 @@ public class UseCases {
     }
 
     public void testPhysicalMotionUpdatesProvider(){
-        uqi.getData(PhysicalActivity.asUpdates(),Purpose.FEATURE("Physical Activity")).debug();
+        uqi.getData(AwarenessMotion.asUpdates(),Purpose.FEATURE("Physical Activity")).debug();
     }
     // For testing
     public void testMockData() {
