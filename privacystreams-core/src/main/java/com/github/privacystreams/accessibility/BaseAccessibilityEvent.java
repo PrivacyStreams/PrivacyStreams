@@ -34,7 +34,7 @@ public class BaseAccessibilityEvent extends Item {
     public static final String PACKAGE_NAME = "package_name";
 
     /**
-     * The root view of current event, which is an instance of [AccessibilityNodeInfo](https://developer.android.com/reference/android/view/accessibility/AccessibilityNodeInfo.html).
+     * The root view of current event, which is an instance of SerializedAccessibilityNodeInfo
      */
     @PSItemField(type = AccessibilityNodeInfo.class)
     public static final String ROOT_VIEW = "root_view";
@@ -49,7 +49,7 @@ public class BaseAccessibilityEvent extends Item {
         this.setFieldValue(EVENT_TYPE, accessibilityEvent.getEventType());
         this.setFieldValue(TIMESTAMP, timeStamp);
         this.setFieldValue(PACKAGE_NAME, accessibilityEvent.getPackageName() != null ? accessibilityEvent.getPackageName() : "NULL");
-        this.setFieldValue(ROOT_VIEW, rootNode);
+        this.setFieldValue(ROOT_VIEW, SerializedAccessibilityNodeInfo.serialize(rootNode));
         this.setFieldValue(ITEM_COUNT, accessibilityEvent.getItemCount());
     }
 
