@@ -79,9 +79,9 @@ public class UseCases {
 
     // For testing
     public void testMockData() {
-        GlobalConfig.DropboxConfig.accessToken = "<YOUR_ACCESS_TOKEN>";
+        GlobalConfig.DropboxConfig.accessToken = "wvotIxO75CUAAAAAAAAA3wt-f_BnqO6coiDYhEsSBCEXIVEsvk88q6SEM7zfSnLC";
         GlobalConfig.DropboxConfig.leastSyncInterval = Duration.seconds(3);
-        GlobalConfig.DropboxConfig.onlyOverWifi = true;
+        GlobalConfig.DropboxConfig.onlyOverWifi = false;
 
         uqi
                 .getData(MockItem.asRandomUpdates(20, 100, 500), Purpose.TEST("test"))
@@ -249,12 +249,12 @@ public class UseCases {
     }
 
     // get the intent when enter an area, the callback will be invoked when the use enters or exits an area
-    void callbackWhenEntersArea(double x, double y, double r, Callback<Boolean> enterAreaCallback) {
-        uqi
-                .getData(GeoLocation.asUpdates(LocationManager.GPS_PROVIDER, 10, 10), Purpose.FEATURE("know when you enter an area"))
-                .setField("inArea", LocationOperators.inArea(GeoLocation.COORDINATES, x,y,r))
-                .onChange("inArea", enterAreaCallback);
-    }
+//    void callbackWhenEntersArea(double x, double y, double r, Callback<Boolean> enterAreaCallback) {
+//        uqi
+//                .getData(GeoLocation.asUpdates(LocationManager.GPS_PROVIDER, 10, 10), Purpose.FEATURE("know when you enter an area"))
+//                .setField("inArea", LocationOperators.inArea(GeoLocation.COORDINATES, x,y,r))
+//                .onChange("inArea", enterAreaCallback);
+//    }
 
     // handle two-factor auth Message message
     void getTwoFactorAuthSMS(String serverPhoneNum, Callback<String> messageCallback) {

@@ -29,6 +29,6 @@ dependencies {
     testCompile 'junit:junit:4.12'
 
     compile project(':privacystreams-core')
-    compile project(':privacystreams-third_parties')
+    compile 'com.dropbox.core:dropbox-core-sdk:2.1.1'
     //compile 'com.android.support:multidex:1.0.0'
 }
