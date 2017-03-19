@@ -5,7 +5,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.os.Debug;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
@@ -23,31 +22,10 @@ import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 
 /**
- * Created by lenovo on 2017/3/6.
+ * Provide motion context with Google Awareness API
  */
 
-public class PhysicalMotionUpdatesProvider extends MStreamProvider {
-    public class GoogleApiFixUncaughtExceptionHandler implements Thread.UncaughtExceptionHandler {
-
-        private final Thread.UncaughtExceptionHandler mWrappedHandler;
-
-        public GoogleApiFixUncaughtExceptionHandler(Thread.UncaughtExceptionHandler wrappedHandler) {
-            mWrappedHandler = wrappedHandler;
-        }
-
-        @Override public void uncaughtException(Thread t, Throwable e) {
-
-            if (e instanceof SecurityException &&
-                    e.getMessage().contains("Invalid API Key for package")) {
-                return;
-            }
-
-
-            // resend the exception
-            mWrappedHandler.uncaughtException(t, e);
-        }
-    }
-
+class AwarenessMotionUpdatesProvider extends MStreamProvider {
     private static final String WALKINGFENCE = "Walking Fence";                     //Set up the fence key for the four fences we need
     private static final String TILTINGFENCE = "Tilting Fence";
     private static final String ONFOOTFENCE = "On Foot Fence";
@@ -61,41 +39,25 @@ public class PhysicalMotionUpdatesProvider extends MStreamProvider {
     AwarenessFence walkingFence, tiltingFence, onFootFence, runningFence;  //Objects for detecting the physical motion
     @Override
     protected void provide() {
-        Thread thread = Thread.currentThread();
-        Thread.UncaughtExceptionHandler wrapped = thread.getUncaughtExceptionHandler();
-        if (!(wrapped instanceof GoogleApiFixUncaughtExceptionHandler)) {
-            GoogleApiFixUncaughtExceptionHandler handler = new GoogleApiFixUncaughtExceptionHandler(wrapped);
-            thread.setUncaughtExceptionHandler(handler);
-        }
-//        Thread thread = Thread.currentThread();
-//        thread.setUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
-//            @Override
-//            public void uncaughtException(Thread thread, Throwable throwable) {
-//                System.out.println(thread.getName() + " throws exception: " + throwable);
-//            }
-//        });
+        client = new GoogleApiClient.Builder(getContext())                              //Establish Connection
+                .addApi(Awareness.API)
+                .build();
+        client.connect();
+        walkingFence = DetectedActivityFence.during(DetectedActivityFence.WALKING);     //Create Fence
+        tiltingFence = DetectedActivityFence.during(DetectedActivityFence.TILTING);
+        onFootFence = DetectedActivityFence.during(DetectedActivityFence.ON_FOOT);
+        runningFence = DetectedActivityFence.during(DetectedActivityFence.RUNNING);
 
-                client = new GoogleApiClient.Builder(getContext())                              //Establish Connection
-                        .addApi(Awareness.API)
-                        .build();
-                client.connect();
-                walkingFence = DetectedActivityFence.during(DetectedActivityFence.WALKING);     //Create Fence
-                tiltingFence = DetectedActivityFence.during(DetectedActivityFence.TILTING);
-                onFootFence = DetectedActivityFence.during(DetectedActivityFence.ON_FOOT);
-                runningFence = DetectedActivityFence.during(DetectedActivityFence.RUNNING);
-
-                intent = new Intent(FENCE_RECEIVER_ACTION);                                     //Set up the intent and intent filter
-                myFillter = new IntentFilter(FENCE_RECEIVER_ACTION);
-                myPendingIntent = PendingIntent.getBroadcast(getContext(), 0, intent, 0);           //Set up the pendingIntent
-                myFenceReceiver = new FenceReceiver();                                              //Set up the receiver
-                getContext().registerReceiver(myFenceReceiver, myFillter);
-                registerFence(WALKINGFENCE, walkingFence);                                       //register the fences
-                registerFence(TILTINGFENCE, tiltingFence);
-                registerFence(ONFOOTFENCE, onFootFence);
-                registerFence(RUNNINGFENCE, runningFence);
-
-
-
+        intent = new Intent(FENCE_RECEIVER_ACTION);                                     //Set up the intent and intent filter
+        myFillter = new IntentFilter(FENCE_RECEIVER_ACTION);
+        myPendingIntent = PendingIntent.getBroadcast(getContext(), 0, intent, 0);           //Set up the pendingIntent
+        myFenceReceiver = new FenceReceiver();                                              //Set up the receiver
+        getContext().registerReceiver(myFenceReceiver, myFillter);
+        registerFence(WALKINGFENCE, walkingFence);                                       //register the fences
+        registerFence(TILTINGFENCE, tiltingFence);
+        registerFence(ONFOOTFENCE, onFootFence);
+        registerFence(RUNNINGFENCE, runningFence);
+        //printSnapshot();
     }
 
     // Register the fence and add it to the pending intent
@@ -126,7 +88,9 @@ public class PhysicalMotionUpdatesProvider extends MStreamProvider {
                 switch (fenceState.getCurrentState()) {                         //Check the state info incase some error happened
                     case FenceState.TRUE:
                         Log.e(fenceState.getFenceKey(), "Active");
-                        output(new PhysicalActivity(System.currentTimeMillis(),fenceState.getFenceKey())); // When new motion has been detected, output a new physical activity
+
+                        // When new motion has been detected, output a new physical activity
+                        output(new AwarenessMotion(System.currentTimeMillis(), fenceState.getFenceKey()));
                         break;
                 }
             }

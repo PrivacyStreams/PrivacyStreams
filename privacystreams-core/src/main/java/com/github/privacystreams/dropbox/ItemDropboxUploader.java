@@ -23,8 +23,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 /**
- * Created by yuanchun on 27/12/2016.
- * Write the item to a file
+ * Upload an item to Dropbox
  */
 
 final class ItemDropboxUploader extends ItemFunction<Void> {

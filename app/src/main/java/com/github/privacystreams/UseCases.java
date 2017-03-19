@@ -35,7 +35,7 @@ import com.github.privacystreams.device.DeviceEvent;
 import com.github.privacystreams.device.WifiAp;
 import com.github.privacystreams.dropbox.DropboxOperators;
 import com.github.privacystreams.environment.Light;
-import com.github.privacystreams.google_awareness.PhysicalActivity;
+import com.github.privacystreams.google_awareness.AwarenessMotion;
 import com.github.privacystreams.image.Image;
 import com.github.privacystreams.image.ImageOperators;
 import com.github.privacystreams.location.GeoLocation;
@@ -71,7 +71,7 @@ public class UseCases {
     }
 
     public void testPhysicalMotionUpdatesProvider(){
-        uqi.getData(PhysicalActivity.asUpdates(),Purpose.FEATURE("Physical Activity")).debug();
+        uqi.getData(AwarenessMotion.asUpdates(),Purpose.FEATURE("Physical Activity")).debug();
     }
     // For testing
     public void testMockData(Context context) {
