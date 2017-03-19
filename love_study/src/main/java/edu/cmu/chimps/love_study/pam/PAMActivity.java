@@ -123,7 +123,6 @@ public class PAMActivity extends AppCompatActivity {
         super.onResume();
         loadImages();
         setupPAM();
-
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

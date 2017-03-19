@@ -5,5 +5,4 @@
     android:accessibilityFlags="flagDefault|flagIncludeNotImportantViews|flagRequestTouchExplorationMode|flagRequestEnhancedWebAccessibility|flagReportViewIds|flagRequestFilterKeyEvents|flagRetrieveInteractiveWindows"
     android:accessibilityFeedbackType="feedbackAllMask"
     android:notificationTimeout="0"
-    android:canRetrieveWindowContent="true"
-    android:settingsActivity="com.github.privacystreams.MainActivity" />
+    android:canRetrieveWindowContent="true" />

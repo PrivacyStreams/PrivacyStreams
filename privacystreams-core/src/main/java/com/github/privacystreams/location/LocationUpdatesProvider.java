@@ -6,12 +6,13 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Looper;
+import android.util.Log;
 
 import com.github.privacystreams.core.UQI;
 import com.github.privacystreams.core.providers.MStreamProvider;
 
 import org.apache.commons.lang3.StringUtils;
-
 
 /**
  * Created by yuanchun on 21/11/2016.
@@ -23,7 +24,6 @@ final class LocationUpdatesProvider extends MStreamProvider {
     private String provider;
     private long minTime;
     private float minDistance;
-
     private transient LocationManager locationManager;
     private transient LocationListener locationListener;
 
@@ -43,10 +43,13 @@ final class LocationUpdatesProvider extends MStreamProvider {
 
     @Override
     protected void provide() {
+        Log.e("prepare","provid");
+        Looper.prepare();
         locationManager = (LocationManager) this.getContext().getSystemService(Context.LOCATION_SERVICE);
         locationListener = new MyLocationListener();
 
         this.getLocationUpdates();
+        Looper.loop();
     }
 
     private void getLocationUpdates() {
@@ -66,6 +69,7 @@ final class LocationUpdatesProvider extends MStreamProvider {
             if (location == null) return;
             GeoLocation geoLocation = new GeoLocation(location);
             LocationUpdatesProvider.this.output(geoLocation);
+            Log.e("add","location");
         }
 
         @Override

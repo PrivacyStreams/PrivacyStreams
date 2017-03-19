@@ -1,17 +1,25 @@
 package edu.cmu.chimps.love_study;
 
 import android.annotation.TargetApi;
-import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.Preference;
+import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
+import android.provider.Settings;
+import android.widget.Toast;
+
+import static edu.cmu.chimps.love_study.Utils.isAccessibilityEnabled;
+import static edu.cmu.chimps.love_study.Utils.isTrackingEnabled;
 
 
-public class GeneralSettingActivity extends Activity {
+public class GeneralSettingActivity extends PreferenceActivity {
 
     private static Context context;
+    private static boolean tracking_clicked;
+
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,6 +28,21 @@ public class GeneralSettingActivity extends Activity {
         // Display the fragment as the main content.
         getFragmentManager().beginTransaction().replace(android.R.id.content,
                 new PrefsFragment()).commit();
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        if(!isTrackingEnabled(context) && tracking_clicked){
+           Toast.makeText(context,"Tracking Started!", Toast.LENGTH_LONG).show();
+           startTracking();
+        }
+    }
+
+    public static void startTracking(){
+        Intent serviceIntent = new Intent(context,TrackingService.class);
+        serviceIntent.setAction(Constants.ACTION.STARTFOREGROUND_ACTION);
+        context.startService(serviceIntent);
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
@@ -31,21 +54,25 @@ public class GeneralSettingActivity extends Activity {
 
             // Load the preferences from an XML resource
             addPreferencesFromResource(R.xml.preferences);
+
+            Preference trackingServicePreference =findPreference("collectDataButton");
+            trackingServicePreference
+                    .setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    if(!isAccessibilityEnabled(context)){
+                        tracking_clicked = true;
+                        startActivity(new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS));
+                    }
+                    else{
+                        startTracking();
+                        Toast.makeText(context,"Tracking Started!", Toast.LENGTH_LONG).show();
+                    }
+                    return false;
+                }
+            });
         }
     }
 
-
-    private static Preference.OnPreferenceClickListener onPreferenceClickListener = new Preference.OnPreferenceClickListener() {
-        @Override
-        public boolean onPreferenceClick(Preference preference) {
-            if(preference.getKey().contentEquals("collectDataButton")) {
-
-            }
-            else if(preference.getKey().contentEquals("pushDataButton")){
-
-            }
-            return false;
-        }
-    };
 
 }

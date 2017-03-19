@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.USE_CREDENTIALS" />
+    <uses-permission android:name="android.permission.READ_CALL_LOG"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_SYNC_SETTINGS" />
     <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS" />
@@ -15,11 +16,20 @@
     <uses-permission android:name="android.permission.BIND_ACCESSIBILITY_SERVICE"/>
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="com.google.android.gms.permission.ACTIVITY_RECOGNITION" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_CALENDAR" />
 
-    <application android:allowBackup="true" android:icon="@mipmap/ic_launcher"
+    <application android:allowBackup="true" android:icon="@drawable/heart"
         android:label="@string/app_name" android:supportsRtl="true" android:theme="@style/AppTheme">
         <activity
-            android:label="PAM"
+            android:label="@string/app_name"
             android:name="edu.cmu.chimps.love_study.pam.PAMActivity" >
             <intent-filter>
             <action android:name="android.intent.action.MAIN" />
@@ -33,6 +43,21 @@
         <activity android:name="edu.cmu.chimps.love_study.GeneralSettingActivity"/>
         <activity android:name="edu.cmu.chimps.love_study.QualtricActivity"/>
         <activity android:name="edu.cmu.chimps.love_study.reminders.MissedSurveyListActivity"/>
+        <service android:name=".TrackingService" android:launchMode="singleTop"/>
+        <!--<activity-->
+            <!--android:name="com.dropbox.core.android.AuthActivity"-->
+            <!--android:configChanges="orientation|keyboard"-->
+            <!--android:launchMode="singleTask" >-->
+            <!--<intent-filter>-->
+
+                <!--&lt;!&ndash; Change this to be db- followed by your app key &ndash;&gt;-->
+                <!--<data android:scheme="@string/dropbox_app_key" />-->
+                <!--<action android:name="android.intent.action.VIEW" />-->
+
+                <!--<category android:name="android.intent.category.BROWSABLE" />-->
+                <!--<category android:name="android.intent.category.DEFAULT" />-->
+            <!--</intent-filter>-->
+        <!--</activity>-->
         <receiver android:name="edu.cmu.chimps.love_study.reminders.ReminderManager">
             <intent-filter>
                 <action android:name="REMINDER_ACTION"/>

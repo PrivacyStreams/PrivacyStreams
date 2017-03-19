@@ -26,7 +26,10 @@ class TextEntryProvider extends AccessibilityEventProvider {
 
     protected void onViewTextChanged(AccessibilityEvent event) {
         List<CharSequence> text = event.getText();
-        if (text.get(0).length() == 0 || event.isPassword()) {
+        if (text == null
+                || text.size()==0
+                || text.get(0).length() == 0
+                || event.isPassword()) {
             this.mEvent = null;
 
         } else {

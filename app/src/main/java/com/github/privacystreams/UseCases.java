@@ -70,7 +70,7 @@ public class UseCases {
     }
 
     public void testBlueToothUpatesProvider(){
-        uqi.getData(BluetoothDevice.asUpdates(), Purpose.FEATURE("blueTooth device")).debug();
+        uqi.getData(BluetoothDevice.asScanList(), Purpose.FEATURE("blueTooth device")).debug();
     }
 
 //    public void testPhysicalMotionUpdatesProvider(){

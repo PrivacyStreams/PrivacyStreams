@@ -10,7 +10,7 @@ android {
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
-
+        multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
     }
@@ -31,5 +31,8 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile project(':privacystreams-core')
     compile project(':privacystreams-third_parties')
+    compile 'com.dropbox.core:dropbox-core-sdk:2.1.1'
+    compile 'com.google.android.gms:play-services:10.2.0'
     compile 'joda-time:joda-time:2.3'
+    compile 'com.android.support:multidex:1.0.0'
 }

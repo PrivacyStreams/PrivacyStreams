@@ -22,7 +22,10 @@ class SStreamCollector<Tout> extends SStreamAction {
 
     @Override
     protected void onInput(Item item) {
-        if (item.isEndOfStream()) this.finish();
+        if (item.isEndOfStream()) {
+            this.finish();
+            return;
+        }
         Tout result = itemCollector.apply(this.getUQI(), item);
         if (this.resultHandler != null)
             this.resultHandler.apply(this.getUQI(), result);

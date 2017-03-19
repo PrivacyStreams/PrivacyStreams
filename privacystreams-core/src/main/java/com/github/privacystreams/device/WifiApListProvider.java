@@ -9,9 +9,10 @@ import android.net.wifi.ScanResult;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Build;
-import android.os.Looper;
 import android.support.annotation.RequiresApi;
+import android.util.Log;
 
+import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.UQI;
 import com.github.privacystreams.core.providers.MStreamProvider;
 
@@ -31,11 +32,11 @@ class WifiApListProvider extends MStreamProvider {
             WifiInfo wifiInfo = wifiMgr.getConnectionInfo();
             String name = wifiInfo.getSSID();
             for(ScanResult result: wifiMgr.getScanResults()){
-                output(new WifiAp(result, name.equals(result.SSID)));
+                WifiApListProvider.this.output(new WifiAp(result, name.equals(result.SSID)));
             }
+            WifiApListProvider.this.finish();
         }
     }
-
 
     @Override
     protected void onCancelled(UQI uqi) {
@@ -59,11 +60,13 @@ class WifiApListProvider extends MStreamProvider {
 
         WifiManager wifiMgr = (WifiManager) this.getContext().getApplicationContext().getSystemService(Context.WIFI_SERVICE);
 
-        Looper.prepare();
-
         if(wifiMgr.isWifiEnabled()) {
+            Log.e("wifi","enabled");
             this.getContext().registerReceiver(this.wifiReceiver, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
             wifiMgr.startScan();
+        }
+        else{
+            Log.e("wifi","not enabled");
         }
 
     }

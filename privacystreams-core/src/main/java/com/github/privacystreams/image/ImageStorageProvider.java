@@ -6,15 +6,13 @@ import android.media.ExifInterface;
 import android.net.Uri;
 import android.provider.MediaStore;
 
-import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.providers.MStreamProvider;
 import com.github.privacystreams.utils.Logging;
 
 import java.io.IOException;
 
-
 /**
- * Created by fanglinchen on 2/2/17.
+ * Provide a stream of images stored in local sd card.
  */
 
 class ImageStorageProvider extends MStreamProvider {
@@ -26,10 +24,12 @@ class ImageStorageProvider extends MStreamProvider {
     @Override
     protected void provide() {
         this.getImageInfo();
+        this.finish();
 
     }
 
     private void getImageInfo(){
+
         Cursor cur = this.getContext().getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
                 new String[]{
                         MediaStore.Images.Media.BUCKET_ID,
@@ -63,21 +63,23 @@ class ImageStorageProvider extends MStreamProvider {
                 dataUri = cur.getString(dataColumn);
                 try{
                     exifInterface = new ExifInterface(dataUri);
-                    exifLatitude = Double.valueOf(exifInterface.getAttribute(ExifInterface.TAG_GPS_LATITUDE));
-                    exifLongitude = Double.valueOf(exifInterface.getAttribute(ExifInterface.TAG_GPS_LONGITUDE));
+                    float[] latLong = new float[2];
+                    boolean hasLatLong = exifInterface.getLatLong(latLong);
+                    if(hasLatLong){
+                        exifLatitude = (double) latLong[0];
+                        exifLongitude = (double) latLong[1];
+                    }
                 }
-                catch (IOException exception){
+                catch (IOException | NullPointerException exception){
                     Logging.debug(exception.toString());
                 }
-
+                Image image = new Image(date,
+                        Uri.parse(dataUri),exifLatitude, exifLongitude);
+                this.output(image);
             } while (cur.moveToNext());
-            Image image = new Image(date,
-                    Uri.parse(dataUri),exifLatitude, exifLongitude);
-            this.output(image);
+
             cur.close();
         }
-
-        this.output(Item.EOS);
     }
 
 }

@@ -27,9 +27,13 @@ public class SerializedAccessibilityNodeInfo implements Serializable {
     public Set<SerializedAccessibilityNodeInfo> children;
 
 
-    static SerializedAccessibilityNodeInfo serialize(AccessibilityNodeInfo node){
+    public static SerializedAccessibilityNodeInfo serialize(AccessibilityNodeInfo node){
+
         SerializedAccessibilityNodeInfo serializedNode = new SerializedAccessibilityNodeInfo();
         Rect boundsInScreen = new Rect(), boundsInParent = new Rect();
+        if(node==null){
+            return null;
+        }
         if(node.getClassName() != null)
             serializedNode.className = node.getClassName().toString();
         node.getBoundsInScreen(boundsInScreen);

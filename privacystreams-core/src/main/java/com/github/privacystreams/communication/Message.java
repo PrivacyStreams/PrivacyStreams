@@ -61,6 +61,7 @@ public class Message extends Item {
      * Provide a live stream of Message items from IM apps, including WhatsApp and Facebook.
      * @return the provider function
      */
+
      public static MStreamProvider asIMUpdates(){
          if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2)
              return new IMUpdatesProvider();

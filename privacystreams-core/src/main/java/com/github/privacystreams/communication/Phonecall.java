@@ -13,6 +13,13 @@ import com.github.privacystreams.utils.annotations.PSItemField;
 public class Phonecall extends Item {
 
     /**
+     * The unique id of this call log.
+     */
+    @PSItemField(type = Long.class)
+    public static final String ID = "id";
+
+
+    /**
      * The timestamp of when the phonecall is happened.
      */
     @PSItemField(type = Long.class)
@@ -42,13 +49,13 @@ public class Phonecall extends Item {
         public static final String MISSED = "missed";
     };
 
-    Phonecall(Long timestamp, String phone_number, Long duration, String call_type) {
+    Phonecall(String id, Long timestamp, String phone_number, Long duration, String call_type) {
+        this.setFieldValue(ID, id);
         this.setFieldValue(TIMESTAMP, timestamp);
         this.setFieldValue(CONTACT, phone_number);
         this.setFieldValue(DURATION, duration);
         this.setFieldValue(TYPE, call_type);
     }
-
     /**
      * Provide a list of Phonecall items from the device call log.
      * @return the stream provider

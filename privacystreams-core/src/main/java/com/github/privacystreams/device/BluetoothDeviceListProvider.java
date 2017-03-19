@@ -8,33 +8,31 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.util.Log;
 
+import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.UQI;
 import com.github.privacystreams.core.providers.MStreamProvider;
 
+import static android.content.ContentValues.TAG;
+
 /**
- * Created by lenovo on 2017/3/6.
+ * Provide a stream of current visible bluetooth device list.
  */
 
-class BluetoothUpdatesProvider extends MStreamProvider {
-    private int count;                      // count how many devices have been checked
-    private BluetoothAdapter BTAdapter;
-    private IntentFilter intentFilter;
+class BluetoothDeviceListProvider extends MStreamProvider {
 
     // Sets up the permission requirement
-    BluetoothUpdatesProvider() {
+    BluetoothDeviceListProvider() {
         this.addRequiredPermissions(Manifest.permission.BLUETOOTH);
         this.addRequiredPermissions(Manifest.permission.BLUETOOTH_ADMIN);
     }
 
     @Override
     protected void provide() {
-        Log.e("BTProvider","Starts");
-        BTAdapter = BluetoothAdapter.getDefaultAdapter();               // Set up the adaptor
-        intentFilter = new IntentFilter();
+        BluetoothAdapter BTAdapter = BluetoothAdapter.getDefaultAdapter();               // Set up the adaptor
+        IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(android.bluetooth.BluetoothDevice.ACTION_FOUND);
         intentFilter.addAction(BluetoothAdapter.ACTION_DISCOVERY_STARTED);
         intentFilter.addAction(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
-        count = 0;
         getContext().registerReceiver(mReceiver, intentFilter);
         BTAdapter.startDiscovery();
     }
@@ -43,26 +41,20 @@ class BluetoothUpdatesProvider extends MStreamProvider {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
-            //Log.e("BTProvider","Here");
             // When discovery finds a device
             if (android.bluetooth.BluetoothDevice.ACTION_FOUND.equals(action)) {
                 // Get the BluetoothDevice object from the Intent
                 android.bluetooth.BluetoothDevice device = intent.getParcelableExtra(android.bluetooth.BluetoothDevice.EXTRA_DEVICE);
-                Log.e("BTProvider","Find One");
-                count++;
-                Log.e("BT", "Name: " + device.getName() + " Mac Address: " + device.getAddress() + " Bonded: " + device.getBondState());
-                output(new BluetoothDevice(device));                       // return the new bluetooth device
-                // If it's already paired, skip it, because it's been listed already
-//                if (device.getBondState() != BluetoothDevice.BOND_BONDED) {
-//                    mNewDevicesArrayAdapter.add(device.getName() + "\n" + device.getAddress());
-//                }
-                // When discovery is finished, change the Activity title
-            } else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action)) {
-                Log.e("BTProvider","Finish Finding");
-                if (count == 0) {
-                    Log.e("BT", "No blueTooth device was found.");
-                }
+                // return the new bluetooth device
+                Log.e("bt device",device.getAddress());
+                BluetoothDeviceListProvider.this.output(new BluetoothDevice(device));
             }
+            else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action))
+            {
+                Log.e(TAG,"Entered the Finished ");
+                BluetoothDeviceListProvider.this.finish();
+            }
+
         }
     };
 
@@ -71,5 +63,4 @@ class BluetoothUpdatesProvider extends MStreamProvider {
         super.onCancelled(uqi);
         getContext().unregisterReceiver(mReceiver);
     }
-
 }

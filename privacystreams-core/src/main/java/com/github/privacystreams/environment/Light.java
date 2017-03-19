@@ -12,7 +12,7 @@ import com.github.privacystreams.utils.annotations.PSItemField;
 public class Light extends Item {
 
     /**
-     * The light intensity, in ??.
+     * The light intensity, in lumens.
      */
     @PSItemField(type = Float.class)
     public static final String INTENSITY = "intensity";
@@ -23,7 +23,7 @@ public class Light extends Item {
     @PSItemField(type = Long.class)
     public static final String TIMESTAMP = "timestamp";
 
-    public Light(float intensity, long timestamp) {
+    Light(float intensity, long timestamp) {
         this.setFieldValue(INTENSITY, intensity);
         this.setFieldValue(TIMESTAMP,timestamp);
     }
@@ -35,6 +35,4 @@ public class Light extends Item {
     public static MStreamProvider asUpdates(){
         return new LightUpdatesProvider();
     }
-
-
 }

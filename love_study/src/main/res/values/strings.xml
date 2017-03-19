@@ -1,6 +1,7 @@
 <resources>
-    <string name="app_name">PStream</string>
-
+    <string name="app_name">Love Study</string>
+    <string name="service_name">Love Study is Collecting Data</string>
+    <string name="service_status_monitor">Love Study is Collecting Data</string>
     <!--omh schema settings -->
     <string name="schema_namespace">cornell</string>
     <string name="schema_name">photographic-affect-meter-scores</string>

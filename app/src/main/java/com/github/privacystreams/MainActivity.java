@@ -10,7 +10,6 @@ import com.github.privacystreams.core.UQI;
 import com.github.privacystreams.core.providers.mock.MockItem;
 import com.github.privacystreams.core.purposes.Purpose;
 
-
 public class MainActivity extends AppCompatActivity {
     public Button mButton;
 
@@ -39,8 +38,8 @@ public class MainActivity extends AppCompatActivity {
         protected Object doInBackground(Object[] objects) {
             UseCases useCases = new UseCases(MainActivity.this);
 
-            useCases.testContacts();
-            useCases.testMockData();
+//            useCases.testContacts();
+            useCases.testMockData(MainActivity.this);
 //            useCases.testTextEntry();
 //
 //            useCases.testBrowserSearchUpdates();
