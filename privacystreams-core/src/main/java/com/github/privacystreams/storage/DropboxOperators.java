@@ -12,7 +12,7 @@ import java.util.List;
 @PSOperatorWrapper
 public class DropboxOperators {
     /**
-     * A function that upload an object to Dropbox.
+     * Upload an object to Dropbox.
      * This operator requires Dropbox configured, including:
      * 1. Adding `'com.dropbox.core:dropbox-core-sdk:2.1.1'` in build.gradle dependencies;
      * 2. Creating an Dropbox app and getting an access token of the app.
@@ -24,5 +24,20 @@ public class DropboxOperators {
      */
     public static <Tin> Function<Tin, Void> uploadAs(String fileTag) {
         return new DropboxUploader<>(fileTag);
+    }
+
+    /**
+     * Append an object to Dropbox.
+     * This operator requires Dropbox configured, including:
+     * 1. Adding `'com.dropbox.core:dropbox-core-sdk:2.1.1'` in build.gradle dependencies;
+     * 2. Creating an Dropbox app and getting an access token of the app.
+     * For more details, please refer to [Dropbox developers page](https://www.dropbox.com/developers/apps/).
+     * The uploaded object will be at `<Dropbox_app>/<uuid>/<fileName>` in your Dropbox.
+     *
+     * @param fileName the name of the Dropbox file to append
+     * @return the function
+     */
+    public static <Tin> Function<Tin, Void> appendTo(String fileName) {
+        return new DropboxAppender<>(fileName);
     }
 }

@@ -17,10 +17,10 @@ import java.io.IOException;
  * Write an Item to a file
  */
 
-final class FileAppender<Tin> extends Function<Tin, Void> {
+class FileAppender<Tin> extends Function<Tin, Void> {
 
     private final String dirPath;
-    private final String fileName;
+    protected final String fileName;
 
     private static final String SEPARATOR = "\n\n\n";
 
