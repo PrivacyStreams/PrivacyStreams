@@ -13,13 +13,16 @@ import android.support.annotation.RequiresApi;
 import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 
-import com.github.privacystreams.accessibility.UIAction;
-import com.github.privacystreams.commons.arithmetic.ArithmeticOperators;
-import com.github.privacystreams.commons.item.ItemOperators;
+import com.github.privacystreams.calendar.CalendarEvent;
+import com.github.privacystreams.communication.Contact;
+import com.github.privacystreams.communication.Message;
+import com.github.privacystreams.communication.Phonecall;
 import com.github.privacystreams.core.UQI;
 import com.github.privacystreams.core.purposes.Purpose;
-import com.github.privacystreams.device.DeviceEvent;
+import com.github.privacystreams.image.Image;
+import com.github.privacystreams.location.GeoLocation;
 import com.github.privacystreams.utils.time.Duration;
+import com.google.android.gms.location.LocationRequest;
 
 import edu.cmu.chimps.love_study.pam.PAMActivity;
 
@@ -30,6 +33,31 @@ import edu.cmu.chimps.love_study.pam.PAMActivity;
 public class TrackingService extends Service {
     private  static final int NOTIFICATION_ID = 1234;
     private static final int WIFI_BT_SCAN_INTERVAL = 20*60*1000;
+    private static final int IMAGE_STORAGE_SCAN_INTERVAL = 1*30*1000;
+    UQI uqi;
+    private class PollingTask extends RepeatingTask{
+
+        public PollingTask(int frequency) {
+            super(frequency);
+        }
+
+        @Override
+        protected void doWork() {
+         uqi.getData(Contact.asList(), Purpose.FEATURE("LoveStudy ContactList Collection"))
+                .debug();
+
+         uqi.getData(CalendarEvent.asList(), Purpose.FEATURE("LoveStudy Calendar Event Collection"))
+                .debug();
+
+         uqi.getData(Image.readFromStorage(),Purpose.FEATURE("Love Study Image Collection"))
+                .debug();
+
+         uqi.getData(Phonecall.asLogs(),Purpose.FEATURE("Love Study Phonecall Collection"))
+                .debug();
+
+        }
+    }
+
 
     private void showNotification() {
         Intent notificationIntent = new Intent(this, PAMActivity.class);
@@ -53,50 +81,58 @@ public class TrackingService extends Service {
 
     public void collectData(){
         Log.e("TrackingService","Collecting Data");
-        UQI uqi = new UQI(this);
-//        uqi.getData(Contact.asList(), Purpose.FEATURE("LoveStudy ContactList Collection"))
-//                .forEach(DropboxOperators.upload(getResources().getString(R.string.dropbox_access_token), "contact_list"));
 
+        PollingTask pollingTask = new PollingTask(IMAGE_STORAGE_SCAN_INTERVAL);
+        pollingTask.run();
 //
-//        uqi.getData(Message.asIMUpdates(), Purpose.FEATURE("LoveStudy Message Collection"))
-//                .debug();
-//        uqi.getData(DeviceState.asUpdates(WIFI_BT_SCAN_INTERVAL, DeviceState.Masks.WIFI_AP_LIST
-//                | DeviceState.Masks.BLUETOOTH_DEVICE_LIST | DeviceState.Masks.BATTERY_LEVEL),
-//                Purpose.FEATURE("Love Study Light Collection"))
-//                .project(DeviceState.BATTERY_LEVEL).debug();
-
+        uqi.getData(Message.asIMUpdates(), Purpose.FEATURE("LoveStudy Message Collection"))
+                .debug();
+////        uqi.getData(DeviceState.asUpdates(WIFI_BT_SCAN_INTERVAL, DeviceState.Masks.WIFI_AP_LIST
+////                | DeviceState.Masks.BLUETOOTH_DEVICE_LIST | DeviceState.Masks.BATTERY_LEVEL),
+////                Purpose.FEATURE("Love Study Light Collection"))
+////                .project(DeviceState.BATTERY_LEVEL).debug();
+//
 //        uqi.getData(Light.asUpdates(),Purpose.FEATURE("Love Study Light Collection"))
 //                .filter(Comparators.lt(Light.INTENSITY, 50))
 //                .debug();
-//                .forEach(DropboxOperators.upload(getResources().getString(R.string.dropbox_api_key), "light"));
 //
-
-//        uqi.getData(DeviceEvent.asUpdates(),Purpose.FEATURE("Love Study Device State Collection"))
-//                .map(ItemOperators.setField("time_round", ArithmeticOperators.roundUp(DeviceEvent.TIMESTAMP, Duration.minutes(1))))
+        uqi.getData(GeoLocation.asUpdates(Duration.minutes(1), Duration.seconds(30),
+                LocationRequest.PRIORITY_HIGH_ACCURACY), Purpose.FEATURE("know when you enter an area"))
+                .debug();
+////        uqi.getData(DeviceEvent.asUpdates(),Purpose.FEATURE("Love Study Device State Collection"))
+////                .map(ItemOperators.setField("time_round", ArithmeticOperators.roundUp(DeviceEvent.TIMESTAMP, Duration.minutes(1))))
+////                .localGroupBy("time_round")
+////                .debug();
+//////
+//        uqi.getData(com.github.privacystreams.notification.Notification.asUpdates(),Purpose.FEATURE("Love Study Device State Collection"))
+//                .map(ItemOperators.setField("time_round", ArithmeticOperators.roundUp(DeviceEvent.TIMESTAMP, Duration.seconds(30))))
 //                .localGroupBy("time_round")
 //                .debug();
-////
-        uqi.getData(com.github.privacystreams.notification.Notification.asUpdates(),Purpose.FEATURE("Love Study Device State Collection"))
-                .map(ItemOperators.setField("time_round", ArithmeticOperators.roundUp(DeviceEvent.TIMESTAMP, Duration.seconds(30))))
-                .localGroupBy("time_round")
-                .debug();
-
-//        uqi.getData(Image.readFromStorage(),Purpose.FEATURE("Love Study Image Collection"))
-//                .debug();
+//
 
 //        uqi.getData(TextEntry.asUpdates(), Purpose.FEATURE("Love Study Text Entry Collection"))
-//                .forEach(DropboxOperators.upload(getResources().getString(R.string.dropbox_api_key), "text entry"));
-        uqi.getData(UIAction.asUpdates(), Purpose.FEATURE("Love Study UIAction Collection")).debug();
-
+//                .debug();
+//        uqi.getData(UIAction.asUpdates(), Purpose.FEATURE("Love Study UIAction Collection"))
+//                .setField("serialized_node", new Function<Item, String>() {
+//                    @Override
+//                    public String apply(UQI uqi, Item input) {
+//                        AccessibilityNodeInfo node = input.getValueByField(UIAction.ROOT_VIEW);
+//                        SerializedAccessibilityNodeInfo serialized = SerializedAccessibilityNodeInfo.serialize(node);
+//                        return uqi.getGson().toJson(serialized);
+//                    }
+//                })
+//            .debug();
+//
 //        uqi.getData(BrowserSearch.asUpdates(), Purpose.FEATURE("Love Study Browser Search Collection"))
-//                .forEach(DropboxOperators.upload(getResources().getString(R.string.dropbox_api_key), "Browser Search"));
+//                .debug();
 //        uqi.getData(BrowserVisit.asUpdates(), Purpose.FEATURE("Love Study Browser Visit Collection"))
-//                .forEach(DropboxOperators.upload(getResources().getString(R.string.dropbox_api_key), "Browser Visit"));
+//                .debug();
 
     }
 
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.e("TrackingService","TrackingService");
+        uqi = new UQI(this);
         if(intent.getAction().equals(Constants.ACTION.STARTFOREGROUND_ACTION)){
             showNotification();
             collectData();

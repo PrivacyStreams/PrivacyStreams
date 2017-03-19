@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Debug;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresPermission;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -25,14 +26,12 @@ import com.google.android.gms.common.api.Status;
 /**
  * Provide motion context with Google Awareness API
  */
-
-<<<<<<< HEAD:privacystreams-third_parties/src/main/java/com/github/privacystreams/google_awareness/PhysicalMotionUpdatesProvider.java
-public class PhysicalMotionUpdatesProvider extends MStreamProvider {
-    public class GoogleApiFixUncaughtExceptionHandler implements Thread.UncaughtExceptionHandler {
+class AwarenessMotionUpdatesProvider extends MStreamProvider {
+    private class GoogleApiFixUncaughtExceptionHandler implements Thread.UncaughtExceptionHandler {
 
         private final Thread.UncaughtExceptionHandler mWrappedHandler;
 
-        public GoogleApiFixUncaughtExceptionHandler(Thread.UncaughtExceptionHandler wrappedHandler) {
+        GoogleApiFixUncaughtExceptionHandler(Thread.UncaughtExceptionHandler wrappedHandler) {
             mWrappedHandler = wrappedHandler;
         }
 
@@ -49,9 +48,6 @@ public class PhysicalMotionUpdatesProvider extends MStreamProvider {
         }
     }
 
-=======
-class AwarenessMotionUpdatesProvider extends MStreamProvider {
->>>>>>> 01cb08af5af0cab902bc40f3b0a9ca9c0b768bc4:privacystreams-core/src/main/java/com/github/privacystreams/google_awareness/AwarenessMotionUpdatesProvider.java
     private static final String WALKINGFENCE = "Walking Fence";                     //Set up the fence key for the four fences we need
     private static final String TILTINGFENCE = "Tilting Fence";
     private static final String ONFOOTFENCE = "On Foot Fence";
@@ -63,6 +59,7 @@ class AwarenessMotionUpdatesProvider extends MStreamProvider {
     private Intent intent;
     private IntentFilter myFillter;
     AwarenessFence walkingFence, tiltingFence, onFootFence, runningFence;  //Objects for detecting the physical motion
+
     @Override
     protected void provide() {
         Thread thread = Thread.currentThread();

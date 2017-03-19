@@ -5,7 +5,6 @@ import android.database.Cursor;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.provider.MediaStore;
-import android.util.Log;
 
 import com.github.privacystreams.core.providers.MStreamProvider;
 import com.github.privacystreams.utils.Logging;
@@ -76,7 +75,6 @@ class ImageStorageProvider extends MStreamProvider {
                 }
                 Image image = new Image(date,
                         Uri.parse(dataUri),exifLatitude, exifLongitude);
-                Log.e("img",image.toString());
                 this.output(image);
             } while (cur.moveToNext());
 

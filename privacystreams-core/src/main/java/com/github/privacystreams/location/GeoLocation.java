@@ -47,40 +47,22 @@ public class GeoLocation extends Item {
     @PSItemField(type = Float.class)
     public static final String ACCURACY = "accuracy";
 
-    GeoLocation(long time, String provider, double latitude, double longitude,
-                       double altitude, float accuracy, float speed) {
-        this.setFieldValue(TIMESTAMP, time);
-        this.setFieldValue(PROVIDER, provider);
-        this.setFieldValue(ACCURACY, accuracy);
-        this.setFieldValue(SPEED, speed);
-        List<Double> coordinates = new ArrayList<>();
-        coordinates.add(latitude);
-        coordinates.add(longitude);
-        coordinates.add(altitude);
-        this.setFieldValue(COORDINATES, coordinates);
-    }
 
     GeoLocation(Location location) {
-        this(
-            location.getTime(),
-            location.getProvider(),
-            location.getLatitude(),
-            location.getLongitude(),
-            location.getAltitude(),
-            location.getAccuracy(),
-            location.getSpeed());
+        this.setFieldValue(TIMESTAMP, location.getTime());
+        this.setFieldValue(PROVIDER, location.getProvider());
+        List<Double> coordinates = new ArrayList<>();
+        coordinates.add(location.getLatitude());
+        coordinates.add(location.getLongitude());
+        coordinates.add(location.getAltitude());
+        this.setFieldValue(COORDINATES, coordinates);
+        this.setFieldValue(ACCURACY, location.getAccuracy());
+        this.setFieldValue(SPEED,location.getSpeed());
     }
 
-    /**
-     * Provide a live stream of GeoLocation items from device's location sensors.
-     *
-     * @param provider the location provider, could be "gps", "network", etc.
-     * @param minTime minimum time interval between location updates, in milliseconds.
-     * @param minDistance minimum distance between location updates, in meters.
-     * @return the stream provider
-     */
-    public static MStreamProvider asUpdates(String provider, long minTime, float minDistance) {
-        return new LocationUpdatesProvider(provider, minTime, minDistance);
+
+    public static MStreamProvider asUpdates(long interval, long fastInterval, int priority) {
+        return new GoogleLocationProvider( interval, fastInterval, priority);
     }
 
     /**

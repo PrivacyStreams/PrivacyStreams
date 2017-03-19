@@ -9,6 +9,7 @@ import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
 import android.provider.Settings;
+import android.widget.Toast;
 
 import static edu.cmu.chimps.love_study.Utils.isAccessibilityEnabled;
 import static edu.cmu.chimps.love_study.Utils.isTrackingEnabled;
@@ -33,12 +34,16 @@ public class GeneralSettingActivity extends PreferenceActivity {
     public void onResume(){
         super.onResume();
         if(!isTrackingEnabled(context) && tracking_clicked){
-            Intent serviceIntent = new Intent(context,TrackingService.class);
-            serviceIntent.setAction(Constants.ACTION.STARTFOREGROUND_ACTION);
-            context.startService(serviceIntent);
+           Toast.makeText(context,"Tracking Started!", Toast.LENGTH_LONG).show();
+           startTracking();
         }
     }
 
+    public static void startTracking(){
+        Intent serviceIntent = new Intent(context,TrackingService.class);
+        serviceIntent.setAction(Constants.ACTION.STARTFOREGROUND_ACTION);
+        context.startService(serviceIntent);
+    }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public static class PrefsFragment extends PreferenceFragment {
@@ -58,6 +63,10 @@ public class GeneralSettingActivity extends PreferenceActivity {
                     if(!isAccessibilityEnabled(context)){
                         tracking_clicked = true;
                         startActivity(new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS));
+                    }
+                    else{
+                        startTracking();
+                        Toast.makeText(context,"Tracking Started!", Toast.LENGTH_LONG).show();
                     }
                     return false;
                 }

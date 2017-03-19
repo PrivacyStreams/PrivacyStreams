@@ -49,7 +49,7 @@ public class BaseAccessibilityEvent extends Item {
         this.setFieldValue(EVENT_TYPE, accessibilityEvent.getEventType());
         this.setFieldValue(TIMESTAMP, timeStamp);
         this.setFieldValue(PACKAGE_NAME, accessibilityEvent.getPackageName() != null ? accessibilityEvent.getPackageName() : "NULL");
-        this.setFieldValue(ROOT_VIEW, SerializedAccessibilityNodeInfo.serialize(rootNode));
+        this.setFieldValue(ROOT_VIEW, rootNode);
         this.setFieldValue(ITEM_COUNT, accessibilityEvent.getItemCount());
     }
 
