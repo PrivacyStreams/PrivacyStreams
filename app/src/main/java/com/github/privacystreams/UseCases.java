@@ -23,6 +23,7 @@ import com.github.privacystreams.communication.Phonecall;
 import com.github.privacystreams.core.Callback;
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.UQI;
+import com.github.privacystreams.core.actions.collect.Collectors;
 import com.github.privacystreams.core.exceptions.PrivacyStreamsException;
 import com.github.privacystreams.core.providers.mock.MockItem;
 import com.github.privacystreams.core.purposes.Purpose;
@@ -34,11 +35,13 @@ import com.github.privacystreams.device.BluetoothDevice;
 import com.github.privacystreams.device.DeviceEvent;
 import com.github.privacystreams.device.WifiAp;
 import com.github.privacystreams.environment.Light;
-import com.github.privacystreams.google_awareness.AwarenessMotion;
 import com.github.privacystreams.image.Image;
 import com.github.privacystreams.image.ImageOperators;
 import com.github.privacystreams.location.GeoLocation;
 import com.github.privacystreams.location.LocationOperators;
+import com.github.privacystreams.storage.DropboxOperators;
+import com.github.privacystreams.storage.StorageOperators;
+import com.github.privacystreams.utils.GlobalConfig;
 import com.github.privacystreams.utils.time.Duration;
 import com.github.privacystreams.utils.time.TimeUtils;
 
@@ -48,6 +51,7 @@ import java.util.Map;
 import static com.github.privacystreams.commons.items.ItemsOperators.getItemWithMax;
 import static com.github.privacystreams.commons.time.TimeOperators.recent;
 import static com.github.privacystreams.commons.statistic.StatisticOperators.count;
+import static com.github.privacystreams.storage.DropboxOperators.uploadAs;
 
 /**
  * Some show cases of PrivacyStreams
@@ -69,19 +73,25 @@ public class UseCases {
         uqi.getData(BluetoothDevice.asUpdates(), Purpose.FEATURE("blueTooth device")).debug();
     }
 
-    public void testPhysicalMotionUpdatesProvider(){
-        uqi.getData(AwarenessMotion.asUpdates(),Purpose.FEATURE("Physical Activity")).debug();
-    }
+//    public void testPhysicalMotionUpdatesProvider(){
+//        uqi.getData(AwarenessMotion.asUpdates(),Purpose.FEATURE("Physical Activity")).debug();
+//    }
+
     // For testing
     public void testMockData() {
+        GlobalConfig.DropboxConfig.accessToken = "<YOUR_ACCESS_TOKEN>";
+        GlobalConfig.DropboxConfig.leastSyncInterval = Duration.seconds(3);
+        GlobalConfig.DropboxConfig.onlyOverWifi = true;
+
         uqi
-                .getData(MockItem.asRandomList(20, 100, 50), Purpose.TEST("test"))
-                .limit(10)
+                .getData(MockItem.asRandomUpdates(20, 100, 500), Purpose.TEST("test"))
+                .limit(100)
                 .timeout(Duration.seconds(10))
                 .map(ItemOperators.setField("time_round", ArithmeticOperators.roundUp(MockItem.TIME_CREATED, Duration.seconds(2))))
                 .localGroupBy("time_round")
-                .debug();
-//                .forEach(Outputs.uploadToDropbox("<dropbox token here>", "dummy"));
+//                .debug();
+                .forEach(DropboxOperators.<Item>uploadAs("mockData"));
+//                .forEach(StorageOperators.<Item>appendTo("PrivacyStreams_dir", "mockData"));
     }
 
     /*

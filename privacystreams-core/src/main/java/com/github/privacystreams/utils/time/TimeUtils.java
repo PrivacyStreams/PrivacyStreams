@@ -56,4 +56,11 @@ public class TimeUtils {
     public static Long now() {
         return System.currentTimeMillis();
     }
+
+    public static String getTimeTag() {
+        long timeMillis = System.currentTimeMillis();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_hhmmss_SSS", Locale.US);
+        Date date = new Date(timeMillis);
+        return sdf.format(date);
+    }
 }

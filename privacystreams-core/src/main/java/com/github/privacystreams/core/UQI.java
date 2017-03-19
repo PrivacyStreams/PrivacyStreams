@@ -137,7 +137,7 @@ public class UQI {
             Set<String> deniedPermissions = PermissionUtils.getDeniedPermissions(this.context, this.query.getRequiredPermissions());
             this.exception = PrivacyStreamsException.PERMISSION_DENIED(deniedPermissions.toArray(new String[]{}));
             this.query.cancel(this);
-            this.context = null; // remove context
+//            this.context = null; // remove context
         }
     }
 }

@@ -1,5 +1,8 @@
 package com.github.privacystreams.core;
 
+import com.github.privacystreams.utils.annotations.PSItem;
+import com.github.privacystreams.utils.annotations.PSItemField;
+
 import org.json.JSONObject;
 
 import java.util.Arrays;
@@ -11,8 +14,17 @@ import static com.github.privacystreams.utils.Assertions.cast;
 
 /**
  * An Item is a basic element in a stream.
+ * This class is the base class of all type of personal data items in PrivacyStream.
  */
+@PSItem
 public class Item {
+
+    /**
+     * The timestamp of when the Item is created.
+     */
+    @PSItemField(type = Long.class)
+    public static final String TIME_CREATED = "time_created";
+
     private final Map<String, Object> itemMap;
 
     public Item() {
@@ -21,6 +33,7 @@ public class Item {
 
     public Item(Map<String, Object> itemMap) {
         this.itemMap = itemMap;
+        this.setFieldValue(TIME_CREATED, System.currentTimeMillis());
     }
 
     public static final Item EOS = new Item();
