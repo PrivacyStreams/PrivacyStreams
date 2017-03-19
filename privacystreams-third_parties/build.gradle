@@ -10,7 +10,7 @@ ext {
     artifact = 'privacystreams-third_parties'
 
     libraryName = 'PrivacyStreams-third_parties'
-    libraryDescription = 'The third party services integrated with PrivacyStreams framework, including Dropbox, Google Awareness, Google Maps, etc..'
+    libraryDescription = 'The third party services integrated with PrivacyStreams framework, including DropboxConfig, Google Awareness, Google Maps, etc..'
     libraryVersion = '0.0.2'
 
     bintrayRepo = 'privacystreams-android'

@@ -38,18 +38,11 @@ public class MockItem extends Item {
     @PSItemField(type = Double.class)
     public static final String Z = "z";
 
-    /**
-     * The timestamp of when current item is created.
-     */
-    @PSItemField(type = Long.class)
-    public static final String TIME_CREATED = "time_created";
-
     private MockItem(long id, Integer x, String y, Double z) {
         this.setFieldValue(ID, id);
         this.setFieldValue(X, x);
         this.setFieldValue(Y, y);
         this.setFieldValue(Z, z);
-        this.setFieldValue(TIME_CREATED, System.currentTimeMillis());
     }
 
     public MockItem(MockObject mockObject) {
