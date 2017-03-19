@@ -24,12 +24,13 @@ import java.util.Set;
  */
 
 public class DropboxUtils {
+    private static final String LOG_TAG = "DropboxUtils - ";
 
     private static final String DROPBOX_WAITING_LIST = "dropbox_waiting_list";
 
     private static long lastSyncTimestamp = 0;
 
-    public static void addToWaitingList(UQI uqi, String fileName) {
+    public static synchronized void addToWaitingList(UQI uqi, String fileName) {
         SharedPreferences pref = uqi.getContext().getApplicationContext().getSharedPreferences(Consts.LIB_TAG, Context.MODE_PRIVATE);
         Set<String> waitingList = pref.getStringSet(DROPBOX_WAITING_LIST, new HashSet<String>());
         waitingList.add(fileName);
@@ -37,7 +38,7 @@ public class DropboxUtils {
         editor.clear();
         editor.putStringSet(DROPBOX_WAITING_LIST, waitingList);
         editor.apply();
-        Logging.debug("Added file to Dropbox waiting list: " + fileName);
+        Logging.debug(LOG_TAG + "Added file to waiting list: " + fileName);
     }
 
     public static synchronized void syncFiles(UQI uqi) {
@@ -52,14 +53,14 @@ public class DropboxUtils {
             if (waitingList.isEmpty()) return;
             if (GlobalConfig.DropboxConfig.onlyOverWifi && !ConnectionUtils.isWifiConnected(uqi)) return;
 
-            Logging.debug("Trying to upload files to Dropbox: " + waitingList);
-
             // Create Dropbox client
             DbxRequestConfig config = new DbxRequestConfig(Consts.LIB_TAG);
             DbxClientV2 client = new DbxClientV2(config, GlobalConfig.DropboxConfig.accessToken);
 
             Set<String> filesToDelete = new HashSet<>();
             Set<String> filesToRemoveFromWaitingList = new HashSet<>();
+
+            Logging.debug(LOG_TAG + "Trying to upload: " + waitingList);
 
             for (String fileToUpload : waitingList) {
                 try {
@@ -76,6 +77,8 @@ public class DropboxUtils {
                     filesToRemoveFromWaitingList.add(fileToUpload);
                 }
             }
+
+            Logging.debug(LOG_TAG + "Successfully uploaded: " + waitingList);
 
             if (!filesToRemoveFromWaitingList.isEmpty()) {
                 Set<String> newWaitingList = new HashSet<>(waitingList);
