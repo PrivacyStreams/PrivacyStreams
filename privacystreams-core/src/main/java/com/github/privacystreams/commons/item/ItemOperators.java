@@ -61,15 +61,16 @@ public class ItemOperators {
     /**
      * Set the value of a new field with a function.
      * This function must be applied to a group item, i.e. must be used after <code>groupBy</code> or <code>localGroupBy</code>.
+     * For example, `.groupBy("name").setGroupField("count", count())` will group the items with same "name" together,
+     * and set "count" field to the number of items in each group.
      *
-     * @param fieldToSet the name of the field to set, it can be a new name.
-     * @param functionToComputeValue the function to compute the value of the field.
+     * @param fieldToSet the name of the field to set, it can be a new name or an existing name.
+     * @param itemsFunction the function to compute the field value based on the grouped items.
      * @param <TValue> the type of the new field value.
      * @return the item mapper function.
      */
-    public static <TValue> Function<Item, Item> setGroupField(String fieldToSet,
-                                                              Function<List<Item>, TValue> functionToComputeValue) {
-        return new FieldSetter<>(fieldToSet, new ItemSubStreamFunction<>(functionToComputeValue));
+    public static <TValue> Function<Item, Item> setGroupField(String fieldToSet, Function<List<Item>, TValue> itemsFunction) {
+        return new FieldSetter<>(fieldToSet, new ItemSubStreamFunction<>(itemsFunction));
     }
 
     /**
@@ -85,12 +86,12 @@ public class ItemOperators {
      * Set the value of a new field with a function.
      *
      * @param fieldToSet the name of the field to set, it can be a new name.
-     * @param functionToComputeValue the function to compute the value of the field.
+     * @param itemFunction the function to compute the value of the field based on the item.
      * @param <TValue> the type of the new field value.
      * @return the item mapper function.
      */
-    public static <TValue> Function<Item, Item> setField(String fieldToSet, Function<Item, TValue> functionToComputeValue) {
-        return new FieldSetter<>(fieldToSet, functionToComputeValue);
+    public static <TValue> Function<Item, Item> setField(String fieldToSet, Function<Item, TValue> itemFunction) {
+        return new FieldSetter<>(fieldToSet, itemFunction);
     }
 
     /**

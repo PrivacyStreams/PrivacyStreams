@@ -47,11 +47,6 @@ public class UQITest {
     }
 
     @Test
-    public void getUUID() throws Exception {
-        assertNotNull(this.uqi.getUUID());
-    }
-
-    @Test
     public void getGson() throws Exception {
 
     }
