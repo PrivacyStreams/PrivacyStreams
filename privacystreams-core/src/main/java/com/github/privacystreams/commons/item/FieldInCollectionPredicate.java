@@ -5,7 +5,6 @@ import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.UQI;
 import com.github.privacystreams.utils.Assertions;
 
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -26,7 +25,7 @@ final class FieldInCollectionPredicate<TValue> extends ItemFunction<Boolean> {
     @Override
     public Boolean apply(UQI uqi, Item input) {
         TValue fieldValue = input.getValueByField(this.field);
-        return Arrays.asList(this.collectionToCompare).contains(fieldValue);
+        return this.collectionToCompare.contains(fieldValue);
     }
 
 }

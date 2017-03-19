@@ -26,6 +26,7 @@ public abstract class Function<Tin, Tout> {
         return this.parameters;
     }
 
+    // TODO consider the case where parameter is a list
     protected void addParameters(Object... parameters) {
         for (Object parameter : parameters) {
             this.parameters.add(parameter);

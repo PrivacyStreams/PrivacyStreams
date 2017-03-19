@@ -35,7 +35,7 @@ public class BluetoothDevice extends Item {
         this.setFieldValue(BONDED, scannedDevice.getBondState());
     }
 
-    public static MStreamProvider asUpdates() {
+    public static MStreamProvider asScanList() {
         return new BluetoothDeviceListProvider();
     }
 }

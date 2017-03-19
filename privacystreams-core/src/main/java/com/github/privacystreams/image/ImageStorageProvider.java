@@ -5,8 +5,8 @@ import android.database.Cursor;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.util.Log;
 
-import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.providers.MStreamProvider;
 import com.github.privacystreams.utils.Logging;
 
@@ -25,10 +25,12 @@ class ImageStorageProvider extends MStreamProvider {
     @Override
     protected void provide() {
         this.getImageInfo();
+        this.finish();
 
     }
 
     private void getImageInfo(){
+
         Cursor cur = this.getContext().getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
                 new String[]{
                         MediaStore.Images.Media.BUCKET_ID,
@@ -72,15 +74,14 @@ class ImageStorageProvider extends MStreamProvider {
                 catch (IOException | NullPointerException exception){
                     Logging.debug(exception.toString());
                 }
-
+                Image image = new Image(date,
+                        Uri.parse(dataUri),exifLatitude, exifLongitude);
+                Log.e("img",image.toString());
+                this.output(image);
             } while (cur.moveToNext());
-            Image image = new Image(date,
-                    Uri.parse(dataUri),exifLatitude, exifLongitude);
-            this.output(image);
+
             cur.close();
         }
-
-        this.output(Item.EOS);
     }
 
 }

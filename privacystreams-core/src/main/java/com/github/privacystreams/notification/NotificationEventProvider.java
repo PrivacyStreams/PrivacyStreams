@@ -4,13 +4,12 @@ import android.os.Build;
 import android.support.annotation.RequiresApi;
 
 import com.github.privacystreams.core.UQI;
-import com.github.privacystreams.core.providers.MultiItemStreamProvider;
+import com.github.privacystreams.core.providers.MStreamProvider;
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-abstract class NotificationEventProvider extends MultiItemStreamProvider {
+abstract class NotificationEventProvider extends MStreamProvider {
 
     private boolean registered = false;
-
 
     @Override
     protected void provide() {
@@ -26,5 +25,6 @@ abstract class NotificationEventProvider extends MultiItemStreamProvider {
 
     public abstract void handleNotificationEvent(String categoryName, String packageName,
                                                  String titleName,
-                                                 String textName);
+                                                 String textName,
+                                                 String action);
 }

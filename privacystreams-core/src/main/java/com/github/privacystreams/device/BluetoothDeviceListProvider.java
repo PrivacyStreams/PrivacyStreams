@@ -6,18 +6,19 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.util.Log;
 
+import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.UQI;
 import com.github.privacystreams.core.providers.MStreamProvider;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Provide a stream of current visible bluetooth device list.
  */
 
 class BluetoothDeviceListProvider extends MStreamProvider {
-    private int count;                      // count how many devices have been checked
-    private BluetoothAdapter BTAdapter;
-    private IntentFilter intentFilter;
 
     // Sets up the permission requirement
     BluetoothDeviceListProvider() {
@@ -27,8 +28,8 @@ class BluetoothDeviceListProvider extends MStreamProvider {
 
     @Override
     protected void provide() {
-        BTAdapter = BluetoothAdapter.getDefaultAdapter();               // Set up the adaptor
-        intentFilter = new IntentFilter();
+        BluetoothAdapter BTAdapter = BluetoothAdapter.getDefaultAdapter();               // Set up the adaptor
+        IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(android.bluetooth.BluetoothDevice.ACTION_FOUND);
         intentFilter.addAction(BluetoothAdapter.ACTION_DISCOVERY_STARTED);
         intentFilter.addAction(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
@@ -45,8 +46,15 @@ class BluetoothDeviceListProvider extends MStreamProvider {
                 // Get the BluetoothDevice object from the Intent
                 android.bluetooth.BluetoothDevice device = intent.getParcelableExtra(android.bluetooth.BluetoothDevice.EXTRA_DEVICE);
                 // return the new bluetooth device
-                output(new BluetoothDevice(device));
+                Log.e("bt device",device.getAddress());
+                BluetoothDeviceListProvider.this.output(new BluetoothDevice(device));
             }
+            else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action))
+            {
+                Log.e(TAG,"Entered the Finished ");
+                BluetoothDeviceListProvider.this.finish();
+            }
+
         }
     };
 

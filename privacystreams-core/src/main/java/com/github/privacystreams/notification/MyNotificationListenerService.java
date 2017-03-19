@@ -1,7 +1,6 @@
 package com.github.privacystreams.notification;
 
 import android.app.Notification;
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.service.notification.StatusBarNotification;
@@ -10,6 +9,9 @@ import android.util.Log;
 
 import java.util.HashSet;
 import java.util.Set;
+
+import static com.github.privacystreams.notification.Notification.ACTION_POSTED;
+import static com.github.privacystreams.notification.Notification.ACTION_REMOVED;
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 public class MyNotificationListenerService extends android.service.notification.NotificationListenerService {
@@ -45,7 +47,8 @@ public class MyNotificationListenerService extends android.service.notification.
                     provider.handleNotificationEvent(mNotification.category,
                             sbn.getPackageName(),
                             notificationTitle,
-                            notificationText);
+                            notificationText,
+                            ACTION_POSTED);
             }
             else{
                 CharSequence[] csa = extras.getCharSequenceArray(Notification.EXTRA_TEXT_LINES);
@@ -58,14 +61,16 @@ public class MyNotificationListenerService extends android.service.notification.
                                 provider.handleNotificationEvent(mNotification.category,
                                         sbn.getPackageName(),
                                         notificationText.split(": ")[0],
-                                        notificationText.split(": ")[1]);
+                                        notificationText.split(": ")[1],
+                                        ACTION_POSTED);
                         }
                         else {
                             for(NotificationEventProvider provider:notificationEventProviders)
                                 provider.handleNotificationEvent(mNotification.category,
                                         sbn.getPackageName(),
                                         notificationTitle.split(" @ ")[0],
-                                        notificationText);
+                                        notificationText,
+                                        ACTION_POSTED);
                         }
                 }
             }
@@ -77,11 +82,14 @@ public class MyNotificationListenerService extends android.service.notification.
 
     @Override
     public void onNotificationRemoved(StatusBarNotification sbn) {
-        Log.e(TAG,"********** onNOtificationRemoved");
-        Log.e(TAG,"ID :" + sbn.getId() + "\t" + sbn.getNotification().tickerText +"\t" + sbn.getPackageName());
-        Intent i = new Intent("edu.cmu.chimps.privacylockscreen.NOTIFICATION_LISTENER_EXAMPLE");
-        i.putExtra("notification_event","onNotificationRemoved :" + sbn.getPackageName() + "\n");
-        sendBroadcast(i);
+
+        Notification mNotification = sbn.getNotification();
+        String notificationTitle = mNotification.extras.getString(Notification.EXTRA_TITLE);
+        for(NotificationEventProvider provider:notificationEventProviders)
+            provider.handleNotificationEvent(mNotification.category,
+                    sbn.getPackageName(), notificationTitle,
+                    sbn.getNotification().tickerText.toString(),ACTION_REMOVED);
+
     }
 
     static void registerProvider(NotificationEventProvider provider){

@@ -6,7 +6,6 @@ import android.app.Service;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.location.LocationManager;
 import android.os.Build;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
@@ -14,22 +13,13 @@ import android.support.annotation.RequiresApi;
 import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 
-import com.github.privacystreams.accessibility.BrowserSearch;
-import com.github.privacystreams.accessibility.BrowserVisit;
-import com.github.privacystreams.accessibility.TextEntry;
 import com.github.privacystreams.accessibility.UIAction;
-import com.github.privacystreams.commons.comparison.Comparators;
-import com.github.privacystreams.communication.Contact;
-import com.github.privacystreams.communication.Message;
+import com.github.privacystreams.commons.arithmetic.ArithmeticOperators;
+import com.github.privacystreams.commons.item.ItemOperators;
 import com.github.privacystreams.core.UQI;
 import com.github.privacystreams.core.purposes.Purpose;
-import com.github.privacystreams.device.BluetoothDevice;
 import com.github.privacystreams.device.DeviceEvent;
-import com.github.privacystreams.device.WifiAp;
-import com.github.privacystreams.dropbox.DropboxOperators;
-import com.github.privacystreams.environment.Light;
-import com.github.privacystreams.google_awareness.PhysicalActivity;
-import com.github.privacystreams.image.Image;
+import com.github.privacystreams.utils.time.Duration;
 
 import edu.cmu.chimps.love_study.pam.PAMActivity;
 
@@ -39,6 +29,7 @@ import edu.cmu.chimps.love_study.pam.PAMActivity;
 @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
 public class TrackingService extends Service {
     private  static final int NOTIFICATION_ID = 1234;
+    private static final int WIFI_BT_SCAN_INTERVAL = 20*60*1000;
 
     private void showNotification() {
         Intent notificationIntent = new Intent(this, PAMActivity.class);
@@ -63,43 +54,44 @@ public class TrackingService extends Service {
     public void collectData(){
         Log.e("TrackingService","Collecting Data");
         UQI uqi = new UQI(this);
-        uqi.getDataItems(Contact.asList(), Purpose.feature("LoveStudy ContactList Collection"))
-                .forEach(DropboxOperators.upload(getResources().getString(R.string.dropbox_api_key), "contact_list"));
+//        uqi.getData(Contact.asList(), Purpose.FEATURE("LoveStudy ContactList Collection"))
+//                .forEach(DropboxOperators.upload(getResources().getString(R.string.dropbox_access_token), "contact_list"));
 
-        uqi.getDataItems(Message.asIMUpdates(),Purpose.feature("LoveStudy Message Collection"))
-                .forEach(DropboxOperators.upload(getResources().getString(R.string.dropbox_api_key), "im"));
+//
+//        uqi.getData(Message.asIMUpdates(), Purpose.FEATURE("LoveStudy Message Collection"))
+//                .debug();
+//        uqi.getData(DeviceState.asUpdates(WIFI_BT_SCAN_INTERVAL, DeviceState.Masks.WIFI_AP_LIST
+//                | DeviceState.Masks.BLUETOOTH_DEVICE_LIST | DeviceState.Masks.BATTERY_LEVEL),
+//                Purpose.FEATURE("Love Study Light Collection"))
+//                .project(DeviceState.BATTERY_LEVEL).debug();
 
-        uqi.getDataItems(LocationStay.asLocationStayUpdates(LocationManager.GPS_PROVIDER, 10,
-                getResources().getString(R.string.google_api_key)),
-                Purpose.feature("LoveStudy Location Collection"))
-                .forEach(DropboxOperators.upload(getResources().getString(R.string.dropbox_api_key), "location"));
+//        uqi.getData(Light.asUpdates(),Purpose.FEATURE("Love Study Light Collection"))
+//                .filter(Comparators.lt(Light.INTENSITY, 50))
+//                .debug();
+//                .forEach(DropboxOperators.upload(getResources().getString(R.string.dropbox_api_key), "light"));
+//
 
-        uqi.getDataItems(Light.asUpdates(),Purpose.feature("Love Study Light Collection"))
-                .filter(Comparators.lt(Light.INTENSITY, 50))
-                .forEach(DropboxOperators.upload(getResources().getString(R.string.dropbox_api_key), "light"));
+//        uqi.getData(DeviceEvent.asUpdates(),Purpose.FEATURE("Love Study Device State Collection"))
+//                .map(ItemOperators.setField("time_round", ArithmeticOperators.roundUp(DeviceEvent.TIMESTAMP, Duration.minutes(1))))
+//                .localGroupBy("time_round")
+//                .debug();
+////
+        uqi.getData(com.github.privacystreams.notification.Notification.asUpdates(),Purpose.FEATURE("Love Study Device State Collection"))
+                .map(ItemOperators.setField("time_round", ArithmeticOperators.roundUp(DeviceEvent.TIMESTAMP, Duration.seconds(30))))
+                .localGroupBy("time_round")
+                .debug();
 
-        uqi.getDataItems(BluetoothDevice.asUpdates(),Purpose.feature("Love Study BT Collection"))
-                .forEach(DropboxOperators.upload(getResources().getString(R.string.dropbox_api_key), "bluetooth"));
+//        uqi.getData(Image.readFromStorage(),Purpose.FEATURE("Love Study Image Collection"))
+//                .debug();
 
-        uqi.getDataItems(WifiAp.asScanList(),Purpose.feature("Love Study Wifi Collection"))
-                .forEach(DropboxOperators.upload(getResources().getString(R.string.dropbox_api_key), "wifi"));
+//        uqi.getData(TextEntry.asUpdates(), Purpose.FEATURE("Love Study Text Entry Collection"))
+//                .forEach(DropboxOperators.upload(getResources().getString(R.string.dropbox_api_key), "text entry"));
+        uqi.getData(UIAction.asUpdates(), Purpose.FEATURE("Love Study UIAction Collection")).debug();
 
-        uqi.getDataItems(DeviceEvent.asUpdates(),Purpose.feature("Love Study Device State Collection"))
-                .forEach(DropboxOperators.upload(getResources().getString(R.string.dropbox_api_key), "device state"));
-
-        uqi.getDataItems(PhysicalActivity.asUpdates(),Purpose.feature("Love Study Physical Activity Collection"))
-                .forEach(DropboxOperators.upload(getResources().getString(R.string.dropbox_api_key), "physical activity"));
-
-        uqi.getDataItems(Image.readFromStorage(),Purpose.feature("Love Study Text Entry Collection"))
-                .forEach(DropboxOperators.upload(getResources().getString(R.string.dropbox_api_key), "device state"));
-        uqi.getDataItems(TextEntry.asUpdates(), Purpose.feature("Love Study Text Entry Collection"))
-                .forEach(DropboxOperators.upload(getResources().getString(R.string.dropbox_api_key), "text entry"));
-        uqi.getDataItems(UIAction.asUpdates(), Purpose.feature("Love Study UIAction Collection"))
-                .forEach(DropboxOperators.upload(getResources().getString(R.string.dropbox_api_key), "ui action"));
-        uqi.getDataItems(BrowserSearch.asUpdates(), Purpose.feature("Love Study Browser Search Collection"))
-                .forEach(DropboxOperators.upload(getResources().getString(R.string.dropbox_api_key), "Browser Search"));
-        uqi.getDataItems(BrowserVisit.asUpdates(), Purpose.feature("Love Study Browser Visit Collection"))
-                .forEach(DropboxOperators.upload(getResources().getString(R.string.dropbox_api_key), "Browser Visit"));
+//        uqi.getData(BrowserSearch.asUpdates(), Purpose.FEATURE("Love Study Browser Search Collection"))
+//                .forEach(DropboxOperators.upload(getResources().getString(R.string.dropbox_api_key), "Browser Search"));
+//        uqi.getData(BrowserVisit.asUpdates(), Purpose.FEATURE("Love Study Browser Visit Collection"))
+//                .forEach(DropboxOperators.upload(getResources().getString(R.string.dropbox_api_key), "Browser Visit"));
 
     }
 

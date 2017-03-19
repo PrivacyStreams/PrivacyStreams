@@ -1,6 +1,7 @@
 package com.github.privacystreams.notification;
 
 import com.github.privacystreams.core.Item;
+import com.github.privacystreams.core.providers.MStreamProvider;
 import com.github.privacystreams.utils.annotations.PSItem;
 import com.github.privacystreams.utils.annotations.PSItemField;
 
@@ -18,6 +19,16 @@ public class Notification extends Item {
      */
     @PSItemField(type = Long.class)
     public static final String TIMESTAMP = "timestamp";
+
+    /**
+     * The action associated with the notification.
+     * It could be removed or posted.
+     */
+    @PSItemField(type = String.class)
+    public static final String ACTION = "action";
+
+    public static final String ACTION_REMOVED = "removed";
+    public static final String ACTION_POSTED = "posted";
 
     /**
      * The category of the notification.
@@ -49,13 +60,22 @@ public class Notification extends Item {
     public Notification(String category,
                         String packageName,
                         String notificationTitle,
-                        String notificationText) {
+                        String notificationText,
+                        String action) {
         this.setFieldValue(TIMESTAMP, System.currentTimeMillis());
+
         this.setFieldValue(CATEGORY, category);
         this.setFieldValue(PACKAGE_NAME, packageName);
         this.setFieldValue(NOTIFICATION_TITLE, notificationTitle);
         this.setFieldValue(NOTIFICATION_TEXT, notificationText);
+        this.setFieldValue(ACTION,action);
     }
 
-
+    /**
+     * Provide a list of WifiAp items from WIFI scan result.
+     * @return the provider function.
+     */
+    public static MStreamProvider asUpdates() {
+        return new BaseNotificationEventProvider();
+    }
 }

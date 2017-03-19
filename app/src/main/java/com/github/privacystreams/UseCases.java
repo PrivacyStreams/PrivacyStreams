@@ -13,7 +13,6 @@ import com.github.privacystreams.audio.AudioOperators;
 import com.github.privacystreams.commons.arithmetic.ArithmeticOperators;
 import com.github.privacystreams.commons.comparison.Comparators;
 import com.github.privacystreams.commons.item.ItemOperators;
-import com.github.privacystreams.commons.items.ItemsOperators;
 import com.github.privacystreams.commons.list.ListOperators;
 import com.github.privacystreams.commons.statistic.StatisticOperators;
 import com.github.privacystreams.commons.string.StringOperators;
@@ -24,7 +23,6 @@ import com.github.privacystreams.communication.Phonecall;
 import com.github.privacystreams.core.Callback;
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.UQI;
-import com.github.privacystreams.core.actions.collect.Collectors;
 import com.github.privacystreams.core.exceptions.PrivacyStreamsException;
 import com.github.privacystreams.core.providers.mock.MockItem;
 import com.github.privacystreams.core.purposes.Purpose;
@@ -45,13 +43,12 @@ import com.github.privacystreams.location.LocationOperators;
 import com.github.privacystreams.utils.time.Duration;
 import com.github.privacystreams.utils.time.TimeUtils;
 
-import java.sql.Time;
 import java.util.List;
 import java.util.Map;
 
 import static com.github.privacystreams.commons.items.ItemsOperators.getItemWithMax;
-import static com.github.privacystreams.commons.time.TimeOperators.recent;
 import static com.github.privacystreams.commons.statistic.StatisticOperators.count;
+import static com.github.privacystreams.commons.time.TimeOperators.recent;
 
 /**
  * Some show cases of PrivacyStreams
@@ -70,7 +67,7 @@ public class UseCases {
     }
 
     public void testBlueToothUpatesProvider(){
-        uqi.getData(BluetoothDevice.asUpdates(), Purpose.FEATURE("blueTooth device")).debug();
+        uqi.getData(BluetoothDevice.asScanList(), Purpose.FEATURE("blueTooth device")).debug();
     }
 
     public void testPhysicalMotionUpdatesProvider(){
@@ -85,7 +82,8 @@ public class UseCases {
                 .map(ItemOperators.setField("time_round", ArithmeticOperators.roundUp(MockItem.TIME_CREATED, Duration.seconds(2))))
                 .localGroupBy("time_round")
 //                .debug();
-                .forEach(DropboxOperators.upload(context.getResources().getString(R.string.dropbox_access_token), "device state"));
+                .forEach(DropboxOperators.upload(
+                        context.getResources().getString(R.string.dropbox_access_token), "device state"));
     }
 
     /*

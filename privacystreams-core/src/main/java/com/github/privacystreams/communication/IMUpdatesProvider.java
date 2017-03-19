@@ -24,7 +24,8 @@ import java.util.List;
 class IMUpdatesProvider extends MStreamProvider {
     private int totalNumberOfMessages=0;
     private int result=0;
-    private String detPackage="";
+    private String detPackage = "";
+    private String detContactName = "";
 
     public static final String APP_PACKAGE_WHATSAPP = "com.whatsapp";
     public static final String APP_PACKAGE_FACEBOOK_MESSENGER = "com.facebook.orca";
@@ -36,39 +37,43 @@ class IMUpdatesProvider extends MStreamProvider {
         String messageContent = nodeInfoList.get(nodeInfoList.size() - 1).getText().toString();
         String messageType = AccessibilityUtils.isIncomingMessage(nodeInfo,packageName) ? Message.Types.RECEIVED : Message.Types.SENT;
         this.output(new Message(messageType,messageContent,packageName,contactName,System.currentTimeMillis()));
-
     }
 
     @Override
     protected void provide() {
-
         getUQI().getData(BaseAccessibilityEvent.asUpdates(),
                 Purpose.INTERNAL("Event Triggers"))
                 .filter(ItemOperators.isFieldIn(BaseAccessibilityEvent.PACKAGE_NAME,
                         new String[]{APP_PACKAGE_WHATSAPP, APP_PACKAGE_FACEBOOK_MESSENGER}))
-                .filter(Comparators.eq(BaseAccessibilityEvent.EVENT_TYPE, AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED))
+                .filter(Comparators.eq(BaseAccessibilityEvent.EVENT_TYPE,
+                        AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED))
                 .filter(Comparators.gt(BaseAccessibilityEvent.ITEM_COUNT, 2))
                 .forEach(new Callback<Item>() {
                     @Override
                     protected void onSuccess(Item input) {
-
                         AccessibilityNodeInfo rootView =
                                 input.getValueByField(BaseAccessibilityEvent.ROOT_VIEW);
                         String packageName = input.getValueByField(BaseAccessibilityEvent.PACKAGE_NAME);
                         if(!packageName.equals(detPackage)){
                             totalNumberOfMessages=0;
                         }
+
                         detPackage=packageName;
-                        List<AccessibilityNodeInfo> nodeInfos =
-                                AccessibilityUtils.getMessageList(rootView,packageName);
                         String contactName = AccessibilityUtils
                                 .getContactNameInChat(rootView,packageName);
+                        if(contactName==null) {
+                            return;
+                        }
+                        if(!contactName.equals(detContactName)){
+                            totalNumberOfMessages=0;
+                        }
+                        detContactName=contactName;
 
-                        AccessibilityNodeInfo textBox = AccessibilityUtils
-                                .getTextBox(rootView, packageName);
+                        List<AccessibilityNodeInfo> nodeInfos =
+                                AccessibilityUtils.getMessageList(rootView,packageName);
 
                         int eventItemCount = getEventItemCount(packageName,input);
-                        if(textBox==null || nodeInfos==null || nodeInfos.size()==0){
+                        if(nodeInfos==null || nodeInfos.size()==0){
                             return;
                         }
 
