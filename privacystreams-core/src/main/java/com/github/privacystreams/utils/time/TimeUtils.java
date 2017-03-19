@@ -10,7 +10,7 @@ import java.util.Locale;
  */
 
 public class TimeUtils {
-    private static SimpleDateFormat defaultDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS", Locale.getDefault());
+    private static SimpleDateFormat defaultDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS", Locale.getDefault());
 
     // get timestamp from a date string, e.g. 2016-08-12
     public static Long fromDateString(String dateString) {
@@ -59,7 +59,7 @@ public class TimeUtils {
 
     public static String getTimeTag() {
         long timeMillis = System.currentTimeMillis();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_hhmmss_SSS", Locale.US);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss_SSS", Locale.US);
         Date date = new Date(timeMillis);
         return sdf.format(date);
     }
