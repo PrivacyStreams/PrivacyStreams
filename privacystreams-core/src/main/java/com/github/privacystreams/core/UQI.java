@@ -44,17 +44,6 @@ public class UQI {
         return this.gson;
     }
 
-    private transient String uuid;
-    public String getUUID() {
-        if (this.uuid == null) {
-            // TODO change this to other identifier as using device id is not privacy friendly.
-//            TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-//            this.uuid = tm.getDeviceId();
-            this.uuid = "uuid_test";
-        }
-        return this.uuid;
-    }
-
     private transient PrivacyStreamsException exception;
     public PrivacyStreamsException getException() {
         return exception;
@@ -73,7 +62,6 @@ public class UQI {
         this.gson = new GsonBuilder().setPrettyPrinting().create();
         this.purpose = null;
         this.query = null;
-        this.uuid = null;
     }
 
     private UQI(Context context, Purpose purpose) {

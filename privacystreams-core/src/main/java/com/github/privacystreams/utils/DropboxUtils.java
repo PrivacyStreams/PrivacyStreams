@@ -66,7 +66,7 @@ public class DropboxUtils {
                 try {
                     FileInputStream inputStream = uqi.getContext().openFileInput(fileToUpload);
                     client.files()
-                            .uploadBuilder("/" + uqi.getUUID() + "/" + fileToUpload)
+                            .uploadBuilder("/" + fileToUpload)
                             .withMode(WriteMode.ADD)
                             .uploadAndFinish(inputStream);
                     inputStream.close();
