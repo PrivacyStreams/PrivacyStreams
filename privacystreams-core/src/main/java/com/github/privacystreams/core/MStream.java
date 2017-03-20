@@ -454,4 +454,15 @@ public class MStream extends Stream {
     public MStream fork(int numOfForks) {
         return (MStream) super.fork(numOfForks);
     }
+
+    /**
+     * Get a function that can be evaluated on demand.
+     * The function will not be evaluated immediately, instead, it will be evaluated once `apply()` is called.
+     *
+     * @return the function
+     */
+    public <Tout> Function<Void, Tout> evaluateOnDemand(Function<MStream, Tout> streamOutputFunction) {
+        return this.streamProvider.compound(streamOutputFunction);
+    }
+
 }
