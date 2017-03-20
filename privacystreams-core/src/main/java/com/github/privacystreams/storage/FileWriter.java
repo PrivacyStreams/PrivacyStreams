@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Context;
 
 import com.github.privacystreams.commons.ItemFunction;
+import com.github.privacystreams.core.AsyncFunction;
 import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.UQI;
@@ -20,7 +21,7 @@ import java.io.IOException;
  * Write an Item to a file
  */
 
-class FileWriter<Tin> extends Function<Tin, Void> {
+class FileWriter<Tin> extends AsyncFunction<Tin, Void> {
 
     private final String dirPath;
     private final String fileTag;
@@ -36,7 +37,7 @@ class FileWriter<Tin> extends Function<Tin, Void> {
 
     protected transient String newFileName;
     @Override
-    public Void apply(UQI uqi, Tin input) {
+    public void applyInBackground(UQI uqi, Tin input) {
         this.newFileName = fileTag + "_" + TimeUtils.getTimeTag() + ".json";
         try {
             FileOutputStream fileOutputStream;
@@ -54,6 +55,11 @@ class FileWriter<Tin> extends Function<Tin, Void> {
             Logging.warn("error writing data to file.");
             e.printStackTrace();
         }
+    }
+
+    @Override
+    protected Void init(UQI uqi, Tin input) {
         return null;
     }
+
 }

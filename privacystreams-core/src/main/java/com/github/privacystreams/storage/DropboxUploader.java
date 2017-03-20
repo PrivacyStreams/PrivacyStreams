@@ -35,10 +35,9 @@ final class DropboxUploader<Tin> extends FileWriter<Tin> {
     }
 
     @Override
-    public Void apply(UQI uqi, Tin input) {
-        super.apply(uqi, input);
+    public void applyInBackground(UQI uqi, Tin input) {
+        super.applyInBackground(uqi, input);
         DropboxUtils.addToWaitingList(uqi, this.newFileName);
         DropboxUtils.syncFiles(uqi);
-        return null;
     }
 }
