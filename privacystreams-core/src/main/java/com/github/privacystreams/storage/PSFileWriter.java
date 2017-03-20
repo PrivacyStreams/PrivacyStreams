@@ -3,7 +3,6 @@ package com.github.privacystreams.storage;
 import android.Manifest;
 import android.content.Context;
 
-import com.github.privacystreams.commons.ItemFunction;
 import com.github.privacystreams.core.AsyncFunction;
 import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.Item;
@@ -13,8 +12,6 @@ import com.github.privacystreams.utils.Logging;
 import com.github.privacystreams.utils.StorageUtils;
 import com.github.privacystreams.utils.time.TimeUtils;
 
-import org.apache.commons.lang3.StringUtils;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -23,34 +20,37 @@ import java.io.IOException;
  * Write an Item to a file
  */
 
-class FileWriter<Tin> extends AsyncFunction<Tin, Void> {
+class PSFileWriter<Tin> extends AsyncFunction<Tin, Void> {
 
-    private final String dirPath;
-    private final String fileTag;
+    private final Function<Tin, String> filePathGenerator;
+    private final boolean isPublic;
+    private final boolean append;
 
-    FileWriter(String dirPath, String fileTag) {
-        this.dirPath = dirPath;
-        this.fileTag = Assertions.notNull("fileTag", fileTag);
+    private static final String APPEND_SEPARATOR = "\n\n\n";
 
-        this.addParameters(dirPath, fileTag);
-        if (dirPath != null) {
+    PSFileWriter(Function<Tin, String> filePathGenerator, boolean isPublic, boolean append) {
+        this.filePathGenerator = Assertions.notNull("filePathGenerator", filePathGenerator);
+        this.isPublic = isPublic;
+        this.append = append;
+
+        this.addParameters(filePathGenerator, isPublic);
+        if (isPublic) {
             this.addRequiredPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE);
         }
     }
 
-    protected transient String newFileName;
+    protected String validFilePath = null;
+
     @Override
     public void applyInBackground(UQI uqi, Tin input) {
-        this.newFileName = fileTag + "_" + TimeUtils.getTimeTag() + ".json";
         try {
-            FileOutputStream fileOutputStream;
-            if (this.dirPath == null) {
-                fileOutputStream = uqi.getContext().openFileOutput(this.newFileName, Context.MODE_PRIVATE);
-            }
-            else {
-                File newFileDir = StorageUtils.getPublicDir(this.dirPath);
-                File newFile = new File(newFileDir, this.newFileName);
-                fileOutputStream = new FileOutputStream(newFile);
+            String filePath = this.filePathGenerator.apply(uqi, input);
+            File validFile = StorageUtils.getValidFile(uqi.getContext(), filePath, this.isPublic);
+            this.validFilePath = validFile.getAbsolutePath();
+
+            FileOutputStream fileOutputStream = new FileOutputStream(validFile, append);
+            if (append) {
+                fileOutputStream.write(APPEND_SEPARATOR.getBytes());
             }
             fileOutputStream.write(uqi.getGson().toJson(input).getBytes());
             fileOutputStream.close();
