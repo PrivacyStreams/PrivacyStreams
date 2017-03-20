@@ -14,8 +14,10 @@ import java.io.File;
  */
 
 public class StorageUtils {
+    private static final String LOG_TAG = "DropboxUtils - ";
+
     /**
-     * Get the directory for the user's public directory.
+     * Get the directory for the public directory.
      *
      * @param dirPath the path of dir
      * @return the directory in public dir
@@ -24,10 +26,32 @@ public class StorageUtils {
         String fullDirPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + dirPath;
         File targetDir = new File(fullDirPath);
         if (!targetDir.exists() && !targetDir.mkdirs()) {
-            Logging.warn("fail to create dir: " + targetDir);
+            Logging.warn(LOG_TAG + "fail to create dir: " + targetDir);
             return null;
         }
         return targetDir;
+    }
+
+    /**
+     * Get the relative path of a given file from the public directory.
+     *
+     * @param file the file to get path
+     * @return the relative path
+     */
+    public static String getPublicRelativePath(File file) {
+        File publicDir = Environment.getExternalStorageDirectory();
+        return StringUtils.removeStart(file.getAbsolutePath(), publicDir.getAbsolutePath());
+    }
+
+    /**
+     * Get the relative path of a given file from the private directory.
+     *
+     * @param file the file to get path
+     * @return the relative path
+     */
+    public static String getPrivateRelativePath(Context context, File file) {
+        File privateDir = context.getFilesDir();
+        return StringUtils.removeStart(file.getAbsolutePath(), privateDir.getAbsolutePath());
     }
 
     /**
@@ -40,7 +64,7 @@ public class StorageUtils {
         String fullDirPath = context.getFilesDir().getAbsolutePath() + "/" + dirPath;
         File targetDir = new File(fullDirPath);
         if (!targetDir.exists() && !targetDir.mkdirs()) {
-            Logging.warn("fail to create dir: " + targetDir);
+            Logging.warn(LOG_TAG + "fail to create dir: " + targetDir);
             return null;
         }
         return targetDir;
@@ -77,4 +101,5 @@ public class StorageUtils {
 
         return new File(dirFile, fileName);
     }
+
 }

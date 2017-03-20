@@ -20,6 +20,6 @@ final class DropboxAppender<Tin> extends FileAppender<Tin> {
     public void applyInBackground(UQI uqi, Tin input) {
         super.applyInBackground(uqi, input);
         DropboxUtils.addToWaitingList(uqi, this.fileName);
-        DropboxUtils.syncFiles(uqi);
+        DropboxUtils.syncFiles(uqi, true);
     }
 }

@@ -10,38 +10,38 @@ import com.github.privacystreams.utils.annotations.PSOperatorWrapper;
  */
 @PSOperatorWrapper
 public class StorageOperators {
-    /**
-     * Output an object to a local file, the output file name will be `<fileTag>_<timeTag>.json`,
-     * for example, if `fileTag="location"`, the file name will be `location_20170315_170010_123.json`.
-     * If `dirPath` is null, the file will be created in the app data folder, which can not be accessed by other apps.
-     * If `dirPath` is not null, the file will be created in '/sdcard/<dirPath>/` folder, which can be accessed by other apps.
-     * The file will be created if it doesn't exist, and will be overwritten if it exists.
-     *
-     * @param dirPath the directory to output the object.
-     * @param fileTag the tag of the output file.
-     * @param <Tin> the type of input object, could be Item, Item list, or any object that is serializable.
-     * @return the function.
-     */
-    public static <Tin> Function<Tin, Void> writeTo(String dirPath, String fileTag) {
-        return new FileWriter<>(dirPath, fileTag);
-    }
-
-    /**
-     * Append an object to a local file, the output file name will be `<fileName>`,
-     * for example, if `fileName="locations.txt"`, the file name will be `locations.txt`.
-     * If `dirPath` is null, the file will be created in the app data folder, which can not be accessed by other apps.
-     * If `dirPath` is not null, the file will be created in '/sdcard/<dirPath>/` folder, which can be accessed by other apps.
-     * The file will be created if it doesn't exist.
-     * The appended objects will be separated by three lines (`\n\n\n`).
-     *
-     * @param dirPath the directory to output the object.
-     * @param fileName the name of the output file.
-     * @param <Tin> the type of input object, could be Item, Item list, or any object that is serializable.
-     * @return the function.
-     */
-    public static <Tin> Function<Tin, Void> appendTo(String dirPath, String fileName) {
-        return new FileWriter<>(dirPath, fileName);
-    }
+//    /**
+//     * Output an object to a local file, the output file name will be `<fileTag>_<timeTag>.json`,
+//     * for example, if `fileTag="location"`, the file name will be `location_20170315_170010_123.json`.
+//     * If `dirPath` is null, the file will be created in the app data folder, which can not be accessed by other apps.
+//     * If `dirPath` is not null, the file will be created in '/sdcard/<dirPath>/` folder, which can be accessed by other apps.
+//     * The file will be created if it doesn't exist, and will be overwritten if it exists.
+//     *
+//     * @param dirPath the directory to output the object.
+//     * @param fileTag the tag of the output file.
+//     * @param <Tin> the type of input object, could be Item, Item list, or any object that is serializable.
+//     * @return the function.
+//     */
+//    public static <Tin> Function<Tin, Void> writeTo(String dirPath, String fileTag) {
+//        return new FileWriter<>(dirPath, fileTag);
+//    }
+//
+//    /**
+//     * Append an object to a local file, the output file name will be `<fileName>`,
+//     * for example, if `fileName="locations.txt"`, the file name will be `locations.txt`.
+//     * If `dirPath` is null, the file will be created in the app data folder, which can not be accessed by other apps.
+//     * If `dirPath` is not null, the file will be created in '/sdcard/<dirPath>/` folder, which can be accessed by other apps.
+//     * The file will be created if it doesn't exist.
+//     * The appended objects will be separated by three lines (`\n\n\n`).
+//     *
+//     * @param dirPath the directory to output the object.
+//     * @param fileName the name of the output file.
+//     * @param <Tin> the type of input object, could be Item, Item list, or any object that is serializable.
+//     * @return the function.
+//     */
+//    public static <Tin> Function<Tin, Void> appendTo(String dirPath, String fileName) {
+//        return new FileWriter<>(dirPath, fileName);
+//    }
 
     /**
      * Write an object to a local file, the output file will be at `filePath`.
@@ -56,7 +56,7 @@ public class StorageOperators {
      * @param <Tin> the type of input object
      * @return the function
      */
-    public static <Tin> Function<Tin, Void> writeToFile(final String filePath, boolean isPublic, boolean append) {
+    public static <Tin> Function<Tin, Void> writeTo(final String filePath, boolean isPublic, boolean append) {
         return new PSFileWriter<>(new Function<Tin, String>() {
             @Override
             public String apply(UQI uqi, Tin input) {
@@ -78,7 +78,7 @@ public class StorageOperators {
      * @param <Tin> the type of input object
      * @return the function
      */
-    public static <Tin> Function<Tin, Void> writeToFile(final Function<Tin, String> filePathGenerator, boolean isPublic, boolean append) {
+    public static <Tin> Function<Tin, Void> writeTo(final Function<Tin, String> filePathGenerator, boolean isPublic, boolean append) {
         return new PSFileWriter<>(filePathGenerator, isPublic, append);
     }
 }

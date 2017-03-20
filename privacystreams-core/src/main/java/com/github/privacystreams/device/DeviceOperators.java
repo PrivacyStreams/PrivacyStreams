@@ -13,15 +13,15 @@ public class DeviceOperators {
      * Get device id.
      * @return the function.
      */
-    Function<Item, String> getDeviceId() {
-        return new DeviceIdGetter();
+    public static <Tin> Function<Tin, String> getDeviceId() {
+        return new DeviceIdGetter<>();
     }
 
     /**
      * Check if wifi is connected.
      * @return the function.
      */
-    Function<Item, Boolean> checkWifiConnected() {
-        return new WifiStatusChecker();
+    public static <Tin> Function<Tin, Boolean> checkWifiConnected() {
+        return new WifiStatusChecker<>();
     }
 }

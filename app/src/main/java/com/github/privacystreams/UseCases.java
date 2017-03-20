@@ -20,6 +20,7 @@ import com.github.privacystreams.communication.Contact;
 import com.github.privacystreams.communication.Message;
 import com.github.privacystreams.communication.Phonecall;
 import com.github.privacystreams.core.Callback;
+import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.UQI;
 import com.github.privacystreams.core.exceptions.PrivacyStreamsException;
@@ -31,6 +32,7 @@ import com.github.privacystreams.core.transformations.map.Mappers;
 import com.github.privacystreams.core.transformations.select.Selectors;
 import com.github.privacystreams.device.BluetoothDevice;
 import com.github.privacystreams.device.DeviceEvent;
+import com.github.privacystreams.device.DeviceOperators;
 import com.github.privacystreams.device.WifiAp;
 import com.github.privacystreams.environment.Light;
 import com.github.privacystreams.image.Image;
@@ -41,6 +43,8 @@ import com.github.privacystreams.storage.DropboxOperators;
 import com.github.privacystreams.utils.GlobalConfig;
 import com.github.privacystreams.utils.time.Duration;
 import com.github.privacystreams.utils.time.TimeUtils;
+
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 import java.util.Map;
@@ -86,8 +90,22 @@ public class UseCases {
                 .map(ItemOperators.setField("time_round", ArithmeticOperators.roundUp(MockItem.TIME_CREATED, Duration.seconds(2))))
                 .localGroupBy("time_round")
 //                .debug();
-                .forEach(DropboxOperators.<Item>uploadAs("mockData"));
+                .forEach(DropboxOperators.<Item>uploadTo("mockData.txt", true));
 //                .forEach(StorageOperators.<Item>appendTo("PrivacyStreams_dir", "mockData"));
+
+        uqi
+                .getData(MockItem.asRandomUpdates(20, 100, 500), Purpose.TEST("test"))
+                .limit(100)
+                .timeout(Duration.seconds(10))
+                .map(ItemOperators.setField("time_round", ArithmeticOperators.roundUp(MockItem.TIME_CREATED, Duration.seconds(2))))
+                .localGroupBy("time_round")
+                .setField("uuid", DeviceOperators.<Item>getDeviceId())
+                .forEach(DropboxOperators.<Item>uploadTo(new Function<Item, String>() {
+                    @Override
+                    public String apply(UQI uqi, Item input) {
+                        return input.getValueByField("uuid") + "/mockItem/" + input.getValueByField(Item.TIME_CREATED) + ".json";
+                    }
+                }, true));
     }
 
     /*

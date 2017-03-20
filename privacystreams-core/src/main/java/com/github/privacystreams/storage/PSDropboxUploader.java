@@ -21,6 +21,6 @@ final class PSDropboxUploader<Tin> extends PSFileWriter<Tin> {
     public void applyInBackground(UQI uqi, Tin input) {
         super.applyInBackground(uqi, input);
         DropboxUtils.addToWaitingList(uqi, this.validFilePath);
-        DropboxUtils.syncFiles(uqi);
+        DropboxUtils.syncFiles(uqi, this.append);
     }
 }

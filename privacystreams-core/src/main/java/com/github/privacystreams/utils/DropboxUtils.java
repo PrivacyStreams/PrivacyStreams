@@ -12,6 +12,7 @@ import com.github.privacystreams.core.UQI;
 
 import org.apache.commons.lang3.StringUtils;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -34,9 +35,11 @@ public class DropboxUtils {
     private static final Object dropboxUploadMutex = new Object();
 
     public static void addToWaitingList(UQI uqi, String fileName) {
+        SharedPreferences pref = uqi.getContext().getApplicationContext().getSharedPreferences(Consts.LIB_TAG, Context.MODE_PRIVATE);
+        Set<String> waitingList = pref.getStringSet(DROPBOX_WAITING_LIST, new HashSet<String>());
+        if (waitingList.contains(fileName)) return;
+
         synchronized (dropboxWaitingListMutex) {
-            SharedPreferences pref = uqi.getContext().getApplicationContext().getSharedPreferences(Consts.LIB_TAG, Context.MODE_PRIVATE);
-            Set<String> waitingList = pref.getStringSet(DROPBOX_WAITING_LIST, new HashSet<String>());
             waitingList.add(fileName);
             SharedPreferences.Editor editor = pref.edit();
             editor.clear();
@@ -61,7 +64,7 @@ public class DropboxUtils {
 
     private static boolean syncing = false;
 
-    public static void syncFiles(UQI uqi) {
+    public static void syncFiles(UQI uqi, boolean append) {
         if (syncing) return;
 
         long currentTimestamp = System.currentTimeMillis();
@@ -69,7 +72,6 @@ public class DropboxUtils {
             return;
 
         synchronized (dropboxUploadMutex) {
-            syncing = true;
             try {
                 SharedPreferences pref = uqi.getContext().getApplicationContext().getSharedPreferences(Consts.LIB_TAG, Context.MODE_PRIVATE);
                 Set<String> waitingList = pref.getStringSet(DROPBOX_WAITING_LIST, new HashSet<String>());
@@ -78,11 +80,12 @@ public class DropboxUtils {
                 if (GlobalConfig.DropboxConfig.onlyOverWifi && !ConnectionUtils.isWifiConnected(uqi))
                     return;
 
+                syncing = true;
                 // Create Dropbox client
                 DbxRequestConfig config = new DbxRequestConfig(Consts.LIB_TAG);
                 DbxClientV2 client = new DbxClientV2(config, GlobalConfig.DropboxConfig.accessToken);
 
-                Set<String> filesToDelete = new HashSet<>();
+                Set<File> filesToDelete = new HashSet<>();
                 Set<String> filesToRemoveFromWaitingList = new HashSet<>();
                 Set<String> filesToUpload = new HashSet<>(waitingList);
 
@@ -90,13 +93,16 @@ public class DropboxUtils {
 
                 for (String fileToUpload : filesToUpload) {
                     try {
-                        FileInputStream inputStream = uqi.getContext().openFileInput(fileToUpload);
+                        File localFile = new File(fileToUpload);
+                        String remotePath = StorageUtils.getPrivateRelativePath(uqi.getContext(), localFile);
+                        FileInputStream inputStream = new FileInputStream(localFile);
                         client.files()
-                                .uploadBuilder("/" + fileToUpload)
+                                .uploadBuilder(remotePath)
                                 .withMode(WriteMode.ADD)
+                                .withAutorename(true)
                                 .uploadAndFinish(inputStream);
                         inputStream.close();
-                        filesToDelete.add(fileToUpload);
+                        filesToDelete.add(localFile);
                         filesToRemoveFromWaitingList.add(fileToUpload);
                     } catch (FileNotFoundException e) {
                         filesToRemoveFromWaitingList.add(fileToUpload);
@@ -107,8 +113,8 @@ public class DropboxUtils {
 
                 removeFromWaitingList(uqi, filesToRemoveFromWaitingList);
 
-                for (String fileToDelete : filesToDelete) {
-                    uqi.getContext().deleteFile(fileToDelete);
+                for (File fileToDelete : filesToDelete) {
+                    fileToDelete.delete();
                 }
 
                 lastSyncTimestamp = System.currentTimeMillis();

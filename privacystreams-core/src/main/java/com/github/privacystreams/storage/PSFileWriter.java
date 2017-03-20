@@ -22,9 +22,9 @@ import java.io.IOException;
 
 class PSFileWriter<Tin> extends AsyncFunction<Tin, Void> {
 
-    private final Function<Tin, String> filePathGenerator;
-    private final boolean isPublic;
-    private final boolean append;
+    protected final Function<Tin, String> filePathGenerator;
+    protected final boolean isPublic;
+    protected final boolean append;
 
     private static final String APPEND_SEPARATOR = "\n\n\n";
 
