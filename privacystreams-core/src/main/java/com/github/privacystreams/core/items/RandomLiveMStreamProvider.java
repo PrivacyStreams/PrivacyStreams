@@ -1,10 +1,10 @@
-package com.github.privacystreams.core.providers.mock;
+package com.github.privacystreams.core.items;
 
 import com.github.privacystreams.core.providers.MStreamProvider;
 
 /**
  * Created by yuanchun on 18/02/2017.
- * A Provider that provides continuous random MockItem updates
+ * A Provider that provides continuous random TestItem updates
  */
 class RandomLiveMStreamProvider extends MStreamProvider {
     private final int maxInt;
@@ -22,10 +22,10 @@ class RandomLiveMStreamProvider extends MStreamProvider {
     protected void provide() {
         int id = 0;
         while (!this.isCancelled) {
-            MockObject mockObject = MockObject.getRandomInstance(this.maxInt, this.maxDouble);
-            mockObject.setId(id);
+            TestObject testObject = TestObject.getRandomInstance(this.maxInt, this.maxDouble);
+            testObject.setId(id);
             id++;
-            this.output(new MockItem(mockObject));
+            this.output(new TestItem(testObject));
             try {
                 Thread.sleep(this.interval);
             } catch (InterruptedException e) {

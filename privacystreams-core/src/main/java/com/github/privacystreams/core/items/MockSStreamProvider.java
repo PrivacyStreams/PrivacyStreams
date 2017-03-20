@@ -1,4 +1,4 @@
-package com.github.privacystreams.core.providers.mock;
+package com.github.privacystreams.core.items;
 
 import com.github.privacystreams.core.providers.SStreamProvider;
 
@@ -10,17 +10,17 @@ import com.github.privacystreams.core.providers.SStreamProvider;
 
 class MockSStreamProvider extends SStreamProvider {
 
-    private final MockObject mockObject;
+    private final TestObject testObject;
 
-    public MockSStreamProvider(MockObject mockObject) {
-        this.mockObject = mockObject;
-        this.addParameters(mockObject);
+    public MockSStreamProvider(TestObject testObject) {
+        this.testObject = testObject;
+        this.addParameters(testObject);
     }
 
     @Override
     protected void provide() {
         if (this.isCancelled) return;
-        this.output(new MockItem(mockObject));
+        this.output(new TestItem(testObject));
         this.finish();
     }
 

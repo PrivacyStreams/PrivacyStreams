@@ -25,7 +25,8 @@ import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.UQI;
 import com.github.privacystreams.core.actions.collect.Collectors;
 import com.github.privacystreams.core.exceptions.PrivacyStreamsException;
-import com.github.privacystreams.core.providers.mock.MockItem;
+import com.github.privacystreams.core.items.EmptyItem;
+import com.github.privacystreams.core.items.TestItem;
 import com.github.privacystreams.core.purposes.Purpose;
 import com.github.privacystreams.core.transformations.filter.Filters;
 import com.github.privacystreams.core.transformations.group.Groupers;
@@ -84,20 +85,20 @@ public class UseCases {
         GlobalConfig.DropboxConfig.onlyOverWifi = false;
 
         uqi
-                .getData(MockItem.asRandomUpdates(20, 100, 500), Purpose.TEST("test"))
+                .getData(TestItem.asRandomUpdates(20, 100, 500), Purpose.TEST("test"))
                 .limit(100)
                 .timeout(Duration.seconds(10))
-                .map(ItemOperators.setField("time_round", ArithmeticOperators.roundUp(MockItem.TIME_CREATED, Duration.seconds(2))))
+                .map(ItemOperators.setField("time_round", ArithmeticOperators.roundUp(TestItem.TIME_CREATED, Duration.seconds(2))))
                 .localGroupBy("time_round")
 //                .debug();
                 .forEach(DropboxOperators.<Item>uploadTo("mockData.txt", true));
 //                .forEach(StorageOperators.<Item>appendTo("PrivacyStreams_dir", "mockData"));
 
         uqi
-                .getData(MockItem.asRandomUpdates(20, 100, 500), Purpose.TEST("test"))
+                .getData(TestItem.asRandomUpdates(20, 100, 500), Purpose.TEST("test"))
                 .limit(100)
                 .timeout(Duration.seconds(10))
-                .map(ItemOperators.setField("time_round", ArithmeticOperators.roundUp(MockItem.TIME_CREATED, Duration.seconds(2))))
+                .map(ItemOperators.setField("time_round", ArithmeticOperators.roundUp(TestItem.TIME_CREATED, Duration.seconds(2))))
                 .localGroupBy("time_round")
                 .setIndependentField("uuid", DeviceOperators.deviceIdGetter())
                 .forEach(DropboxOperators.uploadTo(new Function<Item, String>() {
@@ -111,7 +112,7 @@ public class UseCases {
     public void testDeviceState() {
         Purpose purpose = Purpose.TEST("test");
         uqi
-                .getData(DeviceState.asUpdates(10000, 0), purpose)
+                .getData(EmptyItem.asUpdates(10000), purpose)
                 .setIndependentField("contact_list", Contact.asList().compound(Collectors.toItemList()))
                 .setIndependentField("wifi_ap_list", uqi.getData(WifiAp.asScanList(), purpose).getValueGenerator(Collectors.toItemList()))
                 .setIndependentField("bluetooth_list", BluetoothDevice.asScanList().compound(Collectors.toItemList()))

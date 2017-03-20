@@ -1,4 +1,4 @@
-package com.github.privacystreams.core.providers.mock;
+package com.github.privacystreams.core.items;
 
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.providers.MStreamProvider;
@@ -12,7 +12,7 @@ import java.util.List;
  * A random item for testing.
  */
 @PSItem
-public class MockItem extends Item {
+public class TestItem extends Item {
 
     /**
      * The index of current item.
@@ -38,30 +38,30 @@ public class MockItem extends Item {
     @PSItemField(type = Double.class)
     public static final String Z = "z";
 
-    private MockItem(long id, Integer x, String y, Double z) {
+    private TestItem(long id, Integer x, String y, Double z) {
         this.setFieldValue(ID, id);
         this.setFieldValue(X, x);
         this.setFieldValue(Y, y);
         this.setFieldValue(Z, z);
     }
 
-    public MockItem(MockObject mockObject) {
-        this(mockObject.getId(), mockObject.getX(), mockObject.getY(), mockObject.getZ());
+    public TestItem(TestObject testObject) {
+        this(testObject.getId(), testObject.getX(), testObject.getY(), testObject.getZ());
     }
 
     /**
-     * Provide a live stream of MockItem items, which are from a given list.
+     * Provide a live stream of TestItem items, which are from a given list.
      *
-     * @param mockObjects the list of mock data
+     * @param testObjects the list of mock data
      * @param interval the interval between each two items, in milliseconds
      * @return the provider function
      */
-    public static MStreamProvider asUpdates(List<MockObject> mockObjects, long interval) {
-        return new MockLiveMStreamProvider(mockObjects, interval);
+    public static MStreamProvider asUpdates(List<TestObject> testObjects, long interval) {
+        return new MockLiveMStreamProvider(testObjects, interval);
     }
 
     /**
-     * Provide a live stream of MockItem items, which are randomly generated.
+     * Provide a live stream of TestItem items, which are randomly generated.
      *
      * @param maxInt the max value of the int field of the random mock items
      * @param maxDouble the max value of the double field of the random mock items
@@ -73,17 +73,17 @@ public class MockItem extends Item {
     }
 
     /**
-     * Provide a list of MockItem items, which are from a given list.
+     * Provide a list of TestItem items, which are from a given list.
      *
-     * @param mockObjects the list of mock data
+     * @param testObjects the list of mock data
      * @return the provider function
      */
-    public static MStreamProvider asHistory(List<MockObject> mockObjects) {
-        return new MockLocalMStreamProvider(mockObjects);
+    public static MStreamProvider asHistory(List<TestObject> testObjects) {
+        return new MockLocalMStreamProvider(testObjects);
     }
 
     /**
-     * Provide a list of MockItem items, which are randomly generated.
+     * Provide a list of TestItem items, which are randomly generated.
      *
      * @param maxInt the max value of the int field of the random mock items
      * @param maxDouble the max value of the double field of the random mock items
@@ -95,21 +95,21 @@ public class MockItem extends Item {
     }
 
     /**
-     * Provide a MockItem item, which is based on an given MockObject.
+     * Provide a TestItem item, which is based on an given TestObject.
      *
-     * @param mockObject the mock data
+     * @param testObject the mock data
      * @return the provider function
      */
-    public static SStreamProvider asItem(MockObject mockObject) {
-        return new MockSStreamProvider(mockObject);
+    public static SStreamProvider asItem(TestObject testObject) {
+        return new MockSStreamProvider(testObject);
     }
 
     /**
-     * Provide a MockItem item, which is randomly generated.
+     * Provide a TestItem item, which is randomly generated.
      *
      * @return the provider function
      */
     public static SStreamProvider asRandomItem() {
-        return new MockSStreamProvider(MockObject.getRandomInstance());
+        return new MockSStreamProvider(TestObject.getRandomInstance());
     }
 }

@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.github.privacystreams.core.UQI;
-import com.github.privacystreams.core.providers.mock.MockItem;
+import com.github.privacystreams.core.items.TestItem;
 import com.github.privacystreams.core.purposes.Purpose;
 
 public class MainActivity extends AppCompatActivity {
@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
         mButton = (Button) findViewById(R.id.button);
 
         UQI uqi = new UQI(MainActivity.this);
-        uqi.getData(MockItem.asRandomUpdates(10, 10.0, 100), Purpose.TEST("Testing first data query."))
+        uqi.getData(TestItem.asRandomUpdates(10, 10.0, 100), Purpose.TEST("Testing first data query."))
            .limit(10)
            .debug();
 

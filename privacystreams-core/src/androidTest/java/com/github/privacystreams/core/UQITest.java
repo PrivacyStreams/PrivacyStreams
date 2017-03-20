@@ -4,8 +4,8 @@ import android.content.Context;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
-import com.github.privacystreams.core.providers.mock.MockItem;
-import com.github.privacystreams.core.providers.mock.MockObject;
+import com.github.privacystreams.core.items.TestItem;
+import com.github.privacystreams.core.items.TestObject;
 import com.github.privacystreams.core.purposes.Purpose;
 
 import org.junit.After;
@@ -53,21 +53,21 @@ public class UQITest {
 
     @Test
     public void getDataItems() throws Exception {
-        List<MockObject> mockObjectList = MockObject.getRandomList(10);
+        List<TestObject> testObjectList = TestObject.getRandomList(10);
         int itemCount = this.uqi
-                .getData(MockItem.asHistory(mockObjectList), this.testPurpose)
+                .getData(TestItem.asHistory(testObjectList), this.testPurpose)
                 .count();
         assertEquals(10, itemCount);
     }
 
     @Test
     public void getDataItem() throws Exception {
-        MockObject mockObject = MockObject.getRandomInstance();
+        TestObject testObject = TestObject.getRandomInstance();
         int mockItemX = this.uqi
-                .getData(MockItem.asItem(mockObject), this.testPurpose)
-                .getField(MockItem.X);
+                .getData(TestItem.asItem(testObject), this.testPurpose)
+                .getField(TestItem.X);
 //        System.out.println("mockItemX: " + mockItemX);
-        assertEquals(mockObject.getX(), mockItemX);
+        assertEquals(testObject.getX(), mockItemX);
     }
 
 }

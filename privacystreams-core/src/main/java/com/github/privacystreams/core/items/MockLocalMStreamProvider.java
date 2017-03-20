@@ -1,4 +1,4 @@
-package com.github.privacystreams.core.providers.mock;
+package com.github.privacystreams.core.items;
 
 import com.github.privacystreams.core.providers.MStreamProvider;
 
@@ -12,18 +12,18 @@ import java.util.List;
 
 class MockLocalMStreamProvider extends MStreamProvider {
 
-    private final List<MockObject> mockObjects;
+    private final List<TestObject> testObjects;
 
-    MockLocalMStreamProvider(List<MockObject> mockObjects) {
-        this.mockObjects = mockObjects;
-        this.addParameters(mockObjects);
+    MockLocalMStreamProvider(List<TestObject> testObjects) {
+        this.testObjects = testObjects;
+        this.addParameters(testObjects);
     }
 
     @Override
     protected void provide() {
-        for(MockObject mockObject : mockObjects){
+        for(TestObject testObject : testObjects){
             if (this.isCancelled) break;
-            MockItem item = new MockItem(mockObject);
+            TestItem item = new TestItem(testObject);
             this.output(item);
         }
         this.finish();
