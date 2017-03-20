@@ -113,7 +113,7 @@ public class UseCases {
         uqi
                 .getData(DeviceState.asUpdates(10000, 0), purpose)
                 .setIndependentField("contact_list", Contact.asList().compound(Collectors.toItemList()))
-                .setIndependentField("wifi_ap_list", uqi.getData(WifiAp.asScanList(), purpose).evaluateOnDemand(Collectors.toItemList()))
+                .setIndependentField("wifi_ap_list", uqi.getData(WifiAp.asScanList(), purpose).getValueGenerator(Collectors.toItemList()))
                 .setIndependentField("bluetooth_list", BluetoothDevice.asScanList().compound(Collectors.toItemList()))
                 .setIndependentField("uuid", DeviceOperators.deviceIdGetter())
                 .limit(10)

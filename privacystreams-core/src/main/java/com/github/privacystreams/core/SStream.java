@@ -205,12 +205,12 @@ public class SStream extends Stream {
     }
 
     /**
-     * Get a function that can be evaluated on demand.
+     * Get a value generator that can be evaluated on demand.
      * The function will not be evaluated immediately, instead, it will be evaluated once `apply()` is called.
      *
      * @return the function
      */
-    public <Tout> Function<Void, Tout> evaluateOnDemand(Function<SStream, Tout> streamOutputFunction) {
+    public <Tout> Function<Void, Tout> getValueGenerator(Function<SStream, Tout> streamOutputFunction) {
         return this.streamProvider.compound(streamOutputFunction);
     }
 }

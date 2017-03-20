@@ -477,7 +477,7 @@ public class MStream extends Stream {
      *
      * @return the value generator
      */
-    public <Tout> Function<Void, Tout> evaluateOnDemand(Function<MStream, Tout> streamOutputFunction) {
+    public <Tout> Function<Void, Tout> getValueGenerator(Function<MStream, Tout> streamOutputFunction) {
         return this.streamProvider.compound(streamOutputFunction);
     }
 
