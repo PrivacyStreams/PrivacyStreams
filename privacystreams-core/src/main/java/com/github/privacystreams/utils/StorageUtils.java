@@ -3,11 +3,15 @@ package com.github.privacystreams.utils;
 import android.content.Context;
 import android.os.Environment;
 
-import com.github.privacystreams.core.UQI;
-
 import org.apache.commons.lang3.StringUtils;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * A helper class to access storage-related functions.
@@ -15,6 +19,8 @@ import java.io.File;
 
 public class StorageUtils {
     private static final String LOG_TAG = "DropboxUtils - ";
+
+    public static final Object fileRWMutex = new Object();
 
     /**
      * Get the directory for the public directory.
@@ -100,6 +106,51 @@ public class StorageUtils {
         }
 
         return new File(dirFile, fileName);
+    }
+
+    public static void writeToFile(String content, File validFile, boolean append) {
+        try {
+            synchronized (fileRWMutex) {
+                String contentToWrite = append ? GlobalConfig.StorageConfig.fileAppendSeparator + content : content;
+                FileOutputStream fileOutputStream = new FileOutputStream(validFile, append);
+                fileOutputStream.write(contentToWrite.getBytes());
+                fileOutputStream.close();
+            }
+        } catch (IOException e) {
+            Logging.warn("error writing data to file.");
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Get the input stream of a file and delete the file.
+     *
+     * @param file the file to read
+     * @return the InputStream
+     */
+    public static InputStream getInputStreamAndDelete(File file) {
+        ByteArrayOutputStream tempOutStream = new ByteArrayOutputStream();
+        InputStream resultInputStream = null;
+
+        try {
+            synchronized (StorageUtils.fileRWMutex) {
+                FileInputStream inputStream = new FileInputStream(file);
+                byte[] buffer = new byte[1024];
+                int len;
+                while ((len = inputStream.read(buffer)) > -1) {
+                    tempOutStream.write(buffer, 0, len);
+                }
+                tempOutStream.flush();
+                inputStream.close();
+                file.delete();
+                resultInputStream = new ByteArrayInputStream(tempOutStream.toByteArray());
+            }
+        } catch (IOException e) {
+            Logging.warn("error getting data from file.");
+            e.printStackTrace();
+        }
+
+        return resultInputStream;
     }
 
 }

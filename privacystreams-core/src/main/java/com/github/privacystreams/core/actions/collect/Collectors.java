@@ -3,6 +3,8 @@ package com.github.privacystreams.core.actions.collect;
 import com.github.privacystreams.core.Callback;
 import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.Item;
+import com.github.privacystreams.core.MStream;
+import com.github.privacystreams.core.SStream;
 import com.github.privacystreams.core.actions.MStreamAction;
 import com.github.privacystreams.core.actions.SStreamAction;
 import com.github.privacystreams.utils.annotations.PSOperatorWrapper;
@@ -59,5 +61,22 @@ public class Collectors {
      */
     public static SStreamAction collectItem(Function<Item, Void> itemCollector) {
         return new SStreamCollector<>(itemCollector, null);
+    }
+
+
+    /**
+     * Collect the MStream to a list of Items.
+     * @return the function
+     */
+    public static Function<MStream, List<Item>> toItemList() {
+        return new MStreamToItemListCollector();
+    }
+
+    /**
+     * Collect the SStream to an Item.
+     * @return the function
+     */
+    public static Function<SStream, Item> toItem() {
+        return new SStreamToItemCollector();
     }
 }

@@ -79,7 +79,7 @@ public class UseCases {
 
     // For testing
     public void testMockData() {
-        GlobalConfig.DropboxConfig.accessToken = "wvotIxO75CUAAAAAAAAA3wt-f_BnqO6coiDYhEsSBCEXIVEsvk88q6SEM7zfSnLC";
+        GlobalConfig.DropboxConfig.accessToken = "wvotIxO75CUAAAAAAAAA8DJw6Cedm6A2Pt-jwHSMBW_KhIYaJUEt9CbgtKe5Vl8O";
         GlobalConfig.DropboxConfig.leastSyncInterval = Duration.seconds(3);
         GlobalConfig.DropboxConfig.onlyOverWifi = false;
 
@@ -100,7 +100,7 @@ public class UseCases {
                 .map(ItemOperators.setField("time_round", ArithmeticOperators.roundUp(MockItem.TIME_CREATED, Duration.seconds(2))))
                 .localGroupBy("time_round")
                 .setField("uuid", DeviceOperators.<Item>getDeviceId())
-                .forEach(DropboxOperators.<Item>uploadTo(new Function<Item, String>() {
+                .forEach(DropboxOperators.uploadTo(new Function<Item, String>() {
                     @Override
                     public String apply(UQI uqi, Item input) {
                         return input.getValueByField("uuid") + "/mockItem/" + input.getValueByField(Item.TIME_CREATED) + ".json";

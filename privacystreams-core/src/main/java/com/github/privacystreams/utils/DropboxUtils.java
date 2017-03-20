@@ -12,10 +12,13 @@ import com.github.privacystreams.core.UQI;
 
 import org.apache.commons.lang3.StringUtils;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
@@ -85,7 +88,6 @@ public class DropboxUtils {
                 DbxRequestConfig config = new DbxRequestConfig(Consts.LIB_TAG);
                 DbxClientV2 client = new DbxClientV2(config, GlobalConfig.DropboxConfig.accessToken);
 
-                Set<File> filesToDelete = new HashSet<>();
                 Set<String> filesToRemoveFromWaitingList = new HashSet<>();
                 Set<String> filesToUpload = new HashSet<>(waitingList);
 
@@ -95,14 +97,16 @@ public class DropboxUtils {
                     try {
                         File localFile = new File(fileToUpload);
                         String remotePath = StorageUtils.getPrivateRelativePath(uqi.getContext(), localFile);
-                        FileInputStream inputStream = new FileInputStream(localFile);
-                        client.files()
-                                .uploadBuilder(remotePath)
-                                .withMode(WriteMode.ADD)
-                                .withAutorename(true)
-                                .uploadAndFinish(inputStream);
-                        inputStream.close();
-                        filesToDelete.add(localFile);
+                        InputStream inputStream = StorageUtils.getInputStreamAndDelete(localFile);
+                        if (inputStream != null) {
+                            client.files()
+                                    .uploadBuilder(remotePath)
+                                    .withMode(WriteMode.ADD)
+                                    .withAutorename(true)
+                                    .uploadAndFinish(inputStream);
+                            inputStream.close();
+                        }
+
                         filesToRemoveFromWaitingList.add(fileToUpload);
                     } catch (FileNotFoundException e) {
                         filesToRemoveFromWaitingList.add(fileToUpload);
@@ -112,10 +116,6 @@ public class DropboxUtils {
                 Logging.debug(LOG_TAG + "Successfully uploaded: " + filesToUpload);
 
                 removeFromWaitingList(uqi, filesToRemoveFromWaitingList);
-
-                for (File fileToDelete : filesToDelete) {
-                    fileToDelete.delete();
-                }
 
                 lastSyncTimestamp = System.currentTimeMillis();
 

@@ -26,8 +26,6 @@ class PSFileWriter<Tin> extends AsyncFunction<Tin, Void> {
     protected final boolean isPublic;
     protected final boolean append;
 
-    private static final String APPEND_SEPARATOR = "\n\n\n";
-
     PSFileWriter(Function<Tin, String> filePathGenerator, boolean isPublic, boolean append) {
         this.filePathGenerator = Assertions.notNull("filePathGenerator", filePathGenerator);
         this.isPublic = isPublic;
@@ -43,21 +41,10 @@ class PSFileWriter<Tin> extends AsyncFunction<Tin, Void> {
 
     @Override
     public void applyInBackground(UQI uqi, Tin input) {
-        try {
-            String filePath = this.filePathGenerator.apply(uqi, input);
-            File validFile = StorageUtils.getValidFile(uqi.getContext(), filePath, this.isPublic);
-            this.validFilePath = validFile.getAbsolutePath();
-
-            FileOutputStream fileOutputStream = new FileOutputStream(validFile, append);
-            if (append) {
-                fileOutputStream.write(APPEND_SEPARATOR.getBytes());
-            }
-            fileOutputStream.write(uqi.getGson().toJson(input).getBytes());
-            fileOutputStream.close();
-        } catch (IOException e) {
-            Logging.warn("error writing data to file.");
-            e.printStackTrace();
-        }
+        String filePath = this.filePathGenerator.apply(uqi, input);
+        File validFile = StorageUtils.getValidFile(uqi.getContext(), filePath, this.isPublic);
+        this.validFilePath = validFile.getAbsolutePath();
+        StorageUtils.writeToFile(uqi.getGson().toJson(input), validFile, append);
     }
 
     @Override

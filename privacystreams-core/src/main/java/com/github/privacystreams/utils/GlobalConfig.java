@@ -30,4 +30,8 @@ public class GlobalConfig {
         public static long leastSyncInterval = 0;
         public static boolean onlyOverWifi = false;
     }
+
+    public static class StorageConfig {
+        public static String fileAppendSeparator = "\n\n\n";
+    }
 }
