@@ -82,7 +82,7 @@ public class UQI {
      * @param purpose the purpose of personal data use, e.g. Purpose.ADS("xxx").
      * @return a multi-item stream
      */
-    public MStreamInterface getData(MStreamProvider mStreamProvider, Purpose purpose) {
+    public MStream getData(MStreamProvider mStreamProvider, Purpose purpose) {
         UQI uqi = this.getUQIWithPurpose(purpose);
         return new MStream(uqi, mStreamProvider);
     }
@@ -94,7 +94,7 @@ public class UQI {
      * @param purpose the purpose of personal data use, e.g. Purpose.ADS("xxx").
      * @return a single-item stream
      */
-    public SStreamInterface getData(SStreamProvider sStreamProvider, Purpose purpose) {
+    public SStream getData(SStreamProvider sStreamProvider, Purpose purpose) {
         UQI uqi = this.getUQIWithPurpose(purpose);
         return new SStream(uqi, sStreamProvider);
     }

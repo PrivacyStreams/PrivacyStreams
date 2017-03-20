@@ -59,7 +59,7 @@ public abstract class Stream {
             return;
         }
 
-        // If receivers are not ready, cache the item
+//        // If receivers are not ready, cache the item
 //        if (this.streamReceivers.size() != this.receiverCount) {
 //            if (this.getUQI().isStreamDebug())
 //                Logging.debug("Receivers are not ready, caching...");
@@ -94,7 +94,7 @@ public abstract class Stream {
     }
 
     /**
-     * Register a function to current stream
+     * Register a function to current stream.
      * @param streamReceiver the function that receives stream items
      */
     public synchronized void register(Function<? extends Stream, ?> streamReceiver) {

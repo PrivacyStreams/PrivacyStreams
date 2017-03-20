@@ -4,6 +4,7 @@ import com.github.privacystreams.commons.item.ItemOperators;
 import com.github.privacystreams.core.actions.SStreamAction;
 import com.github.privacystreams.core.actions.collect.Collectors;
 import com.github.privacystreams.core.exceptions.PrivacyStreamsException;
+import com.github.privacystreams.core.purposes.Purpose;
 import com.github.privacystreams.core.transformations.S2MTransformation;
 import com.github.privacystreams.core.transformations.S2STransformation;
 import com.github.privacystreams.core.transformations.map.Mappers;
@@ -13,12 +14,18 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 /**
- * An SStream is the basic element in a stream.
- * An SStream can be directly produced by a provider (e.g. CurrentLocationProvider)
- * or from a stream (e.g. stream.first()).
- * Similar to a MStream, an SStream could be transformed and collected with multiple functions.
+ * The interface of SStream (single-item stream).
+ * An SStreamInterface is a stream containing only one item, which is an instance of {@link Item}.
+ *
+ * An SStreamInterface is produced by <code>uqi.getData</code> method.
+ * @see UQI#getData(com.github.privacystreams.core.providers.SStreamProvider, Purpose)
+ *
+ * It can be transformed to another ISingleItemProvider with transformation functions,
+ * such as {@link #setField(String, Function)}, {{@link #project(String...)}}, {{@link #map(Function)}}, etc.
+ *
+ * Finally, it can be outputted using {{@link #asMap()}}, {{@link #getField(String)}}, etc.
  */
-public class SStream extends Stream implements SStreamInterface {
+public class SStream extends Stream {
     private Function<Void, SStream> streamProvider;
 
     @Override
@@ -52,7 +59,7 @@ public class SStream extends Stream implements SStreamInterface {
     }
 
     /**
-     * Collect the item for output
+     * Output the item in the current stream.
      *
      * @param sStreamAction the function used to output the current item
      */
@@ -62,8 +69,8 @@ public class SStream extends Stream implements SStreamInterface {
     }
 
     /**
-     * Convert the item with a function.
-     * eg. map(Images.blur("image")) will blur the "image" field of the item
+     * Convert the item in the stream with a function.
+     * Eg. <code>map(ImageOperators.blur("image"))</code> will blur the image specified by "image" field in the item.
      *
      * @param function      the function to convert the item
      * @return The item after mapping
@@ -75,7 +82,7 @@ public class SStream extends Stream implements SStreamInterface {
     /**
      * Project the item by including some fields.
      * Other fields will not appear in collectors, such as toMap().
-     * eg. project("name", "email") will only keep the "name" and "email" field in the item
+     * eg. <code>project("name", "email")</code> will only keep the "name" and "email" field in the item
      *
      * @param fieldsToInclude the fields to include
      * @return The item after projection
@@ -85,7 +92,8 @@ public class SStream extends Stream implements SStreamInterface {
     }
 
     /**
-     * set the value of a field with a function
+     * Set a field with a function that takes the item as input.
+     *
      * @param newField the new field name
      * @param functionToComputeField the function to compute the new field value
      * @param <TValue> the type of the new field value
@@ -95,10 +103,27 @@ public class SStream extends Stream implements SStreamInterface {
         return this.map(ItemOperators.setField(newField, functionToComputeField));
     }
 
+    /**
+     * Output the item in the stream with a function, and the result is delivered to a callback function.
+     * This method will NOT block.
+     *
+     * @param itemCollector the function used to output the current item
+     * @param resultHandler the function to handle the result
+     * @param <Tout>           the type of result
+     */
     public <Tout> void output(Function<Item, Tout> itemCollector, Callback<Tout> resultHandler) {
         this.output(Collectors.collectItem(itemCollector, resultHandler));
     }
 
+    /**
+     * Output the item in the stream with a function.
+     * This method will block until the result returns.
+     *
+     * @param itemCollector the function used to output the current item
+     * @param <Tout>           the type of result
+     * @return the result of itemCollector
+     * @throws PrivacyStreamsException if something goes wrong during getting results.
+     */
     public <Tout> Tout output(Function<Item, Tout> itemCollector) throws PrivacyStreamsException {
         final BlockingQueue<Object> resultQueue = new LinkedBlockingQueue<>();
         Callback<Tout> resultHandler = new Callback<Tout>() {
@@ -126,7 +151,8 @@ public class SStream extends Stream implements SStreamInterface {
     }
 
     /**
-     * get the value of a field
+     * Get the value of a field.
+     *
      * @param field the name of the field to get
      * @param <TValue> the type of the new field value
      * @return the field value
@@ -138,13 +164,15 @@ public class SStream extends Stream implements SStreamInterface {
     /**
      * Output the item by returning the key-value map.
      * The keys in the map can be selected using project(String... fieldsToInclude) method.
+     *
+     * @return the key-value map of the item
      */
     public Map<String, Object> asMap() throws PrivacyStreamsException {
         return this.output(ItemOperators.asMap());
     }
 
     /**
-     * Debug print the item
+     * Print this stream for debugging.
      */
     public void debug() {
         this.output(ItemOperators.debug(), null);
@@ -152,6 +180,7 @@ public class SStream extends Stream implements SStreamInterface {
 
     /**
      * Fork current stream for reusing.
+     *
      * @param numOfForks number of reuses
      * @return the forked stream
      */

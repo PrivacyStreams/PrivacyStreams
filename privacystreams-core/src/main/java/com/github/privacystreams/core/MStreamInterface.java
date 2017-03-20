@@ -95,7 +95,7 @@ public interface MStreamInterface {
     MStreamInterface limit(int maxCount);
 
     /**
-     * limit the stream with a timeout,
+     * Limit the stream with a timeout,
      * stop the stream after some time.
      * Eg. <code>timeout(Duration.seconds(10))</code> will limit the stream to at most 10 seconds
      *
