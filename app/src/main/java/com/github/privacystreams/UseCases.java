@@ -23,6 +23,7 @@ import com.github.privacystreams.core.Callback;
 import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.UQI;
+import com.github.privacystreams.core.actions.collect.Collectors;
 import com.github.privacystreams.core.exceptions.PrivacyStreamsException;
 import com.github.privacystreams.core.providers.mock.MockItem;
 import com.github.privacystreams.core.purposes.Purpose;
@@ -33,6 +34,7 @@ import com.github.privacystreams.core.transformations.select.Selectors;
 import com.github.privacystreams.device.BluetoothDevice;
 import com.github.privacystreams.device.DeviceEvent;
 import com.github.privacystreams.device.DeviceOperators;
+import com.github.privacystreams.device.DeviceState;
 import com.github.privacystreams.device.WifiAp;
 import com.github.privacystreams.environment.Light;
 import com.github.privacystreams.image.Image;
@@ -43,8 +45,6 @@ import com.github.privacystreams.storage.DropboxOperators;
 import com.github.privacystreams.utils.GlobalConfig;
 import com.github.privacystreams.utils.time.Duration;
 import com.github.privacystreams.utils.time.TimeUtils;
-
-import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 import java.util.Map;
@@ -99,7 +99,7 @@ public class UseCases {
                 .timeout(Duration.seconds(10))
                 .map(ItemOperators.setField("time_round", ArithmeticOperators.roundUp(MockItem.TIME_CREATED, Duration.seconds(2))))
                 .localGroupBy("time_round")
-                .setField("uuid", DeviceOperators.<Item>getDeviceId())
+                .setIndependentField("uuid", DeviceOperators.deviceIdGetter())
                 .forEach(DropboxOperators.uploadTo(new Function<Item, String>() {
                     @Override
                     public String apply(UQI uqi, Item input) {
@@ -107,6 +107,25 @@ public class UseCases {
                     }
                 }, true));
     }
+
+    public void testDeviceState() {
+        Purpose purpose = Purpose.TEST("test");
+        uqi
+                .getData(DeviceState.asUpdates(10000, 0), purpose)
+                .setIndependentField("contact_list", Contact.asList().compound(Collectors.toItemList()))
+                .setIndependentField("wifi_ap_list", uqi.getData(WifiAp.asScanList(), purpose).evaluateOnDemand(Collectors.toItemList()))
+                .setIndependentField("bluetooth_list", BluetoothDevice.asScanList().compound(Collectors.toItemList()))
+                .setIndependentField("uuid", DeviceOperators.deviceIdGetter())
+                .limit(10)
+                .debug();
+//                .forEach(DropboxOperators.uploadTo(new Function<Item, String>() {
+//                    @Override
+//                    public String apply(UQI uqi, Item input) {
+//                        return input.getValueByField("uuid") + "/device_state/" + input.getValueByField(Item.TIME_CREATED) + ".json";
+//                    }
+//                }, true));
+    }
+
 
     /*
      * Getting a stream of text entries and printing

@@ -54,23 +54,52 @@ public class ItemOperators {
      * @param <Tout> the type of sub stream collection result.
      * @return the function
      */
-    public static <Tout> Function<Item, Tout> collectGroupedItems(Function<List<Item>, Tout> subStreamFunction) {
+    public static <Tout> Function<Item, Tout> wrapSubStreamFunction(Function<List<Item>, Tout> subStreamFunction) {
         return new ItemSubStreamFunction<>(subStreamFunction);
     }
 
     /**
-     * Set the value of a new field with a function.
-     * This function must be applied to a group item, i.e. must be used after <code>groupBy</code> or <code>localGroupBy</code>.
-     * For example, `.groupBy("name").setGroupField("count", count())` will group the items with same "name" together,
-     * and set "count" field to the number of items in each group.
+     * Wrap a valueGenerator that takes Void as input type to a function that takes Item as input type.
      *
-     * @param fieldToSet the name of the field to set, it can be a new name or an existing name.
-     * @param itemsFunction the function to compute the field value based on the grouped items.
-     * @param <TValue> the type of the new field value.
-     * @return the item mapper function.
+     * @param valueGenerator the function that takes Void as input.
+     * @param <Tout> the type of value generator result.
+     * @return the function
+     */
+    public static <Tout> Function<Item, Tout> wrapValueGenerator(Function<Void, Tout> valueGenerator) {
+        return new IndependentItemFunction<>(valueGenerator);
+    }
+
+    /**
+     * Set a field to a new value for each item in the stream.
+     * This transformation can only be used after invoking group methods (`groupBy`, `localGroupBy`, etc.).
+     * The value is computed with a function that takes the grouped items as input.
+     * Eg. <code>setGroupField("count", Statistic.count())</code> will set a new field "count" to each item,
+     * which represents the number of items in the grouped sub stream.
+     *
+     * @param fieldToSet the new field name
+     * @param itemsFunction the function to compute the new field value, which takes the grouped items as input.
+     * @param <TValue> the type of the new field value
+     * @return the stream of items with the new field set
      */
     public static <TValue> Function<Item, Item> setGroupField(String fieldToSet, Function<List<Item>, TValue> itemsFunction) {
         return new FieldSetter<>(fieldToSet, new ItemSubStreamFunction<>(itemsFunction));
+    }
+
+    /**
+     * Set the value of a new field with a value generator function.
+     * The value generator function is independent from current item, which does not need a input (Void).
+     * The value generator will be evaluated on demand at runtime.
+     *
+     * For example, `setIndependentField("time", TimeOperators.timestampGenerator())` will set the field "time" to a timestamp in each item;
+     * `setIndependentField("wifiStatus", DeviceOperators.wifiStatusChecker())` will set the field "wifiStatus" to a boolean indicating whether wifi is connected in each item.
+     *
+     * @param fieldToSet the name of the field to set, it can be a new name or an existing name.
+     * @param valueGenerator the function to compute the field value.
+     * @param <TValue> the type of the new field value.
+     * @return the item mapper function.
+     */
+    public static <TValue> Function<Item, Item> setIndependentField(String fieldToSet, Function<Void, TValue> valueGenerator) {
+        return new FieldSetter<>(fieldToSet, new IndependentItemFunction<>(valueGenerator));
     }
 
     /**

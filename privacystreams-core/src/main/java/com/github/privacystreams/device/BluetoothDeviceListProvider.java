@@ -29,6 +29,10 @@ class BluetoothDeviceListProvider extends MStreamProvider {
     @Override
     protected void provide() {
         BluetoothAdapter BTAdapter = BluetoothAdapter.getDefaultAdapter();               // Set up the adaptor
+        if (BTAdapter == null || !BTAdapter.isEnabled()) {
+            this.finish();
+            return;
+        }
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(android.bluetooth.BluetoothDevice.ACTION_FOUND);
         intentFilter.addAction(BluetoothAdapter.ACTION_DISCOVERY_STARTED);

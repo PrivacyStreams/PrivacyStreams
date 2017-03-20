@@ -67,6 +67,7 @@ class WifiApListProvider extends MStreamProvider {
         }
         else{
             Log.e("wifi","not enabled");
+            this.finish();
         }
 
     }

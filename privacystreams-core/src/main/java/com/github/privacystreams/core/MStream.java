@@ -180,29 +180,45 @@ public class MStream extends Stream {
      * Eg. <code>setField("x", Comparators.gt("y", 10))</code> will set a new boolean field "x" to each item,
      * which indicates whether the "y" field is greater than 10.
      *
-     * @param newField the new field name
+     * @param fieldToSet the name of the field to set, it can be a new name or an existing name.
      * @param functionToComputeValue the function to compute the new field value
      * @param <TValue> the type of the new field value
      * @return the stream of items with the new field set
      */
-    public <TValue> MStream setField(String newField, Function<Item, TValue> functionToComputeValue) {
-        return this.map(ItemOperators.setField(newField, functionToComputeValue));
+    public <TValue> MStream setField(String fieldToSet, Function<Item, TValue> functionToComputeValue) {
+        return this.map(ItemOperators.setField(fieldToSet, functionToComputeValue));
     }
 
     /**
      * Set a field to a new value for each item in the stream.
      * This transformation can only be used after invoking group methods ({@link #groupBy(String)}, {@link #localGroupBy(String)}).
-     * The value is computed with a function that takes the grouped items as input.
+     * The value is computed with a function that takes the grouped items as input at runtime.
      * Eg. <code>setGroupField("count", Statistic.count())</code> will set a new field "count" to each item,
      * which represents the number of items in the grouped sub stream.
      *
-     * @param newField the new field name
+     * @param fieldToSet the name of the field to set, it can be a new name or an existing name.
      * @param subStreamFunction the function to compute the new field value, which takes the grouped items as input.
      * @param <TValue> the type of the new field value
      * @return the stream of items with the new field set
      */
-    public <TValue> MStream setGroupField(String newField, Function<List<Item>, TValue> subStreamFunction) {
-        return this.setField(newField, ItemOperators.collectGroupedItems(subStreamFunction));
+    public <TValue> MStream setGroupField(String fieldToSet, Function<List<Item>, TValue> subStreamFunction) {
+        return this.map(ItemOperators.setGroupField(fieldToSet, subStreamFunction));
+    }
+
+    /**
+     * Set the value of a new field with a value generator function.
+     * The value generator function is independent from current item, which does not need a input (input type is Void).
+     * The value generator will be evaluated on demand at runtime.
+     * Eg. `setIndependentField("time", TimeOperators.timestampGenerator())` will set the field "time" to a timestamp in each item;
+     * `setIndependentField("wifiStatus", DeviceOperators.wifiStatusChecker())` will set the field "wifiStatus" to a boolean indicating whether wifi is connected in each item.
+     *
+     * @param fieldToSet the name of the field to set, it can be a new name or an existing name.
+     * @param valueGenerator the function to compute the field value.
+     * @param <TValue> the type of the new field value.
+     * @return the stream of items with the new field set
+     */
+    public <TValue> MStream setIndependentField(String fieldToSet, Function<Void, TValue> valueGenerator) {
+        return this.map(ItemOperators.setIndependentField(fieldToSet, valueGenerator));
     }
 
     // *****************************
@@ -456,10 +472,10 @@ public class MStream extends Stream {
     }
 
     /**
-     * Get a function that can be evaluated on demand.
-     * The function will not be evaluated immediately, instead, it will be evaluated once `apply()` is called.
+     * Get a value generator that can be evaluated on demand.
+     * The generator will not be evaluated immediately, instead, it will be evaluated once `apply()` is called.
      *
-     * @return the function
+     * @return the value generator
      */
     public <Tout> Function<Void, Tout> evaluateOnDemand(Function<MStream, Tout> streamOutputFunction) {
         return this.streamProvider.compound(streamOutputFunction);

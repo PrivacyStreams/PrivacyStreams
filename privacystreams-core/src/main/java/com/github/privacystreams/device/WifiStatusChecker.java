@@ -14,14 +14,14 @@ import com.github.privacystreams.utils.ConnectionUtils;
 /**
  * Get device id
  */
-class WifiStatusChecker<Tin> extends Function<Tin, Boolean> {
+class WifiStatusChecker extends Function<Void, Boolean> {
 
     WifiStatusChecker() {
         this.addRequiredPermissions(Manifest.permission.ACCESS_WIFI_STATE);
     }
 
     @Override
-    public Boolean apply(UQI uqi, Tin input) {
+    public Boolean apply(UQI uqi, Void input) {
         return ConnectionUtils.isWifiConnected(uqi);
     }
 }

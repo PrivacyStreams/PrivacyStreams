@@ -13,7 +13,7 @@ import com.github.privacystreams.core.UQI;
 /**
  * Get device id
  */
-class DeviceIdGetter<Tin> extends Function<Tin, String> {
+class DeviceIdGetter extends Function<Void, String> {
 
     DeviceIdGetter() {
         this.addRequiredPermissions(Manifest.permission.READ_PHONE_STATE);
@@ -22,7 +22,7 @@ class DeviceIdGetter<Tin> extends Function<Tin, String> {
     private transient String uuid;
 
     @Override
-    public String apply(UQI uqi, Tin input) {
+    public String apply(UQI uqi, Void input) {
         if (this.uuid == null) {
             TelephonyManager tm = (TelephonyManager) uqi.getContext().getSystemService(Context.TELEPHONY_SERVICE);
             this.uuid = tm.getDeviceId();

@@ -104,6 +104,22 @@ public class SStream extends Stream {
     }
 
     /**
+     * Set the value of a new field with a value generator function.
+     * The value generator function is independent from current item, which does not need a input (input type is Void).
+     * The value generator will be evaluated on demand at runtime.
+     * Eg. `setIndependentField("time", TimeOperators.timestampGenerator())` will set the field "time" to a timestamp in each item;
+     * `setIndependentField("wifiStatus", DeviceOperators.wifiStatusChecker())` will set the field "wifiStatus" to a boolean indicating whether wifi is connected in each item.
+     *
+     * @param fieldToSet the name of the field to set, it can be a new name or an existing name.
+     * @param valueGenerator the function to compute the field value.
+     * @param <TValue> the type of the new field value.
+     * @return the stream of items with the new field set
+     */
+    public <TValue> SStream setIndependentField(String fieldToSet, Function<Void, TValue> valueGenerator) {
+        return this.map(ItemOperators.setIndependentField(fieldToSet, valueGenerator));
+    }
+
+    /**
      * Output the item in the stream with a function, and the result is delivered to a callback function.
      * This method will NOT block.
      *
