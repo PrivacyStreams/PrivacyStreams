@@ -31,4 +31,23 @@ public class TimeOperators {
     public static Function<Item, Boolean> recent(final String timestampField, final Long duration) {
         return new TimeRecentPredicate(timestampField, duration);
     }
+
+    /**
+     * Get current timestamp.
+     * @return the function.
+     */
+    public static Function<Item, Long> getCurrentTimestamp() {
+        return new CurrentTimeGetter();
+    }
+
+    /**
+     * Convert the timestamp value of a field to a string based a given format.
+     *
+     * @param timestampField the name of timestamp field
+     * @param timeFormat the format of time string
+     * @return the function
+     */
+    public static Function<Item, String> generateTimeString(String timestampField, String timeFormat) {
+        return new TimeToStringConverter(timestampField, timeFormat);
+    }
 }

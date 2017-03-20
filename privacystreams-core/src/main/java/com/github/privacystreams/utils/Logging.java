@@ -7,27 +7,15 @@ import android.util.Log;
  */
 
 public class Logging {
-    private static boolean isEnabled = true;
-    public static void enableLogging() {
-        Logging.isEnabled = true;
-    }
-    public static void disableLogging() {
-        Logging.isEnabled = false;
-    }
-
-    private static int level = Log.DEBUG;
-    public static void setLevel(int level) {
-        Logging.level = level;
-    }
 
     public static void debug(String message) {
-        if (Logging.isEnabled && Logging.level <= Log.DEBUG) {
+        if (GlobalConfig.LoggingConfig.isEnabled && GlobalConfig.LoggingConfig.level <= Log.DEBUG) {
             Log.d(Consts.LIB_TAG, message);
         }
     }
 
     public static void warn(String message) {
-        if (Logging.isEnabled && Logging.level <= Log.WARN) {
+        if (GlobalConfig.LoggingConfig.isEnabled && GlobalConfig.LoggingConfig.level <= Log.WARN) {
             Log.w(Consts.LIB_TAG, message);
         }
     }

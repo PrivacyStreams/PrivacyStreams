@@ -1,7 +1,6 @@
 package com.github.privacystreams;
 
 import android.content.Context;
-import android.location.LocationManager;
 import android.os.Build;
 
 import com.github.privacystreams.accessibility.BrowserSearch;
@@ -23,7 +22,6 @@ import com.github.privacystreams.communication.Phonecall;
 import com.github.privacystreams.core.Callback;
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.UQI;
-import com.github.privacystreams.core.actions.collect.Collectors;
 import com.github.privacystreams.core.exceptions.PrivacyStreamsException;
 import com.github.privacystreams.core.providers.mock.MockItem;
 import com.github.privacystreams.core.purposes.Purpose;
@@ -40,7 +38,6 @@ import com.github.privacystreams.image.ImageOperators;
 import com.github.privacystreams.location.GeoLocation;
 import com.github.privacystreams.location.LocationOperators;
 import com.github.privacystreams.storage.DropboxOperators;
-import com.github.privacystreams.storage.StorageOperators;
 import com.github.privacystreams.utils.GlobalConfig;
 import com.github.privacystreams.utils.time.Duration;
 import com.github.privacystreams.utils.time.TimeUtils;
@@ -51,7 +48,6 @@ import java.util.Map;
 import static com.github.privacystreams.commons.items.ItemsOperators.getItemWithMax;
 import static com.github.privacystreams.commons.time.TimeOperators.recent;
 import static com.github.privacystreams.commons.statistic.StatisticOperators.count;
-import static com.github.privacystreams.storage.DropboxOperators.uploadAs;
 
 /**
  * Some show cases of PrivacyStreams
@@ -228,7 +224,7 @@ public class UseCases {
     int getCallCountSince() throws PrivacyStreamsException {
         return uqi
                 .getData(Phonecall.asLogs(), Purpose.FEATURE("know how many calls you made"))
-                .filter(TimeOperators.since(Phonecall.TIMESTAMP, TimeUtils.format("yyyy-MM-dd", "2015-10-31")))
+                .filter(TimeOperators.since(Phonecall.TIMESTAMP, TimeUtils.fromFormattedString("yyyy-MM-dd", "2015-10-31")))
                 .count();
     }
 
