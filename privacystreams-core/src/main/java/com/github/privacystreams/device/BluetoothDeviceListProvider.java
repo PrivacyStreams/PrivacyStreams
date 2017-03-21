@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.util.Log;
 
+import com.dropbox.core.DbxWebAuth;
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.UQI;
 import com.github.privacystreams.core.providers.MStreamProvider;
@@ -65,6 +66,10 @@ class BluetoothDeviceListProvider extends MStreamProvider {
     @Override
     protected void onCancelled(UQI uqi) {
         super.onCancelled(uqi);
-        getContext().unregisterReceiver(mReceiver);
+        try {
+            getContext().unregisterReceiver(mReceiver);
+        }
+        catch (Exception ignored) {
+        }
     }
 }

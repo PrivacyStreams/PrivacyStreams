@@ -117,7 +117,7 @@ public class UseCases {
                 .setIndependentField("wifi_ap_list", uqi.getData(WifiAp.asScanList(), purpose).getValueGenerator(Collectors.toItemList()))
                 .setIndependentField("bluetooth_list", BluetoothDevice.asScanList().compound(Collectors.toItemList()))
                 .setIndependentField("uuid", DeviceOperators.deviceIdGetter())
-                .limit(10)
+                .limit(3)
                 .debug();
 //                .forEach(DropboxOperators.uploadTo(new Function<Item, String>() {
 //                    @Override

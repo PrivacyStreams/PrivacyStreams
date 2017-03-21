@@ -75,6 +75,7 @@ public abstract class Stream {
 //            else
 //                break;
 //        }
+
         while (this.streamReceivers.size() != this.receiverCount) {
             try {
                 Thread.sleep(10);
@@ -115,6 +116,7 @@ public abstract class Stream {
         this.eventBus.unregister(streamReceiver);
         this.streamReceivers.remove(streamReceiver);
         this.receiverCount--;
+        if (this.isClosed()) this.getStreamProvider().cancel(this.uqi);
     }
 
     /**
@@ -136,10 +138,6 @@ public abstract class Stream {
 
     public String toString() {
         return this.toMap().toString();
-    }
-
-    public Context getContext() {
-        return this.getUQI().getContext();
     }
 
     public UQI getUQI() {
