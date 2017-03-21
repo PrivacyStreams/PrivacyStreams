@@ -167,12 +167,4 @@ public class ItemOperators {
         return new SubItemGetter(subItemField);
     }
 
-    /**
-     * Print the item for debugging.
-     *
-     * @return the function
-     */
-    public static Function<Item, Void> debug() {
-        return new ItemDebugPrinter();
-    }
 }

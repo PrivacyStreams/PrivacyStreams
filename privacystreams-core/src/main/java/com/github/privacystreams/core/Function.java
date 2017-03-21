@@ -62,12 +62,12 @@ public abstract class Function<Tin, Tout> {
      * @param uqi the instance of UQI
      */
     protected final void cancel(UQI uqi) {
+        this.isCancelled = true;
         for (Object parameter : this.parameters) {
             if (parameter instanceof Function<?,?>) {
                 ((Function<?,?>) parameter).cancel(uqi);
             }
         }
-        this.isCancelled = true;
         this.onCancelled(uqi);
     }
 

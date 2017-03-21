@@ -112,7 +112,7 @@ public class UseCases {
     public void testDeviceState() {
         Purpose purpose = Purpose.TEST("test");
         uqi
-                .getData(EmptyItem.asUpdates(10000), purpose)
+                .getData(EmptyItem.asUpdates(5000), purpose)
                 .setIndependentField("contact_list", Contact.asList().compound(Collectors.toItemList()))
                 .setIndependentField("wifi_ap_list", uqi.getData(WifiAp.asScanList(), purpose).getValueGenerator(Collectors.toItemList()))
                 .setIndependentField("bluetooth_list", BluetoothDevice.asScanList().compound(Collectors.toItemList()))

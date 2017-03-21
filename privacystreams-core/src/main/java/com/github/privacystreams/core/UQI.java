@@ -49,14 +49,6 @@ public class UQI {
         return exception;
     }
 
-    private transient boolean streamDebug = false;
-    public void setStreamDebug(boolean streamDebug) {
-        this.streamDebug = streamDebug;
-    }
-    public boolean isStreamDebug() {
-        return streamDebug;
-    }
-
     public UQI(Context context) {
         this.context = context;
         this.gson = new GsonBuilder().setPrettyPrinting().create();

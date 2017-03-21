@@ -53,11 +53,12 @@ public class Item {
     }
 
     public String toString() {
+        if (this == EOS) return "EOS_ITEM";
         return this.toMap().toString();
     }
 
     /**
-     * Get the value of a field in the item
+     * Get the value of a field in the item.
      *
      * @param fieldName the name of the field
      * @param <TValue>  the type of field value

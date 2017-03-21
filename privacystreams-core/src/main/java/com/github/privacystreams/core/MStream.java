@@ -1,6 +1,7 @@
 package com.github.privacystreams.core;
 
 import com.github.privacystreams.commons.comparison.Comparators;
+import com.github.privacystreams.commons.debug.DebugOperators;
 import com.github.privacystreams.commons.item.ItemOperators;
 import com.github.privacystreams.commons.statistic.StatisticOperators;
 import com.github.privacystreams.commons.items.ItemsOperators;
@@ -368,7 +369,16 @@ public class MStream extends Stream {
      * Print the items for debugging.
      */
     public void debug() {
-        this.forEach(ItemOperators.debug());
+        this.forEach(DebugOperators.<Item>debug());
+    }
+
+    /**
+     * Enable logging in current Stream
+     *
+     * @param logTag the log tag to use in printing current stream
+     */
+    public MStream logAs(String logTag) {
+        return this.map(DebugOperators.<Item>logAs(logTag));
     }
 
     /**

@@ -1,5 +1,6 @@
 package com.github.privacystreams.core;
 
+import com.github.privacystreams.commons.debug.DebugOperators;
 import com.github.privacystreams.commons.item.ItemOperators;
 import com.github.privacystreams.core.actions.SStreamAction;
 import com.github.privacystreams.core.actions.collect.Collectors;
@@ -191,7 +192,16 @@ public class SStream extends Stream {
      * Print this stream for debugging.
      */
     public void debug() {
-        this.output(ItemOperators.debug(), null);
+        this.output(DebugOperators.<Item>debug(), null);
+    }
+
+    /**
+     * Enable logging in current Stream
+     *
+     * @param logTag the log tag to use in printing current stream
+     */
+    public SStream logAs(String logTag) {
+        return this.map(DebugOperators.<Item>logAs(logTag));
     }
 
     /**

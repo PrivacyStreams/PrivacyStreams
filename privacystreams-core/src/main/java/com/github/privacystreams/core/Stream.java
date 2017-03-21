@@ -1,7 +1,9 @@
 package com.github.privacystreams.core;
 
 import android.content.Context;
+import android.util.Log;
 
+import com.github.privacystreams.utils.GlobalConfig;
 import com.github.privacystreams.utils.Logging;
 
 import org.greenrobot.eventbus.EventBus;
@@ -88,9 +90,6 @@ public abstract class Stream {
     }
 
     private void doWrite(Item item) {
-        if (this.getUQI().isStreamDebug())
-            Logging.debug("Item " + item + " writing to stream " + this.getStreamProvider());
-
         this.eventBus.post(item);
     }
 
