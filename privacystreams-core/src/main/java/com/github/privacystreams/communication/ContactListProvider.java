@@ -8,6 +8,7 @@ import android.provider.ContactsContract.CommonDataKinds.Email;
 import android.provider.ContactsContract.CommonDataKinds.Phone;
 
 import com.github.privacystreams.core.providers.MStreamProvider;
+import com.github.privacystreams.utils.CommunicationUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,7 +57,7 @@ class ContactListProvider extends MStreamProvider {
                 if (phoneCur != null) {
                     while (phoneCur.moveToNext()) {
                         String number = phoneCur.getString(phoneCur.getColumnIndex(Phone.NUMBER));
-                        phones.add(number);
+                        phones.add(CommunicationUtils.normalizePhoneNumber(number));
 //                    int type = phones.getInt(phones.getColumnIndex(Phone.TYPE));
                     }
                     phoneCur.close();

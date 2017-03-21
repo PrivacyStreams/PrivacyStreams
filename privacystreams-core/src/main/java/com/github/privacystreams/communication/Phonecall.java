@@ -3,8 +3,11 @@ package com.github.privacystreams.communication;
 
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.providers.MStreamProvider;
+import com.github.privacystreams.utils.CommunicationUtils;
 import com.github.privacystreams.utils.annotations.PSItem;
 import com.github.privacystreams.utils.annotations.PSItemField;
+
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * The information of a phonecall.
@@ -56,6 +59,7 @@ public class Phonecall extends Item {
         this.setFieldValue(DURATION, duration);
         this.setFieldValue(TYPE, call_type);
     }
+
     /**
      * Provide a list of Phonecall items from the device call log.
      * @return the stream provider

@@ -7,6 +7,7 @@ import android.telecom.Call;
 import android.util.Log;
 
 import com.github.privacystreams.core.providers.MStreamProvider;
+import com.github.privacystreams.utils.CommunicationUtils;
 
 import java.util.Calendar;
 
@@ -68,7 +69,7 @@ class PhonecallLogProvider extends MStreamProvider {
                         String duration = c.getString(c.getColumnIndex(CallLog.Calls.DURATION));
 
                         output(new Phonecall(id, Long.valueOf(date),
-                                number,
+                                CommunicationUtils.normalizePhoneNumber(number),
                                 Long.valueOf(duration),
                                 typeString));
                         c.moveToNext();
