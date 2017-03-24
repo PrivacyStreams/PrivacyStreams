@@ -24,7 +24,7 @@ public class Image extends Item {
      * The URI of image file.
      */
     @PSItemField(type = String.class)
-    public static final String URI = "uri";
+    public static final String IMAGE_URI = "image_uri";
 
     // TODO create a metadata field, put lat and lng to metadata
     private static final String LAT = "lat";
@@ -32,7 +32,7 @@ public class Image extends Item {
 
     Image(String timestamp, Uri file_uri, double lat, double lng) {
         this.setFieldValue(TIMESTAMP, timestamp);
-        this.setFieldValue(URI, file_uri.toString());
+        this.setFieldValue(IMAGE_URI, file_uri.toString());
         this.setFieldValue(LAT,lat);
         this.setFieldValue(LNG,lng);
     }

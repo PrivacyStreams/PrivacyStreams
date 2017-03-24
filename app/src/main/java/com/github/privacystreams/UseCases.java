@@ -35,7 +35,6 @@ import com.github.privacystreams.core.transformations.select.Selectors;
 import com.github.privacystreams.device.BluetoothDevice;
 import com.github.privacystreams.device.DeviceEvent;
 import com.github.privacystreams.device.DeviceOperators;
-import com.github.privacystreams.device.DeviceState;
 import com.github.privacystreams.device.WifiAp;
 import com.github.privacystreams.environment.Light;
 import com.github.privacystreams.image.Image;
@@ -332,7 +331,7 @@ public class UseCases {
     List<Map<String, String>> getAllPhotoMetadata() throws PrivacyStreamsException {
         return uqi
                 .getData(Image.readFromStorage(), Purpose.FEATURE("get metadata of the photos in storage"))
-                .setField("metadata", ImageOperators.getMetadata(Image.URI))
+                .setField("metadata", ImageOperators.getMetadata(Image.IMAGE_URI))
                 .asList("metadata");
     }
 
