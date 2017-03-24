@@ -1,8 +1,7 @@
 package com.github.privacystreams.core.purposes;
 
 /**
- * Created by yuanchun on 21/12/2016.
- * The purpose of personal data use.
+ * The purpose ontology of personal data use.
  */
 
 public class Purpose {
@@ -12,12 +11,16 @@ public class Purpose {
     }
 
     private static final String PURPOSE_ADS = "Advertisement";
-    private static final String PURPOSE_FEATURE = "Feature";
-    private static final String PURPOSE_TEST = "Test";
+    private static final String PURPOSE_ANALYTICS = "Analytics";
     private static final String PURPOSE_HEALTH = "Health";
     private static final String PURPOSE_SOCIAL = "Social";
     private static final String PURPOSE_UTILITY = "Utility";
     private static final String PURPOSE_RESEARCH = "Research";
+    private static final String PURPOSE_GAME = "Game";
+    private static final String PURPOSE_FEATURE = "Feature";
+
+    private static final String PURPOSE_LIB_INTERNAL = "LibInternal";
+    private static final String PURPOSE_TEST = "Test";
 
     /**
      * Advertising purpose.
@@ -26,6 +29,15 @@ public class Purpose {
      */
     public static Purpose ADS(String description) {
         return new Purpose(PURPOSE_ADS + ": " + description);
+    }
+
+    /**
+     * The purpose for analytics.
+     * @param description a short description of the purpose.
+     * @return the Purpose instance
+     */
+    public static Purpose ANALYTICS(String description) {
+        return new Purpose(PURPOSE_ANALYTICS + ": " + description);
     }
 
     /**
@@ -82,13 +94,25 @@ public class Purpose {
         return new Purpose(PURPOSE_RESEARCH + ": " + description);
     }
 
-    // TODO modify this, distinguish INTERNAL purpose and FEATURE purpose
-    private static final String PURPOSE_INTERNAL = "Internal";
-    public static Purpose INTERNAL(String description) {
-        return new Purpose(PURPOSE_INTERNAL + ": " + description);
+    /**
+     * The purpose for game.
+     * @param description a short description of the purpose.
+     * @return the Purpose instance
+     */
+    public static Purpose GAME(String description) {
+        return new Purpose(PURPOSE_GAME + ": " + description);
     }
 
-    // TODO more purposes
+    /**
+     * For internal library use.
+     * App should not use this purpose anyway.
+     *
+     * @param description a short description of the purpose.
+     * @return the Purpose instance
+     */
+    public static Purpose LIB_INTERNAL(String description) {
+        return new Purpose(PURPOSE_LIB_INTERNAL + ": " + description);
+    }
 
     public String toString() {
         return this.purposeString;

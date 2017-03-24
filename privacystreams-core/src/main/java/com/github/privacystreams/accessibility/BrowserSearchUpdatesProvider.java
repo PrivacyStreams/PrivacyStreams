@@ -15,7 +15,7 @@ class BrowserSearchUpdatesProvider extends MStreamProvider {
 
     @Override
     protected void provide() {
-        getUQI().getData(TextEntry.asUpdates(), Purpose.INTERNAL("Event Triggers"))
+        getUQI().getData(TextEntry.asUpdates(), Purpose.LIB_INTERNAL("Event Triggers"))
                 .filter(ItemOperators.isFieldIn(BaseAccessibilityEvent.PACKAGE_NAME,
                         new String[]{AppUtils.APP_PACKAGE_SEARCHBOX, AppUtils.APP_PACKAGE_FIREFOX, AppUtils.APP_PACKAGE_OPERA, AppUtils.APP_PACKAGE_CHROME}))
                 .forEach(new Callback<Item>() {

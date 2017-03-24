@@ -42,7 +42,7 @@ class IMUpdatesProvider extends MStreamProvider {
     @Override
     protected void provide() {
         getUQI().getData(BaseAccessibilityEvent.asUpdates(),
-                Purpose.INTERNAL("Event Triggers"))
+                Purpose.LIB_INTERNAL("Event Triggers"))
                 .filter(ItemOperators.isFieldIn(BaseAccessibilityEvent.PACKAGE_NAME,
                         new String[]{APP_PACKAGE_WHATSAPP, APP_PACKAGE_FACEBOOK_MESSENGER}))
                 .filter(Comparators.eq(BaseAccessibilityEvent.EVENT_TYPE,

@@ -27,7 +27,7 @@ class BrowserVisitStreamProvider extends MStreamProvider {
 
     @Override
     protected void provide() {
-        getUQI().getData(BaseAccessibilityEvent.asUpdates(), Purpose.INTERNAL("Event Triggers"))
+        getUQI().getData(BaseAccessibilityEvent.asUpdates(), Purpose.LIB_INTERNAL("Event Triggers"))
                 .filter(ItemOperators.isFieldIn(BaseAccessibilityEvent.PACKAGE_NAME, new String[]{AppUtils.APP_PACKAGE_FIREFOX, AppUtils.APP_PACKAGE_OPERA, AppUtils.APP_PACKAGE_CHROME}))
                 .filter(Comparators.eq(BaseAccessibilityEvent.EVENT_TYPE, AccessibilityEvent.TYPE_VIEW_TEXT_SELECTION_CHANGED))
                 .forEach(new Callback<Item>() {

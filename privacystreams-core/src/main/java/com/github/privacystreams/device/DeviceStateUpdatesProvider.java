@@ -54,7 +54,7 @@ class DeviceStateUpdatesProvider extends MStreamProvider {
     private void getBatteryInfo(Item deviceState){
         try {
             float level = this.getUQI()
-                    .getData(BatteryInfo.asSnapshot(), Purpose.INTERNAL("BatteryInfoProvider"))
+                    .getData(BatteryInfo.asSnapshot(), Purpose.LIB_INTERNAL("BatteryInfoProvider"))
                     .getField(BatteryInfo.LEVEL);
 
             deviceState.setFieldValue(DeviceState.BATTERY_LEVEL, level);
@@ -66,7 +66,7 @@ class DeviceStateUpdatesProvider extends MStreamProvider {
     private void getBluetoothDeviceList(Item deviceState) {
         try {
             List<Item> bluetoothList = this.getUQI()
-                    .getData(BluetoothDevice.asScanList(), Purpose.INTERNAL("DeviceStateUpdatesProvider"))
+                    .getData(BluetoothDevice.asScanList(), Purpose.LIB_INTERNAL("DeviceStateUpdatesProvider"))
                     .asList();
             deviceState.setFieldValue(DeviceState.BLUETOOTH_DEVICE_LIST, bluetoothList);
         } catch (PrivacyStreamsException e) {
@@ -78,7 +78,7 @@ class DeviceStateUpdatesProvider extends MStreamProvider {
     private void getWifiList(Item deviceState) {
         try {
             List<Item> wifiList = this.getUQI()
-                    .getData(WifiAp.asScanList(), Purpose.INTERNAL("DeviceStateUpdatesProvider"))
+                    .getData(WifiAp.asScanList(), Purpose.LIB_INTERNAL("DeviceStateUpdatesProvider"))
                     .asList();
             deviceState.setFieldValue(DeviceState.WIFI_AP_LIST, wifiList);
         } catch (PrivacyStreamsException e) {

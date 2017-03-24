@@ -26,12 +26,17 @@ public abstract class Function<Tin, Tout> {
         return this.parameters;
     }
 
-    // TODO consider the case where parameter is a list
     protected void addParameters(Object... parameters) {
         for (Object parameter : parameters) {
             this.parameters.add(parameter);
             if (parameter instanceof Function<?,?>) {
                 this.requiredPermissions.addAll(((Function<?,?>) parameter).getRequiredPermissions());
+            }
+            if (parameter instanceof List<?>) {
+                for (Object listItem : (List<?>) parameter) {
+                    if (listItem instanceof Function<?, ?>)
+                        this.requiredPermissions.addAll(((Function<?, ?>) listItem).getRequiredPermissions());
+                }
             }
         }
     }
