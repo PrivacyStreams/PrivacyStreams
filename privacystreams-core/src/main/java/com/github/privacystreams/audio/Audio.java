@@ -1,12 +1,12 @@
 package com.github.privacystreams.audio;
 
-import android.net.Uri;
-
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.providers.MStreamProvider;
 import com.github.privacystreams.core.providers.SStreamProvider;
 import com.github.privacystreams.utils.annotations.PSItem;
 import com.github.privacystreams.utils.annotations.PSItemField;
+
+import java.net.URI;
 
 /**
  * An audio record.
@@ -26,9 +26,9 @@ public class Audio extends Item {
     @PSItemField(type = String.class)
     public static final String AUDIO_URI = "audio_uri";
 
-    Audio(long timestamp, Uri file_uri) {
+    Audio(long timestamp, URI audioUri) {
         this.setFieldValue(TIMESTAMP, timestamp);
-        this.setFieldValue(AUDIO_URI, file_uri.toString());
+        this.setFieldValue(AUDIO_URI, audioUri.toString());
     }
 
     /**

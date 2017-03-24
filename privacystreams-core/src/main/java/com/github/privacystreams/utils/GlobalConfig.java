@@ -1,5 +1,6 @@
 package com.github.privacystreams.utils;
 
+import android.media.MediaRecorder;
 import android.util.Log;
 
 import java.text.SimpleDateFormat;
@@ -10,6 +11,13 @@ import java.util.Locale;
  */
 
 public class GlobalConfig {
+    public static class AudioConfig {
+        public static int amplitudeSamplingRate = 10;
+        public static int outputFormat = MediaRecorder.OutputFormat.THREE_GPP;
+        public static int audioEncoder = MediaRecorder.AudioEncoder.AMR_NB;
+        public static int audioSource = MediaRecorder.AudioSource.MIC;
+    }
+
     public static class LoggingConfig {
         public static boolean isEnabled = true;
         public static int level = Log.DEBUG;
