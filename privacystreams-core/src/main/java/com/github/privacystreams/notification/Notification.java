@@ -6,10 +6,6 @@ import com.github.privacystreams.utils.annotations.PSItem;
 import com.github.privacystreams.utils.annotations.PSItemField;
 
 /**
- * Created by fanglinchen on 3/16/17.
- */
-
-/**
  * An Notification item represents a received notification.
  */
 @PSItem

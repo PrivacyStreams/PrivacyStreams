@@ -24,17 +24,16 @@ public class CalendarEvent extends Item {
 
 
     /**
-     * Start time.
+     * Event start time.
      */
     @PSItemField(type = Long.class)
-    public static final String STARTTIME = "starttime";
+    public static final String START_TIME = "start_time";
 
 
     /**
-     * Duration.
-     * TODO: Change to long type, Use string type for now, in RFC2445 format.
+     * Duration of the event.
      */
-    @PSItemField(type = String.class)
+    @PSItemField(type = Long.class)
     public static final String DURATION = "duration";
 
     /**
@@ -43,10 +42,10 @@ public class CalendarEvent extends Item {
     @PSItemField(type = String.class)
     public static final String EVENT_LOCATION = "event_location";
 
-    CalendarEvent(String id, String title, long startime, String duration, String eventLocation) {
+    CalendarEvent(String id, String title, long startTime, long duration, String eventLocation) {
         this.setFieldValue(ID, id);
         this.setFieldValue(TITLE, title);
-        this.setFieldValue(STARTTIME, startime);
+        this.setFieldValue(START_TIME, startTime);
         this.setFieldValue(DURATION, duration);
         this.setFieldValue(EVENT_LOCATION, eventLocation);
     }

@@ -5,7 +5,7 @@ import android.Manifest;
 import com.github.privacystreams.core.providers.MStreamProvider;
 
 /**
- * Created by fanglinchen on 2/26/17.
+ * Provide a live stream of phone call events.
  */
 
 public class PhonecallUpdatesProvider extends MStreamProvider {

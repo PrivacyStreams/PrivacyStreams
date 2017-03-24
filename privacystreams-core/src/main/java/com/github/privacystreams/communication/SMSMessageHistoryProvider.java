@@ -5,8 +5,7 @@ import android.Manifest;
 import com.github.privacystreams.core.providers.MStreamProvider;
 
 /**
- * Created by yuanchun on 21/11/2016.
- * provide a stream of Message messages
+ * Provide a stream of SMS messages
  */
 
 class SMSMessageHistoryProvider extends MStreamProvider {

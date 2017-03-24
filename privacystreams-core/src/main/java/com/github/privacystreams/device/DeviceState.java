@@ -11,10 +11,7 @@ import com.github.privacystreams.utils.annotations.PSItemField;
 import java.util.List;
 
 /**
- * Created by fanglinchen on 3/17/17.
- */
-/**
- * A DeviceEvent item represents an event about the device.
+ * A DeviceEvent item represents a snapshot of device state.
  */
 @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
 @PSItem
@@ -51,14 +48,14 @@ public class DeviceState extends Item {
     }
 
     /**
-     * Provide a live stream of device states, including bluetooth, wifi, etc.
+     * Provide a live stream of device states, including bluetooth, wifi, battery level, and/or foreground apps etc.
      *
-     * @param frequency
-     * @param mask
-     * @return
+     * @param interval the interval between each two device state snapshots
+     * @param mask the mask of device state type, could be `DeviceState.Masks.BLUETOOTH_DEVICE_LIST`, `DeviceState.Masks.WIFI_AP_LIST`, etc.
+     * @return the provider function
      */
 
-    public static MStreamProvider asUpdates(long frequency, int mask) {
-        return new DeviceStateUpdatesProvider(frequency, mask);
+    public static MStreamProvider asUpdates(long interval, int mask) {
+        return new DeviceStateUpdatesProvider(interval, mask);
     }
 }
