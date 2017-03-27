@@ -23,12 +23,12 @@ public class Audio extends Item {
     /**
      * The URI of the audio file.
      */
-    @PSItemField(type = String.class)
-    public static final String AUDIO_URI = "audio_uri";
+    @PSItemField(type = AudioData.class)
+    public static final String AUDIO_DATA = "audio_data";
 
-    Audio(long timestamp, URI audioUri) {
+    Audio(long timestamp, AudioData audioData) {
         this.setFieldValue(TIMESTAMP, timestamp);
-        this.setFieldValue(AUDIO_URI, audioUri.toString());
+        this.setFieldValue(AUDIO_DATA, audioData);
     }
 
     /**

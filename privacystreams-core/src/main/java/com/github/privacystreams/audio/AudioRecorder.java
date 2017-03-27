@@ -3,6 +3,7 @@ package com.github.privacystreams.audio;
 import android.Manifest;
 import android.media.MediaRecorder;
 
+import com.github.privacystreams.core.UQI;
 import com.github.privacystreams.core.providers.SStreamProvider;
 import com.github.privacystreams.utils.GlobalConfig;
 import com.github.privacystreams.utils.Logging;
@@ -29,6 +30,17 @@ class AudioRecorder extends SStreamProvider {
 
     @Override
     protected void provide() {
+        long startTime = System.currentTimeMillis();
+
+        Audio audioItem = recordAudio(this.getUQI(), this.duration);
+
+        if (audioItem != null)
+            this.output(audioItem);
+
+        this.finish();
+    }
+
+    static Audio recordAudio(UQI uqi, long duration) {
         try {
             List<Integer> amplitudes = new ArrayList<>();
 
@@ -39,7 +51,7 @@ class AudioRecorder extends SStreamProvider {
             recorder.setAudioEncoder(GlobalConfig.AudioConfig.audioEncoder);
 
             String audioPath = "temp/audio_" + TimeUtils.getTimeTag() + ".3gp";
-            File tempAudioFile = StorageUtils.getValidFile(this.getUQI().getContext(), audioPath, false);
+            File tempAudioFile = StorageUtils.getValidFile(uqi.getContext(), audioPath, false);
             recorder.setOutputFile(tempAudioFile.getAbsolutePath());
 
             recorder.prepare();
@@ -47,9 +59,9 @@ class AudioRecorder extends SStreamProvider {
             long startTime = System.currentTimeMillis();
             recorder.start();   // Recording is now started
 
-            while (!this.isCancelled) {
+            while (true) {
                 long currentTime = System.currentTimeMillis();
-                if (currentTime - startTime > this.duration) {
+                if (currentTime - startTime > duration) {
                     break;
                 }
                 amplitudes.add(recorder.getMaxAmplitude());
@@ -60,29 +72,13 @@ class AudioRecorder extends SStreamProvider {
             recorder.reset();   // You can reuse the object by going back to setAudioSource() step
             recorder.release(); // Now the object cannot be reused
 
-            int maxAmplitude = 0;
-            double averageAmplitude = 0;
-            double RMSAmplitude = 0;
+            AudioData audioData = new AudioData(tempAudioFile, amplitudes);
 
-            int lengthOfAmplitudes = amplitudes.size();
-            if (lengthOfAmplitudes > 0) {
-                int sumAmplitude = 0;
-                int squareSumAmplitude = 0;
-
-                for (Integer amplitude : amplitudes) {
-                    if (amplitude > maxAmplitude) maxAmplitude = amplitude;
-                    sumAmplitude += amplitude;
-                    squareSumAmplitude += amplitude * amplitude;
-                }
-
-                averageAmplitude = (double) sumAmplitude / lengthOfAmplitudes;
-                RMSAmplitude = Math.sqrt((double) squareSumAmplitude / lengthOfAmplitudes);
-            }
-
-            this.output(new Audio(startTime, tempAudioFile.toURI()));
+            return new Audio(startTime, audioData);
         } catch (InterruptedException | IOException e) {
             e.printStackTrace();
             Logging.warn("AudioRecorder failed to record audio.");
         }
+        return null;
     }
 }

@@ -10,19 +10,28 @@ import com.github.privacystreams.core.providers.MStreamProvider;
  */
 
 class AudioPeriodicRecorder extends MStreamProvider {
-    private final Long duration_per_record;
+    private final Long durationPerRecord;
     private final Long interval;
 
-    AudioPeriodicRecorder(long duration_per_record, long interval) {
-        this.duration_per_record = duration_per_record;
+    AudioPeriodicRecorder(long durationPerRecord, long interval) {
+        this.durationPerRecord = durationPerRecord;
         this.interval = interval;
-        this.addParameters(duration_per_record, interval);
+        this.addParameters(durationPerRecord, interval);
         this.addRequiredPermissions(Manifest.permission.RECORD_AUDIO);
     }
 
     @Override
     protected void provide() {
-        // TODO implement this
+        while (!this.isCancelled) {
+            Audio audioItem = AudioRecorder.recordAudio(this.getUQI(), this.durationPerRecord);
+            if (audioItem != null) this.output(audioItem);
+            try {
+                Thread.sleep(this.interval);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        this.finish();
     }
 
 }

@@ -1,7 +1,5 @@
 package com.github.privacystreams.audio;
 
-import android.net.Uri;
-
 import com.github.privacystreams.commons.ItemFunction;
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.UQI;
@@ -13,20 +11,19 @@ import com.github.privacystreams.utils.Assertions;
  */
 abstract class AudioProcessor<Tout> extends ItemFunction<Tout> {
 
-    private final String audioUriField;
+    private final String audioField;
 
-    AudioProcessor(String audioUriField) {
-        this.audioUriField = Assertions.notNull("audioUriField", audioUriField);
-        this.addParameters(audioUriField);
+    AudioProcessor(String audioField) {
+        this.audioField = Assertions.notNull("audioField", audioField);
+        this.addParameters(audioField);
     }
 
     @Override
     public final Tout apply(UQI uqi, Item input) {
-        String audioUriString = input.getValueByField(this.audioUriField);
-        Uri audioUri = Uri.parse(audioUriString);
-        return this.processAudio(audioUri);
+        AudioData audioData = input.getValueByField(this.audioField);
+        return this.processAudio(audioData);
     }
 
-    protected abstract Tout processAudio(Uri audioUri);
+    protected abstract Tout processAudio(AudioData audioData);
 
 }

@@ -10,12 +10,13 @@ import com.github.privacystreams.utils.annotations.PSOperatorWrapper;
 @PSOperatorWrapper
 public class AudioOperators {
     /**
-     * Calculate the loudness of an audio field. The loudness is an integer in dB.
+     * Calculate the loudness of an audio field.
+     * The loudness is an double number indicating the sound pressure level in dB.
      *
-     * @param audioUriField the name of the audio uri field.
+     * @param audioField the name of the audio data field.
      * @return the function.
      */
-    public static Function<Item, Integer> calcLoudness(String audioUriField) {
-        return new AudioLoudnessCalculator(audioUriField);
+    public static Function<Item, Double> calcLoudness(String audioField) {
+        return new AudioLoudnessCalculator(audioField);
     }
 }
