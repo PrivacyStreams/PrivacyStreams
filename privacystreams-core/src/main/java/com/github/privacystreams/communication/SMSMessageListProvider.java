@@ -8,9 +8,9 @@ import com.github.privacystreams.core.providers.MStreamProvider;
  * Provide a stream of SMS messages
  */
 
-class SMSMessageHistoryProvider extends MStreamProvider {
+class SMSMessageListProvider extends MStreamProvider {
 
-    public SMSMessageHistoryProvider() {
+    public SMSMessageListProvider() {
         this.addRequiredPermissions(Manifest.permission.READ_SMS);
     }
 

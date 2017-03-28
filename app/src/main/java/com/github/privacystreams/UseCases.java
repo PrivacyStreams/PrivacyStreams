@@ -77,6 +77,10 @@ public class UseCases {
 //        uqi.getData(AwarenessMotion.asUpdates(),Purpose.FEATURE("Physical Activity")).debug();
 //    }
 
+    public void testAudio() {
+        uqi.getData(Audio.recordPeriodic(4*1000, 5*1000), Purpose.TEST("hehe")).debug();
+    }
+
     // For testing
     public void testMockData() {
         GlobalConfig.DropboxConfig.accessToken = "wvotIxO75CUAAAAAAAAA8DJw6Cedm6A2Pt-jwHSMBW_KhIYaJUEt9CbgtKe5Vl8O";
@@ -340,7 +344,7 @@ public class UseCases {
         uqi
                 .getData(Audio.recordPeriodic(Duration.seconds(m), Duration.seconds(n)),
                         Purpose.FEATURE("how loud it is periodically"))
-                .setField("loudness", AudioOperators.calcLoudness(Audio.AUDIO_URI))
+                .setField("loudness", AudioOperators.calcLoudness(Audio.AUDIO_DATA))
                 .forEach("loudness", loudnessCallback);
     }
 

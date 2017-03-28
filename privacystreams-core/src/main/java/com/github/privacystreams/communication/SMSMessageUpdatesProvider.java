@@ -5,7 +5,7 @@ import android.Manifest;
 import com.github.privacystreams.core.providers.MStreamProvider;
 
 /**
- * Provide a live stream of SMS messages
+ * Provide a live stream of incoming SMS messages
  */
 
 class SMSMessageUpdatesProvider extends MStreamProvider {

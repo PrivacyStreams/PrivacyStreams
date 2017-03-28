@@ -3,6 +3,7 @@ package com.github.privacystreams.audio;
 import java.io.File;
 import java.net.URI;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * An abstraction of audio instance.
@@ -36,22 +37,21 @@ public class AudioData {
 
         int lengthOfAmplitudes = this.amplitudeSamples.size();
         if (lengthOfAmplitudes > 0) {
-            int sumAmplitude = 0;
-            int squareSumAmplitude = 0;
 
             for (Integer amplitude : this.amplitudeSamples) {
                 if (amplitude > maxAmplitude) maxAmplitude = amplitude;
-                sumAmplitude += amplitude;
-                squareSumAmplitude += amplitude * amplitude;
+                averageAmplitude += amplitude / lengthOfAmplitudes;
+                rmsAmplitude += amplitude / lengthOfAmplitudes;
             }
-
-            averageAmplitude = (double) sumAmplitude / lengthOfAmplitudes;
-            rmsAmplitude = Math.sqrt((double) squareSumAmplitude / lengthOfAmplitudes);
         }
     }
 
     double getLoudness() {
         return 20 * Math.log10(rmsAmplitude/AMPLITUDE_BASE);
+    }
+
+    double getPeakLoudness() {
+        return 20 * Math.log10(maxAmplitude/AMPLITUDE_BASE);
     }
 
     @Override
@@ -60,5 +60,13 @@ public class AudioData {
         if (this.type == TYPE_TEMP_RECORD) {
             this.tempRecordFile.delete();
         }
+    }
+
+    public String toString() {
+        String fileName = this.tempRecordFile.getName();
+        String audioTag = fileName.substring(6, fileName.lastIndexOf('.'));
+
+        return String.format(Locale.getDefault(), "AudioData@%s(RMS:%.1fdB)(PEAK:%.1fdB)",
+                audioTag, this.getLoudness(), this.getPeakLoudness());
     }
 }

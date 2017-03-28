@@ -30,8 +30,6 @@ class AudioRecorder extends SStreamProvider {
 
     @Override
     protected void provide() {
-        long startTime = System.currentTimeMillis();
-
         Audio audioItem = recordAudio(this.getUQI(), this.duration);
 
         if (audioItem != null)

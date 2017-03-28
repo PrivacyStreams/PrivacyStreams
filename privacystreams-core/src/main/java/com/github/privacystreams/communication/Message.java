@@ -83,6 +83,6 @@ public class Message extends Item {
      * @return the provider
      */
     public static MStreamProvider asSMSHistory() {
-        return new SMSMessageHistoryProvider();
+        return new SMSMessageListProvider();
     }
 }

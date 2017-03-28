@@ -23,7 +23,7 @@ public class TasksWithPS {
     /**
      * Task 0 (tutorial task): Getting audio loudness periodically.
      *
-     * TODO: Emulators can't simulate microphone input, but it should be fine as this is a tutorial task.
+     * Note that emulators can't simulate microphone input, but it should be fine as this is a tutorial task.
      * In this task, you are trying to measure the loudness level during the next 10 seconds.
      * The loudness should be calculated as the max amplitude.
      * Every time you get the result, please call submitTask3(int) method to submit the result.
@@ -32,7 +32,7 @@ public class TasksWithPS {
         UQI uqi = new UQI(context);
         uqi
                 .getData(Audio.recordPeriodic(10*1000, 30*60*1000), Purpose.TEST("Getting loudness."))
-                .setField("loudness", AudioOperators.calcLoudness(Audio.AUDIO_URI))
+                .setField("loudness", AudioOperators.calcLoudness(Audio.AUDIO_DATA))
                 .forEach("loudness", new Callback<Integer>() {
                     @Override
                     protected void onSuccess(Integer loudness) {
