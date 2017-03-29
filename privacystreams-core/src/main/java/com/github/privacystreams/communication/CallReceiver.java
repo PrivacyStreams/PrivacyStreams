@@ -12,7 +12,7 @@ import static android.telephony.TelephonyManager.CALL_STATE_OFFHOOK;
 import static android.telephony.TelephonyManager.CALL_STATE_RINGING;
 
 /**
- * Created by fanglinchen on 16/7/5.
+ * Receive Phonecall related broadcasts
  */
 
 public class CallReceiver extends BroadcastReceiver {

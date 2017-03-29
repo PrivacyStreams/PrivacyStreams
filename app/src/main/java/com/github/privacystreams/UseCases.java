@@ -78,7 +78,11 @@ public class UseCases {
 //    }
 
     public void testAudio() {
-        uqi.getData(Audio.recordPeriodic(4*1000, 5*1000), Purpose.TEST("hehe")).debug();
+        uqi.getData(Audio.recordPeriodic(4*1000, 5*1000), Purpose.TEST("test")).debug();
+    }
+
+    public void testSMS() {
+        uqi.getData(Message.asSMSHistory(), Purpose.TEST("test")).debug();
     }
 
     // For testing

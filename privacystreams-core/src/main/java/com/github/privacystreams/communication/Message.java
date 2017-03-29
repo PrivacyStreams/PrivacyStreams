@@ -15,7 +15,7 @@ import com.github.privacystreams.utils.annotations.PSItemField;
 public class Message extends Item {
 
     /**
-     * The message type, could be "received" or "sent".
+     * The message type, could be "received"/"sent"/"draft"/"pending"/"unknown".
      */
     @PSItemField(type = String.class)
     public static final String TYPE = "type";
@@ -28,6 +28,8 @@ public class Message extends Item {
 
     /**
      * The package name of the app where message is captured.
+     * For example, if it is a Facebook message, package_name will be "com.facebook.orca";
+     * If it is an SMS message, package_name will be "system".
      */
     @PSItemField(type = String.class)
     public static final String PACKAGE_NAME = "package_name";
@@ -44,9 +46,15 @@ public class Message extends Item {
     @PSItemField(type = Long.class)
     public static final String TIMESTAMP = "timestamp";
 
+    /**
+     * Possible message types.
+     */
     public static class Types {
         public static final String RECEIVED = "received";
         public static final String SENT = "sent";
+        public static final String DRAFT = "draft";
+        public static final String PENDING = "pending";
+        public static final String UNKNOWN = "unknown";
     };
 
     Message(String type, String content, String packageName, String contact, long timestamp){
@@ -70,16 +78,17 @@ public class Message extends Item {
              return null;
          }
     }
-    /**
-     * Provide a live stream of Message items from the Android SMS app.
-     * @return the provider
-     */
-    public static MStreamProvider asSMSUpdates() {
-        return new SMSMessageUpdatesProvider();
-    }
+
+//    /**
+//     * Provide a live stream of Message items from the Android SMS app.
+//     * @return the provider
+//     */
+//    public static MStreamProvider asSMSUpdates() {
+//        return new SMSMessageUpdatesProvider();
+//    }
 
     /**
-     * Provide a list of historic Message items from the Android SMS app.
+     * Provide a list of historic Message items from the Android official SMS.
      * @return the provider
      */
     public static MStreamProvider asSMSHistory() {
