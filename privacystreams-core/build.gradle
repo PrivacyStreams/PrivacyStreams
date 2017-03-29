@@ -13,7 +13,7 @@ ext {
     libraryDescription = 'The core packages in PrivacyStreams framework.'
     libraryVersion = '0.0.3'
 
-    bintrayRepo = 'privacystreams-android'
+    bintrayRepo = 'PrivacyStreams'
     bintrayOrganization = "privacystreams"
     publishedGroupId = 'com.github.privacystreams'
 
@@ -44,6 +44,11 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    android {
+        lintOptions {
+            abortOnError false
         }
     }
 }
@@ -109,14 +114,9 @@ install {
 
 version = libraryVersion
 
-task sourcesJar(type: Jar) {
-    classifier = 'sources'
-    from android.sourceSets.main.java.srcDirs
-}
-
-task javadoc(type: Javadoc, dependsOn: tasks.getByPath(':doc_gen:jar')) {
+task myJavadoc(type: Javadoc, dependsOn: tasks.getByPath(':doc_gen:jar')) {
     source = android.sourceSets.main.java.srcDirs
-    destinationDir = file("build/docs/").absoluteFile
+    destinationDir = file("build/myDocs/").absoluteFile
 
     classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
     classpath += configurations.compile
@@ -125,15 +125,29 @@ task javadoc(type: Javadoc, dependsOn: tasks.getByPath(':doc_gen:jar')) {
     options.doclet = "com.github.privacystreams.PSDoclet"
 }
 
-task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier = 'javadoc'
-    from javadoc.destinationDir
-}
 
-artifacts {
-    archives javadocJar
-    archives sourcesJar
-}
+//task sourcesJar(type: Jar) {
+//    classifier = 'sources'
+//    from android.sourceSets.main.java.srcDirs
+//}
+
+//task javadoc(type: Javadoc) {
+//    source = android.sourceSets.main.java.srcDirs
+//    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+//    classpath += configurations.compile
+//    classpath += configurations.provided
+//    destinationDir = file("build/docs/").absoluteFile
+//}
+//
+//task javadocJar(type: Jar, dependsOn: javadoc) {
+//    classifier = 'javadoc'
+//    from javadoc.destinationDir
+//}
+
+//artifacts {
+//    archives javadocJar
+//    archives sourcesJar
+//}
 
 // Bintray
 Properties properties = new Properties()
@@ -147,7 +161,7 @@ bintray {
     pkg {
         repo = bintrayRepo
         name = bintrayName
-        userOrg = bintrayOrganization
+//        userOrg = bintrayOrganization
         desc = libraryDescription
         websiteUrl = siteUrl
         issueTrackerUrl = siteUrl+'/issues'

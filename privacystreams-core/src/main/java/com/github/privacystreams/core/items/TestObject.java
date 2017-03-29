@@ -2,6 +2,7 @@ package com.github.privacystreams.core.items;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Random;
 
 /**
@@ -81,7 +82,8 @@ public class TestObject {
     }
 
     public String toString() {
-        return String.format("TestObject: id=%d, x=%d, y=%s, z=%f",
+        return String.format(Locale.getDefault(),
+                "TestObject: id=%d, x=%d, y=%s, z=%f",
                 this.id, this.x, this.y, this.z);
     }
 }

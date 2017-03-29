@@ -42,7 +42,6 @@ class AudioRecorder extends SStreamProvider {
         try {
             List<Integer> amplitudes = new ArrayList<>();
 
-            // TODO test this
             MediaRecorder recorder = new MediaRecorder();
             recorder.setAudioSource(GlobalConfig.AudioConfig.audioSource);
             recorder.setOutputFormat(GlobalConfig.AudioConfig.outputFormat);
