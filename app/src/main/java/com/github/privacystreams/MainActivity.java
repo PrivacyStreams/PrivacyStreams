@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
         protected Object doInBackground(Object[] objects) {
             UseCases useCases = new UseCases(MainActivity.this);
 
-            useCases.testSMS();
+            useCases.testImage();
 //            useCases.testMockData();
 //            useCases.testContacts();
 //            useCases.testDeviceState();

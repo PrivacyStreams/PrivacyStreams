@@ -1,7 +1,5 @@
 package com.github.privacystreams.image;
 
-import android.net.Uri;
-
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.providers.MStreamProvider;
 import com.github.privacystreams.core.providers.SStreamProvider;
@@ -23,28 +21,22 @@ public class Image extends Item {
     /**
      * The URI of image file.
      */
-    @PSItemField(type = String.class)
-    public static final String IMAGE_URI = "image_uri";
+    @PSItemField(type = ImageData.class)
+    public static final String IMAGE_DATA = "image_data";
 
-    // TODO create a metadata field, put lat and lng to metadata
-    private static final String LAT = "lat";
-    private static final String LNG = "lng";
-
-    Image(String timestamp, Uri file_uri, double lat, double lng) {
+    Image(String timestamp, ImageData imageData) {
         this.setFieldValue(TIMESTAMP, timestamp);
-        this.setFieldValue(IMAGE_URI, file_uri.toString());
-        this.setFieldValue(LAT,lat);
-        this.setFieldValue(LNG,lng);
+        this.setFieldValue(IMAGE_DATA, imageData);
     }
 
-    /**
-     * Provide an Image item, which represents a photo taken from camera.
-     * @return the provider function.
-     */
-    public static SStreamProvider takeFromCamera() {
-        // TODO implement this
-        return null;
-    }
+//    /**
+//     * Provide an Image item, which represents a photo taken from camera.
+//     *
+//     * @return the provider function.
+//     */
+//    public static SStreamProvider takeFromCamera() {
+//        return null;
+//    }
 
     /**
      * Provide a list of Image items that are read from file system.

@@ -8,24 +8,22 @@ import com.github.privacystreams.core.UQI;
 import com.github.privacystreams.utils.Assertions;
 
 /**
- * Created by yuanchun on 28/12/2016.
- * A function that processes the photo field in an item.
+ * Process the photo field in an item.
  */
 abstract class ImageProcessor<Tout> extends ItemFunction<Tout> {
 
-    private final String photoUriField;
+    private final String imageField;
 
-    ImageProcessor(String photoUriField) {
-        this.photoUriField = Assertions.notNull("photoUriField", photoUriField);
-        this.addParameters(photoUriField);
+    ImageProcessor(String imageField) {
+        this.imageField = Assertions.notNull("imageField", imageField);
+        this.addParameters(imageField);
     }
 
     @Override
     public final Tout apply(UQI uqi, Item input) {
-        String photoUriString = input.getValueByField(this.photoUriField);
-        Uri photoUri = Uri.parse(photoUriString);
-        return this.processPhoto(photoUri);
+        ImageData imageData = input.getValueByField(this.imageField);
+        return this.processImage(uqi, imageData);
     }
 
-    protected abstract Tout processPhoto(Uri photoUri);
+    protected abstract Tout processImage(UQI uqi, ImageData imageData);
 }

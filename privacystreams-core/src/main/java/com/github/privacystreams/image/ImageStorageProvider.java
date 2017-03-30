@@ -9,6 +9,8 @@ import android.provider.MediaStore;
 import com.github.privacystreams.core.providers.MStreamProvider;
 import com.github.privacystreams.utils.Logging;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 
 /**
@@ -30,7 +32,7 @@ class ImageStorageProvider extends MStreamProvider {
 
     private void getImageInfo(){
 
-        Cursor cur = this.getContext().getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+        Cursor c = this.getContext().getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
                 new String[]{
                         MediaStore.Images.Media.BUCKET_ID,
                         MediaStore.Images.Media.BUCKET_DISPLAY_NAME,
@@ -43,42 +45,20 @@ class ImageStorageProvider extends MStreamProvider {
                 null, null, null
         );
 
-        if (cur!=null && cur.moveToFirst()) {
-            ExifInterface exifInterface;
-
-            String date;
-            String dataUri;
-            double exifLatitude =-1;
-            double exifLongitude =-1;
-
-            int dateColumn = cur.getColumnIndex(
-                    MediaStore.Images.Media.DATE_TAKEN);
-
-            int dataColumn = cur.getColumnIndex(
-                    MediaStore.Images.Media.DATA);
+        if (c!=null && c.moveToFirst()) {
+            String dateTaken;
+            String fileName;
 
             do {
                 // Get the field values
-                date = cur.getString(dateColumn);
-                dataUri = cur.getString(dataColumn);
-                try{
-                    exifInterface = new ExifInterface(dataUri);
-                    float[] latLong = new float[2];
-                    boolean hasLatLong = exifInterface.getLatLong(latLong);
-                    if(hasLatLong){
-                        exifLatitude = (double) latLong[0];
-                        exifLongitude = (double) latLong[1];
-                    }
-                }
-                catch (IOException | NullPointerException exception){
-                    Logging.debug(exception.toString());
-                }
-                Image image = new Image(date,
-                        Uri.parse(dataUri),exifLatitude, exifLongitude);
+                dateTaken = c.getString(c.getColumnIndex(MediaStore.Images.Media.DATE_TAKEN));
+                fileName = c.getString(c.getColumnIndex(MediaStore.Images.Media.DATA));
+                ImageData imageData = ImageData.newLocalImage(new File(fileName));
+                Image image = new Image(dateTaken, imageData);
                 this.output(image);
-            } while (cur.moveToNext());
+            } while (c.moveToNext());
 
-            cur.close();
+            c.close();
         }
     }
 

@@ -73,6 +73,12 @@ public class UseCases {
         uqi.getData(BluetoothDevice.getScanResults(), Purpose.FEATURE("blueTooth device")).debug();
     }
 
+    public void testImage() {
+        uqi.getData(Image.readFromStorage(), Purpose.TEST("test"))
+                .setField("latLng", ImageOperators.getLatLng(Image.IMAGE_DATA))
+                .debug();
+    }
+
 //    public void testPhysicalMotionUpdatesProvider(){
 //        uqi.getData(AwarenessMotion.asUpdates(),Purpose.FEATURE("Physical Activity")).debug();
 //    }
@@ -339,7 +345,7 @@ public class UseCases {
     List<Map<String, String>> getAllPhotoMetadata() throws PrivacyStreamsException {
         return uqi
                 .getData(Image.readFromStorage(), Purpose.FEATURE("get metadata of the photos in storage"))
-                .setField("metadata", ImageOperators.getMetadata(Image.IMAGE_URI))
+                .setField("metadata", ImageOperators.getExif(Image.IMAGE_DATA))
                 .asList("metadata");
     }
 

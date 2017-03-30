@@ -1,27 +1,24 @@
 package com.github.privacystreams.image;
 
-import android.net.Uri;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
+
+import com.github.privacystreams.core.UQI;
 
 /**
  * Created by yuanchun on 28/12/2016.
- * A function that blurs a photo and returns the blurred photo uri string.
+ * Blur an image and return the blurred image data.
  */
-class ImageBlurFunction extends ImageProcessor<String> {
+@RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
+class ImageBlurFunction extends ImageProcessor<ImageData> {
 
     ImageBlurFunction(String photoField) {
         super(photoField);
     }
 
     @Override
-    protected String processPhoto(Uri photoUri) {
-        Uri blurredPhotoUri = this.blurPhoto(photoUri);
-        if (blurredPhotoUri == null) return null;
-        return blurredPhotoUri.toString();
-    }
-
-    private Uri blurPhoto(Uri originalPhotoUri) {
-        // TODO blur the photo and return the uri of blurred photo
-        return null;
+    protected ImageData processImage(UQI uqi, ImageData imageData) {
+        return imageData.getBlurred(uqi.getContext());
     }
 
 }

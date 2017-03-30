@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Locale;
 
 /**
- * An abstraction of audio instance.
+ * An abstraction of audio data.
  */
 
 public class AudioData {
