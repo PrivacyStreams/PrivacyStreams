@@ -64,9 +64,9 @@ public class AudioData {
 
     public String toString() {
         String fileName = this.tempRecordFile.getName();
-        String audioTag = fileName.substring(6, fileName.lastIndexOf('.'));
+        String audioTag = fileName.substring(0, fileName.lastIndexOf('.'));
 
-        return String.format(Locale.getDefault(), "AudioData@%s(RMS:%.1fdB)(PEAK:%.1fdB)",
+        return String.format(Locale.getDefault(), "<AudioData@%s(RMS:%.1fdB)(PEAK:%.1fdB)>",
                 audioTag, this.getLoudness(), this.getPeakLoudness());
     }
 }
