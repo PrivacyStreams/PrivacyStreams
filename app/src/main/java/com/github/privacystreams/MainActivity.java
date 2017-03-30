@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
         mButton = (Button) findViewById(R.id.button);
 
         UQI uqi = new UQI(MainActivity.this);
-        uqi.getData(TestItem.asRandomUpdates(10, 10.0, 100), Purpose.TEST("Testing first data query."))
+        uqi.getData(TestItem.asUpdates(10, 10.0, 100), Purpose.TEST("Testing first data query."))
            .limit(10)
            .debug();
 

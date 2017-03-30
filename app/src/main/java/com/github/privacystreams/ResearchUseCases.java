@@ -7,10 +7,10 @@ package com.github.privacystreams;//package xyz.ylimit.personaldataapp;
 //import xyz.ylimit.personaldataapp.privacystreams.generic.MStream;
 //import xyz.ylimit.personaldataapp.privacystreams.providers.app.AppEvent;
 //import xyz.ylimit.personaldataapp.privacystreams.providers.audio.Audio;
-//import xyz.ylimit.personaldataapp.privacystreams.providers.call.Phonecall;
-//import xyz.ylimit.personaldataapp.privacystreams.providers.environment.Light;
+//import xyz.ylimit.personaldataapp.privacystreams.providers.call.CallLog;
+//import xyz.ylimit.personaldataapp.privacystreams.providers.environment.LightEnv;
 //import xyz.ylimit.personaldataapp.privacystreams.providers.location.GeoLocation;
-//import xyz.ylimit.personaldataapp.privacystreams.providers.motion.Accelerometer;
+//import xyz.ylimit.personaldataapp.privacystreams.providers.motion.AccelMotion;
 //import xyz.ylimit.personaldataapp.privacystreams.providers.sms.Message;
 //import xyz.ylimit.personaldataapp.privacystreams.providers.system.DeviceState;
 //import xyz.ylimit.personaldataapp.privacystreams.purposes.Purpose;
@@ -52,15 +52,15 @@ package com.github.privacystreams;//package xyz.ylimit.personaldataapp;
 //    void BES_PervasiveHealth_2013() {
 //        Purpose purpose = Purpose.feature("sleep monitoring");
 //        MStream lightStream = UQI
-//                .getDataItems(Light.asUpdates(Duration.seconds(60)), purpose)
-//                .project("timestamp", Light.ILLUMINANCE);
+//                .getDataItems(LightEnv.asUpdates(Duration.seconds(60)), purpose)
+//                .project("timestamp", LightEnv.ILLUMINANCE);
 //
 //        MStream phoneLockStream = UQI
 //                .getDataItems(DeviceState.asUpdates(Duration.seconds(60)), purpose)
 //                .project("timestamp", DeviceState.LOCKED);
 //
 //        MStream stationaryStream = UQI
-//                .getDataItems(Accelerometer.asUpdates(), purpose)
+//                .getDataItems(AccelMotion.asUpdates(), purpose)
 //                .map(setField("timestamp", round(Motion.TIMESTAMP, Duration.seconds(60))))
 //                .localGroupBy("timestamp")
 //                .setGroupField("isStationary", underThreshold(Motion.values, 0));
@@ -85,8 +85,8 @@ package com.github.privacystreams;//package xyz.ylimit.personaldataapp;
 //    void IODetector_SenSys_2012() {
 //        Purpose purpose = Purpose.feature("sleep monitoring");
 //        MStream lightStream = UQI
-//                .getDataItems(Light.asUpdates(Duration.seconds(60)), purpose)
-//                .project("timestamp", Light.ILLUMINANCE);
+//                .getDataItems(LightEnv.asUpdates(Duration.seconds(60)), purpose)
+//                .project("timestamp", LightEnv.ILLUMINANCE);
 //
 //        MStream cellurSignalStream = UQI
 //                .getDataItems(Cellular.asUpdates(Duration.seconds(60)), purpose)
@@ -131,7 +131,7 @@ package com.github.privacystreams;//package xyz.ylimit.personaldataapp;
 //     * paper: MoodScope: Building a Mood Sensor in Smartphone Usage Patterns
 //     * in: MobiSys 2013
 //     * MoodScope is a mood inference engine that applies mood models to smartphone user data
-//     including emails, application usage sessions, web browsing asSMSHistory, and unique clustered
+//     including emails, application usage sessions, web browsing getAllSMS, and unique clustered
 //     location records. Specifically, it gets the social interaction through the number of exchanges,
 //     the duration of phone calls, and number of words of text messages and emails with 10 most
 //     frequently interacted contacts in every three days.
@@ -139,13 +139,13 @@ package com.github.privacystreams;//package xyz.ylimit.personaldataapp;
 //    void MoodScope_MobiSys_2013() {
 //        Purpose purpose = Purpose.feature("inferring mood");
 //        UQI
-//                .getDataItems(Phonecall.asLogs(), purpose)
-//                .map(setField("timestamp_3days", round(Phonecall.TIMESTAMP, Duration.days(3))))
+//                .getDataItems(CallLog.getAll(), purpose)
+//                .map(setField("timestamp_3days", round(CallLog.TIMESTAMP, Duration.days(3))))
 //                .localGroupBy("timestamp_3days")
-//                .setGroupField("duration", sum(Phonecall.DURATION));
+//                .setGroupField("duration", sum(CallLog.DURATION));
 //
 //        UQI
-//                .getDataItems(Message.asSMSHistory(), purpose)
+//                .getDataItems(Message.getAllSMS(), purpose)
 //                .groupBy(Message.CONTACT);
 //
 //    }

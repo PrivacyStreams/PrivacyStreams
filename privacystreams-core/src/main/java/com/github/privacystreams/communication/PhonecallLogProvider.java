@@ -2,16 +2,9 @@ package com.github.privacystreams.communication;
 
 import android.Manifest;
 import android.database.Cursor;
-import android.provider.CallLog;
-import android.telecom.Call;
-import android.util.Log;
 
 import com.github.privacystreams.core.providers.MStreamProvider;
 import com.github.privacystreams.utils.CommunicationUtils;
-
-import java.util.Calendar;
-
-import static android.R.attr.type;
 
 
 /**
@@ -28,15 +21,15 @@ class PhonecallLogProvider extends MStreamProvider {
     String callLogTypeInString(int type){
         String typeString = null;
         switch (type){
-            case CallLog.Calls.OUTGOING_TYPE:
-                typeString = Phonecall.Types.OUTGOING;
+            case android.provider.CallLog.Calls.OUTGOING_TYPE:
+                typeString = CallLog.Types.OUTGOING;
                 break;
-            case CallLog.Calls.INCOMING_TYPE:
-                typeString = Phonecall.Types.INCOMING;
+            case android.provider.CallLog.Calls.INCOMING_TYPE:
+                typeString = CallLog.Types.INCOMING;
                 break;
 
-            case CallLog.Calls.MISSED_TYPE:
-                typeString = Phonecall.Types.MISSED;
+            case android.provider.CallLog.Calls.MISSED_TYPE:
+                typeString = CallLog.Types.MISSED;
                 break;
         }
         return typeString;
@@ -45,12 +38,12 @@ class PhonecallLogProvider extends MStreamProvider {
     private void getPhoneLogs(){
         Cursor c;
         c = this.getContext().getContentResolver().query(
-                CallLog.Calls.CONTENT_URI,
-                new String[]{CallLog.Calls._ID,
-                        CallLog.Calls.NUMBER,
-                        CallLog.Calls.DATE,
-                        CallLog.Calls.TYPE,
-                        CallLog.Calls.DURATION},
+                android.provider.CallLog.Calls.CONTENT_URI,
+                new String[]{android.provider.CallLog.Calls._ID,
+                        android.provider.CallLog.Calls.NUMBER,
+                        android.provider.CallLog.Calls.DATE,
+                        android.provider.CallLog.Calls.TYPE,
+                        android.provider.CallLog.Calls.DURATION},
                 null,
                 null,
                 null
@@ -61,14 +54,14 @@ class PhonecallLogProvider extends MStreamProvider {
                 if (c.getCount() > 0) {
                     c.moveToFirst();
                     while (!c.isAfterLast()) {
-                        String id = c.getString(c.getColumnIndex(CallLog.Calls._ID));
-                        String number = c.getString(c.getColumnIndex(CallLog.Calls.NUMBER));
-                        String date = c.getString(c.getColumnIndex(CallLog.Calls.DATE));
+                        String id = c.getString(c.getColumnIndex(android.provider.CallLog.Calls._ID));
+                        String number = c.getString(c.getColumnIndex(android.provider.CallLog.Calls.NUMBER));
+                        String date = c.getString(c.getColumnIndex(android.provider.CallLog.Calls.DATE));
                         String typeString = callLogTypeInString(
-                                c.getInt(c.getColumnIndex(CallLog.Calls.TYPE)));
-                        String duration = c.getString(c.getColumnIndex(CallLog.Calls.DURATION));
+                                c.getInt(c.getColumnIndex(android.provider.CallLog.Calls.TYPE)));
+                        String duration = c.getString(c.getColumnIndex(android.provider.CallLog.Calls.DURATION));
 
-                        output(new Phonecall(id, Long.valueOf(date),
+                        output(new CallLog(id, Long.valueOf(date),
                                 CommunicationUtils.normalizePhoneNumber(number),
                                 Long.valueOf(duration),
                                 typeString));

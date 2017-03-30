@@ -66,7 +66,7 @@ public class WifiAp extends Item {
      * Provide a list of WifiAp items from WIFI scan result.
      * @return the provider function.
      */
-    public static MStreamProvider asScanList() {
+    public static MStreamProvider getScanResults() {
         return new WifiApListProvider();
     }
 

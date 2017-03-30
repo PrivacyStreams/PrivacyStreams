@@ -6,8 +6,8 @@ import com.github.privacystreams.core.providers.MStreamProvider;
 import com.github.privacystreams.utils.annotations.PSItem;
 import com.github.privacystreams.utils.annotations.PSItemField;
 
- /**
- * Created by Mingquan Liu 2017/3/6.
+/**
+ * A BluetoothDevice represents a bluetooth device.
  */
 @PSItem
 public class BluetoothDevice extends Item {
@@ -35,7 +35,7 @@ public class BluetoothDevice extends Item {
         this.setFieldValue(BONDED, scannedDevice.getBondState());
     }
 
-    public static MStreamProvider asScanList() {
+    public static MStreamProvider getScanResults() {
         return new BluetoothDeviceListProvider();
     }
 }

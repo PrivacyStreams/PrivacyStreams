@@ -74,13 +74,12 @@ public class GeoLocation extends Item {
         return null;
     }
 
-    /**
-     * Provide a list of GeoLocation items, which are the location history of the device.
-     *
-     * @return the stream provider
-     */
-    public static MStreamProvider asHistory() {
-        // TODO implement this
-        return null;
-    }
+//    /**
+//     * Provide a list of GeoLocation items, which are the location history of the device.
+//     *
+//     * @return the stream provider
+//     */
+//    public static MStreamProvider asHistory() {
+//        return null;
+//    }
 }

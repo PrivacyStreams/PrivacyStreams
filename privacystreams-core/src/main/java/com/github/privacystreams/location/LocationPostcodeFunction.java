@@ -1,8 +1,7 @@
 package com.github.privacystreams.location;
 
 /**
- * Created by yuanchun on 29/12/2016.
- * A function that computes the blurred coordinates
+ * Compute the blurred coordinates
  */
 
 class LocationPostcodeFunction extends LocationProcessor<String> {

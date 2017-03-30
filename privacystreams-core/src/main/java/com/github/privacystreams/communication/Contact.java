@@ -46,11 +46,11 @@ public class Contact extends Item {
     }
 
     /**
-     * Provide a list of Contact items from device's contacts database.
+     * Provide all Contact items in device's contacts database.
      *
      * @return the provider function.
      */
-    public static MStreamProvider asList() {
+    public static MStreamProvider getAll() {
         return new ContactListProvider();
     }
 }

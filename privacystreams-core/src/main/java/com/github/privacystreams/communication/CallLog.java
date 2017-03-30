@@ -10,10 +10,10 @@ import com.github.privacystreams.utils.annotations.PSItemField;
 import org.apache.commons.lang3.StringUtils;
 
 /**
- * The information of a phonecall.
+ * The information of a phone call.
  */
 @PSItem
-public class Phonecall extends Item {
+public class CallLog extends Item {
 
     /**
      * The unique id of this call log.
@@ -52,7 +52,7 @@ public class Phonecall extends Item {
         public static final String MISSED = "missed";
     };
 
-    Phonecall(String id, Long timestamp, String phone_number, Long duration, String call_type) {
+    CallLog(String id, Long timestamp, String phone_number, Long duration, String call_type) {
         this.setFieldValue(ID, id);
         this.setFieldValue(TIMESTAMP, timestamp);
         this.setFieldValue(CONTACT, phone_number);
@@ -61,10 +61,10 @@ public class Phonecall extends Item {
     }
 
     /**
-     * Provide a list of Phonecall items from the device call log.
+     * Provide a list of CallLog items from the device call log.
      * @return the stream provider
      */
-    public static MStreamProvider asLogs() {
+    public static MStreamProvider getAll() {
         return new PhonecallLogProvider();
     }
 }

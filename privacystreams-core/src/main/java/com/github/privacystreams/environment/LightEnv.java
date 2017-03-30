@@ -6,10 +6,10 @@ import com.github.privacystreams.utils.annotations.PSItem;
 import com.github.privacystreams.utils.annotations.PSItemField;
 
 /**
- * A Light item represents the data read from light sensor.
+ * A LightEnv item represents the data read from light environment sensor.
  */
 @PSItem
-public class Light extends Item {
+public class LightEnv extends Item {
 
     /**
      * The light intensity, in lumens.
@@ -23,13 +23,13 @@ public class Light extends Item {
     @PSItemField(type = Long.class)
     public static final String TIMESTAMP = "timestamp";
 
-    Light(float intensity, long timestamp) {
+    LightEnv(float intensity, long timestamp) {
         this.setFieldValue(INTENSITY, intensity);
         this.setFieldValue(TIMESTAMP,timestamp);
     }
 
     /**
-     * Provide a live stream of Light items that are read from the light sensor.
+     * Provide a live stream of LightEnv items that are read from the light sensor.
      * @return the provider function.
      */
     public static MStreamProvider asUpdates(){

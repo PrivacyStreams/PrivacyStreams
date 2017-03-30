@@ -56,7 +56,7 @@ public class TestItem extends Item {
      * @param interval the interval between each two items, in milliseconds
      * @return the provider function
      */
-    public static MStreamProvider asUpdates(List<TestObject> testObjects, long interval) {
+    public static MStreamProvider asUpdatesFrom(List<TestObject> testObjects, long interval) {
         return new MockLiveMStreamProvider(testObjects, interval);
     }
 
@@ -68,48 +68,48 @@ public class TestItem extends Item {
      * @param interval the interval between each two items, in milliseconds
      * @return the provider function
      */
-    public static MStreamProvider asRandomUpdates(int maxInt, double maxDouble, long interval) {
+    public static MStreamProvider asUpdates(int maxInt, double maxDouble, long interval) {
         return new RandomLiveMStreamProvider(maxInt, maxDouble, interval);
     }
 
     /**
-     * Provide a list of TestItem items, which are from a given list.
+     * Provide a stream of existing TestItem items, which are from a given list.
      *
      * @param testObjects the list of mock data
      * @return the provider function
      */
-    public static MStreamProvider asHistory(List<TestObject> testObjects) {
+    public static MStreamProvider getAllFrom(List<TestObject> testObjects) {
         return new MockLocalMStreamProvider(testObjects);
     }
 
-    /**
-     * Provide a list of TestItem items, which are randomly generated.
-     *
-     * @param maxInt the max value of the int field of the random mock items
-     * @param maxDouble the max value of the double field of the random mock items
-     * @param count the number of random items
-     * @return the provider function
-     */
-    public static MStreamProvider asRandomList(int maxInt, double maxDouble, int count) {
-        return new RandomLocalMStreamProvider(maxInt, maxDouble, count);
-    }
+//    /**
+//     * Provide a list of TestItem items, which are randomly generated.
+//     *
+//     * @param maxInt the max value of the int field of the random mock items
+//     * @param maxDouble the max value of the double field of the random mock items
+//     * @param count the number of random items
+//     * @return the provider function
+//     */
+//    public static MStreamProvider asRandomList(int maxInt, double maxDouble, int count) {
+//        return new RandomLocalMStreamProvider(maxInt, maxDouble, count);
+//    }
 
     /**
-     * Provide a TestItem item, which is based on an given TestObject.
+     * Provide one TestItem item, which is based on an given TestObject.
      *
      * @param testObject the mock data
      * @return the provider function
      */
-    public static SStreamProvider asItem(TestObject testObject) {
+    public static SStreamProvider getOneFrom(TestObject testObject) {
         return new MockSStreamProvider(testObject);
     }
 
     /**
-     * Provide a TestItem item, which is randomly generated.
+     * Provide one TestItem item, which is randomly generated.
      *
      * @return the provider function
      */
-    public static SStreamProvider asRandomItem() {
+    public static SStreamProvider getOne() {
         return new MockSStreamProvider(TestObject.getRandomInstance());
     }
 }

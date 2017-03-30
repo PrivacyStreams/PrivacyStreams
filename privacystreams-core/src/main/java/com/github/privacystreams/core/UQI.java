@@ -69,8 +69,8 @@ public class UQI {
 
     /**
      * Get a multi-item personal data stream from a provider with a purpose.
-     * For example, using <code>uqi.getData(Contact.asList(), Purpose.FEATURE("..."))</code> will return a stream of contacts.
-     * @param mStreamProvider the function to provide the personal data stream, e.g. GeoLocation.asUpdates(), SMS.asHistory().
+     * For example, using <code>uqi.getData(Contact.getAll(), Purpose.FEATURE("..."))</code> will return a stream of contacts.
+     * @param mStreamProvider the function to provide the personal data stream, e.g. GeoLocation.asUpdates().
      * @param purpose the purpose of personal data use, e.g. Purpose.ADS("xxx").
      * @return a multi-item stream
      */

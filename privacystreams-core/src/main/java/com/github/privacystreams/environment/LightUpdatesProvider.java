@@ -41,7 +41,7 @@ class LightUpdatesProvider extends MStreamProvider {
 
         @Override
         public void onSensorChanged(SensorEvent event) {
-            output(new Light(event.values[0], System.currentTimeMillis()));
+            output(new LightEnv(event.values[0], System.currentTimeMillis()));
         }
 
         @Override

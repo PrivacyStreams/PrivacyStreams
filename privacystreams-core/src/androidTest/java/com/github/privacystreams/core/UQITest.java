@@ -55,7 +55,7 @@ public class UQITest {
     public void getDataItems() throws Exception {
         List<TestObject> testObjectList = TestObject.getRandomList(10);
         int itemCount = this.uqi
-                .getData(TestItem.asHistory(testObjectList), this.testPurpose)
+                .getData(TestItem.getAllFrom(testObjectList), this.testPurpose)
                 .count();
         assertEquals(10, itemCount);
     }
@@ -64,7 +64,7 @@ public class UQITest {
     public void getDataItem() throws Exception {
         TestObject testObject = TestObject.getRandomInstance();
         int mockItemX = this.uqi
-                .getData(TestItem.asItem(testObject), this.testPurpose)
+                .getData(TestItem.getOneFrom(testObject), this.testPurpose)
                 .getField(TestItem.X);
 //        System.out.println("mockItemX: " + mockItemX);
         assertEquals(testObject.getX(), mockItemX);

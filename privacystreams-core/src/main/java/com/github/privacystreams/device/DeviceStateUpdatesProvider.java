@@ -66,7 +66,7 @@ class DeviceStateUpdatesProvider extends MStreamProvider {
     private void getBluetoothDeviceList(Item deviceState) {
         try {
             List<Item> bluetoothList = this.getUQI()
-                    .getData(BluetoothDevice.asScanList(), Purpose.LIB_INTERNAL("DeviceStateUpdatesProvider"))
+                    .getData(BluetoothDevice.getScanResults(), Purpose.LIB_INTERNAL("DeviceStateUpdatesProvider"))
                     .asList();
             deviceState.setFieldValue(DeviceState.BLUETOOTH_DEVICE_LIST, bluetoothList);
         } catch (PrivacyStreamsException e) {
@@ -78,7 +78,7 @@ class DeviceStateUpdatesProvider extends MStreamProvider {
     private void getWifiList(Item deviceState) {
         try {
             List<Item> wifiList = this.getUQI()
-                    .getData(WifiAp.asScanList(), Purpose.LIB_INTERNAL("DeviceStateUpdatesProvider"))
+                    .getData(WifiAp.getScanResults(), Purpose.LIB_INTERNAL("DeviceStateUpdatesProvider"))
                     .asList();
             deviceState.setFieldValue(DeviceState.WIFI_AP_LIST, wifiList);
         } catch (PrivacyStreamsException e) {

@@ -51,11 +51,11 @@ public class CalendarEvent extends Item {
     }
 
     /**
-     * Provide a list of Contact items from device's contacts database.
+     * Provide all CalendarEvent items from device's calendar database.
      *
      * @return the provider function.
      */
-    public static MStreamProvider asList() {
+    public static MStreamProvider getAll() {
         return new CalendarEventListProvider();
     }
 

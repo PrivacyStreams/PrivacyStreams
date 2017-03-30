@@ -16,9 +16,9 @@ import com.github.privacystreams.commons.list.ListOperators;
 import com.github.privacystreams.commons.statistic.StatisticOperators;
 import com.github.privacystreams.commons.string.StringOperators;
 import com.github.privacystreams.commons.time.TimeOperators;
+import com.github.privacystreams.communication.CallLog;
 import com.github.privacystreams.communication.Contact;
 import com.github.privacystreams.communication.Message;
-import com.github.privacystreams.communication.Phonecall;
 import com.github.privacystreams.core.Callback;
 import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.Item;
@@ -36,7 +36,7 @@ import com.github.privacystreams.device.BluetoothDevice;
 import com.github.privacystreams.device.DeviceEvent;
 import com.github.privacystreams.device.DeviceOperators;
 import com.github.privacystreams.device.WifiAp;
-import com.github.privacystreams.environment.Light;
+import com.github.privacystreams.environment.LightEnv;
 import com.github.privacystreams.image.Image;
 import com.github.privacystreams.image.ImageOperators;
 import com.github.privacystreams.location.GeoLocation;
@@ -66,11 +66,11 @@ public class UseCases {
      For testing the new lightUpdatesProvider
      */
     public void testLightUpdatesProvider(){
-        uqi.getData(Light.asUpdates(), Purpose.FEATURE("light")).debug();
+        uqi.getData(LightEnv.asUpdates(), Purpose.FEATURE("light")).debug();
     }
 
     public void testBlueToothUpatesProvider(){
-        uqi.getData(BluetoothDevice.asScanList(), Purpose.FEATURE("blueTooth device")).debug();
+        uqi.getData(BluetoothDevice.getScanResults(), Purpose.FEATURE("blueTooth device")).debug();
     }
 
 //    public void testPhysicalMotionUpdatesProvider(){
@@ -82,7 +82,7 @@ public class UseCases {
     }
 
     public void testSMS() {
-        uqi.getData(Message.asSMSHistory(), Purpose.TEST("test")).debug();
+        uqi.getData(Message.getAllSMS(), Purpose.TEST("test")).debug();
     }
 
     // For testing
@@ -92,7 +92,7 @@ public class UseCases {
         GlobalConfig.DropboxConfig.onlyOverWifi = false;
 
         uqi
-                .getData(TestItem.asRandomUpdates(20, 100, 500), Purpose.TEST("test"))
+                .getData(TestItem.asUpdates(20, 100, 500), Purpose.TEST("test"))
                 .limit(100)
                 .timeout(Duration.seconds(10))
                 .map(ItemOperators.setField("time_round", ArithmeticOperators.roundUp(TestItem.TIME_CREATED, Duration.seconds(2))))
@@ -102,7 +102,7 @@ public class UseCases {
 //                .forEach(StorageOperators.<Item>appendTo("PrivacyStreams_dir", "mockData"));
 
         uqi
-                .getData(TestItem.asRandomUpdates(20, 100, 500), Purpose.TEST("test"))
+                .getData(TestItem.asUpdates(20, 100, 500), Purpose.TEST("test"))
                 .limit(100)
                 .timeout(Duration.seconds(10))
                 .map(ItemOperators.setField("time_round", ArithmeticOperators.roundUp(TestItem.TIME_CREATED, Duration.seconds(2))))
@@ -120,9 +120,9 @@ public class UseCases {
         Purpose purpose = Purpose.TEST("test");
         uqi
                 .getData(EmptyItem.asUpdates(5000), purpose)
-                .setIndependentField("contact_list", Contact.asList().compound(Collectors.toItemList()))
-                .setIndependentField("wifi_ap_list", uqi.getData(WifiAp.asScanList(), purpose).getValueGenerator(Collectors.toItemList()))
-                .setIndependentField("bluetooth_list", BluetoothDevice.asScanList().compound(Collectors.toItemList()))
+                .setIndependentField("contact_list", Contact.getAll().compound(Collectors.toItemList()))
+                .setIndependentField("wifi_ap_list", uqi.getData(WifiAp.getScanResults(), purpose).getValueGenerator(Collectors.toItemList()))
+                .setIndependentField("bluetooth_list", BluetoothDevice.getScanResults().compound(Collectors.toItemList()))
                 .setIndependentField("uuid", DeviceOperators.deviceIdGetter())
                 .limit(3)
                 .debug();
@@ -144,7 +144,7 @@ public class UseCases {
 
     public void testWifiUpdates(int seconds){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            uqi.getData(WifiAp.asScanList(), Purpose.FEATURE("wifi updates")).debug();
+            uqi.getData(WifiAp.getScanResults(), Purpose.FEATURE("wifi updates")).debug();
         }
     }
 
@@ -163,7 +163,7 @@ public class UseCases {
 
     }
     public void testIMUpdates(){
-        uqi.getData(Message.asIMUpdates(),Purpose.FEATURE("im updates")).debug();
+        uqi.getData(Message.asUpdatesInIM(),Purpose.FEATURE("im updates")).debug();
     }
 
 //    public void testBrowerSearchUpdates(){
@@ -207,33 +207,33 @@ public class UseCases {
     void testContacts() {
         try {
             int count = uqi
-                    .getData(Contact.asList(), Purpose.FEATURE("estimate how popular you are."))
+                    .getData(Contact.getAll(), Purpose.FEATURE("estimate how popular you are."))
                     .count();
             System.out.println(count);
 
             String mostCalledContact = uqi
-                    .getData(Phonecall.asLogs(), Purpose.SOCIAL("finding your closest contact."))
-                    .transform(Filters.keep(recent(Phonecall.TIMESTAMP, Duration.days(365))))
-                    .transform(Groupers.groupBy(Phonecall.CONTACT))
+                    .getData(CallLog.getAll(), Purpose.SOCIAL("finding your closest contact."))
+                    .transform(Filters.keep(recent(CallLog.TIMESTAMP, Duration.days(365))))
+                    .transform(Groupers.groupBy(CallLog.CONTACT))
                     .transform(Mappers.mapEachItem(ItemOperators.setGroupField("#calls", StatisticOperators.count())))
                     .transform(Selectors.select(getItemWithMax("#calls")))
-                    .output(ItemOperators.<String>getField(Phonecall.CONTACT));
+                    .output(ItemOperators.<String>getField(CallLog.CONTACT));
 
             mostCalledContact = uqi
-                    .getData(Phonecall.asLogs(), Purpose.SOCIAL("finding your closest contact."))
-                    .filter(recent(Phonecall.TIMESTAMP, Duration.days(365)))
-                    .groupBy(Phonecall.CONTACT)
+                    .getData(CallLog.getAll(), Purpose.SOCIAL("finding your closest contact."))
+                    .filter(recent(CallLog.TIMESTAMP, Duration.days(365)))
+                    .groupBy(CallLog.CONTACT)
                     .setGroupField("#calls", count())
                     .select(getItemWithMax("#calls"))
-                    .getField(Phonecall.CONTACT);
+                    .getField(CallLog.CONTACT);
 
             uqi
-                    .getData(Phonecall.asLogs(), Purpose.SOCIAL("finding your closest contact."))
-                    .filter(recent(Phonecall.TIMESTAMP, Duration.days(365)))
-                    .groupBy(Phonecall.CONTACT)
+                    .getData(CallLog.getAll(), Purpose.SOCIAL("finding your closest contact."))
+                    .filter(recent(CallLog.TIMESTAMP, Duration.days(365)))
+                    .groupBy(CallLog.CONTACT)
                     .setGroupField("#calls", count())
                     .select(getItemWithMax("#calls"))
-                    .output(ItemOperators.<String>getField(Phonecall.CONTACT), new Callback<String>() {
+                    .output(ItemOperators.<String>getField(CallLog.CONTACT), new Callback<String>() {
                         @Override
                         protected void onSuccess(String contact) {
                             System.out.println("Most-called contact: " + contact);
@@ -254,12 +254,12 @@ public class UseCases {
     // get recent called 10 contacts’ names
     List<String> getRecentCalledNames(int n) throws PrivacyStreamsException {
         List<String> recentCalledPhoneNumbers = uqi
-                .getData(Phonecall.asLogs(), Purpose.FEATURE("getData recent called phone numbers"))
-                .sortBy(Phonecall.TIMESTAMP)
+                .getData(CallLog.getAll(), Purpose.FEATURE("getData recent called phone numbers"))
+                .sortBy(CallLog.TIMESTAMP)
                 .limit(n)
-                .asList(Phonecall.CONTACT);
+                .asList(CallLog.CONTACT);
         List<String> recentCalledNames = uqi
-                .getData(Contact.asList(), Purpose.FEATURE("getData names of recent called phone numbers"))
+                .getData(Contact.getAll(), Purpose.FEATURE("getData names of recent called phone numbers"))
                 .filter(ListOperators.intersects(Contact.PHONES, recentCalledPhoneNumbers.toArray()))
                 .asList(Contact.NAME);
         return recentCalledNames;
@@ -268,8 +268,8 @@ public class UseCases {
     // get a count of calls since 31Oct2015
     int getCallCountSince() throws PrivacyStreamsException {
         return uqi
-                .getData(Phonecall.asLogs(), Purpose.FEATURE("know how many calls you made"))
-                .filter(TimeOperators.since(Phonecall.TIMESTAMP, TimeUtils.fromFormattedString("yyyy-MM-dd", "2015-10-31")))
+                .getData(CallLog.getAll(), Purpose.FEATURE("know how many calls you made"))
+                .filter(TimeOperators.since(CallLog.TIMESTAMP, TimeUtils.fromFormattedString("yyyy-MM-dd", "2015-10-31")))
                 .count();
     }
 
@@ -286,7 +286,7 @@ public class UseCases {
 
     void callbackWhenReceivesMessage(String appName, Callback<String> messageCallback){
         uqi
-                .getData(Message.asSMSUpdates(), Purpose.FEATURE(""));
+                .getData(Message.asIncomingSMS(), Purpose.FEATURE(""));
     }
 
     // get the intent when enter an area, the callback will be invoked when the use enters or exits an area
@@ -300,7 +300,7 @@ public class UseCases {
     // handle two-factor auth Message message
     void getTwoFactorAuthSMS(String serverPhoneNum, Callback<String> messageCallback) {
         uqi
-                .getData(Message.asSMSUpdates(), Purpose.FEATURE("Two-factor authentication"))
+                .getData(Message.asIncomingSMS(), Purpose.FEATURE("Two-factor authentication"))
                 .filter(Comparators.eq(Message.CONTACT, serverPhoneNum))
                 .filter(Comparators.eq(Message.TYPE, Message.Types.RECEIVED))
                 .ifPresent(Message.CONTENT, messageCallback);
@@ -323,13 +323,13 @@ public class UseCases {
     // knowing if a person is making more or less calls than normal
     boolean isMakingMoreCallsThanNormal() throws PrivacyStreamsException {
         int callCountLastWeek = uqi
-                .getData(Phonecall.asLogs(), Purpose.FEATURE("get how many calls you made recently"))
-                .filter(recent(Phonecall.TIMESTAMP, Duration.days(7)))
+                .getData(CallLog.getAll(), Purpose.FEATURE("get how many calls you made recently"))
+                .filter(recent(CallLog.TIMESTAMP, Duration.days(7)))
                 .count();
         double callFrequencyLastWeek = (double) callCountLastWeek / 7;
         int callCountLastYear = uqi
-                .getData(Phonecall.asLogs(), Purpose.FEATURE("get how many calls you made normally"))
-                .filter(recent(Phonecall.TIMESTAMP, Duration.days(365)))
+                .getData(CallLog.getAll(), Purpose.FEATURE("get how many calls you made normally"))
+                .filter(recent(CallLog.TIMESTAMP, Duration.days(365)))
                 .count();
         double callFrequencyLastYear = (double) callCountLastYear / 365;
         return callFrequencyLastWeek > callFrequencyLastYear;
@@ -355,7 +355,7 @@ public class UseCases {
     // calculating sentiment across all Message
 //    double getAverageSentimentOfSMS() throws PrivacyStreamsException {
 //        return uqi
-//                .getData(Message.asSMSHistory(), Purpose.FEATURE("calculate the sentiment across all Message messages"))
+//                .getData(Message.getAllSMS(), Purpose.FEATURE("calculate the sentiment across all Message messages"))
 //                .setField("sentiment", StringOperators.sentiment(Message.CONTENT))
 //                .outputItems(StatisticOperators.average("sentiment"));
 //    }
@@ -378,11 +378,11 @@ public class UseCases {
     void getTotalNumberOfCallsPerPerson() throws PrivacyStreamsException {
         // each Map element is like {"phone_number": "xxxxxxx", "num_of_calls": 10, "length_of_calls": 30000}
         List<Item> totalNumberOfCallsPerPerson = uqi
-                .getData(Phonecall.asLogs(), Purpose.FEATURE("get the tie relationship with people"))
-                .groupBy(Phonecall.CONTACT)
+                .getData(CallLog.getAll(), Purpose.FEATURE("get the tie relationship with people"))
+                .groupBy(CallLog.CONTACT)
                 .setGroupField("num_of_calls", StatisticOperators.count())
-                .setGroupField("length_of_calls", StatisticOperators.sum(Phonecall.DURATION))
-                .project(Phonecall.CONTACT, "num_of_calls", "length_of_calls")
+                .setGroupField("length_of_calls", StatisticOperators.sum(CallLog.DURATION))
+                .project(CallLog.CONTACT, "num_of_calls", "length_of_calls")
                 .asList();
     }
 
@@ -390,7 +390,7 @@ public class UseCases {
     // hash the names or phone#s in Message or call logs, so we can get data like above while mitigating privacy concerns
     List<String> getHashedPhoneNumbersInSMS() throws PrivacyStreamsException {
         return uqi
-                .getData(Message.asSMSHistory(), Purpose.FEATURE("get hashed phone numbers."))
+                .getData(Message.getAllSMS(), Purpose.FEATURE("get hashed phone numbers."))
                 .setField("hashed_phone_number", StringOperators.sha1(Message.CONTACT))
                 .asList("hashed_phone_number");
     }

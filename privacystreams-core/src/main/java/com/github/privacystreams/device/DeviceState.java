@@ -54,7 +54,6 @@ public class DeviceState extends Item {
      * @param mask the mask of device state type, could be `DeviceState.Masks.BLUETOOTH_DEVICE_LIST`, `DeviceState.Masks.WIFI_AP_LIST`, etc.
      * @return the provider function
      */
-
     public static MStreamProvider asUpdates(long interval, int mask) {
         return new DeviceStateUpdatesProvider(interval, mask);
     }

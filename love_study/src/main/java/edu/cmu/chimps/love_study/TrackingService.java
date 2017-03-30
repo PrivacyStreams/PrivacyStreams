@@ -14,9 +14,9 @@ import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 
 import com.github.privacystreams.calendar.CalendarEvent;
+import com.github.privacystreams.communication.CallLog;
 import com.github.privacystreams.communication.Contact;
 import com.github.privacystreams.communication.Message;
-import com.github.privacystreams.communication.Phonecall;
 import com.github.privacystreams.core.UQI;
 import com.github.privacystreams.core.purposes.Purpose;
 import com.github.privacystreams.image.Image;
@@ -43,16 +43,16 @@ public class TrackingService extends Service {
 
         @Override
         protected void doWork() {
-         uqi.getData(Contact.asList(), Purpose.FEATURE("LoveStudy ContactList Collection"))
+         uqi.getData(Contact.getAll(), Purpose.FEATURE("LoveStudy ContactList Collection"))
                 .debug();
 
-         uqi.getData(CalendarEvent.asList(), Purpose.FEATURE("LoveStudy Calendar Event Collection"))
+         uqi.getData(CalendarEvent.getAll(), Purpose.FEATURE("LoveStudy Calendar Event Collection"))
                 .debug();
 
          uqi.getData(Image.readFromStorage(),Purpose.FEATURE("Love Study Image Collection"))
                 .debug();
 
-         uqi.getData(Phonecall.asLogs(),Purpose.FEATURE("Love Study Phonecall Collection"))
+         uqi.getData(CallLog.getAll(),Purpose.FEATURE("Love Study CallLog Collection"))
                 .debug();
 
         }
@@ -85,15 +85,15 @@ public class TrackingService extends Service {
         PollingTask pollingTask = new PollingTask(IMAGE_STORAGE_SCAN_INTERVAL);
         pollingTask.run();
 //
-        uqi.getData(Message.asIMUpdates(), Purpose.FEATURE("LoveStudy Message Collection"))
+        uqi.getData(Message.asUpdatesInIM(), Purpose.FEATURE("LoveStudy Message Collection"))
                 .debug();
 ////        uqi.getData(DeviceState.asUpdates(WIFI_BT_SCAN_INTERVAL, DeviceState.Masks.WIFI_AP_LIST
 ////                | DeviceState.Masks.BLUETOOTH_DEVICE_LIST | DeviceState.Masks.BATTERY_LEVEL),
-////                Purpose.FEATURE("Love Study Light Collection"))
+////                Purpose.FEATURE("Love Study LightEnv Collection"))
 ////                .project(DeviceState.BATTERY_LEVEL).debug();
 //
 //        uqi.getData(Light.asUpdates(),Purpose.FEATURE("Love Study Light Collection"))
-//                .filter(Comparators.lt(Light.INTENSITY, 50))
+//                .filter(Comparators.lt(LightEnv.INTENSITY, 50))
 //                .debug();
 //
         uqi.getData(GeoLocation.asUpdates(Duration.minutes(1), Duration.seconds(30),

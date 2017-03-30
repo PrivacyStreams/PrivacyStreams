@@ -66,11 +66,12 @@ public class Message extends Item {
     }
 
     /**
-     * Provide a live stream of Message items from IM apps, including WhatsApp and Facebook.
+     * Provide a live stream of new Message items in Instant Messenger (IM) apps, including WhatsApp and Facebook.
+     * This provider requires Accessibility service turned on.
      * @return the provider function
      */
 
-     public static MStreamProvider asIMUpdates(){
+     public static MStreamProvider asUpdatesInIM(){
          if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2)
              return new IMUpdatesProvider();
          else {
@@ -79,19 +80,19 @@ public class Message extends Item {
          }
     }
 
-//    /**
-//     * Provide a live stream of Message items from the Android SMS app.
-//     * @return the provider
-//     */
-//    public static MStreamProvider asSMSUpdates() {
-//        return new SMSMessageUpdatesProvider();
-//    }
-
     /**
-     * Provide a list of historic Message items from the Android official SMS.
+     * Provide a live stream of new incoming Message items from the Android Short Message Service (SMS).
      * @return the provider
      */
-    public static MStreamProvider asSMSHistory() {
+    public static MStreamProvider asIncomingSMS() {
+        return new SMSMessageUpdatesProvider();
+    }
+
+    /**
+     * Provide a list of historic Message items from the Android Short Message Service SMS.
+     * @return the provider
+     */
+    public static MStreamProvider getAllSMS() {
         return new SMSMessageListProvider();
     }
 }

@@ -7,14 +7,9 @@ import android.os.BatteryManager;
 import com.github.privacystreams.core.providers.SStreamProvider;
 
 /**
- * Created by fanglinchen on 3/18/17.
- */
-
-/**
  * Provide a single item of current battery info.
  */
-
-public class BatteryInfoProvider extends SStreamProvider {
+class BatteryInfoProvider extends SStreamProvider {
 
     private float getBatteryLevel() {
         Intent batteryIntent = this.getContext().registerReceiver(null, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
