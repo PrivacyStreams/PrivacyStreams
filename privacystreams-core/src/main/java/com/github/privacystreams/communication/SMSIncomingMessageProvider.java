@@ -12,17 +12,18 @@ import android.telephony.SmsMessage;
 
 import com.github.privacystreams.core.UQI;
 import com.github.privacystreams.core.providers.MStreamProvider;
+import com.github.privacystreams.utils.CommunicationUtils;
 
 /**
  * Provide a live stream of incoming SMS messages
  */
 
-class SMSMessageUpdatesProvider extends MStreamProvider {
+class SMSIncomingMessageProvider extends MStreamProvider {
 
     private SMSReceiver smsReceiver;
 
-    SMSMessageUpdatesProvider() {
-        this.addRequiredPermissions(Manifest.permission.READ_SMS);
+    SMSIncomingMessageProvider() {
+        this.addRequiredPermissions(Manifest.permission.RECEIVE_SMS);
     }
 
     @Override
@@ -57,12 +58,12 @@ class SMSMessageUpdatesProvider extends MStreamProvider {
                         // This will create an SmsMessage object from the received pdu
                         SmsMessage sms = this.getIncomingMessage(aPdusObj, bundle);
                         // Get sender phone number
-                        String address = sms.getDisplayOriginatingAddress();
+                        String address = CommunicationUtils.normalizePhoneNumber(sms.getDisplayOriginatingAddress());
                         String body = sms.getDisplayMessageBody();
 
                         Message message = new Message(Message.Types.RECEIVED, body, "system", address, System.currentTimeMillis());
                         // Display the SMS message in a Toast
-                        SMSMessageUpdatesProvider.this.output(message);
+                        SMSIncomingMessageProvider.this.output(message);
                     }
                 }
             }

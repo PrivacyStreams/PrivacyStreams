@@ -3,11 +3,8 @@ package com.github.privacystreams.communication;
 
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.providers.MStreamProvider;
-import com.github.privacystreams.utils.CommunicationUtils;
 import com.github.privacystreams.utils.annotations.PSItem;
 import com.github.privacystreams.utils.annotations.PSItemField;
-
-import org.apache.commons.lang3.StringUtils;
 
 /**
  * The information of a phone call.
@@ -65,6 +62,6 @@ public class CallLog extends Item {
      * @return the stream provider
      */
     public static MStreamProvider getAll() {
-        return new PhonecallLogProvider();
+        return new CallLogProvider();
     }
 }

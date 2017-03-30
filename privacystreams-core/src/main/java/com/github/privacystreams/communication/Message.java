@@ -85,11 +85,11 @@ public class Message extends Item {
      * @return the provider
      */
     public static MStreamProvider asIncomingSMS() {
-        return new SMSMessageUpdatesProvider();
+        return new SMSIncomingMessageProvider();
     }
 
     /**
-     * Provide a list of historic Message items from the Android Short Message Service SMS.
+     * Provide all Message items from Android Short Message Service SMS.
      * @return the provider
      */
     public static MStreamProvider getAllSMS() {

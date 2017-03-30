@@ -6,9 +6,6 @@ import com.github.privacystreams.utils.annotations.PSItem;
 import com.github.privacystreams.utils.annotations.PSItemField;
 
 /**
- * Created by fanglinchen on 3/18/17.
- */
-/**
  * A BatteryInfo item represents an event about the device.
  */
 @PSItem
@@ -29,8 +26,7 @@ public class BatteryInfo extends Item {
         setFieldValue(TIMESTAMP, timestamp);
         setFieldValue(LEVEL, level);
     }
-
-
+    
     public static SStreamProvider asSnapshot() {
         return new BatteryInfoProvider();
     }

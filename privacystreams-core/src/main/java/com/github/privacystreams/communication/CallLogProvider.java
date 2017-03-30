@@ -12,9 +12,9 @@ import com.github.privacystreams.utils.CommunicationUtils;
  * a stream of call logs
  */
 
-class PhonecallLogProvider extends MStreamProvider {
+class CallLogProvider extends MStreamProvider {
 
-    PhonecallLogProvider() {
+    CallLogProvider() {
         this.addRequiredPermissions(Manifest.permission.READ_CALL_LOG);
     }
 
@@ -78,7 +78,7 @@ class PhonecallLogProvider extends MStreamProvider {
     @Override
     protected void provide() {
         getPhoneLogs();
-        PhonecallLogProvider.this.finish();
+        CallLogProvider.this.finish();
     }
 
 }

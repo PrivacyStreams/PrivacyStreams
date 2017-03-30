@@ -41,7 +41,7 @@ class SMSMessageListProvider extends MStreamProvider {
                 Long date = c.getLong(c.getColumnIndex("date"));
                 Long dateSent = c.getLong(c.getColumnIndex("date_sent"));
                 String smsId = c.getString(c.getColumnIndex("_id"));
-                String address = c.getString(c.getColumnIndex("address"));
+                String address = CommunicationUtils.normalizePhoneNumber(c.getString(c.getColumnIndex("address")));
                 Integer type = c.getInt(c.getColumnIndex("type"));
                 String typeStr;
                 switch (type) {

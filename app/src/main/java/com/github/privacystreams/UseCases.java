@@ -82,7 +82,7 @@ public class UseCases {
     }
 
     public void testSMS() {
-        uqi.getData(Message.getAllSMS(), Purpose.TEST("test")).debug();
+        uqi.getData(Message.asIncomingSMS(), Purpose.TEST("test")).debug();
     }
 
     // For testing
@@ -361,17 +361,17 @@ public class UseCases {
 //    }
 
     // figure out place where person spends the most time (ie home)
-    String getPlaceSpentMostTime() throws PrivacyStreamsException {
-        return uqi
-                .getData(GeoLocation.asHistory(), Purpose.FEATURE("get the place you spent the most time"))
-                .setField("geo_tag", LocationOperators.asGeotag(GeoLocation.COORDINATES))
-                .localGroupBy("geo_tag")
-                .setGroupField("time_spent", StatisticOperators.range(GeoLocation.TIMESTAMP))
-                .sortBy("time_spent")
-                .reverse()
-                .getFirst()
-                .getField("geo_tag");
-    }
+//    String getPlaceSpentMostTime() throws PrivacyStreamsException {
+//        return uqi
+//                .getData(GeoLocation.asHistory(), Purpose.FEATURE("get the place you spent the most time"))
+//                .setField("geo_tag", LocationOperators.asGeotag(GeoLocation.COORDINATES))
+//                .localGroupBy("geo_tag")
+//                .setGroupField("time_spent", StatisticOperators.range(GeoLocation.TIMESTAMP))
+//                .sortBy("time_spent")
+//                .reverse()
+//                .getFirst()
+//                .getField("geo_tag");
+//    }
 
 
     // hard, calculate total number of calls and length of calls per person in call log
