@@ -6,7 +6,7 @@ import com.github.privacystreams.audio.Audio;
 import com.github.privacystreams.audio.AudioOperators;
 import com.github.privacystreams.core.Callback;
 import com.github.privacystreams.core.UQI;
-import com.github.privacystreams.core.exceptions.PrivacyStreamsException;
+import com.github.privacystreams.core.exceptions.PSException;
 import com.github.privacystreams.core.purposes.Purpose;
 
 /**
@@ -28,7 +28,7 @@ public class TasksWithPS {
      * The loudness should be calculated as the max amplitude.
      * Every time you get the result, please call submitTask3(int) method to submit the result.
      */
-    void task0() throws PrivacyStreamsException {
+    void task0() throws PSException {
         UQI uqi = new UQI(context);
         uqi
                 .getData(Audio.recordPeriodic(10*1000, 30*60*1000), Purpose.TEST("Getting loudness."))
@@ -40,7 +40,7 @@ public class TasksWithPS {
                     }
 
                     @Override
-                    protected void onFail(PrivacyStreamsException exception) {
+                    protected void onFail(PSException exception) {
                         super.onFail(exception);
                     }
                 });
@@ -57,7 +57,7 @@ public class TasksWithPS {
      * and the value is the number of calls with the phone number in Integer.
      * After you get the result, please call submitTask1(Map<String, Integer>) method to submit the result.
      */
-    void task1() throws PrivacyStreamsException {
+    void task1() throws PSException {
         // Your code here.
     }
 
@@ -68,7 +68,7 @@ public class TasksWithPS {
      * The result should be the city name in String format.
      * After you get the result, please call submitTask2(String) method to submit the task.
      */
-    void task2() throws PrivacyStreamsException {
+    void task2() throws PSException {
         // Your code here.
     }
 
@@ -77,7 +77,7 @@ public class TasksWithPS {
      *
      * In this task, you want to know who the user sent the most SMS messages to.
      */
-    void task3() throws PrivacyStreamsException {
+    void task3() throws PSException {
         // Your code here.
     }
 
@@ -88,7 +88,7 @@ public class TasksWithPS {
      * The result should be a list of Strings, and each String in the list is an image file path.
      * After you get the result, please call submitTask4(List<String>) method to submit the result.
      */
-    void task4() throws PrivacyStreamsException {
+    void task4() throws PSException {
         // Your code here.
     }
 
@@ -99,7 +99,7 @@ public class TasksWithPS {
      * when entering or leaving a coordinate box [(10,10), (20,20)].
      * You need to call submitTask5(1) when entering the box and submitTask5(0) when leaving the box.
      */
-    void task5() throws PrivacyStreamsException {
+    void task5() throws PSException {
         // Your code here.
     }
 
@@ -110,7 +110,7 @@ public class TasksWithPS {
      * The result should be a list of Strings, in which each element is an email address.
      * After you get the result, please call submitTask6(List<String>) method to submit the result.
      */
-    void task6() throws PrivacyStreamsException {
+    void task6() throws PSException {
         // Your code here.
     }
 
@@ -122,7 +122,7 @@ public class TasksWithPS {
      * "Dear participant, your authentication code is xxxxxx", where "xxxxxx" is the result you need to get.
      * After you get the authentication code, please call submitTask7(String) to submit the result.
      */
-    void task7() throws PrivacyStreamsException {
+    void task7() throws PSException {
         // Your code here
     }
 }

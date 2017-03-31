@@ -4,7 +4,7 @@ import android.os.Build;
 import android.support.annotation.RequiresApi;
 
 import com.github.privacystreams.core.Item;
-import com.github.privacystreams.core.exceptions.PrivacyStreamsException;
+import com.github.privacystreams.core.exceptions.PSException;
 import com.github.privacystreams.core.providers.MStreamProvider;
 import com.github.privacystreams.core.purposes.Purpose;
 
@@ -58,7 +58,7 @@ class DeviceStateUpdatesProvider extends MStreamProvider {
                     .getField(BatteryInfo.LEVEL);
 
             deviceState.setFieldValue(DeviceState.BATTERY_LEVEL, level);
-        } catch (PrivacyStreamsException e) {
+        } catch (PSException e) {
             e.printStackTrace();
         }
     }
@@ -69,7 +69,7 @@ class DeviceStateUpdatesProvider extends MStreamProvider {
                     .getData(BluetoothDevice.getScanResults(), Purpose.LIB_INTERNAL("DeviceStateUpdatesProvider"))
                     .asList();
             deviceState.setFieldValue(DeviceState.BLUETOOTH_DEVICE_LIST, bluetoothList);
-        } catch (PrivacyStreamsException e) {
+        } catch (PSException e) {
             e.printStackTrace();
         }
     }
@@ -81,7 +81,7 @@ class DeviceStateUpdatesProvider extends MStreamProvider {
                     .getData(WifiAp.getScanResults(), Purpose.LIB_INTERNAL("DeviceStateUpdatesProvider"))
                     .asList();
             deviceState.setFieldValue(DeviceState.WIFI_AP_LIST, wifiList);
-        } catch (PrivacyStreamsException e) {
+        } catch (PSException e) {
             e.printStackTrace();
         }
     }

@@ -1,6 +1,6 @@
 package com.github.privacystreams.core;
 
-import com.github.privacystreams.core.exceptions.PrivacyStreamsException;
+import com.github.privacystreams.core.exceptions.PSException;
 
 /**
  * This function is mainly used to handle a result as a callback.
@@ -28,5 +28,5 @@ public abstract class Callback<Tin> extends Function<Tin, Void> {
      * This method will be invoked if failed to get the result.
      * @param exception the exception happened during getting the result.
      */
-    protected void onFail(PrivacyStreamsException exception) {};
+    protected void onFail(PSException exception) {};
 }

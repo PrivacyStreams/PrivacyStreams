@@ -1,7 +1,7 @@
 package com.github.privacystreams.core;
 
 import com.github.privacystreams.core.actions.MStreamAction;
-import com.github.privacystreams.core.exceptions.PrivacyStreamsException;
+import com.github.privacystreams.core.exceptions.PSException;
 import com.github.privacystreams.core.purposes.Purpose;
 import com.github.privacystreams.core.transformations.M2MTransformation;
 import com.github.privacystreams.core.transformations.M2STransformation;
@@ -229,9 +229,9 @@ public interface MStreamInterface {
      * @param itemsCollector the function used to output current stream
      * @param <Tout> the type of the result
      * @return the result
-     * @throws PrivacyStreamsException if failed to the result.
+     * @throws PSException if failed to the result.
      */
-    <Tout> Tout output(Function<List<Item>, Tout> itemsCollector) throws PrivacyStreamsException;
+    <Tout> Tout output(Function<List<Item>, Tout> itemsCollector) throws PSException;
 
     /**
      * Get the first item in the stream.
@@ -266,7 +266,7 @@ public interface MStreamInterface {
      *
      * @return the count of number of items in the stream.
      */
-    int count() throws PrivacyStreamsException;
+    int count() throws PSException;
 
     /**
      * Collect the items in the stream to a list.
@@ -274,7 +274,7 @@ public interface MStreamInterface {
      *
      * @return a list of key-value maps, each map represents an item
      */
-    List<Item> asList() throws PrivacyStreamsException;
+    List<Item> asList() throws PSException;
 
     /**
      * Select a field in each item and output the items to a list.
@@ -283,7 +283,7 @@ public interface MStreamInterface {
      * @param <TValue> the type of field value
      * @return a list of field values
      */
-    <TValue> List<TValue> asList(String fieldToSelect) throws PrivacyStreamsException;
+    <TValue> List<TValue> asList(String fieldToSelect) throws PSException;
 
     /**
      * Callback with each item.

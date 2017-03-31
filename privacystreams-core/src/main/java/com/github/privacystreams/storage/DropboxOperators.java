@@ -46,7 +46,7 @@ public class DropboxOperators {
      * Upload an object to Dropbox, the output file will be at `filePath`.
      * If there is a file already at the `filePath`, the item will be appended to the file.
      *
-     * This operator requires Dropbox configured, please set proper values in `GlobalConfig.DropboxConfig`.
+     * This operator requires Dropbox configured, please set proper values in `Globals.DropboxConfig`.
      *
      * @param filePath the output file path
      * @param <Tin> the type of input object

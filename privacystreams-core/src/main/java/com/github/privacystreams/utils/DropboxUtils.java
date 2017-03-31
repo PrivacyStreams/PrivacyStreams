@@ -5,21 +5,14 @@ import android.content.SharedPreferences;
 
 import com.dropbox.core.DbxException;
 import com.dropbox.core.DbxRequestConfig;
-import com.dropbox.core.android.Auth;
 import com.dropbox.core.v2.DbxClientV2;
 import com.dropbox.core.v2.files.WriteMode;
 import com.github.privacystreams.core.UQI;
 
-import org.apache.commons.lang3.StringUtils;
-
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -71,7 +64,7 @@ public class DropboxUtils {
         if (syncing) return;
 
         long currentTimestamp = System.currentTimeMillis();
-        if (currentTimestamp - lastSyncTimestamp < GlobalConfig.DropboxConfig.leastSyncInterval)
+        if (currentTimestamp - lastSyncTimestamp < Globals.DropboxConfig.leastSyncInterval)
             return;
 
         synchronized (dropboxUploadMutex) {
@@ -80,13 +73,13 @@ public class DropboxUtils {
                 Set<String> waitingList = pref.getStringSet(DROPBOX_WAITING_LIST, new HashSet<String>());
 
                 if (waitingList.isEmpty()) return;
-                if (GlobalConfig.DropboxConfig.onlyOverWifi && !ConnectionUtils.isWifiConnected(uqi))
+                if (Globals.DropboxConfig.onlyOverWifi && !ConnectionUtils.isWifiConnected(uqi))
                     return;
 
                 syncing = true;
                 // Create Dropbox client
                 DbxRequestConfig config = new DbxRequestConfig(Consts.LIB_TAG);
-                DbxClientV2 client = new DbxClientV2(config, GlobalConfig.DropboxConfig.accessToken);
+                DbxClientV2 client = new DbxClientV2(config, Globals.DropboxConfig.accessToken);
 
                 Set<String> filesToRemoveFromWaitingList = new HashSet<>();
                 Set<String> filesToUpload = new HashSet<>(waitingList);

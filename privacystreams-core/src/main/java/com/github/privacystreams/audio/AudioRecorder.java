@@ -5,7 +5,7 @@ import android.media.MediaRecorder;
 
 import com.github.privacystreams.core.UQI;
 import com.github.privacystreams.core.providers.SStreamProvider;
-import com.github.privacystreams.utils.GlobalConfig;
+import com.github.privacystreams.utils.Globals;
 import com.github.privacystreams.utils.Logging;
 import com.github.privacystreams.utils.StorageUtils;
 import com.github.privacystreams.utils.time.TimeUtils;
@@ -43,9 +43,9 @@ class AudioRecorder extends SStreamProvider {
             List<Integer> amplitudes = new ArrayList<>();
 
             MediaRecorder recorder = new MediaRecorder();
-            recorder.setAudioSource(GlobalConfig.AudioConfig.audioSource);
-            recorder.setOutputFormat(GlobalConfig.AudioConfig.outputFormat);
-            recorder.setAudioEncoder(GlobalConfig.AudioConfig.audioEncoder);
+            recorder.setAudioSource(Globals.AudioConfig.audioSource);
+            recorder.setOutputFormat(Globals.AudioConfig.outputFormat);
+            recorder.setAudioEncoder(Globals.AudioConfig.audioEncoder);
 
             String audioPath = "temp/audio_" + TimeUtils.getTimeTag() + ".3gp";
             File tempAudioFile = StorageUtils.getValidFile(uqi.getContext(), audioPath, false);
@@ -62,7 +62,7 @@ class AudioRecorder extends SStreamProvider {
                     break;
                 }
                 amplitudes.add(recorder.getMaxAmplitude());
-                Thread.sleep(GlobalConfig.AudioConfig.amplitudeSamplingRate);
+                Thread.sleep(Globals.AudioConfig.amplitudeSamplingRate);
             }
 
             recorder.stop();

@@ -1,9 +1,5 @@
 package com.github.privacystreams.core;
 
-import android.content.Context;
-import android.util.Log;
-
-import com.github.privacystreams.utils.GlobalConfig;
 import com.github.privacystreams.utils.Logging;
 
 import org.greenrobot.eventbus.EventBus;

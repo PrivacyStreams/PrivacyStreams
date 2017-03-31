@@ -9,13 +9,13 @@ import android.util.Log;
 public class Logging {
 
     public static void debug(String message) {
-        if (GlobalConfig.LoggingConfig.isEnabled && GlobalConfig.LoggingConfig.level <= Log.DEBUG) {
+        if (Globals.LoggingConfig.isEnabled && Globals.LoggingConfig.level <= Log.DEBUG) {
             Log.d(Consts.LIB_TAG, message);
         }
     }
 
     public static void warn(String message) {
-        if (GlobalConfig.LoggingConfig.isEnabled && GlobalConfig.LoggingConfig.level <= Log.WARN) {
+        if (Globals.LoggingConfig.isEnabled && Globals.LoggingConfig.level <= Log.WARN) {
             Log.w(Consts.LIB_TAG, message);
         }
     }

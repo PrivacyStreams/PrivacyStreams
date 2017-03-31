@@ -10,7 +10,7 @@ import java.util.List;
  * An exception related to PrivacyStreams.
  */
 
-public class PrivacyStreamsException extends Exception {
+public class PSException extends Exception {
     private int type = -1;
     public static int TYPE_PERMISSION_DENIED = 1;
     public static int TYPE_INTERRUPTED = 2;
@@ -18,16 +18,16 @@ public class PrivacyStreamsException extends Exception {
     private String interruptMessage = "";
     private String[] deniedPermissions = new String[]{};
 
-    private PrivacyStreamsException() {}
+    private PSException() {}
 
-    public static PrivacyStreamsException PERMISSION_DENIED(String[] deniedPermissions) {
-        PrivacyStreamsException e = new PrivacyStreamsException();
+    public static PSException PERMISSION_DENIED(String[] deniedPermissions) {
+        PSException e = new PSException();
         e.deniedPermissions = deniedPermissions;
         return e;
     }
 
-    public static PrivacyStreamsException INTERRUPTED(String message) {
-        PrivacyStreamsException e = new PrivacyStreamsException();
+    public static PSException INTERRUPTED(String message) {
+        PSException e = new PSException();
         e.interruptMessage = message;
         return e;
     }

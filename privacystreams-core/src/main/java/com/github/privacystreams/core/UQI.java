@@ -2,7 +2,7 @@ package com.github.privacystreams.core;
 
 import android.content.Context;
 
-import com.github.privacystreams.core.exceptions.PrivacyStreamsException;
+import com.github.privacystreams.core.exceptions.PSException;
 import com.github.privacystreams.core.providers.MStreamProvider;
 import com.github.privacystreams.core.providers.SStreamProvider;
 import com.github.privacystreams.core.purposes.Purpose;
@@ -44,8 +44,8 @@ public class UQI {
         return this.gson;
     }
 
-    private transient PrivacyStreamsException exception;
-    public PrivacyStreamsException getException() {
+    private transient PSException exception;
+    public PSException getException() {
         return exception;
     }
 
@@ -68,7 +68,7 @@ public class UQI {
     }
 
     /**
-     * Get a multi-item personal data stream from a provider with a purpose.
+     * Get a MStream from a provider with a purpose.
      * For example, using <code>uqi.getData(Contact.getAll(), Purpose.FEATURE("..."))</code> will return a stream of contacts.
      * @param mStreamProvider the function to provide the personal data stream, e.g. GeoLocation.asUpdates().
      * @param purpose the purpose of personal data use, e.g. Purpose.ADS("xxx").
@@ -80,8 +80,8 @@ public class UQI {
     }
 
     /**
-     * Get a single-item personal data item from a provider with a purpose
-     * For example, using <code>uqi.getData(Location.asLastKnown(), Purpose.FEATURE("..."))</code> will return a stream that contains one location item.
+     * Get an SStream from a provider with a purpose
+     * For example, using <code>uqi.getData(GeoLocation.asLastKnown(), Purpose.FEATURE("..."))</code> will return a stream that contains one location item.
      * @param sStreamProvider the function to provide the personal data item, e.g. Location.asLastKnown(), Audio.record(100).
      * @param purpose the purpose of personal data use, e.g. Purpose.ADS("xxx").
      * @return a single-item stream
@@ -115,7 +115,7 @@ public class UQI {
             // If retry is false, cancel all functions.
             Logging.debug("Permission denied, cancelling...");
             Set<String> deniedPermissions = PermissionUtils.getDeniedPermissions(this.context, this.query.getRequiredPermissions());
-            this.exception = PrivacyStreamsException.PERMISSION_DENIED(deniedPermissions.toArray(new String[]{}));
+            this.exception = PSException.PERMISSION_DENIED(deniedPermissions.toArray(new String[]{}));
             this.query.cancel(this);
 //            this.context = null; // remove context
         }

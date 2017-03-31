@@ -111,7 +111,7 @@ public class StorageUtils {
     public static void writeToFile(String content, File validFile, boolean append) {
         try {
             synchronized (fileRWMutex) {
-                String contentToWrite = append ? GlobalConfig.StorageConfig.fileAppendSeparator + content : content;
+                String contentToWrite = append ? Globals.StorageConfig.fileAppendSeparator + content : content;
                 FileOutputStream fileOutputStream = new FileOutputStream(validFile, append);
                 fileOutputStream.write(contentToWrite.getBytes());
                 fileOutputStream.close();

@@ -24,7 +24,7 @@ import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.UQI;
 import com.github.privacystreams.core.actions.collect.Collectors;
-import com.github.privacystreams.core.exceptions.PrivacyStreamsException;
+import com.github.privacystreams.core.exceptions.PSException;
 import com.github.privacystreams.core.items.EmptyItem;
 import com.github.privacystreams.core.items.TestItem;
 import com.github.privacystreams.core.purposes.Purpose;
@@ -42,7 +42,7 @@ import com.github.privacystreams.image.ImageOperators;
 import com.github.privacystreams.location.GeoLocation;
 import com.github.privacystreams.location.LocationOperators;
 import com.github.privacystreams.storage.DropboxOperators;
-import com.github.privacystreams.utils.GlobalConfig;
+import com.github.privacystreams.utils.Globals;
 import com.github.privacystreams.utils.time.Duration;
 import com.github.privacystreams.utils.time.TimeUtils;
 
@@ -100,9 +100,9 @@ public class UseCases {
 
     // For testing
     public void testMockData() {
-        GlobalConfig.DropboxConfig.accessToken = "wvotIxO75CUAAAAAAAAA8DJw6Cedm6A2Pt-jwHSMBW_KhIYaJUEt9CbgtKe5Vl8O";
-        GlobalConfig.DropboxConfig.leastSyncInterval = Duration.seconds(3);
-        GlobalConfig.DropboxConfig.onlyOverWifi = false;
+        Globals.DropboxConfig.accessToken = "wvotIxO75CUAAAAAAAAA8DJw6Cedm6A2Pt-jwHSMBW_KhIYaJUEt9CbgtKe5Vl8O";
+        Globals.DropboxConfig.leastSyncInterval = Duration.seconds(3);
+        Globals.DropboxConfig.onlyOverWifi = false;
 
         uqi
                 .getData(TestItem.asUpdates(20, 100, 500), Purpose.TEST("test"))
@@ -253,19 +253,19 @@ public class UseCases {
                         }
 
                         @Override
-                        protected void onFail(PrivacyStreamsException e) {
+                        protected void onFail(PSException e) {
                             System.out.println(e.getMessage());
                         }
                     });
 
-        } catch (PrivacyStreamsException e) {
+        } catch (PSException e) {
             System.out.println(e.getMessage());
             e.printStackTrace();
         }
     }
 
     // get recent called 10 contacts’ names
-    List<String> getRecentCalledNames(int n) throws PrivacyStreamsException {
+    List<String> getRecentCalledNames(int n) throws PSException {
         List<String> recentCalledPhoneNumbers = uqi
                 .getData(CallLog.getAll(), Purpose.FEATURE("getData recent called phone numbers"))
                 .sortBy(CallLog.TIMESTAMP)
@@ -279,7 +279,7 @@ public class UseCases {
     }
 
     // get a count of calls since 31Oct2015
-    int getCallCountSince() throws PrivacyStreamsException {
+    int getCallCountSince() throws PSException {
         return uqi
                 .getData(CallLog.getAll(), Purpose.FEATURE("know how many calls you made"))
                 .filter(TimeOperators.since(CallLog.TIMESTAMP, TimeUtils.fromFormattedString("yyyy-MM-dd", "2015-10-31")))
@@ -291,7 +291,7 @@ public class UseCases {
     }
 
 //    // get whether at home
-//    boolean isAtHome() throws PrivacyStreamsException {
+//    boolean isAtHome() throws PSException {
 //        return uqi
 //                .getData(GeoLocation.asLastKnown(), Purpose.FEATURE("know whether you are at home."))
 //                .output(LocationOperators.atHome(GeoLocation.COORDINATES));
@@ -320,21 +320,21 @@ public class UseCases {
     }
 
 //    // get location and blur 100 meters for advertisement
-//    void passLocationToAd() throws PrivacyStreamsException {
+//    void passLocationToAd() throws PSException {
 //        List<Double> coordinates = uqi
 //                .getData(GeoLocation.asLastKnown(), Purpose.ADS("targeted advertisement"))
 //                .output(LocationOperators.blur(GeoLocation.COORDINATES, 100));
 //    }
 //
 //    // get postcode of asLastKnown location
-//    String getPostcode() throws PrivacyStreamsException {
+//    String getPostcode() throws PSException {
 //        return uqi
 //                .getData(GeoLocation.asLastKnown(), Purpose.FEATURE("get postcode for nearby search"))
 //                .output(LocationOperators.asPostcode(GeoLocation.COORDINATES));
 //    }
 
     // knowing if a person is making more or less calls than normal
-    boolean isMakingMoreCallsThanNormal() throws PrivacyStreamsException {
+    boolean isMakingMoreCallsThanNormal() throws PSException {
         int callCountLastWeek = uqi
                 .getData(CallLog.getAll(), Purpose.FEATURE("get how many calls you made recently"))
                 .filter(recent(CallLog.TIMESTAMP, Duration.days(7)))
@@ -349,7 +349,7 @@ public class UseCases {
     }
 
     // getting all the photo metadata (but not photos)
-    List<Map<String, String>> getAllPhotoMetadata() throws PrivacyStreamsException {
+    List<Map<String, String>> getAllPhotoMetadata() throws PSException {
         return uqi
                 .getData(Image.readFromStorage(), Purpose.FEATURE("get metadata of the photos in storage"))
                 .setField("metadata", ImageOperators.getExif(Image.IMAGE_DATA))
@@ -366,7 +366,7 @@ public class UseCases {
     }
 
     // calculating sentiment across all Message
-//    double getAverageSentimentOfSMS() throws PrivacyStreamsException {
+//    double getAverageSentimentOfSMS() throws PSException {
 //        return uqi
 //                .getData(Message.getAllSMS(), Purpose.FEATURE("calculate the sentiment across all Message messages"))
 //                .setField("sentiment", StringOperators.sentiment(Message.CONTENT))
@@ -374,7 +374,7 @@ public class UseCases {
 //    }
 
     // figure out place where person spends the most time (ie home)
-//    String getPlaceSpentMostTime() throws PrivacyStreamsException {
+//    String getPlaceSpentMostTime() throws PSException {
 //        return uqi
 //                .getData(GeoLocation.asHistory(), Purpose.FEATURE("get the place you spent the most time"))
 //                .setField("geo_tag", LocationOperators.asGeotag(GeoLocation.COORDINATES))
@@ -388,7 +388,7 @@ public class UseCases {
 
 
     // hard, calculate total number of calls and length of calls per person in call log
-    void getTotalNumberOfCallsPerPerson() throws PrivacyStreamsException {
+    void getTotalNumberOfCallsPerPerson() throws PSException {
         // each Map element is like {"phone_number": "xxxxxxx", "num_of_calls": 10, "length_of_calls": 30000}
         List<Item> totalNumberOfCallsPerPerson = uqi
                 .getData(CallLog.getAll(), Purpose.FEATURE("get the tie relationship with people"))
@@ -401,7 +401,7 @@ public class UseCases {
 
 
     // hash the names or phone#s in Message or call logs, so we can get data like above while mitigating privacy concerns
-    List<String> getHashedPhoneNumbersInSMS() throws PrivacyStreamsException {
+    List<String> getHashedPhoneNumbersInSMS() throws PSException {
         return uqi
                 .getData(Message.getAllSMS(), Purpose.FEATURE("get hashed phone numbers."))
                 .setField("hashed_phone_number", StringOperators.sha1(Message.CONTACT))

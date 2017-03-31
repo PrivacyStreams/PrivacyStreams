@@ -7,10 +7,14 @@ import java.text.SimpleDateFormat;
 import java.util.Locale;
 
 /**
- * Global configuration for PrivacyStreams
+ * Global configurations for PrivacyStreams.
  */
 
-public class GlobalConfig {
+public class Globals {
+    public static class LocationConfig {
+        public static boolean useGoogleService = true;
+    }
+
     public static class AudioConfig {
         public static int amplitudeSamplingRate = 10;
         public static int outputFormat = MediaRecorder.OutputFormat.THREE_GPP;
@@ -24,7 +28,7 @@ public class GlobalConfig {
     }
 
     public static class HashConfig {
-        public static String defaultHashAlgorithm = HashUtils.SHA256;
+        public static String defaultAlgorithm = HashUtils.SHA256;
 
     }
 

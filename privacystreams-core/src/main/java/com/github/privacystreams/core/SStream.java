@@ -4,7 +4,7 @@ import com.github.privacystreams.commons.debug.DebugOperators;
 import com.github.privacystreams.commons.item.ItemOperators;
 import com.github.privacystreams.core.actions.SStreamAction;
 import com.github.privacystreams.core.actions.collect.Collectors;
-import com.github.privacystreams.core.exceptions.PrivacyStreamsException;
+import com.github.privacystreams.core.exceptions.PSException;
 import com.github.privacystreams.core.purposes.Purpose;
 import com.github.privacystreams.core.transformations.S2MTransformation;
 import com.github.privacystreams.core.transformations.S2STransformation;
@@ -139,9 +139,9 @@ public class SStream extends Stream {
      * @param itemCollector the function used to output the current item
      * @param <Tout>           the type of result
      * @return the result of itemCollector
-     * @throws PrivacyStreamsException if something goes wrong during getting results.
+     * @throws PSException if something goes wrong during getting results.
      */
-    public <Tout> Tout output(Function<Item, Tout> itemCollector) throws PrivacyStreamsException {
+    public <Tout> Tout output(Function<Item, Tout> itemCollector) throws PSException {
         final BlockingQueue<Object> resultQueue = new LinkedBlockingQueue<>();
         Callback<Tout> resultHandler = new Callback<Tout>() {
             @Override
@@ -150,19 +150,19 @@ public class SStream extends Stream {
             }
 
             @Override
-            protected void onFail(PrivacyStreamsException exception) {
+            protected void onFail(PSException exception) {
                 resultQueue.add(exception);
             }
         };
         this.output(itemCollector, resultHandler);
         try {
             Object resultOrException = resultQueue.take();
-            if (resultOrException instanceof PrivacyStreamsException) {
-                throw (PrivacyStreamsException) resultOrException;
+            if (resultOrException instanceof PSException) {
+                throw (PSException) resultOrException;
             }
             return (Tout) resultOrException;
         } catch (InterruptedException e) {
-            throw PrivacyStreamsException.INTERRUPTED(e.getMessage());
+            throw PSException.INTERRUPTED(e.getMessage());
         }
 
     }
@@ -174,7 +174,7 @@ public class SStream extends Stream {
      * @param <TValue> the type of the new field value
      * @return the field value
      */
-    public <TValue> TValue getField(String field) throws PrivacyStreamsException {
+    public <TValue> TValue getField(String field) throws PSException {
         return this.output(ItemOperators.<TValue>getField(field));
     }
 
@@ -184,7 +184,7 @@ public class SStream extends Stream {
      *
      * @return the key-value map of the item
      */
-    public Map<String, Object> asMap() throws PrivacyStreamsException {
+    public Map<String, Object> asMap() throws PSException {
         return this.output(ItemOperators.asMap());
     }
 

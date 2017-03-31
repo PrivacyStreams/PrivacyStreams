@@ -8,7 +8,7 @@ import com.github.privacystreams.commons.items.ItemsOperators;
 import com.github.privacystreams.core.actions.MStreamAction;
 import com.github.privacystreams.core.actions.callback.Callbacks;
 import com.github.privacystreams.core.actions.collect.Collectors;
-import com.github.privacystreams.core.exceptions.PrivacyStreamsException;
+import com.github.privacystreams.core.exceptions.PSException;
 import com.github.privacystreams.core.purposes.Purpose;
 import com.github.privacystreams.core.transformations.M2MTransformation;
 import com.github.privacystreams.core.transformations.M2STransformation;
@@ -309,9 +309,9 @@ public class MStream extends Stream {
      * @param itemsCollector the function used to output current stream
      * @param <Tout> the type of the result
      * @return the result
-     * @throws PrivacyStreamsException if failed to the result.
+     * @throws PSException if failed to the result.
      */
-    public <Tout> Tout output(Function<List<Item>, Tout> itemsCollector) throws PrivacyStreamsException {
+    public <Tout> Tout output(Function<List<Item>, Tout> itemsCollector) throws PSException {
         final BlockingQueue<Object> resultQueue = new LinkedBlockingQueue<>();
         Callback<Tout> resultHandler = new Callback<Tout>() {
             @Override
@@ -320,19 +320,19 @@ public class MStream extends Stream {
             }
 
             @Override
-            protected void onFail(PrivacyStreamsException exception) {
+            protected void onFail(PSException exception) {
                 resultQueue.add(exception);
             }
         };
         this.output(itemsCollector, resultHandler);
         try {
             Object resultOrException = resultQueue.take();
-            if (resultOrException instanceof PrivacyStreamsException) {
-                throw (PrivacyStreamsException) resultOrException;
+            if (resultOrException instanceof PSException) {
+                throw (PSException) resultOrException;
             }
             return (Tout) resultOrException;
         } catch (InterruptedException e) {
-            throw PrivacyStreamsException.INTERRUPTED(e.getMessage());
+            throw PSException.INTERRUPTED(e.getMessage());
         }
     }
 
@@ -386,7 +386,7 @@ public class MStream extends Stream {
      *
      * @return the count of number of items in the stream.
      */
-    public int count() throws PrivacyStreamsException {
+    public int count() throws PSException {
         return this.output(StatisticOperators.count());
     }
 
@@ -396,7 +396,7 @@ public class MStream extends Stream {
      *
      * @return a list of key-value maps, each map represents an item
      */
-    public List<Item> asList() throws PrivacyStreamsException {
+    public List<Item> asList() throws PSException {
         return this.output(ItemsOperators.asList());
     }
 
@@ -407,7 +407,7 @@ public class MStream extends Stream {
      * @param <TValue> the type of field value
      * @return a list of field values
      */
-    public <TValue> List<TValue> asList(String fieldToSelect) throws PrivacyStreamsException {
+    public <TValue> List<TValue> asList(String fieldToSelect) throws PSException {
         return this.output(ItemsOperators.<TValue>asList(fieldToSelect));
     }
 

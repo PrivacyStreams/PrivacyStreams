@@ -1,7 +1,7 @@
 package com.github.privacystreams.core;
 
 import com.github.privacystreams.core.actions.SStreamAction;
-import com.github.privacystreams.core.exceptions.PrivacyStreamsException;
+import com.github.privacystreams.core.exceptions.PSException;
 import com.github.privacystreams.core.purposes.Purpose;
 import com.github.privacystreams.core.transformations.S2MTransformation;
 import com.github.privacystreams.core.transformations.S2STransformation;
@@ -90,9 +90,9 @@ public interface SStreamInterface {
      * @param itemCollector the function used to output the current item
      * @param <Tout>           the type of result
      * @return the result of itemCollector
-     * @throws PrivacyStreamsException if something goes wrong during getting results.
+     * @throws PSException if something goes wrong during getting results.
      */
-    <Tout> Tout output(Function<Item, Tout> itemCollector) throws PrivacyStreamsException;
+    <Tout> Tout output(Function<Item, Tout> itemCollector) throws PSException;
 
     /**
      * Get the value of a field.
@@ -101,7 +101,7 @@ public interface SStreamInterface {
      * @param <TValue> the type of the new field value
      * @return the field value
      */
-    <TValue> TValue getField(String field) throws PrivacyStreamsException;
+    <TValue> TValue getField(String field) throws PSException;
 
     /**
      * Output the item by returning the key-value map.
@@ -109,7 +109,7 @@ public interface SStreamInterface {
      *
      * @return the key-value map of the item
      */
-    Map<String, Object> asMap() throws PrivacyStreamsException;
+    Map<String, Object> asMap() throws PSException;
 
     /**
      * Debug print the item.

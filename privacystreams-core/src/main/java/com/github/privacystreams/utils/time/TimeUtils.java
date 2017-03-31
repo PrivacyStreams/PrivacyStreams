@@ -1,6 +1,6 @@
 package com.github.privacystreams.utils.time;
 
-import com.github.privacystreams.utils.GlobalConfig;
+import com.github.privacystreams.utils.Globals;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -38,7 +38,7 @@ public class TimeUtils {
     }
 
     /**
-     * Generate a time tag of current timestamp, using the time format at `GlobalConfig.TimeConfig.defaultTimeFormat`.
+     * Generate a time tag of current timestamp, using the time format at `Globals.TimeConfig.defaultTimeFormat`.
      * @return the formatted string
      */
     public static String getTimeTag() {
@@ -46,13 +46,13 @@ public class TimeUtils {
     }
 
     /**
-     * Format a timestamp to a string using the time format at `GlobalConfig.TimeConfig.defaultTimeFormat`.
+     * Format a timestamp to a string using the time format at `Globals.TimeConfig.defaultTimeFormat`.
      * @param timestamp the timestamp to format
      * @return the formatted string
      */
     public static String toFormattedString(long timestamp) {
         Date date = new Date(timestamp);
-        SimpleDateFormat tf = new SimpleDateFormat(GlobalConfig.TimeConfig.defaultTimeFormat, Locale.getDefault());
+        SimpleDateFormat tf = new SimpleDateFormat(Globals.TimeConfig.defaultTimeFormat, Locale.getDefault());
         return tf.format(date);
     }
 
@@ -64,7 +64,7 @@ public class TimeUtils {
      * @return the formatted string
      */
     public static String toFormattedString(String timeFormat, long timestamp) {
-        if (timeFormat == null) timeFormat = GlobalConfig.TimeConfig.defaultTimeFormat;
+        if (timeFormat == null) timeFormat = Globals.TimeConfig.defaultTimeFormat;
         Date date = new Date(timestamp);
         SimpleDateFormat tf = new SimpleDateFormat(timeFormat, Locale.getDefault());
         return tf.format(date);
