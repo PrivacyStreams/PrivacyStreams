@@ -9,7 +9,7 @@ package com.github.privacystreams;//package xyz.ylimit.personaldataapp;
 //import xyz.ylimit.personaldataapp.privacystreams.providers.audio.Audio;
 //import xyz.ylimit.personaldataapp.privacystreams.providers.call.CallLog;
 //import xyz.ylimit.personaldataapp.privacystreams.providers.environment.LightEnv;
-//import xyz.ylimit.personaldataapp.privacystreams.providers.location.GeoLocation;
+//import xyz.ylimit.personaldataapp.privacystreams.providers.location.Geolocation;
 //import xyz.ylimit.personaldataapp.privacystreams.providers.motion.AccelMotion;
 //import xyz.ylimit.personaldataapp.privacystreams.providers.sms.Message;
 //import xyz.ylimit.personaldataapp.privacystreams.providers.system.DeviceState;
@@ -36,10 +36,10 @@ package com.github.privacystreams;//package xyz.ylimit.personaldataapp;
 //     */
 //    void Connecto_CHI_08() {
 //        UQI
-//                .getDataItems(GeoLocation.asUpdates(), Purpose.feature("displaying location amongst your friends"))
-//                .map(setField("semantic_loc", Locations.geotag(GeoLocation.COORDINATES)))
+//                .getDataItems(Geolocation.asUpdates(), Purpose.feature("displaying location amongst your friends"))
+//                .map(setField("semantic_loc", Locations.geotag(Geolocation.COORDINATES)))
 //                .localGroupBy("semantic_loc")
-//                .setGroupField("duration", StatisticOperators.range(GeoLocation.TIMESTAMP))
+//                .setGroupField("duration", StatisticOperators.range(Geolocation.TIMESTAMP))
 //                .list();
 //    }
 //

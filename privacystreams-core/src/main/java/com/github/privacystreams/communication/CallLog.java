@@ -43,7 +43,7 @@ public class CallLog extends Item {
     @PSItemField(type = String.class)
     public static final String TYPE = "type";
 
-    public static class Types {
+    public static class Type {
         public static final String INCOMING = "incoming";
         public static final String OUTGOING = "outgoing";
         public static final String MISSED = "missed";

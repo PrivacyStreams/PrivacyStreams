@@ -58,7 +58,7 @@ public class UQI {
     /**
      * Get a MStream from a provider with a purpose.
      * For example, using <code>uqi.getData(Contact.getAll(), Purpose.FEATURE("..."))</code> will return a stream of contacts.
-     * @param mStreamProvider the function to provide the personal data stream, e.g. GeoLocation.asUpdates().
+     * @param mStreamProvider the function to provide the personal data stream, e.g. Geolocation.asUpdates().
      * @param purpose the purpose of personal data use, e.g. Purpose.ADS("xxx").
      * @return a multi-item stream
      */
@@ -69,7 +69,7 @@ public class UQI {
 
     /**
      * Get an SStream from a provider with a purpose
-     * For example, using <code>uqi.getData(GeoLocation.asLastKnown(), Purpose.FEATURE("..."))</code> will return a stream that contains one location item.
+     * For example, using <code>uqi.getData(Geolocation.asLastKnown(), Purpose.FEATURE("..."))</code> will return a stream that contains one location item.
      * @param sStreamProvider the function to provide the personal data item, e.g. Location.asLastKnown(), Audio.record(100).
      * @param purpose the purpose of personal data use, e.g. Purpose.ADS("xxx").
      * @return a single-item stream

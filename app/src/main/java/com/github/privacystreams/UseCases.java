@@ -39,8 +39,8 @@ import com.github.privacystreams.device.WifiAp;
 import com.github.privacystreams.environment.LightEnv;
 import com.github.privacystreams.image.Image;
 import com.github.privacystreams.image.ImageOperators;
-import com.github.privacystreams.location.GeoLocation;
-import com.github.privacystreams.location.LocationOperators;
+import com.github.privacystreams.location.Geolocation;
+import com.github.privacystreams.location.GeolocationOperators;
 import com.github.privacystreams.storage.DropboxOperators;
 import com.github.privacystreams.utils.Globals;
 import com.github.privacystreams.utils.time.Duration;
@@ -88,9 +88,9 @@ public class UseCases {
     }
 
     public void testLocation() {
-        uqi.getData(GeoLocation.asUpdates(1000, GeoLocation.Levels.CITY), Purpose.TEST("test"))
-                .setField("blurred_lat_lng", LocationOperators.blur(GeoLocation.LAT_LNG, 1000))
-                .setField("blurred_distance", LocationOperators.distanceBetween(GeoLocation.LAT_LNG, "blurred_lat_lng"))
+        uqi.getData(Geolocation.asUpdates(1000, Geolocation.Level.CITY), Purpose.TEST("test"))
+                .setField("blurred_lat_lng", GeolocationOperators.blur(Geolocation.LAT_LNG, 1000))
+                .setField("blurred_distance", GeolocationOperators.distanceBetween(Geolocation.LAT_LNG, "blurred_lat_lng"))
                 .debug();
 
         try {
@@ -301,8 +301,8 @@ public class UseCases {
 //    // get whether at home
 //    boolean isAtHome() throws PSException {
 //        return uqi
-//                .getData(GeoLocation.asLastKnown(), Purpose.FEATURE("know whether you are at home."))
-//                .output(LocationOperators.atHome(GeoLocation.COORDINATES));
+//                .getData(Geolocation.asLastKnown(), Purpose.FEATURE("know whether you are at home."))
+//                .output(GeolocationOperators.atHome(Geolocation.COORDINATES));
 //    }
 
     void callbackWhenReceivesMessage(String appName, Callback<String> messageCallback){
@@ -313,8 +313,8 @@ public class UseCases {
     // get the intent when enter an area, the callback will be invoked when the use enters or exits an area
 //    void callbackWhenEntersArea(double x, double y, double r, Callback<Boolean> enterAreaCallback) {
 //        uqi
-//                .getData(GeoLocation.asUpdates(LocationManager.GPS_PROVIDER, 10, 10), Purpose.FEATURE("know when you enter an area"))
-//                .setField("inArea", LocationOperators.inArea(GeoLocation.COORDINATES, x,y,r))
+//                .getData(Geolocation.asUpdates(LocationManager.GPS_PROVIDER, 10, 10), Purpose.FEATURE("know when you enter an area"))
+//                .setField("inArea", GeolocationOperators.inArea(Geolocation.COORDINATES, x,y,r))
 //                .onChange("inArea", enterAreaCallback);
 //    }
 
@@ -330,15 +330,15 @@ public class UseCases {
 //    // get location and blur 100 meters for advertisement
 //    void passLocationToAd() throws PSException {
 //        List<Double> coordinates = uqi
-//                .getData(GeoLocation.asLastKnown(), Purpose.ADS("targeted advertisement"))
-//                .output(LocationOperators.blur(GeoLocation.COORDINATES, 100));
+//                .getData(Geolocation.asLastKnown(), Purpose.ADS("targeted advertisement"))
+//                .output(GeolocationOperators.blur(Geolocation.COORDINATES, 100));
 //    }
 //
 //    // get postcode of asLastKnown location
 //    String getPostcode() throws PSException {
 //        return uqi
-//                .getData(GeoLocation.asLastKnown(), Purpose.FEATURE("get postcode for nearby search"))
-//                .output(LocationOperators.asPostcode(GeoLocation.COORDINATES));
+//                .getData(Geolocation.asLastKnown(), Purpose.FEATURE("get postcode for nearby search"))
+//                .output(GeolocationOperators.asPostcode(Geolocation.COORDINATES));
 //    }
 
     // knowing if a person is making more or less calls than normal
@@ -384,10 +384,10 @@ public class UseCases {
     // figure out place where person spends the most time (ie home)
 //    String getPlaceSpentMostTime() throws PSException {
 //        return uqi
-//                .getData(GeoLocation.asHistory(), Purpose.FEATURE("get the place you spent the most time"))
-//                .setField("geo_tag", LocationOperators.asGeotag(GeoLocation.COORDINATES))
+//                .getData(Geolocation.asHistory(), Purpose.FEATURE("get the place you spent the most time"))
+//                .setField("geo_tag", GeolocationOperators.asGeotag(Geolocation.COORDINATES))
 //                .localGroupBy("geo_tag")
-//                .setGroupField("time_spent", StatisticOperators.range(GeoLocation.TIMESTAMP))
+//                .setGroupField("time_spent", StatisticOperators.range(Geolocation.TIMESTAMP))
 //                .sortBy("time_spent")
 //                .reverse()
 //                .getFirst()

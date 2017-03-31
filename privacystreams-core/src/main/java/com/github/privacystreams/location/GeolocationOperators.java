@@ -7,10 +7,10 @@ import com.github.privacystreams.utils.annotations.PSOperatorWrapper;
 import java.util.List;
 
 /**
- * A helper class to access location-related operators
+ * A helper class to access geolocation-related operators
  */
 @PSOperatorWrapper
-public class LocationOperators {
+public class GeolocationOperators {
 
 //    /**
 //     * Check if the coordinates value of a field is a location at home.

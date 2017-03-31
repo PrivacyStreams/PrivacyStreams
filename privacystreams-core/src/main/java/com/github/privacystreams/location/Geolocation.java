@@ -12,10 +12,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * An GeoLocation item represents a geolocation value.
+ * An Geolocation item represents a geolocation value.
  */
 @PSItem
-public class GeoLocation extends Item {
+public class Geolocation extends Item {
     /**
      * The timestamp of the location.
      */
@@ -60,15 +60,33 @@ public class GeoLocation extends Item {
      */
     public static final String LEVEL = "level";
 
-    public static class Levels {
+    /**
+     * A set of location levels can be used in Geolocation APIs.
+     */
+    public static class Level {
+        /**
+         * Country level. This level's accuracy is about 100,000 meters.
+         */
         public static final String COUNTRY = "country";
+        /**
+         * City level. This level's accuracy is about 10,000 meters.
+         */
         public static final String CITY = "city";
-        public static final String NEIGHBOURHOOD = "neighbourhood";
+        /**
+         * Neighborhood level. This level's accuracy is about 1,000 meters.
+         */
+        public static final String NEIGHBORHOOD = "neighborhood";
+        /**
+         * Building level. This level's accuracy is about 100 meters.
+         */
         public static final String BUILDING = "building";
-        public static final String METER = "meter";
+        /**
+         * Exact level. This level's accuracy is about 10 meters.
+         */
+        public static final String EXACT = "exact";
     }
 
-    GeoLocation(Location location) {
+    Geolocation(Location location) {
         this.setFieldValue(TIMESTAMP, location.getTime());
         this.setFieldValue(PROVIDER, location.getProvider());
 //        List<Double> coordinates = new ArrayList<>();
@@ -88,7 +106,7 @@ public class GeoLocation extends Item {
     }
 
     /**
-     * Provide a GeoLocation item, which is the last known location.
+     * Provide a Geolocation item, which is the last known location.
      *
      * @return the stream provider
      */
@@ -97,7 +115,7 @@ public class GeoLocation extends Item {
     }
 
 //    /**
-//     * Provide a list of GeoLocation items, which are the location history of the device.
+//     * Provide a list of Geolocation items, which are the location history of the device.
 //     *
 //     * @return the stream provider
 //     */

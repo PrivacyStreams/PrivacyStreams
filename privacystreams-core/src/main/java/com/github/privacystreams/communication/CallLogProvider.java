@@ -21,14 +21,14 @@ class CallLogProvider extends MStreamProvider {
         String typeString = null;
         switch (type){
             case android.provider.CallLog.Calls.OUTGOING_TYPE:
-                typeString = CallLog.Types.OUTGOING;
+                typeString = CallLog.Type.OUTGOING;
                 break;
             case android.provider.CallLog.Calls.INCOMING_TYPE:
-                typeString = CallLog.Types.INCOMING;
+                typeString = CallLog.Type.INCOMING;
                 break;
 
             case android.provider.CallLog.Calls.MISSED_TYPE:
-                typeString = CallLog.Types.MISSED;
+                typeString = CallLog.Type.MISSED;
                 break;
         }
         return typeString;

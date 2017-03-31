@@ -25,7 +25,7 @@ class LastKnownLocationProvider extends SStreamProvider {
         this.level = Assertions.notNull("level", level);
 
         this.addParameters(level);
-        if (GeoLocation.Levels.METER.equals(level)) {
+        if (Geolocation.Level.EXACT.equals(level)) {
             this.addRequiredPermissions(Manifest.permission.ACCESS_FINE_LOCATION);
         }
         else {
@@ -51,7 +51,7 @@ class LastKnownLocationProvider extends SStreamProvider {
             networkLocation = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 
         Location location = betterLocation(gpsLocation, networkLocation);
-        if (location != null) this.output(new GeoLocation(location));
+        if (location != null) this.output(new Geolocation(location));
         this.finish();
     }
 

@@ -6,15 +6,12 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.github.privacystreams.core.UQI;
-import com.github.privacystreams.core.providers.MStreamProvider;
 import com.github.privacystreams.core.providers.SStreamProvider;
 import com.github.privacystreams.utils.Assertions;
 import com.github.privacystreams.utils.Logging;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
-import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 
 
@@ -33,7 +30,7 @@ class GoogleLastLocationProvider extends SStreamProvider implements
     protected GoogleLastLocationProvider(String level) {
         this.level = Assertions.notNull("level", level);
         this.addParameters(level);
-        if (GeoLocation.Levels.METER.equals(level)) {
+        if (Geolocation.Level.EXACT.equals(level)) {
             this.addRequiredPermissions(Manifest.permission.ACCESS_FINE_LOCATION);
         }
         else {
@@ -59,13 +56,13 @@ class GoogleLastLocationProvider extends SStreamProvider implements
     //to get the location change
     @Override
     public void onLocationChanged(Location location) {
-        this.output(new GeoLocation(location));
+        this.output(new Geolocation(location));
     }
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
         Location mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-        this.output(new GeoLocation(mLastLocation));
+        this.output(new Geolocation(mLastLocation));
         this.finish();
     }
 

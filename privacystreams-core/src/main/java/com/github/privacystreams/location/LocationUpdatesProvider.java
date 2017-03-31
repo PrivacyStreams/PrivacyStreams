@@ -66,8 +66,8 @@ final class LocationUpdatesProvider extends MStreamProvider {
         @Override
         public void onLocationChanged(Location location) {
             if (location == null) return;
-            GeoLocation geoLocation = new GeoLocation(location);
-            LocationUpdatesProvider.this.output(geoLocation);
+            Geolocation geolocation = new Geolocation(location);
+            LocationUpdatesProvider.this.output(geolocation);
             Log.e("add","location");
         }
 

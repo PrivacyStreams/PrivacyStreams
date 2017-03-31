@@ -1,13 +1,10 @@
 package com.github.privacystreams.location;
 
 import android.Manifest;
-import android.content.Context;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.annotation.RequiresPermission;
-import android.util.Log;
 
 import com.github.privacystreams.core.UQI;
 import com.github.privacystreams.core.providers.MStreamProvider;
@@ -38,7 +35,7 @@ class GoogleLocationProvider extends MStreamProvider implements
         this.level = Assertions.notNull("level", level);
 
         this.addParameters(interval, level);
-        if (GeoLocation.Levels.METER.equals(level)) {
+        if (Geolocation.Level.EXACT.equals(level)) {
             this.addRequiredPermissions(Manifest.permission.ACCESS_FINE_LOCATION);
         }
         else {
@@ -64,7 +61,7 @@ class GoogleLocationProvider extends MStreamProvider implements
     //to get the location change
     @Override
     public void onLocationChanged(Location location) {
-        this.output(new GeoLocation(location));
+        this.output(new Geolocation(location));
     }
 
     @Override
@@ -101,9 +98,9 @@ class GoogleLocationProvider extends MStreamProvider implements
         mLocationRequest.setInterval(interval);
         mLocationRequest.setFastestInterval(fastInterval);
 
-        if (GeoLocation.Levels.METER.equals(this.level))
+        if (Geolocation.Level.EXACT.equals(this.level))
             mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        else if (GeoLocation.Levels.BUILDING.equals(this.level))
+        else if (Geolocation.Level.BUILDING.equals(this.level))
             mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
         else
             mLocationRequest.setPriority(LocationRequest.PRIORITY_LOW_POWER);
