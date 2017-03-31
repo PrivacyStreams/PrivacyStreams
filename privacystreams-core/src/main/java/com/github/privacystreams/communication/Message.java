@@ -15,12 +15,6 @@ import com.github.privacystreams.utils.annotations.PSItemField;
 public class Message extends Item {
 
     /**
-     * The message type, could be "received"/"sent"/"draft"/"pending"/"unknown".
-     */
-    @PSItemField(type = String.class)
-    public static final String TYPE = "type";
-
-    /**
      * The message content.
      */
     @PSItemField(type = String.class)
@@ -47,15 +41,16 @@ public class Message extends Item {
     public static final String TIMESTAMP = "timestamp";
 
     /**
-     * Possible message types.
+     * The message type, could be "received"/"sent"/"draft"/"pending"/"unknown".
      */
-    public static class Types {
-        public static final String RECEIVED = "received";
-        public static final String SENT = "sent";
-        public static final String DRAFT = "draft";
-        public static final String PENDING = "pending";
-        public static final String UNKNOWN = "unknown";
-    };
+    @PSItemField(type = String.class)
+    public static final String TYPE = "type";
+
+    public static final String TYPE_RECEIVED = "received";
+    public static final String TYPE_SENT = "sent";
+    public static final String TYPE_DRAFT = "draft";
+    public static final String TYPE_PENDING = "pending";
+    public static final String TYPE_UNKNOWN = "unknown";
 
     Message(String type, String content, String packageName, String contact, long timestamp){
         this.setFieldValue(TYPE, type);

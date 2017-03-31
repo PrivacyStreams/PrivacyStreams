@@ -17,18 +17,18 @@ class CallLogProvider extends MStreamProvider {
         this.addRequiredPermissions(Manifest.permission.READ_CALL_LOG);
     }
 
-    String callLogTypeInString(int type){
+    private String callLogTypeInString(int type){
         String typeString = null;
         switch (type){
             case android.provider.CallLog.Calls.OUTGOING_TYPE:
-                typeString = CallLog.Type.OUTGOING;
+                typeString = CallLog.TYPE_OUTGOING;
                 break;
             case android.provider.CallLog.Calls.INCOMING_TYPE:
-                typeString = CallLog.Type.INCOMING;
+                typeString = CallLog.TYPE_INCOMING;
                 break;
 
             case android.provider.CallLog.Calls.MISSED_TYPE:
-                typeString = CallLog.Type.MISSED;
+                typeString = CallLog.TYPE_MISSED;
                 break;
         }
         return typeString;
@@ -70,8 +70,8 @@ class CallLogProvider extends MStreamProvider {
                 }
                 c.moveToNext();
             }
+            c.close();
         }
-        c.close();
 
     }
     @Override

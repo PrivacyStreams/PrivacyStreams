@@ -20,34 +20,32 @@ public class CallLog extends Item {
 
 
     /**
-     * The timestamp of when the phonecall is happened.
+     * The timestamp of when the phone call is happened.
      */
     @PSItemField(type = Long.class)
     public static final String TIMESTAMP = "timestamp";
 
     /**
-     * The contact (phone number or name) of the phonecall.
+     * The contact (phone number or name) of the phone call.
      */
     @PSItemField(type = String.class)
     public static final String CONTACT = "contact";
 
     /**
-     * The duration of the phonecall, in milliseconds.
+     * The duration of the phone call, in milliseconds.
      */
     @PSItemField(type = Long.class)
     public static final String DURATION = "duration";
 
     /**
-     * The phonecall type, could be "incoming", "outgoing" or "missed".
+     * The type of the phone call, could be "incoming", "outgoing" or "missed".
      */
     @PSItemField(type = String.class)
     public static final String TYPE = "type";
 
-    public static class Type {
-        public static final String INCOMING = "incoming";
-        public static final String OUTGOING = "outgoing";
-        public static final String MISSED = "missed";
-    };
+    public static final String TYPE_INCOMING = "incoming";
+    public static final String TYPE_OUTGOING = "outgoing";
+    public static final String TYPE_MISSED = "missed";
 
     CallLog(String id, Long timestamp, String phone_number, Long duration, String call_type) {
         this.setFieldValue(ID, id);

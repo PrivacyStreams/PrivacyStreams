@@ -24,6 +24,11 @@ public class DeviceEvent extends Item {
     @PSItemField(type = String.class)
     public static final String TYPE = "type";
 
+    public static final String TYPE_SCREEN = "screen";
+    public static final String TYPE_BOOT = "boot";
+    public static final String TYPE_BATTERY = "battery";
+    public static final String TYPE_RINGER = "ringer";
+
     /**
      * The event name. For screen events, could be on/off/user_present;
      * For boot events, could be boot_completed/shutdown;
@@ -31,43 +36,28 @@ public class DeviceEvent extends Item {
      * For ringer events, could be silent/vibrate/normal.
      */
     @PSItemField(type = String.class)
-    public static final String Event = "event";
+    public static final String EVENT = "event";
 
-    public static class Types {
-        public static final String SCREEN = "screen";
-        public static final String BOOT = "boot";
-        public static final String BATTERY = "battery";
-        public static final String RINGER = "ringer";
-    }
+    public static final String EVENT_SCREEN_OFF = "off";
+    public static final String EVENT_SCREEN_USER_PRESENT = "user_present";
+    public static final String EVENT_SCREEN_ON = "on";
 
-    public static class ScreenEvents {
-        public static final String OFF = "off";
-        public static final String USER_PRESENT = "user_present";
-        public static final String ON = "on";
-    }
+    public static final String EVENT_BOOT_COMPLETED = "boot_completed";
+    public static final String EVENT_BOOT_SHUTDOWN = "shutdown";
 
-    public static class BootEvents {
-        public static final String BOOT_COMPLETED = "boot_completed";
-        public static final String SHUTDOWN = "shutdown";
-    }
+    public static final String EVENT_BATTERY_LOW = "low";
+    public static final String EVENT_BATTERY_OKAY = "okay";
+    public static final String EVENT_BATTERY_AC_CONNECTED = "ac_connected";
+    public static final String EVENT_BATTERY_AC_DISCONNECTED = "ac_disconnected";
 
-    public static class BatteryEvents {
-        public static final String LOW = "low";
-        public static final String OKAY = "okay";
-        public static final String AC_CONNECTED = "ac_connected";
-        public static final String AC_DISCONNECTED = "ac_disconnected";
-    }
+    public static final String EVENT_RINGER_SILENT = "silent";
+    public static final String EVENT_RINGER_VIBRATE = "vibrate";
+    public static final String EVENT_RINGER_NORMAL = "normal";
 
-    public static class RingerEvents {
-        public static final String SILENT = "silent";
-        public static final String VIBRATE = "vibrate";
-        public static final String NORMAL = "normal";
-    }
-
-    DeviceEvent(long timestamp, String type, String state) {
+    DeviceEvent(long timestamp, String type, String event) {
         this.setFieldValue(TIMESTAMP, timestamp);
         this.setFieldValue(TYPE, type);
-        this.setFieldValue(Event, state);
+        this.setFieldValue(EVENT, event);
     }
 
     /**

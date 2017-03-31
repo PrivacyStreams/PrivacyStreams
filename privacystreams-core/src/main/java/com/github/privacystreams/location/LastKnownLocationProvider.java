@@ -25,7 +25,7 @@ class LastKnownLocationProvider extends SStreamProvider {
         this.level = Assertions.notNull("level", level);
 
         this.addParameters(level);
-        if (Geolocation.Level.EXACT.equals(level)) {
+        if (Geolocation.LEVEL_EXACT.equals(level)) {
             this.addRequiredPermissions(Manifest.permission.ACCESS_FINE_LOCATION);
         }
         else {

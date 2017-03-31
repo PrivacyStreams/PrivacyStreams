@@ -45,13 +45,13 @@ class SMSMessageListProvider extends MStreamProvider {
                 Integer type = c.getInt(c.getColumnIndex("type"));
                 String typeStr;
                 switch (type) {
-                    case 1: typeStr = Message.Types.RECEIVED; break;
-                    case 2: typeStr = Message.Types.SENT; break;
-                    case 3: typeStr = Message.Types.DRAFT; break;
+                    case 1: typeStr = Message.TYPE_RECEIVED; break;
+                    case 2: typeStr = Message.TYPE_SENT; break;
+                    case 3: typeStr = Message.TYPE_DRAFT; break;
                     case 4:
                     case 5:
-                    case 6: typeStr = Message.Types.PENDING; break;
-                    default: typeStr = Message.Types.UNKNOWN;
+                    case 6: typeStr = Message.TYPE_PENDING; break;
+                    default: typeStr = Message.TYPE_UNKNOWN;
                 }
                 String content = c.getString(c.getColumnIndex("body"));
                 Integer seen = c.getInt(c.getColumnIndex("seen"));

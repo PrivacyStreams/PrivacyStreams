@@ -13,7 +13,6 @@ import java.util.List;
 /**
  * A DeviceEvent item represents a snapshot of device state.
  */
-@RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
 @PSItem
 public class DeviceState extends Item {
     /**
@@ -44,7 +43,6 @@ public class DeviceState extends Item {
         public static final int BLUETOOTH_DEVICE_LIST = 0x1;
         public static final int WIFI_AP_LIST = 0x2;
         public static final int BATTERY_LEVEL = 0x4;
-        public static final int FOREGROUND_APPS = 0x8;
     }
 
     /**

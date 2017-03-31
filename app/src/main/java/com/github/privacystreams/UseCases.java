@@ -88,7 +88,7 @@ public class UseCases {
     }
 
     public void testLocation() {
-        uqi.getData(Geolocation.asUpdates(1000, Geolocation.Level.CITY), Purpose.TEST("test"))
+        uqi.getData(Geolocation.asUpdates(1000, Geolocation.LEVEL_CITY), Purpose.TEST("test"))
                 .setField("blurred_lat_lng", GeolocationOperators.blur(Geolocation.LAT_LNG, 1000))
                 .setField("blurred_distance", GeolocationOperators.distanceBetween(Geolocation.LAT_LNG, "blurred_lat_lng"))
                 .debug();
@@ -323,7 +323,7 @@ public class UseCases {
         uqi
                 .getData(Message.asIncomingSMS(), Purpose.FEATURE("Two-factor authentication"))
                 .filter(Comparators.eq(Message.CONTACT, serverPhoneNum))
-                .filter(Comparators.eq(Message.TYPE, Message.Types.RECEIVED))
+                .filter(Comparators.eq(Message.TYPE, Message.TYPE_RECEIVED))
                 .ifPresent(Message.CONTENT, messageCallback);
     }
 

@@ -60,31 +60,16 @@ public class Geolocation extends Item {
      */
     public static final String LEVEL = "level";
 
-    /**
-     * A set of location levels can be used in Geolocation APIs.
-     */
-    public static class Level {
-        /**
-         * Country level. This level's accuracy is about 100,000 meters.
-         */
-        public static final String COUNTRY = "country";
-        /**
-         * City level. This level's accuracy is about 10,000 meters.
-         */
-        public static final String CITY = "city";
-        /**
-         * Neighborhood level. This level's accuracy is about 1,000 meters.
-         */
-        public static final String NEIGHBORHOOD = "neighborhood";
-        /**
-         * Building level. This level's accuracy is about 100 meters.
-         */
-        public static final String BUILDING = "building";
-        /**
-         * Exact level. This level's accuracy is about 10 meters.
-         */
-        public static final String EXACT = "exact";
-    }
+    /* Country level. This level's accuracy is about 100,000 meters. */
+    public static final String LEVEL_COUNTRY = "country";
+    /* City level. This level's accuracy is about 10,000 meters. */
+    public static final String LEVEL_CITY = "city";
+    /* Neighborhood level. This level's accuracy is about 1,000 meters. */
+    public static final String LEVEL_NEIGHBORHOOD = "neighborhood";
+    /* Building level. This level's accuracy is about 100 meters. */
+    public static final String LEVEL_BUILDING = "building";
+    /* Exact level. This level's accuracy is about 10 meters. */
+    public static final String LEVEL_EXACT = "exact";
 
     Geolocation(Location location) {
         this.setFieldValue(TIMESTAMP, location.getTime());

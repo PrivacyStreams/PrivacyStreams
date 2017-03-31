@@ -23,66 +23,66 @@ class DeviceEventUpdatesProvider extends MStreamProvider {
 
             switch(intent.getAction()){
                 case Intent.ACTION_SCREEN_OFF:
-                    event = DeviceEvent.ScreenEvents.OFF;
-                    type = DeviceEvent.Types.SCREEN;
+                    event = DeviceEvent.EVENT_SCREEN_OFF;
+                    type = DeviceEvent.TYPE_SCREEN;
                     break;
 
                 case Intent.ACTION_SCREEN_ON:
-                    event = DeviceEvent.ScreenEvents.ON;
-                    type = DeviceEvent.Types.SCREEN;
+                    event = DeviceEvent.EVENT_SCREEN_ON;
+                    type = DeviceEvent.TYPE_SCREEN;
                     break;
 
                 case Intent.ACTION_USER_PRESENT:
-                    event = DeviceEvent.ScreenEvents.USER_PRESENT;
-                    type = DeviceEvent.Types.SCREEN;
+                    event = DeviceEvent.EVENT_SCREEN_USER_PRESENT;
+                    type = DeviceEvent.TYPE_SCREEN;
                     break;
 
                 case Intent.ACTION_BOOT_COMPLETED:
-                    event = DeviceEvent.BootEvents.BOOT_COMPLETED;
-                    type = DeviceEvent.Types.BOOT;
+                    event = DeviceEvent.EVENT_BOOT_COMPLETED;
+                    type = DeviceEvent.TYPE_BOOT;
                     break;
 
                 case Intent.ACTION_SHUTDOWN:
-                    event = DeviceEvent.BootEvents.SHUTDOWN;
-                    type = DeviceEvent.Types.BOOT;
+                    event = DeviceEvent.EVENT_BOOT_SHUTDOWN;
+                    type = DeviceEvent.TYPE_BOOT;
                     break;
 
                 case Intent.ACTION_BATTERY_LOW:
-                    event = DeviceEvent.BatteryEvents.LOW;
-                    type = DeviceEvent.Types.BATTERY;
+                    event = DeviceEvent.EVENT_BATTERY_LOW;
+                    type = DeviceEvent.TYPE_BATTERY;
                     break;
 
                 case Intent.ACTION_BATTERY_OKAY:
-                    event = DeviceEvent.BatteryEvents.OKAY;
-                    type = DeviceEvent.Types.BATTERY;
+                    event = DeviceEvent.EVENT_BATTERY_OKAY;
+                    type = DeviceEvent.TYPE_BATTERY;
                     break;
 
                 case Intent.ACTION_POWER_CONNECTED:
-                    event = DeviceEvent.BatteryEvents.AC_CONNECTED;
-                    type = DeviceEvent.Types.BATTERY;
+                    event = DeviceEvent.EVENT_BATTERY_AC_CONNECTED;
+                    type = DeviceEvent.TYPE_BATTERY;
                     break;
 
                 case Intent.ACTION_POWER_DISCONNECTED:
-                    event = DeviceEvent.BatteryEvents.AC_DISCONNECTED;
-                    type = DeviceEvent.Types.BATTERY;
+                    event = DeviceEvent.EVENT_BATTERY_AC_DISCONNECTED;
+                    type = DeviceEvent.TYPE_BATTERY;
                     break;
 
                 case AudioManager.RINGER_MODE_CHANGED_ACTION:
                     AudioManager am = (AudioManager)getContext().getSystemService(Context.AUDIO_SERVICE);
                     switch (am.getRingerMode()) {
                         case AudioManager.RINGER_MODE_SILENT:
-                            event = DeviceEvent.RingerEvents.SILENT;
-                            type = DeviceEvent.Types.RINGER;
+                            event = DeviceEvent.EVENT_RINGER_SILENT;
+                            type = DeviceEvent.TYPE_RINGER;
                             break;
 
                         case AudioManager.RINGER_MODE_VIBRATE:
-                            event = DeviceEvent.RingerEvents.VIBRATE;
-                            type = DeviceEvent.Types.RINGER;
+                            event = DeviceEvent.EVENT_RINGER_VIBRATE;
+                            type = DeviceEvent.TYPE_RINGER;
                             break;
 
                         case AudioManager.RINGER_MODE_NORMAL:
-                            event = DeviceEvent.RingerEvents.NORMAL;
-                            type = DeviceEvent.Types.RINGER;
+                            event = DeviceEvent.EVENT_RINGER_NORMAL;
+                            type = DeviceEvent.TYPE_RINGER;
                             break;
                     }
                 default:

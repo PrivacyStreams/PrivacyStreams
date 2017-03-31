@@ -61,7 +61,7 @@ class SMSIncomingMessageProvider extends MStreamProvider {
                         String address = CommunicationUtils.normalizePhoneNumber(sms.getDisplayOriginatingAddress());
                         String body = sms.getDisplayMessageBody();
 
-                        Message message = new Message(Message.Types.RECEIVED, body, "system", address, System.currentTimeMillis());
+                        Message message = new Message(Message.TYPE_RECEIVED, body, "system", address, System.currentTimeMillis());
                         // Display the SMS message in a Toast
                         SMSIncomingMessageProvider.this.output(message);
                     }

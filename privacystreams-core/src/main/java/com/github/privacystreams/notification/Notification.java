@@ -23,7 +23,10 @@ public class Notification extends Item {
     @PSItemField(type = String.class)
     public static final String ACTION = "action";
 
+    /* Notification removed action. */
     public static final String ACTION_REMOVED = "removed";
+
+    /* Notification posted action. */
     public static final String ACTION_POSTED = "posted";
 
     /**
@@ -38,7 +41,6 @@ public class Notification extends Item {
      */
     @PSItemField(type = String.class)
     public static final String PACKAGE_NAME = "package_name";
-
 
     /**
      * The title of the notification.

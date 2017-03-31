@@ -55,7 +55,7 @@ public class ImageData {
         return imageData;
     }
 
-    public String getFilepath() {
+    private String getFilepath() {
         if (this.filePath != null) return this.filePath;
 
         if (this.type == TYPE_LOCAL_FILE || this.type == TYPE_TEMP_FILE)
@@ -64,7 +64,7 @@ public class ImageData {
         return this.filePath;
     }
 
-    public ExifInterface getExif() {
+    ExifInterface getExif() {
         if (this.exifInterface != null) return this.exifInterface;
 
         String filePath = this.getFilepath();
@@ -78,7 +78,7 @@ public class ImageData {
         return this.exifInterface;
     }
 
-    public LatLng getLatLng() {
+    LatLng getLatLng() {
         if (this.latLng != null) return this.latLng;
 
         ExifInterface exifInterface = this.getExif();
@@ -91,7 +91,7 @@ public class ImageData {
         return this.latLng;
     }
 
-    public Bitmap getBitmap() {
+    Bitmap getBitmap() {
         if (this.bitmap != null) return this.bitmap;
 
         String filePath = this.getFilepath();
@@ -102,7 +102,7 @@ public class ImageData {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
-    public ImageData getBlurred(Context context) {
+    ImageData getBlurred(Context context) {
         if (this.blurredImageData != null) return this.blurredImageData;
 
         Bitmap bitmap = this.getBitmap();

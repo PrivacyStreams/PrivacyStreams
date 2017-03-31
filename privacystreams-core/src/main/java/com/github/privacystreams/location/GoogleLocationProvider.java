@@ -35,7 +35,7 @@ class GoogleLocationProvider extends MStreamProvider implements
         this.level = Assertions.notNull("level", level);
 
         this.addParameters(interval, level);
-        if (Geolocation.Level.EXACT.equals(level)) {
+        if (Geolocation.LEVEL_EXACT.equals(level)) {
             this.addRequiredPermissions(Manifest.permission.ACCESS_FINE_LOCATION);
         }
         else {
@@ -98,9 +98,9 @@ class GoogleLocationProvider extends MStreamProvider implements
         mLocationRequest.setInterval(interval);
         mLocationRequest.setFastestInterval(fastInterval);
 
-        if (Geolocation.Level.EXACT.equals(this.level))
+        if (Geolocation.LEVEL_EXACT.equals(this.level))
             mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        else if (Geolocation.Level.BUILDING.equals(this.level))
+        else if (Geolocation.LEVEL_BUILDING.equals(this.level))
             mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
         else
             mLocationRequest.setPriority(LocationRequest.PRIORITY_LOW_POWER);

@@ -37,7 +37,7 @@ class IMUpdatesProvider extends MStreamProvider {
         totalNumberOfMessages += 1;
         AccessibilityNodeInfo nodeInfo = nodeInfoList.get(nodeInfoList.size() - 1);
         String messageContent = nodeInfoList.get(nodeInfoList.size() - 1).getText().toString();
-        String messageType = AccessibilityUtils.isIncomingMessage(nodeInfo,packageName) ? Message.Types.RECEIVED : Message.Types.SENT;
+        String messageType = AccessibilityUtils.isIncomingMessage(nodeInfo,packageName) ? Message.TYPE_RECEIVED : Message.TYPE_SENT;
         this.output(new Message(messageType,messageContent,packageName,contactName,System.currentTimeMillis()));
     }
 

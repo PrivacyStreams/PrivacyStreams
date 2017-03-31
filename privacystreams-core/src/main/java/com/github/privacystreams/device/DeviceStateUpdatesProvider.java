@@ -13,7 +13,6 @@ import java.util.List;
 /**
  * Provide a live stream of device states.
  */
-@RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
 class DeviceStateUpdatesProvider extends MStreamProvider {
     private long frequency;
     private int mask;
