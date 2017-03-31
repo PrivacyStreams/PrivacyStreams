@@ -22,12 +22,19 @@ public class GeoLocation extends Item {
     @PSItemField(type = Long.class)
     public static final String TIMESTAMP = "timestamp";
 
+//    /**
+//     * The coordinates of the location.
+//     * The value is a list of double numbers, including latitude, longitude, and (optional) altitude.
+//     */
+//    @PSItemField(type = List.class)
+//    public static final String COORDINATES = "coordinates";
+
     /**
      * The coordinates of the location.
-     * The value is a list of double numbers, including latitude, longitude, and (optional) altitude.
+     * The value is a LatLng instance.
      */
-    @PSItemField(type = List.class)
-    public static final String COORDINATES = "coordinates";
+    @PSItemField(type = LatLng.class)
+    public static final String LAT_LNG = "lat_lng";
 
     /**
      * The speed at the location, in meters/second.
@@ -47,22 +54,37 @@ public class GeoLocation extends Item {
     @PSItemField(type = Float.class)
     public static final String ACCURACY = "accuracy";
 
+    /**
+     * The level of the location data,
+     * could be "country"/"city"/"neighbourhood"/"building"/"meter".
+     */
+    public static final String LEVEL = "level";
+
+    public static class Levels {
+        public static final String COUNTRY = "country";
+        public static final String CITY = "city";
+        public static final String NEIGHBOURHOOD = "neighbourhood";
+        public static final String BUILDING = "building";
+        public static final String METER = "meter";
+    }
 
     GeoLocation(Location location) {
         this.setFieldValue(TIMESTAMP, location.getTime());
         this.setFieldValue(PROVIDER, location.getProvider());
-        List<Double> coordinates = new ArrayList<>();
-        coordinates.add(location.getLatitude());
-        coordinates.add(location.getLongitude());
-        coordinates.add(location.getAltitude());
-        this.setFieldValue(COORDINATES, coordinates);
+//        List<Double> coordinates = new ArrayList<>();
+//        coordinates.add(location.getLatitude());
+//        coordinates.add(location.getLongitude());
+//        coordinates.add(location.getAltitude());
+//        this.setFieldValue(COORDINATES, coordinates);
+        LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+        this.setFieldValue(LAT_LNG, latLng);
         this.setFieldValue(ACCURACY, location.getAccuracy());
         this.setFieldValue(SPEED,location.getSpeed());
     }
 
 
-    public static MStreamProvider asUpdates(long interval, long fastInterval, int priority) {
-        return new GoogleLocationProvider( interval, fastInterval, priority);
+    public static MStreamProvider asUpdates(long interval, String level) {
+        return new GoogleLocationProvider(interval, level);
     }
 
     /**
@@ -70,8 +92,8 @@ public class GeoLocation extends Item {
      *
      * @return the stream provider
      */
-    public static SStreamProvider asLastKnown() {
-        return null;
+    public static SStreamProvider asLastKnown(String level) {
+        return new GoogleLastLocationProvider(level);
     }
 
 //    /**

@@ -6,12 +6,12 @@ package com.github.privacystreams.location;
 
 class LocationPostcodeFunction extends LocationProcessor<String> {
 
-    LocationPostcodeFunction(String coordinatesField) {
-        super(coordinatesField);
+    LocationPostcodeFunction(String latLngField) {
+        super(latLngField);
     }
 
     @Override
-    protected String processLocation(double latitude, double longitude) {
+    protected String processLocation(LatLng latLng) {
         // TODO get the postcode based on latitude and longitude
         return null;
     }

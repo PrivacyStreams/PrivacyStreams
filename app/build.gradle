@@ -34,5 +34,6 @@ dependencies {
 
     compile project(':privacystreams-core')
     compile 'com.dropbox.core:dropbox-core-sdk:2.1.1'
+    compile 'com.google.android.gms:play-services-location:10.2.1'
     //compile 'com.android.support:multidex:1.0.0'
 }

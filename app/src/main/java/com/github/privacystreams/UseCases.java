@@ -75,7 +75,7 @@ public class UseCases {
 
     public void testImage() {
         uqi.getData(Image.readFromStorage(), Purpose.TEST("test"))
-                .setField("latLng", ImageOperators.getLatLng(Image.IMAGE_DATA))
+                .setField("lat_lng", ImageOperators.getLatLng(Image.IMAGE_DATA))
                 .debug();
     }
 
@@ -85,6 +85,13 @@ public class UseCases {
 
     public void testAudio() {
         uqi.getData(Audio.recordPeriodic(4*1000, 5*1000), Purpose.TEST("test")).debug();
+    }
+
+    public void testLocation() {
+        uqi.getData(GeoLocation.asUpdates(1000, GeoLocation.Levels.CITY), Purpose.TEST("test"))
+                .setField("blurred_lat_lng", LocationOperators.blur(GeoLocation.LAT_LNG, 100))
+                .setField("blurred_distance", LocationOperators.distanceBetween(GeoLocation.LAT_LNG, "blurred_lat_lng"))
+                .debug();
     }
 
     public void testSMS() {
@@ -283,12 +290,12 @@ public class UseCases {
         uqi.getData(DeviceEvent.asUpdates(), Purpose.FEATURE("device states")).debug();
     }
 
-    // get whether at home
-    boolean isAtHome() throws PrivacyStreamsException {
-        return uqi
-                .getData(GeoLocation.asLastKnown(), Purpose.FEATURE("know whether you are at home."))
-                .output(LocationOperators.atHome(GeoLocation.COORDINATES));
-    }
+//    // get whether at home
+//    boolean isAtHome() throws PrivacyStreamsException {
+//        return uqi
+//                .getData(GeoLocation.asLastKnown(), Purpose.FEATURE("know whether you are at home."))
+//                .output(LocationOperators.atHome(GeoLocation.COORDINATES));
+//    }
 
     void callbackWhenReceivesMessage(String appName, Callback<String> messageCallback){
         uqi
@@ -312,19 +319,19 @@ public class UseCases {
                 .ifPresent(Message.CONTENT, messageCallback);
     }
 
-    // get location and blur 100 meters for advertisement
-    void passLocationToAd() throws PrivacyStreamsException {
-        List<Double> coordinates = uqi
-                .getData(GeoLocation.asLastKnown(), Purpose.ADS("targeted advertisement"))
-                .output(LocationOperators.blur(GeoLocation.COORDINATES, 100));
-    }
-
-    // get postcode of asLastKnown location
-    String getPostcode() throws PrivacyStreamsException {
-        return uqi
-                .getData(GeoLocation.asLastKnown(), Purpose.FEATURE("get postcode for nearby search"))
-                .output(LocationOperators.asPostcode(GeoLocation.COORDINATES));
-    }
+//    // get location and blur 100 meters for advertisement
+//    void passLocationToAd() throws PrivacyStreamsException {
+//        List<Double> coordinates = uqi
+//                .getData(GeoLocation.asLastKnown(), Purpose.ADS("targeted advertisement"))
+//                .output(LocationOperators.blur(GeoLocation.COORDINATES, 100));
+//    }
+//
+//    // get postcode of asLastKnown location
+//    String getPostcode() throws PrivacyStreamsException {
+//        return uqi
+//                .getData(GeoLocation.asLastKnown(), Purpose.FEATURE("get postcode for nearby search"))
+//                .output(LocationOperators.asPostcode(GeoLocation.COORDINATES));
+//    }
 
     // knowing if a person is making more or less calls than normal
     boolean isMakingMoreCallsThanNormal() throws PrivacyStreamsException {
@@ -400,7 +407,6 @@ public class UseCases {
                 .setField("hashed_phone_number", StringOperators.sha1(Message.CONTACT))
                 .asList("hashed_phone_number");
     }
-
 
     // only get location data when accelerometer motion is above a threshold
     // TODO need stream fusion

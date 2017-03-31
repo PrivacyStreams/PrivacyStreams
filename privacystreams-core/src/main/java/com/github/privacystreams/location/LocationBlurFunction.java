@@ -1,5 +1,7 @@
 package com.github.privacystreams.location;
 
+import com.github.privacystreams.utils.LocationUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,23 +9,17 @@ import java.util.List;
  * Created by yuanchun on 29/12/2016.
  * A function that computes the blurred coordinates
  */
-class LocationBlurFunction extends LocationProcessor<List<Double>> {
+class LocationBlurFunction extends LocationProcessor<LatLng> {
     private final double blurMeters;
 
-    LocationBlurFunction(String coordinatesField, double blurMeters) {
-        super(coordinatesField);
+    LocationBlurFunction(String latLngField, double blurMeters) {
+        super(latLngField);
         this.blurMeters = blurMeters;
         this.addParameters(blurMeters);
     }
 
     @Override
-    protected List<Double> processLocation(double latitude, double longitude) {
-        List<Double> blurred_coordinates = new ArrayList<>();
-        // TODO blur the latitude and longitude and return the blurred coordinates
-        double blurred_latitude = latitude;
-        double blurred_longitude = longitude;
-        blurred_coordinates.add(blurred_latitude);
-        blurred_coordinates.add(blurred_longitude);
-        return blurred_coordinates;
+    protected LatLng processLocation(LatLng latLng) {
+        return LocationUtils.blurLatLng(latLng, this.blurMeters);
     }
 }

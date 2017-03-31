@@ -10,9 +10,9 @@ class LocationInAreaPredicate extends LocationProcessor<Boolean> {
     private final double center_longitude;
     private final double radius;
 
-    LocationInAreaPredicate(String coordinatesField, double center_latitude, double center_longitude,
+    LocationInAreaPredicate(String latLngField, double center_latitude, double center_longitude,
                             double radius) {
-        super(coordinatesField);
+        super(latLngField);
         this.center_latitude = center_latitude;
         this.center_longitude = center_longitude;
         this.radius = radius;
@@ -20,7 +20,9 @@ class LocationInAreaPredicate extends LocationProcessor<Boolean> {
     }
 
     @Override
-    protected Boolean processLocation(double latitude, double longitude) {
+    protected Boolean processLocation(LatLng latLng) {
+        double latitude = latLng.getLatitude();
+        double longitude = latLng.getLongitude();
         double latitude_delta = latitude - this.center_latitude;
         double longitude_delta = longitude - this.center_longitude;
         double distance = Math.sqrt(latitude_delta*latitude_delta + longitude_delta*longitude_delta);

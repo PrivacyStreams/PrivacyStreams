@@ -15,8 +15,7 @@ import com.github.privacystreams.core.providers.MStreamProvider;
 import org.apache.commons.lang3.StringUtils;
 
 /**
- * Created by yuanchun on 21/11/2016.
- * location asUpdates
+ * Provide location updates with Android standard APIs.
  */
 
 final class LocationUpdatesProvider extends MStreamProvider {

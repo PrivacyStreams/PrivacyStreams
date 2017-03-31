@@ -6,21 +6,31 @@ import android.location.Location;
 import android.location.LocationManager;
 
 import com.github.privacystreams.core.providers.SStreamProvider;
+import com.github.privacystreams.utils.Assertions;
 import com.github.privacystreams.utils.permission.PermissionUtils;
 import com.github.privacystreams.utils.time.Duration;
 
 
 /**
- * Created by yuanchun on 21/11/2016.
- * location asUpdates
+ * Provide a last known location.
  */
 
 class LastKnownLocationProvider extends SStreamProvider {
 
-    LastKnownLocationProvider() {
-        // TODO add a parameter in order to only require one of COARSE_LOCATION and FINE_LOCATION
-        this.addRequiredPermissions(Manifest.permission.ACCESS_COARSE_LOCATION,
-                Manifest.permission.ACCESS_FINE_LOCATION);
+    private static final String LOG_TAG = "[LastKnownLocationProvider]";
+
+    private final String level;
+
+    LastKnownLocationProvider(String level) {
+        this.level = Assertions.notNull("level", level);
+
+        this.addParameters(level);
+        if (GeoLocation.Levels.METER.equals(level)) {
+            this.addRequiredPermissions(Manifest.permission.ACCESS_FINE_LOCATION);
+        }
+        else {
+            this.addRequiredPermissions(Manifest.permission.ACCESS_COARSE_LOCATION);
+        }
     }
 
     @Override
