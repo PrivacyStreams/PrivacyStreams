@@ -10,7 +10,6 @@ import java.util.Random;
 
 public class LocationUtils {
     public static LatLng blurLatLng(LatLng latLng, double blurMeters) {
-        // TODO need test
         double latitude = latLng.getLatitude();
         double longitude = latLng.getLongitude();
         Random random = new Random();

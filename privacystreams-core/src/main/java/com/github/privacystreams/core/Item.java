@@ -116,7 +116,6 @@ public class Item {
     }
 
     public boolean equals(Item anotherItem) {
-        // TODO: need testing
         return this.toMap().equals(anotherItem.toMap());
     }
 
