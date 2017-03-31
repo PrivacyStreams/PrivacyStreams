@@ -3,8 +3,7 @@ package com.github.privacystreams.commons.string;
 import org.apache.commons.lang3.StringUtils;
 
 /**
- * Created by yuanchun on 30/12/2016.
- * A function that calculates the substring of a string field in the item
+ * Get the substring of the string specified by a field in the item.
  */
 final class SubStringFunction extends StringProcessor<String> {
 

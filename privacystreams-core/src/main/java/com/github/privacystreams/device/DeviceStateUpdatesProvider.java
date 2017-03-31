@@ -11,7 +11,7 @@ import com.github.privacystreams.core.purposes.Purpose;
 import java.util.List;
 
 /**
- * Created by fanglinchen on 3/17/17.
+ * Provide a live stream of device states.
  */
 @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
 class DeviceStateUpdatesProvider extends MStreamProvider {

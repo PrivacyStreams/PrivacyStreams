@@ -10,7 +10,7 @@ import java.util.List;
 
 
 /**
- * Created by fanglinchen on 2/23/17.
+ * A list of Accessibility-related utilities.
  */
 
 public class AccessibilityUtils {

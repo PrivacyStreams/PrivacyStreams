@@ -5,7 +5,6 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
 /**
- * Created by yuanchun on 19/02/2017.
  * Test cases for CompoundFunction class
  */
 public class CompoundFunctionTest {

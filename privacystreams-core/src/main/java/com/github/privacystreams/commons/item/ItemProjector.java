@@ -7,9 +7,8 @@ import com.github.privacystreams.core.UQI;
 import static com.github.privacystreams.utils.Assertions.notNull;
 
 /**
- * Created by yuanchun on 28/12/2016.
  * Project the fields in an item.
- * either include some fields or exclude some fields.
+ * Either include some fields or exclude some fields.
  */
 class ItemProjector extends ItemFunction<Item> {
     final static String OPERATOR_INCLUDE = "$include_fields";

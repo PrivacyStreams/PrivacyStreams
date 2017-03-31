@@ -1,7 +1,7 @@
 package com.github.privacystreams.utils;
 
 /**
- * Created by fanglinchen on 2/23/17.
+ * A list of App-related utility functions.
  */
 
 public class AppUtils {

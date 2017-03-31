@@ -3,8 +3,8 @@ package com.github.privacystreams.core;
 import com.github.privacystreams.utils.Assertions;
 
 /**
- * Created by yuanchun on 19/12/2016.
- * A compound function combines two functions, by taking function1's output as function2's input
+ * Compound two functions, by taking function1's output as function2's input.
+ * The compounded function has the same input type as function1 and the same output type as function2.
  */
 
 final class CompoundFunction<Tin, Ttemp, Tout> extends Function<Tin, Tout> {

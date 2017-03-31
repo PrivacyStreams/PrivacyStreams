@@ -6,7 +6,6 @@ import android.support.annotation.RequiresApi;
 import com.github.privacystreams.core.UQI;
 
 /**
- * Created by yuanchun on 28/12/2016.
  * Blur an image and return the blurred image data.
  */
 @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)

@@ -6,8 +6,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Created by yuanchun on 22/12/2016.
- * A function that shuffles the items in stream.
+ * Shuffle the items in stream.
  */
 final class StreamShuffler extends StreamReorder {
     StreamShuffler() {

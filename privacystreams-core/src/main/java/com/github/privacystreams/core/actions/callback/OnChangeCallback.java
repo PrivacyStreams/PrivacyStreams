@@ -6,7 +6,6 @@ import com.github.privacystreams.core.actions.MStreamAction;
 import com.github.privacystreams.utils.Assertions;
 
 /**
- * Created by yuanchun on 28/12/2016.
  * Callback with an item if the item is different from the former one.
  */
 

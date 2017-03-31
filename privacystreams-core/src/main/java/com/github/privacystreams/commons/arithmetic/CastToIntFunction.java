@@ -1,8 +1,7 @@
 package com.github.privacystreams.commons.arithmetic;
 
 /**
- * Created by yuanchun on 05/02/2017.
- * Round a number field.
+ * Round the number specified by a field.
  */
 class CastToIntFunction extends ArithmeticFunction<Integer> {
 

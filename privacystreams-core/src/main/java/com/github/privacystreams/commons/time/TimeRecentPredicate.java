@@ -3,8 +3,7 @@ package com.github.privacystreams.commons.time;
 import com.github.privacystreams.utils.time.TimeUtils;
 
 /**
- * Created by yuanchun on 28/11/2016.
- * a predicate that return true if a timestamp value is recent from now
+ * Check whether the timestamp specified by a field is recent from now.
  */
 final class TimeRecentPredicate extends TimeProcessor<Boolean> {
 

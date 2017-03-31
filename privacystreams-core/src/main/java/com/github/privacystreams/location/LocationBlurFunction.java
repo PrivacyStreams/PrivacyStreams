@@ -6,8 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by yuanchun on 29/12/2016.
- * A function that computes the blurred coordinates
+ * Compute the blurred coordinates.
  */
 class LocationBlurFunction extends LocationProcessor<LatLng> {
     private final double blurMeters;

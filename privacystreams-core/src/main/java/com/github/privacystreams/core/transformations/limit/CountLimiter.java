@@ -4,8 +4,7 @@ import com.github.privacystreams.core.Item;
 import com.github.privacystreams.utils.Logging;
 
 /**
- * Created by yuanchun on 28/11/2016.
- * limit the count of items in the stream
+ * Limit the count of items in the stream.
  */
 final class CountLimiter extends StreamLimiter {
     private final int maxCount;

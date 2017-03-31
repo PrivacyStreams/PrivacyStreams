@@ -1,8 +1,7 @@
 package com.github.privacystreams.commons.arithmetic;
 
 /**
- * A function that subtract two numbers.
- * Created by yuanchun on 07/03/2017.
+ * Subtract two numbers.
  */
 
 class SubtractFunction extends Arithmetic2OpFunction<Number> {

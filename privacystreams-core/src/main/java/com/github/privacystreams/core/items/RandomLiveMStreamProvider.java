@@ -3,8 +3,7 @@ package com.github.privacystreams.core.items;
 import com.github.privacystreams.core.providers.MStreamProvider;
 
 /**
- * Created by yuanchun on 18/02/2017.
- * A Provider that provides continuous random TestItem updates
+ * Provide continuous random TestItem updates.
  */
 class RandomLiveMStreamProvider extends MStreamProvider {
     private final int maxInt;

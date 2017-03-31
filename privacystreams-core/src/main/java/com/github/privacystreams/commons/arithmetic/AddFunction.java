@@ -1,8 +1,7 @@
 package com.github.privacystreams.commons.arithmetic;
 
 /**
- * A function that adds two numbers
- * Created by yuanchun on 07/03/2017.
+ * Add two numbers
  */
 
 class AddFunction extends Arithmetic2OpFunction<Number> {

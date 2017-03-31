@@ -6,8 +6,7 @@ import com.github.privacystreams.core.UQI;
 import com.github.privacystreams.utils.Assertions;
 
 /**
- * Created by yuanchun on 28/12/2016.
- * A function that compute AND result of two functions.
+ * Compute AND result of two boolean functions.
  */
 class AndFunction extends LogicFunction {
 

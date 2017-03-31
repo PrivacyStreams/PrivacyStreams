@@ -18,7 +18,9 @@ import java.util.List;
 
 
 /**
- * Created by fanglinchen on 1/31/17.
+ * Provide a live stream of messages in IM (instant messaging) apps.
+ * Including WhatsApp, Facebook Messenger, etc.
+ * The messages are accessed with Android Accessibility APIs.
  */
 @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
 class IMUpdatesProvider extends MStreamProvider {

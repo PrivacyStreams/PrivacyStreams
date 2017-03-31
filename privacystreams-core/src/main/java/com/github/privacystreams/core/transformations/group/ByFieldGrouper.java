@@ -9,9 +9,8 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * Created by yuanchun on 22/12/2016.
- * Group the items with same field value together
- * This grouper will change the order of items
+ * Group the items with same field value together.
+ * This grouper will change the order of items.
  */
 final class ByFieldGrouper extends StreamGrouper {
     private final String groupField;

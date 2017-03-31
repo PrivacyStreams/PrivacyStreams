@@ -8,9 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by yuanchun on 22/12/2016.
- * Group the contiguous items with same field value
- * This grouper does not change the order of items
+ * Group the contiguous items with same field value.
+ * This grouper does not change the order of items.
  */
 
 final class ByFieldLocalGrouper extends StreamGrouper {

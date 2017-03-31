@@ -4,8 +4,7 @@ import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.transformations.M2MTransformation;
 
 /**
- * Created by yuanchun on 28/11/2016.
- * a StreamLimiter limit the length of MStream
+ * Limit the length of the stream.
  */
 abstract class StreamLimiter extends M2MTransformation {
 

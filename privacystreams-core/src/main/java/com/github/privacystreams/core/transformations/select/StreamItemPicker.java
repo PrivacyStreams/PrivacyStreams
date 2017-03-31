@@ -5,9 +5,8 @@ import com.github.privacystreams.core.transformations.M2STransformation;
 
 
 /**
- * Created by yuanchun on 14/11/2016.
- * pick an item from the stream
- * return null if fails to find an item
+ * Pick an item from the stream.
+ * Return null if it fails to find an item.
  */
 
 class StreamItemPicker extends M2STransformation {

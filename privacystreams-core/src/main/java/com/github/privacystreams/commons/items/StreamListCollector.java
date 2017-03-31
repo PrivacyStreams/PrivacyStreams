@@ -7,9 +7,8 @@ import com.github.privacystreams.core.UQI;
 import java.util.List;
 
 /**
- * Created by yuanchun on 28/12/2016.
- * Collect a stream to a list
- * Each item in the list is a key-value map.
+ * Collect the stream to a list.
+ * Each item in the list is an instance of Item.
  */
 
 class StreamListCollector extends ItemsFunction<List<Item>> {

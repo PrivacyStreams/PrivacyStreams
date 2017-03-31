@@ -8,8 +8,7 @@ import com.github.privacystreams.core.UQI;
 import static com.github.privacystreams.utils.Assertions.notNull;
 
 /**
- * Created by yuanchun on 27/12/2016.
- * Set a value to a field in the item
+ * Set a value to a field in the item.
  */
 
 class FieldSetter<TValue> extends ItemFunction<Item> {

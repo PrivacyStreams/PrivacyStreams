@@ -3,8 +3,7 @@ package com.github.privacystreams.commons.comparison;
 import com.github.privacystreams.utils.Assertions;
 
 /**
- * Created by yuanchun on 28/11/2016.
- * a predicate that makes numeric comparisons on field values
+ * Make numeric comparisons on field values
  */
 final class FieldComparePredicate extends ItemFieldPredicate<Number> {
     final static String OPERATOR_GT = "$field_gt";

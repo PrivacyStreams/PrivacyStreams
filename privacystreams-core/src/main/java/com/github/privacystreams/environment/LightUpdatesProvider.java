@@ -11,7 +11,7 @@ import com.github.privacystreams.core.providers.MStreamProvider;
 import static android.content.Context.SENSOR_SERVICE;
 
 /**
- * Created by fanglinchen on 3/5/17.
+ * Provide a live stream of light sensor updates.
  */
 class LightUpdatesProvider extends MStreamProvider {
 

@@ -4,8 +4,7 @@ import com.github.privacystreams.core.providers.SStreamProvider;
 
 
 /**
- * Created by yuanchun on 21/11/2016.
- * a dummy data source
+ * Provide a TestItem based on a give TestObject.
  */
 
 class MockSStreamProvider extends SStreamProvider {

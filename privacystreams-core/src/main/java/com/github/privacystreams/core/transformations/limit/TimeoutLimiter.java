@@ -4,8 +4,7 @@ import com.github.privacystreams.core.Item;
 import com.github.privacystreams.utils.Logging;
 
 /**
- * Created by yuanchun on 28/11/2016.
- * limit the time of the function
+ * Limit the time of the function execution.
  */
 final class TimeoutLimiter extends StreamLimiter {
     private final long timeoutMillis;

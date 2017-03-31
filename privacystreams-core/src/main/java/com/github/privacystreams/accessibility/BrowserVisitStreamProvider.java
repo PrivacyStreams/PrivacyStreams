@@ -17,7 +17,7 @@ import com.github.privacystreams.utils.AppUtils;
 import java.util.List;
 
 /**
- * Created by fanglinchen on 2/2/17.
+ * Provide a live stream of browser visit events.
  */
 
 @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)

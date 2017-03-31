@@ -6,8 +6,7 @@ import com.github.privacystreams.core.UQI;
 import com.github.privacystreams.utils.Assertions;
 
 /**
- * Created by yuanchun on 28/12/2016.
- * Process the location field in an item.
+ * Process the timestamp specified by a field in an item.
  */
 abstract class TimeProcessor<Tout> extends ItemFunction<Tout> {
 

@@ -6,7 +6,6 @@ import com.github.privacystreams.core.actions.MStreamAction;
 import com.github.privacystreams.utils.Assertions;
 
 /**
- * Created by yuanchun on 28/12/2016.
  * Callback with a field value of an item
  * if the field value is different from the field value of the former item.
  */

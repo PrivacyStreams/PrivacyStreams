@@ -6,8 +6,7 @@ import com.github.privacystreams.utils.Assertions;
 import java.util.List;
 
 /**
- * Created by yuanchun on 23/12/2016.
- * A function that calculate the average of a field in the stream.
+ * Calculate the average of a field in the stream.
  * If calculation fails (e.g. there is no item in the stream), the "average" result will be null
  */
 final class FieldAverageStatistic extends StreamStatistic<Double> {

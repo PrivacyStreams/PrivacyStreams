@@ -8,7 +8,6 @@ import com.github.privacystreams.utils.Assertions;
 import java.util.List;
 
 /**
- * Created by yuanchun on 28/12/2016.
  * Process the list field in an item.
  */
 abstract class ListProcessor<Tout> extends ItemFunction<Tout> {

@@ -3,8 +3,7 @@ package com.github.privacystreams.commons.arithmetic;
 import com.github.privacystreams.utils.Assertions;
 
 /**
- * Created by yuanchun on 05/02/2017.
- * Round a number field.
+ * Round the number specified by a field.
  */
 class RoundDownFunction extends ArithmeticFunction<Double> {
 

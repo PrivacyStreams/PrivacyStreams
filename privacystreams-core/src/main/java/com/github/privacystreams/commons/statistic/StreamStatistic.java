@@ -7,8 +7,7 @@ import com.github.privacystreams.core.UQI;
 import java.util.List;
 
 /**
- * Created by yuanchun on 28/11/2016.
- * A StreamStatistic calculate a value (usually for statistics) based on the stream items
+ * Calculate a value (usually for statistics) based on the stream items.
  */
 abstract class StreamStatistic<Tout> extends Function<List<Item>, Tout> {
     @Override

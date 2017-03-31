@@ -5,8 +5,7 @@ import com.github.privacystreams.utils.Assertions;
 import org.apache.commons.lang3.StringUtils;
 
 /**
- * Created by yuanchun on 30/12/2016.
- * A function that replace a substring in a string field with a new string
+ * Replace a substring with a new string in the string specified by a field.
  */
 final class StringReplaceFunction extends StringProcessor<String> {
 

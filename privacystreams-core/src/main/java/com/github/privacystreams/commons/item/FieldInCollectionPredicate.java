@@ -8,8 +8,7 @@ import com.github.privacystreams.utils.Assertions;
 import java.util.List;
 
 /**
- * Created by yuanchun on 28/11/2016.
- * a predicate that returns true if a field value is in a given collection
+ * Check whether the value of a field is in a given collection.
  */
 final class FieldInCollectionPredicate<TValue> extends ItemFunction<Boolean> {
 

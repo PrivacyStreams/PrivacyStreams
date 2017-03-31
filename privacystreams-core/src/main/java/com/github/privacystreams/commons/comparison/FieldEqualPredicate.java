@@ -3,8 +3,7 @@ package com.github.privacystreams.commons.comparison;
 import org.apache.commons.lang3.ObjectUtils;
 
 /**
- * Created by yuanchun on 28/11/2016.
- * a predicate that makes equality-related comparisons on field values
+ * Make equality-related comparisons on field values.
  */
 final class FieldEqualPredicate<TValue> extends ItemFieldPredicate<TValue> {
     final static String OPERATOR_EQ = "$field_eq";

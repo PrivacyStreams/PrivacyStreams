@@ -7,8 +7,7 @@ import java.util.List;
 
 
 /**
- * Created by yuanchun on 21/11/2016.
- * a dummy data source
+ * Provide a live stream of TestItems based on a given list.
  */
 
 class MockLiveMStreamProvider extends MStreamProvider {

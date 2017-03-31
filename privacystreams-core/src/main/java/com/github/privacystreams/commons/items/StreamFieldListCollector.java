@@ -10,7 +10,6 @@ import java.util.List;
 import static com.github.privacystreams.utils.Assertions.notNull;
 
 /**
- * Created by yuanchun on 28/12/2016.
  * Select a field of each item in a stream and output to a list
  * Each item in the list is the field value in type TValue.
  */

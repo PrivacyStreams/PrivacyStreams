@@ -6,9 +6,8 @@ import com.github.privacystreams.utils.Assertions;
 import java.util.List;
 
 /**
- * Created by yuanchun on 23/12/2016.
- * A function that calculate the range of a field in the stream.
- * The field must be a Number.
+ * Calculate the range of a field in the stream.
+ * The field value must be in Number type.
  * If calculation fails (e.g. there is no item in the stream), the "range" result will be null
  */
 final class FieldRangeStatistic extends StreamStatistic<Double> {

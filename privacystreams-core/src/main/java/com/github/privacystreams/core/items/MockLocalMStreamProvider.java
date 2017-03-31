@@ -6,8 +6,7 @@ import java.util.List;
 
 
 /**
- * Created by yuanchun on 21/11/2016.
- * a dummy data source
+ * Provide a bunch of local TestItems based on a list of TestObjects.
  */
 
 class MockLocalMStreamProvider extends MStreamProvider {

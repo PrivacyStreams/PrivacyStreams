@@ -7,8 +7,7 @@ import com.github.privacystreams.core.transformations.S2STransformation;
 import static com.github.privacystreams.utils.Assertions.notNull;
 
 /**
- * Created by yuanchun on 27/12/2016.
- * Map an item by changing the fields in an item.
+ * Map the item with a mapper function.
  */
 final class ItemMapper extends S2STransformation {
     private final Function<Item, Item> itemMapper;

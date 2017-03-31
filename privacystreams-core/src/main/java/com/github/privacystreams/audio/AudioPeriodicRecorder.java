@@ -5,8 +5,7 @@ import android.Manifest;
 import com.github.privacystreams.core.providers.MStreamProvider;
 
 /**
- * Created by yuanchun on 28/12/2016.
- * record audio periodically with microphone
+ * Record audio periodically with the microphone.
  */
 
 class AudioPeriodicRecorder extends MStreamProvider {

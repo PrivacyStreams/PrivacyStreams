@@ -12,10 +12,10 @@ import java.util.Calendar;
 import static android.Manifest.permission.READ_CONTACTS;
 
 /**
- * Created by fanglinchen on 3/18/17.
+ * Provide existing calendar events.
  */
 
-public class CalendarEventListProvider extends MStreamProvider {
+class CalendarEventListProvider extends MStreamProvider {
 
     public static boolean isUpcomingToday(long timestamp){
         Calendar eventCalendar = Calendar.getInstance();

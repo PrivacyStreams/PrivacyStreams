@@ -7,8 +7,7 @@ import com.github.privacystreams.core.transformations.M2MTransformation;
 import static com.github.privacystreams.utils.Assertions.notNull;
 
 /**
- * Created by yuanchun on 28/11/2016.
- * A function that maps a stream to a stream.
+ * Transform a stream to another stream by mapping each item in the stream with a item mapper function.
  */
 final class PerItemMapper extends M2MTransformation {
 

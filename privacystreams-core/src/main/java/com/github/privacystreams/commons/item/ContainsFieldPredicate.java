@@ -6,8 +6,7 @@ import com.github.privacystreams.core.UQI;
 import com.github.privacystreams.utils.Assertions;
 
 /**
- * Created by yuanchun on 28/12/2016.
- * A predicate that returns true if the item contains a certain field
+ * Check if the item contains a certain field
  */
 
 class ContainsFieldPredicate extends ItemFunction<Boolean> {

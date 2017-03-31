@@ -6,9 +6,8 @@ import com.github.privacystreams.utils.Assertions;
 import java.util.List;
 
 /**
- * Created by yuanchun on 23/12/2016.
- * A function that calculate the sum of a field in the stream.
- * The field must be a Number.
+ * Calculate the sum of a field in the stream.
+ * The field field must be in Number type.
  * If there is no valid field value in the stream, the "sum" result will be 0.0
  */
 final class FieldSumStatistic extends StreamStatistic<Double> {

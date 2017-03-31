@@ -1,8 +1,7 @@
 package com.github.privacystreams.commons.time;
 
 /**
- * Created by yuanchun on 28/11/2016.
- * a predicate that return true if a timestamp value is since a given timestamp
+ * Check whether the timestamp specified by a field is since a given timestamp.
  */
 final class TimeSincePredicate extends TimeProcessor<Boolean> {
     private final long timestampToCompare;

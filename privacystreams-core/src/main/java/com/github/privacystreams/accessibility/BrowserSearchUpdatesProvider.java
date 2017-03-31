@@ -8,7 +8,7 @@ import com.github.privacystreams.core.purposes.Purpose;
 import com.github.privacystreams.utils.AppUtils;
 
 /**
- * Created by fanglinchen on 3/5/17.
+ * Provide a live stream of browser search events.
  */
 
 class BrowserSearchUpdatesProvider extends MStreamProvider {

@@ -5,7 +5,6 @@ import com.github.privacystreams.core.providers.MStreamProvider;
 import java.util.List;
 
 /**
- * Created by yuanchun on 18/02/2017.
  * A Provider that provides continuous random TestItem updates
  */
 class RandomLocalMStreamProvider extends MStreamProvider {

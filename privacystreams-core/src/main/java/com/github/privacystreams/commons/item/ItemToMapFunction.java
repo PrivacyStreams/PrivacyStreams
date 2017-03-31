@@ -7,8 +7,7 @@ import com.github.privacystreams.core.UQI;
 import java.util.Map;
 
 /**
- * Created by yuanchun on 27/12/2016.
- * A function that gets the item map of an item
+ * Get the item map of an item.
  */
 
 class ItemToMapFunction extends ItemFunction<Map<String, Object>> {

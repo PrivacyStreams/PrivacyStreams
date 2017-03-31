@@ -6,7 +6,6 @@ import com.github.privacystreams.core.actions.MStreamAction;
 import com.github.privacystreams.utils.Assertions;
 
 /**
- * Created by yuanchun on 28/12/2016.
  * Callback with the field value for each item in the stream.
  * The callback will be invoked with the field value.
  */

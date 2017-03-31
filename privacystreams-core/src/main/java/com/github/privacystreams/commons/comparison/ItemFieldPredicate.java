@@ -7,8 +7,7 @@ import com.github.privacystreams.core.UQI;
 import static com.github.privacystreams.utils.Assertions.notNull;
 
 /**
- * Created by yuanchun on 28/11/2016.
- * a predicate that makes comparisons on field values
+ * Make comparisons on field values.
  */
 abstract class ItemFieldPredicate<TValue> extends ItemFunction<Boolean> {
     protected final String operator;

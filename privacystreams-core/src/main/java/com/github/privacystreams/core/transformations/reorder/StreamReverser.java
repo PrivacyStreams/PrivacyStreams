@@ -6,8 +6,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Created by yuanchun on 22/12/2016.
- * Shuffle the items in the stream
+ * Reverse the order of items in the stream.
  */
 class StreamReverser extends StreamReorder {
     @Override

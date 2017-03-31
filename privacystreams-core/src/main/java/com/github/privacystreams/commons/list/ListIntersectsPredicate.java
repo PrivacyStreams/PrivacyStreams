@@ -6,8 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Created by yuanchun on 28/11/2016.
- * a predicate that makes list-related comparisons on field values
+ * Make list-related comparisons on field values.
  */
 final class ListIntersectsPredicate extends ListProcessor<Boolean> {
 

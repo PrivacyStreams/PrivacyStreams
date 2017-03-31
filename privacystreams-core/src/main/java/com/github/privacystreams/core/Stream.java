@@ -17,7 +17,6 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 
 /**
- * Created by yuanchun on 28/11/2016.
  * Stream is one of the essential classes used in PrivacyStreams.
  * Most personal data access/process operation in PrivacyStreams use Stream as the intermediate.
  *

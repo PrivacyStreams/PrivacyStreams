@@ -1,8 +1,7 @@
 package com.github.privacystreams.commons.arithmetic;
 
 /**
- * A function that modes two numbers.
- * Created by yuanchun on 07/03/2017.
+ * Mode two numbers.
  */
 
 class ModeFunction extends Arithmetic2OpFunction<Number> {

@@ -19,7 +19,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 /**
- * Created by yuanchun on 18/02/2017.
  * Test cases for UQI class
  */
 @RunWith(AndroidJUnit4.class)

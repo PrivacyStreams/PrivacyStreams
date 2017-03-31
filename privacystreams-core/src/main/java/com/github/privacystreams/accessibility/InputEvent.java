@@ -1,7 +1,7 @@
 package com.github.privacystreams.accessibility;
 
 /**
- * Created by fanglinchen on 2/3/17.
+ * An input event.
  */
 
 public class InputEvent {

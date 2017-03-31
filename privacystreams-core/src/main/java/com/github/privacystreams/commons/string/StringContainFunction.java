@@ -5,8 +5,7 @@ import com.github.privacystreams.utils.Assertions;
 import org.apache.commons.lang3.StringUtils;
 
 /**
- * Created by yuanchun on 30/12/2016.
- * A function that checks whether a string field in the item contains a certain substring
+ * Check whether the string specified by a field contains a certain substring.
  */
 final class StringContainFunction extends StringProcessor<Boolean> {
 

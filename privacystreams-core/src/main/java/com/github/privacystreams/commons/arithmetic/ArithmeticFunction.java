@@ -6,7 +6,6 @@ import com.github.privacystreams.core.UQI;
 import com.github.privacystreams.utils.Assertions;
 
 /**
- * Created by yuanchun on 28/12/2016.
  * Process the number field in an item.
  */
 abstract class ArithmeticFunction<Tout> extends ItemFunction<Tout> {

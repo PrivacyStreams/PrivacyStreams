@@ -1,8 +1,7 @@
 package com.github.privacystreams.location;
 
 /**
- * Created by yuanchun on 29/12/2016.
- * A predicate that checks whether a location is at home.
+ * Check whether a location is at home.
  */
 
 class LocationInAreaPredicate extends LocationProcessor<Boolean> {

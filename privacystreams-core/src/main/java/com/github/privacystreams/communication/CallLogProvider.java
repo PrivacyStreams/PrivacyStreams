@@ -8,8 +8,7 @@ import com.github.privacystreams.utils.CommunicationUtils;
 
 
 /**
- * Created by yuanchun on 21/11/2016.
- * a stream of call logs
+ * Provide a stream of local call logs.
  */
 
 class CallLogProvider extends MStreamProvider {

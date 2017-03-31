@@ -11,8 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by yuanchun on 29/12/2016.
- * A function that output the sub stream field in an item
+ * Output the sub stream field in an item with a function.
  */
 
 class ItemSubStreamFunction<Tout> extends ItemFunction<Tout> {

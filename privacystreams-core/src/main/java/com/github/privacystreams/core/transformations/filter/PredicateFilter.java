@@ -7,8 +7,7 @@ import com.google.gson.annotations.Expose;
 import static com.github.privacystreams.utils.Assertions.notNull;
 
 /**
- * Created by yuanchun on 28/11/2016.
- * Keep the items satisfying a predicate
+ * Keep the items that satisfy a predicate.
  */
 final class PredicateFilter extends StreamFilter {
     @Expose

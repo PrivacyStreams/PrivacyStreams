@@ -5,8 +5,7 @@ import com.github.privacystreams.utils.Assertions;
 import java.util.List;
 
 /**
- * Created by yuanchun on 28/11/2016.
- * a predicate that makes list-related comparisons on field values
+ * Make list-related comparisons on field values.
  */
 final class ListContainsPredicate extends ListProcessor<Boolean> {
 

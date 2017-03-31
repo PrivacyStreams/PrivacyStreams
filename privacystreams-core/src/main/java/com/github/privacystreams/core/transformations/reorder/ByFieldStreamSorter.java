@@ -8,8 +8,7 @@ import java.util.Comparator;
 import java.util.List;
 
 /**
- * Created by yuanchun on 22/12/2016.
- * A function that sorts the items in stream by the value of a field.
+ * Sort the items in stream by the values of a field.
  */
 class ByFieldStreamSorter extends StreamReorder {
     private final String fieldToSort;

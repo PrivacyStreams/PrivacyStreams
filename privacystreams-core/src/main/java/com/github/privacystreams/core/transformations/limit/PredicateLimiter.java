@@ -6,8 +6,7 @@ import com.github.privacystreams.core.Item;
 import static com.github.privacystreams.utils.Assertions.notNull;
 
 /**
- * Created by yuanchun on 28/11/2016.
- * limit the items with a predicate, stop the stream once the predicate fails
+ * Limit the items with a predicate, stop the stream once the predicate fails.
  */
 final class PredicateLimiter extends StreamLimiter {
     private final Function<Item, Boolean> predicate;
