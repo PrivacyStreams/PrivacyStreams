@@ -74,8 +74,7 @@ public class MStream extends Stream {
      * @param mStreamAction the function used to output stream
      */
     public void output(MStreamAction mStreamAction) {
-        this.getUQI().setQuery(this.getStreamProvider().compound(mStreamAction));
-        this.getUQI().evaluate(true);
+        this.getUQI().evaluate(this.getStreamProvider().compound(mStreamAction), true);
     }
 
     // *****************************

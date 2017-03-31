@@ -94,7 +94,7 @@ class GoogleLocationProvider extends MStreamProvider implements
     }
 
 
-    public void startLocationUpdate() {
+    private void startLocationUpdate() {
         long fastInterval = interval / 2;
 
         LocationRequest mLocationRequest = new LocationRequest();
@@ -111,8 +111,9 @@ class GoogleLocationProvider extends MStreamProvider implements
         LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
     }
 
-    public void stopLocationUpdate() {
-        LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
+    private void stopLocationUpdate() {
+        if (mGoogleApiClient != null)
+            LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
         this.finish();
     }
 }

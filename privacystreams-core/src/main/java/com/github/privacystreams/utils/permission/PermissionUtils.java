@@ -5,7 +5,9 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.support.v4.content.ContextCompat;
+import android.util.Pair;
 
+import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.UQI;
 
 import java.util.HashMap;
@@ -62,11 +64,12 @@ public class PermissionUtils {
      * try request permission and evaluate UQI
      * @param uqi UQI instance
      */
-    public static void requestPermissionAndEvaluate(UQI uqi) {
+    public static void requestPermissionAndEvaluate(UQI uqi, Function<Void, Void> query) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             // For Android version M and above, there is chance to request permissions at runtime
-            int requestCode = uqi.hashCode();
-            pendingUQIs.put(requestCode, uqi);
+            Pair<UQI, Function<Void, Void>> uqiQuery = new Pair<>(uqi, query);
+            int requestCode = uqiQuery.hashCode();
+            pendingUQIQueries.put(requestCode, uqiQuery);
             Intent permissionRequest = new Intent(uqi.getContext(), PermissionActivity.class);
             permissionRequest.putExtra(PermissionActivity.REQUEST_CODE, requestCode);
             permissionRequest.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -74,9 +77,9 @@ public class PermissionUtils {
         }
         else {
             // For Android M-, we cannot request permissions at runtime
-            uqi.evaluate(false);
+            uqi.evaluate(query, false);
         }
     }
-    static Map<Integer, UQI> pendingUQIs = new HashMap<>();
+    static Map<Integer, Pair<UQI, Function<Void, Void>>> pendingUQIQueries = new HashMap<>();
 
 }

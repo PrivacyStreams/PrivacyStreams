@@ -89,9 +89,17 @@ public class UseCases {
 
     public void testLocation() {
         uqi.getData(GeoLocation.asUpdates(1000, GeoLocation.Levels.CITY), Purpose.TEST("test"))
-                .setField("blurred_lat_lng", LocationOperators.blur(GeoLocation.LAT_LNG, 100))
+                .setField("blurred_lat_lng", LocationOperators.blur(GeoLocation.LAT_LNG, 1000))
                 .setField("blurred_distance", LocationOperators.distanceBetween(GeoLocation.LAT_LNG, "blurred_lat_lng"))
                 .debug();
+
+        try {
+            Thread.sleep(10000);
+            uqi.stopAll();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
     }
 
     public void testSMS() {

@@ -65,8 +65,7 @@ public class SStream extends Stream {
      * @param sStreamAction the function used to output the current item
      */
     public void output(SStreamAction sStreamAction) {
-        this.getUQI().setQuery(this.streamProvider.compound(sStreamAction));
-        this.getUQI().evaluate(true);
+        this.getUQI().evaluate(this.streamProvider.compound(sStreamAction), true);
     }
 
     /**

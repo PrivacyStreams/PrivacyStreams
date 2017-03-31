@@ -11,6 +11,9 @@ import com.github.privacystreams.utils.permission.PermissionUtils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 
@@ -22,16 +25,12 @@ import java.util.Set;
  */
 
 public class UQI {
-    private Purpose purpose;
-    public Purpose getPurpose() {
-        return this.purpose;
-    }
+    private Map<Function<Void, ?>, Purpose> provider2Purpose;
+    private Set<Function<Void, Void>> queries;
 
-    private Function<Void, Void> query;
-    public Function<Void, Void> getQuery() {
-        return this.query;
+    private Purpose getPurposeOfQuery(Function<Void, Void> query) {
+        return this.provider2Purpose.get(query.getHead());
     }
-    void setQuery(Function<Void, Void> query) { this.query = query; }
 
     private transient Context context;
     public Context getContext() {
@@ -52,19 +51,8 @@ public class UQI {
     public UQI(Context context) {
         this.context = context;
         this.gson = new GsonBuilder().setPrettyPrinting().create();
-        this.purpose = null;
-        this.query = null;
-    }
-
-    private UQI(Context context, Purpose purpose) {
-        this(context);
-        this.purpose = purpose;
-    }
-
-    private UQI getUQIWithPurpose(Purpose newPurpose) {
-        if (this.purpose == null) this.purpose = newPurpose;
-        if (this.purpose == newPurpose) return this;
-        return new UQI(this.context, newPurpose);
+        this.provider2Purpose = new HashMap<>();
+        this.queries = new HashSet<>();
     }
 
     /**
@@ -75,8 +63,8 @@ public class UQI {
      * @return a multi-item stream
      */
     public MStream getData(MStreamProvider mStreamProvider, Purpose purpose) {
-        UQI uqi = this.getUQIWithPurpose(purpose);
-        return new MStream(uqi, mStreamProvider);
+        this.provider2Purpose.put(mStreamProvider, purpose);
+        return new MStream(this, mStreamProvider);
     }
 
     /**
@@ -87,36 +75,51 @@ public class UQI {
      * @return a single-item stream
      */
     public SStream getData(SStreamProvider sStreamProvider, Purpose purpose) {
-        UQI uqi = this.getUQIWithPurpose(purpose);
-        return new SStream(uqi, sStreamProvider);
+        this.provider2Purpose.put(sStreamProvider, purpose);
+        return new SStream(this, sStreamProvider);
+    }
+
+    /**
+     * Stop all query in this UQI.
+     */
+    public void stopAll() {
+        Logging.debug("Trying to stop all PrivacyStreams Queries.");
+
+        this.exception = PSException.INTERRUPTED("Stopped by app.");
+        for (Function<Void, Void> query : queries) {
+            query.cancel(this);
+        }
     }
 
     /**
      * Evaluate current UQI.
      *
+     * @param query the query to evaluate.
      * @param retry whether to try again if the permission is denied.
      */
-    public void evaluate(boolean retry) {
+    public void evaluate(Function<Void, Void> query, boolean retry) {
         Logging.debug("Trying to evaluate PrivacyStreams Query.");
-        Logging.debug("Purpose: " + this.purpose);
-        Logging.debug("Query: " + this.query);
-        Logging.debug("Required Permissions: " + this.query.getRequiredPermissions());
+        Logging.debug("Purpose: " + this.getPurposeOfQuery(query));
+        Logging.debug("Query: " + query);
+        Logging.debug("Required Permissions: " + query.getRequiredPermissions());
 
-        if (PermissionUtils.checkPermissions(this.context, this.query.getRequiredPermissions())) {
+        this.queries.add(query);
+
+        if (PermissionUtils.checkPermissions(this.context, query.getRequiredPermissions())) {
             Logging.debug("Evaluating...");
-            this.query.apply(this, null);
+            query.apply(this, null);
         }
         else if (retry) {
             // If retry is true, try to request permissions
             Logging.debug("Permission denied, retrying...");
-            PermissionUtils.requestPermissionAndEvaluate(this);
+            PermissionUtils.requestPermissionAndEvaluate(this, query);
         }
         else {
             // If retry is false, cancel all functions.
             Logging.debug("Permission denied, cancelling...");
-            Set<String> deniedPermissions = PermissionUtils.getDeniedPermissions(this.context, this.query.getRequiredPermissions());
+            Set<String> deniedPermissions = PermissionUtils.getDeniedPermissions(this.context, query.getRequiredPermissions());
             this.exception = PSException.PERMISSION_DENIED(deniedPermissions.toArray(new String[]{}));
-            this.query.cancel(this);
+            query.cancel(this);
 //            this.context = null; // remove context
         }
     }
