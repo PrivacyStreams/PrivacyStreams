@@ -46,13 +46,10 @@ class ImageStorageProvider extends MStreamProvider {
         );
 
         if (c!=null && c.moveToFirst()) {
-            String dateTaken;
-            String fileName;
-
             do {
                 // Get the field values
-                dateTaken = c.getString(c.getColumnIndex(MediaStore.Images.Media.DATE_TAKEN));
-                fileName = c.getString(c.getColumnIndex(MediaStore.Images.Media.DATA));
+                Long dateTaken = c.getLong(c.getColumnIndex(MediaStore.Images.Media.DATE_TAKEN));
+                String fileName = c.getString(c.getColumnIndex(MediaStore.Images.Media.DATA));
                 ImageData imageData = ImageData.newLocalImage(new File(fileName));
                 Image image = new Image(dateTaken, imageData);
                 this.output(image);

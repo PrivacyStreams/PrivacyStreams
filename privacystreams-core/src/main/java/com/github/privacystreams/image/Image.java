@@ -24,7 +24,7 @@ public class Image extends Item {
     @PSItemField(type = ImageData.class)
     public static final String IMAGE_DATA = "image_data";
 
-    Image(String timestamp, ImageData imageData) {
+    Image(Long timestamp, ImageData imageData) {
         this.setFieldValue(TIMESTAMP, timestamp);
         this.setFieldValue(IMAGE_DATA, imageData);
     }
@@ -39,11 +39,11 @@ public class Image extends Item {
 //    }
 
     /**
-     * Provide a list of Image items that are read from file system.
+     * Provide a stream of all Image items in local file system.
      *
      * @return the provider function.
      */
-    public static MStreamProvider readFromStorage() {
+    public static MStreamProvider getFromStorage() {
         return new ImageStorageProvider();
     }
 

@@ -1,7 +1,6 @@
 package com.github.privacystreams.audio;
 
 import java.io.File;
-import java.net.URI;
 import java.util.List;
 import java.util.Locale;
 
@@ -10,12 +9,12 @@ import java.util.Locale;
  */
 
 public class AudioData {
-    private int type;
+    private final int type;
     private static final int TYPE_TEMP_RECORD = 0;
     private static final int TYPE_LOCAL_FILE = 1;
     private static final int TYPE_REMOTE_FILE = 1;
 
-    private File tempRecordFile;
+    private File audioFile;
     private List<Integer> amplitudeSamples;
     private double averageAmplitude;
     private double rmsAmplitude;
@@ -23,11 +22,22 @@ public class AudioData {
 
     private final static double AMPLITUDE_BASE = 1.0;
 
-    AudioData(File tempRecordFile, List<Integer> amplitudeSamples) {
-        this.type = TYPE_TEMP_RECORD;
-        this.tempRecordFile = tempRecordFile;
-        this.amplitudeSamples = amplitudeSamples;
-        if (amplitudeSamples != null) this.processAmplitudes();
+    private AudioData(int type) {
+        this.type = type;
+    }
+
+    static AudioData newTempRecord(File tempRecordFile, List<Integer> amplitudeSamples) {
+        AudioData audioData = new AudioData(TYPE_TEMP_RECORD);
+        audioData.audioFile = tempRecordFile;
+        audioData.amplitudeSamples = amplitudeSamples;
+        if (amplitudeSamples != null) audioData.processAmplitudes();
+        return audioData;
+    }
+
+    static AudioData newLocalAudio(File localAudioFile) {
+        AudioData audioData = new AudioData(TYPE_LOCAL_FILE);
+        audioData.audioFile = localAudioFile;
+        return audioData;
     }
 
     private void processAmplitudes() {
@@ -58,15 +68,19 @@ public class AudioData {
     protected void finalize() throws Throwable {
         super.finalize();
         if (this.type == TYPE_TEMP_RECORD) {
-            this.tempRecordFile.delete();
+            this.audioFile.deleteOnExit();
         }
     }
 
     public String toString() {
-        String fileName = this.tempRecordFile.getName();
-        String audioTag = fileName.substring(0, fileName.lastIndexOf('.'));
-
-        return String.format(Locale.getDefault(), "<AudioData@%s(RMS:%.1fdB)(PEAK:%.1fdB)>",
-                audioTag, this.getLoudness(), this.getPeakLoudness());
+        if (this.type == TYPE_TEMP_RECORD) {
+            return String.format(Locale.getDefault(), "<Audio@temp%d>", this.hashCode());
+        }
+        else if (this.type == TYPE_LOCAL_FILE) {
+            return String.format(Locale.getDefault(), "<Audio@local%d>", this.hashCode());
+        }
+        else {
+            return String.format(Locale.getDefault(), "<Audio@%d>", this.hashCode());
+        }
     }
 }

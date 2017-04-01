@@ -25,13 +25,15 @@ public class Notification extends Item {
 
     /* Notification removed action. */
     public static final String ACTION_REMOVED = "removed";
-
     /* Notification posted action. */
     public static final String ACTION_POSTED = "posted";
 
     /**
      * The category of the notification.
-     * It could be game, app, etc.
+     * One of the predefined notification categories
+     * (see the `CATEGORY_*` constants in `android.app.Notification` class.)
+     * that best describes this Notification.
+     * Such as "sys", "social", etc.
      */
     @PSItemField(type = String.class)
     public static final String CATEGORY = "category";
@@ -46,13 +48,13 @@ public class Notification extends Item {
      * The title of the notification.
      */
     @PSItemField(type = String.class)
-    public static final String NOTIFICATION_TITLE = "notification_title";
+    public static final String TITLE = "title";
 
     /**
      * The text of the notification.
      */
     @PSItemField(type = String.class)
-    public static final String NOTIFICATION_TEXT = "notification_text";
+    public static final String TEXT = "text";
 
 
     public Notification(String category,
@@ -61,11 +63,10 @@ public class Notification extends Item {
                         String notificationText,
                         String action) {
         this.setFieldValue(TIMESTAMP, System.currentTimeMillis());
-
         this.setFieldValue(CATEGORY, category);
         this.setFieldValue(PACKAGE_NAME, packageName);
-        this.setFieldValue(NOTIFICATION_TITLE, notificationTitle);
-        this.setFieldValue(NOTIFICATION_TEXT, notificationText);
+        this.setFieldValue(TITLE, notificationTitle);
+        this.setFieldValue(TEXT, notificationText);
         this.setFieldValue(ACTION,action);
     }
 

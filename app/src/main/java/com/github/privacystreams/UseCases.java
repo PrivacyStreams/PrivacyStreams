@@ -74,7 +74,7 @@ public class UseCases {
     }
 
     public void testImage() {
-        uqi.getData(Image.readFromStorage(), Purpose.TEST("test"))
+        uqi.getData(Image.getFromStorage(), Purpose.TEST("test"))
                 .setField("lat_lng", ImageOperators.getLatLng(Image.IMAGE_DATA))
                 .debug();
     }
@@ -84,7 +84,7 @@ public class UseCases {
 //    }
 
     public void testAudio() {
-        uqi.getData(Audio.recordPeriodic(4*1000, 5*1000), Purpose.TEST("test")).debug();
+        uqi.getData(Audio.getFromStorage(), Purpose.TEST("test")).debug();
     }
 
     public void testLocation() {
@@ -359,7 +359,7 @@ public class UseCases {
     // getting all the photo metadata (but not photos)
     List<Map<String, String>> getAllPhotoMetadata() throws PSException {
         return uqi
-                .getData(Image.readFromStorage(), Purpose.FEATURE("get metadata of the photos in storage"))
+                .getData(Image.getFromStorage(), Purpose.FEATURE("get metadata of the photos in storage"))
                 .setField("metadata", ImageOperators.getExif(Image.IMAGE_DATA))
                 .asList("metadata");
     }

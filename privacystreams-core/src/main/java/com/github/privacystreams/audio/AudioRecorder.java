@@ -69,7 +69,7 @@ class AudioRecorder extends SStreamProvider {
             recorder.reset();   // You can reuse the object by going back to setAudioSource() step
             recorder.release(); // Now the object cannot be reused
 
-            AudioData audioData = new AudioData(tempAudioFile, amplitudes);
+            AudioData audioData = AudioData.newTempRecord(tempAudioFile, amplitudes);
 
             return new Audio(startTime, audioData);
         } catch (InterruptedException | IOException e) {

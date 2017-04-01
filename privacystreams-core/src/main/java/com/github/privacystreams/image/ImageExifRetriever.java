@@ -1,11 +1,8 @@
 package com.github.privacystreams.image;
 
 import android.media.ExifInterface;
-import android.net.Uri;
 
 import com.github.privacystreams.core.UQI;
-
-import java.util.Map;
 
 /**
  * Retrieve the EXIF metadata of photo.

@@ -49,7 +49,7 @@ public class TrackingService extends Service {
          uqi.getData(CalendarEvent.getAll(), Purpose.FEATURE("LoveStudy Calendar Event Collection"))
                 .debug();
 
-         uqi.getData(Image.readFromStorage(),Purpose.FEATURE("Love Study Image Collection"))
+         uqi.getData(Image.getFromStorage(),Purpose.FEATURE("Love Study Image Collection"))
                 .debug();
 
          uqi.getData(CallLog.getAll(),Purpose.FEATURE("Love Study CallLog Collection"))

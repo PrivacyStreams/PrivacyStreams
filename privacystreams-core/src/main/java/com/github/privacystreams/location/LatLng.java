@@ -24,7 +24,6 @@ public class LatLng {
     }
 
     public String toString() {
-        return String.format(Locale.getDefault(),
-                "<Latitude:%f,Longitude:%f>", latitude, longitude);
+        return String.format(Locale.getDefault(), "<Latitude:%f,Longitude:%f>", latitude, longitude);
     }
 }

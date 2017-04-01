@@ -55,4 +55,13 @@ public class Audio extends Item {
     public static MStreamProvider recordPeriodic(long durationPerRecord, long interval) {
         return new AudioPeriodicRecorder(durationPerRecord, interval);
     }
+
+    /**
+     * Provide a stream of all Audio items in local file system.
+     *
+     * @return the provider function.
+     */
+    public static MStreamProvider getFromStorage() {
+        return new AudioStorageProvider();
+    }
 }
