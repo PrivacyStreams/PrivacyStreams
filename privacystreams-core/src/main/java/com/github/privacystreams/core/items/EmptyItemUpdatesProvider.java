@@ -1,9 +1,6 @@
 package com.github.privacystreams.core.items;
 
 import com.github.privacystreams.core.providers.MStreamProvider;
-import com.github.privacystreams.utils.Assertions;
-
-import java.util.List;
 
 
 /**

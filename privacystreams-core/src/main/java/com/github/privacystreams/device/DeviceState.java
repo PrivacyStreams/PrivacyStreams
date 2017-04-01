@@ -1,8 +1,5 @@
 package com.github.privacystreams.device;
 
-import android.os.Build;
-import android.support.annotation.RequiresApi;
-
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.providers.MStreamProvider;
 import com.github.privacystreams.utils.annotations.PSItem;

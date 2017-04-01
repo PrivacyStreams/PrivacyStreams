@@ -2,7 +2,6 @@ package com.github.privacystreams.core.items;
 
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.providers.MStreamProvider;
-import com.github.privacystreams.core.providers.SStreamProvider;
 import com.github.privacystreams.utils.annotations.PSItem;
 
 /**

@@ -2,14 +2,10 @@ package com.github.privacystreams.core.actions.collect;
 
 import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.Item;
-import com.github.privacystreams.core.MStream;
 import com.github.privacystreams.core.SStream;
 import com.github.privacystreams.core.UQI;
 
 import org.greenrobot.eventbus.Subscribe;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * A function that outputs a multi-item stream.

@@ -1,6 +1,5 @@
 package com.github.privacystreams.utils;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.renderscript.Allocation;

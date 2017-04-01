@@ -5,8 +5,6 @@ import android.database.Cursor;
 import android.provider.MediaStore;
 
 import com.github.privacystreams.core.providers.MStreamProvider;
-import com.github.privacystreams.image.Image;
-import com.github.privacystreams.image.ImageData;
 
 import java.io.File;
 

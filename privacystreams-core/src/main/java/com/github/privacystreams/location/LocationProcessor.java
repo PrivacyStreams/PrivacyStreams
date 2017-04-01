@@ -5,8 +5,6 @@ import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.UQI;
 import com.github.privacystreams.utils.Assertions;
 
-import java.util.List;
-
 /**
  * Process the location field in an item.
  */

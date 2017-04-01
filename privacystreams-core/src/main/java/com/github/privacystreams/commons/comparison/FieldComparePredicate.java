@@ -1,7 +1,5 @@
 package com.github.privacystreams.commons.comparison;
 
-import com.github.privacystreams.utils.Assertions;
-
 /**
  * Make numeric comparisons on field values
  */

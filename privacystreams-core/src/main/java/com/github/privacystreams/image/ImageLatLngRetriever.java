@@ -1,7 +1,5 @@
 package com.github.privacystreams.image;
 
-import android.media.ExifInterface;
-
 import com.github.privacystreams.core.UQI;
 import com.github.privacystreams.location.LatLng;
 

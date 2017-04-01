@@ -5,7 +5,6 @@ import android.util.Log;
 import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.UQI;
 import com.github.privacystreams.utils.Assertions;
-import com.github.privacystreams.utils.Logging;
 
 /**
  * Print the item for debugging

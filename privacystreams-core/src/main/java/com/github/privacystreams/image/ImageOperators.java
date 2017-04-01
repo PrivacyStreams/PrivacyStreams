@@ -10,8 +10,6 @@ import com.github.privacystreams.core.Item;
 import com.github.privacystreams.location.LatLng;
 import com.github.privacystreams.utils.annotations.PSOperatorWrapper;
 
-import java.util.Map;
-
 /**
  * A helper class to access image-related operators
  */

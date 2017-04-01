@@ -1,7 +1,6 @@
 package com.github.privacystreams.device;
 
 import com.github.privacystreams.core.Item;
-import com.github.privacystreams.core.MStream;
 import com.github.privacystreams.core.providers.MStreamProvider;
 import com.github.privacystreams.utils.annotations.PSItem;
 import com.github.privacystreams.utils.annotations.PSItemField;

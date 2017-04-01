@@ -1,7 +1,5 @@
 package com.github.privacystreams.core.transformations.reorder;
 
-import com.github.privacystreams.core.Function;
-import com.github.privacystreams.core.MStream;
 import com.github.privacystreams.core.transformations.M2MTransformation;
 import com.github.privacystreams.utils.annotations.PSOperatorWrapper;
 

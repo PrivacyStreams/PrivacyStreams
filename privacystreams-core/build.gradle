@@ -10,8 +10,8 @@ ext {
     artifact = 'privacystreams-core'
 
     libraryName = 'PrivacyStreams-core'
-    libraryDescription = 'The core packages in PrivacyStreams framework.'
-    libraryVersion = '0.0.3'
+    libraryDescription = 'The core package in PrivacyStreams framework.'
+    libraryVersion = '0.0.4'
 
     bintrayRepo = 'PrivacyStreams'
     bintrayOrganization = "privacystreams"
@@ -36,8 +36,8 @@ android {
     defaultConfig {
         minSdkVersion 16
         targetSdkVersion 25
-        versionCode 3
-        versionName "0.0.3"
+        versionCode 4
+        versionName "0.0.4"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -60,8 +60,7 @@ dependencies {
     testCompile 'junit:junit:4.12'
 
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.android.support:appcompat-v7:25.2.0'
-//    compile 'com.android.support:support-v4:25.2.0'
+    compile 'com.android.support:appcompat-v7:25.3.0'
     compile 'org.apache.commons:commons-lang3:3.0'
     compile 'com.google.code.gson:gson:2.8.0'
     compile 'org.greenrobot:eventbus:3.0.0'

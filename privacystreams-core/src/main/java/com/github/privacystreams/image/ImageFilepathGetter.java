@@ -1,7 +1,5 @@
 package com.github.privacystreams.image;
 
-import android.graphics.Bitmap;
-
 import com.github.privacystreams.core.UQI;
 
 /**

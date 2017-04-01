@@ -1,7 +1,5 @@
 package com.github.privacystreams.audio;
 
-import android.net.Uri;
-
 import com.github.privacystreams.core.UQI;
 
 /**

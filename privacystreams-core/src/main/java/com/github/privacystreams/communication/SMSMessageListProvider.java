@@ -4,14 +4,9 @@ import android.Manifest;
 import android.content.ContentResolver;
 import android.database.Cursor;
 import android.net.Uri;
-import android.provider.ContactsContract;
-import android.provider.Telephony;
 
 import com.github.privacystreams.core.providers.MStreamProvider;
 import com.github.privacystreams.utils.CommunicationUtils;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Provide a stream of existing SMS messages

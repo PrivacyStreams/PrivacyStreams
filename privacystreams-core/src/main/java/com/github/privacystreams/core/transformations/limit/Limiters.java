@@ -2,7 +2,6 @@ package com.github.privacystreams.core.transformations.limit;
 
 import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.Item;
-import com.github.privacystreams.core.MStream;
 import com.github.privacystreams.core.transformations.M2MTransformation;
 import com.github.privacystreams.utils.annotations.PSOperatorWrapper;
 

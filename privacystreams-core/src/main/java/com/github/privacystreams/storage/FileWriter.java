@@ -3,17 +3,12 @@ package com.github.privacystreams.storage;
 import android.Manifest;
 import android.content.Context;
 
-import com.github.privacystreams.commons.ItemFunction;
 import com.github.privacystreams.core.AsyncFunction;
-import com.github.privacystreams.core.Function;
-import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.UQI;
 import com.github.privacystreams.utils.Assertions;
 import com.github.privacystreams.utils.Logging;
 import com.github.privacystreams.utils.StorageUtils;
 import com.github.privacystreams.utils.time.TimeUtils;
-
-import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
 import java.io.FileOutputStream;

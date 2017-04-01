@@ -1,13 +1,8 @@
 package com.github.privacystreams.device;
 
 import android.Manifest;
-import android.content.Context;
-import android.support.annotation.RequiresPermission;
-import android.telephony.TelephonyManager;
 
-import com.github.privacystreams.commons.ItemFunction;
 import com.github.privacystreams.core.Function;
-import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.UQI;
 import com.github.privacystreams.utils.ConnectionUtils;
 

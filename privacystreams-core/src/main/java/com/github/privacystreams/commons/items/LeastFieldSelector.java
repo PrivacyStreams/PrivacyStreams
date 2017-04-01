@@ -1,7 +1,6 @@
 package com.github.privacystreams.commons.items;
 
 import com.github.privacystreams.core.Item;
-import com.github.privacystreams.core.UQI;
 
 import java.util.List;
 

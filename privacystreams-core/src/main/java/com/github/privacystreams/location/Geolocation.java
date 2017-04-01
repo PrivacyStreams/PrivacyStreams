@@ -8,9 +8,6 @@ import com.github.privacystreams.core.providers.SStreamProvider;
 import com.github.privacystreams.utils.annotations.PSItem;
 import com.github.privacystreams.utils.annotations.PSItemField;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * An Geolocation item represents a geolocation value.
  */

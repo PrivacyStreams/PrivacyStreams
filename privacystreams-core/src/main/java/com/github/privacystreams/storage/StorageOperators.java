@@ -1,6 +1,5 @@
 package com.github.privacystreams.storage;
 
-import com.github.privacystreams.commons.item.ItemOperators;
 import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.UQI;
 import com.github.privacystreams.utils.annotations.PSOperatorWrapper;

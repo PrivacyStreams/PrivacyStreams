@@ -2,16 +2,11 @@ package com.github.privacystreams.image;
 
 import android.Manifest;
 import android.database.Cursor;
-import android.media.ExifInterface;
-import android.net.Uri;
 import android.provider.MediaStore;
 
 import com.github.privacystreams.core.providers.MStreamProvider;
-import com.github.privacystreams.utils.Logging;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
 
 /**
  * Provide a stream of images stored in local sd card.

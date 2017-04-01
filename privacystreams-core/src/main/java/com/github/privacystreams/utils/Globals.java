@@ -3,9 +3,6 @@ package com.github.privacystreams.utils;
 import android.media.MediaRecorder;
 import android.util.Log;
 
-import java.text.SimpleDateFormat;
-import java.util.Locale;
-
 /**
  * Global configurations for PrivacyStreams.
  */

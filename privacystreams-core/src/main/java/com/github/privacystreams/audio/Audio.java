@@ -6,8 +6,6 @@ import com.github.privacystreams.core.providers.SStreamProvider;
 import com.github.privacystreams.utils.annotations.PSItem;
 import com.github.privacystreams.utils.annotations.PSItemField;
 
-import java.net.URI;
-
 /**
  * An audio record.
  */

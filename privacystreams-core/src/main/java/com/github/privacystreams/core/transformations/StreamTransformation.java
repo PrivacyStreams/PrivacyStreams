@@ -6,7 +6,6 @@ import com.github.privacystreams.core.Stream;
 import com.github.privacystreams.core.UQI;
 
 import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
 /**
  * Transform a stream to a stream
