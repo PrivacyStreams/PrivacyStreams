@@ -1,7 +1,7 @@
 package com.github.privacystreams.location;
 
 /**
- * Compute the blurred coordinates
+ * Get the postcode based on coordinates.
  */
 
 class LocationPostcodeFunction extends LocationProcessor<String> {

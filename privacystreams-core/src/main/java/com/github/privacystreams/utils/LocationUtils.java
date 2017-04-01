@@ -9,15 +9,15 @@ import java.util.Random;
  */
 
 public class LocationUtils {
-    public static LatLng blurLatLng(LatLng latLng, double blurMeters) {
+    public static LatLng distortLatLng(LatLng latLng, double radius) {
         double latitude = latLng.getLatitude();
         double longitude = latLng.getLongitude();
         Random random = new Random();
-        double r = random.nextDouble() * blurMeters;
+        double r = random.nextDouble() * radius;
         double theta = random.nextDouble() * Math.PI * 2;
-        double blurred_latitude = latitude + r * Math.sin(theta) / getMetersPerLat(latitude);
-        double blurred_longitude = longitude + r * Math.cos(theta) / getMetersPerLng(latitude);
-        return new LatLng(blurred_latitude, blurred_longitude);
+        double distorted_latitude = latitude + r * Math.sin(theta) / getMetersPerLat(latitude);
+        double distorted_longitude = longitude + r * Math.cos(theta) / getMetersPerLng(latitude);
+        return new LatLng(distorted_latitude, distorted_longitude);
     }
 
     public static double getMetersPerLat(double latitude) {

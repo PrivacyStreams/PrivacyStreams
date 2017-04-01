@@ -89,8 +89,8 @@ public class UseCases {
 
     public void testLocation() {
         uqi.getData(Geolocation.asUpdates(1000, Geolocation.LEVEL_CITY), Purpose.TEST("test"))
-                .setField("blurred_lat_lng", GeolocationOperators.blur(Geolocation.LAT_LNG, 1000))
-                .setField("blurred_distance", GeolocationOperators.distanceBetween(Geolocation.LAT_LNG, "blurred_lat_lng"))
+                .setField("distorted_lat_lng", GeolocationOperators.distort(Geolocation.LAT_LNG, 1000))
+                .setField("distortion", GeolocationOperators.distanceBetween(Geolocation.LAT_LNG, "distorted_lat_lng"))
                 .debug();
 
         try {
@@ -327,11 +327,11 @@ public class UseCases {
                 .ifPresent(Message.CONTENT, messageCallback);
     }
 
-//    // get location and blur 100 meters for advertisement
+//    // get location and distort 100 meters for advertisement
 //    void passLocationToAd() throws PSException {
 //        List<Double> coordinates = uqi
 //                .getData(Geolocation.asLastKnown(), Purpose.ADS("targeted advertisement"))
-//                .output(GeolocationOperators.blur(Geolocation.COORDINATES, 100));
+//                .output(GeolocationOperators.distort(Geolocation.COORDINATES, 100));
 //    }
 //
 //    // get postcode of asLastKnown location

@@ -4,8 +4,6 @@ import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.utils.annotations.PSOperatorWrapper;
 
-import java.util.List;
-
 /**
  * A helper class to access geolocation-related operators
  */
@@ -37,15 +35,15 @@ public class GeolocationOperators {
     }
 
     /**
-     * Blur the coordinates value of a field and return the blurred coordinates.
-     * The blurred coordinates is an instance of `LatLng` class.
+     * Distort the coordinates value of a field and return the distorted coordinates.
+     * The distorted coordinates is an instance of `LatLng` class.
      *
-     * @param latLngField the coordinates field to blur
-     * @param blurMeters the distance to blur, in meters
+     * @param latLngField the coordinates field to distort
+     * @param radius the distance to distort, in meters
      * @return the function
      */
-    public static Function<Item, LatLng> blur(String latLngField, double blurMeters) {
-        return new LocationBlurFunction(latLngField, blurMeters);
+    public static Function<Item, LatLng> distort(String latLngField, double radius) {
+        return new LocationDistorter(latLngField, radius);
     }
 
     /**
