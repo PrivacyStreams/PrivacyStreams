@@ -17,7 +17,7 @@ class ImageBlurFunction extends ImageProcessor<ImageData> {
 
     @Override
     protected ImageData processImage(UQI uqi, ImageData imageData) {
-        return imageData.getBlurred(uqi.getContext());
+        return imageData.getBlurred(uqi);
     }
 
 }

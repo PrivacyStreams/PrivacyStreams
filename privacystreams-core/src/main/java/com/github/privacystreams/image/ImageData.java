@@ -1,6 +1,5 @@
 package com.github.privacystreams.image;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.ExifInterface;
@@ -10,8 +9,12 @@ import android.support.annotation.RequiresApi;
 import com.github.privacystreams.core.UQI;
 import com.github.privacystreams.location.LatLng;
 import com.github.privacystreams.utils.ImageUtils;
+import com.github.privacystreams.utils.Logging;
+import com.github.privacystreams.utils.StorageUtils;
+import com.github.privacystreams.utils.time.TimeUtils;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Locale;
 
@@ -20,16 +23,20 @@ import java.util.Locale;
  */
 
 public class ImageData {
+    private static final String LOG_TAG = "ImageData: ";
+
     private final int type;
 
     private static final int TYPE_TEMP_FILE = 0;
-    private static final int TYPE_LOCAL_FILE = 1;
-    private static final int TYPE_REMOTE_FILE = 1;
+    private static final int TYPE_TEMP_BITMAP = 1;
+    private static final int TYPE_LOCAL_FILE = 2;
+    private static final int TYPE_REMOTE_FILE = 3;
 
     private transient File imageFile;
+    private transient Bitmap bitmap;
+
     private transient ExifInterface exifInterface;
     private transient LatLng latLng;
-    private transient Bitmap bitmap;
     private transient String filePath;
     private transient ImageData blurredImageData;
 
@@ -44,7 +51,7 @@ public class ImageData {
     }
 
     static ImageData newTempImage(Bitmap tempBitmap) {
-        ImageData imageData = new ImageData(TYPE_TEMP_FILE);
+        ImageData imageData = new ImageData(TYPE_TEMP_BITMAP);
         imageData.bitmap = tempBitmap;
         return imageData;
     }
@@ -55,19 +62,37 @@ public class ImageData {
         return imageData;
     }
 
-    private String getFilepath() {
+    String getFilepath(UQI uqi) {
         if (this.filePath != null) return this.filePath;
 
-        if (this.type == TYPE_LOCAL_FILE || this.type == TYPE_TEMP_FILE)
+        if (this.imageFile != null) {
             this.filePath = this.imageFile.getAbsolutePath();
+        }
+        else if (this.bitmap != null) {
+            String imagePath = "temp/image_" + TimeUtils.getTimeTag() + ".jpg";
+            this.imageFile = StorageUtils.getValidFile(uqi.getContext(), imagePath, false);
+            try {
+                FileOutputStream out = new FileOutputStream(this.imageFile);
+                this.bitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
+                out.flush();
+                out.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            this.filePath = this.imageFile.getAbsolutePath();
+        }
+        else {
+            Logging.warn(LOG_TAG + "Both file path and bitmap don't exist.");
+        }
 
         return this.filePath;
     }
 
-    ExifInterface getExif() {
-        if (this.exifInterface != null) return this.exifInterface;
+    ExifInterface getExif(UQI uqi) {
+        if (this.exifInterface != null)
+            return this.exifInterface;
 
-        String filePath = this.getFilepath();
+        String filePath = this.getFilepath(uqi);
         if (filePath == null) return null;
 
         try {
@@ -78,10 +103,10 @@ public class ImageData {
         return this.exifInterface;
     }
 
-    LatLng getLatLng() {
+    LatLng getLatLng(UQI uqi) {
         if (this.latLng != null) return this.latLng;
 
-        ExifInterface exifInterface = this.getExif();
+        ExifInterface exifInterface = this.getExif(uqi);
         if (exifInterface == null) return null;
         float[] latLong = new float[2];
         boolean hasLatLong = exifInterface.getLatLong(latLong);
@@ -91,10 +116,10 @@ public class ImageData {
         return this.latLng;
     }
 
-    Bitmap getBitmap() {
+    Bitmap getBitmap(UQI uqi) {
         if (this.bitmap != null) return this.bitmap;
 
-        String filePath = this.getFilepath();
+        String filePath = this.getFilepath(uqi);
         if (filePath == null) return null;
 
         this.bitmap = BitmapFactory.decodeFile(filePath);
@@ -102,28 +127,23 @@ public class ImageData {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
-    ImageData getBlurred(Context context) {
+    ImageData getBlurred(UQI uqi) {
         if (this.blurredImageData != null) return this.blurredImageData;
 
-        Bitmap bitmap = this.getBitmap();
+        Bitmap bitmap = this.getBitmap(uqi);
         if (bitmap == null) return null;
-        Bitmap blurredBitmap = ImageUtils.blur(context, bitmap);
+        Bitmap blurredBitmap = ImageUtils.blur(uqi, bitmap);
         return ImageData.newTempImage(blurredBitmap);
     }
 
     public String toString() {
-        if (this.type == TYPE_TEMP_FILE)
-            return String.format(Locale.getDefault(), "<Image@camera%d>", this.hashCode());
-        else if (this.type == TYPE_LOCAL_FILE)
-            return String.format(Locale.getDefault(), "<Image@local%d>", this.hashCode());
-        else
-            return String.format(Locale.getDefault(), "<Image@%d>", this.hashCode());
+        return String.format(Locale.getDefault(), "<Image@%d%d>", this.type, this.hashCode());
     }
 
     @Override
     protected void finalize() throws Throwable {
         super.finalize();
-        if (this.type == TYPE_TEMP_FILE) {
+        if (this.type != TYPE_LOCAL_FILE) {
             if (this.imageFile != null && this.imageFile.exists()) {
                 this.imageFile.deleteOnExit();
             }

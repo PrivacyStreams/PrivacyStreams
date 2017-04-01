@@ -1,5 +1,6 @@
 package com.github.privacystreams.image;
 
+import android.graphics.Bitmap;
 import android.media.ExifInterface;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
@@ -37,6 +38,28 @@ public class ImageOperators {
      */
     public static Function<Item, LatLng> getLatLng(String photoField) {
         return new ImageLatLngRetriever(photoField);
+    }
+
+    /**
+     * Get the file path of the image specified by an ImageData field.
+     * The path might point to a temporary image file if it is not from storage.
+     * To permanently save the file, you need to copy the file to another file path.
+     *
+     * @param photoField the name of photo field
+     * @return the function
+     */
+    public static Function<Item, String> getFilepath(String photoField) {
+        return new ImageFilepathGetter(photoField);
+    }
+
+    /**
+     * Get the Bitmap of the image specified by an ImageData field.
+     *
+     * @param photoField the name of photo field
+     * @return the function
+     */
+    public static Function<Item, Bitmap> getBitmap(String photoField) {
+        return new ImageBitmapGetter(photoField);
     }
 
     /**

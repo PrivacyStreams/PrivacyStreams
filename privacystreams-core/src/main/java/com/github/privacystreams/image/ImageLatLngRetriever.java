@@ -16,7 +16,7 @@ class ImageLatLngRetriever extends ImageProcessor<LatLng> {
 
     @Override
     protected LatLng processImage(UQI uqi, ImageData imageData) {
-        return imageData.getLatLng();
+        return imageData.getLatLng(uqi);
     }
 
 }

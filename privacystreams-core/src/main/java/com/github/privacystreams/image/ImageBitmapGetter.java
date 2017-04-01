@@ -1,5 +1,6 @@
 package com.github.privacystreams.image;
 
+import android.graphics.Bitmap;
 import android.media.ExifInterface;
 
 import com.github.privacystreams.core.UQI;
@@ -8,15 +9,15 @@ import com.github.privacystreams.core.UQI;
  * Retrieve the EXIF metadata of photo.
  * The EXIF information is an ExifInterface in Android.
  */
-class ImageExifRetriever extends ImageProcessor<ExifInterface> {
+class ImageBitmapGetter extends ImageProcessor<Bitmap> {
 
-    ImageExifRetriever(String photoField) {
+    ImageBitmapGetter(String photoField) {
         super(photoField);
     }
 
     @Override
-    protected ExifInterface processImage(UQI uqi, ImageData imageData) {
-        return imageData.getExif(uqi);
+    protected Bitmap processImage(UQI uqi, ImageData imageData) {
+        return imageData.getBitmap(uqi);
     }
 
 }
