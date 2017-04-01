@@ -53,19 +53,19 @@ public class Geolocation extends Item {
 
     /**
      * The level of the location data,
-     * could be "country"/"city"/"neighbourhood"/"building"/"meter".
+     * could be "country"/"city"/"neighbourhood"/"building"/"exact".
      */
     public static final String LEVEL = "level";
 
-    /* Country level. This level's accuracy is about 100,000 meters. */
+    /** Country level. This level's accuracy is about 100,000 meters. */
     public static final String LEVEL_COUNTRY = "country";
-    /* City level. This level's accuracy is about 10,000 meters. */
+    /** City level. This level's accuracy is about 10,000 meters. */
     public static final String LEVEL_CITY = "city";
-    /* Neighborhood level. This level's accuracy is about 1,000 meters. */
+    /** Neighborhood level. This level's accuracy is about 1,000 meters. */
     public static final String LEVEL_NEIGHBORHOOD = "neighborhood";
-    /* Building level. This level's accuracy is about 100 meters. */
+    /** Building level. This level's accuracy is about 100 meters. */
     public static final String LEVEL_BUILDING = "building";
-    /* Exact level. This level's accuracy is about 10 meters. */
+    /** Exact level. This level's accuracy is about 10 meters. */
     public static final String LEVEL_EXACT = "exact";
 
     Geolocation(Location location) {

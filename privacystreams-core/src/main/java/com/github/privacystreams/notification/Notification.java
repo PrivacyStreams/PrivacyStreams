@@ -18,14 +18,14 @@ public class Notification extends Item {
 
     /**
      * The action associated with the notification.
-     * It could be removed or posted.
+     * It could be "removed" or "posted".
      */
     @PSItemField(type = String.class)
     public static final String ACTION = "action";
 
-    /* Notification removed action. */
+    /** Notification removed action. */
     public static final String ACTION_REMOVED = "removed";
-    /* Notification posted action. */
+    /** Notification posted action. */
     public static final String ACTION_POSTED = "posted";
 
     /**
