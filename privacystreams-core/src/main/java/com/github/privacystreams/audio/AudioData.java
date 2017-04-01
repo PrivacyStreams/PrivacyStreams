@@ -1,5 +1,7 @@
 package com.github.privacystreams.audio;
 
+import com.github.privacystreams.core.UQI;
+
 import java.io.File;
 import java.util.List;
 import java.util.Locale;
@@ -15,10 +17,11 @@ public class AudioData {
     private static final int TYPE_REMOTE_FILE = 1;
 
     private File audioFile;
+
     private List<Integer> amplitudeSamples;
-    private double averageAmplitude;
-    private double rmsAmplitude;
-    private double maxAmplitude;
+    private Double averageAmplitude;
+    private Double rmsAmplitude;
+    private Integer maxAmplitude;
 
     private final static double AMPLITUDE_BASE = 1.0;
 
@@ -40,28 +43,67 @@ public class AudioData {
         return audioData;
     }
 
+    private List<Integer> getAmplitudeSamples() {
+        if (this.amplitudeSamples != null) return this.amplitudeSamples;
+        // TODO get amplitude samples from local file.
+        return null;
+    }
+
     private void processAmplitudes() {
+        if (this.getAmplitudeSamples() == null) return;
+
         maxAmplitude = 0;
-        averageAmplitude = 0;
-        rmsAmplitude = 0;
+        averageAmplitude = 0.0;
+        rmsAmplitude = 0.0;
 
         int lengthOfAmplitudes = this.amplitudeSamples.size();
         if (lengthOfAmplitudes > 0) {
-
             for (Integer amplitude : this.amplitudeSamples) {
                 if (amplitude > maxAmplitude) maxAmplitude = amplitude;
-                averageAmplitude += amplitude / lengthOfAmplitudes;
-                rmsAmplitude += amplitude / lengthOfAmplitudes;
+                averageAmplitude += amplitude.doubleValue() / lengthOfAmplitudes;
+                rmsAmplitude += amplitude.doubleValue() / lengthOfAmplitudes;
             }
         }
     }
 
-    double getLoudness() {
-        return 20 * Math.log10(rmsAmplitude/AMPLITUDE_BASE);
+    String getFilepath(UQI uqi) {
+        if (this.audioFile != null) return this.audioFile.getAbsolutePath();
+        return null;
     }
 
-    double getPeakLoudness() {
-        return 20 * Math.log10(maxAmplitude/AMPLITUDE_BASE);
+    Double getRmsAmplitude(UQI uqi) {
+        if (this.rmsAmplitude == null) {
+            this.processAmplitudes();
+        }
+        return this.rmsAmplitude;
+    }
+
+    Integer getMaxAmplitude(UQI uqi) {
+        if (this.maxAmplitude == null) {
+            this.processAmplitudes();
+        }
+        return this.maxAmplitude;
+    }
+
+    Double getAverageAmplitude(UQI uqi) {
+        if (this.averageAmplitude == null) {
+            this.processAmplitudes();
+        }
+        return this.averageAmplitude;
+    }
+
+    Double getLoudness(UQI uqi) {
+        if (this.getRmsAmplitude(uqi) != null) {
+            return 20 * Math.log10(this.getRmsAmplitude(uqi)/AMPLITUDE_BASE);
+        }
+        return null;
+    }
+
+    Double getPeakLoudness(UQI uqi) {
+        if (this.getMaxAmplitude(uqi) != null) {
+            return 20 * Math.log10(this.getMaxAmplitude(uqi).doubleValue()/AMPLITUDE_BASE);
+        }
+        return null;
     }
 
     @Override
@@ -73,14 +115,6 @@ public class AudioData {
     }
 
     public String toString() {
-        if (this.type == TYPE_TEMP_RECORD) {
-            return String.format(Locale.getDefault(), "<Audio@temp%d>", this.hashCode());
-        }
-        else if (this.type == TYPE_LOCAL_FILE) {
-            return String.format(Locale.getDefault(), "<Audio@local%d>", this.hashCode());
-        }
-        else {
-            return String.format(Locale.getDefault(), "<Audio@%d>", this.hashCode());
-        }
+        return String.format(Locale.getDefault(), "<Audio@%d%d>", this.type, this.hashCode());
     }
 }

@@ -6,8 +6,7 @@ import android.media.ExifInterface;
 import com.github.privacystreams.core.UQI;
 
 /**
- * Retrieve the EXIF metadata of photo.
- * The EXIF information is an ExifInterface in Android.
+ * Retrieve the Bitmap from the photo specified by an ImageData field.
  */
 class ImageBitmapGetter extends ImageProcessor<Bitmap> {
 

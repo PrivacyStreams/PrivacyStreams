@@ -20,9 +20,9 @@ abstract class AudioProcessor<Tout> extends ItemFunction<Tout> {
     @Override
     public final Tout apply(UQI uqi, Item input) {
         AudioData audioData = input.getValueByField(this.audioField);
-        return this.processAudio(audioData);
+        return this.processAudio(uqi, audioData);
     }
 
-    protected abstract Tout processAudio(AudioData audioData);
+    protected abstract Tout processAudio(UQI uqi, AudioData audioData);
 
 }

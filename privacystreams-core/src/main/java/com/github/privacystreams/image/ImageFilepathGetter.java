@@ -5,8 +5,7 @@ import android.graphics.Bitmap;
 import com.github.privacystreams.core.UQI;
 
 /**
- * Retrieve the EXIF metadata of photo.
- * The EXIF information is an ExifInterface in Android.
+ * Get the file path of the image specified by an ImageData field.
  */
 class ImageFilepathGetter extends ImageProcessor<String> {
 

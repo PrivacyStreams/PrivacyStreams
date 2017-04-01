@@ -84,7 +84,11 @@ public class UseCases {
 //    }
 
     public void testAudio() {
-        uqi.getData(Audio.getFromStorage(), Purpose.TEST("test")).debug();
+        uqi.getData(Audio.recordPeriodic(1000, 1000), Purpose.TEST("test"))
+                .setField("file", AudioOperators.getFilepath(Audio.AUDIO_DATA))
+                .setField("loudness", AudioOperators.calcLoudness(Audio.AUDIO_DATA))
+                .project("file", "loudness")
+                .debug();
     }
 
     public void testLocation() {
