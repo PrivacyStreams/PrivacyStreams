@@ -14,7 +14,7 @@ import static com.github.privacystreams.notification.Notification.ACTION_POSTED;
 import static com.github.privacystreams.notification.Notification.ACTION_REMOVED;
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-public class MyNotificationListenerService extends android.service.notification.NotificationListenerService {
+public class PSNotificationListenerService extends android.service.notification.NotificationListenerService {
     private static Set<NotificationEventProvider> notificationEventProviders = new HashSet<>();
 
     private String TAG = this.getClass().getSimpleName();

@@ -13,10 +13,10 @@
             </intent-filter>
         </receiver>
         <service
-            android:enabled="true"
+            android:enabled="@bool/accessibility_enabled"
             android:exported="true"
             android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE"
-            android:name="com.github.privacystreams.accessibility.MyAccessibilityService">
+            android:name="com.github.privacystreams.accessibility.PSAccessibilityService">
             <intent-filter>
                 <action android:name="android.accessibilityservice.AccessibilityService" />
                 <category android:name="android.accessibilityservice.category.FEEDBACK_GENERIC" />
@@ -26,7 +26,7 @@
                 android:resource="@xml/accessibility_config" />
         </service>
 
-        <service android:name="com.github.privacystreams.notification.MyNotificationListenerService"
+        <service android:name="com.github.privacystreams.notification.PSNotificationListenerService"
             android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
             <intent-filter>
                 <action android:name="android.service.notification.NotificationListenerService" />

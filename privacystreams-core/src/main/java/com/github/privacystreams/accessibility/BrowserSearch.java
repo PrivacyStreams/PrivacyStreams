@@ -29,6 +29,8 @@ public class BrowserSearch extends Item {
 
     /**
      * Provide a live stream of BrowserSearch items.
+     * An item will be generated once the user do a search in the browser.
+     *
      * @return the provider function
      */
     public static MStreamProvider asUpdates(){

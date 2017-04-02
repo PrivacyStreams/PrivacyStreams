@@ -11,7 +11,7 @@ import com.github.privacystreams.location.LatLng;
 import com.github.privacystreams.utils.ImageUtils;
 import com.github.privacystreams.utils.Logging;
 import com.github.privacystreams.utils.StorageUtils;
-import com.github.privacystreams.utils.time.TimeUtils;
+import com.github.privacystreams.utils.TimeUtils;
 
 import java.io.File;
 import java.io.FileOutputStream;

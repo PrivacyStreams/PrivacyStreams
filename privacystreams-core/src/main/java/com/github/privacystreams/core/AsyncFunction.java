@@ -10,8 +10,8 @@ import org.greenrobot.eventbus.ThreadMode;
  * but the content in output will be generated in background.
  *
  * Subclass must implement:
- * init method which initializes the output object and returns in current thread.
- * applyInBackground method which produce values to output in background.
+ * `init` method which initializes the output object and returns in current thread.
+ * `applyInBackground` method which produces values to output in background.
  */
 
 public abstract class AsyncFunction<Tin, Tout> extends Function<Tin, Tout> {

@@ -13,7 +13,7 @@ public class DeviceOperators {
      *
      * @return the function.
      */
-    public static Function<Void, String> deviceIdGetter() {
+    public static Function<Void, String> getDeviceId() {
         return new DeviceIdGetter();
     }
 
@@ -22,7 +22,7 @@ public class DeviceOperators {
      *
      * @return the function.
      */
-    public static Function<Void, Boolean> wifiStatusChecker() {
+    public static Function<Void, Boolean> isWifiConnected() {
         return new WifiStatusChecker();
     }
 }

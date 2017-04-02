@@ -6,9 +6,7 @@ import android.view.accessibility.AccessibilityNodeInfo;
 import java.util.Date;
 
 /**
- * @author toby
- * @date 2/28/17
- * @time 11:23 AM
+ * Provide a live stream of UIAction items.
  */
 class UIActionProvider extends AccessibilityEventProvider {
 

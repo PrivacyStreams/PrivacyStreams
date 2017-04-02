@@ -1,6 +1,6 @@
 package com.github.privacystreams.commons.time;
 
-import com.github.privacystreams.utils.time.TimeUtils;
+import com.github.privacystreams.utils.TimeUtils;
 
 /**
  * Generate a time tag string

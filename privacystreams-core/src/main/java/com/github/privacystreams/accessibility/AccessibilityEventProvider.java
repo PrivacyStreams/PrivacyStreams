@@ -9,9 +9,7 @@ import com.github.privacystreams.core.providers.MStreamProvider;
 import java.util.Date;
 
 /**
- * @author toby
- * @date 2/28/17
- * @time 11:23 AM
+ * The abstract class of Accessibility-related stream providers.
  */
 abstract class AccessibilityEventProvider extends MStreamProvider {
 
@@ -19,13 +17,13 @@ abstract class AccessibilityEventProvider extends MStreamProvider {
 
     @Override
     protected void provide() {
-        MyAccessibilityService.registerProvider(this);
+        PSAccessibilityService.registerProvider(this);
         registered = true;
     }
 
     @Override
     protected void onCancelled(UQI uqi) {
-        MyAccessibilityService.unregisterProvider(this);
+        PSAccessibilityService.unregisterProvider(this);
         registered = false;
     }
 

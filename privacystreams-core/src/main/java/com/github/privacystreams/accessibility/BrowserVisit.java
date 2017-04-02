@@ -47,6 +47,8 @@ public class BrowserVisit extends Item {
 
     /**
      * Provide a live stream of BrowserVisit items.
+     * An item will be generated once the user visit a website in the browser.
+     *
      * @return the provider function.
      */
     public static MStreamProvider asUpdates(){

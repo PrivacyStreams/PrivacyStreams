@@ -8,7 +8,7 @@ import java.util.Set;
 
 /**
  * The abstraction of all function in PrivacyStreams.
- * A Function converts a input in type Tin to a output in type Tout.
+ * A Function converts a input in type `Tin` to a output in type `Tout`.
  */
 
 public abstract class Function<Tin, Tout> {

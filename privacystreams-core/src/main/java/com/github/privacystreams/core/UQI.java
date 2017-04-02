@@ -20,8 +20,9 @@ import java.util.Set;
 /**
  * The unified query interface for all kinds of personal data.
  * You will need to construct an UQI with <code>UQI uqi = new UQI(context);</code>
- * Then, to get multi-item stream data, call <code>uqi.getData</code> ({@link #getData(MStreamProvider, Purpose)});
- * To get single-item data, call <code>uqi.getData</code> ({@link #getData(SStreamProvider, Purpose)}).
+ * To get a stream of personal data, simply call <code>uqi.getData</code>
+ * ({@link #getData(MStreamProvider, Purpose)} for multi-item stream
+ * and {@link #getData(SStreamProvider, Purpose)} for single-item stream.)
  */
 
 public class UQI {
@@ -68,7 +69,7 @@ public class UQI {
     }
 
     /**
-     * Get an SStream from a provider with a purpose
+     * Get an SStream from a provider with a purpose.
      * For example, using <code>uqi.getData(Geolocation.asLastKnown(), Purpose.FEATURE("..."))</code> will return a stream that contains one location item.
      * @param sStreamProvider the function to provide the personal data item, e.g. Location.asLastKnown(), Audio.record(100).
      * @param purpose the purpose of personal data use, e.g. Purpose.ADS("xxx").

@@ -209,8 +209,8 @@ public class MStream extends Stream {
      * Set the value of a new field with a value generator function.
      * The value generator function is independent from current item, which does not need a input (input type is Void).
      * The value generator will be evaluated on demand at runtime.
-     * Eg. `setIndependentField("time", TimeOperators.timestampGenerator())` will set the field "time" to a timestamp in each item;
-     * `setIndependentField("wifiStatus", DeviceOperators.wifiStatusChecker())` will set the field "wifiStatus" to a boolean indicating whether wifi is connected in each item.
+     * Eg. `setIndependentField("time", TimeOperators.getCurrentTime())` will set the field "time" to a timestamp in each item;
+     * `setIndependentField("wifiStatus", DeviceOperators.isWifiConnected())` will set the field "wifiStatus" to a boolean indicating whether wifi is connected in each item.
      *
      * @param fieldToSet the name of the field to set, it can be a new name or an existing name.
      * @param valueGenerator the function to compute the field value.

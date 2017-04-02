@@ -10,7 +10,7 @@ import com.github.privacystreams.utils.annotations.PSItemField;
 import java.util.Date;
 
 /**
- * User input text.
+ * A user text input action.
  */
 @PSItem
 public class TextEntry extends UIAction {
@@ -27,6 +27,8 @@ public class TextEntry extends UIAction {
 
     /**
      * Provide a live stream of TextEntry items.
+     * The provider will generate a TextEntry item once the user type some text.
+     *
      * @return the provider function.
      */
     public static MStreamProvider asUpdates() {

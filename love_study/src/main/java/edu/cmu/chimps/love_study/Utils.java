@@ -3,7 +3,7 @@ package edu.cmu.chimps.love_study;
 import android.app.ActivityManager;
 import android.content.Context;
 
-import com.github.privacystreams.accessibility.MyAccessibilityService;
+import com.github.privacystreams.accessibility.PSAccessibilityService;
 
 /**
  * Created by fanglinchen on 3/17/17.
@@ -20,7 +20,7 @@ public class Utils {
         return false;
     }
     public static boolean isAccessibilityEnabled(Context context) {
-        return isMyServiceRunning(context, MyAccessibilityService.class);
+        return isMyServiceRunning(context, PSAccessibilityService.class);
     }
 
     public static boolean isTrackingEnabled(Context context){

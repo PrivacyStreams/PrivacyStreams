@@ -34,7 +34,7 @@ public class BaseAccessibilityEvent extends Item {
     public static final String PACKAGE_NAME = "package_name";
 
     /**
-     * The root view of current event, which is an instance of SerializedAccessibilityNodeInfo
+     * The root view of current event, which is an instance of AccessibilityNodeInfo.
      */
     @PSItemField(type = AccessibilityNodeInfo.class)
     public static final String ROOT_VIEW = "root_view";
@@ -48,7 +48,7 @@ public class BaseAccessibilityEvent extends Item {
     BaseAccessibilityEvent(AccessibilityEvent accessibilityEvent, AccessibilityNodeInfo rootNode, Date timeStamp){
         this.setFieldValue(EVENT_TYPE, accessibilityEvent.getEventType());
         this.setFieldValue(TIMESTAMP, timeStamp);
-        this.setFieldValue(PACKAGE_NAME, accessibilityEvent.getPackageName() != null ? accessibilityEvent.getPackageName() : "NULL");
+        this.setFieldValue(PACKAGE_NAME, accessibilityEvent.getPackageName());
         this.setFieldValue(ROOT_VIEW, rootNode);
         this.setFieldValue(ITEM_COUNT, accessibilityEvent.getItemCount());
     }

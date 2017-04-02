@@ -8,8 +8,7 @@ import android.content.Context;
  * but the content in output will be generated later.
  *
  * Subclass must implement:
- * init method which initializes the output object and returns in current thread.
- * applyInBackground method which produce values to output in background.
+ * `init` method which initializes the output object and returns in current thread.
  */
 
 public abstract class EventDrivenFunction<Tin, Tout> extends Function<Tin, Tout> {

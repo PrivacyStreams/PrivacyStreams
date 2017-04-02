@@ -24,11 +24,12 @@ public class TasksWithPS {
      * Task 0 (tutorial task): Getting audio loudness periodically.
      *
      * Note that emulators can't simulate microphone input, but it should be fine as this is a tutorial task.
-     * In this task, you are trying to measure the loudness level during the next 10 seconds.
+     * In this task, you are trying to get microphone loudness (decibel) periodically.
+     * during the next 10 seconds.
      * The loudness should be calculated as the max amplitude.
      * Every time you get the result, please call submitTask3(int) method to submit the result.
      */
-    void task0() throws PSException {
+    void task0() {
         UQI uqi = new UQI(context);
         uqi
                 .getData(Audio.recordPeriodic(10*1000, 30*60*1000), Purpose.TEST("Getting loudness."))
@@ -48,16 +49,14 @@ public class TasksWithPS {
 
 
     /**
-     * Task 1: Getting the number of calls for each contact.
+     * Task 1: Getting the total length of SMS messages for each contact.
      *
-     * TODO: This example is used in PrivacyStreams documentation, can change to a similar task accessing SMS.
-     *
-     * In this task, you are trying to get the number of calls for each contacted phone number.
+     * In this task, you are trying to get the total length of SMS messages for each phone number.
      * The result should be a Map, where each key is a phone number in String format,
-     * and the value is the number of calls with the phone number in Integer.
+     * and the value should be an Integer.
      * After you get the result, please call submitTask1(Map<String, Integer>) method to submit the result.
      */
-    void task1() throws PSException {
+    void task1() {
         // Your code here.
     }
 
@@ -68,7 +67,7 @@ public class TasksWithPS {
      * The result should be the city name in String format.
      * After you get the result, please call submitTask2(String) method to submit the task.
      */
-    void task2() throws PSException {
+    void task2() {
         // Your code here.
     }
 
@@ -77,7 +76,7 @@ public class TasksWithPS {
      *
      * In this task, you want to know who the user sent the most SMS messages to.
      */
-    void task3() throws PSException {
+    void task3() {
         // Your code here.
     }
 
@@ -88,7 +87,7 @@ public class TasksWithPS {
      * The result should be a list of Strings, and each String in the list is an image file path.
      * After you get the result, please call submitTask4(List<String>) method to submit the result.
      */
-    void task4() throws PSException {
+    void task4() {
         // Your code here.
     }
 
@@ -99,7 +98,7 @@ public class TasksWithPS {
      * when entering or leaving a coordinate box [(10,10), (20,20)].
      * You need to call submitTask5(1) when entering the box and submitTask5(0) when leaving the box.
      */
-    void task5() throws PSException {
+    void task5() {
         // Your code here.
     }
 
@@ -110,7 +109,7 @@ public class TasksWithPS {
      * The result should be a list of Strings, in which each element is an email address.
      * After you get the result, please call submitTask6(List<String>) method to submit the result.
      */
-    void task6() throws PSException {
+    void task6() {
         // Your code here.
     }
 
@@ -122,7 +121,7 @@ public class TasksWithPS {
      * "Dear participant, your authentication code is xxxxxx", where "xxxxxx" is the result you need to get.
      * After you get the authentication code, please call submitTask7(String) to submit the result.
      */
-    void task7() throws PSException {
+    void task7() {
         // Your code here
     }
 }

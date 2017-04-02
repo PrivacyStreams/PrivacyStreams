@@ -16,9 +16,11 @@ public class AppUtils {
     public static final String APP_PACKAGE_CHROME = "com.android.chrome";
     public static final String APP_PACKAGE_FIREFOX="org.mozilla.firefox";
     public static final String APP_PACKAGE_OPERA="com.opera.browser";
+
     /**
+     * Check if a given package name is an IM app.
      *
-     * @param packageName
+     * @param packageName the package name of the app.
      * @return whether the app is instant messaging app or not.
      */
     public static boolean isIMApp(String packageName){
@@ -29,8 +31,9 @@ public class AppUtils {
     }
 
     /**
+     * Check if a given package name is a browser app.
      *
-     * @param packageName
+     * @param packageName the package name of the app.
      * @return whether the app is browser app or not.
      */
     public static boolean isBrowserApp(String packageName){

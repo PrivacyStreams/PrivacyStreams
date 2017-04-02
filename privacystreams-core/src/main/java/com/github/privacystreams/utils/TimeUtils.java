@@ -1,4 +1,4 @@
-package com.github.privacystreams.utils.time;
+package com.github.privacystreams.utils;
 
 import com.github.privacystreams.utils.Globals;
 
@@ -8,7 +8,7 @@ import java.util.Date;
 import java.util.Locale;
 
 /**
- * A helper class to get Unix timestamp value from time format.
+ * A helper class to access timestamp-related utilities.
  */
 
 public class TimeUtils {

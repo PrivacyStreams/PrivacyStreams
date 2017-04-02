@@ -5,7 +5,7 @@ import com.github.privacystreams.core.Item;
 import com.github.privacystreams.utils.annotations.PSOperatorWrapper;
 
 /**
- * A helper class to access arithmetic functions
+ * A helper class to access arithmetic operators.
  */
 @PSOperatorWrapper
 public class ArithmeticOperators {

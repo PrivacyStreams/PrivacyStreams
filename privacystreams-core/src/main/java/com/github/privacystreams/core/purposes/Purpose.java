@@ -50,15 +50,6 @@ public class Purpose {
     }
 
     /**
-     * Testing purpose.
-     * @param description a short description of the purpose.
-     * @return the Purpose instance
-     */
-    public static Purpose TEST(String description) {
-        return new Purpose(PURPOSE_TEST + ": " + description);
-    }
-
-    /**
      * Utility purpose.
      * @param description a short description of the purpose.
      * @return the Purpose instance
@@ -101,6 +92,17 @@ public class Purpose {
      */
     public static Purpose GAME(String description) {
         return new Purpose(PURPOSE_GAME + ": " + description);
+    }
+
+    /**
+     * Testing purpose.
+     * App should not use this purpose in released app.
+     *
+     * @param description a short description of the purpose.
+     * @return the Purpose instance
+     */
+    public static Purpose TEST(String description) {
+        return new Purpose(PURPOSE_TEST + ": " + description);
     }
 
     /**

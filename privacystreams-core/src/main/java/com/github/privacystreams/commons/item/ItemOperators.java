@@ -90,8 +90,8 @@ public class ItemOperators {
      * The value generator function is independent from current item, which does not need a input (Void).
      * The value generator will be evaluated on demand at runtime.
      *
-     * For example, `setIndependentField("time", TimeOperators.timestampGenerator())` will set the field "time" to a timestamp in each item;
-     * `setIndependentField("wifiStatus", DeviceOperators.wifiStatusChecker())` will set the field "wifiStatus" to a boolean indicating whether wifi is connected in each item.
+     * For example, `setIndependentField("time", TimeOperators.getCurrentTime())` will set the field "time" to a timestamp in each item;
+     * `setIndependentField("wifiStatus", DeviceOperators.isWifiConnected())` will set the field "wifiStatus" to a boolean indicating whether wifi is connected in each item.
      *
      * @param fieldToSet the name of the field to set, it can be a new name or an existing name.
      * @param valueGenerator the function to compute the field value.

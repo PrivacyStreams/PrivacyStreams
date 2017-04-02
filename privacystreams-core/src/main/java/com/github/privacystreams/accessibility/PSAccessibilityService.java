@@ -11,7 +11,7 @@ import java.util.Set;
 /**
  * PrivacyStreams accessibility service
  */
-public class MyAccessibilityService extends AccessibilityService {
+public class PSAccessibilityService extends AccessibilityService {
 
     private static Set<AccessibilityEventProvider> accessibilityEventProviders = new HashSet<>();
 
@@ -28,10 +28,12 @@ public class MyAccessibilityService extends AccessibilityService {
     }
 
     static void registerProvider(AccessibilityEventProvider provider){
-        accessibilityEventProviders.add(provider);
+        if (provider != null)
+            accessibilityEventProviders.add(provider);
     }
 
     static void unregisterProvider(AccessibilityEventProvider provider){
-        accessibilityEventProviders.remove(provider);
+        if (provider != null && accessibilityEventProviders.contains(provider))
+            accessibilityEventProviders.remove(provider);
     }
 }

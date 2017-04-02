@@ -7,19 +7,21 @@ import com.github.privacystreams.utils.annotations.PSItem;
 import com.github.privacystreams.utils.annotations.PSItemField;
 
 /**
- * An audio record.
+ * An Audio item represents an audio, could be an audio record from microphone,
+ * an audio file from storage, etc.
  */
 @PSItem
 public class Audio extends Item {
 
     /**
-     * The timestamp of when current audio record is generated.
+     * The timestamp of when the audio/record was generated.
      */
     @PSItemField(type = Long.class)
     public static final String TIMESTAMP = "timestamp";
 
     /**
-     * The URI of the audio file.
+     * The abstraction of audio data.
+     * The value is an `AudioData` instance.
      */
     @PSItemField(type = AudioData.class)
     public static final String AUDIO_DATA = "audio_data";
@@ -55,7 +57,7 @@ public class Audio extends Item {
     }
 
     /**
-     * Provide a stream of all Audio items in local file system.
+     * Provide all Audio items in local file system.
      *
      * @return the provider function.
      */

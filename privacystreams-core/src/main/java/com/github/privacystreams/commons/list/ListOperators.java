@@ -23,7 +23,7 @@ public class ListOperators {
     }
 
     /**
-     * Check whether the list field value of a field has intersection with a given list.
+     * Check whether the list field value of a field intersects with a given list.
      *
      * @param listField the name of the list field
      * @param listToCompare the list to compare

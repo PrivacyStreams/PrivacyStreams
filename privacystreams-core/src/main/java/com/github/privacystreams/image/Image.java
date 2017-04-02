@@ -6,19 +6,20 @@ import com.github.privacystreams.utils.annotations.PSItem;
 import com.github.privacystreams.utils.annotations.PSItemField;
 
 /**
- * An Image item represents an image file.
+ * An Image item represents an image, could be an image file from storage, etc.
  */
 @PSItem
 public class Image extends Item {
 
     /**
-     * The timestamp of when the image is generated.
+     * The timestamp of when the image was generated.
      */
     @PSItemField(type = Long.class)
     public static final String TIMESTAMP = "timestamp";
 
     /**
-     * The URI of image file.
+     * The abstraction of image data.
+     * The value is an `ImageData` instance.
      */
     @PSItemField(type = ImageData.class)
     public static final String IMAGE_DATA = "image_data";

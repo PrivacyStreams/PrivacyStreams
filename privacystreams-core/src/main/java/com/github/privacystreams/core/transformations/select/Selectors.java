@@ -8,7 +8,7 @@ import com.github.privacystreams.utils.annotations.PSOperatorWrapper;
 import java.util.List;
 
 /**
- * A helper class to access picker functions
+ * A helper class to access selector functions
  */
 @PSOperatorWrapper
 public class Selectors {

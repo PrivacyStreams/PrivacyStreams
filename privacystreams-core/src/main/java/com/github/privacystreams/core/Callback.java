@@ -4,6 +4,8 @@ import com.github.privacystreams.core.exceptions.PSException;
 
 /**
  * This function is mainly used to handle a result as a callback.
+ * Subclasses must implement `onSuccess` method to handle the result.
+ * To handle the exceptions, subclasses should implement `onFail` method.
  */
 
 public abstract class Callback<Tin> extends Function<Tin, Void> {

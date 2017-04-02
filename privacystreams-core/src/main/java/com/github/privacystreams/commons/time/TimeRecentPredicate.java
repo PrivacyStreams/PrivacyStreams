@@ -1,6 +1,6 @@
 package com.github.privacystreams.commons.time;
 
-import com.github.privacystreams.utils.time.TimeUtils;
+import com.github.privacystreams.utils.TimeUtils;
 
 /**
  * Check whether the timestamp specified by a field is recent from now.

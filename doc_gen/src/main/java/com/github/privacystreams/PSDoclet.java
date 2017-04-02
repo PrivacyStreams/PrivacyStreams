@@ -9,6 +9,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -68,6 +70,13 @@ public class PSDoclet extends HtmlDoclet {
 
             itemDocsPrinter.println("This document contains all types of personal data available in PrivacyStreams.\n");
 
+            Collections.sort(this.psItems, new Comparator<PSItemDoc>() {
+                @Override
+                public int compare(PSItemDoc psItemDoc1, PSItemDoc psItemDoc2) {
+                    return psItemDoc1.name.compareTo(psItemDoc2.name);
+                }
+            });
+
             for (PSItemDoc psItemDoc : this.psItems) {
                 itemDocsPrinter.println("- [" + psItemDoc.name + "](#" + psItemDoc.name.toLowerCase() + ")");
             }
@@ -98,6 +107,13 @@ public class PSDoclet extends HtmlDoclet {
             for (PSOperatorWrapperDoc psOperatorWrapperDoc : psOperatorWrappers) {
                 allOperatorDocs.addAll(psOperatorWrapperDoc.operatorDocs);
             }
+
+            Collections.sort(allOperatorDocs, new Comparator<PSOperatorDoc>() {
+                @Override
+                public int compare(PSOperatorDoc psOperatorDoc1, PSOperatorDoc psOperatorDoc2) {
+                    return psOperatorDoc1.shortSignature.compareTo(psOperatorDoc2.shortSignature);
+                }
+            });
 
             for (PSOperatorDoc operatorDoc : allOperatorDocs) {
                 operatorDocsPrinter.println(operatorDoc);

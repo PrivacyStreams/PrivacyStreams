@@ -13,13 +13,13 @@ abstract class NotificationEventProvider extends MStreamProvider {
 
     @Override
     protected void provide() {
-        MyNotificationListenerService.registerProvider(this);
+        PSNotificationListenerService.registerProvider(this);
         registered = true;
     }
 
     @Override
     protected void onCancelled(UQI uqi) {
-        MyNotificationListenerService.unregisterProvider(this);
+        PSNotificationListenerService.unregisterProvider(this);
         registered = false;
     }
 

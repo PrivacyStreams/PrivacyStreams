@@ -36,7 +36,7 @@ public class TimeOperators {
      * Get current timestamp.
      * @return the function.
      */
-    public static Function<Void, Long> timestampGenerator() {
+    public static Function<Void, Long> getCurrentTime() {
         return new CurrentTimeGetter();
     }
 
@@ -47,7 +47,7 @@ public class TimeOperators {
      * @param timeFormat the format of time string
      * @return the function
      */
-    public static Function<Item, String> timeStringGenerator(String timestampField, String timeFormat) {
+    public static Function<Item, String> formatTime(String timestampField, String timeFormat) {
         return new TimeToStringConverter(timestampField, timeFormat);
     }
 }

@@ -10,7 +10,7 @@ import com.github.privacystreams.utils.annotations.PSOperatorWrapper;
 public class Groupers {
 
     /**
-     * Group the items with same field value together.
+     * Group together the items with same field value.
      * This function will change the order of items.
      * The stream after grouping is a stream of GroupItem items.
      *
@@ -22,7 +22,7 @@ public class Groupers {
     }
 
     /**
-     * Group the contiguous items with same field value together.
+     * Group together the *contiguous* items with same field value.
      * This function will not change the order of items.
      * The stream after grouping is a stream of GroupItem items.
      *

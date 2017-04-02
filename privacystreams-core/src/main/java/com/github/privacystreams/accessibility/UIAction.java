@@ -16,7 +16,7 @@ import java.util.Date;
 public class UIAction extends BaseAccessibilityEvent {
 
     /**
-     * The source node of current accessibility event, which is an instance of [AccessibilityNodeInfo](https://developer.android.com/reference/android/view/accessibility/AccessibilityNodeInfo.html).
+     * The source node of the UI action, which is an instance of [AccessibilityNodeInfo](https://developer.android.com/reference/android/view/accessibility/AccessibilityNodeInfo.html).
      */
     @PSItemField(type = AccessibilityNodeInfo.class)
     public static final String SOURCE_NODE = "source_node";
@@ -28,6 +28,8 @@ public class UIAction extends BaseAccessibilityEvent {
 
     /**
      * Provide a live stream of UIAction items.
+     * A UIAction item will be generated once there is a UI action happened.
+     *
      * @return the provider function.
      */
     public static MStreamProvider asUpdates() {

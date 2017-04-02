@@ -8,7 +8,7 @@ import com.github.privacystreams.core.UQI;
 import com.github.privacystreams.utils.Assertions;
 import com.github.privacystreams.utils.Logging;
 import com.github.privacystreams.utils.StorageUtils;
-import com.github.privacystreams.utils.time.TimeUtils;
+import com.github.privacystreams.utils.TimeUtils;
 
 import java.io.File;
 import java.io.FileOutputStream;

@@ -7,9 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * @author toby
- * @date 2/28/17
- * @time 11:23 AM
+ * Provide a live stream of TextEntry items.
  */
 class TextEntryProvider extends AccessibilityEventProvider {
     protected InputEvent mEvent;

@@ -113,7 +113,7 @@ install {
 
 version = libraryVersion
 
-task myJavadoc(type: Javadoc, dependsOn: tasks.getByPath(':doc_gen:jar')) {
+task doc_gen(type: Javadoc, dependsOn: tasks.getByPath(':doc_gen:jar')) {
     source = android.sourceSets.main.java.srcDirs
     destinationDir = file("build/myDocs/").absoluteFile
 

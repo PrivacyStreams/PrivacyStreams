@@ -44,7 +44,7 @@ public class StorageOperators {
 
     /**
      * Write an object to a local file, the output file will be at `filePath`.
-     * If `isPublic` is true, the file will be created in '/sdcard/` folder, which can be accessed by other apps.
+     * If `isPublic` is true, the file will be created in `/sdcard/` folder, which can be accessed by other apps.
      * If `isPublic` is false, the file will be created in the app data folder, which can not be accessed by other apps;
      * If `append` is true, the object will be appended to the file;
      * If `append` is false, the object will overwrite the file.
@@ -66,7 +66,7 @@ public class StorageOperators {
 
     /**
      * Write an object to a local file, the output file path will be generated with a function.
-     * If `isPublic` is true, the file will be created in '/sdcard/` folder, which can be accessed by other apps.
+     * If `isPublic` is true, the file will be created in `/sdcard/` folder, which can be accessed by other apps.
      * If `isPublic` is false, the file will be created in the app data folder, which can not be accessed by other apps;
      * If `append` is true, the object will be appended to the file;
      * If `append` is false, the object will overwrite the file.

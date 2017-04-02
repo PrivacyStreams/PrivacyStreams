@@ -12,12 +12,12 @@ import com.github.privacystreams.utils.annotations.PSOperatorWrapper;
 public class Filters {
 
     /**
-     * Keep all items that satisfies a predicate, and remove the items that don't satisfy.
+     * Keep all items that satisfies a condition, and remove the items that don't satisfy.
      *
-     * @param predicate the predicate to check for each item
+     * @param condition the function to check whether an item should be kept
      * @return the filter function
      */
-    public static M2MTransformation keep(Function<Item, Boolean> predicate) {
-        return new PredicateFilter(predicate);
+    public static M2MTransformation keep(Function<Item, Boolean> condition) {
+        return new PredicateFilter(condition);
     }
 }

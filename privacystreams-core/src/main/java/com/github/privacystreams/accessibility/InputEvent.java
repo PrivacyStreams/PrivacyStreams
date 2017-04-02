@@ -4,7 +4,7 @@ package com.github.privacystreams.accessibility;
  * An input event.
  */
 
-public class InputEvent {
+class InputEvent {
     public String last;
     public String packageName;
     public int sequence;

@@ -20,9 +20,6 @@ import com.github.privacystreams.communication.Message;
 import com.github.privacystreams.core.UQI;
 import com.github.privacystreams.core.purposes.Purpose;
 import com.github.privacystreams.image.Image;
-import com.github.privacystreams.location.Geolocation;
-import com.github.privacystreams.utils.time.Duration;
-import com.google.android.gms.location.LocationRequest;
 
 import edu.cmu.chimps.love_study.pam.PAMActivity;
 
@@ -96,9 +93,9 @@ public class TrackingService extends Service {
 //                .filter(Comparators.lt(LightEnv.INTENSITY, 50))
 //                .debug();
 //
-        uqi.getData(Geolocation.asUpdates(Duration.minutes(1), Duration.seconds(30),
-                LocationRequest.PRIORITY_HIGH_ACCURACY), Purpose.FEATURE("know when you enter an area"))
-                .debug();
+//        uqi.getData(Geolocation.asUpdates(Duration.minutes(1), Duration.seconds(30),
+//                LocationRequest.PRIORITY_HIGH_ACCURACY), Purpose.FEATURE("know when you enter an area"))
+//                .debug();
 ////        uqi.getData(DeviceEvent.asUpdates(),Purpose.FEATURE("Love Study Device State Collection"))
 ////                .map(ItemOperators.setField("time_round", ArithmeticOperators.roundUp(DeviceEvent.TIMESTAMP, Duration.minutes(1))))
 ////                .localGroupBy("time_round")

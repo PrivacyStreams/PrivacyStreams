@@ -1,4 +1,4 @@
-package com.github.privacystreams.utils.time;
+package com.github.privacystreams.utils;
 
 /**
  * A helper class to get millisecond duration time.

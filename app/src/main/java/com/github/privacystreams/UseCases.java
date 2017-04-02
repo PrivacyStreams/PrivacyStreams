@@ -43,8 +43,8 @@ import com.github.privacystreams.location.Geolocation;
 import com.github.privacystreams.location.GeolocationOperators;
 import com.github.privacystreams.storage.DropboxOperators;
 import com.github.privacystreams.utils.Globals;
-import com.github.privacystreams.utils.time.Duration;
-import com.github.privacystreams.utils.time.TimeUtils;
+import com.github.privacystreams.utils.Duration;
+import com.github.privacystreams.utils.TimeUtils;
 
 import java.util.List;
 import java.util.Map;
@@ -132,7 +132,7 @@ public class UseCases {
                 .timeout(Duration.seconds(10))
                 .map(ItemOperators.setField("time_round", ArithmeticOperators.roundUp(TestItem.TIME_CREATED, Duration.seconds(2))))
                 .localGroupBy("time_round")
-                .setIndependentField("uuid", DeviceOperators.deviceIdGetter())
+                .setIndependentField("uuid", DeviceOperators.getDeviceId())
                 .forEach(DropboxOperators.uploadTo(new Function<Item, String>() {
                     @Override
                     public String apply(UQI uqi, Item input) {
@@ -148,7 +148,7 @@ public class UseCases {
                 .setIndependentField("contact_list", Contact.getAll().compound(Collectors.toItemList()))
                 .setIndependentField("wifi_ap_list", uqi.getData(WifiAp.getScanResults(), purpose).getValueGenerator(Collectors.toItemList()))
                 .setIndependentField("bluetooth_list", BluetoothDevice.getScanResults().compound(Collectors.toItemList()))
-                .setIndependentField("uuid", DeviceOperators.deviceIdGetter())
+                .setIndependentField("uuid", DeviceOperators.getDeviceId())
                 .limit(3)
                 .debug();
 //                .forEach(DropboxOperators.uploadTo(new Function<Item, String>() {
