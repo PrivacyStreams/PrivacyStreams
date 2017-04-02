@@ -326,8 +326,8 @@ public class UseCases {
 //    void callbackWhenEntersArea(double x, double y, double r, Callback<Boolean> enterAreaCallback) {
 //        uqi
 //                .getData(Geolocation.asUpdates(LocationManager.GPS_PROVIDER, 10, 10), Purpose.FEATURE("know when you enter an area"))
-//                .setField("inArea", GeolocationOperators.inArea(Geolocation.COORDINATES, x,y,r))
-//                .onChange("inArea", enterAreaCallback);
+//                .setField("inCircle", GeolocationOperators.inCircle(Geolocation.COORDINATES, x,y,r))
+//                .onChange("inCircle", enterAreaCallback);
 //    }
 
     // handle two-factor auth Message message

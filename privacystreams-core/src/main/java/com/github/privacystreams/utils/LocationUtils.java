@@ -1,5 +1,7 @@
 package com.github.privacystreams.utils;
 
+import android.location.Location;
+
 import com.github.privacystreams.location.LatLng;
 
 import java.util.Random;
@@ -27,5 +29,14 @@ public class LocationUtils {
 
     public static double getMetersPerLng(double latitude) {
         return 111132.954 * Math.cos(latitude * Math.PI / 180);
+    }
+
+    public static Double getDistanceBetween(LatLng latLng1, LatLng latLng2) {
+        if (latLng1 == null || latLng2 == null)
+            return null;
+        float[] result = new float[1];
+        Location.distanceBetween(latLng1.getLatitude(), latLng1.getLongitude(),
+                latLng2.getLatitude(), latLng2.getLongitude(), result);
+        return (double) result[0];
     }
 }

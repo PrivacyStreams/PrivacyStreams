@@ -21,17 +21,32 @@ public class GeolocationOperators {
 //    }
 
     /**
-     * Check if the coordinates value of a field is a location in an given round area.
+     * Check if the coordinates specified by a LatLng field is a location in an given circular region.
      *
-     * @param latLngField the coordinates field to check
-     * @param center_lat latitude of the center of the area
-     * @param center_lng longitude of the center of the area
-     * @param radius radius of the given area
-     * @return the predicate
+     * @param latLngField the LatLng field to check
+     * @param centerLat latitude of the center of the area
+     * @param centerLng longitude of the center of the area
+     * @param radius radius of the region, in meters
+     * @return the function
      */
-    public static Function<Item, Boolean> inArea(String latLngField,
-                                                 double center_lat, double center_lng, double radius) {
-        return new LocationInAreaPredicate(latLngField, center_lat, center_lng, radius);
+    public static Function<Item, Boolean> inCircle(String latLngField,
+                                                   double centerLat, double centerLng, double radius) {
+        return new LocationInCirclePredicate(latLngField, centerLat, centerLng, radius);
+    }
+
+    /**
+     * Check if the coordinates specified by a LatLng field is a location in an given square region.
+     *
+     * @param latLngField the LatLng field to check
+     * @param minLat the minimum latitude of the region
+     * @param minLng the minimum longitude of the region
+     * @param maxLat the maximum latitude of the region
+     * @param maxLng the maximum longitude of the region
+     * @return the function
+     */
+    public static Function<Item, Boolean> inSquare(String latLngField,
+                                                   double minLat, double minLng, double maxLat, double maxLng) {
+        return new LocationInSquarePredicate(latLngField, minLat, minLng, maxLat, maxLng);
     }
 
     /**
