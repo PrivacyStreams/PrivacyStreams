@@ -14,12 +14,12 @@ import com.github.privacystreams.core.purposes.Purpose;
  * The programming tasks to use in the lab study.
  */
 
-public class TasksWithPS {
+public class Tasks {
 
-    private final static String TAG = "TasksWithPS";
+    private final static String TAG = "Tasks";
 
     private Context context;
-    public TasksWithPS(Context context) {
+    public Tasks(Context context) {
         this.context = context;
     }
 
@@ -29,7 +29,7 @@ public class TasksWithPS {
      * Suppose you are developing a sleep monitor app based on microphone loudness.
      * As a part of the app, in this task, you need to get microphone loudness periodically (every 10 minutes).
      * Each loudness value is measured in decibels (dB) with a 10-second duration.
-     * Each time you get the Double-type loudness value, please call `Evaluator.submitTask0(Double)` method to submit the result.
+     * Each time you get the Double-type loudness value, please call `Evaluator.submitTask0(Double)` method to submit.
      * Note that emulators can't simulate microphone input, but it should be fine as this is a tutorial task.
      */
     void task0() {
@@ -52,18 +52,19 @@ public class TasksWithPS {
 
 
     /**
-     * Task 1: Getting the total length of text messages sent to each contact.
+     * Task 1: Getting all contact email addresses.
      *
-     * Suppose you are building an app to infer users' relationships with their friends.
-     * As a part of the app, in this task, you are trying to calculate the total length of text messages sent to each phone number.
-     * The result should be a Map, where each key is a phone number in String,
-     * and the value should be the total length of messages sent to the phone number in Integer.
+     * Suppose you are developing a social network app (like Facebook).
+     * As a part of the app, in this task, you are trying to get all contact email addresses on the device,
+     * in order to recommend potential friends to the user.
+     * The result should be a list of Strings, in which each element is an email address.
+     * Note that a contact may have multiple email addresses.
      *
-     * For example, if the user has two messages sent to number "123456",
-     * the first message has 10 characters and the second has 20 characters.
-     * Then the result Map should have a key "123456" and the value should be 30 (10+20).
+     * For example, if the user has two contacts, the first contact has one email address 'alice@email.com',
+     * and the second contact has two email addresses 'bob@email.com' and 'bob@123.com',
+     * then the result should be a list of three Strings: ['alice@email.com', 'bob@email.com', 'bob@123.com']
      *
-     * Once you get the result Map, please call `Evaluator.submitTask1(Map<String, Integer>)` method to submit the result.
+     * After you get the result, please call `submitTask1(List<String>)` method to submit the result.
      */
     void task1() {
         // Your code here.
@@ -79,7 +80,7 @@ public class TasksWithPS {
      *
      * For example, if the user is in New York City, a possible location can be (40.7128, -74.0059).
      *
-     * Once you get the result coordinates, please call `submitTask2(Double, Double)` method to submit the task.
+     * Once you get the result coordinates, please call `Evaluator.submitTask2(Double, Double)` method to submit.
      */
     void task2() {
         // Your code here.
@@ -89,16 +90,16 @@ public class TasksWithPS {
      * Task 3: Getting two-factor authentication code in next incoming text messages.
      *
      * Suppose your app uses two-factor authentication to verify user identities
-     * by sending a 6-digit authentication code in an text message.
-     * As a part of the app, in this task, you need to wait for an incoming authentication message
-     * and get the authentication code in the message.
-     * The authentication message will be from number "123456", and the text content will be:
+     * by sending a 6-digit authentication code in an text message (like Facebook did for login).
+     * As a part of the app, in this task, you want to automatically get the authentication code
+     * from the incoming text messages (so that users do not have to copy & paste by themselves).
+     * The authentication message will be from number "14008001234", and the text content will be:
      * "Your code is xxxxxx", where "xxxxxx" is the result String you need.
      *
-     * For example, if the next SMS message is not from "123456", just ignore it and keep waiting.
-     * If the next message is "Your code is abcdef" from "123456", then "abcdef" should be the result.
+     * For example, if the next SMS message is not from "14008001234", just ignore it and keep waiting.
+     * If the next message is "Your code is 123456" from "14008001234", then "123456" should be the result.
      *
-     * Once you get the authentication code, please call `submitTask3(String)` to submit the result.
+     * Once you get the String-type 6-digit code, please call `Evaluator.submitTask3(String)` to submit.
      */
     void task3() {
         // Your code here
@@ -107,14 +108,14 @@ public class TasksWithPS {
     /**
      * Task 4: Getting a list of image files.
      *
-     * Suppose you are developing a photo-editing app.
+     * Suppose you are developing a photo-editing app (like Instagram).
      * As a part of the app, in this task, you are trying to get the file paths of all images in local storage.
      * The result should be a list of String values, and each value is an file path to an image.
      *
      * For example, if there are two images in storage, the result list might be
      * ["/sdcard/Photos/image1.jpg", "/sdcard/Photos/image2.jpg"].
      *
-     * Once you get the result, please call `submitTask4(List<String>)` method to submit the result.
+     * Once you get the result, please call `Evaluator.submitTask4(List<String>)` method to submit.
      */
     void task4() {
         // Your code here.
@@ -125,24 +126,12 @@ public class TasksWithPS {
      *
      * Suppose you are developing a location-based game that notifies the users when there is a monster nearby (like Pokemon GO).
      * As a part of the app, in this task, you are trying to continuously monitor location,
-     * in order to notify users when they enter or leave a circular area.
+     * and notify users when they enter or leave a geofence.
+     * The geofence is a circular region with center coordinate `C = (40.4435, -79.9435)` and radius `R = 20m`.
      *
-     * For example,
-     *
-     * You need to call `submitTask5(1)` when entering the area and `submitTask5(0)` when leaving the area.
+     * You need to call `Evaluator.submitTask5(true)` when entering the region and `Evaluator.submitTask5(false)` when leaving the region.
      */
     void task5() {
-        // Your code here.
-    }
-
-    /**
-     * Task 6: Getting all contact email addresses.
-     *
-     * In this task, you are trying to get a list of all contacts' email addresses on the device.
-     * The result should be a list of Strings, in which each element is an email address.
-     * After you get the result, please call `submitTask6(List<String>)` method to submit the result.
-     */
-    void task6() {
         // Your code here.
     }
 }
