@@ -23,11 +23,12 @@ public class TasksWithPS {
     /**
      * Task 0 (tutorial task): Getting audio loudness periodically.
      *
+     * Suppose you are developing an sleep monitor app based on microphone loudness.
+     * In this task, you need to get microphone loudness periodically (every 30 minutes).
+     * Each loudness value should be a double number indicating the SPL (sound pressure level in decibels) during 10 seconds.
+     * To calculate loudness, use formula: `loudness = 20 * log(RMS_amplitude)`
+     * Each time you get the loudness, please call `submitTask0(Double)` method to submit the result.
      * Note that emulators can't simulate microphone input, but it should be fine as this is a tutorial task.
-     * In this task, you are trying to get microphone loudness (decibel) periodically.
-     * during the next 10 seconds.
-     * The loudness should be calculated as the max amplitude.
-     * Every time you get the result, please call submitTask3(int) method to submit the result.
      */
     void task0() {
         UQI uqi = new UQI(context);
@@ -51,33 +52,38 @@ public class TasksWithPS {
     /**
      * Task 1: Getting the total length of SMS messages for each contact.
      *
-     * In this task, you are trying to get the total length of SMS messages for each phone number.
+     * Suppose you are building an app to understand users' relationships with their friends.
+     * In this task, you are trying to calculate the total length of SMS messages for each phone number.
      * The result should be a Map, where each key is a phone number in String format,
-     * and the value should be an Integer.
-     * After you get the result, please call submitTask1(Map<String, Integer>) method to submit the result.
+     * and the value should be an Integer indicating the total length of SMS messages with the phone number.
+     * Once you get the result Map, please call `submitTask1(Map<String, Integer>)` method to submit the result.
      */
     void task1() {
         // Your code here.
     }
 
     /**
-     * Task 2: Getting current city name.
+     * Task 2: Getting current location coordinates.
      *
-     * In this task, you are trying to get the name of they city where the device is currently in.
-     * The result should be the city name in String format.
-     * After you get the result, please call submitTask2(String) method to submit the task.
+     * Suppose you are building a weather app to help users check weather based on their location.
+     * In this task, you are trying to get location coordinates of the user.
+     * The result should be two double values that are the latitude and longitude of the user's current location.
+     * After you get the result String, please call `submitTask2(Double, Double)` method to submit the task.
      */
     void task2() {
         // Your code here.
     }
 
     /**
-     * Task 3: Getting the phone number with the most outgoing messages.
+     * Task 3: Getting next SMS message for two-factor authentication.
      *
-     * In this task, you want to know who the user sent the most SMS messages to.
+     * In this task, you are trying to get the next SMS message for two-factor authentication.
+     * The authentication message will be from phone number "123456789" and the text content will be:
+     * "Dear participant, your authentication code is xxxxxx", where "xxxxxx" is the result you need to get.
+     * After you get the authentication code, please call `submitTask3(String)` to submit the result.
      */
     void task3() {
-        // Your code here.
+        // Your code here
     }
 
     /**
@@ -85,7 +91,7 @@ public class TasksWithPS {
      *
      * In this task, you are trying to get the file paths of all images in the sdcard.
      * The result should be a list of Strings, and each String in the list is an image file path.
-     * After you get the result, please call submitTask4(List<String>) method to submit the result.
+     * After you get the result, please call `submitTask4(List<String>)` method to submit the result.
      */
     void task4() {
         // Your code here.
@@ -96,32 +102,20 @@ public class TasksWithPS {
      *
      * In this task, you are trying to continuously get device location updates and be notified
      * when entering or leaving a coordinate box [(10,10), (20,20)].
-     * You need to call submitTask5(1) when entering the box and submitTask5(0) when leaving the box.
+     * You need to call `submitTask5(1)` when entering the box and `submitTask5(0)` when leaving the box.
      */
     void task5() {
         // Your code here.
     }
 
     /**
-     * Task 6: Getting a list of all contacts' email addresses.
+     * Task 6: Getting all contact email addresses.
      *
      * In this task, you are trying to get a list of all contacts' email addresses on the device.
      * The result should be a list of Strings, in which each element is an email address.
-     * After you get the result, please call submitTask6(List<String>) method to submit the result.
+     * After you get the result, please call `submitTask6(List<String>)` method to submit the result.
      */
     void task6() {
         // Your code here.
-    }
-
-    /**
-     * Task 7: Getting next SMS message for two-factor authentication.
-     *
-     * In this task, you are trying to get the next SMS message for two-factor authentication.
-     * The authentication message will be from phone number "123456789" and the text content will be:
-     * "Dear participant, your authentication code is xxxxxx", where "xxxxxx" is the result you need to get.
-     * After you get the authentication code, please call submitTask7(String) to submit the result.
-     */
-    void task7() {
-        // Your code here
     }
 }
