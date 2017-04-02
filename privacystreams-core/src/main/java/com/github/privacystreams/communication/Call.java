@@ -10,14 +10,13 @@ import com.github.privacystreams.utils.annotations.PSItemField;
  * The information of a phone call.
  */
 @PSItem
-public class CallLog extends Item {
+public class Call extends Item {
 
-    /**
-     * The unique id of this call log.
-     */
-    @PSItemField(type = Long.class)
-    public static final String ID = "id";
-
+//    /**
+//     * The unique id of this call log in Android database.
+//     */
+//    @PSItemField(type = Long.class)
+//    public static final String ID = "id";
 
     /**
      * The timestamp of when the phone call is happened.
@@ -47,8 +46,8 @@ public class CallLog extends Item {
     public static final String TYPE_OUTGOING = "outgoing";
     public static final String TYPE_MISSED = "missed";
 
-    CallLog(String id, Long timestamp, String phone_number, Long duration, String call_type) {
-        this.setFieldValue(ID, id);
+    Call(String id, Long timestamp, String phone_number, Long duration, String call_type) {
+//        this.setFieldValue(ID, id);
         this.setFieldValue(TIMESTAMP, timestamp);
         this.setFieldValue(CONTACT, phone_number);
         this.setFieldValue(DURATION, duration);
@@ -56,10 +55,19 @@ public class CallLog extends Item {
     }
 
     /**
-     * Provide a list of CallLog items from the device call log.
+     * Provide a list of Call items from the device call log.
      * @return the stream provider
      */
-    public static MStreamProvider getAll() {
+    public static MStreamProvider getLogs() {
         return new CallLogProvider();
+    }
+
+    /**
+     * Provide a live stream of Call items.
+     * A Call item will be generated if there is a new phone call event.
+     * @return the stream provider
+     */
+    public static MStreamProvider asUpdates() {
+        return new CallUpdatesProvider();
     }
 }

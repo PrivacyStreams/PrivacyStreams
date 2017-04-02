@@ -15,7 +15,7 @@ import java.util.List;
 public class Contact extends Item {
 
     /**
-     * The contact ID in Android database.
+     * The contact's unique ID in Android database.
      */
     @PSItemField(type = String.class)
     public static final String ID = "id";

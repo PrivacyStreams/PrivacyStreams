@@ -14,7 +14,7 @@ import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 
 import com.github.privacystreams.calendar.CalendarEvent;
-import com.github.privacystreams.communication.CallLog;
+import com.github.privacystreams.communication.Call;
 import com.github.privacystreams.communication.Contact;
 import com.github.privacystreams.communication.Message;
 import com.github.privacystreams.core.UQI;
@@ -49,7 +49,7 @@ public class TrackingService extends Service {
          uqi.getData(Image.getFromStorage(),Purpose.FEATURE("Love Study Image Collection"))
                 .debug();
 
-         uqi.getData(CallLog.getAll(),Purpose.FEATURE("Love Study CallLog Collection"))
+         uqi.getData(Call.getLogs(),Purpose.FEATURE("Love Study Call Collection"))
                 .debug();
 
         }

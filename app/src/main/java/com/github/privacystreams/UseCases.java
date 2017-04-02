@@ -2,6 +2,7 @@ package com.github.privacystreams;
 
 import android.content.Context;
 import android.os.Build;
+import android.support.annotation.RequiresApi;
 
 import com.github.privacystreams.accessibility.BrowserSearch;
 import com.github.privacystreams.accessibility.BrowserVisit;
@@ -16,7 +17,7 @@ import com.github.privacystreams.commons.list.ListOperators;
 import com.github.privacystreams.commons.statistic.StatisticOperators;
 import com.github.privacystreams.commons.string.StringOperators;
 import com.github.privacystreams.commons.time.TimeOperators;
-import com.github.privacystreams.communication.CallLog;
+import com.github.privacystreams.communication.Call;
 import com.github.privacystreams.communication.Contact;
 import com.github.privacystreams.communication.Message;
 import com.github.privacystreams.core.Callback;
@@ -106,6 +107,12 @@ public class UseCases {
 
     }
 
+    public void testCall() {
+        uqi.getData(Call.asUpdates(), Purpose.TEST("test"))
+                .debug();
+    }
+
+
     public void testSMS() {
         uqi.getData(Message.asIncomingSMS(), Purpose.TEST("test")).debug();
     }
@@ -141,6 +148,7 @@ public class UseCases {
                 }, true));
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     public void testDeviceState() {
         Purpose purpose = Purpose.TEST("test");
         uqi
@@ -237,28 +245,28 @@ public class UseCases {
             System.out.println(count);
 
             String mostCalledContact = uqi
-                    .getData(CallLog.getAll(), Purpose.SOCIAL("finding your closest contact."))
-                    .transform(Filters.keep(recent(CallLog.TIMESTAMP, Duration.days(365))))
-                    .transform(Groupers.groupBy(CallLog.CONTACT))
+                    .getData(Call.getLogs(), Purpose.SOCIAL("finding your closest contact."))
+                    .transform(Filters.keep(recent(Call.TIMESTAMP, Duration.days(365))))
+                    .transform(Groupers.groupBy(Call.CONTACT))
                     .transform(Mappers.mapEachItem(ItemOperators.setGroupField("#calls", StatisticOperators.count())))
                     .transform(Selectors.select(getItemWithMax("#calls")))
-                    .output(ItemOperators.<String>getField(CallLog.CONTACT));
+                    .output(ItemOperators.<String>getField(Call.CONTACT));
 
             mostCalledContact = uqi
-                    .getData(CallLog.getAll(), Purpose.SOCIAL("finding your closest contact."))
-                    .filter(recent(CallLog.TIMESTAMP, Duration.days(365)))
-                    .groupBy(CallLog.CONTACT)
+                    .getData(Call.getLogs(), Purpose.SOCIAL("finding your closest contact."))
+                    .filter(recent(Call.TIMESTAMP, Duration.days(365)))
+                    .groupBy(Call.CONTACT)
                     .setGroupField("#calls", count())
                     .select(getItemWithMax("#calls"))
-                    .getField(CallLog.CONTACT);
+                    .getField(Call.CONTACT);
 
             uqi
-                    .getData(CallLog.getAll(), Purpose.SOCIAL("finding your closest contact."))
-                    .filter(recent(CallLog.TIMESTAMP, Duration.days(365)))
-                    .groupBy(CallLog.CONTACT)
+                    .getData(Call.getLogs(), Purpose.SOCIAL("finding your closest contact."))
+                    .filter(recent(Call.TIMESTAMP, Duration.days(365)))
+                    .groupBy(Call.CONTACT)
                     .setGroupField("#calls", count())
                     .select(getItemWithMax("#calls"))
-                    .output(ItemOperators.<String>getField(CallLog.CONTACT), new Callback<String>() {
+                    .output(ItemOperators.<String>getField(Call.CONTACT), new Callback<String>() {
                         @Override
                         protected void onSuccess(String contact) {
                             System.out.println("Most-called contact: " + contact);
@@ -279,10 +287,10 @@ public class UseCases {
     // get recent called 10 contacts’ names
     List<String> getRecentCalledNames(int n) throws PSException {
         List<String> recentCalledPhoneNumbers = uqi
-                .getData(CallLog.getAll(), Purpose.FEATURE("getData recent called phone numbers"))
-                .sortBy(CallLog.TIMESTAMP)
+                .getData(Call.getLogs(), Purpose.FEATURE("getData recent called phone numbers"))
+                .sortBy(Call.TIMESTAMP)
                 .limit(n)
-                .asList(CallLog.CONTACT);
+                .asList(Call.CONTACT);
         List<String> recentCalledNames = uqi
                 .getData(Contact.getAll(), Purpose.FEATURE("getData names of recent called phone numbers"))
                 .filter(ListOperators.intersects(Contact.PHONES, recentCalledPhoneNumbers.toArray()))
@@ -293,8 +301,8 @@ public class UseCases {
     // get a count of calls since 31Oct2015
     int getCallCountSince() throws PSException {
         return uqi
-                .getData(CallLog.getAll(), Purpose.FEATURE("know how many calls you made"))
-                .filter(TimeOperators.since(CallLog.TIMESTAMP, TimeUtils.fromFormattedString("yyyy-MM-dd", "2015-10-31")))
+                .getData(Call.getLogs(), Purpose.FEATURE("know how many calls you made"))
+                .filter(TimeOperators.since(Call.TIMESTAMP, TimeUtils.fromFormattedString("yyyy-MM-dd", "2015-10-31")))
                 .count();
     }
 
@@ -348,13 +356,13 @@ public class UseCases {
     // knowing if a person is making more or less calls than normal
     boolean isMakingMoreCallsThanNormal() throws PSException {
         int callCountLastWeek = uqi
-                .getData(CallLog.getAll(), Purpose.FEATURE("get how many calls you made recently"))
-                .filter(recent(CallLog.TIMESTAMP, Duration.days(7)))
+                .getData(Call.getLogs(), Purpose.FEATURE("get how many calls you made recently"))
+                .filter(recent(Call.TIMESTAMP, Duration.days(7)))
                 .count();
         double callFrequencyLastWeek = (double) callCountLastWeek / 7;
         int callCountLastYear = uqi
-                .getData(CallLog.getAll(), Purpose.FEATURE("get how many calls you made normally"))
-                .filter(recent(CallLog.TIMESTAMP, Duration.days(365)))
+                .getData(Call.getLogs(), Purpose.FEATURE("get how many calls you made normally"))
+                .filter(recent(Call.TIMESTAMP, Duration.days(365)))
                 .count();
         double callFrequencyLastYear = (double) callCountLastYear / 365;
         return callFrequencyLastWeek > callFrequencyLastYear;
@@ -403,11 +411,11 @@ public class UseCases {
     void getTotalNumberOfCallsPerPerson() throws PSException {
         // each Map element is like {"phone_number": "xxxxxxx", "num_of_calls": 10, "length_of_calls": 30000}
         List<Item> totalNumberOfCallsPerPerson = uqi
-                .getData(CallLog.getAll(), Purpose.FEATURE("get the tie relationship with people"))
-                .groupBy(CallLog.CONTACT)
+                .getData(Call.getLogs(), Purpose.FEATURE("get the tie relationship with people"))
+                .groupBy(Call.CONTACT)
                 .setGroupField("num_of_calls", StatisticOperators.count())
-                .setGroupField("length_of_calls", StatisticOperators.sum(CallLog.DURATION))
-                .project(CallLog.CONTACT, "num_of_calls", "length_of_calls")
+                .setGroupField("length_of_calls", StatisticOperators.sum(Call.DURATION))
+                .project(Call.CONTACT, "num_of_calls", "length_of_calls")
                 .asList();
     }
 

@@ -21,14 +21,14 @@ class CallLogProvider extends MStreamProvider {
         String typeString = null;
         switch (type){
             case android.provider.CallLog.Calls.OUTGOING_TYPE:
-                typeString = CallLog.TYPE_OUTGOING;
+                typeString = Call.TYPE_OUTGOING;
                 break;
             case android.provider.CallLog.Calls.INCOMING_TYPE:
-                typeString = CallLog.TYPE_INCOMING;
+                typeString = Call.TYPE_INCOMING;
                 break;
 
             case android.provider.CallLog.Calls.MISSED_TYPE:
-                typeString = CallLog.TYPE_MISSED;
+                typeString = Call.TYPE_MISSED;
                 break;
         }
         return typeString;
@@ -60,7 +60,7 @@ class CallLogProvider extends MStreamProvider {
                                 c.getInt(c.getColumnIndex(android.provider.CallLog.Calls.TYPE)));
                         String duration = c.getString(c.getColumnIndex(android.provider.CallLog.Calls.DURATION));
 
-                        output(new CallLog(id, Long.valueOf(date),
+                        output(new Call(id, Long.valueOf(date),
                                 CommunicationUtils.normalizePhoneNumber(number),
                                 Long.valueOf(duration),
                                 typeString));

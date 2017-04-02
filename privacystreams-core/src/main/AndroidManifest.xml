@@ -7,11 +7,7 @@
             android:name="com.github.privacystreams.utils.permission.PermissionActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true" />
-        <receiver android:name="com.github.privacystreams.communication.CallReceiver" >
-            <intent-filter>
-                <action android:name="android.intent.action.PHONE_STATE" />
-            </intent-filter>
-        </receiver>
+
         <service
             android:enabled="@bool/accessibility_enabled"
             android:exported="true"
