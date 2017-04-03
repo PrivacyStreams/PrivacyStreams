@@ -4,7 +4,6 @@ import android.util.Log;
 
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 /**
  * The evaluator of the programming tasks in lab study.
@@ -37,9 +36,9 @@ public class Evaluator {
         Log.d(TAG, message);
     }
 
-    public static void submitTask4(List<String> imageFilepaths) {
+    public static void submitTask4(List<String> imageFilePaths) {
         // Grade the result.
-        String message = String.format(Locale.getDefault(), "Local images: %s", imageFilepaths.toString());
+        String message = String.format(Locale.getDefault(), "Local images: %s", imageFilePaths.toString());
         Log.d(TAG, message);
     }
 
