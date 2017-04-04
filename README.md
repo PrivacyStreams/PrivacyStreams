@@ -1,13 +1,15 @@
-# PrivacyStreams-Android
+# PrivacyStreams
 PrivacyStreams framework implemented in Android.
 
 ## About
 
 PrivacyStreams is a framework for transparent personal data processing.
-It offers a functional programming model for accessing and processing personal data which is designed to be easy-to-use for developers and, as a positive side effect, can also make your app more privacy-friendly.
+It offers a functional programming model for accessing and processing personal data
+which is designed to be easy-to-use for developers and, as a positive side effect,
+can also make their apps more privacy-friendly.
 
-PrivacyStreams-Android is an Android library implementation of PrivacyStreams.
-Android developers can simply import this library and start programming using PrivacyStreams APIs.
+This repo is an Android library implementation of PrivacyStreams.
+Android developers can simply import this library and develop apps using PrivacyStreams APIs.
 
 ## How to use
 
