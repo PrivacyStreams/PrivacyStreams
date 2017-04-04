@@ -1,4 +1,4 @@
-# PrivacyStreams-Android
+# PrivacyStreams
 PrivacyStreams framework implemented in Android.
 
 ## About
