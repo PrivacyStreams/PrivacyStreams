@@ -20,17 +20,17 @@ import com.google.android.gms.location.LocationServices;
 /**
  * Provide location updates with Google API.
  */
-class GoogleLocationProvider extends MStreamProvider implements
+class GoogleLocationUpdatesProvider extends MStreamProvider implements
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
         LocationListener  {
 
-    private static final String LOG_TAG = "[GoogleLocationProvider]";
+    private static final String LOG_TAG = "[GoogleLocationUpdatesProvider]";
 
     private final long interval;
     private final String level;
 
-    protected GoogleLocationProvider(long interval, String level) {
+    protected GoogleLocationUpdatesProvider(long interval, String level) {
         this.interval = interval;
         this.level = Assertions.notNull("level", level);
 

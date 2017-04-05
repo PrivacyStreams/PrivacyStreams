@@ -5,6 +5,7 @@ import android.location.Location;
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.providers.MStreamProvider;
 import com.github.privacystreams.core.providers.SStreamProvider;
+import com.github.privacystreams.utils.Globals;
 import com.github.privacystreams.utils.annotations.PSItem;
 import com.github.privacystreams.utils.annotations.PSItemField;
 
@@ -59,14 +60,19 @@ public class Geolocation extends Item {
 
     /** Country level. This level's accuracy is about 100,000 meters. */
     public static final String LEVEL_COUNTRY = "country";
+    static final int ACCURACY_COUNTRY = 100000;
     /** City level. This level's accuracy is about 10,000 meters. */
     public static final String LEVEL_CITY = "city";
+    static final int ACCURACY_CITY = 10000;
     /** Neighborhood level. This level's accuracy is about 1,000 meters. */
     public static final String LEVEL_NEIGHBORHOOD = "neighborhood";
+    static final int ACCURACY_NEIGHBORHOOD = 1000;
     /** Building level. This level's accuracy is about 100 meters. */
     public static final String LEVEL_BUILDING = "building";
+    static final int ACCURACY_BUILDING = 100;
     /** Exact level. This level's accuracy is about 10 meters. */
     public static final String LEVEL_EXACT = "exact";
+    static final int ACCURACY_EXACT = 10;
 
     Geolocation(Location location) {
         this.setFieldValue(TIMESTAMP, location.getTime());
@@ -84,7 +90,10 @@ public class Geolocation extends Item {
 
 
     public static MStreamProvider asUpdates(long interval, String level) {
-        return new GoogleLocationProvider(interval, level);
+        if (Globals.LocationConfig.useGoogleService)
+            return new GoogleLocationUpdatesProvider(interval, level);
+        else
+            return new LocationUpdatesProvider(interval, level);
     }
 
     /**
@@ -93,7 +102,10 @@ public class Geolocation extends Item {
      * @return the stream provider
      */
     public static SStreamProvider asLastKnown(String level) {
-        return new GoogleLastLocationProvider(level);
+        if (Globals.LocationConfig.useGoogleService)
+            return new GoogleLastLocationProvider(level);
+        else
+            return new LastKnownLocationProvider(level);
     }
 
 //    /**

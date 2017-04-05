@@ -93,13 +93,14 @@ public class UseCases {
     }
 
     public void testLocation() {
+        Globals.LocationConfig.useGoogleService = true;
         uqi.getData(Geolocation.asUpdates(1000, Geolocation.LEVEL_CITY), Purpose.TEST("test"))
                 .setField("distorted_lat_lng", GeolocationOperators.distort(Geolocation.LAT_LNG, 1000))
                 .setField("distortion", GeolocationOperators.distanceBetween(Geolocation.LAT_LNG, "distorted_lat_lng"))
                 .debug();
 
         try {
-            Thread.sleep(10000);
+            Thread.sleep(100000);
             uqi.stopAll();
         } catch (InterruptedException e) {
             e.printStackTrace();

@@ -11,8 +11,7 @@ import android.util.Log;
 
 import com.github.privacystreams.core.UQI;
 import com.github.privacystreams.core.providers.MStreamProvider;
-
-import org.apache.commons.lang3.StringUtils;
+import com.github.privacystreams.utils.Assertions;
 
 /**
  * Provide location updates with Android standard APIs.
@@ -20,19 +19,15 @@ import org.apache.commons.lang3.StringUtils;
 
 final class LocationUpdatesProvider extends MStreamProvider {
 
-    private String provider;
-    private long minTime;
-    private float minDistance;
-    private transient LocationManager locationManager;
-    private transient LocationListener locationListener;
+    private final long interval;
+    private final String level;
 
-    LocationUpdatesProvider(String provider, long minTime, float minDistance) {
-        this.provider = provider;
-        this.minTime = minTime;
-        this.minDistance = minDistance;
-        this.addParameters(provider, minTime, minDistance);
+    LocationUpdatesProvider(long interval, String level) {
+        this.interval = interval;
+        this.level = Assertions.notNull("level", level);
 
-        if (StringUtils.equals(this.provider, LocationManager.GPS_PROVIDER)) {
+        this.addParameters(interval, level);
+        if (Geolocation.LEVEL_EXACT.equals(level)) {
             this.addRequiredPermissions(Manifest.permission.ACCESS_FINE_LOCATION);
         }
         else {
@@ -40,25 +35,32 @@ final class LocationUpdatesProvider extends MStreamProvider {
         }
     }
 
+    private transient LocationManager locationManager;
+    private transient LocationListener locationListener;
+
     @Override
     protected void provide() {
-        Log.e("prepare","provid");
         Looper.prepare();
         locationManager = (LocationManager) this.getContext().getSystemService(Context.LOCATION_SERVICE);
         locationListener = new MyLocationListener();
 
-        this.getLocationUpdates();
+        long minTime = this.interval;
+        float minDistance = 0;
+        String provider;
+        if (Geolocation.LEVEL_EXACT.equals(level)) {
+            provider = LocationManager.GPS_PROVIDER;
+        }
+        else {
+            provider = LocationManager.NETWORK_PROVIDER;
+        }
         Looper.loop();
-    }
-
-    private void getLocationUpdates() {
-        locationManager.requestLocationUpdates(this.provider, this.minTime, this.minDistance, locationListener);
+        locationManager.requestLocationUpdates(provider, minTime, minDistance, locationListener);
     }
 
     @Override
     protected void onCancelled(UQI uqi) {
         super.onCancelled(uqi);
-        this.locationManager.removeUpdates(locationListener);
+        locationManager.removeUpdates(locationListener);
     }
 
     private final class MyLocationListener implements LocationListener {
