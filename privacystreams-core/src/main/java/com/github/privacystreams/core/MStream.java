@@ -9,6 +9,7 @@ import com.github.privacystreams.core.actions.MStreamAction;
 import com.github.privacystreams.core.actions.callback.Callbacks;
 import com.github.privacystreams.core.actions.collect.Collectors;
 import com.github.privacystreams.core.exceptions.PSException;
+import com.github.privacystreams.core.providers.MStreamProvider;
 import com.github.privacystreams.core.purposes.Purpose;
 import com.github.privacystreams.core.transformations.M2MTransformation;
 import com.github.privacystreams.core.transformations.M2STransformation;
@@ -477,7 +478,8 @@ public class MStream extends Stream {
      * @return the forked stream
      */
     public MStream fork(int numOfForks) {
-        return (MStream) super.fork(numOfForks);
+        this.getUQI().reuse(this, numOfForks);
+        return this;
     }
 
     /**

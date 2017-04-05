@@ -116,4 +116,23 @@ public abstract class Function<Tin, Tout> {
         }
     }
 
+    <T> boolean startsWith(Function<Tin, T> prefix) {
+        if (this == prefix) return true;
+        if (this instanceof CompoundFunction<?, ?, ?>) {
+            return ((CompoundFunction<Tin, ?, Tout>) this).getFunction1().startsWith(prefix);
+        }
+        return false;
+    }
+
+    <T, Ttemp> Function<? super T, Tout> removeStart(Function<Tin, T> prefix) {
+        if (this instanceof CompoundFunction<?, ?, ?>) {
+            Function<Tin, ? extends Ttemp> function1 = ((CompoundFunction<Tin, Ttemp, Tout>) this).getFunction1();
+            if (function1 == prefix) return ((CompoundFunction<Tin, T, Tout>) this).getFunction2();
+            Function<? super T, ? extends Ttemp> function1New = function1.removeStart(prefix);
+            if (function1New == null) return null;
+            return new CompoundFunction<>(function1New, ((CompoundFunction<Tin, Ttemp, Tout>) this).getFunction2());
+        }
+        return null;
+    }
+
 }

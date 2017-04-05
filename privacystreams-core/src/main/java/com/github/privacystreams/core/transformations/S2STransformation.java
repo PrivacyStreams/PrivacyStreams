@@ -9,8 +9,8 @@ import com.github.privacystreams.core.SStream;
 public abstract class S2STransformation extends StreamTransformation<SStream, SStream> {
 
     protected void init() {
-        super.init();
         this.output = new SStream(this.getUQI(), input.getStreamProvider().compound(this));
+        super.init();
     }
 
 }

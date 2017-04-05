@@ -10,7 +10,7 @@ import com.github.privacystreams.core.SStream;
 public abstract class M2STransformation extends StreamTransformation<MStream, SStream> {
 
     protected void init() {
-        super.init();
         this.output = new SStream(this.getUQI(), input.getStreamProvider().compound(this));
+        super.init();
     }
 }

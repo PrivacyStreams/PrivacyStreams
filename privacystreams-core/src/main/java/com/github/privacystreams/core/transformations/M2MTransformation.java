@@ -9,7 +9,7 @@ import com.github.privacystreams.core.MStream;
 public abstract class M2MTransformation extends StreamTransformation<MStream, MStream> {
     @Override
     protected void init() {
-        super.init();
         this.output = new MStream(this.getUQI(), input.getStreamProvider().compound(this));
+        super.init();
     }
 }

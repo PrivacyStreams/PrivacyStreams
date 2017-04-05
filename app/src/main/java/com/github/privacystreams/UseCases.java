@@ -12,6 +12,7 @@ import com.github.privacystreams.audio.Audio;
 import com.github.privacystreams.audio.AudioOperators;
 import com.github.privacystreams.commons.arithmetic.ArithmeticOperators;
 import com.github.privacystreams.commons.comparison.Comparators;
+import com.github.privacystreams.commons.debug.DebugOperators;
 import com.github.privacystreams.commons.item.ItemOperators;
 import com.github.privacystreams.commons.list.ListOperators;
 import com.github.privacystreams.commons.statistic.StatisticOperators;
@@ -23,6 +24,7 @@ import com.github.privacystreams.communication.Message;
 import com.github.privacystreams.core.Callback;
 import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.Item;
+import com.github.privacystreams.core.MStream;
 import com.github.privacystreams.core.UQI;
 import com.github.privacystreams.core.actions.collect.Collectors;
 import com.github.privacystreams.core.exceptions.PSException;
@@ -42,12 +44,14 @@ import com.github.privacystreams.image.Image;
 import com.github.privacystreams.image.ImageOperators;
 import com.github.privacystreams.location.Geolocation;
 import com.github.privacystreams.location.GeolocationOperators;
+import com.github.privacystreams.location.LatLng;
 import com.github.privacystreams.storage.DropboxOperators;
 import com.github.privacystreams.utils.Globals;
 import com.github.privacystreams.utils.Duration;
 import com.github.privacystreams.utils.TimeUtils;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import static com.github.privacystreams.commons.items.ItemsOperators.getItemWithMax;
@@ -92,12 +96,38 @@ public class UseCases {
                 .debug();
     }
 
+    public void testReuse() {
+        try {
+            MStream stream = uqi
+                    .getData(TestItem.getAllRandom(20, 100, 100), Purpose.TEST("test"))
+                    .limit(100)
+                    .fork(3);
+            int count = stream.count();
+            System.out.println(String.format(Locale.getDefault(), "%d", count));
+            int gt5Count = stream.filter(Comparators.gt(TestItem.X, 5)).count();
+            System.out.println(String.format(Locale.getDefault(), "%d %d", count, gt5Count));
+            int lte5Count = stream.logAs("3").filter(Comparators.lte(TestItem.X, 5)).logAs("4").count();
+            System.out.println(String.format(Locale.getDefault(), "%d %d %d", count, gt5Count, lte5Count));
+        } catch (PSException e) {
+            e.printStackTrace();
+        }
+
+    }
+
     public void testLocation() {
         Globals.LocationConfig.useGoogleService = true;
-        uqi.getData(Geolocation.asUpdates(1000, Geolocation.LEVEL_CITY), Purpose.TEST("test"))
+        MStream locationStream = uqi.getData(Geolocation.asUpdates(1000, Geolocation.LEVEL_CITY), Purpose.TEST("test"))
                 .setField("distorted_lat_lng", GeolocationOperators.distort(Geolocation.LAT_LNG, 1000))
                 .setField("distortion", GeolocationOperators.distanceBetween(Geolocation.LAT_LNG, "distorted_lat_lng"))
-                .debug();
+                .fork(2);
+
+        locationStream.debug();
+        locationStream.forEach("distorted_lat_lng", new Callback<LatLng>() {
+            @Override
+            protected void onSuccess(LatLng input) {
+                System.out.println(input);
+            }
+        });
 
         try {
             Thread.sleep(100000);

@@ -92,6 +92,66 @@ public class UQI {
         }
     }
 
+    private transient Map<Function<Void, MStream>, MStream> reusedMProviders = new HashMap<>();
+    private transient Map<Function<Void, SStream>, SStream> reusedSProviders = new HashMap<>();
+    private transient Set<Function<Void, ? extends Stream>> evaluatedProviders = new HashSet<>();
+
+    /**
+     * Reuse a MStream.
+     * @param stream the stream to reuse.
+     */
+    void reuse(MStream stream, int numOfForks) {
+        Function<Void, MStream> reusedProvider = stream.getStreamProvider();
+        stream.receiverCount = numOfForks;
+        reusedMProviders.put(reusedProvider, stream);
+    }
+
+    /**
+     * Reuse a SStream.
+     * @param stream the stream to reuse.
+     */
+    void reuse(SStream stream, int numOfForks) {
+        Function<Void, SStream> reusedProvider = stream.getStreamProvider();
+        stream.receiverCount = numOfForks;
+        reusedSProviders.put(reusedProvider, stream);
+    }
+
+    private boolean tryReuse(Function<Void, Void> query) {
+        if (reusedMProviders != null) {
+            for (Function<Void, MStream> provider : reusedMProviders.keySet()) {
+                if (query.startsWith(provider)) {
+                    Function<? super MStream, Void> newQuery = query.removeStart(provider);
+                    if (!this.evaluatedProviders.contains(provider)) {
+                        MStream stream = reusedMProviders.get(provider);
+                        MStream newStream = provider.apply(this, null);
+                        newStream.receiverCount = stream.receiverCount;
+                        reusedMProviders.put(provider, newStream);
+                        evaluatedProviders.add(provider);
+                    }
+                    newQuery.apply(this, reusedMProviders.get(provider));
+                    return true;
+                }
+            }
+        }
+        if (reusedSProviders != null) {
+            for (Function<Void, SStream> provider : reusedSProviders.keySet()) {
+                if (query.startsWith(provider)) {
+                    Function<? super SStream, Void> newQuery = query.removeStart(provider);
+                    if (!this.evaluatedProviders.contains(provider)) {
+                        SStream stream = reusedSProviders.get(provider);
+                        SStream newStream = provider.apply(this, null);
+                        newStream.receiverCount = stream.receiverCount;
+                        reusedSProviders.put(provider, newStream);
+                        evaluatedProviders.add(provider);
+                    }
+                    newQuery.apply(this, reusedSProviders.get(provider));
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     /**
      * Evaluate current UQI.
      *
@@ -108,7 +168,8 @@ public class UQI {
 
         if (PermissionUtils.checkPermissions(this.context, query.getRequiredPermissions())) {
             Logging.debug("Evaluating...");
-            query.apply(this, null);
+            boolean reused = this.tryReuse(query);
+            if (!reused) query.apply(this, null);
         }
         else if (retry) {
             // If retry is true, try to request permissions

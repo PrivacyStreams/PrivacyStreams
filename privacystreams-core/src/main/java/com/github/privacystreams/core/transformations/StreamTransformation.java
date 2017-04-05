@@ -16,7 +16,8 @@ abstract class StreamTransformation<InStream extends Stream, OutStream extends S
     protected abstract void onInput(Item item);
 
     protected final void output(Item item) {
-        if (this.output == null || this.output.isClosed()) {
+        while (this.output == null);
+        if (this.output.isClosed()) {
             if (!this.isCancelled) this.cancel(this.getUQI());
         }
         else this.output.write(item, this);

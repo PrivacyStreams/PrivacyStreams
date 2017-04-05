@@ -210,7 +210,8 @@ public class SStream extends Stream {
      * @return the forked stream
      */
     public SStream fork(int numOfForks) {
-        return (SStream) super.fork(numOfForks);
+        this.getUQI().reuse(this, numOfForks);
+        return this;
     }
 
     /**

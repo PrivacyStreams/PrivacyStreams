@@ -1,5 +1,6 @@
 package com.github.privacystreams.core.items;
 
+import com.github.privacystreams.core.UQI;
 import com.github.privacystreams.core.providers.MStreamProvider;
 
 /**
@@ -24,13 +25,24 @@ class RandomLiveMStreamProvider extends MStreamProvider {
             TestObject testObject = TestObject.getRandomInstance(this.maxInt, this.maxDouble);
             testObject.setId(id);
             id++;
-            this.output(new TestItem(testObject));
+            TestItem item = new TestItem(testObject);
+            this.output(item);
             try {
                 Thread.sleep(this.interval);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
+        this.finish();
     }
 
+//    @Override
+//    protected void onCancelled(UQI uqi) {
+//        super.onCancelled(uqi);
+//        try {
+//            throw new Exception();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
 }

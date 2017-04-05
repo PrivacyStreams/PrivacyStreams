@@ -4,8 +4,10 @@ import com.github.privacystreams.utils.Logging;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
@@ -31,17 +33,21 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 public abstract class Stream {
     private final UQI uqi;
-    private final EventBus eventBus;
 
-    private final Set<Function<? extends Stream, ?>> streamReceivers;
-
-    private transient volatile int receiverCount = 1;
-    private transient Queue<Item> streamCache = new ConcurrentLinkedQueue<>();
+    transient volatile int receiverCount;
+    private transient List<Item> streamItems;
+    private transient final List<Function<? extends Stream, ?>> receivers;
+    private transient final List<EventBus> eventBuses;
+    private transient final List<Integer> numSents;
 
     Stream(UQI uqi) {
         this.uqi = uqi;
-        this.eventBus = new EventBus();
-        this.streamReceivers = new HashSet<>();
+
+        this.receiverCount = 1;
+        this.streamItems = new ArrayList<>();
+        this.receivers = new ArrayList<>();
+        this.eventBuses = new ArrayList<>();
+        this.numSents = new ArrayList<>();
     }
 
     /**
@@ -56,36 +62,28 @@ public abstract class Stream {
             return;
         }
 
-//        // If receivers are not ready, cache the item
-//        if (this.streamReceivers.size() != this.receiverCount) {
-//            if (this.getUQI().isStreamDebug())
-//                Logging.debug("Receivers are not ready, caching...");
-//            this.streamCache.add(item);
-//            return;
-//        }
-//
-//        // send all cached items
-//        while (true) {
-//            Item cachedItem = this.streamCache.poll();
-//            if (cachedItem != null)
-//                this.doWrite(cachedItem);
-//            else
-//                break;
-//        }
-
-        while (this.streamReceivers.size() != this.receiverCount) {
-            try {
-                Thread.sleep(10);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+        int numExistingItems = this.streamItems.size();
+        if (numExistingItems == 0 || this.streamItems.get(numExistingItems - 1) != Item.EOS) {
+            this.streamItems.add(item);
         }
-
-        this.doWrite(item);
+        this.syncItems();
     }
 
-    private void doWrite(Item item) {
-        this.eventBus.post(item);
+    private synchronized void syncItems() {
+        int numReceived = this.streamItems.size();
+
+        for (int i = 0; i < this.receivers.size(); i++) {
+            int numSent = this.numSents.get(i);
+            if (numSent < numReceived) {
+                this.numSents.set(i, numReceived);
+                EventBus eventBus = this.eventBuses.get(i);
+                int currentReceiverCount = this.receiverCount;
+                for (int itemId = numSent; itemId < numReceived; itemId++) {
+                    eventBus.post(streamItems.get(itemId));
+                    if (currentReceiverCount != this.receiverCount) break;
+                }
+            }
+        }
     }
 
     /**
@@ -93,12 +91,17 @@ public abstract class Stream {
      * @param streamReceiver the function that receives stream items
      */
     public synchronized void register(Function<? extends Stream, ?> streamReceiver) {
-        if (this.streamReceivers.size() > this.receiverCount) {
+        if (this.receivers.size() >= this.receiverCount) {
             Logging.warn("Unknown StreamProvider trying to subscribe to stream!");
             return;
         }
-        this.eventBus.register(streamReceiver);
-        this.streamReceivers.add(streamReceiver);
+        EventBus eventBus = new EventBus();
+        eventBus.register(streamReceiver);
+        this.receivers.add(streamReceiver);
+        this.eventBuses.add(eventBus);
+        this.numSents.add(0);
+
+        Stream.this.syncItems();
     }
 
     /**
@@ -106,11 +109,18 @@ public abstract class Stream {
      * @param streamReceiver the function that receives stream items
      */
     public synchronized void unregister(Function<? extends Stream, ?> streamReceiver) {
-        if (!this.streamReceivers.contains(streamReceiver)) return;
-        this.eventBus.unregister(streamReceiver);
-        this.streamReceivers.remove(streamReceiver);
+        if (!this.receivers.contains(streamReceiver)) return;
+        int receiverId = this.receivers.indexOf(streamReceiver);
+        this.eventBuses.get(receiverId).unregister(streamReceiver);
+        this.receivers.remove(receiverId);
+        this.eventBuses.remove(receiverId);
+        this.numSents.remove(receiverId);
         this.receiverCount--;
-        if (this.isClosed()) this.getStreamProvider().cancel(this.uqi);
+
+        if (this.isClosed()) {
+            this.getStreamProvider().cancel(this.uqi);
+            this.streamItems.clear();
+        }
     }
 
     /**

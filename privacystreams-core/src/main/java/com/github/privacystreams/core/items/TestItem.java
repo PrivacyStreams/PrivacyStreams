@@ -82,17 +82,17 @@ public class TestItem extends Item {
         return new MockLocalMStreamProvider(testObjects);
     }
 
-//    /**
-//     * Provide a list of TestItem items, which are randomly generated.
-//     *
-//     * @param maxInt the max value of the int field of the random mock items
-//     * @param maxDouble the max value of the double field of the random mock items
-//     * @param count the number of random items
-//     * @return the provider function
-//     */
-//    public static MStreamProvider asRandomList(int maxInt, double maxDouble, int count) {
-//        return new RandomLocalMStreamProvider(maxInt, maxDouble, count);
-//    }
+    /**
+     * Provide a list of TestItem items, which are randomly generated.
+     *
+     * @param maxInt the max value of the int field of the random mock items
+     * @param maxDouble the max value of the double field of the random mock items
+     * @param count the number of random items
+     * @return the provider function
+     */
+    public static MStreamProvider getAllRandom(int maxInt, double maxDouble, int count) {
+        return new RandomLocalMStreamProvider(maxInt, maxDouble, count);
+    }
 
     /**
      * Provide one TestItem item, which is based on an given TestObject.
