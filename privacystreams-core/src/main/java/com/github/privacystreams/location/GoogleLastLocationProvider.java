@@ -12,6 +12,7 @@ import com.github.privacystreams.utils.Logging;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 
 
@@ -20,8 +21,7 @@ import com.google.android.gms.location.LocationServices;
  */
 class GoogleLastLocationProvider extends SStreamProvider implements
         GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener,
-        LocationListener  {
+        GoogleApiClient.OnConnectionFailedListener {
 
     private static final String LOG_TAG = "[GoogleLastLocationProvider]";
 
@@ -53,16 +53,15 @@ class GoogleLastLocationProvider extends SStreamProvider implements
         }
     }
 
-    //to get the location change
-    @Override
-    public void onLocationChanged(Location location) {
-        this.output(new Geolocation(location));
-    }
-
     @Override
     public void onConnected(@Nullable Bundle bundle) {
         Location mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-        this.output(new Geolocation(mLastLocation));
+        if (mLastLocation != null) {
+            this.output(new Geolocation(mLastLocation));
+        }
+        else {
+            Logging.warn("Fail to get last known location. Can get current location instead.");
+        }
         this.finish();
     }
 

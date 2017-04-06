@@ -14,9 +14,9 @@ class TextEntryProvider extends AccessibilityEventProvider {
 
     protected void onViewFocused(AccessibilityEvent event) {
 
-        if(mEvent!=null){
+        if(mEvent != null && event != null){
             //Store Text Input.
-            this.output(new TextEntry(event, event.getSource(),mEvent.text, new Date(System.currentTimeMillis())));
+            this.output(new TextEntry(event, event.getSource(), mEvent.text, new Date(System.currentTimeMillis())));
         }
         this.mEvent = null;
 

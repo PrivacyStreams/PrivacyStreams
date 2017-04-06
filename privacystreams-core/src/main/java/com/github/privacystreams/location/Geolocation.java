@@ -87,7 +87,7 @@ public class Geolocation extends Item {
         LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
         this.setFieldValue(LAT_LNG, latLng);
         this.setFieldValue(ACCURACY, location.getAccuracy());
-        this.setFieldValue(SPEED,location.getSpeed());
+        this.setFieldValue(SPEED, location.getSpeed());
     }
 
     /**

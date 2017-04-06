@@ -38,10 +38,7 @@ public class BrowserVisit extends Item {
     @PSItemField(type = Long.class)
     public static final String TIMESTAMP = "timestamp";
 
-    BrowserVisit(String title,
-                        String packageName,
-                        String url,
-                        long timestamp) {
+    BrowserVisit(String title, String packageName, String url, long timestamp) {
         this.setFieldValue(TITLE, title);
         this.setFieldValue(PACKAGE_NAME, packageName);
         this.setFieldValue(URL, url);

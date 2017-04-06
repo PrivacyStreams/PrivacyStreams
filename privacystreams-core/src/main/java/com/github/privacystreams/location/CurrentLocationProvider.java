@@ -12,22 +12,19 @@ import android.util.Log;
 import com.github.privacystreams.core.UQI;
 import com.github.privacystreams.core.providers.MStreamProvider;
 import com.github.privacystreams.utils.Assertions;
-import com.google.android.gms.location.LocationServices;
 
 /**
- * Provide location updates with Android standard APIs.
+ * Provide current location with Android standard APIs.
  */
 
-final class LocationUpdatesProvider extends MStreamProvider {
+final class CurrentLocationProvider extends MStreamProvider {
 
-    private final long interval;
     private final String level;
 
-    LocationUpdatesProvider(long interval, String level) {
-        this.interval = interval;
+    CurrentLocationProvider(String level) {
         this.level = Assertions.notNull("level", level);
 
-        this.addParameters(interval, level);
+        this.addParameters(level);
         if (Geolocation.LEVEL_EXACT.equals(level)) {
             this.addRequiredPermissions(Manifest.permission.ACCESS_FINE_LOCATION);
         }
@@ -45,7 +42,7 @@ final class LocationUpdatesProvider extends MStreamProvider {
         locationManager = (LocationManager) this.getContext().getSystemService(Context.LOCATION_SERVICE);
         locationListener = new MyLocationListener();
 
-        long minTime = this.interval;
+        long minTime = 0;
         float minDistance = 0;
         String provider;
         if (Geolocation.LEVEL_EXACT.equals(level)) {
@@ -76,7 +73,8 @@ final class LocationUpdatesProvider extends MStreamProvider {
         public void onLocationChanged(Location location) {
             if (location == null) return;
             Geolocation geolocation = new Geolocation(location);
-            LocationUpdatesProvider.this.output(geolocation);
+            CurrentLocationProvider.this.output(geolocation);
+            CurrentLocationProvider.this.stopLocationUpdate();
         }
 
         @Override
@@ -89,7 +87,7 @@ final class LocationUpdatesProvider extends MStreamProvider {
 
         @Override
         public void onProviderDisabled(String s) {
-            LocationUpdatesProvider.this.stopLocationUpdate();
+            CurrentLocationProvider.this.stopLocationUpdate();
         }
 
     };

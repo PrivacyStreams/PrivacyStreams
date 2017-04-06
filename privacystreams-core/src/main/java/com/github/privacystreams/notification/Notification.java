@@ -62,17 +62,17 @@ public class Notification extends Item {
     public static final String TEXT = "text";
 
 
-    public Notification(String category,
-                        String packageName,
-                        String notificationTitle,
-                        String notificationText,
-                        String action) {
+    Notification(String category,
+                 String packageName,
+                 String notificationTitle,
+                 String notificationText,
+                 String action) {
         this.setFieldValue(TIMESTAMP, System.currentTimeMillis());
         this.setFieldValue(CATEGORY, category);
         this.setFieldValue(PACKAGE_NAME, packageName);
         this.setFieldValue(TITLE, notificationTitle);
         this.setFieldValue(TEXT, notificationText);
-        this.setFieldValue(ACTION,action);
+        this.setFieldValue(ACTION, action);
     }
 
     /**

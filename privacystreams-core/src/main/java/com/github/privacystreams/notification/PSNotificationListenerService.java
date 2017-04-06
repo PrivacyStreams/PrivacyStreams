@@ -7,6 +7,8 @@ import android.service.notification.StatusBarNotification;
 import android.support.annotation.RequiresApi;
 import android.util.Log;
 
+import com.github.privacystreams.utils.Logging;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -31,17 +33,18 @@ public class PSNotificationListenerService extends android.service.notification.
 
     @Override
     public void onNotificationPosted(StatusBarNotification sbn) {
-
+        if (sbn == null) return;
+        Notification mNotification = sbn.getNotification();
+        if (mNotification == null) return;
         try{
-            Notification mNotification = sbn.getNotification();
-
             Bundle extras = mNotification.extras;
             String notificationText = "";
             String notificationTitle = extras.getString(Notification.EXTRA_TITLE);
 
-
-            if (extras.getCharSequenceArray(Notification.EXTRA_TEXT_LINES)==null){
-                notificationText=extras.getCharSequence(Notification.EXTRA_TEXT).toString();
+            if (extras.getCharSequenceArray(Notification.EXTRA_TEXT_LINES) == null){
+                CharSequence extraText = extras.getCharSequence(Notification.EXTRA_TEXT);
+                if (extraText != null)
+                    notificationText = extraText.toString();
 
                 for(NotificationEventProvider provider:notificationEventProviders)
                     provider.handleNotificationEvent(mNotification.category,
@@ -50,9 +53,9 @@ public class PSNotificationListenerService extends android.service.notification.
                             notificationText,
                             ACTION_POSTED);
             }
-            else{
+            else {
                 CharSequence[] csa = extras.getCharSequenceArray(Notification.EXTRA_TEXT_LINES);
-                assert csa != null;
+                if (csa == null) return;
                 for (CharSequence cs : csa){
                         notificationText = cs.toString();
 
@@ -64,7 +67,7 @@ public class PSNotificationListenerService extends android.service.notification.
                                         notificationText.split(": ")[1],
                                         ACTION_POSTED);
                         }
-                        else {
+                        else if (notificationTitle != null) {
                             for(NotificationEventProvider provider:notificationEventProviders)
                                 provider.handleNotificationEvent(mNotification.category,
                                         sbn.getPackageName(),
@@ -75,20 +78,23 @@ public class PSNotificationListenerService extends android.service.notification.
                 }
             }
 
-        }catch(Exception exception){
-            Log.e("exception",exception.toString());
+        } catch(Exception exception){
+            Logging.warn(exception.getMessage());
         }
     }
 
     @Override
     public void onNotificationRemoved(StatusBarNotification sbn) {
-
+        if (sbn == null) return;
         Notification mNotification = sbn.getNotification();
+        if (mNotification == null) return;
         String notificationTitle = mNotification.extras.getString(Notification.EXTRA_TITLE);
         for(NotificationEventProvider provider:notificationEventProviders)
             provider.handleNotificationEvent(mNotification.category,
-                    sbn.getPackageName(), notificationTitle,
-                    sbn.getNotification().tickerText.toString(),ACTION_REMOVED);
+                    sbn.getPackageName(),
+                    notificationTitle,
+                    mNotification.tickerText.toString(),
+                    ACTION_REMOVED);
 
     }
 
