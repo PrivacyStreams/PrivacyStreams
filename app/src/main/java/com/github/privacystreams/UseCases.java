@@ -143,6 +143,19 @@ public class UseCases {
 
     }
 
+    public void testCurrentLocation() {
+        Globals.LocationConfig.useGoogleService = true;
+        uqi.getData(Geolocation.asCurrent(Geolocation.LEVEL_CITY), Purpose.TEST("test")).debug();
+
+        try {
+            Thread.sleep(100000);
+            uqi.stopAll();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+    }
+
     public void testCall() {
         uqi.getData(Call.asUpdates(), Purpose.TEST("test"))
                 .debug();

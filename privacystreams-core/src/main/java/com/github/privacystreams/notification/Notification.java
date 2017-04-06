@@ -1,9 +1,8 @@
 package com.github.privacystreams.notification;
 
-import android.Manifest;
 import android.os.Build;
+import android.service.notification.StatusBarNotification;
 import android.support.annotation.RequiresApi;
-import android.support.annotation.RequiresPermission;
 
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.providers.MStreamProvider;
@@ -16,10 +15,10 @@ import com.github.privacystreams.utils.annotations.PSItemField;
 @PSItem
 public class Notification extends Item {
     /**
-     * The timestamp of the notification.
+     * The timestamp of when the notification was posted.
      */
     @PSItemField(type = Long.class)
-    public static final String TIMESTAMP = "timestamp";
+    public static final String POST_TIME = "post_time";
 
     /**
      * The action associated with the notification.
@@ -62,17 +61,34 @@ public class Notification extends Item {
     public static final String TEXT = "text";
 
 
-    Notification(String category,
-                 String packageName,
-                 String notificationTitle,
-                 String notificationText,
-                 String action) {
-        this.setFieldValue(TIMESTAMP, System.currentTimeMillis());
-        this.setFieldValue(CATEGORY, category);
+    Notification(long postTime, String packageName, String category, String title, String text, String action) {
+        this.setFieldValue(POST_TIME, postTime);
         this.setFieldValue(PACKAGE_NAME, packageName);
-        this.setFieldValue(TITLE, notificationTitle);
-        this.setFieldValue(TEXT, notificationText);
+        this.setFieldValue(CATEGORY, category);
+        this.setFieldValue(TITLE, title);
+        this.setFieldValue(TEXT, text);
         this.setFieldValue(ACTION, action);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
+    Notification(StatusBarNotification sbn, String action) {
+        this.setFieldValue(POST_TIME, sbn.getPostTime());
+        this.setFieldValue(PACKAGE_NAME, sbn.getPackageName());
+        this.setFieldValue(ACTION, action);
+
+        android.app.Notification mNotification = sbn.getNotification();
+        if (mNotification != null) {
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                String category = mNotification.category;
+                this.setFieldValue(CATEGORY, category);
+            }
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
+                String title = mNotification.extras.getString(android.app.Notification.EXTRA_TITLE);
+                String text = mNotification.extras.getString(android.app.Notification.EXTRA_TEXT);
+                this.setFieldValue(TITLE, title);
+                this.setFieldValue(TEXT, text);
+            }
+        }
     }
 
     /**
@@ -82,6 +98,6 @@ public class Notification extends Item {
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     // @RequiresPermission(value = Manifest.permission.BIND_NOTIFICATION_LISTENER_SERVICE)
     public static MStreamProvider asUpdates() {
-        return new BaseNotificationEventProvider();
+        return new NotificationUpdatesProvider();
     }
 }
