@@ -11,13 +11,14 @@ import android.util.Log;
 
 import com.github.privacystreams.core.UQI;
 import com.github.privacystreams.core.providers.MStreamProvider;
+import com.github.privacystreams.core.providers.SStreamProvider;
 import com.github.privacystreams.utils.Assertions;
 
 /**
  * Provide current location with Android standard APIs.
  */
 
-final class CurrentLocationProvider extends MStreamProvider {
+final class CurrentLocationProvider extends SStreamProvider {
 
     private final String level;
 

@@ -109,7 +109,7 @@ public class Geolocation extends Item {
     }
 
     /**
-     * Provide a Geolocation item, as the last known location.
+     * Provide an SStream of a Geolocation item, as the last known location.
      *
      * @return the provider
      */
@@ -118,6 +118,18 @@ public class Geolocation extends Item {
             return new GoogleLastLocationProvider(level);
         else
             return new LastKnownLocationProvider(level);
+    }
+
+    /**
+     * Provide an SStream of a Geolocation item, as the current location.
+     *
+     * @return the provider
+     */
+    public static SStreamProvider asCurrent(String level) {
+        if (Globals.LocationConfig.useGoogleService)
+            return new GoogleCurrentLocationProvider(level);
+        else
+            return new CurrentLocationProvider(level);
     }
 
 //    /**
