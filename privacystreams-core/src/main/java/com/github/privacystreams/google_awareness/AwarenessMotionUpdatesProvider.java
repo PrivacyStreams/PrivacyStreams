@@ -74,27 +74,24 @@ class AwarenessMotionUpdatesProvider extends MStreamProvider {
 //            }
 //        });
 
-                client = new GoogleApiClient.Builder(getContext())                              //Establish Connection
-                        .addApi(Awareness.API)
-                        .build();
-                client.connect();
-                walkingFence = DetectedActivityFence.during(DetectedActivityFence.WALKING);     //Create Fence
-                tiltingFence = DetectedActivityFence.during(DetectedActivityFence.TILTING);
-                onFootFence = DetectedActivityFence.during(DetectedActivityFence.ON_FOOT);
-                runningFence = DetectedActivityFence.during(DetectedActivityFence.RUNNING);
+            client = new GoogleApiClient.Builder(getContext())                              //Establish Connection
+                    .addApi(Awareness.API)
+                    .build();
+            client.connect();
+            walkingFence = DetectedActivityFence.during(DetectedActivityFence.WALKING);     //Create Fence
+            tiltingFence = DetectedActivityFence.during(DetectedActivityFence.TILTING);
+            onFootFence = DetectedActivityFence.during(DetectedActivityFence.ON_FOOT);
+            runningFence = DetectedActivityFence.during(DetectedActivityFence.RUNNING);
 
-                intent = new Intent(FENCE_RECEIVER_ACTION);                                     //Set up the intent and intent filter
-                myFillter = new IntentFilter(FENCE_RECEIVER_ACTION);
-                myPendingIntent = PendingIntent.getBroadcast(getContext(), 0, intent, 0);           //Set up the pendingIntent
-                myFenceReceiver = new FenceReceiver();                                              //Set up the receiver
-                getContext().registerReceiver(myFenceReceiver, myFillter);
-                registerFence(WALKINGFENCE, walkingFence);                                       //register the fences
-                registerFence(TILTINGFENCE, tiltingFence);
-                registerFence(ONFOOTFENCE, onFootFence);
-                registerFence(RUNNINGFENCE, runningFence);
-
-
-
+            intent = new Intent(FENCE_RECEIVER_ACTION);                                     //Set up the intent and intent filter
+            myFillter = new IntentFilter(FENCE_RECEIVER_ACTION);
+            myPendingIntent = PendingIntent.getBroadcast(getContext(), 0, intent, 0);           //Set up the pendingIntent
+            myFenceReceiver = new FenceReceiver();                                              //Set up the receiver
+            getContext().registerReceiver(myFenceReceiver, myFillter);
+            registerFence(WALKINGFENCE, walkingFence);                                       //register the fences
+            registerFence(TILTINGFENCE, tiltingFence);
+            registerFence(ONFOOTFENCE, onFootFence);
+            registerFence(RUNNINGFENCE, runningFence);
     }
 
     // Register the fence and add it to the pending intent

@@ -1,8 +1,11 @@
 package com.github.privacystreams;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
+import android.support.v4.app.ActivityCompat;
 
 import com.github.privacystreams.accessibility.BrowserSearch;
 import com.github.privacystreams.accessibility.BrowserVisit;
@@ -46,6 +49,7 @@ import com.github.privacystreams.location.Geolocation;
 import com.github.privacystreams.location.GeolocationOperators;
 import com.github.privacystreams.location.LatLng;
 import com.github.privacystreams.storage.DropboxOperators;
+import com.github.privacystreams.storage.StorageOperators;
 import com.github.privacystreams.utils.Globals;
 import com.github.privacystreams.utils.Duration;
 import com.github.privacystreams.utils.TimeUtils;
@@ -67,14 +71,15 @@ public class UseCases {
     public UseCases(Context context) {
         this.uqi = new UQI(context);
     }
+
     /*
      For testing the new lightUpdatesProvider
      */
-    public void testLightUpdatesProvider(){
+    public void testLightUpdatesProvider() {
         uqi.getData(LightEnv.asUpdates(), Purpose.FEATURE("light")).debug();
     }
 
-    public void testBlueToothUpatesProvider(){
+    public void testBlueToothUpatesProvider() {
         uqi.getData(BluetoothDevice.getScanResults(), Purpose.FEATURE("blueTooth device")).debug();
     }
 
@@ -161,8 +166,8 @@ public class UseCases {
                 .map(ItemOperators.setField("time_round", ArithmeticOperators.roundUp(TestItem.TIME_CREATED, Duration.seconds(2))))
                 .localGroupBy("time_round")
 //                .debug();
-                .forEach(DropboxOperators.<Item>uploadTo("mockData.txt", true));
-//                .forEach(StorageOperators.<Item>appendTo("PrivacyStreams_dir", "mockData"));
+//                .forEach(DropboxOperators.<Item>uploadTo("mockData.txt", true));
+                .forEach(StorageOperators.<Item>writeTo("PrivacyStreams_dir", true, true));
 
         uqi
                 .getData(TestItem.asUpdates(20, 100, 500), Purpose.TEST("test"))
@@ -179,7 +184,6 @@ public class UseCases {
                 }, true));
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     public void testDeviceState() {
         Purpose purpose = Purpose.TEST("test");
         uqi

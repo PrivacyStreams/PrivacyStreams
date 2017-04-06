@@ -1,5 +1,8 @@
 package com.github.privacystreams.accessibility;
 
+import android.Manifest;
+import android.support.annotation.RequiresPermission;
+
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.providers.MStreamProvider;
 import com.github.privacystreams.utils.annotations.PSItem;
@@ -51,6 +54,7 @@ public class BrowserVisit extends Item {
      *
      * @return the provider function.
      */
+    // @RequiresPermission(value = Manifest.permission.BIND_ACCESSIBILITY_SERVICE)
     public static MStreamProvider asUpdates(){
         return new BrowserVisitStreamProvider();
     }

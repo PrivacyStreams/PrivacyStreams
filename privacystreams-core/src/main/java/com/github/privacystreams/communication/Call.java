@@ -1,6 +1,9 @@
 package com.github.privacystreams.communication;
 
 
+import android.Manifest;
+import android.support.annotation.RequiresPermission;
+
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.providers.MStreamProvider;
 import com.github.privacystreams.utils.annotations.PSItem;
@@ -58,6 +61,7 @@ public class Call extends Item {
      * Provide a list of Call items from the device call log.
      * @return the stream provider
      */
+    // @RequiresPermission(value = Manifest.permission.READ_CALL_LOG)
     public static MStreamProvider getLogs() {
         return new CallLogProvider();
     }
@@ -67,6 +71,7 @@ public class Call extends Item {
      * A Call item will be generated if there is a new phone call event.
      * @return the stream provider
      */
+    // @RequiresPermission(allOf = {Manifest.permission.PROCESS_OUTGOING_CALLS, Manifest.permission.READ_PHONE_STATE})
     public static MStreamProvider asUpdates() {
         return new CallUpdatesProvider();
     }

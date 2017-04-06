@@ -1,6 +1,9 @@
 package com.github.privacystreams.communication;
 
+import android.Manifest;
 import android.os.Build;
+import android.support.annotation.RequiresApi;
+import android.support.annotation.RequiresPermission;
 
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.providers.MStreamProvider;
@@ -65,20 +68,17 @@ public class Message extends Item {
      * This provider requires Accessibility service turned on.
      * @return the provider function
      */
-
-     public static MStreamProvider asUpdatesInIM(){
-         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2)
-             return new IMUpdatesProvider();
-         else {
-             Logging.warn("Illegal SDK version.");
-             return null;
-         }
+    // @RequiresPermission(value = Manifest.permission.BIND_ACCESSIBILITY_SERVICE)
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
+    public static MStreamProvider asUpdatesInIM(){
+        return new IMUpdatesProvider();
     }
 
     /**
      * Provide a live stream of new incoming Message items from the Android Short Message Service (SMS).
      * @return the provider
      */
+    // @RequiresPermission(value = Manifest.permission.RECEIVE_SMS)
     public static MStreamProvider asIncomingSMS() {
         return new SMSIncomingMessageProvider();
     }
@@ -87,6 +87,7 @@ public class Message extends Item {
      * Provide all Message items from Android Short Message Service SMS.
      * @return the provider
      */
+    // @RequiresPermission(value = Manifest.permission.READ_SMS)
     public static MStreamProvider getAllSMS() {
         return new SMSMessageListProvider();
     }

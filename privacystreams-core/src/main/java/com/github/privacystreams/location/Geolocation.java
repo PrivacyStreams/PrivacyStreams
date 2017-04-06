@@ -1,6 +1,8 @@
 package com.github.privacystreams.location;
 
+import android.Manifest;
 import android.location.Location;
+import android.support.annotation.RequiresPermission;
 
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.providers.MStreamProvider;
@@ -88,7 +90,17 @@ public class Geolocation extends Item {
         this.setFieldValue(SPEED,location.getSpeed());
     }
 
-
+    /**
+     * Provide a live stream of Geolocation as the location updates.
+     *
+     * @param interval The interval between each two location updates.
+     * @param level The location granularity level, could be
+     *              "country"/"city"/"neighborhood"/"building"/"exact".
+     *              "exact" level requires ACCESS_FINE_LOCATION permission,
+     *              other levels requires ACCESS_COARSE_LOCATION.
+     * @return the provider
+     */
+    // @RequiresPermission(anyOf = {Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, conditional = true)
     public static MStreamProvider asUpdates(long interval, String level) {
         if (Globals.LocationConfig.useGoogleService)
             return new GoogleLocationUpdatesProvider(interval, level);
@@ -97,9 +109,9 @@ public class Geolocation extends Item {
     }
 
     /**
-     * Provide a Geolocation item, which is the last known location.
+     * Provide a Geolocation item, as the last known location.
      *
-     * @return the stream provider
+     * @return the provider
      */
     public static SStreamProvider asLastKnown(String level) {
         if (Globals.LocationConfig.useGoogleService)

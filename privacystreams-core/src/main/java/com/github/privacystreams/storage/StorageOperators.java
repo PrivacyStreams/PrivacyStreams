@@ -1,5 +1,8 @@
 package com.github.privacystreams.storage;
 
+import android.Manifest;
+import android.support.annotation.RequiresPermission;
+
 import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.UQI;
 import com.github.privacystreams.utils.annotations.PSOperatorWrapper;
@@ -50,11 +53,12 @@ public class StorageOperators {
      * If `append` is false, the object will overwrite the file.
      *
      * @param filePath the output file path
-     * @param isPublic whether the file is public
+     * @param isPublic whether the file is public. If set to true, will require WRITE_EXTERNAL_STORAGE permission.
      * @param append whether the object will be appended to the file
      * @param <Tin> the type of input object
      * @return the function
      */
+    // @RequiresPermission(value = Manifest.permission.WRITE_EXTERNAL_STORAGE, conditional = true)
     public static <Tin> Function<Tin, Void> writeTo(final String filePath, boolean isPublic, boolean append) {
         return new PSFileWriter<>(new Function<Tin, String>() {
             @Override
@@ -72,11 +76,12 @@ public class StorageOperators {
      * If `append` is false, the object will overwrite the file.
      *
      * @param filePathGenerator the function to generate the output file path each time
-     * @param isPublic whether the file is public
+     * @param isPublic whether the file is public. If set to true, will requires WRITE_EXTERNAL_STORAGE permission.
      * @param append whether the object will be appended to the file
      * @param <Tin> the type of input object
      * @return the function
      */
+    // @RequiresPermission(value = Manifest.permission.WRITE_EXTERNAL_STORAGE, conditional = true)
     public static <Tin> Function<Tin, Void> writeTo(final Function<Tin, String> filePathGenerator, boolean isPublic, boolean append) {
         return new PSFileWriter<>(filePathGenerator, isPublic, append);
     }

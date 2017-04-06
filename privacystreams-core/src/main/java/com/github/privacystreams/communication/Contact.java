@@ -1,5 +1,8 @@
 package com.github.privacystreams.communication;
 
+import android.Manifest;
+import android.support.annotation.RequiresPermission;
+
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.providers.MStreamProvider;
 import com.github.privacystreams.utils.annotations.PSItem;
@@ -50,6 +53,7 @@ public class Contact extends Item {
      *
      * @return the provider function.
      */
+    // @RequiresPermission(value = Manifest.permission.READ_CONTACTS)
     public static MStreamProvider getAll() {
         return new ContactListProvider();
     }

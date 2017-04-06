@@ -1,5 +1,8 @@
 package com.github.privacystreams.calendar;
 
+import android.Manifest;
+import android.support.annotation.RequiresPermission;
+
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.providers.MStreamProvider;
 import com.github.privacystreams.utils.annotations.PSItem;
@@ -55,6 +58,7 @@ public class CalendarEvent extends Item {
      *
      * @return the provider function.
      */
+    // @RequiresPermission(value = Manifest.permission.READ_CALENDAR)
     public static MStreamProvider getAll() {
         return new CalendarEventListProvider();
     }

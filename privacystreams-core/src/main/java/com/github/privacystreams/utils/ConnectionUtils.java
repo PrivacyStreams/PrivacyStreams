@@ -20,7 +20,7 @@ public class ConnectionUtils {
      * @param uqi a UQI instance
      * @return true if Wifi is connected
      */
-    @RequiresPermission(Manifest.permission.ACCESS_WIFI_STATE)
+    // @RequiresPermission(value = Manifest.permission.ACCESS_WIFI_STATE)
     public static boolean isWifiConnected(UQI uqi) {
         WifiManager wifiManager = (WifiManager) uqi.getContext().getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         if (wifiManager == null || !wifiManager.isWifiEnabled()) return false;

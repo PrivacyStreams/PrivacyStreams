@@ -1,5 +1,8 @@
 package com.github.privacystreams.device;
 
+import android.Manifest;
+import android.support.annotation.RequiresPermission;
+
 import com.github.privacystreams.core.Function;
 import com.github.privacystreams.utils.annotations.PSOperatorWrapper;
 
@@ -22,6 +25,7 @@ public class DeviceOperators {
      *
      * @return the function.
      */
+    // @RequiresPermission(value = Manifest.permission.ACCESS_WIFI_STATE)
     public static Function<Void, Boolean> isWifiConnected() {
         return new WifiStatusChecker();
     }

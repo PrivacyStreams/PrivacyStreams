@@ -22,7 +22,6 @@ import java.util.List;
  * Including WhatsApp, Facebook Messenger, etc.
  * The messages are accessed with Android Accessibility APIs.
  */
-@RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
 class IMUpdatesProvider extends MStreamProvider {
     private int totalNumberOfMessages=0;
     private int result=0;
@@ -43,8 +42,7 @@ class IMUpdatesProvider extends MStreamProvider {
 
     @Override
     protected void provide() {
-        getUQI().getData(BaseAccessibilityEvent.asUpdates(),
-                Purpose.LIB_INTERNAL("Event Triggers"))
+        getUQI().getData(BaseAccessibilityEvent.asUpdates(), Purpose.LIB_INTERNAL("Event Triggers"))
                 .filter(ItemOperators.isFieldIn(BaseAccessibilityEvent.PACKAGE_NAME,
                         new String[]{APP_PACKAGE_WHATSAPP, APP_PACKAGE_FACEBOOK_MESSENGER}))
                 .filter(Comparators.eq(BaseAccessibilityEvent.EVENT_TYPE,
@@ -61,8 +59,7 @@ class IMUpdatesProvider extends MStreamProvider {
                         }
 
                         detPackage=packageName;
-                        String contactName = AccessibilityUtils
-                                .getContactNameInChat(rootView,packageName);
+                        String contactName = AccessibilityUtils.getContactNameInChat(rootView,packageName);
                         if(contactName==null) {
                             return;
                         }
@@ -71,8 +68,7 @@ class IMUpdatesProvider extends MStreamProvider {
                         }
                         detContactName=contactName;
 
-                        List<AccessibilityNodeInfo> nodeInfos =
-                                AccessibilityUtils.getMessageList(rootView,packageName);
+                        List<AccessibilityNodeInfo> nodeInfos = AccessibilityUtils.getMessageList(rootView,packageName);
 
                         int eventItemCount = getEventItemCount(packageName,input);
                         if(nodeInfos==null || nodeInfos.size()==0){

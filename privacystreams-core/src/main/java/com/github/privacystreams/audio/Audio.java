@@ -1,5 +1,8 @@
 package com.github.privacystreams.audio;
 
+import android.Manifest;
+import android.support.annotation.RequiresPermission;
+
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.providers.MStreamProvider;
 import com.github.privacystreams.core.providers.SStreamProvider;
@@ -38,6 +41,7 @@ public class Audio extends Item {
      * @param duration the time duration of audio.
      * @return the provider.
      */
+    // @RequiresPermission(value = Manifest.permission.RECORD_AUDIO)
     public static SStreamProvider record(long duration) {
         return new AudioRecorder(duration);
     }
@@ -52,6 +56,7 @@ public class Audio extends Item {
      * @param interval the time interval between each two records, in milliseconds.
      * @return the provider
      */
+    // @RequiresPermission(value = Manifest.permission.RECORD_AUDIO)
     public static MStreamProvider recordPeriodic(long durationPerRecord, long interval) {
         return new AudioPeriodicRecorder(durationPerRecord, interval);
     }
@@ -61,6 +66,7 @@ public class Audio extends Item {
      *
      * @return the provider function.
      */
+    // @RequiresPermission(value = Manifest.permission.READ_EXTERNAL_STORAGE)
     public static MStreamProvider getFromStorage() {
         return new AudioStorageProvider();
     }

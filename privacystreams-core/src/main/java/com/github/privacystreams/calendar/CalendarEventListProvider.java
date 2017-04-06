@@ -9,8 +9,6 @@ import com.github.privacystreams.core.providers.MStreamProvider;
 
 import java.util.Calendar;
 
-import static android.Manifest.permission.READ_CONTACTS;
-
 /**
  * Provide existing calendar events.
  */
@@ -32,7 +30,7 @@ class CalendarEventListProvider extends MStreamProvider {
 
 
     CalendarEventListProvider() {
-        this.addRequiredPermissions(Manifest.permission.READ_CALENDAR,READ_CONTACTS);
+        this.addRequiredPermissions(Manifest.permission.READ_CALENDAR);
     }
 
 
@@ -62,16 +60,14 @@ class CalendarEventListProvider extends MStreamProvider {
                 Long startTime = c.getLong(c.getColumnIndex(CalendarContract.Events.DTSTART));
                 String location = c.getString(c.getColumnIndex(CalendarContract.Events.EVENT_LOCATION));
                 Long duration = c.getLong(c.getColumnIndex(CalendarContract.Events.DURATION));
-                Log.e("event",title + "," + location);
+                Log.e("event", title + "," + location);
                 CalendarEvent calendarEvent = new CalendarEvent(id, title, startTime, duration, location);
                 output(calendarEvent);
 
                 c.moveToNext();
             }
-
+            c.close();
         }
-        c.close();
-
 
     }
 

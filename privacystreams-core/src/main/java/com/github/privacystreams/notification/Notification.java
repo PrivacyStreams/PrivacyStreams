@@ -1,5 +1,10 @@
 package com.github.privacystreams.notification;
 
+import android.Manifest;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
+import android.support.annotation.RequiresPermission;
+
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.providers.MStreamProvider;
 import com.github.privacystreams.utils.annotations.PSItem;
@@ -74,6 +79,8 @@ public class Notification extends Item {
      * Provide a list of WifiAp items from WIFI scan result.
      * @return the provider function.
      */
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    // @RequiresPermission(value = Manifest.permission.BIND_NOTIFICATION_LISTENER_SERVICE)
     public static MStreamProvider asUpdates() {
         return new BaseNotificationEventProvider();
     }

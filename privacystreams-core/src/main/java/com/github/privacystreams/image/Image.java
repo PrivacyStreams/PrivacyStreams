@@ -1,5 +1,8 @@
 package com.github.privacystreams.image;
 
+import android.Manifest;
+import android.support.annotation.RequiresPermission;
+
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.providers.MStreamProvider;
 import com.github.privacystreams.utils.annotations.PSItem;
@@ -43,6 +46,7 @@ public class Image extends Item {
      *
      * @return the provider function.
      */
+    // @RequiresPermission(value = Manifest.permission.READ_EXTERNAL_STORAGE)
     public static MStreamProvider getFromStorage() {
         return new ImageStorageProvider();
     }

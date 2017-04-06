@@ -1,5 +1,7 @@
 package com.github.privacystreams.accessibility;
 
+import android.Manifest;
+import android.support.annotation.RequiresPermission;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
 
@@ -31,6 +33,7 @@ public class TextEntry extends UIAction {
      *
      * @return the provider function.
      */
+    // @RequiresPermission(value = Manifest.permission.BIND_ACCESSIBILITY_SERVICE)
     public static MStreamProvider asUpdates() {
         return new TextEntryProvider();
     }
