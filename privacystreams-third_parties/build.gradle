@@ -11,7 +11,7 @@ ext {
 
     libraryName = 'PrivacyStreams-third_parties'
     libraryDescription = 'The third party services integrated with PrivacyStreams framework, including DropboxConfig, Google Awareness, Google Maps, etc..'
-    libraryVersion = '0.0.5'
+    libraryVersion = "0.0.6"
 
     bintrayRepo = 'privacystreams-android'
     bintrayOrganization = "privacystreams"
@@ -36,8 +36,8 @@ android {
     defaultConfig {
         minSdkVersion 16
         targetSdkVersion 25
-        versionCode 5
-        versionName "0.0.5"
+        versionCode 6
+        versionName "0.0.6"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
