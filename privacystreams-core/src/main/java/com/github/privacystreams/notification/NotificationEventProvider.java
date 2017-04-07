@@ -6,7 +6,13 @@ import android.support.annotation.RequiresApi;
 
 import com.github.privacystreams.core.UQI;
 import com.github.privacystreams.core.providers.MStreamProvider;
+import com.github.privacystreams.utils.permission.PermissionUtils;
+
 abstract class NotificationEventProvider extends MStreamProvider {
+
+    NotificationEventProvider() {
+        this.addRequiredPermissions(PermissionUtils.USE_NOTIFICATION_SERVICE);
+    }
 
     private boolean registered = false;
 

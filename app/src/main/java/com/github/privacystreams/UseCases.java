@@ -48,6 +48,7 @@ import com.github.privacystreams.image.ImageOperators;
 import com.github.privacystreams.location.Geolocation;
 import com.github.privacystreams.location.GeolocationOperators;
 import com.github.privacystreams.location.LatLng;
+import com.github.privacystreams.notification.Notification;
 import com.github.privacystreams.storage.DropboxOperators;
 import com.github.privacystreams.storage.StorageOperators;
 import com.github.privacystreams.utils.Globals;
@@ -147,13 +148,6 @@ public class UseCases {
         Globals.LocationConfig.useGoogleService = true;
         uqi.getData(Geolocation.asCurrent(Geolocation.LEVEL_CITY), Purpose.TEST("test")).debug();
 
-        try {
-            Thread.sleep(100000);
-            uqi.stopAll();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
     }
 
     public void testCall() {
@@ -220,7 +214,14 @@ public class UseCases {
      * Getting a stream of text entries and printing
      */
     public void testTextEntry() {
-        uqi.getData(TextEntry.asUpdates(), Purpose.FEATURE("test")).debug();
+        uqi.getData(TextEntry.asUpdates(), Purpose.TEST("test")).debug();
+    }
+
+    /*
+     * Getting a stream of notifications and printing
+     */
+    public void testNotification() {
+        uqi.getData(Notification.asUpdates(), Purpose.TEST("test")).debug();
     }
 
     public void testWifiUpdates(int seconds){

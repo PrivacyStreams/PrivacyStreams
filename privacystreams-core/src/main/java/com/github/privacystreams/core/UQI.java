@@ -58,8 +58,10 @@ public class UQI {
 
     /**
      * Get a MStream from a provider with a purpose.
-     * For example, using <code>uqi.getData(Contact.getLogs(), Purpose.FEATURE("..."))</code> will return a stream of contacts.
-     * @param mStreamProvider the function to provide the personal data stream, e.g. Geolocation.asUpdates().
+     * For example, using `uqi.getData(Contact.getLogs(), Purpose.FEATURE("..."))`
+     * will return a stream of contacts.
+     * @param mStreamProvider the function to provide the personal data stream,
+     *                        e.g. Geolocation.asUpdates().
      * @param purpose the purpose of personal data use, e.g. Purpose.ADS("xxx").
      * @return a multi-item stream
      */
@@ -70,8 +72,10 @@ public class UQI {
 
     /**
      * Get an SStream from a provider with a purpose.
-     * For example, using <code>uqi.getData(Geolocation.asLastKnown(), Purpose.FEATURE("..."))</code> will return a stream that contains one location item.
-     * @param sStreamProvider the function to provide the personal data item, e.g. Location.asLastKnown(), Audio.record(100).
+     * For example, using `uqi.getData(Geolocation.asLastKnown(), Purpose.FEATURE("..."))`
+     * will return a stream that contains one location item.
+     * @param sStreamProvider the function to provide the personal data item,
+     *                        e.g. Location.asLastKnown(), Audio.record(100).
      * @param purpose the purpose of personal data use, e.g. Purpose.ADS("xxx").
      * @return a single-item stream
      */
@@ -159,9 +163,7 @@ public class UQI {
      * @param retry whether to try again if the permission is denied.
      */
     public void evaluate(Function<Void, Void> query, boolean retry) {
-        Logging.debug("Trying to evaluate PrivacyStreams Query.");
-        Logging.debug("Purpose: " + this.getPurposeOfQuery(query));
-        Logging.debug("Query: " + query);
+        Logging.debug("Trying to evaluate query {" + query + "}. Purpose {" + this.getPurposeOfQuery(query) + "}");
         Logging.debug("Required Permissions: " + query.getRequiredPermissions());
 
         this.queries.add(query);

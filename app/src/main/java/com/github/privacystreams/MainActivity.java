@@ -39,6 +39,8 @@ public class MainActivity extends AppCompatActivity {
             UseCases useCases = new UseCases(MainActivity.this);
 
             useCases.testCurrentLocation();
+            useCases.testTextEntry();
+            useCases.testNotification();
 //            useCases.testAudio();
 //            useCases.testMockData();
 //            useCases.testContacts();

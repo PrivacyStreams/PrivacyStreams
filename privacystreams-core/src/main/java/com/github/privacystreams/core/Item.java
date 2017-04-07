@@ -20,7 +20,8 @@ import static com.github.privacystreams.utils.Assertions.cast;
 public class Item {
 
     /**
-     * The timestamp of when the Item is created.
+     * The timestamp of when this item is created.
+     * It is a general field for all items.
      */
     @PSItemField(type = Long.class)
     public static final String TIME_CREATED = "time_created";

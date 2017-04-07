@@ -7,8 +7,10 @@ import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.util.Pair;
 
+import com.github.privacystreams.accessibility.PSAccessibilityService;
 import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.UQI;
+import com.github.privacystreams.notification.PSNotificationListenerService;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -20,6 +22,9 @@ import java.util.Set;
  */
 
 public class PermissionUtils {
+    public static final String USE_ACCESSIBILITY_SERVICE = "use_accessibility_service";
+    public static final String USE_NOTIFICATION_SERVICE = "use_notification_service";
+
     /**
      * Check if the permission are granted in current context
      * @param context the context instance
@@ -52,7 +57,13 @@ public class PermissionUtils {
         Set<String> deniedPermissions = new HashSet<>();
         if (requiredPermissions != null) {
             for (String p : requiredPermissions) {
-                if (ContextCompat.checkSelfPermission(context, p) != PackageManager.PERMISSION_GRANTED) {
+                if (p.equals(PermissionUtils.USE_ACCESSIBILITY_SERVICE)) {
+                    if (!PSAccessibilityService.enabled) deniedPermissions.add(p);
+                }
+                else if (p.equals(PermissionUtils.USE_NOTIFICATION_SERVICE)) {
+                    if (!PSNotificationListenerService.enabled) deniedPermissions.add(p);
+                }
+                else if (ContextCompat.checkSelfPermission(context, p) != PackageManager.PERMISSION_GRANTED) {
                     deniedPermissions.add(p);
                 }
             }
