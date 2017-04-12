@@ -1,4 +1,4 @@
-package com.github.privacystreams.utils.permission;
+package com.github.privacystreams.utils;
 
 import android.content.Context;
 import android.content.Intent;
@@ -81,8 +81,8 @@ public class PermissionUtils {
             Pair<UQI, Function<Void, Void>> uqiQuery = new Pair<>(uqi, query);
             int requestCode = uqiQuery.hashCode();
             pendingUQIQueries.put(requestCode, uqiQuery);
-            Intent permissionRequest = new Intent(uqi.getContext(), PermissionActivity.class);
-            permissionRequest.putExtra(PermissionActivity.REQUEST_CODE, requestCode);
+            Intent permissionRequest = new Intent(uqi.getContext(), PSPermissionActivity.class);
+            permissionRequest.putExtra(PSPermissionActivity.REQUEST_CODE, requestCode);
             permissionRequest.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             uqi.getContext().startActivity(permissionRequest);
         }

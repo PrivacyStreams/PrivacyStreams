@@ -7,7 +7,7 @@ import com.github.privacystreams.core.providers.MStreamProvider;
 import com.github.privacystreams.core.providers.SStreamProvider;
 import com.github.privacystreams.core.purposes.Purpose;
 import com.github.privacystreams.utils.Logging;
-import com.github.privacystreams.utils.permission.PermissionUtils;
+import com.github.privacystreams.utils.PermissionUtils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 

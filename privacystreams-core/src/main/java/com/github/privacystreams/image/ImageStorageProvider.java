@@ -32,7 +32,7 @@ class ImageStorageProvider extends MStreamProvider {
                         MediaStore.Images.Media.BUCKET_ID,
                         MediaStore.Images.Media.BUCKET_DISPLAY_NAME,
                         MediaStore.Images.Media._ID,
-                        MediaStore.Images.Media.DATE_TAKEN,
+                        MediaStore.Images.Media.DATE_ADDED,
                         MediaStore.Images.Media.SIZE,
                         MediaStore.Images.Media.DISPLAY_NAME,
                         MediaStore.Images.Media.DATA
@@ -43,10 +43,19 @@ class ImageStorageProvider extends MStreamProvider {
         if (c!=null && c.moveToFirst()) {
             do {
                 // Get the field values
-                Long dateTaken = c.getLong(c.getColumnIndex(MediaStore.Images.Media.DATE_TAKEN));
-                String fileName = c.getString(c.getColumnIndex(MediaStore.Images.Media.DATA));
-                ImageData imageData = ImageData.newLocalImage(new File(fileName));
-                Image image = new Image(dateTaken, imageData);
+                int bucketId = c.getInt(0);
+                String bucketName = c.getString(1);
+                int imageId = c.getInt(2);
+                Long dateAdded = c.getLong(3);
+                long size = c.getLong(4);
+                String imageName = c.getString(5);
+                String filePath = c.getString(6);
+                ImageData imageData = ImageData.newLocalImage(new File(filePath));
+                Image image = new Image(dateAdded, imageData);
+                image.setFieldValue(Image.BUCKET_ID, bucketId);
+                image.setFieldValue(Image.BUCKET_NAME, bucketName);
+                image.setFieldValue(Image.IMAGE_ID, imageId);
+                image.setFieldValue(Image.IMAGE_NAME, imageName);
                 this.output(image);
             } while (c.moveToNext());
 

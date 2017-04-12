@@ -7,7 +7,7 @@ import android.location.LocationManager;
 
 import com.github.privacystreams.core.providers.SStreamProvider;
 import com.github.privacystreams.utils.Assertions;
-import com.github.privacystreams.utils.permission.PermissionUtils;
+import com.github.privacystreams.utils.PermissionUtils;
 import com.github.privacystreams.utils.Duration;
 
 

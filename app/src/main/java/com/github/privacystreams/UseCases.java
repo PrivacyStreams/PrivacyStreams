@@ -88,6 +88,8 @@ public class UseCases {
         uqi.getData(Image.getFromStorage(), Purpose.TEST("test"))
                 .setField("lat_lng", ImageOperators.getLatLng(Image.IMAGE_DATA))
                 .debug();
+        uqi.getData(Image.takeFromCamera(), Purpose.TEST("test"))
+                .debug();
     }
 
 //    public void testPhysicalMotionUpdatesProvider(){

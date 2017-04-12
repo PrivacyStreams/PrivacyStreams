@@ -1,10 +1,8 @@
 package com.github.privacystreams.image;
 
-import android.Manifest;
-import android.support.annotation.RequiresPermission;
-
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.providers.MStreamProvider;
+import com.github.privacystreams.core.providers.SStreamProvider;
 import com.github.privacystreams.utils.annotations.PSItem;
 import com.github.privacystreams.utils.annotations.PSItemField;
 
@@ -18,7 +16,7 @@ public class Image extends Item {
      * The timestamp of when the image was generated.
      */
     @PSItemField(type = Long.class)
-    public static final String TIMESTAMP = "timestamp";
+    public static final String DATE_ADDED = "date_added";
 
     /**
      * The abstraction of image data.
@@ -27,19 +25,47 @@ public class Image extends Item {
     @PSItemField(type = ImageData.class)
     public static final String IMAGE_DATA = "image_data";
 
-    Image(Long timestamp, ImageData imageData) {
-        this.setFieldValue(TIMESTAMP, timestamp);
+    /**
+     * The id of the bucket (folder) that the image belongs to.
+     * This field is only available with `getFromStorage` provider.
+     */
+    @PSItemField(type = Integer.class)
+    public static final String BUCKET_ID = "bucket_id";
+
+    /**
+     * The name of the bucket (folder) that the image belongs to.
+     * This field is only available with `getFromStorage` provider.
+     */
+    @PSItemField(type = String.class)
+    public static final String BUCKET_NAME = "bucket_name";
+
+    /**
+     * The id of the image in Android media database.
+     * This field is only available with `getFromStorage` provider.
+     */
+    @PSItemField(type = Integer.class)
+    public static final String IMAGE_ID = "image_id";
+
+    /**
+     * The name of the image.
+     * This field is only available with `getFromStorage` provider.
+     */
+    @PSItemField(type = String.class)
+    public static final String IMAGE_NAME = "image_name";
+
+    Image(Long dateAdded, ImageData imageData) {
+        this.setFieldValue(DATE_ADDED, dateAdded);
         this.setFieldValue(IMAGE_DATA, imageData);
     }
 
-//    /**
-//     * Provide an Image item, which represents a photo taken from camera.
-//     *
-//     * @return the provider function.
-//     */
-//    public static SStreamProvider takeFromCamera() {
-//        return null;
-//    }
+    /**
+     * Provide an SStream with an Image item, which represents a photo taken from camera.
+     *
+     * @return the provider function.
+     */
+    public static SStreamProvider takeFromCamera() {
+        return new ImageCameraProvider();
+    }
 
     /**
      * Provide a stream of all Image items in local file system.

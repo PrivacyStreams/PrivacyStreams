@@ -1,12 +1,11 @@
 package com.github.privacystreams.accessibility;
 
-import android.Manifest;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
 
 import com.github.privacystreams.core.UQI;
 import com.github.privacystreams.core.providers.MStreamProvider;
-import com.github.privacystreams.utils.permission.PermissionUtils;
+import com.github.privacystreams.utils.PermissionUtils;
 
 import java.util.Date;
 

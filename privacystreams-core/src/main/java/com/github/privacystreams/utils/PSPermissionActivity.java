@@ -1,4 +1,4 @@
-package com.github.privacystreams.utils.permission;
+package com.github.privacystreams.utils;
 
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
@@ -7,14 +7,12 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
-import android.util.Log;
 import android.util.Pair;
 import android.widget.Toast;
 
 import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.R;
 import com.github.privacystreams.core.UQI;
-import com.github.privacystreams.utils.Logging;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -23,9 +21,9 @@ import java.util.Set;
  * This Activity is to request permissions from users.
  * From API 23, it is needed to request permissions at runtime.
  */
-public class PermissionActivity extends Activity {
+public class PSPermissionActivity extends Activity {
 
-    private static final String TAG = "PermissionActivity";
+    private static final String TAG = "PSPermissionActivity";
     public static final String REQUEST_CODE = "request_code";
     private String appName;
     private Set<String> requestedPermissions;
@@ -98,7 +96,7 @@ public class PermissionActivity extends Activity {
             }
         }
         if (!requestedPermissions.isEmpty()) {
-            ActivityCompat.requestPermissions(PermissionActivity.this,
+            ActivityCompat.requestPermissions(PSPermissionActivity.this,
                     requestedPermissions.toArray(new String[requestedPermissions.size()]), requestCode);
         }
         else {

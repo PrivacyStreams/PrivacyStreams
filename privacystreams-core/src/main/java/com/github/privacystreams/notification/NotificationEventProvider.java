@@ -6,7 +6,7 @@ import android.support.annotation.RequiresApi;
 
 import com.github.privacystreams.core.UQI;
 import com.github.privacystreams.core.providers.MStreamProvider;
-import com.github.privacystreams.utils.permission.PermissionUtils;
+import com.github.privacystreams.utils.PermissionUtils;
 
 abstract class NotificationEventProvider extends MStreamProvider {
 

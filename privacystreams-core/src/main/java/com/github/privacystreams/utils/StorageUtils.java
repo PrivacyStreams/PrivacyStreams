@@ -1,7 +1,10 @@
 package com.github.privacystreams.utils;
 
 import android.content.Context;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
+import android.support.v4.content.FileProvider;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -151,6 +154,23 @@ public class StorageUtils {
         }
 
         return resultInputStream;
+    }
+
+    /**
+     * Get the Uri of a file.
+     *
+     * @param context a Context instance
+     * @param file the file
+     * @return the Uri
+     */
+    private static Uri getUri(Context context, File file) {
+        Uri uri;
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+            uri = Uri.fromFile(file);
+        } else {
+            uri = FileProvider.getUriForFile(context, context.getApplicationContext().getPackageName() + ".provider", file);
+        }
+        return uri;
     }
 
 }
