@@ -47,7 +47,7 @@ public class AudioOperators {
 
     /**
      * Calculate loudness (in decibels) based on an amplitude value.
-     * An amplitude is an Integer from 0 to 32767.
+     * The amplitude should be a number from 0 to 32767.
      *
      * @param amplitudeField the name of the amplitude field.
      * @return the function.

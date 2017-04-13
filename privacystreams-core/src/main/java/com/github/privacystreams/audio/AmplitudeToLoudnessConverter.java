@@ -20,7 +20,7 @@ class AmplitudeToLoudnessConverter extends ItemFunction<Double> {
 
     @Override
     public Double apply(UQI uqi, Item item) {
-        Integer amplitude = item.getValueByField(this.amplitudeField);
+        Number amplitude = item.getValueByField(this.amplitudeField);
         return AudioData.convertAmplitudeToLoudness(uqi, amplitude);
     }
 
