@@ -7,9 +7,9 @@ import com.github.privacystreams.core.UQI;
  * The loudness is an double number indicating the sound pressure level in dB.
  */
 
-class AudioPeakLoudnessCalculator extends AudioProcessor<Double> {
+class AudioLoudnessPeakCalculator extends AudioProcessor<Double> {
 
-    AudioPeakLoudnessCalculator(String audioField) {
+    AudioLoudnessPeakCalculator(String audioField) {
         super(audioField);
     }
 
