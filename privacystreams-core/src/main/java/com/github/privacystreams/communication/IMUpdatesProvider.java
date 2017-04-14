@@ -50,7 +50,7 @@ class IMUpdatesProvider extends MStreamProvider {
                 .filter(Comparators.gt(BaseAccessibilityEvent.ITEM_COUNT, 2))
                 .forEach(new Callback<Item>() {
                     @Override
-                    protected void onSuccess(Item input) {
+                    protected void onInput(Item input) {
                         AccessibilityNodeInfo rootView =
                                 input.getValueByField(BaseAccessibilityEvent.ROOT_VIEW);
                         String packageName = input.getValueByField(BaseAccessibilityEvent.PACKAGE_NAME);

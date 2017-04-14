@@ -24,7 +24,7 @@ public class Callbacks {
 
     /**
      * Callback with the field value for each item in the stream.
-     * The callback will be invoked with each field value.
+     * The callback will be invoked with the field value for each item.
      *
      * @param fieldToSelect the field to select
      * @param fieldValueCallback the callback function to be invoked for each field value

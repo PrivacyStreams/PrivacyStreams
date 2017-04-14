@@ -62,8 +62,8 @@ class BluetoothDeviceListProvider extends MStreamProvider {
     };
 
     @Override
-    protected void onCancelled(UQI uqi) {
-        super.onCancelled(uqi);
+    protected void onCancel(UQI uqi) {
+        super.onCancel(uqi);
         try {
             getContext().unregisterReceiver(mReceiver);
         }

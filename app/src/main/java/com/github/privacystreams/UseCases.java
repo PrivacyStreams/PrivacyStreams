@@ -135,7 +135,7 @@ public class UseCases {
         locationStream.debug();
         locationStream.forEach("distorted_lat_lng", new Callback<LatLng>() {
             @Override
-            protected void onSuccess(LatLng input) {
+            protected void onInput(LatLng input) {
                 System.out.println(input);
             }
         });
@@ -322,7 +322,7 @@ public class UseCases {
                     .select(getItemWithMax("#calls"))
                     .output(ItemOperators.<String>getField(Call.CONTACT), new Callback<String>() {
                         @Override
-                        protected void onSuccess(String contact) {
+                        protected void onInput(String contact) {
                             System.out.println("Most-called contact: " + contact);
                         }
 

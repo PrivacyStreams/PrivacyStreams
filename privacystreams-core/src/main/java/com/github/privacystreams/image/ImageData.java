@@ -97,8 +97,8 @@ public class ImageData {
 
         try {
             this.exifInterface = new ExifInterface(filePath);
-        } catch (IOException | NullPointerException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            Logging.warn(e.getMessage());
         }
         return this.exifInterface;
     }

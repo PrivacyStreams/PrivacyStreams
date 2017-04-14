@@ -73,14 +73,14 @@ public abstract class Function<Tin, Tout> {
                 ((Function<?,?>) parameter).cancel(uqi);
             }
         }
-        this.onCancelled(uqi);
+        this.onCancel(uqi);
     }
 
     /**
      * Callback when this function is cancelled
      * @param uqi the instance of UQI
      */
-    protected void onCancelled(UQI uqi) {
+    protected void onCancel(UQI uqi) {
         // Do nothing
     }
 

@@ -315,7 +315,7 @@ public class MStream extends Stream {
         final BlockingQueue<Object> resultQueue = new LinkedBlockingQueue<>();
         Callback<Tout> resultHandler = new Callback<Tout>() {
             @Override
-            protected void onSuccess(Tout input) {
+            protected void onInput(Tout input) {
                 resultQueue.add(input);
             }
 

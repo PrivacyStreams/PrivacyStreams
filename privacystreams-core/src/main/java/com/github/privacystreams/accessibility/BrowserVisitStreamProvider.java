@@ -32,7 +32,7 @@ class BrowserVisitStreamProvider extends MStreamProvider {
                 .filter(Comparators.eq(BaseAccessibilityEvent.EVENT_TYPE, AccessibilityEvent.TYPE_VIEW_TEXT_SELECTION_CHANGED))
                 .forEach(new Callback<Item>() {
                     @Override
-                    protected void onSuccess(Item input) {
+                    protected void onInput(Item input) {
                         AccessibilityNodeInfo rootView = input.getValueByField(BaseAccessibilityEvent.ROOT_VIEW);
                         List<AccessibilityNodeInfo> nodeInfos = AccessibilityUtils.preOrderTraverse(rootView);
                         String packageName = input.getValueByField(BaseAccessibilityEvent.PACKAGE_NAME);

@@ -25,7 +25,7 @@ abstract class NotificationEventProvider extends MStreamProvider {
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
     @Override
-    protected void onCancelled(UQI uqi) {
+    protected void onCancel(UQI uqi) {
         PSNotificationListenerService.unregisterProvider(this);
         registered = false;
     }

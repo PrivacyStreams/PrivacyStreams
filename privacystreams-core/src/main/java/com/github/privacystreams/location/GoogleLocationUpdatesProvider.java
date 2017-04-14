@@ -71,8 +71,8 @@ class GoogleLocationUpdatesProvider extends MStreamProvider implements
     }
 
     @Override
-    protected void onCancelled(UQI uqi) {
-        super.onCancelled(uqi);
+    protected void onCancel(UQI uqi) {
+        super.onCancel(uqi);
         stopLocationUpdate();
     }
 

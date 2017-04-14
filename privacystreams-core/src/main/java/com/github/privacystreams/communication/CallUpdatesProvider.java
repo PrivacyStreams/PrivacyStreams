@@ -33,8 +33,8 @@ class CallUpdatesProvider extends MStreamProvider {
     }
 
     @Override
-    protected void onCancelled(UQI uqi) {
-        super.onCancelled(uqi);
+    protected void onCancel(UQI uqi) {
+        super.onCancel(uqi);
         if (callReceiver != null) {
             this.getUQI().getContext().unregisterReceiver(callReceiver);
         }

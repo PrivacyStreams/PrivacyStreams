@@ -25,7 +25,7 @@ abstract class StreamTransformation<InStream extends Stream, OutStream extends S
 
     @Subscribe
     public final void onEvent(Item item) {
-        if (this.isCancelled) return;
+        if (this.isCancelled || item == null) return;
         this.onInput(item);
     }
 
@@ -40,8 +40,8 @@ abstract class StreamTransformation<InStream extends Stream, OutStream extends S
     }
 
     @Override
-    protected final void onCancelled(UQI uqi) {
-        super.onCancelled(uqi);
+    protected final void onCancel(UQI uqi) {
+        super.onCancel(uqi);
         if (this.input != null)
             this.input.unregister(this);
         this.output(Item.EOS);

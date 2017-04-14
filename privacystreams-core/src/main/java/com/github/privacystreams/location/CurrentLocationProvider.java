@@ -7,10 +7,8 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Looper;
-import android.util.Log;
 
 import com.github.privacystreams.core.UQI;
-import com.github.privacystreams.core.providers.MStreamProvider;
 import com.github.privacystreams.core.providers.SStreamProvider;
 import com.github.privacystreams.utils.Assertions;
 
@@ -57,8 +55,8 @@ final class CurrentLocationProvider extends SStreamProvider {
     }
 
     @Override
-    protected void onCancelled(UQI uqi) {
-        super.onCancelled(uqi);
+    protected void onCancel(UQI uqi) {
+        super.onCancel(uqi);
         this.stopLocationUpdate();
     }
 

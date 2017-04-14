@@ -11,7 +11,7 @@ import com.github.privacystreams.utils.Logging;
 final class DebugPrinter<Tin> extends Function<Tin, Void> {
     @Override
     public Void apply(UQI uqi, Tin input) {
-        Logging.debug(input.toString());
+        Logging.debug("" + input);
         return null;
     }
 

@@ -7,12 +7,10 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Looper;
-import android.util.Log;
 
 import com.github.privacystreams.core.UQI;
 import com.github.privacystreams.core.providers.MStreamProvider;
 import com.github.privacystreams.utils.Assertions;
-import com.google.android.gms.location.LocationServices;
 
 /**
  * Provide location updates with Android standard APIs.
@@ -59,8 +57,8 @@ final class LocationUpdatesProvider extends MStreamProvider {
     }
 
     @Override
-    protected void onCancelled(UQI uqi) {
-        super.onCancelled(uqi);
+    protected void onCancel(UQI uqi) {
+        super.onCancel(uqi);
         this.stopLocationUpdate();
     }
 

@@ -150,8 +150,8 @@ class AwarenessMotionUpdatesProvider extends MStreamProvider {
     }
 
     @Override
-    protected void onCancelled(UQI uqi) {
-        super.onCancelled(uqi);
+    protected void onCancel(UQI uqi) {
+        super.onCancel(uqi);
         unregisterFence(WALKINGFENCE);                              //Unregister the fences
         unregisterFence(TILTINGFENCE);
         unregisterFence(ONFOOTFENCE);
