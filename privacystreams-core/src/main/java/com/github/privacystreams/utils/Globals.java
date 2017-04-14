@@ -30,7 +30,7 @@ public class Globals {
     }
 
     public static class TimeConfig {
-        public static String defaultTimeFormat = "yyyyMMdd_HHmmss_SSS";
+        public static String defaultTimeFormat = "yyyyMMdd_HHmmssSSS";
 
     }
 
