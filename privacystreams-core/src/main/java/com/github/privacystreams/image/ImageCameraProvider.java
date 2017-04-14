@@ -34,7 +34,7 @@ class ImageCameraProvider extends SStreamProvider implements CameraResultListene
     transient String imagePath;
 
     private void takePhoto() {
-        String imagePath = Environment.DIRECTORY_DCIM + "/image_" + TimeUtils.getTimeTag() + ".jpg";
+        String imagePath = "PrivacyStreams/image_" + TimeUtils.getTimeTag() + ".jpg";
         File tempImageFile = StorageUtils.getValidFile(this.getContext(), imagePath, true);
         this.imagePath = tempImageFile.getAbsolutePath();
         PSCameraActivity.setListener(this);

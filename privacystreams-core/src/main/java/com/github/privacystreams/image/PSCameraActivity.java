@@ -46,7 +46,7 @@ public class PSCameraActivity extends Activity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_CODE) {
             if (resultCode == Activity.RESULT_OK) {
-                Logging.debug(TAG + "OK.");
+//                Logging.debug(TAG + "OK.");
                 cameraResultListener.onSuccess();
             }
             else {
