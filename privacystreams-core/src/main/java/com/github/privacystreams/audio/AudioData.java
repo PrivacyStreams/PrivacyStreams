@@ -2,6 +2,7 @@ package com.github.privacystreams.audio;
 
 import com.github.privacystreams.core.UQI;
 import com.github.privacystreams.utils.StatisticUtils;
+import com.github.privacystreams.utils.StorageUtils;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -63,7 +64,7 @@ public class AudioData {
     protected void finalize() throws Throwable {
         super.finalize();
         if (this.type == TYPE_TEMP_RECORD) {
-            this.audioFile.deleteOnExit();
+            StorageUtils.safeDelete(this.audioFile);
         }
     }
 

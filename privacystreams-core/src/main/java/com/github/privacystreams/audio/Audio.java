@@ -1,8 +1,5 @@
 package com.github.privacystreams.audio;
 
-import android.Manifest;
-import android.support.annotation.RequiresPermission;
-
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.providers.MStreamProvider;
 import com.github.privacystreams.core.providers.SStreamProvider;

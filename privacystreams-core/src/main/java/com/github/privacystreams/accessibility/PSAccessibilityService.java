@@ -2,8 +2,6 @@ package com.github.privacystreams.accessibility;
 
 import android.accessibilityservice.AccessibilityService;
 import android.content.Intent;
-import android.os.IBinder;
-import android.util.Log;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
 

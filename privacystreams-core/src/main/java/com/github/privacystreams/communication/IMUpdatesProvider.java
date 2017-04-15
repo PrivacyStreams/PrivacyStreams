@@ -1,7 +1,5 @@
 package com.github.privacystreams.communication;
 
-import android.os.Build;
-import android.support.annotation.RequiresApi;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
 

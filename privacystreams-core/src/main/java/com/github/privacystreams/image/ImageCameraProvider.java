@@ -2,13 +2,8 @@ package com.github.privacystreams.image;
 
 import android.Manifest;
 import android.content.Intent;
-import android.net.Uri;
-import android.os.Environment;
-import android.provider.MediaStore;
-import android.provider.Settings;
 
 import com.github.privacystreams.core.providers.SStreamProvider;
-import com.github.privacystreams.utils.PSFileProvider;
 import com.github.privacystreams.utils.StorageUtils;
 import com.github.privacystreams.utils.TimeUtils;
 

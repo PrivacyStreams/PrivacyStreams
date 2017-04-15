@@ -1,8 +1,6 @@
 package com.github.privacystreams.location;
 
-import android.Manifest;
 import android.location.Location;
-import android.support.annotation.RequiresPermission;
 
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.providers.MStreamProvider;

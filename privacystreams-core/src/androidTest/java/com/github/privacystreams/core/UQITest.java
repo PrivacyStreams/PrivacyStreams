@@ -46,11 +46,6 @@ public class UQITest {
     }
 
     @Test
-    public void getGson() throws Exception {
-
-    }
-
-    @Test
     public void getDataItems() throws Exception {
         List<TestObject> testObjectList = TestObject.getRandomList(10);
         int itemCount = this.uqi

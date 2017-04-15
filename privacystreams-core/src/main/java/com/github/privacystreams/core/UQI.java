@@ -8,8 +8,6 @@ import com.github.privacystreams.core.providers.SStreamProvider;
 import com.github.privacystreams.core.purposes.Purpose;
 import com.github.privacystreams.utils.Logging;
 import com.github.privacystreams.utils.PermissionUtils;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -39,11 +37,6 @@ public class UQI {
     }
     public void setContext(Context context) { this.context = context; }
 
-    private transient Gson gson;
-    public Gson getGson() {
-        return this.gson;
-    }
-
     private transient PSException exception;
     public PSException getException() {
         return exception;
@@ -51,7 +44,6 @@ public class UQI {
 
     public UQI(Context context) {
         this.context = context;
-        this.gson = new GsonBuilder().setPrettyPrinting().create();
         this.provider2Purpose = new HashMap<>();
         this.queries = new HashSet<>();
     }

@@ -1,6 +1,5 @@
 package com.github.privacystreams.core.items;
 
-import com.github.privacystreams.core.UQI;
 import com.github.privacystreams.core.providers.MStreamProvider;
 
 /**

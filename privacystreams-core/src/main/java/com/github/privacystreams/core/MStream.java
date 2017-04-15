@@ -9,7 +9,6 @@ import com.github.privacystreams.core.actions.MStreamAction;
 import com.github.privacystreams.core.actions.callback.Callbacks;
 import com.github.privacystreams.core.actions.collect.Collectors;
 import com.github.privacystreams.core.exceptions.PSException;
-import com.github.privacystreams.core.providers.MStreamProvider;
 import com.github.privacystreams.core.purposes.Purpose;
 import com.github.privacystreams.core.transformations.M2MTransformation;
 import com.github.privacystreams.core.transformations.M2STransformation;

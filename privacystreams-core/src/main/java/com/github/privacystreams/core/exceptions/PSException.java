@@ -1,7 +1,5 @@
 package com.github.privacystreams.core.exceptions;
 
-import org.apache.commons.lang3.StringUtils;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -52,6 +50,6 @@ public class PSException extends Exception {
         if (this.isInterrupted()) {
             errorMsgs.add("Interrupted: " + this.interruptMessage);
         }
-        return StringUtils.join(errorMsgs, "\n");
+        return errorMsgs.toString();
     }
 }

@@ -1,7 +1,5 @@
 package com.github.privacystreams.location;
 
-import com.github.privacystreams.utils.LocationUtils;
-
 /**
  * Check whether a location is in a square region.
  */

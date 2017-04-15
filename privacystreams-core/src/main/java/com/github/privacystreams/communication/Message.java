@@ -1,13 +1,10 @@
 package com.github.privacystreams.communication;
 
-import android.Manifest;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
-import android.support.annotation.RequiresPermission;
 
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.providers.MStreamProvider;
-import com.github.privacystreams.utils.Logging;
 import com.github.privacystreams.utils.annotations.PSItem;
 import com.github.privacystreams.utils.annotations.PSItemField;
 

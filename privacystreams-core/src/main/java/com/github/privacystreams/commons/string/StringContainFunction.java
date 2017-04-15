@@ -2,8 +2,6 @@ package com.github.privacystreams.commons.string;
 
 import com.github.privacystreams.utils.Assertions;
 
-import org.apache.commons.lang3.StringUtils;
-
 /**
  * Check whether the string specified by a field contains a certain substring.
  */
@@ -19,6 +17,6 @@ final class StringContainFunction extends StringProcessor<Boolean> {
 
     @Override
     protected Boolean processString(String stringValue) {
-        return StringUtils.contains(stringValue, this.searchString);
+        return stringValue != null && stringValue.contains(this.searchString);
     }
 }

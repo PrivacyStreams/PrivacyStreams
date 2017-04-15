@@ -1,23 +1,11 @@
 package com.github.privacystreams.utils;
 
-import android.content.Context;
-import android.os.Environment;
 import android.util.SparseArray;
 import android.util.SparseIntArray;
 
-import org.apache.commons.lang3.StringUtils;
-
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
 
 /**

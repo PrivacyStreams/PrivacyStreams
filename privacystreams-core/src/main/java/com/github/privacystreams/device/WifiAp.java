@@ -1,11 +1,9 @@
 package com.github.privacystreams.device;
 
 
-import android.Manifest;
 import android.net.wifi.ScanResult;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
-import android.support.annotation.RequiresPermission;
 
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.providers.MStreamProvider;

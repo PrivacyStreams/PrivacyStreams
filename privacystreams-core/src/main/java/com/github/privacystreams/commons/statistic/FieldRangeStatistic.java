@@ -1,7 +1,5 @@
 package com.github.privacystreams.commons.statistic;
 
-import com.github.privacystreams.core.Item;
-import com.github.privacystreams.utils.Assertions;
 import com.github.privacystreams.utils.StatisticUtils;
 
 import java.util.List;

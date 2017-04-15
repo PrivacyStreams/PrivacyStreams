@@ -1,8 +1,5 @@
 package com.github.privacystreams.device;
 
-import android.Manifest;
-import android.support.annotation.RequiresPermission;
-
 import com.github.privacystreams.core.Function;
 import com.github.privacystreams.utils.annotations.PSOperatorWrapper;
 

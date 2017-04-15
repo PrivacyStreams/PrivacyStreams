@@ -2,8 +2,6 @@ package com.github.privacystreams.commons.string;
 
 import com.github.privacystreams.utils.Assertions;
 
-import org.apache.commons.lang3.StringUtils;
-
 /**
  * Replace a substring with a new string in the string specified by a field.
  */
@@ -21,6 +19,7 @@ final class StringReplaceFunction extends StringProcessor<String> {
 
     @Override
     protected String processString(String stringValue) {
-        return StringUtils.replace(stringValue, this.searchString, this.replaceString);
+        if (stringValue == null) return null;
+        return stringValue.replace(this.searchString, this.replaceString);
     }
 }

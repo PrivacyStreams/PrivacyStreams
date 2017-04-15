@@ -1,7 +1,5 @@
 package com.github.privacystreams.google_awareness;
 
-import android.support.annotation.RequiresPermission;
-
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.providers.MStreamProvider;
 import com.github.privacystreams.utils.annotations.PSItemField;

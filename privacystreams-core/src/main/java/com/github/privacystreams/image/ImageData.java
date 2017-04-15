@@ -15,7 +15,6 @@ import com.github.privacystreams.utils.TimeUtils;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.Locale;
 
 /**
@@ -145,7 +144,7 @@ public class ImageData {
         super.finalize();
         if (this.type != TYPE_LOCAL_FILE) {
             if (this.imageFile != null && this.imageFile.exists()) {
-                this.imageFile.deleteOnExit();
+                StorageUtils.safeDelete(this.imageFile);
             }
         }
     }

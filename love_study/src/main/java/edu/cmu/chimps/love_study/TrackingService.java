@@ -81,50 +81,8 @@ public class TrackingService extends Service {
 
         PollingTask pollingTask = new PollingTask(IMAGE_STORAGE_SCAN_INTERVAL);
         pollingTask.run();
-//
         uqi.getData(Message.asUpdatesInIM(), Purpose.FEATURE("LoveStudy Message Collection"))
                 .debug();
-////        uqi.getData(DeviceState.asUpdates(WIFI_BT_SCAN_INTERVAL, DeviceState.Masks.WIFI_AP_LIST
-////                | DeviceState.Masks.BLUETOOTH_DEVICE_LIST | DeviceState.Masks.BATTERY_LEVEL),
-////                Purpose.FEATURE("Love Study LightEnv Collection"))
-////                .project(DeviceState.BATTERY_LEVEL).debug();
-//
-//        uqi.getData(Light.asUpdates(),Purpose.FEATURE("Love Study Light Collection"))
-//                .filter(Comparators.lt(LightEnv.INTENSITY, 50))
-//                .debug();
-//
-//        uqi.getData(Geolocation.asUpdates(Duration.minutes(1), Duration.seconds(30),
-//                LocationRequest.PRIORITY_HIGH_ACCURACY), Purpose.FEATURE("know when you enter an area"))
-//                .debug();
-////        uqi.getData(DeviceEvent.asUpdates(),Purpose.FEATURE("Love Study Device State Collection"))
-////                .map(ItemOperators.setField("time_round", ArithmeticOperators.roundUp(DeviceEvent.TIMESTAMP, Duration.minutes(1))))
-////                .localGroupBy("time_round")
-////                .debug();
-//////
-//        uqi.getData(com.github.privacystreams.notification.Notification.asUpdates(),Purpose.FEATURE("Love Study Device State Collection"))
-//                .map(ItemOperators.setField("time_round", ArithmeticOperators.roundUp(DeviceEvent.TIMESTAMP, Duration.seconds(30))))
-//                .localGroupBy("time_round")
-//                .debug();
-//
-
-//        uqi.getData(TextEntry.asUpdates(), Purpose.FEATURE("Love Study Text Entry Collection"))
-//                .debug();
-//        uqi.getData(UIAction.asUpdates(), Purpose.FEATURE("Love Study UIAction Collection"))
-//                .setField("serialized_node", new Function<Item, String>() {
-//                    @Override
-//                    public String apply(UQI uqi, Item input) {
-//                        AccessibilityNodeInfo node = input.getValueByField(UIAction.ROOT_VIEW);
-//                        SerializedAccessibilityNodeInfo serialized = SerializedAccessibilityNodeInfo.serialize(node);
-//                        return uqi.getGson().toJson(serialized);
-//                    }
-//                })
-//            .debug();
-//
-//        uqi.getData(BrowserSearch.asUpdates(), Purpose.FEATURE("Love Study Browser Search Collection"))
-//                .debug();
-//        uqi.getData(BrowserVisit.asUpdates(), Purpose.FEATURE("Love Study Browser Visit Collection"))
-//                .debug();
-
     }
 
     public int onStartCommand(Intent intent, int flags, int startId) {

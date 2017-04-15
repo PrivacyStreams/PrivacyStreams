@@ -1,7 +1,5 @@
 package com.github.privacystreams.utils;
 
-import com.github.privacystreams.utils.Globals;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
