@@ -47,6 +47,7 @@ public class Contact extends Item {
 
     /**
      * Provide all Contact items in device's contacts database.
+     * This provider requires `Manifest.permission.READ_CONTACTS` permission.
      *
      * @return the provider function.
      */

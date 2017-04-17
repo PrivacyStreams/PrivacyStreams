@@ -34,6 +34,13 @@ public class BluetoothDevice extends Item {
         this.setFieldValue(BONDED, scannedDevice.getBondState());
     }
 
+    /**
+     * Get a stream of scanned bluetooth devices.
+     * This provider requires `Manifest.permission.BLUETOOTH` permission
+     * and `Manifest.permission.BLUETOOTH_ADMIN` permission.
+     *
+     * @return the provider function.
+     */
     // @RequiresPermission(allOf = {Manifest.permission.BLUETOOTH, Manifest.permission.BLUETOOTH_ADMIN})
     public static MStreamProvider getScanResults() {
         return new BluetoothDeviceListProvider();

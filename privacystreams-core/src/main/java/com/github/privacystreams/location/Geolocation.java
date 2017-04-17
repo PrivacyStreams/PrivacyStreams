@@ -84,13 +84,14 @@ public class Geolocation extends Item {
 
     /**
      * Provide a live stream of Geolocation as the location updates.
+     * This provider requires a location permission based on the location level.
+     * If `level` is `Geolocation.LEVEL_EXACT`, this provider requires `Manifest.permission.ACCESS_COARSE_LOCATION` permission.
+     * If `level` is any other level, this provider requires `Manifest.permission.ACCESS_FINE_LOCATION` permission.
      *
      * @param interval The interval between each two location updates.
      * @param level The location granularity level, could be
      *              `Geolocation.LEVEL_COUNTRY`, `Geolocation.LEVEL_CITY`, `Geolocation.LEVEL_NEIGHBORHOOD`,
      *              `Geolocation.LEVEL_BUILDING`, or `Geolocation.LEVEL_EXACT`.
-     *              exact level requires ACCESS_FINE_LOCATION permission,
-     *              other levels requires ACCESS_COARSE_LOCATION.
      * @return the provider
      */
     // @RequiresPermission(anyOf = {Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, conditional = true)
@@ -103,12 +104,12 @@ public class Geolocation extends Item {
 
     /**
      * Provide an SStream of a Geolocation item, as the last known location.
+     * If `level` is `Geolocation.LEVEL_EXACT`, this provider requires `Manifest.permission.ACCESS_COARSE_LOCATION` permission.
+     * If `level` is any other level, this provider requires `Manifest.permission.ACCESS_FINE_LOCATION` permission.
      *
      * @param level The location granularity level, could be
      *              `Geolocation.LEVEL_COUNTRY`, `Geolocation.LEVEL_CITY`, `Geolocation.LEVEL_NEIGHBORHOOD`,
      *              `Geolocation.LEVEL_BUILDING`, or `Geolocation.LEVEL_EXACT`.
-     *              exact level requires ACCESS_FINE_LOCATION permission,
-     *              other levels requires ACCESS_COARSE_LOCATION.
      * @return the provider
      */
     public static SStreamProvider asLastKnown(String level) {
@@ -120,13 +121,13 @@ public class Geolocation extends Item {
 
     /**
      * Provide an SStream of a Geolocation item, as the current location.
+     * If `level` is `Geolocation.LEVEL_EXACT`, this provider requires `Manifest.permission.ACCESS_COARSE_LOCATION` permission.
+     * If `level` is any other level, this provider requires `Manifest.permission.ACCESS_FINE_LOCATION` permission.
      *
      * @param level The location granularity level, could be
      *              `Geolocation.LEVEL_COUNTRY`, `Geolocation.LEVEL_CITY`,
      *              `Geolocation.LEVEL_NEIGHBORHOOD`, `Geolocation.LEVEL_BUILDING`,
      *              or `Geolocation.LEVEL_EXACT`.
-     *              `Geolocation.LEVEL_EXACT` level requires ACCESS_FINE_LOCATION permission,
-     *              other levels requires ACCESS_COARSE_LOCATION.
      * @return the provider
      */
     public static SStreamProvider asCurrent(String level) {

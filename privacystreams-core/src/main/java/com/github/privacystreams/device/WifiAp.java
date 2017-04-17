@@ -64,6 +64,9 @@ public class WifiAp extends Item {
 
     /**
      * Provide a list of WifiAp items from WIFI scan result.
+     * This provider requires `Manifest.permission.ACCESS_COARSE_LOCATION`,
+     * `Manifest.permission.CHANGE_WIFI_STATE`, and `Manifest.permission.ACCESS_WIFI_STATE` permission.
+     *
      * @return the provider function.
      */
     // @RequiresPermission(allOf = {Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.CHANGE_WIFI_STATE, Manifest.permission.ACCESS_WIFI_STATE})

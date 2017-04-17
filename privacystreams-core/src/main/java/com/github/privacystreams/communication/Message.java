@@ -63,9 +63,9 @@ public class Message extends Item {
     /**
      * Provide a live stream of new Message items in Instant Messenger (IM) apps, including WhatsApp and Facebook.
      * This provider requires Accessibility service turned on.
+     *
      * @return the provider function
      */
-    // @RequiresPermission(value = Manifest.permission.BIND_ACCESSIBILITY_SERVICE)
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
     public static MStreamProvider asUpdatesInIM(){
         return new IMUpdatesProvider();
@@ -73,6 +73,8 @@ public class Message extends Item {
 
     /**
      * Provide a live stream of new incoming Message items from the Android Short Message Service (SMS).
+     * This provider requires `Manifest.permission.RECEIVE_SMS` permission.
+     *
      * @return the provider
      */
     // @RequiresPermission(value = Manifest.permission.RECEIVE_SMS)
@@ -82,6 +84,8 @@ public class Message extends Item {
 
     /**
      * Provide all Message items from Android Short Message Service SMS.
+     * This provider requires `Manifest.permission.READ_SMS` permission.
+     *
      * @return the provider
      */
     // @RequiresPermission(value = Manifest.permission.READ_SMS)

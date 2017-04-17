@@ -1,5 +1,8 @@
 package com.github.privacystreams.image;
 
+import android.Manifest;
+import android.support.annotation.RequiresPermission;
+
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.providers.MStreamProvider;
 import com.github.privacystreams.core.providers.SStreamProvider;
@@ -60,15 +63,19 @@ public class Image extends Item {
 
     /**
      * Provide an SStream with an Image item, which represents a photo taken from camera.
+     * This provider requires `Manifest.permission.CAMERA` permission
+     * and `Manifest.permission.WRITE_EXTERNAL_STORAGE` permission.
      *
      * @return the provider function.
      */
+//    @RequiresPermission(allOf = {Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE})
     public static SStreamProvider takeFromCamera() {
         return new ImageCameraProvider();
     }
 
     /**
      * Provide a stream of all Image items in local file system.
+     * This provider requires `Manifest.permission.READ_EXTERNAL_STORAGE` permission.
      *
      * @return the provider function.
      */

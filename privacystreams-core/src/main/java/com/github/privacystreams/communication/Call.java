@@ -56,6 +56,8 @@ public class Call extends Item {
 
     /**
      * Provide a list of Call items from the device call log.
+     * This provider requires `Manifest.permission.READ_CALL_LOG` permission.
+     *
      * @return the stream provider
      */
     // @RequiresPermission(value = Manifest.permission.READ_CALL_LOG)
@@ -66,6 +68,9 @@ public class Call extends Item {
     /**
      * Provide a live stream of Call items.
      * A Call item will be generated if there is a new phone call event.
+     * This provider requires `Manifest.permission.PROCESS_OUTGOING_CALLS` permission
+     * and `Manifest.permission.READ_PHONE_STATE` permission.
+     *
      * @return the stream provider
      */
     // @RequiresPermission(allOf = {Manifest.permission.PROCESS_OUTGOING_CALLS, Manifest.permission.READ_PHONE_STATE})

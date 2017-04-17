@@ -52,6 +52,7 @@ public class CalendarEvent extends Item {
 
     /**
      * Provide all CalendarEvent items from device's calendar database.
+     * This provider requires `Manifest.permission.READ_CALENDAR` permission.
      *
      * @return the provider function.
      */
