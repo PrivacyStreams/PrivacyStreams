@@ -9,6 +9,7 @@ import org.json.JSONObject;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -56,14 +57,20 @@ public class Item {
     }
 
     public String toString() {
-        if (this == EOS) return "EOS_ITEM";
-        String itemStr = "ITEM {";
+        if (this == EOS) return "ITEM_EOS";
+        String itemStr = "ITEM {\n";
         for (String fieldKey : this.itemMap.keySet()) {
             Object fieldValue = this.itemMap.get(fieldKey);
-            String fieldValueClass = fieldValue.getClass().getSimpleName();
-            itemStr += String.format(Locale.getDefault(),
-                    "\n\tName-\"%s\" Type-<%s> Value-%s",
-                    fieldKey, fieldValueClass, fieldValue.toString());
+            if (fieldValue == null) {
+                itemStr += String.format(Locale.getDefault(),
+                        "\t%s = null\n",
+                        fieldKey);
+            } else {
+                String fieldValueClass = fieldValue.getClass().getSimpleName();
+                itemStr += String.format(Locale.getDefault(),
+                        "\t%s %s = %s\n",
+                        fieldValueClass, fieldKey, fieldValue.toString());
+            }
         }
         itemStr += "}";
         return itemStr;

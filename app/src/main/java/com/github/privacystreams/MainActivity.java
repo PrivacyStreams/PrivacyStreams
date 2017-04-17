@@ -21,9 +21,10 @@ public class MainActivity extends AppCompatActivity {
         mButton = (Button) findViewById(R.id.button);
 
         UQI uqi = new UQI(MainActivity.this);
-        uqi.getData(TestItem.asUpdates(10, 10.0, 100), Purpose.TEST("Testing first data query."))
-           .limit(10)
-           .debug();
+        uqi.getData(TestItem.asUpdates(10, 10.0, 10), Purpose.TEST("Testing first data query."))
+                .limit(10)
+//                .groupBy("x")
+                .debug();
 
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override

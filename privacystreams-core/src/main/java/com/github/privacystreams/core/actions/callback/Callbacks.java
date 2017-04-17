@@ -3,6 +3,7 @@ package com.github.privacystreams.core.actions.callback;
 import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.actions.MStreamAction;
+import com.github.privacystreams.core.actions.SStreamAction;
 import com.github.privacystreams.utils.annotations.PSOperatorWrapper;
 
 /**
@@ -87,5 +88,30 @@ public class Callbacks {
         return new OnFieldChangeCallback<>(fieldToSelect, fieldValueCallback);
     }
 
+    /**
+     * Callback with an item in the SStream if there is a present one.
+     * If there is no present item, the callback will not be invoked.
+     * The callback will be invoked with the item as a parameter.
+     *
+     * @param itemCallback the callback to be invoked with the item.
+     * @return the function
+     */
+    public static SStreamAction ifPresent2(Function<Item, Void> itemCallback) {
+        return new IfPresentCallback2(itemCallback);
+    }
+
+    /**
+     * Callback with the value of a field in an item if there is a present one.
+     * If there is no item with a present field value, the callback will not be invoked.
+     * The callback will be invoked with the present field value.
+     *
+     * @param fieldToSelect the field to select
+     * @param fieldValueCallback the callback function to be invoked with the field value.
+     * @param <TValue> the type of field value
+     * @return the function
+     */
+    public static <TValue> SStreamAction ifFieldPresent2(String fieldToSelect, Function<TValue, Void> fieldValueCallback) {
+        return new IfFieldPresentCallback2<>(fieldToSelect, fieldValueCallback);
+    }
 
 }

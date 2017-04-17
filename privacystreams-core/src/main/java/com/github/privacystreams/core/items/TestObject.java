@@ -52,7 +52,7 @@ public class TestObject {
     public static TestObject getRandomInstance(int maxInt, double maxDouble) {
         Random random = new Random();
         Integer randInt = random.nextInt(maxInt);
-        String randString = Integer.toHexString(randInt);
+        String randString = "str" + Integer.toHexString(randInt);
         Double randDouble = random.nextDouble() * maxDouble;
         return new TestObject(-1, randInt, randString, randDouble);
     }

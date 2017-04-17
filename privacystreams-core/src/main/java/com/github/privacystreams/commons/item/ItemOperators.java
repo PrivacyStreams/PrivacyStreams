@@ -107,8 +107,8 @@ public class ItemOperators {
      *
      * @return the function.
      */
-    public static Function<Item, Map<String, Object>> asMap() {
-        return new ItemToMapFunction();
+    public static Function<Item, Item> asItem() {
+        return new ItemIdFunction();
     }
 
     /**

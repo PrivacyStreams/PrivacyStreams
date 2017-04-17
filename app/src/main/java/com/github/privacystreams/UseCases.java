@@ -285,29 +285,13 @@ public class UseCases {
                     .count();
             System.out.println(count);
 
-            String mostCalledContact = uqi
-                    .getData(Call.getLogs(), Purpose.SOCIAL("finding your closest contact."))
-                    .transform(Filters.keep(recent(Call.TIMESTAMP, Duration.days(365))))
-                    .transform(Groupers.groupBy(Call.CONTACT))
-                    .transform(Mappers.mapEachItem(ItemOperators.setGroupField("#calls", StatisticOperators.count())))
-                    .transform(Selectors.select(getItemWithMax("#calls")))
-                    .output(ItemOperators.<String>getField(Call.CONTACT));
-
-            mostCalledContact = uqi
-                    .getData(Call.getLogs(), Purpose.SOCIAL("finding your closest contact."))
-                    .filter(recent(Call.TIMESTAMP, Duration.days(365)))
-                    .groupBy(Call.CONTACT)
-                    .setGroupField("#calls", count())
-                    .select(getItemWithMax("#calls"))
-                    .getField(Call.CONTACT);
-
             uqi
                     .getData(Call.getLogs(), Purpose.SOCIAL("finding your closest contact."))
-                    .filter(recent(Call.TIMESTAMP, Duration.days(365)))
-                    .groupBy(Call.CONTACT)
+                    .filter(recent("timestamp", Duration.days(365)))
+                    .groupBy("contact")
                     .setGroupField("#calls", count())
                     .select(getItemWithMax("#calls"))
-                    .output(ItemOperators.<String>getField(Call.CONTACT), new Callback<String>() {
+                    .ifPresent("contact", new Callback<String>() {
                         @Override
                         protected void onInput(String contact) {
                             System.out.println("Most-called contact: " + contact);

@@ -3,14 +3,13 @@ package com.github.privacystreams.core;
 import com.github.privacystreams.commons.debug.DebugOperators;
 import com.github.privacystreams.commons.item.ItemOperators;
 import com.github.privacystreams.core.actions.SStreamAction;
+import com.github.privacystreams.core.actions.callback.Callbacks;
 import com.github.privacystreams.core.actions.collect.Collectors;
 import com.github.privacystreams.core.exceptions.PSException;
-import com.github.privacystreams.core.purposes.Purpose;
 import com.github.privacystreams.core.transformations.S2MTransformation;
 import com.github.privacystreams.core.transformations.S2STransformation;
 import com.github.privacystreams.core.transformations.map.Mappers;
 
-import java.util.Map;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -22,7 +21,7 @@ import java.util.concurrent.LinkedBlockingQueue;
  * It can be transformed to another ISingleItemProvider with transformation functions,
  * such as {@link #setField(String, Function)}, {{@link #project(String...)}}, {{@link #map(Function)}}, etc.
  *
- * Finally, it can be outputted using {{@link #asMap()}}, {{@link #getField(String)}}, etc.
+ * Finally, it can be outputted using {{@link #asItem()}}, {{@link #getField(String)}}, etc.
  */
 public class SStream extends Stream {
     private Function<Void, SStream> streamProvider;
@@ -138,7 +137,7 @@ public class SStream extends Stream {
      * @return the result of itemCollector
      * @throws PSException if something goes wrong during getting results.
      */
-    public <Tout> Tout output(Function<Item, Tout> itemCollector) throws PSException {
+    private <Tout> Tout output(Function<Item, Tout> itemCollector) throws PSException {
         final BlockingQueue<Object> resultQueue = new LinkedBlockingQueue<>();
         Callback<Tout> resultHandler = new Callback<Tout>() {
             @Override
@@ -181,15 +180,15 @@ public class SStream extends Stream {
      *
      * @return the key-value map of the item
      */
-    public Map<String, Object> asMap() throws PSException {
-        return this.output(ItemOperators.asMap());
+    public Item asItem() throws PSException {
+        return this.output(ItemOperators.asItem());
     }
 
     /**
      * Print this stream for debugging.
      */
     public void debug() {
-        this.output(DebugOperators.<Item>debug(), null);
+        this.ifPresent(DebugOperators.<Item>debug());
     }
 
     /**
@@ -220,5 +219,25 @@ public class SStream extends Stream {
      */
     public <Tout> Function<Void, Tout> getValueGenerator(Function<SStream, Tout> streamOutputFunction) {
         return this.streamProvider.compound(streamOutputFunction);
+    }
+
+    /**
+     * Callback with an item once the item is present.
+     *
+     * @param callback the callback to invoke.
+     */
+    public void ifPresent(Function<Item, Void> callback) {
+        this.output(Callbacks.ifPresent2(callback));
+    }
+
+    /**
+     * Callback with a field value in a item once the item is present.
+     *
+     * @param fieldToSelect the name of the field to callback with
+     * @param callback the callback to invoke once the field value is present
+     * @param <TValue> the type of the field
+     */
+    public <TValue> void ifPresent(String fieldToSelect, Callback<TValue> callback) {
+        this.output(Callbacks.ifFieldPresent2(fieldToSelect, callback));
     }
 }
