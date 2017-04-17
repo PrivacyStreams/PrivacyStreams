@@ -10,8 +10,8 @@ import java.util.List;
 
 class AudioAmplitudeSamplesGetter extends AudioProcessor<List<Integer>> {
 
-    AudioAmplitudeSamplesGetter(String audioField) {
-        super(audioField);
+    AudioAmplitudeSamplesGetter(String audioDataField) {
+        super(audioDataField);
     }
 
     @Override

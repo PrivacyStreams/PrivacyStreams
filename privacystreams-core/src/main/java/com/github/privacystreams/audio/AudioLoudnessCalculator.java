@@ -9,8 +9,8 @@ import com.github.privacystreams.core.UQI;
 
 class AudioLoudnessCalculator extends AudioProcessor<Double> {
 
-    AudioLoudnessCalculator(String audioField) {
-        super(audioField);
+    AudioLoudnessCalculator(String audioDataField) {
+        super(audioDataField);
     }
 
     @Override

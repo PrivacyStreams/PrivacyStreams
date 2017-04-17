@@ -15,22 +15,22 @@ public class AudioOperators {
      * Calculate the average (RMS) loudness of the audio specified by an AudioData field.
      * The loudness is an double number indicating the sound pressure level in dB.
      *
-     * @param audioField the name of the audio data field.
+     * @param audioDataField the name of the AudioData field.
      * @return the function.
      */
-    public static Function<Item, Double> calcLoudness(String audioField) {
-        return new AudioLoudnessCalculator(audioField);
+    public static Function<Item, Double> calcLoudness(String audioDataField) {
+        return new AudioLoudnessCalculator(audioDataField);
     }
 
     /**
      * Get the max amplitude of the audio specified by an AudioData field.
      * The amplitude is an Integer from 0 to 32767.
      *
-     * @param audioField the name of the audio data field.
+     * @param audioDataField the name of the AudioData field.
      * @return the function.
      */
-    public static Function<Item, Integer> getMaxAmplitude(String audioField) {
-        return new AudioMaxAmplitudeGetter(audioField);
+    public static Function<Item, Integer> getMaxAmplitude(String audioDataField) {
+        return new AudioMaxAmplitudeGetter(audioDataField);
     }
 
     /**
@@ -38,11 +38,11 @@ public class AudioOperators {
      * Each amplitude sample is an Integer from 0 to 32767.
      * The amplitude sampling rate can be configured at `Globals.AudioConfig.amplitudeSamplingRate`;
      *
-     * @param audioField the name of the audio data field.
+     * @param audioDataField the name of the AudioData field.
      * @return the function.
      */
-    public static Function<Item, List<Integer>> getAmplitudeSamples(String audioField) {
-        return new AudioAmplitudeSamplesGetter(audioField);
+    public static Function<Item, List<Integer>> getAmplitudeSamples(String audioDataField) {
+        return new AudioAmplitudeSamplesGetter(audioDataField);
     }
 
     /**
@@ -61,10 +61,10 @@ public class AudioOperators {
      * The path might point to a temporary audio file if it is not from storage.
      * To permanently save the file, you need to copy the file to another file path.
      *
-     * @param audioField the name of photo field
+     * @param audioDataField the name of AudioData field
      * @return the function
      */
-    public static Function<Item, String> getFilepath(String audioField) {
-        return new AudioFilepathGetter(audioField);
+    public static Function<Item, String> getFilepath(String audioDataField) {
+        return new AudioFilepathGetter(audioDataField);
     }
 }

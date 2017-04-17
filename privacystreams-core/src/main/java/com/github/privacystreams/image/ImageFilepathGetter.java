@@ -7,8 +7,8 @@ import com.github.privacystreams.core.UQI;
  */
 class ImageFilepathGetter extends ImageProcessor<String> {
 
-    ImageFilepathGetter(String photoField) {
-        super(photoField);
+    ImageFilepathGetter(String imageDataField) {
+        super(imageDataField);
     }
 
     @Override

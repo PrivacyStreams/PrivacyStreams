@@ -10,16 +10,16 @@ import com.github.privacystreams.utils.Assertions;
  */
 abstract class ImageProcessor<Tout> extends ItemFunction<Tout> {
 
-    private final String imageField;
+    private final String imageDataField;
 
-    ImageProcessor(String imageField) {
-        this.imageField = Assertions.notNull("imageField", imageField);
-        this.addParameters(imageField);
+    ImageProcessor(String imageDataField) {
+        this.imageDataField = Assertions.notNull("imageDataField", imageDataField);
+        this.addParameters(imageDataField);
     }
 
     @Override
     public final Tout apply(UQI uqi, Item input) {
-        ImageData imageData = input.getValueByField(this.imageField);
+        ImageData imageData = input.getValueByField(this.imageDataField);
         return this.processImage(uqi, imageData);
     }
 

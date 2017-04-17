@@ -9,8 +9,8 @@ import com.github.privacystreams.core.UQI;
  */
 class ImageBitmapGetter extends ImageProcessor<Bitmap> {
 
-    ImageBitmapGetter(String photoField) {
-        super(photoField);
+    ImageBitmapGetter(String imageDataField) {
+        super(imageDataField);
     }
 
     @Override

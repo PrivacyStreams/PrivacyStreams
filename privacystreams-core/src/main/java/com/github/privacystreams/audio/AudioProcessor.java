@@ -10,16 +10,16 @@ import com.github.privacystreams.utils.Assertions;
  */
 abstract class AudioProcessor<Tout> extends ItemFunction<Tout> {
 
-    private final String audioField;
+    private final String audioDataField;
 
-    AudioProcessor(String audioField) {
-        this.audioField = Assertions.notNull("audioField", audioField);
-        this.addParameters(audioField);
+    AudioProcessor(String audioDataField) {
+        this.audioDataField = Assertions.notNull("audioDataField", audioDataField);
+        this.addParameters(audioDataField);
     }
 
     @Override
     public final Tout apply(UQI uqi, Item input) {
-        AudioData audioData = input.getValueByField(this.audioField);
+        AudioData audioData = input.getValueByField(this.audioDataField);
         return this.processAudio(uqi, audioData);
     }
 

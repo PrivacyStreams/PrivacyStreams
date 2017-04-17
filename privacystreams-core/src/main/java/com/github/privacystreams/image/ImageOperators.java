@@ -20,22 +20,22 @@ public class ImageOperators {
      * Retrieve the EXIF of the image specified by an ImageData field.
      * The EXIF information is an instance of Android `ExifInterface` class.
      *
-     * @param photoField the name of photo field
+     * @param imageDataField the name of ImageData field
      * @return the function
      */
-    public static Function<Item, ExifInterface> getExif(String photoField) {
-        return new ImageExifRetriever(photoField);
+    public static Function<Item, ExifInterface> getExif(String imageDataField) {
+        return new ImageExifRetriever(imageDataField);
     }
 
     /**
      * Retrieve the location information of the image specified by an ImageData field.
      * The location information is an instance of `LatLng` class.
      *
-     * @param photoField the name of photo field
+     * @param imageDataField the name of ImageData field
      * @return the function
      */
-    public static Function<Item, LatLng> getLatLng(String photoField) {
-        return new ImageLatLngRetriever(photoField);
+    public static Function<Item, LatLng> getLatLng(String imageDataField) {
+        return new ImageLatLngRetriever(imageDataField);
     }
 
     /**
@@ -43,32 +43,32 @@ public class ImageOperators {
      * The path might point to a temporary image file if it is not from storage.
      * To permanently save the file, you need to copy the file to another file path.
      *
-     * @param photoField the name of photo field
+     * @param imageDataField the name of ImageData field
      * @return the function
      */
-    public static Function<Item, String> getFilepath(String photoField) {
-        return new ImageFilepathGetter(photoField);
+    public static Function<Item, String> getFilepath(String imageDataField) {
+        return new ImageFilepathGetter(imageDataField);
     }
 
     /**
      * Get the Bitmap of the image specified by an ImageData field.
      *
-     * @param photoField the name of photo field
+     * @param imageDataField the name of ImageData field
      * @return the function
      */
-    public static Function<Item, Bitmap> getBitmap(String photoField) {
-        return new ImageBitmapGetter(photoField);
+    public static Function<Item, Bitmap> getBitmap(String imageDataField) {
+        return new ImageBitmapGetter(imageDataField);
     }
 
     /**
      * Blur the image specified by an ImageData field,
      * and return the blurred ImageData instance.
      *
-     * @param photoField the name of photo field
+     * @param imageDataField the name of ImageData field
      * @return the function
      */
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
-    public static Function<Item, ImageData> blur(String photoField) {
-        return new ImageBlurFunction(photoField);
+    public static Function<Item, ImageData> blur(String imageDataField) {
+        return new ImageBlurFunction(imageDataField);
     }
 }
