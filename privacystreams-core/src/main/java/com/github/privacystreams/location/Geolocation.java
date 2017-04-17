@@ -52,12 +52,6 @@ public class Geolocation extends Item {
     @PSItemField(type = Float.class)
     public static final String ACCURACY = "accuracy";
 
-    /**
-     * The level of the location data,
-     * could be "country", "city", "neighbourhood", "building", or "exact".
-     */
-    public static final String LEVEL = "level";
-
     /** Country level. This level's accuracy is about 100,000 meters. */
     public static final String LEVEL_COUNTRY = "country";
     static final int ACCURACY_COUNTRY = 100000;
@@ -93,8 +87,9 @@ public class Geolocation extends Item {
      *
      * @param interval The interval between each two location updates.
      * @param level The location granularity level, could be
-     *              "country"/"city"/"neighborhood"/"building"/"exact".
-     *              "exact" level requires ACCESS_FINE_LOCATION permission,
+     *              `Geolocation.LEVEL_COUNTRY`, `Geolocation.LEVEL_CITY`, `Geolocation.LEVEL_NEIGHBORHOOD`,
+     *              `Geolocation.LEVEL_BUILDING`, or `Geolocation.LEVEL_EXACT`.
+     *              exact level requires ACCESS_FINE_LOCATION permission,
      *              other levels requires ACCESS_COARSE_LOCATION.
      * @return the provider
      */
@@ -109,6 +104,11 @@ public class Geolocation extends Item {
     /**
      * Provide an SStream of a Geolocation item, as the last known location.
      *
+     * @param level The location granularity level, could be
+     *              `Geolocation.LEVEL_COUNTRY`, `Geolocation.LEVEL_CITY`, `Geolocation.LEVEL_NEIGHBORHOOD`,
+     *              `Geolocation.LEVEL_BUILDING`, or `Geolocation.LEVEL_EXACT`.
+     *              exact level requires ACCESS_FINE_LOCATION permission,
+     *              other levels requires ACCESS_COARSE_LOCATION.
      * @return the provider
      */
     public static SStreamProvider asLastKnown(String level) {
@@ -121,6 +121,12 @@ public class Geolocation extends Item {
     /**
      * Provide an SStream of a Geolocation item, as the current location.
      *
+     * @param level The location granularity level, could be
+     *              `Geolocation.LEVEL_COUNTRY`, `Geolocation.LEVEL_CITY`,
+     *              `Geolocation.LEVEL_NEIGHBORHOOD`, `Geolocation.LEVEL_BUILDING`,
+     *              or `Geolocation.LEVEL_EXACT`.
+     *              `Geolocation.LEVEL_EXACT` level requires ACCESS_FINE_LOCATION permission,
+     *              other levels requires ACCESS_COARSE_LOCATION.
      * @return the provider
      */
     public static SStreamProvider asCurrent(String level) {

@@ -16,10 +16,8 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 /**
  * The interface of SStream (single-item stream).
- * An SStreamInterface is a stream containing only one item, which is an instance of {@link Item}.
- *
- * An SStreamInterface is produced by <code>uqi.getData</code> method.
- * @see UQI#getData(com.github.privacystreams.core.providers.SStreamProvider, Purpose)
+ * An SStream is a stream containing only one item, which is an instance of {@link Item}.
+ * An SStream is produced by `uqi.getData` method.
  *
  * It can be transformed to another ISingleItemProvider with transformation functions,
  * such as {@link #setField(String, Function)}, {{@link #project(String...)}}, {{@link #map(Function)}}, etc.
