@@ -25,10 +25,8 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 /**
  * The interface of MStream (multi-item stream).
- * An MStreamInterface is a stream containing many items, and each item is an instance of {@link Item}.
- *
- * An MStreamInterface is produced by <code>uqi.getData</code> method.
- * @see UQI#getData(com.github.privacystreams.core.providers.MStreamProvider, Purpose)
+ * An MStream is a stream containing many items, and each item is an instance of {@link Item}.
+ * An MStream is produced by `uqi.getData` method.
  *
  * It can be transformed to another MStreamInterface by transformation functions,
  * such as {@link #filter(String, Object)}, {{@link #groupBy(String)}}, {{@link #map(Function)}}, etc.
@@ -303,7 +301,7 @@ public class MStream extends Stream {
     /**
      * Output the items in the stream with a function.
      * This method will block until the result returns.
-     * Eg. <code>outputItems(Statistic.count())</code> will output the number of items.
+     * Eg. <code>output(Statistic.count())</code> will output the number of items.
      *
      * @param itemsCollector the function used to output current stream
      * @param <Tout> the type of the result

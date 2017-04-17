@@ -19,4 +19,10 @@ public class Logging {
             Log.w(Consts.LIB_TAG, message);
         }
     }
+
+    public static void error(String message) {
+        if (Globals.LoggingConfig.isEnabled && Globals.LoggingConfig.level <= Log.ERROR) {
+            Log.e(Consts.LIB_TAG, message);
+        }
+    }
 }
