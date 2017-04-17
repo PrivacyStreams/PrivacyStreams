@@ -19,7 +19,7 @@ public class DeviceEvent extends Item {
     public static final String TIMESTAMP = "timestamp";
 
     /**
-     * The type of the event, could be "screen", "boot", "battery", "ringer", etc.
+     * The type of the event, could be "screen", "boot", "battery", or "ringer".
      */
     @PSItemField(type = String.class)
     public static final String TYPE = "type";
@@ -30,10 +30,10 @@ public class DeviceEvent extends Item {
     public static final String TYPE_RINGER = "ringer";
 
     /**
-     * The event name. For screen events, could be on/off/user_present;
-     * For boot events, could be boot_completed/shutdown;
-     * For battery events, could be low/okay/ac_connected/ac_disconnected;
-     * For ringer events, could be silent/vibrate/normal.
+     * The event name. For screen events, could be "on", "off", or "user_present";
+     * For boot events, could be "boot_completed", or "shutdown";
+     * For battery events, could be "low", "okay", "ac_connected", or "ac_disconnected";
+     * For ringer events, could be "silent", "vibrate", or "normal".
      */
     @PSItemField(type = String.class)
     public static final String EVENT = "event";

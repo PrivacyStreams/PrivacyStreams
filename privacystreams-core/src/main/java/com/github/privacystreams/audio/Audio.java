@@ -14,7 +14,7 @@ import com.github.privacystreams.utils.annotations.PSItemField;
 public class Audio extends Item {
 
     /**
-     * The timestamp of when the audio/record was generated.
+     * The timestamp of when the Audio item was generated.
      */
     @PSItemField(type = Long.class)
     public static final String TIMESTAMP = "timestamp";

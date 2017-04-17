@@ -1,11 +1,7 @@
 package com.github.privacystreams;
 
-import android.Manifest;
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.os.Build;
-import android.support.annotation.RequiresApi;
-import android.support.v4.app.ActivityCompat;
 
 import com.github.privacystreams.accessibility.BrowserSearch;
 import com.github.privacystreams.accessibility.BrowserVisit;
@@ -15,7 +11,6 @@ import com.github.privacystreams.audio.Audio;
 import com.github.privacystreams.audio.AudioOperators;
 import com.github.privacystreams.commons.arithmetic.ArithmeticOperators;
 import com.github.privacystreams.commons.comparison.Comparators;
-import com.github.privacystreams.commons.debug.DebugOperators;
 import com.github.privacystreams.commons.item.ItemOperators;
 import com.github.privacystreams.commons.list.ListOperators;
 import com.github.privacystreams.commons.statistic.StatisticOperators;
@@ -42,7 +37,6 @@ import com.github.privacystreams.device.BluetoothDevice;
 import com.github.privacystreams.device.DeviceEvent;
 import com.github.privacystreams.device.DeviceOperators;
 import com.github.privacystreams.device.WifiAp;
-import com.github.privacystreams.environment.LightEnv;
 import com.github.privacystreams.image.Image;
 import com.github.privacystreams.image.ImageOperators;
 import com.github.privacystreams.location.Geolocation;
@@ -51,8 +45,8 @@ import com.github.privacystreams.location.LatLng;
 import com.github.privacystreams.notification.Notification;
 import com.github.privacystreams.storage.DropboxOperators;
 import com.github.privacystreams.storage.StorageOperators;
-import com.github.privacystreams.utils.Globals;
 import com.github.privacystreams.utils.Duration;
+import com.github.privacystreams.utils.Globals;
 import com.github.privacystreams.utils.TimeUtils;
 
 import java.util.List;
@@ -60,8 +54,8 @@ import java.util.Locale;
 import java.util.Map;
 
 import static com.github.privacystreams.commons.items.ItemsOperators.getItemWithMax;
-import static com.github.privacystreams.commons.time.TimeOperators.recent;
 import static com.github.privacystreams.commons.statistic.StatisticOperators.count;
+import static com.github.privacystreams.commons.time.TimeOperators.recent;
 
 /**
  * Some show cases of PrivacyStreams
@@ -71,13 +65,6 @@ public class UseCases {
 
     public UseCases(Context context) {
         this.uqi = new UQI(context);
-    }
-
-    /*
-     For testing the new lightUpdatesProvider
-     */
-    public void testLightUpdatesProvider() {
-        uqi.getData(LightEnv.asUpdates(), Purpose.FEATURE("light")).debug();
     }
 
     public void testBlueToothUpatesProvider() {

@@ -13,7 +13,7 @@ import com.github.privacystreams.utils.annotations.PSItemField;
 public class Image extends Item {
 
     /**
-     * The timestamp of when the image was generated.
+     * The timestamp of when the Image item was generated.
      */
     @PSItemField(type = Long.class)
     public static final String DATE_ADDED = "date_added";

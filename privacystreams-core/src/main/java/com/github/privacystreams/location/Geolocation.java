@@ -54,7 +54,7 @@ public class Geolocation extends Item {
 
     /**
      * The level of the location data,
-     * could be "country"/"city"/"neighbourhood"/"building"/"exact".
+     * could be "country", "city", "neighbourhood", "building", or "exact".
      */
     public static final String LEVEL = "level";
 

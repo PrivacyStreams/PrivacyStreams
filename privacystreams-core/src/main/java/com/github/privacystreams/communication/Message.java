@@ -35,13 +35,13 @@ public class Message extends Item {
     public static final String CONTACT = "contact";
 
     /**
-     * The timestamp of when the message is sent/received.
+     * The timestamp of when the message is sent or received.
      */
     @PSItemField(type = Long.class)
     public static final String TIMESTAMP = "timestamp";
 
     /**
-     * The message type, could be "received"/"sent"/"draft"/"pending"/"unknown".
+     * The message type, could be "received", "sent", "draft", "pending", or "unknown".
      */
     @PSItemField(type = String.class)
     public static final String TYPE = "type";

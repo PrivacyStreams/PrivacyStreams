@@ -125,10 +125,10 @@ task doc_gen(type: Javadoc, dependsOn: tasks.getByPath(':doc_gen:jar')) {
 }
 
 
-//task sourcesJar(type: Jar) {
-//    classifier = 'sources'
-//    from android.sourceSets.main.java.srcDirs
-//}
+task sourcesJar(type: Jar) {
+    classifier = 'sources'
+    from android.sourceSets.main.java.srcDirs
+}
 
 //task javadoc(type: Javadoc) {
 //    source = android.sourceSets.main.java.srcDirs
@@ -143,10 +143,10 @@ task doc_gen(type: Javadoc, dependsOn: tasks.getByPath(':doc_gen:jar')) {
 //    from javadoc.destinationDir
 //}
 
-//artifacts {
+artifacts {
 //    archives javadocJar
-//    archives sourcesJar
-//}
+    archives sourcesJar
+}
 
 // Bintray
 Properties properties = new Properties()
