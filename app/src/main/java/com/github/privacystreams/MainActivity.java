@@ -38,29 +38,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected Object doInBackground(Object[] objects) {
             UseCases useCases = new UseCases(MainActivity.this);
-
             useCases.testImage();
-
-//            useCases.testCurrentLocation();
-//            useCases.testTextEntry();
-//            useCases.testNotification();
-//            useCases.testAudio();
-//            useCases.testMockData();
-//            useCases.testContacts();
-//            useCases.testDeviceState();
-//            useCases.testTextEntry();
-//
-//            useCases.testBrowserSearchUpdates();
-//            useCases.testBrowserHistoryUpdates();
-//            useCases.testWifiUpdates(30);
-//
-//            useCases.testLightUpdatesProvider();
-//            useCases.testBlueToothUpatesProvider();
-//            useCases.testPhysicalMotionUpdatesProvider();
-//            useCases.testLightUpdatesProvider();
-//
-//            useCases.testUIAction();
-//            useCases.testIMUpdates();
             return null;
         }
     }

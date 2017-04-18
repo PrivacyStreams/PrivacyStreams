@@ -7,6 +7,7 @@ import android.support.annotation.RequiresApi;
 import com.github.privacystreams.accessibility.BrowserSearch;
 import com.github.privacystreams.audio.Audio;
 import com.github.privacystreams.audio.AudioOperators;
+import com.github.privacystreams.commons.comparison.Comparators;
 import com.github.privacystreams.commons.items.ItemsOperators;
 import com.github.privacystreams.commons.list.ListOperators;
 import com.github.privacystreams.commons.statistic.StatisticOperators;
@@ -17,6 +18,7 @@ import com.github.privacystreams.communication.Contact;
 import com.github.privacystreams.communication.Message;
 import com.github.privacystreams.core.Callback;
 import com.github.privacystreams.core.Item;
+import com.github.privacystreams.core.MStream;
 import com.github.privacystreams.core.UQI;
 import com.github.privacystreams.core.exceptions.PSException;
 import com.github.privacystreams.core.purposes.Purpose;
@@ -180,7 +182,7 @@ public class Examples {
             List<String> calledPhoneNumbers = uqi.getData(Call.getLogs(), purpose) // get call logs
                     .asList("contact"); // collect the value of "contact" field in each item to a list
             List<String> calledNames = uqi.getData(Contact.getAll(), purpose) // get all contacts
-                    .filter(ListOperators.intersects("phone_numbers", calledPhoneNumbers.toArray())) // keep the contacts whose "phone_numbers" field has intersection with `calledPhoneNumbers`
+                    .filter(ListOperators.intersects("phones", calledPhoneNumbers.toArray())) // keep the contacts whose "phones" field has intersection with `calledPhoneNumbers`
                     .asList("name"); // collect the value of "name" field to a list
             System.out.println("The user had phone call with: " + calledNames);
         } catch (PSException e) {
@@ -260,6 +262,46 @@ public class Examples {
                 .setIndependentField("uuid", DeviceOperators.getDeviceId()) // create a new field "uuid" using `getDeviceId` operator.
                 .project("lat_lng", "uuid") // keep the "lat_lng", "uuid" fields in each item.
                 .forEach(DropboxOperators.<Item>uploadTo("Location.txt", true)); // upload the item to "Location.txt" file in Dropbox.
+    }
+
+    /**
+     * Reuse the same stream for different operators.
+     * Suppose we want to get:
+     * 1. how many contacts' name is shorter than 10 characters;
+     * 2. and how many contacts has more than 2 phone numbers.
+     */
+    public void reuseStream() {
+        // Without reusing:
+        try {
+            int count1 = uqi.getData(Contact.getAll(), purpose) // get a stream of contacts
+                    .setField("nameLen", StringOperators.length("name")) // set a new field "nameLen" as the length of "name" field value
+                    .filter(Comparators.lt("nameLen", 10)) // keep the items whose "nameLen" field is less than 10
+                    .count(); // get the count of items
+            System.out.println("Number of contacts whose name is longer than 10 characters: " + count1);
+            int count2 = uqi.getData(Contact.getAll(), purpose) // get a stream of contacts
+                    .setField("numPhones", ListOperators.count("phones")) // set a new field "numPhones" as the length of "name" field value
+                    .filter(Comparators.gt("numPhones", 2)) // keep the items whose "numPhones" field is greater than 2
+                    .count(); // get the count of items
+            System.out.println("Number of contacts who has more than 2 phone numbers: " + count2);
+        } catch (PSException e) {
+            e.printStackTrace();
+        }
+
+        // With reusing:
+        try {
+            MStream contactStream = uqi.getData(Contact.getAll(), purpose).reuse(2); // get a stream of contact and reuse twice.
+            int count1 = contactStream.setField("nameLen", StringOperators.length("name")) // set a new field "nameLen" as the length of "name" field value
+                    .filter(Comparators.lt("nameLen", 10)) // keep the items whose "nameLen" field is less than 10
+                    .count(); // get the count of items
+            System.out.println("Number of contacts whose name is longer than 10 characters: " + count1);
+            int count2 = contactStream.setField("numPhones", ListOperators.count("phones")) // set a new field "numPhones" as the length of "name" field value
+                    .filter(Comparators.gt("numPhones", 2)) // keep the items whose "numPhones" field is greater than 2
+                    .count(); // get the count of items
+            System.out.println("Number of contacts who has more than 2 phone numbers: " + count2);
+
+        } catch (PSException e) {
+            e.printStackTrace();
+        }
     }
 
 }

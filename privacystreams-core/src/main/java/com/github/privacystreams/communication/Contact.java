@@ -30,7 +30,7 @@ public class Contact extends Item {
      * The phone numbers of the contact.
      */
     @PSItemField(type = List.class)
-    public static final String PHONES = "phone_numbers";
+    public static final String PHONES = "phones";
 
     /**
      * The emails of the contact.

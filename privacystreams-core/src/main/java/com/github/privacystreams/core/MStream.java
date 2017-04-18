@@ -504,10 +504,10 @@ public class MStream extends Stream {
      * Fork current stream for reusing.
      *
      * @param numOfForks number of reuses
-     * @return the forked stream
+     * @return the stream ready for reuse
      */
     @PSTransformation
-    public MStream fork(int numOfForks) {
+    public MStream reuse(int numOfForks) {
         this.getUQI().reuse(this, numOfForks);
         return this;
     }

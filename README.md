@@ -18,7 +18,7 @@ Please refer to our [website](https://privacystreams.github.io/).
 ## How to contribute
 
 PrivacyStreams is open-sourced under license Apache-2.0, and we welcome developers add more data types and operations.
-Please feel free to fork, open issues, and send pull request.
+Please feel free to fork, open issues, and send pull requests.
 You can install PrivacyStreams from source code.
 For example, in Android Studio, the installation involves the following steps:
 
