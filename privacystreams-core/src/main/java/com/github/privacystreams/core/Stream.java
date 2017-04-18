@@ -144,8 +144,8 @@ public abstract class Stream {
         return this.uqi;
     }
 
-    public Stream reuse(int numOfForks) {
-        this.receiverCount = numOfForks;
+    public Stream reuse(int numOfReuses) {
+        this.receiverCount = numOfReuses;
         return this;
     }
 

@@ -94,9 +94,9 @@ public class UQI {
      * Reuse a MStream.
      * @param stream the stream to reuse.
      */
-    void reuse(MStream stream, int numOfForks) {
+    void reuse(MStream stream, int numOfReuses) {
         Function<Void, MStream> reusedProvider = stream.getStreamProvider();
-        stream.receiverCount = numOfForks;
+        stream.receiverCount = numOfReuses;
         reusedMProviders.put(reusedProvider, stream);
     }
 
@@ -104,9 +104,9 @@ public class UQI {
      * Reuse a SStream.
      * @param stream the stream to reuse.
      */
-    void reuse(SStream stream, int numOfForks) {
+    void reuse(SStream stream, int numOfReuses) {
         Function<Void, SStream> reusedProvider = stream.getStreamProvider();
-        stream.receiverCount = numOfForks;
+        stream.receiverCount = numOfReuses;
         reusedSProviders.put(reusedProvider, stream);
     }
 

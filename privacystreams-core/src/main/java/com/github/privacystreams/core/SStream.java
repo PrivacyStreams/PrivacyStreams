@@ -213,14 +213,14 @@ public class SStream extends Stream {
     }
 
     /**
-     * Fork current stream for reusing.
+     * Reuse current stream.
      *
-     * @param numOfForks number of reuses
+     * @param numOfReuses number of reuses
      * @return the stream ready for reuse
      */
     @PSTransformation
-    public SStream reuse(int numOfForks) {
-        this.getUQI().reuse(this, numOfForks);
+    public SStream reuse(int numOfReuses) {
+        this.getUQI().reuse(this, numOfReuses);
         return this;
     }
 
