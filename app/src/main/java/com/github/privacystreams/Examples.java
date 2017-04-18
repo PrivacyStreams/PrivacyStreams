@@ -207,11 +207,12 @@ public class Examples {
         }
     }
 
-    /** Get all received SMS messages and hashed phone number. */
-    public void getReceivedMessages() {
+    /** Get all received SMS messages that contains "Alert" substring and hashed phone number. */
+    public void searchReceivedMessages() {
         try {
             List<Item> items = uqi.getData(Message.getAllSMS(), purpose) // get all SMS messages.
                     .filter("type", Message.TYPE_RECEIVED) // keep the messages whose "type" field is "received".
+                    .filter(StringOperators.contains("content", "Alert")) // keep the messages whose "content" field contains "Alert" substring
                     .setField("hashed_phone", StringOperators.sha1("contact")) // create a new field "hashed_phone" as the sha1 hash of "contact".
                     .project("content", "hashed_phone") // keep the "content", "hashed_phone" fields in each item.
                     .asList(); // collect all items to a list.
