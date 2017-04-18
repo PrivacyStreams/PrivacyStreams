@@ -28,10 +28,12 @@ import com.github.privacystreams.device.WifiAp;
 import com.github.privacystreams.image.Image;
 import com.github.privacystreams.image.ImageOperators;
 import com.github.privacystreams.location.Geolocation;
+import com.github.privacystreams.location.GeolocationOperators;
 import com.github.privacystreams.location.LatLng;
 import com.github.privacystreams.notification.Notification;
 import com.github.privacystreams.storage.DropboxOperators;
 import com.github.privacystreams.utils.Globals;
+import com.github.privacystreams.utils.StorageUtils;
 
 import java.util.List;
 
@@ -45,30 +47,6 @@ public class Examples {
     public Examples(Context context) {
         this.uqi = new UQI(context);
         this.purpose = Purpose.TEST("Examples"); // Developers should replace with actual purpose in real apps.
-    }
-
-    /** Get the SSID of the connected Wifi Ap. */
-    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
-    public void getConnectedWifiSSID() {
-        uqi.getData(WifiAp.getScanResults(), purpose)  // get a stream of Wifi Ap scan results.
-            .filter("connected", true)  // keep the items whose "connected" value is "true".
-            .ifPresent("ssid", new Callback<String>() { // get the value of "ssid" field and callback.
-                @Override
-                protected void onInput(String input) {
-                    System.out.println("Connected wifi SSID: " + input);
-                }
-            });
-    }
-
-    /** Get the mac addresses of surrounding bluetooth devices. */
-    public void getBluetoothMacAddresses() {
-        try {
-            List<String> macAddresses = uqi.getData(BluetoothDevice.getScanResults(), purpose)  // get a stream of bluetooth scan results.
-                    .asList("mac_address");  // collect the "mac_address" field of all items to a list.
-            System.out.println("Bluetooth devices: " + macAddresses);
-        } catch (PSException e) {
-            e.printStackTrace();
-        }
     }
 
     /** Get the location metadata of all local images. */
@@ -121,13 +99,20 @@ public class Examples {
                 });
     }
 
-    /** Get fine-grained location updates once per second. */
+    /** Monitor fine-grained location once per second and check whether it's in an square region. */
     public void monitorLocationUpdates() {
+        double minLat = 40.0, minLng = -180.0, maxLat = 40.1, maxLng = -180.1; // the square region.
+
         uqi.getData(Geolocation.asUpdates(1000, Geolocation.LEVEL_EXACT), purpose) // get a live stream of location updates, the location granularity is "EXACT".
-                .forEach("lat_lng", new Callback<LatLng>() {
+                .setField("inRegion", GeolocationOperators.inSquare("lat_lng", minLat, minLng, maxLat, maxLng))
+                .forEach(new Callback<Item>() {
                     @Override
-                    protected void onInput(LatLng latLng) { // get the value of "lat_lng" field and callback for each item.
+                    protected void onInput(Item location) { // callback for each item.
+                        LatLng latLng = location.getValueByField("lat_lng"); // get the value of "lat_lng" field.
+                        Boolean inRegion = location.getValueByField("inRegion"); // get the value of "inRegion" field.
+
                         System.out.println("lat=" + latLng.getLatitude() + ", lng=" + latLng.getLongitude());
+                        if (inRegion) System.out.println("the location is in the square region.");
                     }
                 });
     }
@@ -247,6 +232,30 @@ public class Examples {
                         }
                     }
                 });
+    }
+
+    /** Get the SSID of the connected Wifi Ap. */
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
+    public void getConnectedWifiSSID() {
+        uqi.getData(WifiAp.getScanResults(), purpose)  // get a stream of Wifi Ap scan results.
+                .filter("connected", true)  // keep the items whose "connected" value is "true".
+                .ifPresent("ssid", new Callback<String>() { // get the value of "ssid" field and callback.
+                    @Override
+                    protected void onInput(String input) {
+                        System.out.println("Connected wifi SSID: " + input);
+                    }
+                });
+    }
+
+    /** Get the mac addresses of surrounding bluetooth devices. */
+    public void getBluetoothMacAddresses() {
+        try {
+            List<String> macAddresses = uqi.getData(BluetoothDevice.getScanResults(), purpose)  // get a stream of bluetooth scan results.
+                    .asList("mac_address");  // collect the "mac_address" field of all items to a list.
+            System.out.println("Bluetooth devices: " + macAddresses);
+        } catch (PSException e) {
+            e.printStackTrace();
+        }
     }
 
     /**

@@ -9,6 +9,7 @@ import com.github.privacystreams.accessibility.BrowserVisit;
 import com.github.privacystreams.accessibility.TextEntry;
 import com.github.privacystreams.accessibility.UIAction;
 import com.github.privacystreams.audio.Audio;
+import com.github.privacystreams.audio.AudioOperators;
 import com.github.privacystreams.commons.arithmetic.ArithmeticOperators;
 import com.github.privacystreams.commons.comparison.Comparators;
 import com.github.privacystreams.commons.item.ItemOperators;
@@ -70,6 +71,7 @@ public class UseCases {
     public void testAudio(Context context) {
         UQI uqi = new UQI(context);
         uqi.getData(Audio.recordPeriodic(10*1000, 10*60*1000), Purpose.HEALTH("monitoring sleep."))
+                .setField("loudness", AudioOperators.calcLoudness("audio_data"))
                 .debug();
 
     }
