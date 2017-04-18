@@ -278,6 +278,7 @@ public class Examples {
                     .filter(Comparators.lt("nameLen", 10)) // keep the items whose "nameLen" field is less than 10
                     .count(); // get the count of items
             System.out.println("Number of contacts whose name is longer than 10 characters: " + count1);
+
             int count2 = uqi.getData(Contact.getAll(), purpose) // get a stream of contacts
                     .setField("numPhones", ListOperators.count("phones")) // set a new field "numPhones" as the length of "name" field value
                     .filter(Comparators.gt("numPhones", 2)) // keep the items whose "numPhones" field is greater than 2
@@ -294,6 +295,7 @@ public class Examples {
                     .filter(Comparators.lt("nameLen", 10)) // keep the items whose "nameLen" field is less than 10
                     .count(); // get the count of items
             System.out.println("Number of contacts whose name is longer than 10 characters: " + count1);
+
             int count2 = contactStream.setField("numPhones", ListOperators.count("phones")) // set a new field "numPhones" as the length of "name" field value
                     .filter(Comparators.gt("numPhones", 2)) // keep the items whose "numPhones" field is greater than 2
                     .count(); // get the count of items

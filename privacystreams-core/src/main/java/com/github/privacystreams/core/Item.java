@@ -63,12 +63,12 @@ public class Item {
             Object fieldValue = this.itemMap.get(fieldKey);
             if (fieldValue == null) {
                 itemStr += String.format(Locale.getDefault(),
-                        "\t%s = null\n",
+                        "\t\"%s\": null\n",
                         fieldKey);
             } else {
                 String fieldValueClass = fieldValue.getClass().getSimpleName();
                 itemStr += String.format(Locale.getDefault(),
-                        "\t%s %s = %s\n",
+                        "\t%s \"%s\": %s\n",
                         fieldValueClass, fieldKey, fieldValue.toString());
             }
         }
