@@ -11,7 +11,7 @@ import com.github.privacystreams.utils.annotations.PSOperatorWrapper;
 public class ArithmeticOperators {
     /**
      * Round up a number.
-     * For example, given an item with field "x"=17, <code>roundUp("x", 10)</code> will produce 20.
+     * For example, given an item with field "x"=17, `roundUp("x", 10)` will produce 20.
      *
      * @param numField the name of the number field
      * @param value the value to round

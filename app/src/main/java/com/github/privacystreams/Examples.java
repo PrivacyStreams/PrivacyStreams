@@ -49,7 +49,7 @@ public class Examples {
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     public void getConnectedWifiSSID() {
         uqi.getData(WifiAp.getScanResults(), purpose)  // get a stream of Wifi Ap scan results.
-            .filter("connected", true)  // keep the items whose "connected" field is true.
+            .filter("connected", true)  // keep the items whose "connected" value is "true".
             .ifPresent("ssid", new Callback<String>() { // get the value of "ssid" field and callback.
                 @Override
                 protected void onInput(String input) {

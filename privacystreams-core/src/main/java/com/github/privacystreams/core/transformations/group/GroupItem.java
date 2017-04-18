@@ -8,11 +8,11 @@ import java.util.List;
 
 /**
  * An item in a stream after grouping operation.
- * GroupItem cannot be produced directly, instead, it can be generated using <code>groupBy</code> or <code>localGroupBy</code> operators.
+ * GroupItem cannot be produced directly, instead, it can be generated using `groupBy` or `localGroupBy` operators.
  * An GroupItem contains two initial fields:
- * 1. The field name is the same as the field used to group (e.g. the 1st parameter of <code>groupBy</code>), and the value is the field value;
+ * 1. The field name is the same as the field used to group (e.g. the 1st parameter of `groupBy`), and the value is the field value;
  * 2. The field name is `grouped_items`, and the value is a list of the grouped items.
- * More fields can be produced with <code>setGroupField</code> operators.
+ * More fields can be produced with `setGroupField` operators.
  */
 @PSItem
 public final class GroupItem extends Item {

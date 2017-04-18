@@ -2,6 +2,7 @@ package com.github.privacystreams;
 
 import com.sun.javadoc.ClassDoc;
 import com.sun.javadoc.DocErrorReporter;
+import com.sun.javadoc.MethodDoc;
 import com.sun.javadoc.RootDoc;
 import com.sun.tools.doclets.formats.html.HtmlDoclet;
 
@@ -21,6 +22,7 @@ public class PSDoclet extends HtmlDoclet {
 
     private List<PSItemDoc> psItems = new ArrayList<>();
     private List<PSOperatorWrapperDoc> psOperatorWrappers = new ArrayList<>();
+    private List<PSPipelineDoc> psPipelines = new ArrayList<>();
 
     private String outputDir;
     private String docTitle;
@@ -49,6 +51,20 @@ public class PSDoclet extends HtmlDoclet {
 
             PSOperatorWrapperDoc operatorWrapperDoc = PSOperatorWrapperDoc.build(classDoc);
             if (operatorWrapperDoc != null) this.psOperatorWrappers.add(operatorWrapperDoc);
+
+            if (Utils.instanceOf(classDoc, Consts.TYPE_M_STREAM)) {
+                for (MethodDoc methodDoc : classDoc.methods()) {
+                    PSPipelineDoc pipelineDoc = PSPipelineDoc.build(classDoc, methodDoc);
+                    if (pipelineDoc != null) this.psPipelines.add(pipelineDoc);
+                }
+            }
+
+            if (Utils.instanceOf(classDoc, Consts.TYPE_S_STREAM)) {
+                for (MethodDoc methodDoc : classDoc.methods()) {
+                    PSPipelineDoc pipelineDoc = PSPipelineDoc.build(classDoc, methodDoc);
+                    if (pipelineDoc != null) this.psPipelines.add(pipelineDoc);
+                }
+            }
         }
 
         this.dump();
@@ -118,6 +134,45 @@ public class PSDoclet extends HtmlDoclet {
             for (PSOperatorDoc operatorDoc : allOperatorDocs) {
                 operatorDocsPrinter.println(operatorDoc);
             }
+            operatorDocsPrinter.close();
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            File operatorDocsFile = new File(destDirName, "pipeline.md");
+            PrintStream operatorDocsPrinter = new PrintStream(operatorDocsFile);
+            operatorDocsPrinter.println("# " + this.docTitle + " - Pipeline functions\n");
+
+            operatorDocsPrinter.println("This document contains all pipeline functions available in PrivacyStreams.\n");
+
+            operatorDocsPrinter.println("Transformations:\n");
+            operatorDocsPrinter.print(Consts.PIPELINE_TABLE_HEADER);
+            Collections.sort(psPipelines, new Comparator<PSPipelineDoc>() {
+                @Override
+                public int compare(PSPipelineDoc psDoc1, PSPipelineDoc psDoc2) {
+                    return psDoc1.toString().compareTo(psDoc2.toString());
+                }
+            });
+            for (PSPipelineDoc pipelineDoc : psPipelines) {
+                if (pipelineDoc.type == PSPipelineDoc.TYPE_TRANSFORMATION)
+                    operatorDocsPrinter.println(pipelineDoc);
+            }
+
+            operatorDocsPrinter.println("\nActions:\n");
+            operatorDocsPrinter.print(Consts.PIPELINE_TABLE_HEADER);
+            Collections.sort(psPipelines, new Comparator<PSPipelineDoc>() {
+                @Override
+                public int compare(PSPipelineDoc psDoc1, PSPipelineDoc psDoc2) {
+                    return psDoc1.toString().compareTo(psDoc2.toString());
+                }
+            });
+            for (PSPipelineDoc pipelineDoc : psPipelines) {
+                if (pipelineDoc.type == PSPipelineDoc.TYPE_ACTION)
+                    operatorDocsPrinter.println(pipelineDoc);
+            }
+
             operatorDocsPrinter.close();
 
         } catch (FileNotFoundException e) {

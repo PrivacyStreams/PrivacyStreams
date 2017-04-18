@@ -83,15 +83,12 @@ public class UseCases {
 //        uqi.getData(AwarenessMotion.asUpdates(),Purpose.FEATURE("Physical Activity")).debug();
 //    }
 
-    public void testAudio() {
-        uqi.getData(Audio.recordPeriodic(1000, 1000), Purpose.TEST("test"))
-                .setField("file", AudioOperators.getFilepath(Audio.AUDIO_DATA))
-                .setField("loudness", AudioOperators.calcLoudness(Audio.AUDIO_DATA))
-                .setField("amp_samples", AudioOperators.getAmplitudeSamples(Audio.AUDIO_DATA))
-                .setField("amp_variance", ListOperators.variance("amp_samples"))
-                .setField("loudness_variance", AudioOperators.convertAmplitudeToLoudness("amp_variance"))
-                .project("file", "loudness")
+    public void testAudio(Context context) {
+
+        UQI uqi = new UQI(context);
+        uqi.getData(Audio.recordPeriodic(10*1000, 10*60*1000), Purpose.HEALTH("monitoring sleep."))
                 .debug();
+
     }
 
     public void testReuse() {

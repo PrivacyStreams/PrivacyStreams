@@ -45,16 +45,14 @@ public class HashUtils {
     }
 
     /**
-     * Return the same value as <code>{@link Boolean#hashCode()}</code>.
-     * @see Boolean#hashCode()
+     * Return the hash code of a bool value.
      */
     public static int hashCode(boolean bool) {
         return bool ? 1231 : 1237;
     }
 
     /**
-     * Return the same value as <code>{@link Double#hashCode()}</code>.
-     * @see Double#hashCode()
+     * Return the hash code of a double value.
      */
     public static int hashCode(double dbl) {
         long bits = Double.doubleToLongBits(dbl);
@@ -62,16 +60,14 @@ public class HashUtils {
     }
 
     /**
-     * Return the same value as <code>{@link Float#hashCode()}</code>.
-     * @see Float#hashCode()
+     * Return the hash code of a float value.
      */
     public static int hashCode(float flt) {
         return Float.floatToIntBits(flt);
     }
 
     /**
-     * Return the same value as <code>{@link Long#hashCode()}</code>.
-     * @see Long#hashCode()
+     * Return the hash code of a long value.
      */
     public static int hashCode(long lng) {
         return (int) (lng ^ (lng >>> 32));

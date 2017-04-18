@@ -9,7 +9,6 @@ import com.github.privacystreams.core.actions.MStreamAction;
 import com.github.privacystreams.core.actions.callback.Callbacks;
 import com.github.privacystreams.core.actions.collect.Collectors;
 import com.github.privacystreams.core.exceptions.PSException;
-import com.github.privacystreams.core.purposes.Purpose;
 import com.github.privacystreams.core.transformations.M2MTransformation;
 import com.github.privacystreams.core.transformations.M2STransformation;
 import com.github.privacystreams.core.transformations.filter.Filters;
@@ -18,6 +17,8 @@ import com.github.privacystreams.core.transformations.limit.Limiters;
 import com.github.privacystreams.core.transformations.map.Mappers;
 import com.github.privacystreams.core.transformations.reorder.Reorders;
 import com.github.privacystreams.core.transformations.select.Selectors;
+import com.github.privacystreams.utils.annotations.PSAction;
+import com.github.privacystreams.utils.annotations.PSTransformation;
 
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
@@ -25,16 +26,16 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 /**
  * The interface of MStream (multi-item stream).
- * An MStream is a stream containing many items, and each item is an instance of {@link Item}.
+ * An MStream is a stream containing many items, and each item is an instance of `Item`.
  * An MStream is produced by `uqi.getData` method.
  *
- * It can be transformed to another MStreamInterface by transformation functions,
- * such as {@link #filter(String, Object)}, {{@link #groupBy(String)}}, {{@link #map(Function)}}, etc.
+ * It can be transformed to another MStream by transformation functions,
+ * such as `filter`, `groupBy`, `map`, etc.
  *
- * It can also be transformed to an ISingleItemProvider by transformation functions,
- * such as {{@link #getFirst()}}, {{@link #getItemAt(int)}}, etc.
+ * It can also be transformed to an SStream by transformation functions,
+ * such as `getFirst`, `getItemAt`, etc.
  *
- * Finally, it can be outputted using {{@link #asList()}}, {{@link #count()}}, etc.
+ * Finally, it can be outputted using `asList()`, `count`, etc.
  */
 public class MStream extends Stream {
     private Function<Void, MStream> streamProvider;
@@ -82,11 +83,12 @@ public class MStream extends Stream {
     /**
      * Filter the stream by testing an item with a predicate.
      * Specifically, keep the items that satisfy the predicate.
-     * Eg. <code>filter(eq("x", 100))</code> will keep the items whose x field is equal to 100.
+     * Eg. `filter(eq("x", 100))` will keep the items whose x field is equal to 100.
      *
      * @param predicate     the predicate to test the item
      * @return The filtered stream.
      */
+    @PSTransformation()
     public MStream filter(Function<Item, Boolean> predicate) {
         return this.transform(Filters.keep(predicate));
     }
@@ -94,12 +96,13 @@ public class MStream extends Stream {
     /**
      * Filter the stream by checking whether a field equals a value.
      * Specifically, keep the items in which the field equals the given value.
-     * Eg. <code>filter("x", 100)</code> will keep the items whose x field is equal to 100.
+     * Eg. `filter("x", 100)` will keep the items whose x field is equal to 100.
      *
      * @param fieldName     the name of field to compare
      * @param fieldValue    the value to compare with the field
      * @return The filtered stream.
      */
+    @PSTransformation()
     public <TValue> MStream filter(String fieldName, TValue fieldValue) {
         return this.filter(Comparators.eq(fieldName, fieldValue));
     }
@@ -111,12 +114,13 @@ public class MStream extends Stream {
     /**
      * Limit the stream by testing each item with a predicate.
      * Specifically, keep the stream as long as the predicate holds.
-     * Eg. <code>limit(eq("x", 100))</code> will keep all items in the stream as long as x field equals to 100,
+     * Eg. `limit(eq("x", 100))` will keep all items in the stream as long as x field equals to 100,
      * once an item's x value is not equal to 100, the stream stops.
      *
      * @param predicate     the predicate to test the field
      * @return The limited stream.
      */
+    @PSTransformation()
     public MStream limit(Function<Item, Boolean> predicate) {
         return this.transform(Limiters.limit(predicate));
     }
@@ -124,11 +128,12 @@ public class MStream extends Stream {
     /**
      * Limit the stream with a max number of items.
      * Specifically, stop the stream if the count of items exceeds the threshold.
-     * Eg. <code>limit(10)</code> will limit the stream to at most 10 items
+     * Eg. `limit(10)` will limit the stream to at most 10 items
      *
      * @param maxCount      the max number of items
      * @return The limited stream.
      */
+    @PSTransformation()
     public MStream limit(int maxCount) {
         return this.transform(Limiters.limitCount(maxCount));
     }
@@ -136,11 +141,12 @@ public class MStream extends Stream {
     /**
      * Limit the stream with a timeout,
      * stop the stream after some time.
-     * Eg. <code>timeout(Duration.seconds(10))</code> will limit the stream to at most 10 seconds
+     * Eg. `timeout(Duration.seconds(10))` will limit the stream to at most 10 seconds
      *
      * @param timeoutMilliseconds      the timeout millis seconds
      * @return The limited stream.
      */
+    @PSTransformation()
     public MStream timeout(long timeoutMilliseconds) {
         return this.transform(Limiters.timeout(timeoutMilliseconds));
     }
@@ -151,11 +157,12 @@ public class MStream extends Stream {
 
     /**
      * Convert each item in the stream with a function.
-     * Eg. <code>map(ItemOperators.setField("x", 10))</code> will set the "x" field of each item to 10 in the stream.
+     * Eg. `map(ItemOperators.setField("x", 10))` will set the "x" field of each item to 10 in the stream.
      *
      * @param function      the function to convert the item
      * @return The stream with items after mapping
      */
+    @PSTransformation()
     public MStream map(Function<Item, Item> function) {
         return this.transform(Mappers.mapEachItem(function));
     }
@@ -163,11 +170,12 @@ public class MStream extends Stream {
     /**
      * Project each item by including some fields.
      * Other fields will be removed.
-     * Eg. <code>project("name", "email")</code> will only keep the "name" and "email" field in each item.
+     * Eg. `project("name", "email")` will only keep the "name" and "email" field in each item.
      *
      * @param fieldsToInclude the fields to include
      * @return The stream with items after projection
      */
+    @PSTransformation()
     public MStream project(String... fieldsToInclude) {
         return this.map(ItemOperators.includeFields(fieldsToInclude));
     }
@@ -175,7 +183,7 @@ public class MStream extends Stream {
     /**
      * Set a field to a new value for each item in the stream.
      * The value is computed with a function that take the item as input.
-     * Eg. <code>setField("x", Comparators.gt("y", 10))</code> will set a new boolean field "x" to each item,
+     * Eg. `setField("x", Comparators.gt("y", 10))` will set a new boolean field "x" to each item,
      * which indicates whether the "y" field is greater than 10.
      *
      * @param fieldToSet the name of the field to set, it can be a new name or an existing name.
@@ -183,15 +191,16 @@ public class MStream extends Stream {
      * @param <TValue> the type of the new field value
      * @return the stream of items with the new field set
      */
+    @PSTransformation()
     public <TValue> MStream setField(String fieldToSet, Function<Item, TValue> functionToComputeValue) {
         return this.map(ItemOperators.setField(fieldToSet, functionToComputeValue));
     }
 
     /**
      * Set a field to a new value for each item in the stream.
-     * This transformation can only be used after invoking group methods ({@link #groupBy(String)}, {@link #localGroupBy(String)}).
+     * This transformation can only be used after invoking group methods (`groupBy`, `localGroupBy`).
      * The value is computed with a function that takes the grouped items as input at runtime.
-     * Eg. <code>setGroupField("count", Statistic.count())</code> will set a new field "count" to each item,
+     * Eg. `setGroupField("count", Statistic.count())` will set a new field "count" to each item,
      * which represents the number of items in the grouped sub stream.
      *
      * @param fieldToSet the name of the field to set, it can be a new name or an existing name.
@@ -199,6 +208,7 @@ public class MStream extends Stream {
      * @param <TValue> the type of the new field value
      * @return the stream of items with the new field set
      */
+    @PSTransformation()
     public <TValue> MStream setGroupField(String fieldToSet, Function<List<Item>, TValue> subStreamFunction) {
         return this.map(ItemOperators.setGroupField(fieldToSet, subStreamFunction));
     }
@@ -215,6 +225,7 @@ public class MStream extends Stream {
      * @param <TValue> the type of the new field value.
      * @return the stream of items with the new field set
      */
+    @PSTransformation()
     public <TValue> MStream setIndependentField(String fieldToSet, Function<Void, TValue> valueGenerator) {
         return this.map(ItemOperators.setIndependentField(fieldToSet, valueGenerator));
     }
@@ -225,31 +236,34 @@ public class MStream extends Stream {
 
     /**
      * Sort the items according to the value of a field, in ascending order.
-     * Eg. <code>sortBy("timestamp")</code> will sort the items in the stream by timestamp field.
+     * Eg. `sortBy("timestamp")` will sort the items in the stream by timestamp field.
      *
      * @param fieldName     the field used to reorder the stream, in ascending order
      * @return The sorted stream
      */
+    @PSTransformation(changeOrder = true)
     public MStream sortBy(String fieldName) {
         return this.transform(Reorders.sortBy(fieldName));
     }
 
     /**
      * Shuffle the items.
-     * <code>shuffle()</code> will randomize the order of the items in the stream.
+     * `shuffle()` will randomize the order of the items in the stream.
      *
      * @return The shuffled stream
      */
+    @PSTransformation(changeOrder = true)
     public MStream shuffle() {
         return this.transform(Reorders.shuffle());
     }
 
     /**
      * Reverse the order of items
-     * <code>reverse()</code> will reverse the order of the items in the stream.
+     * `reverse()` will reverse the order of the items in the stream.
      *
      * @return The reversed stream
      */
+    @PSTransformation(changeOrder = true)
     public MStream reverse() {
         return this.transform(Reorders.reverse());
     }
@@ -260,22 +274,24 @@ public class MStream extends Stream {
 
     /**
      * Group the items according to a field.
-     * Eg. <code>groupBy("x")</code> will group the items with same "x" field
+     * Eg. `groupBy("x")` will group the items with same "x" field
      *
      * @param fieldName     the field used to reorder the stream
      * @return The grouped stream
      */
+    @PSTransformation(changeOrder = true)
     public MStream groupBy(String fieldName) {
         return this.transform(Groupers.groupBy(fieldName));
     }
 
     /**
      * Group the contiguous items according to a field.
-     * eg. <code>localGroupBy("x")</code> will group the contiguous items with same "x" field
+     * eg. `localGroupBy("x")` will group the contiguous items with same "x" field
      *
      * @param fieldName     the field used to reorder the stream
      * @return The grouped stream
      */
+    @PSTransformation
     public MStream localGroupBy(String fieldName) {
         return this.transform(Groupers.localGroupBy(fieldName));
     }
@@ -287,13 +303,14 @@ public class MStream extends Stream {
     /**
      * Output the items in the stream with a function to a callback.
      * This method will not be blocked.
-     * Eg. <code>outputItems(Statistic.count(), new Callback<Integer>(){...})</code>
+     * Eg. `outputItems(Statistic.count(), new Callback<Integer>(){...})`
      * will count the number of items and callback with the number.
      *
      * @param itemsCollector the function used to output current stream
      * @param resultHandler the function to handle the result
      * @param <Tout> the type of the result
      */
+    @PSAction(blocking = false)
     public <Tout> void output(Function<List<Item>, Tout> itemsCollector, Callback<Tout> resultHandler) {
         this.output(Collectors.collectItems(itemsCollector, resultHandler));
     }
@@ -301,13 +318,14 @@ public class MStream extends Stream {
     /**
      * Output the items in the stream with a function.
      * This method will block until the result returns.
-     * Eg. <code>output(Statistic.count())</code> will output the number of items.
+     * Eg. `output(Statistic.count())` will output the number of items.
      *
      * @param itemsCollector the function used to output current stream
      * @param <Tout> the type of the result
      * @return the result
      * @throws PSException if failed to the result.
      */
+    @PSAction(blocking = true)
     public <Tout> Tout output(Function<List<Item>, Tout> itemsCollector) throws PSException {
         final BlockingQueue<Object> resultQueue = new LinkedBlockingQueue<>();
         Callback<Tout> resultHandler = new Callback<Tout>() {
@@ -338,6 +356,7 @@ public class MStream extends Stream {
      *
      * @return SStream whose item is the first item of current MStream
      */
+    @PSTransformation
     public SStream getFirst() {
         return this.transform(Selectors.getItemAt(0));
     }
@@ -348,6 +367,7 @@ public class MStream extends Stream {
      * @param index the index of target item.
      * @return SStream whose item is selected from current MStream with the given index
      */
+    @PSTransformation
     public SStream getItemAt(int index) {
         return this.transform(Selectors.getItemAt(index));
     }
@@ -358,6 +378,7 @@ public class MStream extends Stream {
      * @param selector the selector funtion to select the target item.
      * @return SStream whose item is selected from current MStream with the given function
      */
+    @PSTransformation
     public SStream select(Function<List<Item>, Item> selector) {
         return this.transform(Selectors.select(selector));
     }
@@ -365,6 +386,7 @@ public class MStream extends Stream {
     /**
      * Print the items for debugging.
      */
+    @PSAction(blocking = false)
     public void debug() {
         this.forEach(DebugOperators.<Item>debug());
     }
@@ -374,6 +396,7 @@ public class MStream extends Stream {
      *
      * @param logTag the log tag to use in printing current stream
      */
+    @PSTransformation
     public MStream logAs(String logTag) {
         return this.map(DebugOperators.<Item>logAs(logTag));
     }
@@ -383,16 +406,18 @@ public class MStream extends Stream {
      *
      * @return the count of number of items in the stream.
      */
+    @PSAction(blocking = true)
     public int count() throws PSException {
         return this.output(StatisticOperators.count());
     }
 
     /**
      * Collect the items in the stream to a list.
-     * Each item in the list is an instance of {@link Item}.
+     * Each item in the list is an instance of `Item`.
      *
      * @return a list of key-value maps, each map represents an item
      */
+    @PSAction(blocking = true)
     public List<Item> asList() throws PSException {
         return this.output(ItemsOperators.asList());
     }
@@ -404,6 +429,7 @@ public class MStream extends Stream {
      * @param <TValue> the type of field value
      * @return a list of field values
      */
+    @PSAction(blocking = true)
     public <TValue> List<TValue> asList(String fieldToSelect) throws PSException {
         return this.output(ItemsOperators.<TValue>asList(fieldToSelect));
     }
@@ -413,6 +439,7 @@ public class MStream extends Stream {
      *
      * @param callback the callback to invoke for each item.
      */
+    @PSAction(blocking = false)
     public void forEach(Function<Item, Void> callback) {
         this.output(Callbacks.forEach(callback));
     }
@@ -424,6 +451,7 @@ public class MStream extends Stream {
      * @param callback the callback to invoke for each item field
      * @param <TValue> the type of the field
      */
+    @PSAction(blocking = false)
     public <TValue> void forEach(String fieldToSelect, Callback<TValue> callback) {
         this.output(Callbacks.forEachField(fieldToSelect, callback));
     }
@@ -433,6 +461,7 @@ public class MStream extends Stream {
      *
      * @param callback the callback to invoke for the changed item
      */
+    @PSAction(blocking = false)
     public void onChange(Function<Item, Void> callback) {
         this.output(Callbacks.onChange(callback));
     }
@@ -444,6 +473,7 @@ public class MStream extends Stream {
      * @param callback the callback to invoke for the changed item field
      * @param <TValue> the type of the field
      */
+    @PSAction(blocking = false)
     public <TValue> void onChange(String fieldToSelect, Callback<TValue> callback) {
         this.output(Callbacks.onFieldChange(fieldToSelect, callback));
     }
@@ -453,6 +483,7 @@ public class MStream extends Stream {
      *
      * @param callback the callback to invoke once the item is present
      */
+    @PSAction(blocking = false)
     public void ifPresent(Function<Item, Void> callback) {
         this.output(Callbacks.ifPresent(callback));
     }
@@ -464,6 +495,7 @@ public class MStream extends Stream {
      * @param callback the callback to invoke once the field value is present
      * @param <TValue> the type of the field
      */
+    @PSAction(blocking = false)
     public <TValue> void ifPresent(String fieldToSelect, Callback<TValue> callback) {
         this.output(Callbacks.ifFieldPresent(fieldToSelect, callback));
     }
@@ -474,6 +506,7 @@ public class MStream extends Stream {
      * @param numOfForks number of reuses
      * @return the forked stream
      */
+    @PSTransformation
     public MStream fork(int numOfForks) {
         this.getUQI().reuse(this, numOfForks);
         return this;

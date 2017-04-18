@@ -48,7 +48,7 @@ public class ItemOperators {
 
     /**
      * Output the grouped items in the item with a function.
-     * This function must be applied to a group item, i.e. must be used after <code>groupBy</code> or <code>localGroupBy</code>.
+     * This function must be applied to a group item, i.e. must be used after `groupBy` or `localGroupBy`.
      *
      * @param subStreamFunction the function to output sub stream.
      * @param <Tout> the type of sub stream collection result.
@@ -73,7 +73,7 @@ public class ItemOperators {
      * Set a field to a new value for each item in the stream.
      * This transformation can only be used after invoking group methods (`groupBy`, `localGroupBy`, etc.).
      * The value is computed with a function that takes the grouped items as input.
-     * Eg. <code>setGroupField("count", Statistic.count())</code> will set a new field "count" to each item,
+     * Eg. `setGroupField("count", Statistic.count())` will set a new field "count" to each item,
      * which represents the number of items in the grouped sub stream.
      *
      * @param fieldToSet the new field name

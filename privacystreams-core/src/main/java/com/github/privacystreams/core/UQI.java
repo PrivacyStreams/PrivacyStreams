@@ -17,10 +17,8 @@ import java.util.Set;
 
 /**
  * The unified query interface for all kinds of personal data.
- * You will need to construct an UQI with <code>UQI uqi = new UQI(context);</code>
- * To get a stream of personal data, simply call <code>uqi.getData</code>
- * ({@link #getData(MStreamProvider, Purpose)} for multi-item stream
- * and {@link #getData(SStreamProvider, Purpose)} for single-item stream.)
+ * You will need to construct an UQI with `UQI uqi = new UQI(context);`
+ * To get a stream of personal data, simply call `uqi.getData` with a Stream provider.
  */
 
 public class UQI {
