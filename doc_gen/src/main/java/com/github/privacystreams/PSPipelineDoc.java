@@ -64,14 +64,15 @@ public class PSPipelineDoc {
         this.type = type;
 
         if (type == TYPE_TRANSFORMATION) {
-            this.tag = "Keep order";
-            for (AnnotationDesc.ElementValuePair elementValuePair : annotation.elementValues()) {
-                if ("changeOrder".equals(elementValuePair.element().name())) {
-                    boolean typeValue = (boolean) elementValuePair.value().value();
-                    if (typeValue) this.tag = "Change order";
-                    else this.tag = "Keep order";
-                }
-            }
+//            this.tag = "Keep order";
+//            for (AnnotationDesc.ElementValuePair elementValuePair : annotation.elementValues()) {
+//                if ("changeOrder".equals(elementValuePair.element().name())) {
+//                    boolean typeValue = (boolean) elementValuePair.value().value();
+//                    if (typeValue) this.tag = "Change order";
+//                    else this.tag = "Keep order";
+//                }
+//            }
+            this.tag = "";
         }
         else if (type == TYPE_ACTION) {
             this.tag = "Blocking";

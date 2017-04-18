@@ -203,7 +203,7 @@ public class SStream extends Stream {
     }
 
     /**
-     * Enable logging in current Stream
+     * Print the items in current stream.
      *
      * @param logTag the log tag to use in printing current stream
      */
