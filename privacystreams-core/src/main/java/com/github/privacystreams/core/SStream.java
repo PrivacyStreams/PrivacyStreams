@@ -235,9 +235,9 @@ public class SStream extends Stream {
     }
 
     /**
-     * Callback with an item once the item is present.
+     * Once an item is present, callback with the item.
      *
-     * @param callback the callback to invoke.
+     * @param callback the callback to invoke with the item.
      */
     @PSAction(blocking = false)
     public void ifPresent(Function<Item, Void> callback) {
@@ -245,11 +245,11 @@ public class SStream extends Stream {
     }
 
     /**
-     * Callback with a field value in a item once the item is present.
+     * Once an item is present and the field is valid, Callback with the field value.
      *
-     * @param fieldToSelect the name of the field to callback with
-     * @param callback the callback to invoke once the field value is present
-     * @param <TValue> the type of the field
+     * @param fieldToSelect the name of the field.
+     * @param callback the callback to invoke with the field valu.
+     * @param <TValue> the type of the field.
      */
     @PSAction(blocking = false)
     public <TValue> void ifPresent(String fieldToSelect, Callback<TValue> callback) {

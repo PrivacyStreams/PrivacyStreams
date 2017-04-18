@@ -72,7 +72,12 @@ public class UseCases {
         UQI uqi = new UQI(context);
         uqi.getData(Audio.recordPeriodic(10*1000, 10*60*1000), Purpose.HEALTH("monitoring sleep."))
                 .setField("loudness", AudioOperators.calcLoudness("audio_data"))
-                .debug();
+                .forEach("loudness", new Callback<Double>() {
+                    @Override
+                    protected void onInput(Double input) {
+                        System.out.println("Current loudness is " + input + " dB.");
+                    }
+                });
 
     }
 

@@ -299,7 +299,7 @@ public class Examples {
 
         // With reusing:
         try {
-            MStream contactStream = uqi.getData(Contact.getAll(), purpose).reuse(2); // get a stream of contact and reuse twice.
+            MStream contactStream = uqi.getData(Contact.getAll(), purpose).reuse(2); // get a stream of contact for reusing twice.
             int count1 = contactStream.setField("nameLen", StringOperators.length("name")) // set a new field "nameLen" as the length of "name" field value
                     .filter(Comparators.lt("nameLen", 10)) // keep the items whose "nameLen" field is less than 10
                     .count(); // get the count of items
