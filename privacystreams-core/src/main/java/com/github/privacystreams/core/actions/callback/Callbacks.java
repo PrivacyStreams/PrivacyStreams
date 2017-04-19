@@ -77,6 +77,7 @@ public class Callbacks {
     /**
      * Callback with the changed field value of a given field in the stream.
      * A changed field value is the field value that is different from the former field value.
+     * null values are ignored.
      * The callback will be invoked with the field value as a parameter.
      *
      * @param fieldToSelect the field to select
