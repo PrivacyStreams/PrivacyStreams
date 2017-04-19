@@ -159,7 +159,7 @@ public class UQI {
         this.queries.add(query);
 
         if (PermissionUtils.checkPermissions(this.context, query.getRequiredPermissions())) {
-            Logging.debug("Evaluating...");
+            Logging.debug("Permission granted, evaluating...");
             boolean reused = this.tryReuse(query);
             if (!reused) query.apply(this, null);
             Logging.debug("Evaluated.");
