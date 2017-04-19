@@ -17,9 +17,9 @@ ext {
     bintrayOrganization = "privacystreams"
     publishedGroupId = 'com.github.privacystreams'
 
-    siteUrl = 'https://github.com/PrivacyStreams/PrivacyStreams-Android'
-    gitUrl = 'https://github.com/PrivacyStreams/PrivacyStreams-Android.git'
-    githubRepository= 'PrivacyStreams/PrivacyStreams-Android'
+    siteUrl = 'https://github.com/ylimit/PrivacyStreams'
+    gitUrl = 'https://github.com/ylimit/PrivacyStreams.git'
+    githubRepository= 'ylimit/PrivacyStreams'
 
     developerId = 'ylimit'
     developerName = 'Yuanchun Li'
