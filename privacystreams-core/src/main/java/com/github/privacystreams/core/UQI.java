@@ -162,6 +162,7 @@ public class UQI {
             Logging.debug("Evaluating...");
             boolean reused = this.tryReuse(query);
             if (!reused) query.apply(this, null);
+            Logging.debug("Evaluated.");
         }
         else if (retry) {
             // If retry is true, try to request permissions
@@ -172,9 +173,10 @@ public class UQI {
             // If retry is false, cancel all functions.
             Logging.debug("Permission denied, cancelling...");
             Set<String> deniedPermissions = PermissionUtils.getDeniedPermissions(this.context, query.getRequiredPermissions());
-            this.exception = PSException.PERMISSION_DENIED(deniedPermissions.toArray(new String[]{}));
+            this.exception = PSException.PERMISSION_DENIED(deniedPermissions);
             query.cancel(this);
 //            this.context = null; // remove context
+            Logging.debug("Cancelled.");
         }
     }
 }

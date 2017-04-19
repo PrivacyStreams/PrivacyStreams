@@ -44,6 +44,7 @@ abstract class StreamTransformation<InStream extends Stream, OutStream extends S
         super.onCancel(uqi);
         if (this.input != null)
             this.input.unregister(this);
-        this.output(Item.EOS);
+        if (this.output != null)
+            this.output(Item.EOS);
     }
 }
