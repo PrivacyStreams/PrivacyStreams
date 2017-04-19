@@ -147,7 +147,7 @@ public class PSDoclet extends HtmlDoclet {
 
             operatorDocsPrinter.println("This document contains all pipeline functions available in PrivacyStreams.\n");
 
-            operatorDocsPrinter.println("Transformations:\n");
+            operatorDocsPrinter.println("\n## Transformations\n");
             operatorDocsPrinter.print(Consts.PIPELINE_TABLE_HEADER);
             Collections.sort(psPipelines, new Comparator<PSPipelineDoc>() {
                 @Override
@@ -160,7 +160,7 @@ public class PSDoclet extends HtmlDoclet {
                     operatorDocsPrinter.println(pipelineDoc);
             }
 
-            operatorDocsPrinter.println("\nActions:\n");
+            operatorDocsPrinter.println("\n## Actions\n");
             operatorDocsPrinter.print(Consts.PIPELINE_TABLE_HEADER);
             Collections.sort(psPipelines, new Comparator<PSPipelineDoc>() {
                 @Override
