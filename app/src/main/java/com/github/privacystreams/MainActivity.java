@@ -29,20 +29,6 @@ public class MainActivity extends AppCompatActivity {
                 .limit(10)
 //                .groupBy("x")
                 .debug();
-        uqi.getData(Image.getFromStorage(), Purpose.UTILITY("taking picture."))
-                .setField("lat_lng", ImageOperators.getLatLng(Image.IMAGE_DATA))
-                .setField("imagePath", ImageOperators.getFilepath(Image.IMAGE_DATA))
-                .ifPresent("imagePath", new Callback<String>() {
-                    @Override
-                    protected void onInput(String imagePath) {
-                        System.out.println(imagePath);
-                    }
-                    @Override
-                    protected void onFail(PSException exception) {
-                        System.out.println(exception.getMessage());
-                        exception.printStackTrace();
-                    }
-                });
 
         mButton = (Button) findViewById(R.id.button);
         mButton.setOnClickListener(new View.OnClickListener() {
@@ -57,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected Object doInBackground(Object[] objects) {
             UseCases useCases = new UseCases(MainActivity.this);
-            useCases.testImage();
+            useCases.testReuse();
             return null;
         }
     }
