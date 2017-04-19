@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected Object doInBackground(Object[] objects) {
             UseCases useCases = new UseCases(MainActivity.this);
-            useCases.testReuse();
+            useCases.testImage();
             return null;
         }
     }
