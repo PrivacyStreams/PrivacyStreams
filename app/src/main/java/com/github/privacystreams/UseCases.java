@@ -61,9 +61,9 @@ public class UseCases {
     }
 
     public void testImage() {
-        uqi.getData(Image.getFromStorage(), Purpose.TEST("test"))
-                .setField("lat_lng", ImageOperators.getLatLng(Image.IMAGE_DATA))
-                .debug();
+//        uqi.getData(Image.getFromStorage(), Purpose.TEST("test"))
+//                .setField("lat_lng", ImageOperators.getLatLng(Image.IMAGE_DATA))
+//                .debug();
         uqi.getData(Image.takeFromCamera(), Purpose.UTILITY("taking picture."))
                 .setField("imagePath", ImageOperators.getFilepath(Image.IMAGE_DATA))
                 .ifPresent("imagePath", new Callback<String>() {
