@@ -52,6 +52,16 @@ public class Geolocation extends Item {
     @PSItemField(type = Float.class)
     public static final String ACCURACY = "accuracy";
 
+    /**
+     * The bearing of the location data.
+     * Bearing is the horizontal direction of travel of this device,
+     * and is not related to the device orientation. It is guaranteed to
+     * be in the range (0.0, 360.0] if the device has a bearing.
+     * If this location does not have a bearing, then the bearing value will be0.0.
+     */
+    @PSItemField(type = Float.class)
+    public static final String BEARING = "bearing";
+
     /** Country level. This level's accuracy is about 100,000 meters. */
     public static final String LEVEL_COUNTRY = "country";
     static final int ACCURACY_COUNTRY = 100000;
@@ -80,6 +90,7 @@ public class Geolocation extends Item {
         this.setFieldValue(LAT_LNG, latLng);
         this.setFieldValue(ACCURACY, location.getAccuracy());
         this.setFieldValue(SPEED, location.getSpeed());
+        this.setFieldValue(BEARING, location.getBearing());
     }
 
     /**
