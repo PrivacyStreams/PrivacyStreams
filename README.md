@@ -24,7 +24,7 @@ For example, in Android Studio, the installation involves the following steps:
 
 1. Create a new project from Github in Android Studio.
     - Click **File -> New -> Project from version control -> GitHub**;
-    - In **Git repository URL** field, input `https://github.com/PrivacyStreams/PrivacyStreams-Android`, and click **Clone**);
+    - In **Git repository URL** field, input `https://github.com/ylimit/PrivacyStreams`, and click **Clone**);
 2. In the new project, create a new module (your app module).
     - Click **File -> New -> New module...**.
 3. Open the build.gradle file of the new module, add the following line to dependencies:

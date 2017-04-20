@@ -5,11 +5,13 @@
     <application>
         <activity
             android:name="com.github.privacystreams.utils.PSPermissionActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true" />
 
         <activity
             android:name="com.github.privacystreams.image.PSCameraActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true" />
 
