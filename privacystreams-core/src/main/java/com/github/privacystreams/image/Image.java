@@ -56,6 +56,13 @@ public class Image extends Item {
     @PSItemField(type = String.class)
     public static final String IMAGE_NAME = "image_name";
 
+    /**
+     * The file path of the image.
+     * This field is only available with `getFromStorage` provider.
+     */
+    @PSItemField(type = String.class)
+    public static final String IMAGE_PATH = "image_path";
+
     Image(Long dateAdded, ImageData imageData) {
         this.setFieldValue(DATE_ADDED, dateAdded);
         this.setFieldValue(IMAGE_DATA, imageData);
