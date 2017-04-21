@@ -3,6 +3,7 @@ package com.github.privacystreams.image;
 import android.Manifest;
 import android.content.Intent;
 
+import com.github.privacystreams.core.exceptions.PSException;
 import com.github.privacystreams.core.providers.SStreamProvider;
 import com.github.privacystreams.utils.StorageUtils;
 import com.github.privacystreams.utils.TimeUtils;
@@ -47,6 +48,7 @@ class ImageCameraProvider extends SStreamProvider implements CameraResultListene
     @Override
     public void onFail() {
         this.finish();
+        this.raiseException(this.getUQI(), PSException.INTERRUPTED("Camera canceled."));
     }
 
     @Override

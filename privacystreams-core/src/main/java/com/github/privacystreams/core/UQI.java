@@ -179,4 +179,14 @@ public class UQI {
             Logging.debug("Cancelled.");
         }
     }
+
+    /**
+     * Cancel a query with an exception.
+     */
+    void cancelQueriesWithException(Function<?, ?> function, PSException exception) {
+        this.exception = exception;
+        for (Function<Void, Void> query : this.queries) {
+            if (query.containsFunction(function)) query.cancel(this);
+        }
+    }
 }

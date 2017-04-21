@@ -1,6 +1,6 @@
 package com.github.privacystreams.core;
 
-import com.github.privacystreams.utils.Logging;
+import com.github.privacystreams.core.exceptions.PSException;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -137,6 +137,20 @@ public abstract class Function<Tin, Tout> {
             return new CompoundFunction<>(function1New, ((CompoundFunction<Tin, Ttemp, Tout>) this).getFunction2());
         }
         return null;
+    }
+
+    protected final void raiseException(UQI uqi, PSException psException) {
+        uqi.cancelQueriesWithException(this, psException);
+    }
+
+    boolean containsFunction(Function<?, ?> function) {
+        if (this == function) return true;
+        for (Object parameter : this.parameters) {
+            if (parameter instanceof Function<?,?> && ((Function<?, ?>) parameter).containsFunction(function)) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }
