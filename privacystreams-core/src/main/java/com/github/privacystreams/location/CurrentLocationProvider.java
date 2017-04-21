@@ -50,8 +50,8 @@ final class CurrentLocationProvider extends SStreamProvider {
         else {
             provider = LocationManager.NETWORK_PROVIDER;
         }
-        Looper.loop();
         locationManager.requestLocationUpdates(provider, minTime, minDistance, locationListener);
+        Looper.loop();
     }
 
     @Override

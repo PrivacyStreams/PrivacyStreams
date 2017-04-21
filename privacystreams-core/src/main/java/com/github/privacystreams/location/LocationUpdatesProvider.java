@@ -52,8 +52,8 @@ final class LocationUpdatesProvider extends MStreamProvider {
         else {
             provider = LocationManager.NETWORK_PROVIDER;
         }
-        Looper.loop();
         locationManager.requestLocationUpdates(provider, minTime, minDistance, locationListener);
+        Looper.loop();
     }
 
     @Override
