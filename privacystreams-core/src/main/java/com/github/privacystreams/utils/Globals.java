@@ -13,8 +13,7 @@ public class Globals {
     }
 
     public static class AudioConfig {
-        public static int amplitudeSamplingRate = 10;
-        public static int outputFormat = MediaRecorder.OutputFormat.THREE_GPP;
+        public static int outputFormat = MediaRecorder.OutputFormat.AMR_NB;
         public static int audioEncoder = MediaRecorder.AudioEncoder.AMR_NB;
         public static int audioSource = MediaRecorder.AudioSource.MIC;
     }

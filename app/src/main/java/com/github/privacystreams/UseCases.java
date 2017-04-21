@@ -80,7 +80,7 @@ public class UseCases {
 
     public void testAudio(Context context) {
         UQI uqi = new UQI(context);
-        uqi.getData(Audio.recordPeriodic(10*1000, 10*60*1000), Purpose.HEALTH("monitoring sleep."))
+        uqi.getData(Audio.recordPeriodic(1000, 1000), Purpose.HEALTH("monitoring sleep."))
                 .setField("loudness", AudioOperators.calcLoudness("audio_data"))
                 .forEach("loudness", new Callback<Double>() {
                     @Override

@@ -70,7 +70,8 @@ public class AudioData {
 
     static Double convertAmplitudeToLoudness(UQI uqi, Number amplitude) {
         if (amplitude == null) return null;
-        return 20 * Math.log10(amplitude.doubleValue() / AMPLITUDE_BASE);
+        double loudness = 20 * Math.log10(amplitude.doubleValue() / AMPLITUDE_BASE);
+        return loudness;
     }
 
     public String toString() {
