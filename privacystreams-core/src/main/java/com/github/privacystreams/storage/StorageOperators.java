@@ -16,7 +16,7 @@ public class StorageOperators {
      * If `isPublic` is false, the file will be created in the app data folder, which can not be accessed by other apps;
      * If `append` is true, the object will be appended to the file;
      * If `append` is false, the object will overwrite the file.
-     * This provider requires `Manifest.permission.WRITE_EXTERNAL_STORAGE` permission.
+     * This provider requires `android.permission.WRITE_EXTERNAL_STORAGE` permission.
      *
      * @param filePath the output file path
      * @param isPublic whether the file is public. If set to true, will require WRITE_EXTERNAL_STORAGE permission.
@@ -40,7 +40,7 @@ public class StorageOperators {
      * If `isPublic` is false, the file will be created in the app data folder, which can not be accessed by other apps;
      * If `append` is true, the object will be appended to the file;
      * If `append` is false, the object will overwrite the file.
-     * This provider requires `Manifest.permission.WRITE_EXTERNAL_STORAGE` permission.
+     * This provider requires `android.permission.WRITE_EXTERNAL_STORAGE` permission.
      *
      * @param filePathGenerator the function to generate the output file path each time
      * @param isPublic whether the file is public. If set to true, will requires WRITE_EXTERNAL_STORAGE permission.

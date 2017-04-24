@@ -64,8 +64,8 @@ public class WifiAp extends Item {
 
     /**
      * Provide a list of WifiAp items from WIFI scan result.
-     * This provider requires `Manifest.permission.ACCESS_COARSE_LOCATION`,
-     * `Manifest.permission.CHANGE_WIFI_STATE`, and `Manifest.permission.ACCESS_WIFI_STATE` permission.
+     * This provider requires `android.permission.ACCESS_COARSE_LOCATION`,
+     * `android.permission.CHANGE_WIFI_STATE`, and `android.permission.ACCESS_WIFI_STATE` permission.
      *
      * @return the provider function.
      */

@@ -96,8 +96,8 @@ public class Geolocation extends Item {
     /**
      * Provide a live stream of Geolocation as the location updates.
      * This provider requires a location permission based on the location level.
-     * If `level` is `Geolocation.LEVEL_EXACT`, this provider requires `Manifest.permission.ACCESS_COARSE_LOCATION` permission.
-     * If `level` is any other level, this provider requires `Manifest.permission.ACCESS_FINE_LOCATION` permission.
+     * If `level` is `Geolocation.LEVEL_EXACT`, this provider requires `android.permission.ACCESS_COARSE_LOCATION` permission.
+     * If `level` is any other level, this provider requires `android.permission.ACCESS_FINE_LOCATION` permission.
      *
      * @param interval The interval between each two location updates.
      * @param level The location granularity level, could be
@@ -115,8 +115,8 @@ public class Geolocation extends Item {
 
     /**
      * Provide an SStream of a Geolocation item, as the last known location.
-     * If `level` is `Geolocation.LEVEL_EXACT`, this provider requires `Manifest.permission.ACCESS_COARSE_LOCATION` permission.
-     * If `level` is any other level, this provider requires `Manifest.permission.ACCESS_FINE_LOCATION` permission.
+     * If `level` is `Geolocation.LEVEL_EXACT`, this provider requires `android.permission.ACCESS_COARSE_LOCATION` permission.
+     * If `level` is any other level, this provider requires `android.permission.ACCESS_FINE_LOCATION` permission.
      *
      * @param level The location granularity level, could be
      *              `Geolocation.LEVEL_COUNTRY`, `Geolocation.LEVEL_CITY`, `Geolocation.LEVEL_NEIGHBORHOOD`,
@@ -132,8 +132,8 @@ public class Geolocation extends Item {
 
     /**
      * Provide an SStream of a Geolocation item, as the current location.
-     * If `level` is `Geolocation.LEVEL_EXACT`, this provider requires `Manifest.permission.ACCESS_COARSE_LOCATION` permission.
-     * If `level` is any other level, this provider requires `Manifest.permission.ACCESS_FINE_LOCATION` permission.
+     * If `level` is `Geolocation.LEVEL_EXACT`, this provider requires `android.permission.ACCESS_COARSE_LOCATION` permission.
+     * If `level` is any other level, this provider requires `android.permission.ACCESS_FINE_LOCATION` permission.
      *
      * @param level The location granularity level, could be
      *              `Geolocation.LEVEL_COUNTRY`, `Geolocation.LEVEL_CITY`,

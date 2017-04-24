@@ -36,8 +36,8 @@ public class BluetoothDevice extends Item {
 
     /**
      * Get a stream of scanned bluetooth devices.
-     * This provider requires `Manifest.permission.BLUETOOTH` permission
-     * and `Manifest.permission.BLUETOOTH_ADMIN` permission.
+     * This provider requires `android.permission.BLUETOOTH` permission
+     * and `android.permission.BLUETOOTH_ADMIN` permission.
      *
      * @return the provider function.
      */

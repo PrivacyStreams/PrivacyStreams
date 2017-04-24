@@ -56,7 +56,7 @@ public class Call extends Item {
 
     /**
      * Provide a list of Call items from the device call log.
-     * This provider requires `Manifest.permission.READ_CALL_LOG` permission.
+     * This provider requires `android.permission.READ_CALL_LOG` permission.
      *
      * @return the stream provider
      */
@@ -68,8 +68,8 @@ public class Call extends Item {
     /**
      * Provide a live stream of Call items.
      * A Call item will be generated if there is a new phone call event.
-     * This provider requires `Manifest.permission.PROCESS_OUTGOING_CALLS` permission
-     * and `Manifest.permission.READ_PHONE_STATE` permission.
+     * This provider requires `android.permission.PROCESS_OUTGOING_CALLS` permission
+     * and `android.permission.READ_PHONE_STATE` permission.
      *
      * @return the stream provider
      */

@@ -14,7 +14,7 @@ public class DropboxOperators {
      * Upload an object to Dropbox, the output file will be at `filePath`.
      * If there is a file already at the `filePath`, the item will be appended to the file.
      * This operator requires Dropbox configured (see https://privacystreams.github.io/pages/enable_accessibility.html).
-     * This provider requires `Manifest.permission.INTERNET` permission.
+     * This provider requires `android.permission.INTERNET` permission.
      *
      * @param filePath the output file path
      * @param <Tin> the type of input object
@@ -35,7 +35,7 @@ public class DropboxOperators {
      * If file already exists and `append` is true, the object will be appended to the file;
      * If `append` is false, the object will overwrite the existing file.
      * This operator requires Dropbox configured (see https://privacystreams.github.io/pages/enable_accessibility.html).
-     * This provider requires `Manifest.permission.INTERNET` permission.
+     * This provider requires `android.permission.INTERNET` permission.
      *
      * @param filePathGenerator the function to generate the output file path each time
      * @param <Tin> the type of input object

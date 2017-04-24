@@ -70,8 +70,8 @@ public class Image extends Item {
 
     /**
      * Provide an SStream with an Image item, which represents a photo taken from camera.
-     * This provider requires `Manifest.permission.CAMERA` permission
-     * and `Manifest.permission.WRITE_EXTERNAL_STORAGE` permission.
+     * This provider requires `android.permission.CAMERA` permission
+     * and `android.permission.WRITE_EXTERNAL_STORAGE` permission.
      *
      * @return the provider function.
      */
@@ -82,7 +82,7 @@ public class Image extends Item {
 
     /**
      * Provide a stream of all Image items in local file system.
-     * This provider requires `Manifest.permission.READ_EXTERNAL_STORAGE` permission.
+     * This provider requires `android.permission.READ_EXTERNAL_STORAGE` permission.
      *
      * @return the provider function.
      */

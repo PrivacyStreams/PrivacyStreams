@@ -73,7 +73,7 @@ public class Message extends Item {
 
     /**
      * Provide a live stream of new incoming Message items from the Android Short Message Service (SMS).
-     * This provider requires `Manifest.permission.RECEIVE_SMS` permission.
+     * This provider requires `android.permission.RECEIVE_SMS` permission.
      *
      * @return the provider
      */
@@ -84,7 +84,7 @@ public class Message extends Item {
 
     /**
      * Provide all Message items from Android Short Message Service SMS.
-     * This provider requires `Manifest.permission.READ_SMS` permission.
+     * This provider requires `android.permission.READ_SMS` permission.
      *
      * @return the provider
      */
