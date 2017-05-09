@@ -19,8 +19,8 @@ class LightUpdatesProvider extends MStreamProvider {
     private transient SensorManager sensorManager;
 
     @Override
-    protected void onCancelled(UQI uqi) {
-        super.onCancelled(uqi);
+    protected void onCancel(UQI uqi) {
+        super.onCancel(uqi);
         sensorManager.unregisterListener(lightListener);
     }
 

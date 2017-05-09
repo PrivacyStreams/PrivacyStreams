@@ -1,5 +1,7 @@
 package com.github.privacystreams.core;
 
+import com.github.privacystreams.core.exceptions.PSException;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -67,20 +69,22 @@ public abstract class Function<Tin, Tout> {
      * @param uqi the instance of UQI
      */
     protected final void cancel(UQI uqi) {
+//        Logging.debug("Cancelling: " + this.getClass().getSimpleName());
         this.isCancelled = true;
         for (Object parameter : this.parameters) {
             if (parameter instanceof Function<?,?>) {
                 ((Function<?,?>) parameter).cancel(uqi);
             }
         }
-        this.onCancelled(uqi);
+//        Logging.debug("onCancel: " + this.getClass().getSimpleName());
+        this.onCancel(uqi);
     }
 
     /**
      * Callback when this function is cancelled
      * @param uqi the instance of UQI
      */
-    protected void onCancelled(UQI uqi) {
+    protected void onCancel(UQI uqi) {
         // Do nothing
     }
 
@@ -133,6 +137,20 @@ public abstract class Function<Tin, Tout> {
             return new CompoundFunction<>(function1New, ((CompoundFunction<Tin, Ttemp, Tout>) this).getFunction2());
         }
         return null;
+    }
+
+    protected final void raiseException(UQI uqi, PSException psException) {
+        uqi.cancelQueriesWithException(this, psException);
+    }
+
+    boolean containsFunction(Function<?, ?> function) {
+        if (this == function) return true;
+        for (Object parameter : this.parameters) {
+            if (parameter instanceof Function<?,?> && ((Function<?, ?>) parameter).containsFunction(function)) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }

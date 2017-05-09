@@ -18,13 +18,13 @@ Please refer to our [website](https://privacystreams.github.io/).
 ## How to contribute
 
 PrivacyStreams is open-sourced under license Apache-2.0, and we welcome developers add more data types and operations.
-Please feel free to fork, open issues, and send pull request.
+Please feel free to fork, open issues, and send pull requests.
 You can install PrivacyStreams from source code.
 For example, in Android Studio, the installation involves the following steps:
 
 1. Create a new project from Github in Android Studio.
     - Click **File -> New -> Project from version control -> GitHub**;
-    - In **Git repository URL** field, input `https://github.com/PrivacyStreams/PrivacyStreams-Android`, and click **Clone**);
+    - In **Git repository URL** field, input `https://github.com/ylimit/PrivacyStreams`, and click **Clone**);
 2. In the new project, create a new module (your app module).
     - Click **File -> New -> New module...**.
 3. Open the build.gradle file of the new module, add the following line to dependencies:

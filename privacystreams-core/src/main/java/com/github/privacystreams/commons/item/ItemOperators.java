@@ -6,7 +6,6 @@ import com.github.privacystreams.utils.annotations.PSOperatorWrapper;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 /**
  * A helper class to access common item functions
@@ -48,7 +47,7 @@ public class ItemOperators {
 
     /**
      * Output the grouped items in the item with a function.
-     * This function must be applied to a group item, i.e. must be used after <code>groupBy</code> or <code>localGroupBy</code>.
+     * This function must be applied to a group item, i.e. must be used after `groupBy` or `localGroupBy`.
      *
      * @param subStreamFunction the function to output sub stream.
      * @param <Tout> the type of sub stream collection result.
@@ -73,16 +72,16 @@ public class ItemOperators {
      * Set a field to a new value for each item in the stream.
      * This transformation can only be used after invoking group methods (`groupBy`, `localGroupBy`, etc.).
      * The value is computed with a function that takes the grouped items as input.
-     * Eg. <code>setGroupField("count", Statistic.count())</code> will set a new field "count" to each item,
+     * Eg. `setGroupField("count", StatisticOperators.count())` will set a new field "count" to each item,
      * which represents the number of items in the grouped sub stream.
      *
      * @param fieldToSet the new field name
-     * @param itemsFunction the function to compute the new field value, which takes the grouped items as input.
+     * @param fieldValueComputer the function to compute the new field value, which takes the list of grouped items as input.
      * @param <TValue> the type of the new field value
      * @return the stream of items with the new field set
      */
-    public static <TValue> Function<Item, Item> setGroupField(String fieldToSet, Function<List<Item>, TValue> itemsFunction) {
-        return new FieldSetter<>(fieldToSet, new ItemSubStreamFunction<>(itemsFunction));
+    public static <TValue> Function<Item, Item> setGroupField(String fieldToSet, Function<List<Item>, TValue> fieldValueComputer) {
+        return new FieldSetter<>(fieldToSet, new ItemSubStreamFunction<>(fieldValueComputer));
     }
 
     /**
@@ -107,20 +106,20 @@ public class ItemOperators {
      *
      * @return the function.
      */
-    public static Function<Item, Map<String, Object>> asMap() {
-        return new ItemToMapFunction();
+    public static Function<Item, Item> asItem() {
+        return new ItemIdFunction();
     }
 
     /**
      * Set the value of a new field with a function.
      *
      * @param fieldToSet the name of the field to set, it can be a new name.
-     * @param itemFunction the function to compute the value of the field based on the item.
+     * @param fieldValueComputer the function to compute the value of the field based on the item.
      * @param <TValue> the type of the new field value.
      * @return the item mapper function.
      */
-    public static <TValue> Function<Item, Item> setField(String fieldToSet, Function<Item, TValue> itemFunction) {
-        return new FieldSetter<>(fieldToSet, itemFunction);
+    public static <TValue> Function<Item, Item> setField(String fieldToSet, Function<Item, TValue> fieldValueComputer) {
+        return new FieldSetter<>(fieldToSet, fieldValueComputer);
     }
 
     /**

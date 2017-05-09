@@ -6,8 +6,6 @@ import android.os.Build;
 import android.os.Environment;
 import android.support.v4.content.FileProvider;
 
-import org.apache.commons.lang3.StringUtils;
-
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -49,7 +47,8 @@ public class StorageUtils {
      */
     public static String getPublicRelativePath(File file) {
         File publicDir = Environment.getExternalStorageDirectory();
-        return StringUtils.removeStart(file.getAbsolutePath(), publicDir.getAbsolutePath());
+        String relativePath = getRelativePath(file, publicDir);
+        return relativePath == null ? file.getAbsolutePath() : relativePath;
     }
 
     /**
@@ -60,7 +59,8 @@ public class StorageUtils {
      */
     public static String getPrivateRelativePath(Context context, File file) {
         File privateDir = context.getFilesDir();
-        return StringUtils.removeStart(file.getAbsolutePath(), privateDir.getAbsolutePath());
+        String relativePath = getRelativePath(file, privateDir);
+        return relativePath == null ? file.getAbsolutePath() : relativePath;
     }
 
     /**
@@ -145,7 +145,7 @@ public class StorageUtils {
                 }
                 tempOutStream.flush();
                 inputStream.close();
-                file.delete();
+                StorageUtils.safeDelete(file);
                 resultInputStream = new ByteArrayInputStream(tempOutStream.toByteArray());
             }
         } catch (IOException e) {
@@ -171,6 +171,37 @@ public class StorageUtils {
             uri = FileProvider.getUriForFile(context, context.getApplicationContext().getPackageName() + ".provider", file);
         }
         return uri;
+    }
+
+    /**
+     * Get the relative path from a file to a directory.
+     * returns null if the file doesn't belong to the folder.
+     *
+     * @param file the file to get relative path to.
+     * @param folder the directory to get relative path from.
+     * @return the relative path, or null if the file doesn't belong to the folder.
+     */
+    public static String getRelativePath(File file, File folder) {
+        String filePath = file.getAbsolutePath();
+        String folderPath = folder.getAbsolutePath();
+        if (filePath.startsWith(folderPath)) {
+            return filePath.substring(folderPath.length() + 1);
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Delete a file without throw any exception.
+     * @param file the file to delete.
+     */
+    public static void safeDelete(File file) {
+        try {
+            if (!file.delete()) file.deleteOnExit();
+        }
+        catch (Exception ignored) {
+            Logging.warn("Failed to delete file: " + file.getAbsolutePath());
+        }
     }
 
 }

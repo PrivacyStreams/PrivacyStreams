@@ -10,10 +10,10 @@ import java.util.Map;
  * Get the item map of an item.
  */
 
-class ItemToMapFunction extends ItemFunction<Map<String, Object>> {
+class ItemIdFunction extends ItemFunction<Item> {
 
     @Override
-    public Map<String, Object> apply(UQI uqi, Item input) {
-        return input.toMap();
+    public Item apply(UQI uqi, Item input) {
+        return input;
     }
 }

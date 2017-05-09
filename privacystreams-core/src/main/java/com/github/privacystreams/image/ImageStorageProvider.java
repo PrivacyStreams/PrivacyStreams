@@ -56,6 +56,7 @@ class ImageStorageProvider extends MStreamProvider {
                 image.setFieldValue(Image.BUCKET_NAME, bucketName);
                 image.setFieldValue(Image.IMAGE_ID, imageId);
                 image.setFieldValue(Image.IMAGE_NAME, imageName);
+                image.setFieldValue(Image.IMAGE_PATH, filePath);
                 this.output(image);
             } while (c.moveToNext());
 

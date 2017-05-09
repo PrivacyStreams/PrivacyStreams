@@ -8,8 +8,8 @@ import com.github.privacystreams.core.UQI;
 
 class AudioMaxAmplitudeGetter extends AudioProcessor<Integer> {
 
-    AudioMaxAmplitudeGetter(String audioField) {
-        super(audioField);
+    AudioMaxAmplitudeGetter(String audioDataField) {
+        super(audioDataField);
     }
 
     @Override

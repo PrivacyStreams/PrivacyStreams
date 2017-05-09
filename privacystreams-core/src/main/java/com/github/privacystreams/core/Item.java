@@ -1,5 +1,6 @@
 package com.github.privacystreams.core;
 
+import com.github.privacystreams.utils.Logging;
 import com.github.privacystreams.utils.annotations.PSItem;
 import com.github.privacystreams.utils.annotations.PSItemField;
 
@@ -8,6 +9,8 @@ import org.json.JSONObject;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import static com.github.privacystreams.utils.Assertions.cast;
@@ -54,8 +57,23 @@ public class Item {
     }
 
     public String toString() {
-        if (this == EOS) return "EOS_ITEM";
-        return this.toMap().toString();
+        if (this == EOS) return "ITEM_EOS";
+        String itemStr = "ITEM {\n";
+        for (String fieldKey : this.itemMap.keySet()) {
+            Object fieldValue = this.itemMap.get(fieldKey);
+            if (fieldValue == null) {
+                itemStr += String.format(Locale.getDefault(),
+                        "\t\"%s\": null\n",
+                        fieldKey);
+            } else {
+                String fieldValueClass = fieldValue.getClass().getSimpleName();
+                itemStr += String.format(Locale.getDefault(),
+                        "\t%s \"%s\": %s\n",
+                        fieldValueClass, fieldKey, fieldValue.toString());
+            }
+        }
+        itemStr += "}";
+        return itemStr;
     }
 
     /**
@@ -66,9 +84,11 @@ public class Item {
      * @return the field value
      */
     public <TValue> TValue getValueByField(String fieldName) {
-        if (itemMap.containsKey(fieldName))
+        if (itemMap.containsKey(fieldName)) {
             return cast(fieldName, itemMap.get(fieldName));
-        else return null;
+        }
+        Logging.error("Unknown field: \"" + fieldName + "\" in " + this.toString());
+        return null;
     }
 
     /**

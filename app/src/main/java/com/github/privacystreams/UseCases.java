@@ -1,11 +1,8 @@
 package com.github.privacystreams;
 
-import android.Manifest;
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
-import android.support.v4.app.ActivityCompat;
 
 import com.github.privacystreams.accessibility.BrowserSearch;
 import com.github.privacystreams.accessibility.BrowserVisit;
@@ -15,7 +12,6 @@ import com.github.privacystreams.audio.Audio;
 import com.github.privacystreams.audio.AudioOperators;
 import com.github.privacystreams.commons.arithmetic.ArithmeticOperators;
 import com.github.privacystreams.commons.comparison.Comparators;
-import com.github.privacystreams.commons.debug.DebugOperators;
 import com.github.privacystreams.commons.item.ItemOperators;
 import com.github.privacystreams.commons.list.ListOperators;
 import com.github.privacystreams.commons.statistic.StatisticOperators;
@@ -34,15 +30,10 @@ import com.github.privacystreams.core.exceptions.PSException;
 import com.github.privacystreams.core.items.EmptyItem;
 import com.github.privacystreams.core.items.TestItem;
 import com.github.privacystreams.core.purposes.Purpose;
-import com.github.privacystreams.core.transformations.filter.Filters;
-import com.github.privacystreams.core.transformations.group.Groupers;
-import com.github.privacystreams.core.transformations.map.Mappers;
-import com.github.privacystreams.core.transformations.select.Selectors;
 import com.github.privacystreams.device.BluetoothDevice;
 import com.github.privacystreams.device.DeviceEvent;
 import com.github.privacystreams.device.DeviceOperators;
 import com.github.privacystreams.device.WifiAp;
-import com.github.privacystreams.environment.LightEnv;
 import com.github.privacystreams.image.Image;
 import com.github.privacystreams.image.ImageOperators;
 import com.github.privacystreams.location.Geolocation;
@@ -51,8 +42,8 @@ import com.github.privacystreams.location.LatLng;
 import com.github.privacystreams.notification.Notification;
 import com.github.privacystreams.storage.DropboxOperators;
 import com.github.privacystreams.storage.StorageOperators;
-import com.github.privacystreams.utils.Globals;
 import com.github.privacystreams.utils.Duration;
+import com.github.privacystreams.utils.Globals;
 import com.github.privacystreams.utils.TimeUtils;
 
 import java.util.List;
@@ -60,8 +51,8 @@ import java.util.Locale;
 import java.util.Map;
 
 import static com.github.privacystreams.commons.items.ItemsOperators.getItemWithMax;
-import static com.github.privacystreams.commons.time.TimeOperators.recent;
 import static com.github.privacystreams.commons.statistic.StatisticOperators.count;
+import static com.github.privacystreams.commons.time.TimeOperators.recent;
 
 /**
  * Some show cases of PrivacyStreams
@@ -73,38 +64,39 @@ public class UseCases {
         this.uqi = new UQI(context);
     }
 
-    /*
-     For testing the new lightUpdatesProvider
-     */
-    public void testLightUpdatesProvider() {
-        uqi.getData(LightEnv.asUpdates(), Purpose.FEATURE("light")).debug();
-    }
-
     public void testBlueToothUpatesProvider() {
         uqi.getData(BluetoothDevice.getScanResults(), Purpose.FEATURE("blueTooth device")).debug();
     }
 
     public void testImage() {
-        uqi.getData(Image.getFromStorage(), Purpose.TEST("test"))
-                .setField("lat_lng", ImageOperators.getLatLng(Image.IMAGE_DATA))
-                .debug();
-        uqi.getData(Image.takeFromCamera(), Purpose.TEST("test"))
-                .debug();
+//        uqi.getData(Image.getFromStorage(), Purpose.TEST("test"))
+//                .setField("lat_lng", ImageOperators.getLatLng(Image.IMAGE_DATA))
+//                .debug();
+        uqi.getData(Image.takeFromCamera(), Purpose.UTILITY("taking picture."))
+                .setField("imagePath", ImageOperators.getFilepath(Image.IMAGE_DATA))
+                .ifPresent("imagePath", new Callback<String>() {
+                    @Override
+                    protected void onInput(String imagePath) {
+                        System.out.println(imagePath);
+                    }
+                    @Override
+                    protected void onFail(PSException exception) {
+                        exception.printStackTrace();
+                    }
+                });
     }
 
-//    public void testPhysicalMotionUpdatesProvider(){
-//        uqi.getData(AwarenessMotion.asUpdates(),Purpose.FEATURE("Physical Activity")).debug();
-//    }
+    public void testAudio(Context context) {
+        UQI uqi = new UQI(context);
+        uqi.getData(Audio.recordPeriodic(1000, 1000), Purpose.HEALTH("monitoring sleep."))
+                .setField("loudness", AudioOperators.calcLoudness("audio_data"))
+                .forEach("loudness", new Callback<Double>() {
+                    @Override
+                    protected void onInput(Double input) {
+                        System.out.println("Current loudness is " + input + " dB.");
+                    }
+                });
 
-    public void testAudio() {
-        uqi.getData(Audio.recordPeriodic(1000, 1000), Purpose.TEST("test"))
-                .setField("file", AudioOperators.getFilepath(Audio.AUDIO_DATA))
-                .setField("loudness", AudioOperators.calcLoudness(Audio.AUDIO_DATA))
-                .setField("amp_samples", AudioOperators.getAmplitudeSamples(Audio.AUDIO_DATA))
-                .setField("amp_variance", ListOperators.variance("amp_samples"))
-                .setField("loudness_variance", AudioOperators.convertAmplitudeToLoudness("amp_variance"))
-                .project("file", "loudness")
-                .debug();
     }
 
     public void testReuse() {
@@ -112,7 +104,7 @@ public class UseCases {
             MStream stream = uqi
                     .getData(TestItem.getAllRandom(20, 100, 100), Purpose.TEST("test"))
                     .limit(100)
-                    .fork(3);
+                    .reuse(3);
             int count = stream.count();
             System.out.println(String.format(Locale.getDefault(), "%d", count));
             int gt5Count = stream.filter(Comparators.gt(TestItem.X, 5)).count();
@@ -130,12 +122,12 @@ public class UseCases {
         MStream locationStream = uqi.getData(Geolocation.asUpdates(1000, Geolocation.LEVEL_CITY), Purpose.TEST("test"))
                 .setField("distorted_lat_lng", GeolocationOperators.distort(Geolocation.LAT_LNG, 1000))
                 .setField("distortion", GeolocationOperators.distanceBetween(Geolocation.LAT_LNG, "distorted_lat_lng"))
-                .fork(2);
+                .reuse(2);
 
         locationStream.debug();
         locationStream.forEach("distorted_lat_lng", new Callback<LatLng>() {
             @Override
-            protected void onSuccess(LatLng input) {
+            protected void onInput(LatLng input) {
                 System.out.println(input);
             }
         });
@@ -156,8 +148,7 @@ public class UseCases {
     }
 
     public void testCall() {
-        uqi.getData(Call.asUpdates(), Purpose.TEST("test"))
-                .debug();
+        uqi.getData(Call.asUpdates(), Purpose.TEST("test")).debug();
     }
 
 
@@ -167,7 +158,7 @@ public class UseCases {
 
     // For testing
     public void testMockData() {
-        Globals.DropboxConfig.accessToken = "wvotIxO75CUAAAAAAAAA8DJw6Cedm6A2Pt-jwHSMBW_KhIYaJUEt9CbgtKe5Vl8O";
+        Globals.DropboxConfig.accessToken = "access_token_here";
         Globals.DropboxConfig.leastSyncInterval = Duration.seconds(3);
         Globals.DropboxConfig.onlyOverWifi = false;
 
@@ -177,9 +168,7 @@ public class UseCases {
                 .timeout(Duration.seconds(10))
                 .map(ItemOperators.setField("time_round", ArithmeticOperators.roundUp(TestItem.TIME_CREATED, Duration.seconds(2))))
                 .localGroupBy("time_round")
-//                .debug();
-//                .forEach(DropboxOperators.<Item>uploadTo("mockData.txt", true));
-                .forEach(StorageOperators.<Item>writeTo("PrivacyStreams_dir", true, true));
+                .forEach(StorageOperators.<Item>writeTo("PrivacyStreams/testData.txt", true, true));
 
         uqi
                 .getData(TestItem.asUpdates(20, 100, 500), Purpose.TEST("test"))
@@ -196,6 +185,7 @@ public class UseCases {
                 }, true));
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     public void testDeviceState() {
         Purpose purpose = Purpose.TEST("test");
         uqi
@@ -206,12 +196,6 @@ public class UseCases {
                 .setIndependentField("uuid", DeviceOperators.getDeviceId())
                 .limit(3)
                 .debug();
-//                .forEach(DropboxOperators.uploadTo(new Function<Item, String>() {
-//                    @Override
-//                    public String apply(UQI uqi, Item input) {
-//                        return input.getValueByField("uuid") + "/device_state/" + input.getValueByField(Item.TIME_CREATED) + ".json";
-//                    }
-//                }, true));
     }
 
 
@@ -225,11 +209,12 @@ public class UseCases {
     /*
      * Getting a stream of notifications and printing
      */
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public void testNotification() {
         uqi.getData(Notification.asUpdates(), Purpose.TEST("test")).debug();
     }
 
-    public void testWifiUpdates(int seconds){
+    public void testWifiUpdates(){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
             uqi.getData(WifiAp.getScanResults(), Purpose.FEATURE("wifi updates")).debug();
         }
@@ -238,6 +223,7 @@ public class UseCases {
     public void testBrowserHistoryUpdates(){
         uqi.getData(BrowserVisit.asUpdates(), Purpose.FEATURE("browser history")).debug();
     }
+
     public void testBrowserSearchUpdates(){
         uqi.getData(BrowserSearch.asUpdates(), Purpose.FEATURE("browser search")).debug();
     }
@@ -246,49 +232,10 @@ public class UseCases {
         uqi.getData(UIAction.asUpdates(), Purpose.FEATURE("ui action")).debug();
     }
 
-    public void testAccessibility(){
-
-    }
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
     public void testIMUpdates(){
         uqi.getData(Message.asUpdatesInIM(),Purpose.FEATURE("im updates")).debug();
     }
-
-//    public void testBrowerSearchUpdates(){
-//        uqi
-//                .getData(BrowserSearch.asUpdates(),Purpose.ADS("browser search"))
-//                .debug();
-//    }
-//
-//    public void testBrowerHistoryUpdates(){
-//        uqi
-//                .getData(BrowserVisit.asUpdates(),Purpose.ADS("browser history"))
-//                .debug();
-//    }
-//
-//    public void testDocumentUpdates(){
-//        uqi
-//                .getData(Document.asUpdates(),Purpose.ADS("document update"))
-//                .debug();
-//    }
-//
-//    public void testBrowserSearchUpdates(){
-//        uqi.
-//                getData(BrowserSearch.asUpdates(),Purpose.FEATURE("browser_search"))
-//                .debug();
-//    }
-//
-//
-//    public void testBrowserHistoryUpdates(){
-//        uqi.
-//                getData(BrowserVisit.asUpdates(),Purpose.FEATURE("browser_history"))
-//                .debug();
-//    }
-//
-//    public void testNotifications() {
-//        uqi
-//                .getData(Notification.asUpdates(), Purpose.FEATURE("test"))
-//                .print();
-//    }
 
     // get a count of the #contacts in contact list
     void testContacts() {
@@ -298,31 +245,15 @@ public class UseCases {
                     .count();
             System.out.println(count);
 
-            String mostCalledContact = uqi
-                    .getData(Call.getLogs(), Purpose.SOCIAL("finding your closest contact."))
-                    .transform(Filters.keep(recent(Call.TIMESTAMP, Duration.days(365))))
-                    .transform(Groupers.groupBy(Call.CONTACT))
-                    .transform(Mappers.mapEachItem(ItemOperators.setGroupField("#calls", StatisticOperators.count())))
-                    .transform(Selectors.select(getItemWithMax("#calls")))
-                    .output(ItemOperators.<String>getField(Call.CONTACT));
-
-            mostCalledContact = uqi
-                    .getData(Call.getLogs(), Purpose.SOCIAL("finding your closest contact."))
-                    .filter(recent(Call.TIMESTAMP, Duration.days(365)))
-                    .groupBy(Call.CONTACT)
-                    .setGroupField("#calls", count())
-                    .select(getItemWithMax("#calls"))
-                    .getField(Call.CONTACT);
-
             uqi
                     .getData(Call.getLogs(), Purpose.SOCIAL("finding your closest contact."))
-                    .filter(recent(Call.TIMESTAMP, Duration.days(365)))
-                    .groupBy(Call.CONTACT)
+                    .filter(recent("timestamp", Duration.days(365)))
+                    .groupBy("contact")
                     .setGroupField("#calls", count())
                     .select(getItemWithMax("#calls"))
-                    .output(ItemOperators.<String>getField(Call.CONTACT), new Callback<String>() {
+                    .ifPresent("contact", new Callback<String>() {
                         @Override
-                        protected void onSuccess(String contact) {
+                        protected void onInput(String contact) {
                             System.out.println("Most-called contact: " + contact);
                         }
 
@@ -343,9 +274,12 @@ public class UseCases {
         try {
             List<String> recentCalledPhoneNumbers = uqi
                     .getData(Call.getLogs(), Purpose.FEATURE("getData recent called phone numbers"))
+                    .logAs("1")
                     .sortBy(Call.TIMESTAMP)
+                    .logAs("2")
                     .limit(n)
                     .asList(Call.CONTACT);
+            System.out.println(recentCalledPhoneNumbers);
             List<String> recentCalledNames = uqi
                     .getData(Contact.getAll(), Purpose.FEATURE("getData names of recent called phone numbers"))
                     .filter(ListOperators.intersects(Contact.PHONES, recentCalledPhoneNumbers.toArray()))

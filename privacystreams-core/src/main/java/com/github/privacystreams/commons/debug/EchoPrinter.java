@@ -20,7 +20,7 @@ final class EchoPrinter<T> extends Function<T, T> {
 
     @Override
     public T apply(UQI uqi, T input) {
-        Log.d(this.logTag, input.toString());
+        Log.d(this.logTag, "" + input);
         return input;
     }
 

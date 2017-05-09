@@ -1,7 +1,5 @@
 package com.github.privacystreams.commons.string;
 
-import org.apache.commons.lang3.StringUtils;
-
 /**
  * Get the substring of the string specified by a field in the item.
  */
@@ -19,6 +17,7 @@ final class SubStringFunction extends StringProcessor<String> {
 
     @Override
     protected String processString(String stringValue) {
-        return StringUtils.substring(stringValue, this.start, this.end);
+        if (stringValue == null) return null;
+        return stringValue.substring(this.start, this.end);
     }
 }

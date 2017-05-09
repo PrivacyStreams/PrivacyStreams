@@ -1,5 +1,8 @@
 package com.github.privacystreams.image;
 
+import android.Manifest;
+import android.support.annotation.RequiresPermission;
+
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.providers.MStreamProvider;
 import com.github.privacystreams.core.providers.SStreamProvider;
@@ -13,7 +16,7 @@ import com.github.privacystreams.utils.annotations.PSItemField;
 public class Image extends Item {
 
     /**
-     * The timestamp of when the image was generated.
+     * The timestamp of when the Image item was generated.
      */
     @PSItemField(type = Long.class)
     public static final String DATE_ADDED = "date_added";
@@ -53,6 +56,13 @@ public class Image extends Item {
     @PSItemField(type = String.class)
     public static final String IMAGE_NAME = "image_name";
 
+    /**
+     * The file path of the image.
+     * This field is only available with `getFromStorage` provider.
+     */
+    @PSItemField(type = String.class)
+    public static final String IMAGE_PATH = "image_path";
+
     Image(Long dateAdded, ImageData imageData) {
         this.setFieldValue(DATE_ADDED, dateAdded);
         this.setFieldValue(IMAGE_DATA, imageData);
@@ -60,15 +70,19 @@ public class Image extends Item {
 
     /**
      * Provide an SStream with an Image item, which represents a photo taken from camera.
+     * This provider requires `android.permission.CAMERA` permission
+     * and `android.permission.WRITE_EXTERNAL_STORAGE` permission.
      *
      * @return the provider function.
      */
+//    @RequiresPermission(allOf = {Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE})
     public static SStreamProvider takeFromCamera() {
         return new ImageCameraProvider();
     }
 
     /**
      * Provide a stream of all Image items in local file system.
+     * This provider requires `android.permission.READ_EXTERNAL_STORAGE` permission.
      *
      * @return the provider function.
      */

@@ -27,7 +27,7 @@ abstract class AccessibilityEventProvider extends MStreamProvider {
     }
 
     @Override
-    protected void onCancelled(UQI uqi) {
+    protected void onCancel(UQI uqi) {
         PSAccessibilityService.unregisterProvider(this);
         registered = false;
     }

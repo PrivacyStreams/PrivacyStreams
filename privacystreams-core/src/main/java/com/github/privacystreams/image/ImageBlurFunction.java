@@ -11,8 +11,8 @@ import com.github.privacystreams.core.UQI;
 @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
 class ImageBlurFunction extends ImageProcessor<ImageData> {
 
-    ImageBlurFunction(String photoField) {
-        super(photoField);
+    ImageBlurFunction(String imageDataField) {
+        super(imageDataField);
     }
 
     @Override

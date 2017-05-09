@@ -6,12 +6,8 @@ import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Queue;
-import java.util.Set;
-import java.util.concurrent.ConcurrentLinkedQueue;
 
 
 /**
@@ -148,8 +144,8 @@ public abstract class Stream {
         return this.uqi;
     }
 
-    public Stream fork(int numOfForks) {
-        this.receiverCount = numOfForks;
+    public Stream reuse(int numOfReuses) {
+        this.receiverCount = numOfReuses;
         return this;
     }
 

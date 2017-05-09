@@ -1,11 +1,9 @@
 package com.github.privacystreams.utils;
 
-import android.Manifest;
 import android.content.Context;
 import android.net.wifi.SupplicantState;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
-import android.support.annotation.RequiresPermission;
 
 import com.github.privacystreams.core.UQI;
 

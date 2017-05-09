@@ -1,8 +1,5 @@
 package com.github.privacystreams.communication;
 
-import android.Manifest;
-import android.support.annotation.RequiresPermission;
-
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.providers.MStreamProvider;
 import com.github.privacystreams.utils.annotations.PSItem;
@@ -33,7 +30,7 @@ public class Contact extends Item {
      * The phone numbers of the contact.
      */
     @PSItemField(type = List.class)
-    public static final String PHONES = "phone_numbers";
+    public static final String PHONES = "phones";
 
     /**
      * The emails of the contact.
@@ -50,6 +47,7 @@ public class Contact extends Item {
 
     /**
      * Provide all Contact items in device's contacts database.
+     * This provider requires `android.permission.READ_CONTACTS` permission.
      *
      * @return the provider function.
      */

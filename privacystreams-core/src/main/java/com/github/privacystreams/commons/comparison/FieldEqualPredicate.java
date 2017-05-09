@@ -1,7 +1,5 @@
 package com.github.privacystreams.commons.comparison;
 
-import org.apache.commons.lang3.ObjectUtils;
-
 /**
  * Make equality-related comparisons on field values.
  */
@@ -17,11 +15,21 @@ final class FieldEqualPredicate<TValue> extends ItemFieldPredicate<TValue> {
     protected boolean testField(TValue fieldValue) {
         switch (this.operator) {
             case OPERATOR_EQ:
-                return ObjectUtils.equals(fieldValue, this.valueToCompare);
+                return equals(fieldValue, this.valueToCompare);
             case OPERATOR_NE:
-                return !ObjectUtils.equals(fieldValue, this.valueToCompare);
+                return !equals(fieldValue, this.valueToCompare);
             default:
                 throw new IllegalArgumentException("illegal operator: " + this.operator);
         }
+    }
+
+    private static boolean equals(Object object1, Object object2) {
+        if (object1 == object2) {
+            return true;
+        }
+        if ((object1 == null) || (object2 == null)) {
+            return false;
+        }
+        return object1.equals(object2);
     }
 }

@@ -8,8 +8,8 @@ import com.github.privacystreams.location.LatLng;
  */
 class ImageLatLngRetriever extends ImageProcessor<LatLng> {
 
-    ImageLatLngRetriever(String photoField) {
-        super(photoField);
+    ImageLatLngRetriever(String imageDataField) {
+        super(imageDataField);
     }
 
     @Override

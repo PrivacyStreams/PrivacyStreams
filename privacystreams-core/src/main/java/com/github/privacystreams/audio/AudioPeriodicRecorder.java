@@ -2,7 +2,10 @@ package com.github.privacystreams.audio;
 
 import android.Manifest;
 
+import com.github.privacystreams.core.exceptions.PSException;
 import com.github.privacystreams.core.providers.MStreamProvider;
+
+import java.io.IOException;
 
 /**
  * Record audio periodically with the microphone.
@@ -22,7 +25,15 @@ class AudioPeriodicRecorder extends MStreamProvider {
     @Override
     protected void provide() {
         while (!this.isCancelled) {
-            Audio audioItem = AudioRecorder.recordAudio(this.getUQI(), this.durationPerRecord);
+            Audio audioItem = null;
+            try {
+                audioItem = AudioRecorder.recordAudio(this.getUQI(), this.durationPerRecord);
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (RuntimeException e) {
+                e.printStackTrace();
+                this.raiseException(this.getUQI(), PSException.INTERRUPTED("AudioPeriodicRecorder failed. Perhaps the audio duration is too short."));
+            }
             if (audioItem != null) this.output(audioItem);
             try {
                 Thread.sleep(this.interval);

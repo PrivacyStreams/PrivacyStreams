@@ -17,7 +17,7 @@ abstract class StreamAction<InStream extends Stream> extends EventDrivenFunction
 
     @Subscribe
     public final void onEvent(Item item) {
-        if (this.isCancelled) return;
+        if (this.isCancelled || item == null) return;
         this.onInput(item);
     }
 
@@ -31,8 +31,8 @@ abstract class StreamAction<InStream extends Stream> extends EventDrivenFunction
     }
 
     @Override
-    protected final void onCancelled(UQI uqi) {
-        super.onCancelled(uqi);
+    protected final void onCancel(UQI uqi) {
+        super.onCancel(uqi);
         if (this.input != null)
             this.input.unregister(this);
     }

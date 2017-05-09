@@ -21,7 +21,7 @@ class BrowserSearchUpdatesProvider extends MStreamProvider {
                 .forEach(new Callback<Item>() {
 
                     @Override
-                    protected void onSuccess(Item input) {
+                    protected void onInput(Item input) {
                         output(new BrowserSearch(input.getValueByField(TextEntry.CONTENT).toString(),
                                 System.currentTimeMillis()));
                     }

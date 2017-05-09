@@ -1,6 +1,5 @@
 package com.github.privacystreams.core.items;
 
-import com.github.privacystreams.core.UQI;
 import com.github.privacystreams.core.providers.MStreamProvider;
 
 /**
@@ -37,8 +36,8 @@ class RandomLiveMStreamProvider extends MStreamProvider {
     }
 
 //    @Override
-//    protected void onCancelled(UQI uqi) {
-//        super.onCancelled(uqi);
+//    protected void onCancel(UQI uqi) {
+//        super.onCancel(uqi);
 //        try {
 //            throw new Exception();
 //        } catch (Exception e) {

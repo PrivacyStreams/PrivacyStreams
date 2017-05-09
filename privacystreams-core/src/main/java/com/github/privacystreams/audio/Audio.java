@@ -1,8 +1,5 @@
 package com.github.privacystreams.audio;
 
-import android.Manifest;
-import android.support.annotation.RequiresPermission;
-
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.providers.MStreamProvider;
 import com.github.privacystreams.core.providers.SStreamProvider;
@@ -17,7 +14,7 @@ import com.github.privacystreams.utils.annotations.PSItemField;
 public class Audio extends Item {
 
     /**
-     * The timestamp of when the audio/record was generated.
+     * The timestamp of when the Audio item was generated.
      */
     @PSItemField(type = Long.class)
     public static final String TIMESTAMP = "timestamp";
@@ -37,6 +34,7 @@ public class Audio extends Item {
     /**
      * Provide an Audio item.
      * The audio is recorded from microphone for a certain duration of time.
+     * This provider requires `android.permission.RECORD_AUDIO` permission.
      *
      * @param duration the time duration of audio.
      * @return the provider.
@@ -50,7 +48,8 @@ public class Audio extends Item {
      * Provide a live stream of Audio items.
      * The audios are recorded from microphone periodically every certain time interval,
      * and each Audio item is a certain duration of time long.
-     * For example, <code>recordPeriodic(1000, 4000)</code> will record audio from 0s-1s, 5s-6s, 10s-11s, ...
+     * For example, `recordPeriodic(1000, 4000)` will record audio from 0s-1s, 5s-6s, 10s-11s, ...
+     * This provider requires `android.permission.RECORD_AUDIO` permission.
      *
      * @param durationPerRecord the time duration of each audio record, in milliseconds.
      * @param interval the time interval between each two records, in milliseconds.
@@ -63,6 +62,7 @@ public class Audio extends Item {
 
     /**
      * Provide all Audio items in local file system.
+     * This provider requires `android.permission.READ_EXTERNAL_STORAGE` permission.
      *
      * @return the provider function.
      */

@@ -26,7 +26,11 @@ public class BatteryInfo extends Item {
         setFieldValue(TIMESTAMP, timestamp);
         setFieldValue(LEVEL, level);
     }
-    
+
+    /**
+     * Provider an SStream of current battery info.
+     * @return the provider
+     */
     public static SStreamProvider asSnapshot() {
         return new BatteryInfoProvider();
     }

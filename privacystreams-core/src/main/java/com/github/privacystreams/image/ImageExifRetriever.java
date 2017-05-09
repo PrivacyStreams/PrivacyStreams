@@ -10,8 +10,8 @@ import com.github.privacystreams.core.UQI;
  */
 class ImageExifRetriever extends ImageProcessor<ExifInterface> {
 
-    ImageExifRetriever(String photoField) {
-        super(photoField);
+    ImageExifRetriever(String imageDataField) {
+        super(imageDataField);
     }
 
     @Override

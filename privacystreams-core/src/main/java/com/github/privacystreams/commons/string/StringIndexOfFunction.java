@@ -2,8 +2,6 @@ package com.github.privacystreams.commons.string;
 
 import com.github.privacystreams.utils.Assertions;
 
-import org.apache.commons.lang3.StringUtils;
-
 /**
  * A function that gets the index of a certain substring.
  */
@@ -19,6 +17,7 @@ final class StringIndexOfFunction extends StringProcessor<Integer> {
 
     @Override
     protected Integer processString(String stringValue) {
-        return StringUtils.indexOf(stringValue, this.searchString);
+        if (stringValue == null) return -1;
+        return stringValue.indexOf(this.searchString);
     }
 }

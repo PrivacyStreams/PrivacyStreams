@@ -38,7 +38,7 @@ class PSFileWriter<Tin> extends AsyncFunction<Tin, Void> {
         String filePath = this.filePathGenerator.apply(uqi, input);
         File validFile = StorageUtils.getValidFile(uqi.getContext(), filePath, this.isPublic);
         this.validFilePath = validFile.getAbsolutePath();
-        StorageUtils.writeToFile(uqi.getGson().toJson(input), validFile, append);
+        StorageUtils.writeToFile(input.toString(), validFile, append);
     }
 
     @Override

@@ -8,8 +8,6 @@ import com.github.privacystreams.core.providers.SStreamProvider;
 import com.github.privacystreams.core.purposes.Purpose;
 import com.github.privacystreams.utils.Logging;
 import com.github.privacystreams.utils.PermissionUtils;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -19,10 +17,8 @@ import java.util.Set;
 
 /**
  * The unified query interface for all kinds of personal data.
- * You will need to construct an UQI with <code>UQI uqi = new UQI(context);</code>
- * To get a stream of personal data, simply call <code>uqi.getData</code>
- * ({@link #getData(MStreamProvider, Purpose)} for multi-item stream
- * and {@link #getData(SStreamProvider, Purpose)} for single-item stream.)
+ * You will need to construct an UQI with `UQI uqi = new UQI(context);`
+ * To get a stream of personal data, simply call `uqi.getData` with a Stream provider.
  */
 
 public class UQI {
@@ -39,11 +35,6 @@ public class UQI {
     }
     public void setContext(Context context) { this.context = context; }
 
-    private transient Gson gson;
-    public Gson getGson() {
-        return this.gson;
-    }
-
     private transient PSException exception;
     public PSException getException() {
         return exception;
@@ -51,7 +42,6 @@ public class UQI {
 
     public UQI(Context context) {
         this.context = context;
-        this.gson = new GsonBuilder().setPrettyPrinting().create();
         this.provider2Purpose = new HashMap<>();
         this.queries = new HashSet<>();
     }
@@ -104,9 +94,9 @@ public class UQI {
      * Reuse a MStream.
      * @param stream the stream to reuse.
      */
-    void reuse(MStream stream, int numOfForks) {
+    void reuse(MStream stream, int numOfReuses) {
         Function<Void, MStream> reusedProvider = stream.getStreamProvider();
-        stream.receiverCount = numOfForks;
+        stream.receiverCount = numOfReuses;
         reusedMProviders.put(reusedProvider, stream);
     }
 
@@ -114,9 +104,9 @@ public class UQI {
      * Reuse a SStream.
      * @param stream the stream to reuse.
      */
-    void reuse(SStream stream, int numOfForks) {
+    void reuse(SStream stream, int numOfReuses) {
         Function<Void, SStream> reusedProvider = stream.getStreamProvider();
-        stream.receiverCount = numOfForks;
+        stream.receiverCount = numOfReuses;
         reusedSProviders.put(reusedProvider, stream);
     }
 
@@ -169,9 +159,10 @@ public class UQI {
         this.queries.add(query);
 
         if (PermissionUtils.checkPermissions(this.context, query.getRequiredPermissions())) {
-            Logging.debug("Evaluating...");
+            Logging.debug("Permission granted, evaluating...");
             boolean reused = this.tryReuse(query);
             if (!reused) query.apply(this, null);
+            Logging.debug("Evaluated.");
         }
         else if (retry) {
             // If retry is true, try to request permissions
@@ -182,9 +173,20 @@ public class UQI {
             // If retry is false, cancel all functions.
             Logging.debug("Permission denied, cancelling...");
             Set<String> deniedPermissions = PermissionUtils.getDeniedPermissions(this.context, query.getRequiredPermissions());
-            this.exception = PSException.PERMISSION_DENIED(deniedPermissions.toArray(new String[]{}));
+            this.exception = PSException.PERMISSION_DENIED(deniedPermissions);
             query.cancel(this);
 //            this.context = null; // remove context
+            Logging.debug("Cancelled.");
+        }
+    }
+
+    /**
+     * Cancel a query with an exception.
+     */
+    void cancelQueriesWithException(Function<?, ?> function, PSException exception) {
+        this.exception = exception;
+        for (Function<Void, Void> query : this.queries) {
+            if (query.containsFunction(function)) query.cancel(this);
         }
     }
 }

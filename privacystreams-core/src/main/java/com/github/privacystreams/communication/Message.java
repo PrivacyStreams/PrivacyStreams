@@ -1,13 +1,10 @@
 package com.github.privacystreams.communication;
 
-import android.Manifest;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
-import android.support.annotation.RequiresPermission;
 
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.providers.MStreamProvider;
-import com.github.privacystreams.utils.Logging;
 import com.github.privacystreams.utils.annotations.PSItem;
 import com.github.privacystreams.utils.annotations.PSItemField;
 
@@ -38,13 +35,13 @@ public class Message extends Item {
     public static final String CONTACT = "contact";
 
     /**
-     * The timestamp of when the message is sent/received.
+     * The timestamp of when the message is sent or received.
      */
     @PSItemField(type = Long.class)
     public static final String TIMESTAMP = "timestamp";
 
     /**
-     * The message type, could be "received"/"sent"/"draft"/"pending"/"unknown".
+     * The message type, could be "received", "sent", "draft", "pending", or "unknown".
      */
     @PSItemField(type = String.class)
     public static final String TYPE = "type";
@@ -66,9 +63,9 @@ public class Message extends Item {
     /**
      * Provide a live stream of new Message items in Instant Messenger (IM) apps, including WhatsApp and Facebook.
      * This provider requires Accessibility service turned on.
+     *
      * @return the provider function
      */
-    // @RequiresPermission(value = Manifest.permission.BIND_ACCESSIBILITY_SERVICE)
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
     public static MStreamProvider asUpdatesInIM(){
         return new IMUpdatesProvider();
@@ -76,6 +73,8 @@ public class Message extends Item {
 
     /**
      * Provide a live stream of new incoming Message items from the Android Short Message Service (SMS).
+     * This provider requires `android.permission.RECEIVE_SMS` permission.
+     *
      * @return the provider
      */
     // @RequiresPermission(value = Manifest.permission.RECEIVE_SMS)
@@ -85,6 +84,8 @@ public class Message extends Item {
 
     /**
      * Provide all Message items from Android Short Message Service SMS.
+     * This provider requires `android.permission.READ_SMS` permission.
+     *
      * @return the provider
      */
     // @RequiresPermission(value = Manifest.permission.READ_SMS)

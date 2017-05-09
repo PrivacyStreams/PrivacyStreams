@@ -4,6 +4,7 @@ import com.github.privacystreams.core.EventDrivenFunction;
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.Stream;
 import com.github.privacystreams.core.UQI;
+import com.github.privacystreams.utils.Logging;
 
 import org.greenrobot.eventbus.Subscribe;
 
@@ -16,7 +17,10 @@ abstract class StreamTransformation<InStream extends Stream, OutStream extends S
     protected abstract void onInput(Item item);
 
     protected final void output(Item item) {
-        while (this.output == null);
+        if (this.output == null) {
+            Logging.warn(this.getClass().getSimpleName() + " is outputting to an empty stream.");
+            return;
+        }
         if (this.output.isClosed()) {
             if (!this.isCancelled) this.cancel(this.getUQI());
         }
@@ -25,7 +29,7 @@ abstract class StreamTransformation<InStream extends Stream, OutStream extends S
 
     @Subscribe
     public final void onEvent(Item item) {
-        if (this.isCancelled) return;
+        if (this.isCancelled || item == null) return;
         this.onInput(item);
     }
 
@@ -40,10 +44,11 @@ abstract class StreamTransformation<InStream extends Stream, OutStream extends S
     }
 
     @Override
-    protected final void onCancelled(UQI uqi) {
-        super.onCancelled(uqi);
+    protected final void onCancel(UQI uqi) {
+        super.onCancel(uqi);
         if (this.input != null)
             this.input.unregister(this);
-        this.output(Item.EOS);
+        if (this.output != null)
+            this.output(Item.EOS);
     }
 }

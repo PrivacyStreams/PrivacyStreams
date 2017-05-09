@@ -1,11 +1,9 @@
 package com.github.privacystreams.device;
 
 
-import android.Manifest;
 import android.net.wifi.ScanResult;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
-import android.support.annotation.RequiresPermission;
 
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.providers.MStreamProvider;
@@ -66,6 +64,9 @@ public class WifiAp extends Item {
 
     /**
      * Provide a list of WifiAp items from WIFI scan result.
+     * This provider requires `android.permission.ACCESS_COARSE_LOCATION`,
+     * `android.permission.CHANGE_WIFI_STATE`, and `android.permission.ACCESS_WIFI_STATE` permission.
+     *
      * @return the provider function.
      */
     // @RequiresPermission(allOf = {Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.CHANGE_WIFI_STATE, Manifest.permission.ACCESS_WIFI_STATE})

@@ -3,28 +3,27 @@ package com.github.privacystreams.core;
 import com.github.privacystreams.commons.debug.DebugOperators;
 import com.github.privacystreams.commons.item.ItemOperators;
 import com.github.privacystreams.core.actions.SStreamAction;
+import com.github.privacystreams.core.actions.callback.Callbacks;
 import com.github.privacystreams.core.actions.collect.Collectors;
 import com.github.privacystreams.core.exceptions.PSException;
-import com.github.privacystreams.core.purposes.Purpose;
 import com.github.privacystreams.core.transformations.S2MTransformation;
 import com.github.privacystreams.core.transformations.S2STransformation;
 import com.github.privacystreams.core.transformations.map.Mappers;
+import com.github.privacystreams.utils.annotations.PSAction;
+import com.github.privacystreams.utils.annotations.PSTransformation;
 
-import java.util.Map;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 /**
  * The interface of SStream (single-item stream).
- * An SStreamInterface is a stream containing only one item, which is an instance of {@link Item}.
+ * An SStream is a stream containing only one item, which is an instance of `Item`.
+ * An SStream is produced by `uqi.getData` method.
  *
- * An SStreamInterface is produced by <code>uqi.getData</code> method.
- * @see UQI#getData(com.github.privacystreams.core.providers.SStreamProvider, Purpose)
+ * It can be transformed to another SStream with transformation functions,
+ * such as `setField`, `project`, `map`, etc.
  *
- * It can be transformed to another ISingleItemProvider with transformation functions,
- * such as {@link #setField(String, Function)}, {{@link #project(String...)}}, {{@link #map(Function)}}, etc.
- *
- * Finally, it can be outputted using {{@link #asMap()}}, {{@link #getField(String)}}, etc.
+ * Finally, it can be outputted using `asItem`, `getField`, etc.
  */
 public class SStream extends Stream {
     private Function<Void, SStream> streamProvider;
@@ -70,11 +69,12 @@ public class SStream extends Stream {
 
     /**
      * Convert the item in the stream with a function.
-     * Eg. <code>map(ImageOperators.blur("image"))</code> will blur the image specified by "image" field in the item.
+     * Eg. `map(ImageOperators.blur("image"))` will blur the image specified by "image" field in the item.
      *
      * @param function      the function to convert the item
      * @return The item after mapping
      */
+    @PSTransformation
     public SStream map(Function<Item, Item> function) {
         return this.transform(Mappers.mapItem(function));
     }
@@ -82,11 +82,12 @@ public class SStream extends Stream {
     /**
      * Project the item by including some fields.
      * Other fields will not appear in collectors, such as toMap().
-     * eg. <code>project("name", "email")</code> will only keep the "name" and "email" field in the item
+     * eg. `project("name", "email")` will only keep the "name" and "email" field in the item
      *
      * @param fieldsToInclude the fields to include
      * @return The item after projection
      */
+    @PSTransformation
     public SStream project(String... fieldsToInclude) {
         return this.map(ItemOperators.includeFields(fieldsToInclude));
     }
@@ -99,6 +100,7 @@ public class SStream extends Stream {
      * @param <TValue> the type of the new field value
      * @return the item with the new field set
      */
+    @PSTransformation
     public <TValue> SStream setField(String newField, Function<Item, TValue> functionToComputeField) {
         return this.map(ItemOperators.setField(newField, functionToComputeField));
     }
@@ -115,6 +117,7 @@ public class SStream extends Stream {
      * @param <TValue> the type of the new field value.
      * @return the stream of items with the new field set
      */
+    @PSTransformation
     public <TValue> SStream setIndependentField(String fieldToSet, Function<Void, TValue> valueGenerator) {
         return this.map(ItemOperators.setIndependentField(fieldToSet, valueGenerator));
     }
@@ -127,6 +130,7 @@ public class SStream extends Stream {
      * @param resultHandler the function to handle the result
      * @param <Tout>           the type of result
      */
+    @PSAction(blocking = false)
     public <Tout> void output(Function<Item, Tout> itemCollector, Callback<Tout> resultHandler) {
         this.output(Collectors.collectItem(itemCollector, resultHandler));
     }
@@ -140,11 +144,12 @@ public class SStream extends Stream {
      * @return the result of itemCollector
      * @throws PSException if something goes wrong during getting results.
      */
-    public <Tout> Tout output(Function<Item, Tout> itemCollector) throws PSException {
+    @PSAction(blocking = true)
+    private <Tout> Tout output(Function<Item, Tout> itemCollector) throws PSException {
         final BlockingQueue<Object> resultQueue = new LinkedBlockingQueue<>();
         Callback<Tout> resultHandler = new Callback<Tout>() {
             @Override
-            protected void onSuccess(Tout input) {
+            protected void onInput(Tout input) {
                 resultQueue.add(input);
             }
 
@@ -173,6 +178,7 @@ public class SStream extends Stream {
      * @param <TValue> the type of the new field value
      * @return the field value
      */
+    @PSAction(blocking = true)
     public <TValue> TValue getField(String field) throws PSException {
         return this.output(ItemOperators.<TValue>getField(field));
     }
@@ -183,34 +189,38 @@ public class SStream extends Stream {
      *
      * @return the key-value map of the item
      */
-    public Map<String, Object> asMap() throws PSException {
-        return this.output(ItemOperators.asMap());
+    @PSAction(blocking = true)
+    public Item asItem() throws PSException {
+        return this.output(ItemOperators.asItem());
     }
 
     /**
      * Print this stream for debugging.
      */
+    @PSAction(blocking = false)
     public void debug() {
-        this.output(DebugOperators.<Item>debug(), null);
+        this.ifPresent(DebugOperators.<Item>debug());
     }
 
     /**
-     * Enable logging in current Stream
+     * Print the items in current stream.
      *
      * @param logTag the log tag to use in printing current stream
      */
+    @PSTransformation
     public SStream logAs(String logTag) {
         return this.map(DebugOperators.<Item>logAs(logTag));
     }
 
     /**
-     * Fork current stream for reusing.
+     * Reuse current stream.
      *
-     * @param numOfForks number of reuses
-     * @return the forked stream
+     * @param numOfReuses number of reuses
+     * @return the stream ready for reuse
      */
-    public SStream fork(int numOfForks) {
-        this.getUQI().reuse(this, numOfForks);
+    @PSTransformation
+    public SStream reuse(int numOfReuses) {
+        this.getUQI().reuse(this, numOfReuses);
         return this;
     }
 
@@ -222,5 +232,27 @@ public class SStream extends Stream {
      */
     public <Tout> Function<Void, Tout> getValueGenerator(Function<SStream, Tout> streamOutputFunction) {
         return this.streamProvider.compound(streamOutputFunction);
+    }
+
+    /**
+     * Once an item is present, callback with the item.
+     *
+     * @param callback the callback to invoke with the item.
+     */
+    @PSAction(blocking = false)
+    public void ifPresent(Function<Item, Void> callback) {
+        this.output(Callbacks.ifPresent2(callback));
+    }
+
+    /**
+     * Once an item is present and the field is valid, Callback with the field value.
+     *
+     * @param fieldToSelect the name of the field.
+     * @param callback the callback to invoke with the field valu.
+     * @param <TValue> the type of the field.
+     */
+    @PSAction(blocking = false)
+    public <TValue> void ifPresent(String fieldToSelect, Callback<TValue> callback) {
+        this.output(Callbacks.ifFieldPresent2(fieldToSelect, callback));
     }
 }

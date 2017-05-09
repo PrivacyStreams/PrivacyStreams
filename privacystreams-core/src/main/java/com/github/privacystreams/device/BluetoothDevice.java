@@ -1,8 +1,5 @@
 package com.github.privacystreams.device;
 
-import android.Manifest;
-import android.support.annotation.RequiresPermission;
-
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.providers.MStreamProvider;
 import com.github.privacystreams.utils.annotations.PSItem;
@@ -37,6 +34,13 @@ public class BluetoothDevice extends Item {
         this.setFieldValue(BONDED, scannedDevice.getBondState());
     }
 
+    /**
+     * Get a stream of scanned bluetooth devices.
+     * This provider requires `android.permission.BLUETOOTH` permission
+     * and `android.permission.BLUETOOTH_ADMIN` permission.
+     *
+     * @return the provider function.
+     */
     // @RequiresPermission(allOf = {Manifest.permission.BLUETOOTH, Manifest.permission.BLUETOOTH_ADMIN})
     public static MStreamProvider getScanResults() {
         return new BluetoothDeviceListProvider();

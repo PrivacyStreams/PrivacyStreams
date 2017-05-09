@@ -1,8 +1,6 @@
 package com.github.privacystreams.location;
 
-import android.Manifest;
 import android.location.Location;
-import android.support.annotation.RequiresPermission;
 
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.providers.MStreamProvider;
@@ -55,10 +53,14 @@ public class Geolocation extends Item {
     public static final String ACCURACY = "accuracy";
 
     /**
-     * The level of the location data,
-     * could be "country"/"city"/"neighbourhood"/"building"/"exact".
+     * The bearing of the location data.
+     * Bearing is the horizontal direction of travel of this device,
+     * and is not related to the device orientation. It is guaranteed to
+     * be in the range (0.0, 360.0] if the device has a bearing.
+     * If this location does not have a bearing, then the bearing value will be0.0.
      */
-    public static final String LEVEL = "level";
+    @PSItemField(type = Float.class)
+    public static final String BEARING = "bearing";
 
     /** Country level. This level's accuracy is about 100,000 meters. */
     public static final String LEVEL_COUNTRY = "country";
@@ -88,16 +90,19 @@ public class Geolocation extends Item {
         this.setFieldValue(LAT_LNG, latLng);
         this.setFieldValue(ACCURACY, location.getAccuracy());
         this.setFieldValue(SPEED, location.getSpeed());
+        this.setFieldValue(BEARING, location.getBearing());
     }
 
     /**
      * Provide a live stream of Geolocation as the location updates.
+     * This provider requires a location permission based on the location level.
+     * If `level` is `Geolocation.LEVEL_EXACT`, this provider requires `android.permission.ACCESS_COARSE_LOCATION` permission.
+     * If `level` is any other level, this provider requires `android.permission.ACCESS_FINE_LOCATION` permission.
      *
      * @param interval The interval between each two location updates.
      * @param level The location granularity level, could be
-     *              "country"/"city"/"neighborhood"/"building"/"exact".
-     *              "exact" level requires ACCESS_FINE_LOCATION permission,
-     *              other levels requires ACCESS_COARSE_LOCATION.
+     *              `Geolocation.LEVEL_COUNTRY`, `Geolocation.LEVEL_CITY`, `Geolocation.LEVEL_NEIGHBORHOOD`,
+     *              `Geolocation.LEVEL_BUILDING`, or `Geolocation.LEVEL_EXACT`.
      * @return the provider
      */
     // @RequiresPermission(anyOf = {Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, conditional = true)
@@ -110,7 +115,12 @@ public class Geolocation extends Item {
 
     /**
      * Provide an SStream of a Geolocation item, as the last known location.
+     * If `level` is `Geolocation.LEVEL_EXACT`, this provider requires `android.permission.ACCESS_COARSE_LOCATION` permission.
+     * If `level` is any other level, this provider requires `android.permission.ACCESS_FINE_LOCATION` permission.
      *
+     * @param level The location granularity level, could be
+     *              `Geolocation.LEVEL_COUNTRY`, `Geolocation.LEVEL_CITY`, `Geolocation.LEVEL_NEIGHBORHOOD`,
+     *              `Geolocation.LEVEL_BUILDING`, or `Geolocation.LEVEL_EXACT`.
      * @return the provider
      */
     public static SStreamProvider asLastKnown(String level) {
@@ -122,7 +132,13 @@ public class Geolocation extends Item {
 
     /**
      * Provide an SStream of a Geolocation item, as the current location.
+     * If `level` is `Geolocation.LEVEL_EXACT`, this provider requires `android.permission.ACCESS_COARSE_LOCATION` permission.
+     * If `level` is any other level, this provider requires `android.permission.ACCESS_FINE_LOCATION` permission.
      *
+     * @param level The location granularity level, could be
+     *              `Geolocation.LEVEL_COUNTRY`, `Geolocation.LEVEL_CITY`,
+     *              `Geolocation.LEVEL_NEIGHBORHOOD`, `Geolocation.LEVEL_BUILDING`,
+     *              or `Geolocation.LEVEL_EXACT`.
      * @return the provider
      */
     public static SStreamProvider asCurrent(String level) {
