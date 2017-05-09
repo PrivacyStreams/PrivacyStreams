@@ -29,11 +29,10 @@ import com.github.privacystreams.image.Image;
 import com.github.privacystreams.image.ImageOperators;
 import com.github.privacystreams.location.Geolocation;
 import com.github.privacystreams.location.GeolocationOperators;
-import com.github.privacystreams.location.LatLng;
+import com.github.privacystreams.location.LatLon;
 import com.github.privacystreams.notification.Notification;
 import com.github.privacystreams.storage.DropboxOperators;
 import com.github.privacystreams.utils.Globals;
-import com.github.privacystreams.utils.StorageUtils;
 
 import java.util.List;
 
@@ -52,17 +51,17 @@ public class Examples {
     /** Get the location metadata of all local images. */
     public void getImageMetadata() {
         uqi.getData(Image.getFromStorage(), purpose) // get a stream of local images.
-                .setField("lat_lng", ImageOperators.getLatLng("image_data")) // create a new field "lat_lng" from the "image_data" field using `getLatLng` operator.
+                .setField("lat_lon", ImageOperators.getLatLon("image_data")) // create a new field "lat_lon" from the "image_data" field using `getLatLon` operator.
                 .setField("image_path", ImageOperators.getFilepath("image_data")) // create a new field "image_path" from the the "image_data" field using `getFilepath` operator.
-                .project("lat_lng", "image_path") // only keep the "lat_lng" field and "image_path" field in each item.
+                .project("lat_lon", "image_path") // only keep the "lat_lon" field and "image_path" field in each item.
                 .forEach(new Callback<Item>() {
                     @Override
                     protected void onInput(Item input) { // call back with each item.
                         if (input == null) return;
-                        LatLng latLng = input.getValueByField("lat_lng"); // get the "lat_lng" field from the item
+                        LatLon latLon = input.getValueByField("lat_lon"); // get the "lat_lon" field from the item
                         String imagePath = input.getValueByField("image_path"); // get the "image_path" from the item
-                        double lat = latLng.getLatitude();
-                        double lng = latLng.getLongitude();
+                        double lat = latLon.getLatitude();
+                        double lng = latLon.getLongitude();
                         System.out.println("image: " + imagePath + ", lat:" + lat + ", lng:" + lng);
                     }
                 });
@@ -104,14 +103,14 @@ public class Examples {
         double minLat = 40.0, minLng = -180.0, maxLat = 40.1, maxLng = -180.1; // the square region.
 
         uqi.getData(Geolocation.asUpdates(1000, Geolocation.LEVEL_EXACT), purpose) // get a live stream of location updates, the location granularity is "EXACT".
-                .setField("inRegion", GeolocationOperators.inSquare("lat_lng", minLat, minLng, maxLat, maxLng))
+                .setField("inRegion", GeolocationOperators.inSquare("lat_lon", minLat, minLng, maxLat, maxLng))
                 .forEach(new Callback<Item>() {
                     @Override
                     protected void onInput(Item location) { // callback for each item.
-                        LatLng latLng = location.getValueByField("lat_lng"); // get the value of "lat_lng" field.
+                        LatLon latLon = location.getValueByField("lat_lon"); // get the value of "lat_lon" field.
                         Boolean inRegion = location.getValueByField("inRegion"); // get the value of "inRegion" field.
 
-                        System.out.println("lat=" + latLng.getLatitude() + ", lng=" + latLng.getLongitude());
+                        System.out.println("lat=" + latLon.getLatitude() + ", lng=" + latLon.getLongitude());
                         if (inRegion) System.out.println("the location is in the square region.");
                     }
                 });
@@ -120,9 +119,9 @@ public class Examples {
     /** Get current city-level location. */
     public void getCityLocation() {
         try {
-            LatLng latLng = uqi.getData(Geolocation.asCurrent(Geolocation.LEVEL_CITY), purpose) // get an SStream of current location, the location granularity is "CITY".
-                    .getField("lat_lng"); // get the "lat_lng" field of current location.
-            System.out.println("Current location: lat=" + latLng.getLatitude() + ", lng=" + latLng.getLongitude());
+            LatLon latLon = uqi.getData(Geolocation.asCurrent(Geolocation.LEVEL_CITY), purpose) // get an SStream of current location, the location granularity is "CITY".
+                    .getField("lat_lon"); // get the "lat_lon" field of current location.
+            System.out.println("Current location: lat=" + latLon.getLatitude() + ", lng=" + latLon.getLongitude());
         } catch (PSException e) {
             e.printStackTrace();
         }
@@ -269,7 +268,7 @@ public class Examples {
 
         uqi.getData(Geolocation.asUpdates(10*60*1000L, Geolocation.LEVEL_EXACT), purpose) // get a live stream of exact geolocation, with a 10-minute interval.
                 .setIndependentField("uuid", DeviceOperators.getDeviceId()) // create a new field "uuid" using `getDeviceId` operator.
-                .project("lat_lng", "uuid") // keep the "lat_lng", "uuid" fields in each item.
+                .project("lat_lon", "uuid") // keep the "lat_lon", "uuid" fields in each item.
                 .forEach(DropboxOperators.<Item>uploadTo("Location.txt", true)); // upload the item to "Location.txt" file in Dropbox.
     }
 

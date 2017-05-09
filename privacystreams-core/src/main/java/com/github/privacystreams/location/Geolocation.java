@@ -29,10 +29,10 @@ public class Geolocation extends Item {
 
     /**
      * The coordinates of the location.
-     * The value is a LatLng instance.
+     * The value is a LatLon instance.
      */
-    @PSItemField(type = LatLng.class)
-    public static final String LAT_LNG = "lat_lng";
+    @PSItemField(type = LatLon.class)
+    public static final String LAT_LON = "lat_lon";
 
     /**
      * The speed at the location, in meters/second.
@@ -86,8 +86,8 @@ public class Geolocation extends Item {
 //        coordinates.add(location.getLongitude());
 //        coordinates.add(location.getAltitude());
 //        this.setFieldValue(COORDINATES, coordinates);
-        LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-        this.setFieldValue(LAT_LNG, latLng);
+        LatLon latLon = new LatLon(location.getLatitude(), location.getLongitude());
+        this.setFieldValue(LAT_LON, latLon);
         this.setFieldValue(ACCURACY, location.getAccuracy());
         this.setFieldValue(SPEED, location.getSpeed());
         this.setFieldValue(BEARING, location.getBearing());

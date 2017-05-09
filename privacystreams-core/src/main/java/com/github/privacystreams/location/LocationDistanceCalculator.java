@@ -11,19 +11,19 @@ import com.github.privacystreams.utils.LocationUtils;
  */
 class LocationDistanceCalculator extends ItemFunction<Double> {
 
-    private final String latLngField1;
-    private final String latLngField2;
+    private final String latLonField1;
+    private final String latLonField2;
 
-    LocationDistanceCalculator(String latLngField1, String latLngField2) {
-        this.latLngField1 = Assertions.notNull("latLngField1", latLngField1);
-        this.latLngField2 = Assertions.notNull("latLngField2", latLngField2);
-        this.addParameters(latLngField1, latLngField2);
+    LocationDistanceCalculator(String latLonField1, String latLonField2) {
+        this.latLonField1 = Assertions.notNull("latLonField1", latLonField1);
+        this.latLonField2 = Assertions.notNull("latLonField2", latLonField2);
+        this.addParameters(latLonField1, latLonField2);
     }
 
     @Override
     public Double apply(UQI uqi, Item input) {
-        LatLng latLng1 = input.getValueByField(this.latLngField1);
-        LatLng latLng2 = input.getValueByField(this.latLngField2);
-        return LocationUtils.getDistanceBetween(latLng1, latLng2);
+        LatLon latLon1 = input.getValueByField(this.latLonField1);
+        LatLon latLon2 = input.getValueByField(this.latLonField2);
+        return LocationUtils.getDistanceBetween(latLon1, latLon2);
     }
 }

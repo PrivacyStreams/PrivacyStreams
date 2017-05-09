@@ -11,8 +11,8 @@ class LocationInCirclePredicate extends LocationProcessor<Boolean> {
     private final double centerLng;
     private final double radius;
 
-    LocationInCirclePredicate(String latLngField, double centerLat, double centerLng, double radius) {
-        super(latLngField);
+    LocationInCirclePredicate(String latLonField, double centerLat, double centerLng, double radius) {
+        super(latLonField);
         this.centerLat = centerLat;
         this.centerLng = centerLng;
         this.radius = radius;
@@ -20,9 +20,9 @@ class LocationInCirclePredicate extends LocationProcessor<Boolean> {
     }
 
     @Override
-    protected Boolean processLocation(LatLng latLng) {
-        LatLng centerLatLng = new LatLng(centerLat, centerLng);
-        Double distance = LocationUtils.getDistanceBetween(centerLatLng, latLng);
+    protected Boolean processLocation(LatLon latLon) {
+        LatLon centerLatLon = new LatLon(centerLat, centerLng);
+        Double distance = LocationUtils.getDistanceBetween(centerLatLon, latLon);
         if (distance == null) return null;
         return distance <= this.radius;
     }

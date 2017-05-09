@@ -10,18 +10,18 @@ import com.github.privacystreams.utils.Assertions;
  */
 abstract class LocationProcessor<Tout> extends ItemFunction<Tout> {
 
-    private final String latLngField;
+    private final String latLonField;
 
-    LocationProcessor(String latLngField) {
-        this.latLngField = Assertions.notNull("latLngField", latLngField);
-        this.addParameters(this.latLngField);
+    LocationProcessor(String latLonField) {
+        this.latLonField = Assertions.notNull("latLonField", latLonField);
+        this.addParameters(this.latLonField);
     }
 
     @Override
     public final Tout apply(UQI uqi, Item input) {
-        LatLng latLng = input.getValueByField(this.latLngField);
-        return this.processLocation(latLng);
+        LatLon latLon = input.getValueByField(this.latLonField);
+        return this.processLocation(latLon);
     }
 
-    protected abstract Tout processLocation(LatLng latLng);
+    protected abstract Tout processLocation(LatLon latLon);
 }

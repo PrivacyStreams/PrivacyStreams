@@ -2,7 +2,7 @@ package com.github.privacystreams.utils;
 
 import android.location.Location;
 
-import com.github.privacystreams.location.LatLng;
+import com.github.privacystreams.location.LatLon;
 
 import java.util.Random;
 
@@ -11,15 +11,15 @@ import java.util.Random;
  */
 
 public class LocationUtils {
-    public static LatLng distortLatLng(LatLng latLng, double radius) {
-        double latitude = latLng.getLatitude();
-        double longitude = latLng.getLongitude();
+    public static LatLon distortLatLon(LatLon latLon, double radius) {
+        double latitude = latLon.getLatitude();
+        double longitude = latLon.getLongitude();
         Random random = new Random();
         double r = random.nextDouble() * radius;
         double theta = random.nextDouble() * Math.PI * 2;
         double distorted_latitude = latitude + r * Math.sin(theta) / getMetersPerLat(latitude);
         double distorted_longitude = longitude + r * Math.cos(theta) / getMetersPerLng(latitude);
-        return new LatLng(distorted_latitude, distorted_longitude);
+        return new LatLon(distorted_latitude, distorted_longitude);
     }
 
     public static double getMetersPerLat(double latitude) {
@@ -31,12 +31,12 @@ public class LocationUtils {
         return 111132.954 * Math.cos(latitude * Math.PI / 180);
     }
 
-    public static Double getDistanceBetween(LatLng latLng1, LatLng latLng2) {
-        if (latLng1 == null || latLng2 == null)
+    public static Double getDistanceBetween(LatLon latLon1, LatLon latLon2) {
+        if (latLon1 == null || latLon2 == null)
             return null;
         float[] result = new float[1];
-        Location.distanceBetween(latLng1.getLatitude(), latLng1.getLongitude(),
-                latLng2.getLatitude(), latLng2.getLongitude(), result);
+        Location.distanceBetween(latLon1.getLatitude(), latLon1.getLongitude(),
+                latLon2.getLatitude(), latLon2.getLongitude(), result);
         return (double) result[0];
     }
 }

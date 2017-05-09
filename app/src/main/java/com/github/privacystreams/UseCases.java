@@ -38,7 +38,7 @@ import com.github.privacystreams.image.Image;
 import com.github.privacystreams.image.ImageOperators;
 import com.github.privacystreams.location.Geolocation;
 import com.github.privacystreams.location.GeolocationOperators;
-import com.github.privacystreams.location.LatLng;
+import com.github.privacystreams.location.LatLon;
 import com.github.privacystreams.notification.Notification;
 import com.github.privacystreams.storage.DropboxOperators;
 import com.github.privacystreams.storage.StorageOperators;
@@ -70,7 +70,7 @@ public class UseCases {
 
     public void testImage() {
 //        uqi.getData(Image.getFromStorage(), Purpose.TEST("test"))
-//                .setField("lat_lng", ImageOperators.getLatLng(Image.IMAGE_DATA))
+//                .setField("lat_lon", ImageOperators.getLatLon(Image.IMAGE_DATA))
 //                .debug();
         uqi.getData(Image.takeFromCamera(), Purpose.UTILITY("taking picture."))
                 .setField("imagePath", ImageOperators.getFilepath(Image.IMAGE_DATA))
@@ -120,14 +120,14 @@ public class UseCases {
     public void testLocation() {
         Globals.LocationConfig.useGoogleService = true;
         MStream locationStream = uqi.getData(Geolocation.asUpdates(1000, Geolocation.LEVEL_CITY), Purpose.TEST("test"))
-                .setField("distorted_lat_lng", GeolocationOperators.distort(Geolocation.LAT_LNG, 1000))
-                .setField("distortion", GeolocationOperators.distanceBetween(Geolocation.LAT_LNG, "distorted_lat_lng"))
+                .setField("distorted_lat_lon", GeolocationOperators.distort(Geolocation.LAT_LON, 1000))
+                .setField("distortion", GeolocationOperators.distanceBetween(Geolocation.LAT_LON, "distorted_lat_lon"))
                 .reuse(2);
 
         locationStream.debug();
-        locationStream.forEach("distorted_lat_lng", new Callback<LatLng>() {
+        locationStream.forEach("distorted_lat_lon", new Callback<LatLon>() {
             @Override
-            protected void onInput(LatLng input) {
+            protected void onInput(LatLon input) {
                 System.out.println(input);
             }
         });

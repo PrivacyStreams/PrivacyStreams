@@ -7,7 +7,7 @@ import android.support.annotation.RequiresApi;
 
 import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.Item;
-import com.github.privacystreams.location.LatLng;
+import com.github.privacystreams.location.LatLon;
 import com.github.privacystreams.utils.annotations.PSOperatorWrapper;
 
 /**
@@ -29,13 +29,13 @@ public class ImageOperators {
 
     /**
      * Retrieve the location information of the image specified by an ImageData field.
-     * The location information is an instance of `LatLng` class.
+     * The location information is an instance of `LatLon` class.
      *
      * @param imageDataField the name of ImageData field
      * @return the function
      */
-    public static Function<Item, LatLng> getLatLng(String imageDataField) {
-        return new ImageLatLngRetriever(imageDataField);
+    public static Function<Item, LatLon> getLatLon(String imageDataField) {
+        return new ImageLatLonRetriever(imageDataField);
     }
 
     /**

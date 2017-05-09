@@ -7,7 +7,7 @@ import android.os.Build;
 import android.support.annotation.RequiresApi;
 
 import com.github.privacystreams.core.UQI;
-import com.github.privacystreams.location.LatLng;
+import com.github.privacystreams.location.LatLon;
 import com.github.privacystreams.utils.ImageUtils;
 import com.github.privacystreams.utils.Logging;
 import com.github.privacystreams.utils.StorageUtils;
@@ -35,7 +35,7 @@ public class ImageData {
     private transient Bitmap bitmap;
 
     private transient ExifInterface exifInterface;
-    private transient LatLng latLng;
+    private transient LatLon latLon;
     private transient String filePath;
     private transient ImageData blurredImageData;
 
@@ -102,17 +102,17 @@ public class ImageData {
         return this.exifInterface;
     }
 
-    LatLng getLatLng(UQI uqi) {
-        if (this.latLng != null) return this.latLng;
+    LatLon getLatLon(UQI uqi) {
+        if (this.latLon != null) return this.latLon;
 
         ExifInterface exifInterface = this.getExif(uqi);
         if (exifInterface == null) return null;
         float[] latLong = new float[2];
         boolean hasLatLong = exifInterface.getLatLong(latLong);
         if(hasLatLong) {
-            this.latLng = new LatLng((double) latLong[0], (double) latLong[1]);
+            this.latLon = new LatLon((double) latLong[0], (double) latLong[1]);
         }
-        return this.latLng;
+        return this.latLon;
     }
 
     Bitmap getBitmap(UQI uqi) {

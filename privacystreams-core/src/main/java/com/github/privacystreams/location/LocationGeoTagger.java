@@ -6,12 +6,12 @@ package com.github.privacystreams.location;
 
 class LocationGeoTagger extends LocationProcessor<String> {
 
-    LocationGeoTagger(String latLngField) {
-        super(latLngField);
+    LocationGeoTagger(String latLonField) {
+        super(latLonField);
     }
 
     @Override
-    protected String processLocation(LatLng latLng) {
+    protected String processLocation(LatLon latLon) {
         // TODO get the geotag based on latitude and longitude
         return null;
     }
