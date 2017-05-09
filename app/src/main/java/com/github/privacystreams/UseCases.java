@@ -339,17 +339,22 @@ public class UseCases {
     }
 
     // get recent called 10 contacts’ names
-    List<String> getRecentCalledNames(int n) throws PSException {
-        List<String> recentCalledPhoneNumbers = uqi
-                .getData(Call.getLogs(), Purpose.FEATURE("getData recent called phone numbers"))
-                .sortBy(Call.TIMESTAMP)
-                .limit(n)
-                .asList(Call.CONTACT);
-        List<String> recentCalledNames = uqi
-                .getData(Contact.getAll(), Purpose.FEATURE("getData names of recent called phone numbers"))
-                .filter(ListOperators.intersects(Contact.PHONES, recentCalledPhoneNumbers.toArray()))
-                .asList(Contact.NAME);
-        return recentCalledNames;
+    public void getRecentCalledNames(int n) {
+        try {
+            List<String> recentCalledPhoneNumbers = uqi
+                    .getData(Call.getLogs(), Purpose.FEATURE("getData recent called phone numbers"))
+                    .sortBy(Call.TIMESTAMP)
+                    .limit(n)
+                    .asList(Call.CONTACT);
+            List<String> recentCalledNames = uqi
+                    .getData(Contact.getAll(), Purpose.FEATURE("getData names of recent called phone numbers"))
+                    .filter(ListOperators.intersects(Contact.PHONES, recentCalledPhoneNumbers.toArray()))
+                    .asList(Contact.NAME);
+            System.out.println(recentCalledNames);
+        }
+        catch (PSException e) {
+            e.printStackTrace();
+        }
     }
 
     // get a count of calls since 31Oct2015
