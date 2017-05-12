@@ -98,4 +98,18 @@ public class StringOperators {
     public static Function<Item, String> subString(String stringField, int start, int end) {
         return new SubStringFunction(stringField, start, end);
     }
+
+    /**
+     * Elide a substring in the string value of a field.
+     *
+     * @param stringField the name of the string field to calculate length
+     * @param start the position to start from, negative means
+     *  count back from the end of the String by this many characters
+     * @param end the position to end at (exclusive), negative means
+     *  count back from the end of the String by this many characters
+     * @return the function
+     */
+    public static Function<Item, String> elide(String stringField, int start, int end) {
+        return new StringElideFunction(stringField, start, end);
+    }
 }

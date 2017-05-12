@@ -71,4 +71,26 @@ public class ImageOperators {
     public static Function<Item, ImageData> blur(String imageDataField) {
         return new ImageBlurFunction(imageDataField);
     }
+
+    /**
+     * Detect faces in an image.
+     * This operator outputs true if there is at least one face in the image.
+     *
+     * @param imageDataField the name of ImageData field
+     * @return the function
+     */
+    public static Function<Item, Boolean> hasFace(String imageDataField) {
+        return new ImageFaceDetector(imageDataField);
+    }
+
+    /**
+     * Detect characters in an image.
+     * This operator outputs true if there is at least one character in the image.
+     *
+     * @param imageDataField the name of ImageData field
+     * @return the function
+     */
+    public static Function<Item, Boolean> hasCharacter(String imageDataField) {
+        return new ImageCharacterDetector(imageDataField);
+    }
 }
