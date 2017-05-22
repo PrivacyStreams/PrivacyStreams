@@ -14,4 +14,9 @@ class NotificationUpdatesProvider extends NotificationEventProvider {
         if (sbn == null) return;
         this.output(new Notification(sbn, action));
     }
+
+//    public void handleNotificationEvent(StatusBarNotification sbn, String action, String contactName){
+//        if (sbn == null) return;
+//        this.output(new Notification(sbn, contactName));
+//    }
 }

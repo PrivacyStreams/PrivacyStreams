@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
 
 //            useCases.testCurrentLocation();
 //            useCases.testTextEntry();
-//            useCases.testNotification();
+ //           useCases.testNotification();
 //            useCases.testAudio();
 //            useCases.testMockData();
 //            useCases.testContacts();
@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
 //            useCases.testLightUpdatesProvider();
 //
 //            useCases.testUIAction();
-//            useCases.testIMUpdates();
+          useCases.testIMUpdates();
             return null;
         }
     }
