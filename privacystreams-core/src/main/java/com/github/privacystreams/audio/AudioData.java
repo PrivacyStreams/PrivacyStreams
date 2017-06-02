@@ -77,4 +77,9 @@ public class AudioData {
     public String toString() {
         return String.format(Locale.getDefault(), "<Audio@%d%d>", this.type, this.hashCode());
     }
+
+    boolean hasHumanVoice(UQI uqi) {
+        // TODO
+        return false;
+    }
 }

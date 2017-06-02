@@ -67,4 +67,15 @@ public class AudioOperators {
     public static Function<Item, String> getFilepath(String audioDataField) {
         return new AudioFilepathGetter(audioDataField);
     }
+
+    /**
+     * Detect human voice from the audio.
+     * Return true if there is human voice.
+     *
+     * @param audioDataField the name of AudioData field
+     * @return the function
+     */
+    public static Function<Item, Boolean> hasHumanVoice(String audioDataField) {
+        return new AudioVoiceDetector(audioDataField);
+    }
 }

@@ -125,6 +125,16 @@ public class ImageData {
         return this.bitmap;
     }
 
+    Boolean hasFace(UQI uqi) {
+        // TODO implement this.
+        return false;
+    }
+
+    Boolean hasCharacter(UQI uqi) {
+        // TODO implement this.
+        return false;
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     ImageData getBlurred(UQI uqi) {
         if (this.blurredImageData != null) return this.blurredImageData;
