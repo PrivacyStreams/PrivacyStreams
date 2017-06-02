@@ -10,6 +10,7 @@ import android.util.Log;
 
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.providers.MStreamProvider;
+import com.github.privacystreams.utils.AppUtils;
 import com.github.privacystreams.utils.annotations.PSItem;
 import com.github.privacystreams.utils.annotations.PSItemField;
 
@@ -67,7 +68,6 @@ public class Notification extends Item {
     public static final String TEXT = "text";
 
     private String contactName = null;
-    public static final String APP_PACKAGE_WHATSAPP = "com.whatsapp";
     Notification(long postTime, String packageName, String category, String title, String text, String action) {
         this.setFieldValue(POST_TIME, postTime);
         this.setFieldValue(PACKAGE_NAME, packageName);
@@ -103,17 +103,16 @@ public class Notification extends Item {
                 }
 
             }
-            if(sbn.getPackageName().equals(APP_PACKAGE_WHATSAPP)){          // Get the whatsapp detailed information
-                String title = null;
-                String category = null;
-                title = mNotification.extras.getString(android.app.Notification.EXTRA_TITLE);
-                category = mNotification.extras.getString(android.app.Notification.EXTRA_TEXT);
+            // Get whatsapp detailed information
+            if(sbn.getPackageName().equals(AppUtils.APP_PACKAGE_WHATSAPP)){
+
+                String title = mNotification.extras.getString(android.app.Notification.EXTRA_TITLE);
+                String category = mNotification.extras.getString(android.app.Notification.EXTRA_TEXT);
 
                 if(title!=null&&category!=null){
                     if(category.equals("msg")&&title.equals("WhatsApp")){
                         dumpStatusBarNotification(sbn);
                         this.setFieldValue(TITLE,contactName);
-                        //this.setFieldValue(CATEGORY,null);
                     }
                 }
 

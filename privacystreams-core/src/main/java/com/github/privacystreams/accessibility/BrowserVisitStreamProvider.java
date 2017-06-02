@@ -40,7 +40,7 @@ class BrowserVisitStreamProvider extends MStreamProvider {
                         String title = AccessibilityUtils.getWebViewTitle(nodeInfos);
                         if(url!=null && title !=null
                                 && !url.equals(lastSavedUrl)
-                                && !title.equals(lastSavedUrl)){
+                                && !title.equals(lastSavedUrlTitle)){
                             lastSavedUrl = url;
                             lastSavedUrlTitle = title;
                             output(new BrowserVisit(title,packageName, url, System.currentTimeMillis()));
