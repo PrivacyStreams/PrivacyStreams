@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
 //            useCases.testLightUpdatesProvider();
 //
 //            useCases.testUIAction();
-          useCases.testIMUpdates();
+            useCases.testIMUpdates();
             return null;
         }
     }
