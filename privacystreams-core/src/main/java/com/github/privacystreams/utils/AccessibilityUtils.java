@@ -27,7 +27,6 @@ import java.util.Set;
 public class AccessibilityUtils {
 
     private static String ANDROID_WEBVIEW_CLASSNAME = "android.webkit.WebView";
-    //public static String ANDROID_VIEW_FIREFOXCLASSNAME="org.mozilla.gecko.GeckoView";
     public static String ANDROID_VIEW_FIREFOXCLASSNAME="android.widget.TextView";
 
 
@@ -36,15 +35,11 @@ public class AccessibilityUtils {
     private static String WHATSAPP_MESSAGE_CONTACT = "conversation_contact_name";
     private static String WHATSAPP_MESSAGE_ENTRY = "entry";
     private static String WHATSAPP_MAINPAGE_CONTACT_CONTAINER = "contact_row_container";
-    private static String WHATSAPP_MAINPAGE_SYMBOL = "fab"; //The green message bottom on the right corner
+    private static String WHATSAPP_MAINPAGE_SYMBOL = "fab"; //The green message button on the right corner
     private static String WHATSAPP_MAINPAGE_CONTACT_NAME = "conversations_row_contact_name";
     private static String WHATSAPP_MAINPAGE_MESSAGE_COUNT = "conversations_row_message_count";
     private static String WHATSAPP_UNREAD_SYMBOL = "unread_divider_tv";
 
-
-
-    private static final int WHATSAPP_MESSAGE_LEFT_BOUND_THRESHOLD = 100;
-    private static final int FACEBOOK_MESSAGE_LEFT_BOUND_THRESHOLD = 100;
 
     public static final String APP_PACKAGE_WHATSAPP = "com.whatsapp";
     public static final String APP_PACKAGE_FACEBOOK_MESSENGER = "com.facebook.orca";
@@ -61,7 +56,6 @@ public class AccessibilityUtils {
     private static String FACEBOOK_MESSENGE_MAINPAGE_SYMBOL ="orca_home_fab";
     private static String FACEBOOK_MESSENGE_CHATPAGE_INPUT_BAR ="text_input_bar";
 
-    private static Point sScreenSize;
 
     /**
      * traverse a tree from the root, and return all the notes in the tree
@@ -164,18 +158,14 @@ public class AccessibilityUtils {
     /**
      *
      * @param nodeInfo
-     * @param packageName
      * @return
      */
-    public static boolean isIncomingMessage(AccessibilityNodeInfo nodeInfo, String packageName,Context context) {
+    public static boolean isIncomingMessage(AccessibilityNodeInfo nodeInfo, Context context) {
         Rect rect = new Rect();
         nodeInfo.getBoundsInScreen(rect);
-        fetchScreenSize(context);
-        if (rect.left < sScreenSize.y-rect.right && nodeInfo.getText() != null) {
-            //Log.e("Test","Left "+rect.left+"Right "+rect.right+" Screen "+sScreenSize.y);
-            return true;
-        }
-        return false;
+
+        return rect.left < UIUtils.getScreenHeight(context)
+                - rect.right && nodeInfo.getText() != null;
     }
 
     /**
@@ -284,7 +274,7 @@ public class AccessibilityUtils {
             return root.findAccessibilityNodeInfosByViewId(getMessageListResourceId(packageName));
 
         else
-            return new ArrayList<AccessibilityNodeInfo>();
+            return new ArrayList<>();
     }
 
     /**
@@ -423,7 +413,8 @@ public class AccessibilityUtils {
      */
     public static boolean getUnreadSymbol(AccessibilityNodeInfo root, String appName){
         try{
-            AccessibilityNodeInfo mainPage = root.findAccessibilityNodeInfosByViewId(getUnreadResourceId(appName)).get(0);
+            AccessibilityNodeInfo mainPage = root.findAccessibilityNodeInfosByViewId
+                    (getUnreadResourceId(appName)).get(0);
             if(mainPage!=null){
                 return true;
             }
@@ -467,21 +458,24 @@ public class AccessibilityUtils {
      */
     public static Map<String,Integer> getUnreadMessageList(AccessibilityNodeInfo root, String appName){
         try{
-            Map<String,Integer> unreadMessageList = new HashMap<String,Integer>();
-            List<AccessibilityNodeInfo> containers = root.findAccessibilityNodeInfosByViewId(getMainPageContainerResourceId(appName));
+            Map<String,Integer> unreadMessageList = new HashMap<>();
+            List<AccessibilityNodeInfo> containers = root.findAccessibilityNodeInfosByViewId(
+                    getMainPageContainerResourceId(appName));
             for (AccessibilityNodeInfo container : containers){
-                String name = new StringBuilder(container.findAccessibilityNodeInfosByViewId(getMainPageContactNameResourceId(appName)).get(0).getText()).toString();
-//                Log.e("zz","here");
-                List<AccessibilityNodeInfo> a = container.findAccessibilityNodeInfosByViewId(getMainpageMessageCountResourceId(appName));
+                String name = String.valueOf(container.findAccessibilityNodeInfosByViewId(
+                        getMainPageContactNameResourceId(appName)).get(0).getText());
+
+                List<AccessibilityNodeInfo> a = container.findAccessibilityNodeInfosByViewId(
+                        getMainpageMessageCountResourceId(appName));
                 int messageCount = 0;
                 if(!a.isEmpty()){
-                    AccessibilityNodeInfo messageCountNode = container.findAccessibilityNodeInfosByViewId(getMainpageMessageCountResourceId(appName)).get(0);
+                    AccessibilityNodeInfo messageCountNode = container.findAccessibilityNodeInfosByViewId(
+                            getMainpageMessageCountResourceId(appName)).get(0);
                     if(messageCountNode!=null) {
                         messageCount = Integer.parseInt(messageCountNode.getText().toString());
                     }
                 }
                 unreadMessageList.put(name,messageCount);
-               // Log.e("Child","Contact name: "+name+" Count: "+messageCount);
             }
             if(!unreadMessageList.isEmpty()){
                 return unreadMessageList;
@@ -491,35 +485,6 @@ public class AccessibilityUtils {
             return null;
         }
         return null;
-    }
-    private static void fetchScreenSize(Context context) {
-        Object obj = null;
-        if (sScreenSize == null) {
-            int i;
-            int i2;
-            Display defaultDisplay = ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
-            context.getResources().getConfiguration();
-            defaultDisplay.getRotation();
-            sScreenSize = new Point();
-            if (Build.VERSION.SDK_INT >= 17) {
-                DisplayMetrics displayMetrics = new DisplayMetrics();
-                defaultDisplay.getMetrics(displayMetrics);
-                DisplayMetrics displayMetrics2 = new DisplayMetrics();
-                defaultDisplay.getRealMetrics(displayMetrics2);
-                i = displayMetrics2.heightPixels - displayMetrics.heightPixels;
-                sScreenSize.x = displayMetrics.widthPixels;
-                sScreenSize.y = displayMetrics.heightPixels;
-            } else {
-                defaultDisplay.getSize(sScreenSize);
-                i = 0;
-            }
-            if (sScreenSize.x <= sScreenSize.y) {
-                i2 = 1;
-            }
-            i2 = sScreenSize.x;
-            sScreenSize.x = sScreenSize.y + i;
-            sScreenSize.y = i2 - i;
-        }
     }
 
 }
