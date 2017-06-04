@@ -3,6 +3,9 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
+    configurations.all {
+        resolutionStrategy.force 'com.google.code.findbugs:jsr305:1.3.9'
+    }
     defaultConfig {
         applicationId "com.github.privacystreams"
         minSdkVersion 16
@@ -34,6 +37,16 @@ dependencies {
 
     compile project(':privacystreams-core')
     compile 'com.dropbox.core:dropbox-core-sdk:2.1.1'
-    compile 'com.google.android.gms:play-services-location:10.2.1'
+    compile 'com.google.android.gms:play-services-location:10.2.4'
+//    compile 'pub.devrel:easypermissions:0.3.0'
+//    compile('com.google.api-client:google-api-client-android:1.22.0') {
+//        exclude group: 'org.apache.httpcomponents'
+//        }
+//    compile('com.google.apis:google-api-services-gmail:v1-rev65-1.22.0') {
+//        exclude group: 'org.apache.httpcomponents'
+//        }
+//    compile('com.google.apis:google-api-services-gmail:v1-rev29-1.20.0') {
+//        exclude group: 'org.apache.httpcomponents'
+   // }
     //compile 'com.android.support:multidex:1.0.0'
 }

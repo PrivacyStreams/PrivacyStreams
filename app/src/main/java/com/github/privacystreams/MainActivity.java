@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
         protected Object doInBackground(Object[] objects) {
             UseCases useCases = new UseCases(MainActivity.this);
 
-            useCases.getRecentCalledNames(2);
+     //       useCases.getRecentCalledNames(2);
 
 //            useCases.testCurrentLocation();
 //            useCases.testTextEntry();
@@ -65,7 +65,8 @@ public class MainActivity extends AppCompatActivity {
 //            useCases.testLightUpdatesProvider();
 //
 //            useCases.testUIAction();
-          useCases.testIMUpdates();
+  //        useCases.testIMUpdates();
+            useCases.testEmail();
             return null;
         }
     }

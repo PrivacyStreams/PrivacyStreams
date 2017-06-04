@@ -34,6 +34,7 @@ import com.github.privacystreams.device.BluetoothDevice;
 import com.github.privacystreams.device.DeviceEvent;
 import com.github.privacystreams.device.DeviceOperators;
 import com.github.privacystreams.device.WifiAp;
+import com.github.privacystreams.email.Email;
 import com.github.privacystreams.image.Image;
 import com.github.privacystreams.image.ImageOperators;
 import com.github.privacystreams.location.Geolocation;
@@ -155,6 +156,8 @@ public class UseCases {
     public void testSMS() {
         uqi.getData(Message.asIncomingSMS(), Purpose.TEST("test")).debug();
     }
+
+    public void testEmail(){uqi.getData(Email.asUpdates(),Purpose.TEST("test")).debug();}
 
     // For testing
     public void testMockData() {
