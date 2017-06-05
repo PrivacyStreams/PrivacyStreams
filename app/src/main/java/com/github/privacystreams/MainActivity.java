@@ -16,6 +16,8 @@ import com.github.privacystreams.core.purposes.Purpose;
 import com.github.privacystreams.image.Image;
 import com.github.privacystreams.image.ImageOperators;
 
+import static com.google.api.client.http.HttpMethods.HEAD;
+
 public class MainActivity extends AppCompatActivity {
     public Button mButton;
 
@@ -66,10 +68,16 @@ public class MainActivity extends AppCompatActivity {
 //
 //            useCases.testUIAction();
 
+
             //        useCases.testIMUpdates();
             // useCases.testEmail();
 
             // useCases.testIMUpdates();
+
+  //        useCases.testIMUpdates();
+           // useCases.testEmail();
+
+           // useCases.testIMUpdates();
             useCases.testEmail();
             return null;
         }
