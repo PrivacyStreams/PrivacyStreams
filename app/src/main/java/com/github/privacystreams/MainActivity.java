@@ -65,12 +65,12 @@ public class MainActivity extends AppCompatActivity {
 //            useCases.testLightUpdatesProvider();
 //
 //            useCases.testUIAction();
-<<<<<<< HEAD
+
   //        useCases.testIMUpdates();
+           // useCases.testEmail();
+
+           // useCases.testIMUpdates();
             useCases.testEmail();
-=======
-            useCases.testIMUpdates();
->>>>>>> 0fff34a38731a00c6f5e4ff3b781c6a1b9d0dcc0
             return null;
         }
     }

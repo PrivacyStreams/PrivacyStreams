@@ -9,6 +9,4 @@ import java.util.List;
 interface GmailResultListener {
     void onSuccess();
     void onFail();
-    void setList(List<String> list);
-    boolean isEmpty();
 }
