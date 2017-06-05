@@ -48,6 +48,7 @@ import java.net.Authenticator;
 import java.net.HttpURLConnection;
 import java.net.PasswordAuthentication;
 import java.net.URL;
+import java.security.Provider;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -89,6 +90,7 @@ public class GmailProvider extends MStreamProvider implements GmailResultListene
     }
     @Override
     protected void provide() {
+        //Log.e(TAG,"You get here");
         getGmailInfo();
     }
     private void getGmailInfo(){
@@ -111,7 +113,7 @@ public class GmailProvider extends MStreamProvider implements GmailResultListene
                 transport, jsonFactory, mCredential)
                 .setApplicationName("Gmail API Android Quickstart")
                 .build();
-        new MakeRequestTask(mCredential).execute();
+        new MakeRequestTask().execute();
         Log.e("TAG","Here 2");
     }
 
@@ -121,17 +123,11 @@ public class GmailProvider extends MStreamProvider implements GmailResultListene
         this.raiseException(this.getUQI(), PSException.INTERRUPTED("Gmail canceled."));
     }
 
-    private List<String> getDataFromApi(){
+    private List<String> getDataFromApi(ListMessagesResponse response){
         List<String> messageList = new ArrayList<>();
         //String query = buildEmailListQuery(thirdPartyFlightCompanyEmailList);
-        String query = buildTimeQuery(lastTime);
-        try{
-            String user = "me";
-            //               ListMessagesResponse response = mService.users().messages().list(user).setQ("label:^smartlabel_receipt").execute();
-//                ListMessagesResponse response = mService.users().messages().list(user).setQ("from:moisheebay@gmail.com").execute();
-            //ListMessagesResponse response = mService.users().messages().list(user).setQ(query).execute();
-            ListMessagesResponse response= mService.users().messages().list(user).setQ(query).execute();
 
+        try{
             int total =1;
 //                findFlightXML("PIT","KJFK","1496008024","3856");
 //                findFlightInfo("JBU497");
@@ -141,35 +137,34 @@ public class GmailProvider extends MStreamProvider implements GmailResultListene
             String content = "";
             Long timestamp = null;
             Long lastestTimeStamp = null;
-//            if(response.getMessages()==null) Log.e("Test Message","Get Message Null");
-//            else Log.e("Test Message","Has");
             if(response.getMessages()!=null){
                 for(Message item : response.getMessages()){
                     if(total>maxResult){
                         break;
                     }
                     //Log.e("Test item id",item.getId());
-                    Message message = mService.users().messages().get(user,item.getId()).setFormat("full").execute();
+                    Message message = mService.users().messages().get("me",item.getId()).setFormat("full").execute();
                     List<MessagePart> messageParts = message.getPayload().getParts();
                     List<MessagePartHeader> headers = message.getPayload().getHeaders();
 
                     if(!headers.isEmpty()){
                         for(MessagePartHeader header:headers) {
                             String name = header.getName();
-                            if (name.equals("From") || name.equals("from")) {
-                                from = header.getValue();
-                            }
-                            else if (name.equals("To")|| name.equals("to")) {
-                                diliverTo = header.getValue();
-                            }
-                            else if (name.equals("Subject")|| name.equals("subject")) {
-                                subject = header.getValue();
-                            }
-                            else if(name.equals("Date")||name.equals("date")){
-                                String date = header.getValue();
-                                date = date.substring(date.indexOf(",")+2,date.length()-5);
-                                timestamp = TimeUtils.fromFormattedString(timestampFormat,date);
-
+                            switch (name){
+                                case "From":
+                                    from = header.getValue();
+                                    break;
+                                case "To":
+                                    diliverTo = header.getValue();
+                                    break;
+                                case "Subject":
+                                    subject = header.getValue();
+                                    break;
+                                case "Date":
+                                    String date = header.getValue();
+                                    date = date.substring(date.indexOf(",")+2,date.length()-5);
+                                    timestamp = TimeUtils.fromFormattedString(timestampFormat,date);
+                                    break;
                             }
                         }
                     }
@@ -188,11 +183,9 @@ public class GmailProvider extends MStreamProvider implements GmailResultListene
                     if(lastestTimeStamp==null) lastestTimeStamp = timestamp;
                     else if(lastestTimeStamp<timestamp) lastestTimeStamp = timestamp;
 
-                    if(content!=null)
-                        this.output(new Email(content,"Gmail",from,diliverTo,subject,timestamp));
+                    if(content!=null) this.output(new Email(content,"Gmail",from,diliverTo,subject,timestamp));
                 }
             }
-
             if(lastestTimeStamp!=null)
             lastTime =lastestTimeStamp;
         } catch (Exception e){
@@ -292,12 +285,6 @@ public class GmailProvider extends MStreamProvider implements GmailResultListene
      * Placing the API calls in their own task ensures the UI stays responsive.
      */
     private class MakeRequestTask extends AsyncTask<Void, Void, List<String>> {
-
-        //        private GmailProvider provider;
-        MakeRequestTask(GoogleAccountCredential credential) {
-//            provider = provider;
-        }
-
         /**
          * Background task to call Gmail API.
          * @param params no parameters needed for this task.
@@ -305,13 +292,22 @@ public class GmailProvider extends MStreamProvider implements GmailResultListene
         @Override
         protected List<String> doInBackground(Void... params) {
             Log.e("Test","do in back ground");
-        return getDataFromApi();
+            String query = buildTimeQuery(lastTime);
+            try {
+                String user = "me";
+                ListMessagesResponse response = mService.users().messages().list(user).setQ(query).execute();
+                return getDataFromApi(response);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
         }
 
 
         @Override
         protected void onPostExecute(List<String> output) {
             Log.e("Test","end Asytn");
+            GmailProvider.this.finish();
         }
 
     }
