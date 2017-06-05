@@ -12,6 +12,7 @@ import com.github.privacystreams.notification.PSNotificationListenerService;
 import com.github.privacystreams.utils.ConnectionUtils;
 import com.github.privacystreams.utils.PSPermissionActivity;
 import com.github.privacystreams.utils.PermissionUtils;
+import com.github.privacystreams.utils.TimeUtils;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.api.client.extensions.android.http.AndroidHttp;
@@ -34,6 +35,7 @@ import com.google.api.services.gmail.model.*;
 
 import android.Manifest;
 import android.content.Intent;
+import android.text.TextUtils;
 import android.util.Log;
 
 import org.json.JSONException;
@@ -46,6 +48,7 @@ import java.net.Authenticator;
 import java.net.HttpURLConnection;
 import java.net.PasswordAuthentication;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -65,17 +68,20 @@ public class GmailProvider extends MStreamProvider implements GmailResultListene
     private static List<String> messageList;
     public static GoogleAccountCredential mCredential;
     private static final String[] SCOPES = { GmailScopes.GMAIL_LABELS,GmailScopes.GMAIL_READONLY };
-
+    private String timestampFormat = "dd MMM yyyy HH:mm:ss";
+    private String stringFormat = "yyyy/MM/dd HH:mm:ss";
     private com.google.api.services.gmail.Gmail mService = null;
-    private Exception mLastError = null;
     private String labelId = null;
     private List<Message> newMessageList;
+    private List<String> headerList;
     private final String flightNum ="([^a-z0-9])(([a-z][a-z]|[a-z][0-9]|[0-9][a-z])[a-z]?)([0-9]{3,4}[a-z]?[^a-z0-9])";
     private final String dates ="([0-3]?[0-9])(,)?(\\s|-)?(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)(,)?(\\s|-)?((19|20)?[0-9]{2})";
     private final String[] companyEmailList = {"reservations@jetblue.com"};
     private final List<String> flightCompanyEmailList = new ArrayList<String>(Arrays.asList(companyEmailList));
     private final String[] thirdPartyEmailList = {"noreply@vayama.com","info@travelplanner.flyfrontier.com","chenfanglintc@gmail.com"};
     private final List<String> thirdPartyFlightCompanyEmailList = new ArrayList<String>(Arrays.asList(thirdPartyEmailList));
+    private Long lastTime = null;
+    private final int  maxResult = 4;
 
     GmailProvider(){
         this.addRequiredPermissions(Manifest.permission.INTERNET,Manifest.permission.GET_ACCOUNTS,Manifest.permission.ACCESS_NETWORK_STATE);
@@ -91,13 +97,13 @@ public class GmailProvider extends MStreamProvider implements GmailResultListene
                 getContext().getApplicationContext(), Arrays.asList(SCOPES))
                 .setBackOff(new ExponentialBackOff());
         messageList = null;
+        headerList = new ArrayList<String>();
         GmailActivity.setListener(this);
         Intent intent = new Intent(this.getContext(), GmailActivity.class);
         this.getContext().startActivity(intent);
     }
     @Override
     public void onSuccess() {
-        Log.e("Permession test","All success");
         HttpTransport transport = AndroidHttp.newCompatibleTransport();
         Log.e("Test","Get to make request");
         JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
@@ -105,14 +111,8 @@ public class GmailProvider extends MStreamProvider implements GmailResultListene
                 transport, jsonFactory, mCredential)
                 .setApplicationName("Gmail API Android Quickstart")
                 .build();
-        try {
-            getDataFromApi();
-        } catch (Exception e) {
-            Log.e("Test","In error");
-            e.printStackTrace();
-        }
+        new MakeRequestTask(mCredential).execute();
         Log.e("TAG","Here 2");
-//        this.finish();
     }
 
     @Override
@@ -123,57 +123,88 @@ public class GmailProvider extends MStreamProvider implements GmailResultListene
 
     private List<String> getDataFromApi(){
         List<String> messageList = new ArrayList<>();
-        String query = buildQuery(thirdPartyFlightCompanyEmailList);
-        Log.e("Test","Query "+query);
+        //String query = buildEmailListQuery(thirdPartyFlightCompanyEmailList);
+        String query = buildTimeQuery(lastTime);
         try{
             String user = "me";
             //               ListMessagesResponse response = mService.users().messages().list(user).setQ("label:^smartlabel_receipt").execute();
 //                ListMessagesResponse response = mService.users().messages().list(user).setQ("from:moisheebay@gmail.com").execute();
-            ListMessagesResponse response = mService.users().messages().list(user).setQ(query).execute();
-//                ListMessagesResponse response = mService.users().messages().list(user).setQ("{from:chenfanglintc@gmail.com}").execute();
+            //ListMessagesResponse response = mService.users().messages().list(user).setQ(query).execute();
+            ListMessagesResponse response= mService.users().messages().list(user).setQ(query).execute();
+
             int total =1;
 //                findFlightXML("PIT","KJFK","1496008024","3856");
 //                findFlightInfo("JBU497");
-            if(response.getMessages()==null) Log.e("Test Message","Get Message Null");
-            else Log.e("Test Message","Has");
-            for(Message item : response.getMessages()){
-                if(total>4){
-                    break;
-                }
-                //Log.e("Test item id",item.getId());
-                Message message = mService.users().messages().get(user,item.getId()).execute();
-                List<MessagePart> messageParts = message.getPayload().getParts();
-                if(messageParts==null) Log.e("Test Message","null");
-                if (messageParts!=null&&!messageParts.isEmpty()) {
-                    byte[] bytes = Base64.decodeBase64(messageParts.get(0).getBody().getData());
-                    if(bytes != null){
-                        String mailText = new String(bytes);
-                        if(!mailText.isEmpty()){
-                            total++;
-                            //findMatches(mailText);
-                            Log.e("Message",mailText);
-                            GmailProvider.this.output(new Email(mailText,"Gmail",null));
-                            messageList.add(mailText);
+            String diliverTo = "";
+            String from = "";
+            String subject = "";
+            String content = "";
+            Long timestamp = null;
+            Long lastestTimeStamp = null;
+//            if(response.getMessages()==null) Log.e("Test Message","Get Message Null");
+//            else Log.e("Test Message","Has");
+            if(response.getMessages()!=null){
+                for(Message item : response.getMessages()){
+                    if(total>maxResult){
+                        break;
+                    }
+                    //Log.e("Test item id",item.getId());
+                    Message message = mService.users().messages().get(user,item.getId()).setFormat("full").execute();
+                    List<MessagePart> messageParts = message.getPayload().getParts();
+                    List<MessagePartHeader> headers = message.getPayload().getHeaders();
+
+                    if(!headers.isEmpty()){
+                        for(MessagePartHeader header:headers) {
+                            String name = header.getName();
+                            if (name.equals("From") || name.equals("from")) {
+                                from = header.getValue();
+                            }
+                            else if (name.equals("To")|| name.equals("to")) {
+                                diliverTo = header.getValue();
+                            }
+                            else if (name.equals("Subject")|| name.equals("subject")) {
+                                subject = header.getValue();
+                            }
+                            else if(name.equals("Date")||name.equals("date")){
+                                String date = header.getValue();
+                                date = date.substring(date.indexOf(",")+2,date.length()-5);
+                                timestamp = TimeUtils.fromFormattedString(timestampFormat,date);
+
+                            }
                         }
                     }
+                    if (messageParts!=null&&!messageParts.isEmpty()) {
+                        byte[] bytes = Base64.decodeBase64(messageParts.get(0).getBody().getData());
+                        if(bytes != null){
+                            String mailText = new String(bytes);
+                            if(!mailText.isEmpty()){
+                                total++;
+                                //findMatches(mailText);
+                                content = mailText;
+                                messageList.add(mailText);
+                            }
+                        }
+                    }
+                    if(lastestTimeStamp==null) lastestTimeStamp = timestamp;
+                    else if(lastestTimeStamp<timestamp) lastestTimeStamp = timestamp;
+
+                    if(content!=null)
+                        this.output(new Email(content,"Gmail",from,diliverTo,subject,timestamp));
                 }
             }
 
-        }catch (UserRecoverableAuthIOException e) {
-            //startActivityForResult(e.getIntent(),REQUEST_AUTHORIZATION);
+            if(lastestTimeStamp!=null)
+            lastTime =lastestTimeStamp;
+        } catch (Exception e){
             e.printStackTrace();
         }
-        catch (Exception e){
-            e.printStackTrace();
-        }
-
         return messageList;
     }
 
     //This method will build up the query string for filtering desperately
     //Input a list of email strings
     // Output the query string use for filtering
-    private String buildQuery(List<String> checkList){
+    private String buildEmailListQuery(List<String> checkList){
         StringBuilder query = new StringBuilder("");
         query.append("{");
         for(String email:checkList){
@@ -182,6 +213,15 @@ public class GmailProvider extends MStreamProvider implements GmailResultListene
             query.append(" ");
         }
         query.append("}");
+        return query.toString();
+    }
+    private String buildTimeQuery(Long time){
+        StringBuilder query = new StringBuilder("");
+        query.append(" -category:{social promotions updates forums} ");
+        if(time!=null){
+            query.append("after:");
+            query.append(time);
+        }
         return query.toString();
     }
 
@@ -244,6 +284,36 @@ public class GmailProvider extends MStreamProvider implements GmailResultListene
         String[] inValue = { sDateS, eDateS, origin, destination, flight, "30","0"};
         String url = buildURL(method,inName,inValue);
         new RequestWebTask().execute(url);
+    }
+
+
+    /**
+     * An asynchronous task that handles the Gmail API call.
+     * Placing the API calls in their own task ensures the UI stays responsive.
+     */
+    private class MakeRequestTask extends AsyncTask<Void, Void, List<String>> {
+
+        //        private GmailProvider provider;
+        MakeRequestTask(GoogleAccountCredential credential) {
+//            provider = provider;
+        }
+
+        /**
+         * Background task to call Gmail API.
+         * @param params no parameters needed for this task.
+         */
+        @Override
+        protected List<String> doInBackground(Void... params) {
+            Log.e("Test","do in back ground");
+        return getDataFromApi();
+        }
+
+
+        @Override
+        protected void onPostExecute(List<String> output) {
+            Log.e("Test","end Asytn");
+        }
+
     }
     //******************************** Inner Class ********************************///
     public static class RequestWebTask extends  AsyncTask<String,String,JSONObject>{
