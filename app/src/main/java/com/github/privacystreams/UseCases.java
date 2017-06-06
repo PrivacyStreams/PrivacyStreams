@@ -74,16 +74,20 @@ public class UseCases {
 //                .debug();
         uqi.getData(Image.takeFromCamera(), Purpose.UTILITY("taking picture."))
                 .setField("imagePath", ImageOperators.getFilepath(Image.IMAGE_DATA))
-                .ifPresent("imagePath", new Callback<String>() {
-                    @Override
-                    protected void onInput(String imagePath) {
-                        System.out.println(imagePath);
-                    }
-                    @Override
-                    protected void onFail(PSException exception) {
-                        exception.printStackTrace();
-                    }
-                });
+                .setField("faceCount", ImageOperators.countFaces(Image.IMAGE_DATA))
+                .setField("text", ImageOperators.extractText(Image.IMAGE_DATA))
+//                .setField("hasCharacter", ImageOperators.hasCharacter(Image.IMAGE_DATA))
+                .debug();
+//                .ifPresent("imagePath", new Callback<String>() {
+//                    @Override
+//                    protected void onInput(String imagePath) {
+//                        System.out.println(imagePath);
+//                    }
+//                    @Override
+//                    protected void onFail(PSException exception) {
+//                        exception.printStackTrace();
+//                    }
+//                });
     }
 
     public void testAudio(Context context) {

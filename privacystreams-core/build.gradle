@@ -67,7 +67,7 @@ dependencies {
 
     // third-party packages
     provided 'com.dropbox.core:dropbox-core-sdk:2.1.1'
-    provided 'com.google.android.gms:play-services:10.2.1'
+    provided 'com.google.android.gms:play-services:10.2.4'
 }
 
 group = publishedGroupId                               // Maven Group ID for the artifact

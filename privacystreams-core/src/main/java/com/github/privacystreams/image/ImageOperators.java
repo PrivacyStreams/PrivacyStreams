@@ -84,6 +84,17 @@ public class ImageOperators {
     }
 
     /**
+     * Count faces in an image.
+     * This operator outputs the number of faces in the image.
+     *
+     * @param imageDataField the name of ImageData field
+     * @return the operator
+     */
+    public static Function<Item, Integer> countFaces(String imageDataField) {
+        return new ImageFaceCounter(imageDataField);
+    }
+
+    /**
      * Detect characters in an image.
      * This operator outputs true if there is at least one character in the image.
      *
@@ -92,5 +103,16 @@ public class ImageOperators {
      */
     public static Function<Item, Boolean> hasCharacter(String imageDataField) {
         return new ImageCharacterDetector(imageDataField);
+    }
+
+    /**
+     * Extract text in an image.
+     * This operator outputs the text in the images.
+     *
+     * @param imageDataField the name of ImageData field
+     * @return the function
+     */
+    public static Function<Item, String> extractText(String imageDataField) {
+        return new ImageTextExtractor(imageDataField);
     }
 }
