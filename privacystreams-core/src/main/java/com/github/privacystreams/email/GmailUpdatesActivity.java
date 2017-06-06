@@ -5,18 +5,17 @@ import android.accounts.AccountManager;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;;
+import android.content.SharedPreferences;
 import android.os.Bundle;;
 import android.util.Log;
 import com.github.privacystreams.utils.ConnectionUtils;
 
-
-/**
- * This is the related activity for GmailProvider
+/*
+ * This is the Activity for the GmailUpdatesProvider which would mainly be in charge of account choose UI action
  */
 
-public class GmailActivity extends Activity {
-    private static final String TAG = "GmailActivity ";
+public class GmailUpdatesActivity extends Activity {
+    private static final String TAG = "GmailUpdatesActivity ";
     static final int REQUEST_ACCOUNT_PICKER = 1000;
     private static final String PREF_ACCOUNT_NAME = "accountName";
     private static GmailResultListener gmailResultListener;
@@ -31,13 +30,13 @@ public class GmailActivity extends Activity {
             if (! ConnectionUtils.isGooglePlayServicesAvailable(this)) {
                 ConnectionUtils.acquireGooglePlayServices(this);
             }
-            if (GmailProvider.mCredential.getSelectedAccountName() == null) {
-                chooseAccount();
+            if (GmailUpdatesProvider.mCredential.getSelectedAccountName() == null) {
+            chooseAccount();
             }
             if (! ConnectionUtils.isDeviceOnline(this)) {
                 Log.e(TAG,"No network connection available.");
             }
-            if(ConnectionUtils.isGooglePlayServicesAvailable(this)&&GmailProvider.mCredential.getSelectedAccountName() != null&&ConnectionUtils.isDeviceOnline(this)){
+            if(ConnectionUtils.isGooglePlayServicesAvailable(this)&&GmailUpdatesProvider.mCredential.getSelectedAccountName() != null&&ConnectionUtils.isDeviceOnline(this)){
                 gmailResultListener.onSuccess();
             }
         } else {
@@ -61,7 +60,7 @@ public class GmailActivity extends Activity {
                         SharedPreferences.Editor editor = settings.edit();
                         editor.putString(PREF_ACCOUNT_NAME, accountName);
                         editor.apply();
-                        GmailProvider.mCredential.setSelectedAccountName(accountName);
+                        GmailUpdatesProvider.mCredential.setSelectedAccountName(accountName);
                     }
                 }
                 break;
@@ -84,11 +83,11 @@ public class GmailActivity extends Activity {
         String accountName = getPreferences(Context.MODE_PRIVATE)
                 .getString(PREF_ACCOUNT_NAME, null);
         if (accountName != null) {
-            GmailProvider.mCredential.setSelectedAccountName(accountName);
+            GmailUpdatesProvider.mCredential.setSelectedAccountName(accountName);
         } else {
             // Start a dialog from which the user can choose an account
             startActivityForResult(
-                    GmailProvider.mCredential.newChooseAccountIntent(),
+                    GmailUpdatesProvider.mCredential.newChooseAccountIntent(),
                     REQUEST_ACCOUNT_PICKER);
         }
     }

@@ -69,12 +69,13 @@ public class Email extends Item {
         this.setFieldValue(TO,to);
         this.setFieldValue(SUBJECT,subject);
         this.setFieldValue(TIMESTAMP,timeStamp);
-//        this.setFieldValue(DATE,);
     }
 
 
 
-    public static MStreamProvider asUpdates(){
-        return new GmailProvider();
+    public static MStreamProvider asEmailList(){return new GmailProvider();}
+
+    public static MStreamProvider asEmailUpdates(){
+        return new GmailUpdatesProvider();
     }
 }

@@ -1,55 +1,49 @@
 package com.github.privacystreams.email;
 
-import android.content.Context;
+import android.Manifest;
+import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Handler;
+import android.util.Log;
 
 import com.github.privacystreams.core.exceptions.PSException;
 import com.github.privacystreams.core.providers.MStreamProvider;
+import com.github.privacystreams.utils.Globals;
 import com.github.privacystreams.utils.TimeUtils;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
-import com.google.api.client.repackaged.org.apache.commons.codec.binary.Base64;
-import com.google.api.services.gmail.model.ListMessagesResponse;
-import com.google.api.services.gmail.model.Message;
-
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
+import com.google.api.client.repackaged.org.apache.commons.codec.binary.Base64;
 import com.google.api.client.util.ExponentialBackOff;
-
 import com.google.api.services.gmail.GmailScopes;
+import com.google.api.services.gmail.model.ListMessagesResponse;
+import com.google.api.services.gmail.model.Message;
+import com.google.api.services.gmail.model.MessagePart;
+import com.google.api.services.gmail.model.MessagePartHeader;
 
-import com.google.api.services.gmail.model.*;
-
-import android.Manifest;
-import android.content.Intent;
-import android.util.Log;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
- *This is the provider that can query the time from a certain time period, which is for one time using.
+ * This is the provider which will constantly updates the email information and output it to the uqi
  */
-
- class GmailProvider extends MStreamProvider implements GmailResultListener{
-    private final String TAG = "GMAIL";
-    static GoogleAccountCredential mCredential;
-    private static final String[] SCOPES = { GmailScopes.GMAIL_LABELS,GmailScopes.GMAIL_READONLY };
+ class GmailUpdatesProvider extends MStreamProvider implements GmailResultListener{
+    private final String TAG = "GmailUpdates";
     private com.google.api.services.gmail.Gmail mService;
     private long lastTime = 0;
-    private int  maxResult = 30;
-    private long after = 0;
-    private long before = 0;
-    GmailProvider(long after,long before,int maxResult){
-        this.after = after;
-        this.before = before;
-        this.maxResult = maxResult;
+    private int  maxResult = 2;
+    static GoogleAccountCredential mCredential;
+    private static final String[] SCOPES = { GmailScopes.GMAIL_LABELS,GmailScopes.GMAIL_READONLY };
+    GmailUpdatesProvider(){
         this.addRequiredPermissions(Manifest.permission.INTERNET,Manifest.permission.GET_ACCOUNTS,Manifest.permission.ACCESS_NETWORK_STATE);
     }
-    GmailProvider(){
-        this.addRequiredPermissions(Manifest.permission.INTERNET,Manifest.permission.GET_ACCOUNTS,Manifest.permission.ACCESS_NETWORK_STATE);
-    }
+
     @Override
     protected void provide() {
         getGmailInfo();
@@ -58,10 +52,11 @@ import java.util.List;
         mCredential = GoogleAccountCredential.usingOAuth2(
                 getContext().getApplicationContext(), Arrays.asList(SCOPES))
                 .setBackOff(new ExponentialBackOff());
-            GmailActivity.setListener(this);
-            Intent intent = new Intent(this.getContext(), GmailActivity.class);
-            this.getContext().startActivity(intent);
+        GmailUpdatesActivity.setListener(this);
+        Intent intent = new Intent(this.getContext(), GmailUpdatesActivity.class);
+        this.getContext().startActivity(intent);
     }
+
     @Override
     public void onSuccess() {
         HttpTransport transport = AndroidHttp.newCompatibleTransport();
@@ -70,19 +65,48 @@ import java.util.List;
                 transport, jsonFactory, mCredential)
                 .setApplicationName("Gmail API Android Quickstart")
                 .build();
-        new MakeRequestTask().execute();
+
+        final Handler handler = new Handler();                          //The timer for the AsyncTask
+        Timer timer = new Timer();
+        TimerTask doEmailUpdatesTask = new TimerTask(){
+            @Override
+            public void run() {
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        try{
+                            new MakeRequestTask().execute();
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
+                    }
+                });
+            }
+        };
+        timer.schedule(doEmailUpdatesTask,0, Globals.EmailConfig.pullingInterval);
     }
 
     @Override
     public void onFail() {
         this.finish();
-        this.raiseException(this.getUQI(), PSException.INTERRUPTED("Gmail canceled."));
+        this.raiseException(this.getUQI(), PSException.INTERRUPTED("Gmail Updates canceled."));
+    }
+
+    //Build up the query string for filter the emails
+    private String buildTimeQuery(long time){
+        StringBuilder query = new StringBuilder("");
+        query.append(" -category:{social promotions updates forums} ");
+        if(time!=0){
+            query.append("after:");
+            query.append(time);
+        }
+        return query.toString();
     }
 
     private List<String> getDataFromApi(){
         List<String> messageList = new ArrayList<>();
         try{
-            String query= buildTimeQuery(after,before);
+            String  query= buildTimeQuery(lastTime);
             String user = "me";
             ListMessagesResponse response= mService.users().messages().list(user).setQ(query).execute();
             int total =1;
@@ -92,6 +116,7 @@ import java.util.List;
             String content = "";
             long timestamp = 0;
             long lastestTimeStamp = 0;
+            Log.e("Test","do in back ground");
             if(response.getMessages()!=null){
                 for(Message item : response.getMessages()){
                     if(total>maxResult){
@@ -141,29 +166,11 @@ import java.util.List;
                 }
             }
             if(lastestTimeStamp!=0)
-            lastTime =lastestTimeStamp;
-            //Reset the value for from and to
-            before = 0;
-            after = 0;
+                lastTime =lastestTimeStamp;
         } catch (Exception e){
             e.printStackTrace();
         }
         return messageList;
-    }
-    private String buildTimeQuery(long after,long before){
-        StringBuilder query = new StringBuilder("");
-        query.append(" -category:{social promotions updates forums} ");
-        if(after!=0){
-            query.append("after:");
-            query.append(after);
-            query.append(" ");
-        }
-        if(before!=0){
-            query.append("before:");
-            query.append(before);
-            query.append(" ");
-        }
-        return query.toString();
     }
 
     /**
@@ -177,13 +184,11 @@ import java.util.List;
          */
         @Override
         protected List<String> doInBackground(Void... params) {
-            return getDataFromApi();
+                return getDataFromApi();
         }
         @Override
         protected void onPostExecute(List<String> output) {
             Log.e("Test","end Asytn");
         }
-
     }
-
 }

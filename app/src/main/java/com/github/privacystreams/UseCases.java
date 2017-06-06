@@ -158,7 +158,7 @@ public class UseCases {
         uqi.getData(Message.asIncomingSMS(), Purpose.TEST("test")).debug();
     }
 
-    public void testEmail(){uqi.getData(Email.asUpdates(),Purpose.TEST("test")).debug();}
+    public void testEmail(){uqi.getData(Email.asEmailUpdates(),Purpose.TEST("test")).debug();}
 
     // For testing
     public void testMockData() {

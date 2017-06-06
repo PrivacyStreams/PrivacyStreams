@@ -22,6 +22,9 @@ public class Globals {
         public static boolean isEnabled = true;
         public static int level = Log.DEBUG;
     }
+    public static class EmailConfig{
+        public static long pullingInterval = Duration.hours(1);
+    }
 
     public static class HashConfig {
         public static String defaultAlgorithm = HashUtils.SHA256;
