@@ -35,6 +35,7 @@ import com.github.privacystreams.device.DeviceEvent;
 import com.github.privacystreams.device.DeviceOperators;
 import com.github.privacystreams.device.WifiAPOperators;
 import com.github.privacystreams.device.WifiAp;
+import com.github.privacystreams.email.Email;
 import com.github.privacystreams.image.Image;
 import com.github.privacystreams.image.ImageOperators;
 import com.github.privacystreams.location.Geolocation;
@@ -157,7 +158,7 @@ public class UseCases {
         uqi.getData(Message.asIncomingSMS(), Purpose.TEST("test")).debug();
     }
 
-//    public void testEmail(){uqi.getData(Email.asUpdates(),Purpose.TEST("test")).debug();}
+    public void testEmail(){uqi.getData(Email.asUpdates(),Purpose.TEST("test")).debug();}
 
     // For testing
     public void testMockData() {
@@ -338,18 +339,18 @@ public class UseCases {
     }
 
     // get location and distort 100 meters for advertisement
-    void passLocationToAd() throws PSException {
-        List<Double> coordinates = uqi
-                .getData(Geolocation.asLastKnown(Geolocation.LEVEL_CITY), Purpose.ADS("targeted advertisement"))
-                .output(GeolocationOperators.distort(Geolocation.LAT_LON, 100),);
-    }
+//    void passLocationToAd() throws PSException {
+//        List<Double> coordinates = uqi
+//                .getData(Geolocation.asLastKnown(Geolocation.LEVEL_CITY), Purpose.ADS("targeted advertisement"))
+//                .output(GeolocationOperators.distort(Geolocation.LAT_LON, 100),);
+//    }
 //
 //    // get postcode of asLastKnown location
-    String getPostcode() throws PSException {
-        return uqi
-                .getData(Geolocation.asLastKnown(Geolocation.LEVEL_CITY), Purpose.FEATURE("get postcode for nearby search"))
-//                .output(GeolocationOperators.(Geolocation.COORDINATES));
-    }
+//    String getPostcode() throws PSException {
+//        return uqi
+//                .getData(Geolocation.asLastKnown(Geolocation.LEVEL_CITY), Purpose.FEATURE("get postcode for nearby search"));
+////                .output(GeolocationOperators.(Geolocation.COORDINATES));
+//    }
 
     // knowing if a person is making more or less calls than normal
     boolean isMakingMoreCallsThanNormal() throws PSException {
@@ -384,12 +385,12 @@ public class UseCases {
     }
 
     // calculating sentiment across all Message
-    double getAverageSentimentOfSMS() throws PSException {
-        return uqi
-                .getData(Message.getAllSMS(), Purpose.FEATURE("calculate the sentiment across all Message messages"))
-//                .setField("sentiment", StringOperators.sentiment(Message.CONTENT))
-//                .outputItems(StatisticOperators.average("sentiment"));
-    }
+//    double getAverageSentimentOfSMS() throws PSException {
+////        return uqi
+////                .getData(Message.getAllSMS(), Purpose.FEATURE("calculate the sentiment across all Message messages"));
+////                .setField("sentiment", StringOperators.sentiment(Message.CONTENT))
+////                .outputItems(StatisticOperators.average("sentiment"));
+//    }
 
     // figure out place where person spends the most time (ie home)
 //    String getPlaceSpentMostTime() throws PSException {

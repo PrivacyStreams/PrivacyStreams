@@ -1,47 +1,16 @@
 package com.github.privacystreams.email;
 
-import android.Manifest;
 import android.accounts.AccountManager;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.AsyncTask;
-import android.os.Bundle;;
-import android.text.TextUtils;
+import android.os.Bundle;
 import android.util.Log;
+
 import com.github.privacystreams.utils.ConnectionUtils;
-import com.google.api.client.extensions.android.http.AndroidHttp;
-import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
-import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException;
-import com.google.api.client.http.HttpTransport;
-import com.google.api.client.json.JsonFactory;
-import com.google.api.client.json.jackson2.JacksonFactory;
-import com.google.api.client.repackaged.org.apache.commons.codec.binary.Base64;
-import com.google.api.client.util.ExponentialBackOff;
-import com.google.api.services.gmail.GmailScopes;
-import com.google.api.services.gmail.model.ListMessagesResponse;
-import com.google.api.services.gmail.model.Message;
-import com.google.api.services.gmail.model.MessagePart;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.Authenticator;
-import java.net.HttpURLConnection;
-import java.net.PasswordAuthentication;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import pub.devrel.easypermissions.EasyPermissions;
+;
 
 /**
  * Created by lenovo on 2017/6/4.
@@ -74,7 +43,9 @@ public class GmailActivity extends Activity {
             if (! ConnectionUtils.isDeviceOnline(this)) {
                 Log.e(TAG,"No network connection available.");
             }
-            if(ConnectionUtils.isGooglePlayServicesAvailable(this)&&GmailProvider.mCredential.getSelectedAccountName() != null&&ConnectionUtils.isDeviceOnline(this)){
+            if(ConnectionUtils.isGooglePlayServicesAvailable(this)
+                    && GmailProvider.mCredential.getSelectedAccountName() != null
+                    && ConnectionUtils.isDeviceOnline(this)){
                 gmailResultListener.onSuccess();
             }
         } else {

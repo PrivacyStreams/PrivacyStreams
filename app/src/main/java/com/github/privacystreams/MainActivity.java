@@ -6,17 +6,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
-import com.github.privacystreams.commons.item.ItemOperators;
-import com.github.privacystreams.commons.time.TimeOperators;
-import com.github.privacystreams.core.Callback;
 import com.github.privacystreams.core.UQI;
-import com.github.privacystreams.core.exceptions.PSException;
 import com.github.privacystreams.core.items.TestItem;
 import com.github.privacystreams.core.purposes.Purpose;
-import com.github.privacystreams.image.Image;
-import com.github.privacystreams.image.ImageOperators;
-
-import static com.google.api.client.http.HttpMethods.HEAD;
 
 public class MainActivity extends AppCompatActivity {
     public Button mButton;
