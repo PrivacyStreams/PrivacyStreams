@@ -3,8 +3,10 @@ package com.github.privacystreams.image;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.ExifInterface;
+import android.media.FaceDetector;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
+import android.util.SparseArray;
 
 import com.github.privacystreams.core.UQI;
 import com.github.privacystreams.location.LatLon;
@@ -12,9 +14,14 @@ import com.github.privacystreams.utils.ImageUtils;
 import com.github.privacystreams.utils.Logging;
 import com.github.privacystreams.utils.StorageUtils;
 import com.github.privacystreams.utils.TimeUtils;
+import com.google.android.gms.vision.Frame;
+import com.google.android.gms.vision.text.TextBlock;
+import com.google.android.gms.vision.text.TextRecognizer;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -125,14 +132,72 @@ public class ImageData {
         return this.bitmap;
     }
 
+    private transient Bitmap bitmap565;
+    Bitmap getBitmapRGB565(UQI uqi) {
+        if (this.bitmap565 != null) return this.bitmap565;
+
+        String filePath = this.getFilepath(uqi);
+        if (filePath == null) return null;
+        BitmapFactory.Options bitmapFatoryOptions = new BitmapFactory.Options();
+        bitmapFatoryOptions.inPreferredConfig = Bitmap.Config.RGB_565;
+        this.bitmap565 = BitmapFactory.decodeFile(filePath, bitmapFatoryOptions);
+        return this.bitmap565;
+    }
+
+    List<FaceDetector.Face> getFaces(UQI uqi) {
+        int max = 10;
+        List<FaceDetector.Face> faces = new ArrayList<>();
+        Bitmap bitmap = this.getBitmapRGB565(uqi);
+        if (bitmap == null) return faces;
+        FaceDetector detector = new FaceDetector(bitmap.getWidth(), bitmap.getHeight(), max);
+        FaceDetector.Face[] facesArray = new FaceDetector.Face[max];
+        int count = detector.findFaces(bitmap, facesArray);
+        for (int i = 0; i < count; i++) {
+            FaceDetector.Face face = facesArray[i];
+            if (face != null && face.confidence() > 0.3)
+                faces.add(face);
+        }
+        return faces;
+    }
+
+    List<TextBlock> detectTextBlocks(UQI uqi) {
+        List<TextBlock> result = new ArrayList<>();
+        Bitmap bitmap = this.getBitmap(uqi);
+        if (bitmap == null) return result;
+        TextRecognizer textRecognizer = new TextRecognizer.Builder(uqi.getContext()).build();
+        if (!textRecognizer.isOperational()) {
+            Logging.warn("TextRecognizer is not operational");
+            textRecognizer.release();
+            return result;
+        }
+        Frame imageFrame = new Frame.Builder().setBitmap(bitmap).build();
+        SparseArray<TextBlock> textBlocks = textRecognizer.detect(imageFrame);
+        for (int i = 0; i < textBlocks.size(); i++) {
+            TextBlock textBlock = textBlocks.get(textBlocks.keyAt(i));
+            result.add(textBlock);
+        }
+        textRecognizer.release();
+        return result;
+    }
+
+    Integer countFaces(UQI uqi) {
+        return this.getFaces(uqi).size();
+    }
+
     Boolean hasFace(UQI uqi) {
-        // TODO implement this.
-        return false;
+        return this.countFaces(uqi) > 0;
+    }
+
+    String detectText(UQI uqi) {
+        String text = "";
+        for (TextBlock textBlock : this.detectTextBlocks(uqi)) {
+            text += textBlock.getValue() + "\n";
+        }
+        return text;
     }
 
     Boolean hasCharacter(UQI uqi) {
-        // TODO implement this.
-        return false;
+        return !this.detectTextBlocks(uqi).isEmpty();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)

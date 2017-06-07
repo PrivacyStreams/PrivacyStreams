@@ -69,14 +69,12 @@ dependencies {
     provided 'com.dropbox.core:dropbox-core-sdk:2.1.1'
     provided 'com.google.android.gms:play-services:10.2.4'
     compile 'com.google.android.gms:play-services-auth:10.2.4'
-    compile 'pub.devrel:easypermissions:0.3.0'
     compile('com.google.api-client:google-api-client-android:1.20.0') {
         exclude group: 'org.apache.httpcomponents'
     }
     compile('com.google.apis:google-api-services-gmail:v1-rev29-1.20.0') {
         exclude group: 'org.apache.httpcomponents'
     }
-
 }
 
 group = publishedGroupId                               // Maven Group ID for the artifact

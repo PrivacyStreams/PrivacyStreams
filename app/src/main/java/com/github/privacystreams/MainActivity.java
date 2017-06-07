@@ -10,6 +10,8 @@ import com.github.privacystreams.core.UQI;
 import com.github.privacystreams.core.items.TestItem;
 import com.github.privacystreams.core.purposes.Purpose;
 
+import static com.google.api.client.http.HttpMethods.HEAD;
+
 public class MainActivity extends AppCompatActivity {
     public Button mButton;
 
@@ -38,39 +40,25 @@ public class MainActivity extends AppCompatActivity {
         protected Object doInBackground(Object[] objects) {
             UseCases useCases = new UseCases(MainActivity.this);
 
-            //       useCases.getRecentCalledNames(2);
+            //useCases.getRecentCalledNames(2);
 
+//            useCases.testImage();
 //            useCases.testCurrentLocation();
 //            useCases.testTextEntry();
-            //           useCases.testNotification();
+//            useCases.testNotification();
 //            useCases.testAudio();
 //            useCases.testMockData();
 //            useCases.testContacts();
 //            useCases.testDeviceState();
-//            useCases.testTextEntry();
 //
 //            useCases.testBrowserSearchUpdates();
 //            useCases.testBrowserHistoryUpdates();
-//            useCases.testWifiUpdates(30);
-//
-//            useCases.testLightUpdatesProvider();
-//            useCases.testBlueToothUpatesProvider();
-//            useCases.testPhysicalMotionUpdatesProvider();
-//            useCases.testLightUpdatesProvider();
 //
 //            useCases.testUIAction();
-
-
-            //        useCases.testIMUpdates();
-            // useCases.testEmail();
-
-            // useCases.testIMUpdates();
-
-  //        useCases.testIMUpdates();
-           // useCases.testEmail();
-
-           // useCases.testIMUpdates();
+//
+//            useCases.testIMUpdates();
             useCases.testEmail();
+
             return null;
         }
     }

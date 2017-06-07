@@ -32,21 +32,12 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'com.android.support:appcompat-v7:25.3.0'
+    compile 'com.android.support:appcompat-v7:25.3.1'
     testCompile 'junit:junit:4.12'
 
     compile project(':privacystreams-core')
     compile 'com.dropbox.core:dropbox-core-sdk:2.1.1'
     compile 'com.google.android.gms:play-services-location:10.2.4'
-//    compile 'pub.devrel:easypermissions:0.3.0'
-//    compile('com.google.api-client:google-api-client-android:1.22.0') {
-//        exclude group: 'org.apache.httpcomponents'
-//        }
-//    compile('com.google.apis:google-api-services-gmail:v1-rev65-1.22.0') {
-//        exclude group: 'org.apache.httpcomponents'
-//        }
-//    compile('com.google.apis:google-api-services-gmail:v1-rev29-1.20.0') {
-//        exclude group: 'org.apache.httpcomponents'
-   // }
-    //compile 'com.android.support:multidex:1.0.0'
+    compile 'com.google.android.gms:play-services-vision:10.2.4'
+
 }
