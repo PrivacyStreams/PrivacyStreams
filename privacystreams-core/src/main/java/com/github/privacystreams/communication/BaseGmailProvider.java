@@ -39,9 +39,10 @@ abstract class BaseGmailProvider extends MStreamProvider implements GmailResultL
     static final String[] SCOPES = {GmailScopes.GMAIL_LABELS, GmailScopes.GMAIL_READONLY};
     Gmail mService;
     int mMaxResult = Globals.EmailConfig.defaultMaxNumberOfReturnResults;
-    long mAfter = 0;
-    long mBefore = 0;
+    long mBegin = 0;
+    long mEnd = 0;
     boolean authorized = false;
+    long mLastEmailTime = 0;
 
 
     BaseGmailProvider() {
@@ -57,7 +58,6 @@ abstract class BaseGmailProvider extends MStreamProvider implements GmailResultL
 
     private List<String> getDataFromApi(String query) throws IOException {
         List<String> messageList = new ArrayList<>();
-
         String user = "me";
         ListMessagesResponse response = mService.users().messages().list(user).setQ(query).execute();
         int total = 1;
@@ -67,8 +67,8 @@ abstract class BaseGmailProvider extends MStreamProvider implements GmailResultL
         String content = "";
         long timestamp = 0;
         if (response.getMessages() != null) {
-            for (Message item : response.getMessages()) {
-
+            for(int i = response.getMessages().size()-1;i>=0;i--){
+                Message item = response.getMessages().get(i);
                 if (total > mMaxResult) {
                     break;
                 }
@@ -91,9 +91,10 @@ abstract class BaseGmailProvider extends MStreamProvider implements GmailResultL
                                 break;
                             case "Date":
                                 String date = header.getValue();
-                                date = date.substring(date.indexOf(",") + 2, date.length() - 5);
-                                String timestampFormat = "dd MMM yyyy HH:mm:ss";
-                                timestamp = TimeUtils.fromFormattedString(timestampFormat, date);
+                                if(date.contains(","))
+                                    date = date.substring(date.indexOf(",")+2,date.length());;
+                                String timestampFormat = "dd MMM yyyy HH:mm:ss Z";
+                                timestamp = TimeUtils.fromFormattedString(timestampFormat,date)/1000;
                                 break;
                         }
                     }
@@ -109,15 +110,14 @@ abstract class BaseGmailProvider extends MStreamProvider implements GmailResultL
                         }
                     }
                 }
-
+                if(mLastEmailTime<timestamp) mLastEmailTime = timestamp;
                 this.output(new Email(content, AppUtils.APP_PACKAGE_GMAIL, from, deliverTo, subject, timestamp));
             }
         }
 
         //Reset the value for from and to
-        mBefore = 0;
-        mAfter = 0;
-
+        mBegin = 0;
+        mEnd = 0;
         return messageList;
     }
 
@@ -130,7 +130,6 @@ abstract class BaseGmailProvider extends MStreamProvider implements GmailResultL
 
         /**
          * Background task to call Gmail API.
-         *
          * @param queries the gmail api query.
          */
         @Override
@@ -163,8 +162,7 @@ abstract class BaseGmailProvider extends MStreamProvider implements GmailResultL
     String buildTimeQuery(Long... timeVar) {
         Long after = timeVar.length > 0 ? timeVar[0] : 0;
         Long before = timeVar.length > 1 ? timeVar[1] : 0;
-
-        StringBuilder query = new StringBuilder("-category:{social promotions} ");
+        StringBuilder query = new StringBuilder(" ");
         if (after != 0) {
             query.append("after:");
             query.append(after);
@@ -175,6 +173,8 @@ abstract class BaseGmailProvider extends MStreamProvider implements GmailResultL
             query.append(before);
             query.append(" ");
         }
+         query.append(" -category:{social promotions} ");
+        Logging.debug(query.toString());
         return query.toString();
     }
 

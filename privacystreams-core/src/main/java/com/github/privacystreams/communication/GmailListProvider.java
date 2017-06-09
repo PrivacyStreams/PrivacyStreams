@@ -9,10 +9,10 @@ import com.google.api.services.gmail.Gmail;
 
 class GmailListProvider extends BaseGmailProvider{
 
-    GmailListProvider(long after,long before,int maxResult){
+    GmailListProvider(long begin,long end,int maxResult){ //When using it the begin and end should be in milisecond
         super();
-        mAfter = after;
-        mBefore = before;
+        mBegin = begin/1000;
+        mEnd = end/1000;
         mMaxResult = maxResult;
     }
 
@@ -25,7 +25,7 @@ class GmailListProvider extends BaseGmailProvider{
          */
 
         if(authorized){
-            new MakeRequestTask().execute(buildTimeQuery(mAfter,mBefore));
+            new MakeRequestTask().execute(buildTimeQuery(mBegin,mEnd));
         }
     }
 
@@ -35,7 +35,7 @@ class GmailListProvider extends BaseGmailProvider{
     @Override
     public void onSuccess(Gmail service) {
         mService = service;
-        new MakeRequestTask().execute(buildTimeQuery(mAfter,mBefore));
+        new MakeRequestTask().execute(buildTimeQuery(mBegin,mEnd));
     }
 
     @Override

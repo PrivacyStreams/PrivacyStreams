@@ -7,6 +7,7 @@ import com.github.privacystreams.core.exceptions.PSException;
 import com.github.privacystreams.utils.ConnectionUtils;
 import com.github.privacystreams.utils.Duration;
 import com.github.privacystreams.utils.Globals;
+import com.github.privacystreams.utils.Logging;
 import com.google.api.services.gmail.Gmail;
 
 import java.util.Timer;
@@ -19,7 +20,7 @@ import java.util.TimerTask;
  class GmailUpdatesProvider extends BaseGmailProvider implements GmailResultListener{
     private Timer timer = new Timer();
     private boolean running = false;
-    private long lastTime = System.currentTimeMillis()- Duration.hours(100);
+    private long lastTime = (System.currentTimeMillis()- Duration.hours(100))/1000; // The unit is second
 
     @Override
     protected void provide() {
@@ -65,10 +66,16 @@ import java.util.TimerTask;
                     public void run() {
                         try{
                             if(ConnectionUtils.isDeviceOnline(getContext())){
-                                new MakeRequestTask().execute(buildTimeQuery(lastTime));
-                                lastTime = System.currentTimeMillis();
+                                if(mLastEmailTime!=0){
+                                    new MakeRequestTask().execute(buildTimeQuery(mLastEmailTime));
+                                }
+                                else{
+                                    new MakeRequestTask().execute(buildTimeQuery(lastTime));
+                                    lastTime = System.currentTimeMillis();
+                                }
                             }
-
+                            else
+                                Logging.error("No internet connection");
                         }catch (Exception e){
                             e.printStackTrace();
                         }
