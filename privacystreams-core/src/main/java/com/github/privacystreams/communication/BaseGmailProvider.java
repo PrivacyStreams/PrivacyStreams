@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 
+import com.github.privacystreams.core.exceptions.PSException;
 import com.github.privacystreams.core.providers.MStreamProvider;
 import com.github.privacystreams.utils.AppUtils;
 import com.github.privacystreams.utils.ConnectionUtils;
@@ -54,6 +55,21 @@ abstract class BaseGmailProvider extends MStreamProvider implements GmailResultL
     @Override
     protected void provide() {
         checkGmailApiRequirements();
+    }
+
+    /**
+     * When the app just got the authorization and permission from the activity, it goes to this callback.
+     */
+    @Override
+    public void onSuccess(Gmail service) {
+        mService = service;
+    }
+
+
+    @Override
+    public void onFail() {
+        this.finish();
+        this.raiseException(this.getUQI(), PSException.INTERRUPTED("Gmail canceled."));
     }
 
     private List<String> getDataFromApi(String query) throws IOException {
