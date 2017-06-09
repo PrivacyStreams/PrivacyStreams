@@ -50,13 +50,9 @@ public class PSNotificationListenerService extends NotificationListenerService {
 
     @Override
     public void onNotificationPosted(StatusBarNotification sbn) {
-        NotificationEventProvider a = null;
         for(NotificationEventProvider provider : notificationEventProviders){
-            //provider.handleNotificationEvent(sbn, ACTION_POSTED);
-            a = provider;
-        }
-        a.handleNotificationEvent(sbn, ACTION_POSTED);
-            //dumpStatusBarNotification(sbn);
+            provider.handleNotificationEvent(sbn, ACTION_POSTED);
+        };
     }
 
     @Override

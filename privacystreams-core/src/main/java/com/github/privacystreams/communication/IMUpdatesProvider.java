@@ -47,7 +47,6 @@ class IMUpdatesProvider extends MStreamProvider {
                 int fromIndex = theFromIndex-2;
                 if(dbWhatsapp.containsKey(contactName)&&fromIndex>0){
                     ArrayList<String> dbList = dbWhatsapp.get(contactName);
-                    Log.e("Test","DBlist size"+dbList.size());
                     int size = dbList.size();
                     if(size==eventCount){
                         for(int i = 0; i<nodeInfoList.size();i++) {
