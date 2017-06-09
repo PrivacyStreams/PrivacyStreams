@@ -1,6 +1,5 @@
 package com.github.privacystreams.communication;
 
-import com.github.privacystreams.core.exceptions.PSException;
 import com.google.api.services.gmail.Gmail;
 
 /**
@@ -34,14 +33,9 @@ class GmailListProvider extends BaseGmailProvider{
      */
     @Override
     public void onSuccess(Gmail service) {
-        mService = service;
+        super.onSuccess(service);
         new MakeRequestTask().execute(buildTimeQuery(mAfter,mBefore));
     }
 
-    @Override
-    public void onFail() {
-        this.finish();
-        this.raiseException(this.getUQI(), PSException.INTERRUPTED("Gmail canceled."));
-    }
 
 }

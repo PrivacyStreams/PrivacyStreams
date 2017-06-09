@@ -3,7 +3,6 @@ package com.github.privacystreams.communication;
 import android.os.Handler;
 import android.os.Looper;
 
-import com.github.privacystreams.core.exceptions.PSException;
 import com.github.privacystreams.utils.ConnectionUtils;
 import com.github.privacystreams.utils.Duration;
 import com.github.privacystreams.utils.Globals;
@@ -21,14 +20,14 @@ import java.util.TimerTask;
     private boolean running = false;
     private long lastTime = System.currentTimeMillis()- Duration.hours(100);
 
+    /**
+     * For queries in all other times later on, when the app does not need to get authorization and permission from the
+     * activity all over again.
+     */
     @Override
     protected void provide() {
         Looper.prepare();
         super.provide();
-        /**
-         * For queries in all other times later on, when the app does not need to get authorization and permission from the
-         * activity all over again.
-         */
 
         if(authorized){
             doEmailUpdates();
@@ -38,7 +37,7 @@ import java.util.TimerTask;
 
     @Override
     public void onSuccess(Gmail service) {
-        mService = service;
+        super.onSuccess(service);
         if(running){
             timer.cancel();
         }
@@ -48,11 +47,6 @@ import java.util.TimerTask;
         doEmailUpdates();
     }
 
-    @Override
-    public void onFail() {
-        this.finish();
-        this.raiseException(this.getUQI(), PSException.INTERRUPTED("Gmail Updates canceled."));
-    }
 
     private void doEmailUpdates(){
         running = true;
