@@ -9,7 +9,7 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true" />
         <activity
-            android:name="com.github.privacystreams.email.GmailActivity"
+            android:name="com.github.privacystreams.communication.GmailAuthorizationActivity"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true" />

@@ -6,12 +6,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
-import com.github.privacystreams.core.UQI;
-import com.github.privacystreams.core.items.TestItem;
-import com.github.privacystreams.core.purposes.Purpose;
-
-import static com.google.api.client.http.HttpMethods.HEAD;
-
 public class MainActivity extends AppCompatActivity {
     public Button mButton;
 
@@ -19,12 +13,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        UQI uqi = new UQI(MainActivity.this);
-        uqi.getData(TestItem.asUpdates(10, 10.0, 10), Purpose.TEST("Testing first data query."))
-                .limit(10)
-//                .groupBy("x")
-                .debug();
 
         mButton = (Button) findViewById(R.id.button);
         mButton.setOnClickListener(new View.OnClickListener() {
@@ -57,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
 //            useCases.testUIAction();
 //
 //            useCases.testIMUpdates();
-            useCases.testEmail();
+            useCases.testEmailUpdates();
 
             return null;
         }

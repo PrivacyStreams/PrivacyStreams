@@ -53,7 +53,6 @@ public class ConnectionUtils {
 
         final int connectionStatusCode =
                 apiAvailability.isGooglePlayServicesAvailable(context);
-        Log.e("Test","Avalability "+connectionStatusCode);
         return connectionStatusCode == ConnectionResult.SUCCESS;
     }
 

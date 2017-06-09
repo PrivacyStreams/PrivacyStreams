@@ -35,7 +35,7 @@ import com.github.privacystreams.device.DeviceEvent;
 import com.github.privacystreams.device.DeviceOperators;
 import com.github.privacystreams.device.WifiAPOperators;
 import com.github.privacystreams.device.WifiAp;
-import com.github.privacystreams.email.Email;
+import com.github.privacystreams.communication.Email;
 import com.github.privacystreams.image.Image;
 import com.github.privacystreams.image.ImageOperators;
 import com.github.privacystreams.location.Geolocation;
@@ -161,8 +161,14 @@ public class UseCases {
         uqi.getData(Message.asIncomingSMS(), Purpose.TEST("test")).debug();
     }
 
-    public void testEmail(){uqi.getData(Email.asUpdates(),Purpose.TEST("test")).debug();}
 
+    public void testEmailUpdates(){uqi.getData(Email.asGmailUpdates(),Purpose.TEST("test")).debug();}
+
+    public void testEmailList(){
+        uqi.getData(Email.asGmailList(System.currentTimeMillis()-Duration.hours(100),
+                System.currentTimeMillis()-Duration.hours(50),
+                100),Purpose.TEST("test")).debug();
+    }
     // For testing
     public void testMockData() {
         Globals.DropboxConfig.accessToken = "access_token_here";
@@ -351,7 +357,11 @@ public class UseCases {
 //    // get postcode of asLastKnown location
 //    String getPostcode() throws PSException {
 //        return uqi
+
 //                .getData(Geolocation.asLastKnown(Geolocation.LEVEL_CITY), Purpose.FEATURE("get postcode for nearby search"));
+
+//                .getData(Geolocation.asLastKnown(Geolocation.LEVEL_CITY), Purpose.FEATURE("get postcode for nearby search"))
+
 ////                .output(GeolocationOperators.(Geolocation.COORDINATES));
 //    }
 
@@ -389,8 +399,13 @@ public class UseCases {
 
     // calculating sentiment across all Message
 //    double getAverageSentimentOfSMS() throws PSException {
+
 ////        return uqi
 ////                .getData(Message.getAllSMS(), Purpose.FEATURE("calculate the sentiment across all Message messages"));
+
+//        return uqi
+//                .getData(Message.getAllSMS(), Purpose.FEATURE("calculate the sentiment across all Message messages"))
+
 ////                .setField("sentiment", StringOperators.sentiment(Message.CONTENT))
 ////                .outputItems(StatisticOperators.average("sentiment"));
 //    }

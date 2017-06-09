@@ -1,15 +1,9 @@
-package com.github.privacystreams.email;
-
-import android.util.Log;
+package com.github.privacystreams.communication;
 
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.providers.MStreamProvider;
 import com.github.privacystreams.utils.annotations.PSItem;
 import com.github.privacystreams.utils.annotations.PSItemField;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 /**
  * It includes all kinds of email that could be received by phones, currently it only contains gmail.
@@ -18,11 +12,11 @@ import java.util.Date;
 @PSItem
 public class Email extends Item {
     /**
-     * The email content.
+     * The email body.
      */
 
     @PSItemField(type = String.class)
-    public static final String CONTENT = "content";
+    public static final String BODY = "body";
 
     /**
      * The package name of the email where it was captured.
@@ -44,12 +38,6 @@ public class Email extends Item {
     public static final String TO = "to";
 
     /**
-     * The received date of the email
-     */
-    @PSItemField(type = String.class)
-    public static final String DATE = "date";
-
-    /**
      * The subject of the email
      */
     @PSItemField(type = String.class)
@@ -62,19 +50,20 @@ public class Email extends Item {
     @PSItemField(type = Long.class)
     public static final String TIMESTAMP = "timestamp";
 
-    Email(String content,String packageName,String from,String to,String subject,long timeStamp){
-        this.setFieldValue(CONTENT,content);
+    Email(String body, String packageName, String from, String to, String subject, long timeStamp){
+        this.setFieldValue(BODY,body);
         this.setFieldValue(PACKAGE_NAME,packageName);
         this.setFieldValue(FROM,from);
         this.setFieldValue(TO,to);
         this.setFieldValue(SUBJECT,subject);
         this.setFieldValue(TIMESTAMP,timeStamp);
-//        this.setFieldValue(DATE,);
     }
 
+    public static MStreamProvider asGmailList(long afterTime, long beforeTime, int maxNumberOfResults){
+        return new GmailListProvider(afterTime,beforeTime,maxNumberOfResults);
+    }
 
-
-    public static MStreamProvider asUpdates(){
-        return new GmailProvider();
+    public static MStreamProvider asGmailUpdates(){
+        return new GmailUpdatesProvider();
     }
 }
