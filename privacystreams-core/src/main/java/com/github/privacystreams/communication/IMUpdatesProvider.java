@@ -1,5 +1,6 @@
 package com.github.privacystreams.communication;
 
+import android.os.Bundle;
 import android.util.Log;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
@@ -271,26 +272,30 @@ class IMUpdatesProvider extends MStreamProvider {
                                 .forEach(new Callback<Item>() {
                                     @Override
                                     protected void onInput(Item input) {
-                                        String conName = input.getValueByField(Notification.TITLE);
+                                        String contactName = input.getValueByField(Notification.TITLE);
                                         String packageName = input.getValueByField(Notification.PACKAGE_NAME);
                                         int num;
                                         switch (packageName){
                                             case AppUtils.APP_PACKAGE_WHATSAPP:
-                                                if(fullUnreadMessageListWhatsapp.containsKey(conName)){
-                                                    num = fullUnreadMessageListWhatsapp.get(conName);
-                                                    fullUnreadMessageListWhatsapp.put(conName,num+1);
+                                                if(contactName.equals("WhatsApp")){
+                                                    String name =dumpExtras((Bundle) input.getValueByField(Notification.EXTRA));
+                                                    if(name!=null) contactName = name;
+                                                }
+                                                    if(fullUnreadMessageListWhatsapp.containsKey(contactName)){
+                                                    num = fullUnreadMessageListWhatsapp.get(contactName);
+                                                    fullUnreadMessageListWhatsapp.put(contactName,num+1);
                                                 }
                                                 else{
-                                                    fullUnreadMessageListWhatsapp.put(conName,1);
+                                                    fullUnreadMessageListWhatsapp.put(contactName,1);
                                                 }
                                                 break;
                                             case AppUtils.APP_PACKAGE_FACEBOOK_MESSENGER:
-                                                if(fullUnreadMessageListFacebook.containsKey(conName)){
-                                                    num = fullUnreadMessageListFacebook.get(conName);
-                                                    fullUnreadMessageListFacebook.put(conName,num+1);
+                                                if(fullUnreadMessageListFacebook.containsKey(contactName)){
+                                                    num = fullUnreadMessageListFacebook.get(contactName);
+                                                    fullUnreadMessageListFacebook.put(contactName,num+1);
                                                 }
                                                 else{
-                                                    fullUnreadMessageListFacebook.put(conName,1);
+                                                    fullUnreadMessageListFacebook.put(contactName,1);
                                                 }
                                         }
                                     }
@@ -325,9 +330,31 @@ class IMUpdatesProvider extends MStreamProvider {
                     lastEventItemCountWhatsapp = eventItemCount;
                     break;
             }
-            return true;        }
+            return true;
+        }
         catch (Exception e) {
             return false;
         }
+    }
+    // Finds the hidden information in whatsapp
+    private String dumpExtras(Bundle extras) {
+        String contactName = "";
+        if (extras != null) {
+            for (String k : extras.keySet()) {
+                Object o = extras.get(k);
+                if (o instanceof CharSequence[]) {
+                    // case for "textLines" and such
+                    CharSequence n = "";
+                    CharSequence[] data = (CharSequence[]) o;
+                    for (CharSequence d : data) {
+                        n = d;
+                    }
+                    contactName = n.toString();
+                    int in = contactName.indexOf(": ");
+                    contactName = contactName.substring(0,in);
+                }
+            }
+        }
+        return contactName;
     }
 }

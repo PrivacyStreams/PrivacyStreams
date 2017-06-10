@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
 //
 //            useCases.testIMUpdates();
  //           useCases.testEmailUpdates();
-            useCases.testEmailList();
+//            useCases.testEmailList();
 
             return null;
         }

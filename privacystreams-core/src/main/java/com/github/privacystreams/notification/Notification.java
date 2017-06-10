@@ -67,6 +67,12 @@ public class Notification extends Item {
     @PSItemField(type = String.class)
     public static final String TEXT = "text";
 
+    /**
+     * The extra bundle of the notification.
+     */
+    @PSItemField(type = Bundle.class)
+    public static final String EXTRA = "extra";
+
     private String contactName = null;
     Notification(long postTime, String packageName, String category, String title, String text, String action) {
         this.setFieldValue(POST_TIME, postTime);
@@ -85,43 +91,22 @@ public class Notification extends Item {
 
         android.app.Notification mNotification = sbn.getNotification();
         if (mNotification != null) {
-
-
-
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
                 String category = mNotification.category;
                 this.setFieldValue(CATEGORY, category);
             }
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
-                if(mNotification.extras.getString(android.app.Notification.EXTRA_TITLE)!=null){
                     String title = mNotification.extras.getString(android.app.Notification.EXTRA_TITLE);
                     this.setFieldValue(TITLE, title);
-                }
-                if( mNotification.extras.getString(android.app.Notification.EXTRA_TEXT)!=null){
                     String text = mNotification.extras.getString(android.app.Notification.EXTRA_TEXT);
                     this.setFieldValue(TEXT, text);
-                }
-
-            }
-            // Get whatsapp detailed information
-            if(sbn.getPackageName().equals(AppUtils.APP_PACKAGE_WHATSAPP)){
-
-                String title = mNotification.extras.getString(android.app.Notification.EXTRA_TITLE);
-                String category = mNotification.extras.getString(android.app.Notification.EXTRA_TEXT);
-
-                if(title!=null&&category!=null){
-                    if(category.equals("msg")&&title.equals("WhatsApp")){
-                        dumpStatusBarNotification(sbn);
-                        this.setFieldValue(TITLE,contactName);
-                    }
-                }
-
+                    this.setFieldValue(EXTRA,mNotification.extras);
             }
         }
     }
 
     /**
-     * Provide a list of WifiAp items from WIFI scan result.
+     * Provide a list of Notification items from Notification catch result.
      * @return the provider function.
      */
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -129,75 +114,4 @@ public class Notification extends Item {
     public static MStreamProvider asUpdates() {
         return new NotificationUpdatesProvider();
     }
-    public void dumpStatusBarNotification(StatusBarNotification sbn) {
-        dumpUserHandle(sbn);
-        android.app.Notification notification = sbn.getNotification();
-        if (notification != null) {
-            dumpExtras(notification);
-            dumpNotificationActions(notification);
-        }
-    }
-
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    private void dumpUserHandle(StatusBarNotification sbn) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            UserHandle userHandle = sbn.getUser();
-            if (userHandle != null) {
-                //Log.d("Test","User handle:"+ userHandle.toString());
-            }
-        }
-    }
-
-    @TargetApi(Build.VERSION_CODES.KITKAT)
-    private void dumpNotificationActions(android.app.Notification notification) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            android.app.Notification.Action[] actions = notification.actions;
-            if (actions != null) {
-                for (android.app.Notification.Action action : actions) {
-                    //Log.d("TEST", "Action title: "+action.title);
-                    dumpExtras(action);
-                }
-            }
-        }
-    }
-
-    @TargetApi(Build.VERSION_CODES.KITKAT)
-    private void dumpExtras(android.app.Notification notification) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            dumpExtras(notification.extras);
-        }
-    }
-
-    @TargetApi(Build.VERSION_CODES.KITKAT_WATCH)
-    private void dumpExtras(android.app.Notification.Action action) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT_WATCH) {
-            dumpExtras(action.getExtras());
-        }
-    }
-
-    private void dumpExtras(Bundle extras) {
-        if (extras != null) {
-            for (String k : extras.keySet()) {
-                Object o = extras.get(k);
-                if (o instanceof CharSequence[]) {
-                    // case for "textLines" and such
-                    CharSequence n = "";
-                    CharSequence[] data = (CharSequence[]) o;
-                    for (CharSequence d : data) {
-//                        Log.d("Test", k +" => "+ d);
-                        n = d;
-                    }
-                    contactName = n.toString();
-                    int in = contactName.indexOf(": ");
-                    contactName = contactName.substring(0,in);
-//                    Log.e("Test for last one","Contact name "+ contactName);
-//                    Log.e("Test for Index","Index "+ in);
-                } else {
-                    //Log.d("Test2",k +" => "+ o);
-                }
-            }
-        }
-    }
-
-
 }
