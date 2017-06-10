@@ -38,7 +38,7 @@ import java.util.List;
 abstract class BaseGmailProvider extends MStreamProvider implements GmailResultListener {
     static final String PREF_ACCOUNT_NAME = "accountName";
     static final String[] SCOPES = {GmailScopes.GMAIL_LABELS, GmailScopes.GMAIL_READONLY};
-    Gmail mService;
+    private Gmail mService;
     int mMaxResult = Globals.EmailConfig.defaultMaxNumberOfReturnResults;
     long mBegin = 0;
     long mEnd = 0;
@@ -142,7 +142,7 @@ abstract class BaseGmailProvider extends MStreamProvider implements GmailResultL
      * An asynchronous task that handles the Gmail API call.
      * Placing the API calls in their own task ensures the UI stays responsive.
      */
-    class MakeRequestTask extends AsyncTask<String, Void, List<String>> {
+    class FetchEmailTask extends AsyncTask<String, Void, List<String>> {
 
         /**
          * Background task to call Gmail API.

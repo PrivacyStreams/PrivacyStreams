@@ -8,23 +8,29 @@ import com.google.api.services.gmail.Gmail;
 
 class GmailListProvider extends BaseGmailProvider{
 
-    GmailListProvider(long begin,long end,int maxResult){ //When using it the begin and end should be in milisecond
+    /**
+     * beginTime and endTime are all in ms.
+     * maxResult denotes the max number of
+     * return email allowed for one query.
+     */
+
+    GmailListProvider(long beginTime,long endTime,int maxResult){
         super();
-        mBegin = begin/1000;
-        mEnd = end/1000;
+        mBegin = beginTime/1000;
+        mEnd = endTime/1000;
         mMaxResult = maxResult;
     }
+
+    /**
+     * For queries in all other times later on, when the app does not need to get
+     * authorization and permission from the activity all over again.
+     */
 
     @Override
     protected void provide() {
         super.provide();
-        /**
-         * For queries in all other times later on, when the app does not need to get authorization and permission from the
-         * activity all over again.
-         */
-
         if(authorized){
-            new MakeRequestTask().execute(buildTimeQuery(mBegin,mEnd));
+            new FetchEmailTask().execute(buildTimeQuery(mBegin,mEnd));
         }
     }
 
@@ -34,7 +40,7 @@ class GmailListProvider extends BaseGmailProvider{
     @Override
     public void onSuccess(Gmail service) {
         super.onSuccess(service);
-        new MakeRequestTask().execute(buildTimeQuery(mBegin,mEnd));
+        new FetchEmailTask().execute(buildTimeQuery(mBegin,mEnd));
     }
 
 

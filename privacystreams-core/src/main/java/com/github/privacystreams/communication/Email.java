@@ -6,8 +6,7 @@ import com.github.privacystreams.utils.annotations.PSItem;
 import com.github.privacystreams.utils.annotations.PSItemField;
 
 /**
- * It includes all kinds of email that could be received by phones, currently it only contains gmail.
- * Created by lenovo on 2017/6/2.
+ * A received or sent email.
  */
 @PSItem
 public class Email extends Item {
@@ -19,8 +18,7 @@ public class Email extends Item {
     public static final String BODY = "body";
 
     /**
-     * The package name of the email where it was captured.
-     * For example gmail is Gmail
+     * The package name of the email app.
      */
     @PSItemField(type = String.class)
     public static final String PACKAGE_NAME = "package_name";
@@ -59,10 +57,21 @@ public class Email extends Item {
         this.setFieldValue(TIMESTAMP,timeStamp);
     }
 
+    /**
+     * Provide a list of Email items from the Gmail app.
+     * List will be generated given a time window (in ms) and
+     * a max number of returned results for query.
+     * @return the provider function.
+     */
     public static MStreamProvider asGmailList(long afterTime, long beforeTime, int maxNumberOfResults){
         return new GmailListProvider(afterTime,beforeTime,maxNumberOfResults);
     }
 
+    /**
+     * Provide a live stream of Email items from the Gmail app.
+     * Updates will be generated if there are emails sent or received per hour.
+     * @return the provider function.
+     */
     public static MStreamProvider asGmailUpdates(){
         return new GmailUpdatesProvider();
     }

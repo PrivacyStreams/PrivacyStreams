@@ -14,16 +14,16 @@ import java.util.TimerTask;
 
 
 /**
- * This is the provider which will constantly update the gmail information.
+ * This is the provider which constantly fetches the gmail updates.
  */
- class GmailUpdatesProvider extends BaseGmailProvider implements GmailResultListener{
+ class GmailUpdatesProvider extends BaseGmailProvider{
     private Timer timer = new Timer();
     private boolean running = false;
     private long lastTime = (System.currentTimeMillis()- Duration.hours(100))/1000; // The unit is second
 
     /**
-     * For queries in all other times later on, when the app does not need to get authorization and permission from the
-     * activity all over again.
+     * For queries in all other times later on, when the app does not need to get
+     * authorization and permission from the activity all over again.
      */
     @Override
     protected void provide() {
@@ -61,10 +61,10 @@ import java.util.TimerTask;
                         try{
                             if(ConnectionUtils.isDeviceOnline(getContext())){
                                 if(mLastEmailTime!=0){
-                                    new MakeRequestTask().execute(buildTimeQuery(mLastEmailTime));
+                                    new FetchEmailTask().execute(buildTimeQuery(mLastEmailTime));
                                 }
                                 else{
-                                    new MakeRequestTask().execute(buildTimeQuery(lastTime));
+                                    new FetchEmailTask().execute(buildTimeQuery(lastTime));
                                     lastTime = System.currentTimeMillis();
                                 }
                             }
