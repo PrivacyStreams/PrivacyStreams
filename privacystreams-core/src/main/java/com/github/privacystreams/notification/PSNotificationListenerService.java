@@ -1,13 +1,20 @@
 package com.github.privacystreams.notification;
 
+import android.annotation.TargetApi;
+import android.app.PendingIntent;
+import android.app.RemoteInput;
 import android.content.Intent;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.IBinder;
+import android.os.UserHandle;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
 import android.support.annotation.RequiresApi;
+import android.util.Log;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import static com.github.privacystreams.notification.Notification.ACTION_POSTED;
@@ -43,8 +50,9 @@ public class PSNotificationListenerService extends NotificationListenerService {
 
     @Override
     public void onNotificationPosted(StatusBarNotification sbn) {
-        for(NotificationEventProvider provider : notificationEventProviders)
+        for(NotificationEventProvider provider : notificationEventProviders){
             provider.handleNotificationEvent(sbn, ACTION_POSTED);
+        };
     }
 
     @Override
@@ -60,4 +68,5 @@ public class PSNotificationListenerService extends NotificationListenerService {
     static void unregisterProvider(NotificationEventProvider provider){
         notificationEventProviders.remove(provider);
     }
+
 }

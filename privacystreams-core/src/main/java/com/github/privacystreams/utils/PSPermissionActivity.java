@@ -13,7 +13,6 @@ import android.widget.Toast;
 import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.R;
 import com.github.privacystreams.core.UQI;
-
 import java.util.HashSet;
 import java.util.Set;
 
@@ -22,6 +21,7 @@ import java.util.Set;
  * From API 23, it is needed to request permissions at runtime.
  */
 public class PSPermissionActivity extends Activity {
+
 
     private static final String TAG = "PSPermissionActivity";
     public static final String REQUEST_CODE = "request_code";

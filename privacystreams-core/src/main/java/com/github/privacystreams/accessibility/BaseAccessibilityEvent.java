@@ -45,12 +45,18 @@ public class BaseAccessibilityEvent extends Item {
     @PSItemField(type = Integer.class)
     public static final String ITEM_COUNT = "item_count";
 
+    /**
+     * The index of item of the top of a view
+     */
+    @PSItemField(type = Integer.class)
+    public static final String FROM_INDEX = "from_index";
     BaseAccessibilityEvent(AccessibilityEvent accessibilityEvent, AccessibilityNodeInfo rootNode, Date timeStamp){
         this.setFieldValue(EVENT_TYPE, accessibilityEvent.getEventType());
         this.setFieldValue(TIMESTAMP, timeStamp);
         this.setFieldValue(PACKAGE_NAME, accessibilityEvent.getPackageName());
         this.setFieldValue(ROOT_VIEW, rootNode);
         this.setFieldValue(ITEM_COUNT, accessibilityEvent.getItemCount());
+        this.setFieldValue(FROM_INDEX,accessibilityEvent.getFromIndex());
     }
 
     /**

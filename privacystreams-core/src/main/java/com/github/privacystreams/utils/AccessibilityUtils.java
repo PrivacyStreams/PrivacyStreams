@@ -1,14 +1,22 @@
 package com.github.privacystreams.utils;
 
+import android.content.Context;
+import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
+import android.util.DisplayMetrics;
+import android.util.Log;
+import android.view.Display;
+import android.view.WindowManager;
 import android.view.accessibility.AccessibilityNodeInfo;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 
@@ -19,7 +27,6 @@ import java.util.Set;
 public class AccessibilityUtils {
 
     private static String ANDROID_WEBVIEW_CLASSNAME = "android.webkit.WebView";
-    //public static String ANDROID_VIEW_FIREFOXCLASSNAME="org.mozilla.gecko.GeckoView";
     public static String ANDROID_VIEW_FIREFOXCLASSNAME="android.widget.TextView";
 
 
@@ -27,9 +34,12 @@ public class AccessibilityUtils {
     private static String WHATSAPP_MESSAGE_TEXT = "message_text";
     private static String WHATSAPP_MESSAGE_CONTACT = "conversation_contact_name";
     private static String WHATSAPP_MESSAGE_ENTRY = "entry";
+    private static String WHATSAPP_MAINPAGE_CONTACT_CONTAINER = "contact_row_container";
+    private static String WHATSAPP_MAINPAGE_SYMBOL = "fab"; //The green message button on the right corner
+    private static String WHATSAPP_MAINPAGE_CONTACT_NAME = "conversations_row_contact_name";
+    private static String WHATSAPP_MAINPAGE_MESSAGE_COUNT = "conversations_row_message_count";
+    private static String WHATSAPP_UNREAD_SYMBOL = "unread_divider_tv";
 
-    private static final int WHATSAPP_MESSAGE_LEFT_BOUND_THRESHOLD = 100;
-    private static final int FACEBOOK_MESSAGE_LEFT_BOUND_THRESHOLD = 100;
 
     public static final String APP_PACKAGE_WHATSAPP = "com.whatsapp";
     public static final String APP_PACKAGE_FACEBOOK_MESSENGER = "com.facebook.orca";
@@ -43,6 +53,9 @@ public class AccessibilityUtils {
     public static String FACEBOOK_MESSAGE_TEXT = "message_text";
     public static String FACEBOOK_MESSAGE_CONTACT = "thread_title_name";
     public static String FACEBOOK_MESSAGE_ENTRY = "edit_text";
+    private static String FACEBOOK_MESSENGE_MAINPAGE_SYMBOL ="orca_home_fab";
+    private static String FACEBOOK_MESSENGE_CHATPAGE_INPUT_BAR ="text_input_bar";
+
 
     /**
      * traverse a tree from the root, and return all the notes in the tree
@@ -145,27 +158,14 @@ public class AccessibilityUtils {
     /**
      *
      * @param nodeInfo
-     * @param packageName
      * @return
      */
-    public static boolean isIncomingMessage(AccessibilityNodeInfo nodeInfo, String packageName) {
-        int left_bound_threshold =-1;
-        switch (packageName){
-            case AppUtils.APP_PACKAGE_WHATSAPP:
-                left_bound_threshold = WHATSAPP_MESSAGE_LEFT_BOUND_THRESHOLD;
-                break;
-            case AppUtils.APP_PACKAGE_FACEBOOK_MESSENGER:
-                left_bound_threshold= FACEBOOK_MESSAGE_LEFT_BOUND_THRESHOLD;
-            default:
-                break;
-        }
-
+    public static boolean isIncomingMessage(AccessibilityNodeInfo nodeInfo, Context context) {
         Rect rect = new Rect();
         nodeInfo.getBoundsInScreen(rect);
-        if (rect.left < left_bound_threshold && nodeInfo.getText() != null) {
-            return true;
-        }
-        return false;
+
+        return rect.left < UIUtils.getScreenHeight(context)
+                - rect.right && nodeInfo.getText() != null;
     }
 
     /**
@@ -184,7 +184,83 @@ public class AccessibilityUtils {
             return null;
         }
     }
+    /**
+     * Get the main page symbol resource id, to check if the user is currently at the main page.
+     * @param appName the complete resource id of an app
+     * @return the complete url id
+     */
+    private static String getMainPageSymbolResourceId(String appName){
+        switch (appName) {
+            case AppUtils.APP_PACKAGE_WHATSAPP:
+                return getFullResID(AppUtils.APP_PACKAGE_WHATSAPP, WHATSAPP_MAINPAGE_SYMBOL);
+            case APP_PACKAGE_FACEBOOK_MESSENGER:
+                return getFullResID(AppUtils.APP_PACKAGE_FACEBOOK_MESSENGER, FACEBOOK_MESSENGE_MAINPAGE_SYMBOL);
+        }
+        return null;
+    }
+    /**
+     * Get the main page symbol resource id, to check if the page has a unread symbol
+     * @param appName the complete resource id of an app
+     * @return the complete url id
+     */
+    private static String getUnreadResourceId(String appName){
+        switch (appName) {
+            case AppUtils.APP_PACKAGE_WHATSAPP:
+                return getFullResID(AppUtils.APP_PACKAGE_WHATSAPP, WHATSAPP_UNREAD_SYMBOL);
+        }
+        return null;
+    }
+    /**
+     * Get the chat page symbol resource id, to check if the page has a text bar
+     * @param appName the complete resource id of an app
+     * @return the complete url id
+     */
+    private static String getInputBarResourceId(String appName){
+        switch (appName) {
+            case AppUtils.APP_PACKAGE_FACEBOOK_MESSENGER:
+                return getFullResID(AppUtils.APP_PACKAGE_FACEBOOK_MESSENGER, FACEBOOK_MESSENGE_CHATPAGE_INPUT_BAR);
 
+        }
+        return null;
+    }
+    /**
+     * Get the main page container resource id
+     * @param appName the complete resource id of an app
+     * @return the complete url id
+     */
+    private static String getMainPageContainerResourceId(String appName){
+        switch (appName) {
+            case AppUtils.APP_PACKAGE_WHATSAPP:
+                return getFullResID(AppUtils.APP_PACKAGE_WHATSAPP, WHATSAPP_MAINPAGE_CONTACT_CONTAINER);
+        }
+        return null;
+    }
+
+    /**
+     * Get the main page contact name resource id
+     * @param appName the complete resource id of an app
+     * @return the complete url id
+     */
+    private static String getMainPageContactNameResourceId(String appName){
+        switch (appName) {
+            case AppUtils.APP_PACKAGE_WHATSAPP:
+                return getFullResID(AppUtils.APP_PACKAGE_WHATSAPP, WHATSAPP_MAINPAGE_CONTACT_NAME);
+        }
+        return null;
+    }
+
+    /**
+     * Get the main page contact name resource id
+     * @param appName the complete resource id of an app
+     * @return the complete url id
+     */
+    private static String getMainpageMessageCountResourceId(String appName){
+        switch (appName) {
+            case AppUtils.APP_PACKAGE_WHATSAPP:
+                return getFullResID(AppUtils.APP_PACKAGE_WHATSAPP, WHATSAPP_MAINPAGE_MESSAGE_COUNT);
+        }
+        return null;
+    }
     /**
      *
      * @param root is the rootview of a given page.
@@ -198,7 +274,7 @@ public class AccessibilityUtils {
             return root.findAccessibilityNodeInfosByViewId(getMessageListResourceId(packageName));
 
         else
-            return new ArrayList<AccessibilityNodeInfo>();
+            return new ArrayList<>();
     }
 
     /**
@@ -309,6 +385,106 @@ public class AccessibilityUtils {
         }
 
         return serializedNode;
+    }
+    /**
+     * Find out whether you are at the main page of chatting
+     * @param root
+     * @param appName
+     * @return boolean whether you are at the main page of a chatting application or not
+     */
+    public static boolean getMainPageSymbol(AccessibilityNodeInfo root, String appName){
+        try{
+            AccessibilityNodeInfo mainPage = root.findAccessibilityNodeInfosByViewId(getMainPageSymbolResourceId(appName)).get(0);
+            if(mainPage!=null){
+                return true;
+            }
+        }
+        catch (Exception exception){
+            return false;
+        }
+        return false;
+    }
+
+    /**
+     * Find out whether you have a unread message symbol or not
+     * @param root
+     * @param appName
+     * @return boolean whether you are at the main page of a chatting application or not
+     */
+    public static boolean getUnreadSymbol(AccessibilityNodeInfo root, String appName){
+        try{
+            AccessibilityNodeInfo mainPage = root.findAccessibilityNodeInfosByViewId
+                    (getUnreadResourceId(appName)).get(0);
+            if(mainPage!=null){
+                return true;
+            }
+        }
+        catch (Exception exception){
+            return false;
+        }
+        return false;
+    }
+    /**
+     * Find out whether you have a unread message symbol or not
+     * @param root
+     * @param appName
+     * @return boolean whether you are at the main page of a chatting application or not
+     */
+    public static int getInputBarInputSize(AccessibilityNodeInfo root, String appName){
+        try{
+            AccessibilityNodeInfo input = root.findAccessibilityNodeInfosByViewId(getInputBarResourceId(appName)).get(0);
+            if(input!=null){
+                String a = input.getText().toString();
+
+                if(a != null){
+                    if(a.equals("Type a message…")) return 0;
+                    else if (a.equals("Aa"))return 0;
+                    else return a.length();
+                }
+
+            }
+
+        }
+        catch (Exception exception){
+            return 0;
+        }
+        return 0;
+    }
+    /**
+     * Find out the unread message amount for each of the user
+     * @param root
+     * @param appName
+     * @return A two dimensional array of name and unread message count
+     */
+    public static Map<String,Integer> getUnreadMessageList(AccessibilityNodeInfo root, String appName){
+        try{
+            Map<String,Integer> unreadMessageList = new HashMap<>();
+            List<AccessibilityNodeInfo> containers = root.findAccessibilityNodeInfosByViewId(
+                    getMainPageContainerResourceId(appName));
+            for (AccessibilityNodeInfo container : containers){
+                String name = String.valueOf(container.findAccessibilityNodeInfosByViewId(
+                        getMainPageContactNameResourceId(appName)).get(0).getText());
+
+                List<AccessibilityNodeInfo> a = container.findAccessibilityNodeInfosByViewId(
+                        getMainpageMessageCountResourceId(appName));
+                int messageCount = 0;
+                if(!a.isEmpty()){
+                    AccessibilityNodeInfo messageCountNode = container.findAccessibilityNodeInfosByViewId(
+                            getMainpageMessageCountResourceId(appName)).get(0);
+                    if(messageCountNode!=null) {
+                        messageCount = Integer.parseInt(messageCountNode.getText().toString());
+                    }
+                }
+                unreadMessageList.put(name,messageCount);
+            }
+            if(!unreadMessageList.isEmpty()){
+                return unreadMessageList;
+            }
+        }
+        catch (Exception exception){
+            return null;
+        }
+        return null;
     }
 
 }

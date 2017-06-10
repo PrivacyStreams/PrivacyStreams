@@ -33,7 +33,9 @@ import com.github.privacystreams.core.purposes.Purpose;
 import com.github.privacystreams.device.BluetoothDevice;
 import com.github.privacystreams.device.DeviceEvent;
 import com.github.privacystreams.device.DeviceOperators;
+import com.github.privacystreams.device.WifiAPOperators;
 import com.github.privacystreams.device.WifiAp;
+import com.github.privacystreams.communication.Email;
 import com.github.privacystreams.image.Image;
 import com.github.privacystreams.image.ImageOperators;
 import com.github.privacystreams.location.Geolocation;
@@ -64,7 +66,7 @@ public class UseCases {
         this.uqi = new UQI(context);
     }
 
-    public void testBlueToothUpatesProvider() {
+    public void testBlueToothUpdatesProvider() {
         uqi.getData(BluetoothDevice.getScanResults(), Purpose.FEATURE("blueTooth device")).debug();
     }
 
@@ -90,8 +92,7 @@ public class UseCases {
 //                });
     }
 
-    public void testAudio(Context context) {
-        UQI uqi = new UQI(context);
+    public void testAudio() {
         uqi.getData(Audio.recordPeriodic(1000, 1000), Purpose.HEALTH("monitoring sleep."))
                 .setField("loudness", AudioOperators.calcLoudness("audio_data"))
                 .forEach("loudness", new Callback<Double>() {
@@ -160,6 +161,14 @@ public class UseCases {
         uqi.getData(Message.asIncomingSMS(), Purpose.TEST("test")).debug();
     }
 
+
+    public void testEmailUpdates(){uqi.getData(Email.asGmailUpdates(),Purpose.TEST("test")).debug();}
+
+    public void testEmailList(){
+        uqi.getData(Email.asGmailList(System.currentTimeMillis()-Duration.hours(100),
+                System.currentTimeMillis()-Duration.hours(50),
+                100),Purpose.TEST("test")).debug();
+    }
     // For testing
     public void testMockData() {
         Globals.DropboxConfig.accessToken = "access_token_here";
@@ -307,12 +316,14 @@ public class UseCases {
         uqi.getData(DeviceEvent.asUpdates(), Purpose.FEATURE("device states")).debug();
     }
 
-//    // get whether at home
-//    boolean isAtHome() throws PSException {
-//        return uqi
-//                .getData(Geolocation.asLastKnown(), Purpose.FEATURE("know whether you are at home."))
-//                .output(GeolocationOperators.atHome(Geolocation.COORDINATES));
-//    }
+    // TODO Problem set: use this function for test case.
+    boolean isAtHome() throws PSException {
+        return uqi
+                .getData(WifiAp.getScanResults(), Purpose.FEATURE("know whether you are at home."))
+                .filter(Comparators.eq(WifiAp.CONNECTED, true))
+                .filter(WifiAPOperators.atHome(WifiAp.SSID))
+                .count()==1;
+    }
 
     void callbackWhenReceivesMessage(String appName, Callback<String> messageCallback){
         uqi
@@ -336,18 +347,22 @@ public class UseCases {
                 .ifPresent(Message.CONTENT, messageCallback);
     }
 
-//    // get location and distort 100 meters for advertisement
+    // get location and distort 100 meters for advertisement
 //    void passLocationToAd() throws PSException {
 //        List<Double> coordinates = uqi
-//                .getData(Geolocation.asLastKnown(), Purpose.ADS("targeted advertisement"))
-//                .output(GeolocationOperators.distort(Geolocation.COORDINATES, 100));
+//                .getData(Geolocation.asLastKnown(Geolocation.LEVEL_CITY), Purpose.ADS("targeted advertisement"))
+//                .output(GeolocationOperators.distort(Geolocation.LAT_LON, 100),);
 //    }
 //
 //    // get postcode of asLastKnown location
 //    String getPostcode() throws PSException {
 //        return uqi
-//                .getData(Geolocation.asLastKnown(), Purpose.FEATURE("get postcode for nearby search"))
-//                .output(GeolocationOperators.asPostcode(Geolocation.COORDINATES));
+
+//                .getData(Geolocation.asLastKnown(Geolocation.LEVEL_CITY), Purpose.FEATURE("get postcode for nearby search"));
+
+//                .getData(Geolocation.asLastKnown(Geolocation.LEVEL_CITY), Purpose.FEATURE("get postcode for nearby search"))
+
+////                .output(GeolocationOperators.(Geolocation.COORDINATES));
 //    }
 
     // knowing if a person is making more or less calls than normal
@@ -384,10 +399,15 @@ public class UseCases {
 
     // calculating sentiment across all Message
 //    double getAverageSentimentOfSMS() throws PSException {
+
+////        return uqi
+////                .getData(Message.getAllSMS(), Purpose.FEATURE("calculate the sentiment across all Message messages"));
+
 //        return uqi
 //                .getData(Message.getAllSMS(), Purpose.FEATURE("calculate the sentiment across all Message messages"))
-//                .setField("sentiment", StringOperators.sentiment(Message.CONTENT))
-//                .outputItems(StatisticOperators.average("sentiment"));
+
+////                .setField("sentiment", StringOperators.sentiment(Message.CONTENT))
+////                .outputItems(StatisticOperators.average("sentiment"));
 //    }
 
     // figure out place where person spends the most time (ie home)
