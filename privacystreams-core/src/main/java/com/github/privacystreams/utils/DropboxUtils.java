@@ -90,6 +90,7 @@ public class DropboxUtils {
                     try {
                         File localFile = new File(fileToUpload);
                         String remotePath = StorageUtils.getPrivateRelativePath(uqi.getContext(), localFile);
+                        remotePath = "/" + remotePath;
                         InputStream inputStream = StorageUtils.getInputStreamAndDelete(localFile);
                         if (inputStream != null) {
                             client.files()
