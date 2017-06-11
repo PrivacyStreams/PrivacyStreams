@@ -22,9 +22,9 @@ public class TimeUtils {
             SimpleDateFormat dateFormat = new SimpleDateFormat(timeFormat, Locale.getDefault());
             Date parsedDate = dateFormat.parse(timeString);
             return parsedDate.getTime();
-        } catch (ParseException e) {
+        } catch (ParseException|NullPointerException e) {
             e.printStackTrace();
-            return null;
+            return (long) -1;
         }
     }
 

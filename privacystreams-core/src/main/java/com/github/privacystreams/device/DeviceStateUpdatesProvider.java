@@ -25,6 +25,7 @@ class DeviceStateUpdatesProvider extends MStreamProvider {
 
     @Override
     protected void provide() {
+
         while(true){
             if(!isCancelled){
                 Item deviceState = new Item();

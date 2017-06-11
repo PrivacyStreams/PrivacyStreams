@@ -1,11 +1,16 @@
 package com.github.privacystreams.notification;
 
+import android.annotation.TargetApi;
 import android.os.Build;
+import android.os.Bundle;
+import android.os.UserHandle;
 import android.service.notification.StatusBarNotification;
 import android.support.annotation.RequiresApi;
+import android.util.Log;
 
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.providers.MStreamProvider;
+import com.github.privacystreams.utils.AppUtils;
 import com.github.privacystreams.utils.annotations.PSItem;
 import com.github.privacystreams.utils.annotations.PSItemField;
 
@@ -14,6 +19,8 @@ import com.github.privacystreams.utils.annotations.PSItemField;
  */
 @PSItem
 public class Notification extends Item {
+
+
     /**
      * The timestamp of when the notification was posted.
      */
@@ -60,7 +67,13 @@ public class Notification extends Item {
     @PSItemField(type = String.class)
     public static final String TEXT = "text";
 
+    /**
+     * The extra bundle of the notification.
+     */
+    @PSItemField(type = Bundle.class)
+    public static final String EXTRA = "extra";
 
+    private String contactName = null;
     Notification(long postTime, String packageName, String category, String title, String text, String action) {
         this.setFieldValue(POST_TIME, postTime);
         this.setFieldValue(PACKAGE_NAME, packageName);
@@ -83,16 +96,17 @@ public class Notification extends Item {
                 this.setFieldValue(CATEGORY, category);
             }
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
-                String title = mNotification.extras.getString(android.app.Notification.EXTRA_TITLE);
-                String text = mNotification.extras.getString(android.app.Notification.EXTRA_TEXT);
-                this.setFieldValue(TITLE, title);
-                this.setFieldValue(TEXT, text);
+                    String title = mNotification.extras.getString(android.app.Notification.EXTRA_TITLE);
+                    this.setFieldValue(TITLE, title);
+                    String text = mNotification.extras.getString(android.app.Notification.EXTRA_TEXT);
+                    this.setFieldValue(TEXT, text);
+                    this.setFieldValue(EXTRA,mNotification.extras);
             }
         }
     }
 
     /**
-     * Provide a list of WifiAp items from WIFI scan result.
+     * Provide a list of Notification items from Notification catch result.
      * @return the provider function.
      */
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)

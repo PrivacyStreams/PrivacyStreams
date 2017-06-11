@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.util.Pair;
 
 import com.github.privacystreams.accessibility.PSAccessibilityService;
@@ -55,6 +56,7 @@ public class PermissionUtils {
      */
     public static Set<String> getDeniedPermissions(Context context, Set<String> requiredPermissions) {
         Set<String> deniedPermissions = new HashSet<>();
+
         if (requiredPermissions != null) {
             for (String p : requiredPermissions) {
                 if (p.equals(PermissionUtils.USE_ACCESSIBILITY_SERVICE)) {
