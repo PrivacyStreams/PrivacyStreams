@@ -32,13 +32,14 @@ ext {
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    buildToolsVersion "25.0.3"
     defaultConfig {
-        minSdkVersion 16
+        minSdkVersion 21
         targetSdkVersion 25
         versionCode 14
         versionName "0.1.4"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -68,13 +69,16 @@ dependencies {
     // third-party packages
     provided 'com.dropbox.core:dropbox-core-sdk:2.1.1'
     provided 'com.google.android.gms:play-services:10.2.4'
-    compile 'com.google.android.gms:play-services-auth:10.2.4'
-    compile('com.google.api-client:google-api-client-android:1.20.0') {
+    provided('com.google.apis:google-api-services-gmail:v1-rev29-1.20.0'){
+        exclude group: 'org.apache.httpcomponents', module: 'httpclient'
+    }
+    provided('com.google.api-client:google-api-client-android:1.22.0') {
         exclude group: 'org.apache.httpcomponents'
     }
-    compile('com.google.apis:google-api-services-gmail:v1-rev29-1.20.0') {
-        exclude group: 'org.apache.httpcomponents'
-    }
+    provided 'com.sun.mail:android-mail:1.5.5'
+    provided 'com.sun.mail:android-activation:1.5.5'
+    provided 'com.easilydo:sift-sdk:1.0.0'
+    compile 'com.android.support:multidex:1.0.1'
 }
 
 group = publishedGroupId                               // Maven Group ID for the artifact

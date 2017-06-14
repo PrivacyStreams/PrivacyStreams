@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.github.privacystreams.core">
 
-    <application>
+    <application android:name="android.support.multidex.MultiDexApplication">
         <activity
             android:name="com.github.privacystreams.utils.PSPermissionActivity"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"

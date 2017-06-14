@@ -272,7 +272,7 @@ class IMUpdatesProvider extends MStreamProvider {
                         switch (packageName) {
                             case AppUtils.APP_PACKAGE_WHATSAPP:
                                 if (contactName.equals("WhatsApp")) {
-                                    String name = dumpExtras((Bundle) input.getValueByField(Notification.EXTRA));
+                                    String name = getContactNameFromExtras((Bundle) input.getValueByField(Notification.EXTRA));
                                     if (name != null) contactName = name;
                                 }
                                 if (fullUnreadMessageListWhatsapp.containsKey(contactName)) {
