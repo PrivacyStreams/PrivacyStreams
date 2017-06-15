@@ -31,7 +31,7 @@ import com.github.privacystreams.location.Geolocation;
 import com.github.privacystreams.location.GeolocationOperators;
 import com.github.privacystreams.location.LatLon;
 import com.github.privacystreams.notification.Notification;
-import com.github.privacystreams.storage.DropboxOperators;
+import com.github.privacystreams.io.DropboxOperators;
 import com.github.privacystreams.utils.Globals;
 
 import java.util.List;
