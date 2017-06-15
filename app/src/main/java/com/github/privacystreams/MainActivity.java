@@ -28,10 +28,9 @@ public class MainActivity extends AppCompatActivity {
         protected Object doInBackground(Object[] objects) {
             UseCases useCases = new UseCases(MainActivity.this);
 
-            //useCases.getRecentCalledNames(2);
 
 //            useCases.testImage();
-//            useCases.testCurrentLocation();
+            useCases.testCurrentLocation();
 //            useCases.testTextEntry();
 //            useCases.testNotification();
 //            useCases.testAudio();
