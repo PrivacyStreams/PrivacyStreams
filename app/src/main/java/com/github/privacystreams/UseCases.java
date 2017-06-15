@@ -42,8 +42,7 @@ import com.github.privacystreams.location.Geolocation;
 import com.github.privacystreams.location.GeolocationOperators;
 import com.github.privacystreams.location.LatLon;
 import com.github.privacystreams.notification.Notification;
-import com.github.privacystreams.io.DropboxOperators;
-import com.github.privacystreams.io.StorageOperators;
+import com.github.privacystreams.io.IOOperators;
 import com.github.privacystreams.utils.Duration;
 import com.github.privacystreams.utils.Globals;
 import com.github.privacystreams.utils.TimeUtils;
@@ -181,7 +180,7 @@ public class UseCases {
                 .timeout(Duration.seconds(10))
                 .map(ItemOperators.setField("time_round", ArithmeticOperators.roundUp(TestItem.TIME_CREATED, Duration.seconds(2))))
                 .localGroupBy("time_round")
-                .forEach(StorageOperators.<Item>writeTo("PrivacyStreams/testData.txt", true, true));
+                .forEach(IOOperators.<Item>writeToFile("PrivacyStreams/testData.txt", true, true));
 
         uqi
                 .getData(TestItem.asUpdates(20, 100, 500), Purpose.TEST("test"))
@@ -190,7 +189,7 @@ public class UseCases {
                 .map(ItemOperators.setField("time_round", ArithmeticOperators.roundUp(TestItem.TIME_CREATED, Duration.seconds(2))))
                 .localGroupBy("time_round")
                 .setIndependentField("uuid", DeviceOperators.getDeviceId())
-                .forEach(DropboxOperators.uploadTo(new Function<Item, String>() {
+                .forEach(IOOperators.uploadToDropbox(new Function<Item, String>() {
                     @Override
                     public String apply(UQI uqi, Item input) {
                         return input.getValueByField("uuid") + "/mockItem/" + input.getValueByField(Item.TIME_CREATED) + ".json";

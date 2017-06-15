@@ -27,11 +27,11 @@ import com.github.privacystreams.device.DeviceOperators;
 import com.github.privacystreams.device.WifiAp;
 import com.github.privacystreams.image.Image;
 import com.github.privacystreams.image.ImageOperators;
+import com.github.privacystreams.io.IOOperators;
 import com.github.privacystreams.location.Geolocation;
 import com.github.privacystreams.location.GeolocationOperators;
 import com.github.privacystreams.location.LatLon;
 import com.github.privacystreams.notification.Notification;
-import com.github.privacystreams.io.DropboxOperators;
 import com.github.privacystreams.utils.Globals;
 
 import java.util.List;
@@ -269,7 +269,7 @@ public class Examples {
         uqi.getData(Geolocation.asUpdates(10*60*1000L, Geolocation.LEVEL_EXACT), purpose) // get a live stream of exact geolocation, with a 10-minute interval.
                 .setIndependentField("uuid", DeviceOperators.getDeviceId()) // create a new field "uuid" using `getDeviceId` operator.
                 .project("lat_lon", "uuid") // keep the "lat_lon", "uuid" fields in each item.
-                .forEach(DropboxOperators.<Item>uploadTo("Location.txt", true)); // upload the item to "Location.txt" file in Dropbox.
+                .forEach(IOOperators.<Item>uploadToDropbox("Location.txt", true)); // upload the item to "Location.txt" file in Dropbox.
     }
 
     /**
