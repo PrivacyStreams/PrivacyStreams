@@ -5,6 +5,7 @@ import android.util.Log;
 import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.UQI;
 import com.github.privacystreams.utils.Assertions;
+import com.github.privacystreams.utils.PSDebugSocketServer;
 
 import java.util.Locale;
 

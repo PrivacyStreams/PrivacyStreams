@@ -1,9 +1,6 @@
-package com.github.privacystreams.commons.debug;
+package com.github.privacystreams.utils;
 
 import android.os.AsyncTask;
-
-import com.github.privacystreams.utils.Globals;
-import com.github.privacystreams.utils.Logging;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -16,10 +13,10 @@ import java.util.Set;
  * Socket server
  */
 
-class PSDebugSocketServer {
+public class PSDebugSocketServer {
     private static PSDebugSocketServer socketServer;
 
-    static PSDebugSocketServer v() {
+    public static PSDebugSocketServer v() {
         if (socketServer == null) {
             socketServer = new PSDebugSocketServer();
         }
