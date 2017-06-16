@@ -147,7 +147,9 @@ public class UseCases {
 
     public void testCurrentLocation() {
         Globals.LocationConfig.useGoogleService = true;
-        uqi.getData(Geolocation.asCurrent(Geolocation.LEVEL_CITY), Purpose.TEST("test")).debug();
+        uqi.getData(Geolocation.asCurrent(Geolocation.LEVEL_CITY), Purpose.TEST("test"))
+                .logOverSocket("location")
+                .debug();
 
     }
 
@@ -161,7 +163,9 @@ public class UseCases {
     }
 
 
-    public void testEmailUpdates(){uqi.getData(Email.asGmailUpdates(),Purpose.TEST("test")).debug();}
+    public void testEmailUpdates(){
+        uqi.getData(Email.asGmailUpdates(),Purpose.TEST("test")).debug();
+    }
 
     public void testEmailList(){
         uqi.getData(Email.asGmailList(System.currentTimeMillis()-Duration.hours(100),
