@@ -3,11 +3,11 @@ package com.github.privacystreams;
 import android.content.Context;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
+import android.view.accessibility.AccessibilityNodeInfo;
 
+import com.github.privacystreams.accessibility.AccEvent;
 import com.github.privacystreams.accessibility.BrowserSearch;
 import com.github.privacystreams.accessibility.BrowserVisit;
-import com.github.privacystreams.accessibility.TextEntry;
-import com.github.privacystreams.accessibility.UIAction;
 import com.github.privacystreams.audio.Audio;
 import com.github.privacystreams.audio.AudioOperators;
 import com.github.privacystreams.commons.arithmetic.ArithmeticOperators;
@@ -43,6 +43,7 @@ import com.github.privacystreams.location.GeolocationOperators;
 import com.github.privacystreams.location.LatLon;
 import com.github.privacystreams.notification.Notification;
 import com.github.privacystreams.io.IOOperators;
+import com.github.privacystreams.utils.AccessibilityUtils;
 import com.github.privacystreams.utils.Duration;
 import com.github.privacystreams.utils.Globals;
 import com.github.privacystreams.utils.TimeUtils;
@@ -214,14 +215,6 @@ public class UseCases {
                 .debug();
     }
 
-
-    /*
-     * Getting a stream of text entries and printing
-     */
-    public void testTextEntry() {
-        uqi.getData(TextEntry.asUpdates(), Purpose.TEST("test")).debug();
-    }
-
     /*
      * Getting a stream of notifications and printing
      */
@@ -244,8 +237,14 @@ public class UseCases {
         uqi.getData(BrowserSearch.asUpdates(), Purpose.FEATURE("browser search")).debug();
     }
 
-    public void testUIAction(){
-        uqi.getData(UIAction.asUpdates(), Purpose.FEATURE("ui action")).debug();
+    public void testAccEvents(){
+        uqi.getData(AccEvent.asUpdates(), Purpose.TEST("AccEvent"))
+                .setField(AccEvent.ROOT_NODE, new Function<Item, String>() {
+                    @Override
+                    public String apply(UQI uqi, Item input) {
+                        return "" + AccessibilityUtils.serialize((AccessibilityNodeInfo) input.getValueByField(AccEvent.ROOT_NODE));
+                    }
+                }).debug();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
@@ -409,7 +408,7 @@ public class UseCases {
 //        return uqi
 //                .getData(Message.getAllSMS(), Purpose.FEATURE("calculate the sentiment across all Message messages"))
 
-////                .setField("sentiment", StringOperators.sentiment(Message.CONTENT))
+////                .setField("sentiment", StringOperators.sentiment(Message.TEXT))
 ////                .outputItems(StatisticOperators.average("sentiment"));
 //    }
 

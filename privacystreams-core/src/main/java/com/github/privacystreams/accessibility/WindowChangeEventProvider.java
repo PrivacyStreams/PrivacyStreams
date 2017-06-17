@@ -3,10 +3,8 @@ package com.github.privacystreams.accessibility;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
 
-import java.util.Date;
 
-
-class BaseAccessibilityEventProvider extends AccessibilityEventProvider {
+class WindowChangeEventProvider extends AccEventProvider {
 
     public void handleAccessibilityEvent(AccessibilityEvent event, AccessibilityNodeInfo rootNode){
         int eventType = event.getEventType();
@@ -15,7 +13,7 @@ class BaseAccessibilityEventProvider extends AccessibilityEventProvider {
                 || eventType == AccessibilityEvent.TYPE_WINDOWS_CHANGED
                 || eventType == AccessibilityEvent.TYPE_VIEW_TEXT_SELECTION_CHANGED)
         {
-            this.output(new BaseAccessibilityEvent(event, rootNode));
+            this.output(new AccEvent(event, rootNode));
         }
 
     }

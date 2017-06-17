@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
 //            useCases.testBrowserSearchUpdates();
 //            useCases.testBrowserHistoryUpdates();
 //
-            useCases.testUIAction();
+            useCases.testAccEvents();
 //
 //            useCases.testIMUpdates();
  //           useCases.testEmailUpdates();

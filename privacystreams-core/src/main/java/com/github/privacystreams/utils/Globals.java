@@ -19,7 +19,6 @@ public class Globals {
     }
 
     public static class DebugConfig {
-        public static boolean socketEnabled = true;
         public static int socketPort = 7336;
     }
 

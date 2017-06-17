@@ -52,10 +52,6 @@ public class Item {
         return outputMap;
     }
 
-    public JSONObject toJson() {
-        return new JSONObject(this.toMap());
-    }
-
     public String toString() {
         if (this == EOS) return "ITEM_EOS";
         String itemStr = "ITEM {\n";

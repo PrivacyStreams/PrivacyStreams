@@ -8,13 +8,12 @@ import com.github.privacystreams.core.providers.MStreamProvider;
 import com.github.privacystreams.utils.annotations.PSItem;
 import com.github.privacystreams.utils.annotations.PSItemField;
 
-import java.util.Date;
-
 /**
+ * Deprecated.
+ * Moved to AccEvent.asWindowChanges.
  * Base Accessibility event.
  */
-@PSItem
-public class BaseAccessibilityEvent extends Item {
+class BaseAccessibilityEvent extends Item {
     /**
      * The type of the event, see Android official document of [AccessibilityEvent](https://developer.android.com/reference/android/view/accessibility/AccessibilityEvent.html) for a list of event types.
      */
@@ -31,26 +30,12 @@ public class BaseAccessibilityEvent extends Item {
      * The root view of current event, which is an instance of AccessibilityNodeInfo.
      */
     @PSItemField(type = AccessibilityNodeInfo.class)
-    public static final String ROOT_VIEW = "root_view";
-
-    /**
-     * The number of items in current event.
-     */
-    @PSItemField(type = Integer.class)
-    public static final String ITEM_COUNT = "item_count";
-
-    /**
-     * The index of item of the top of a view
-     */
-    @PSItemField(type = Integer.class)
-    public static final String FROM_INDEX = "from_index";
+    public static final String ROOT_NODE = "root_node";
 
     BaseAccessibilityEvent(AccessibilityEvent accessibilityEvent, AccessibilityNodeInfo rootNode) {
         this.setFieldValue(EVENT_TYPE, accessibilityEvent.getEventType());
         this.setFieldValue(PACKAGE_NAME, accessibilityEvent.getPackageName());
-        this.setFieldValue(ROOT_VIEW, rootNode);
-        this.setFieldValue(ITEM_COUNT, accessibilityEvent.getItemCount());
-        this.setFieldValue(FROM_INDEX, accessibilityEvent.getFromIndex());
+        this.setFieldValue(ROOT_NODE, rootNode);
     }
 
     /**
@@ -59,6 +44,6 @@ public class BaseAccessibilityEvent extends Item {
      */
     // @RequiresPermission(value = Manifest.permission.BIND_ACCESSIBILITY_SERVICE)
     public static MStreamProvider asUpdates() {
-        return new BaseAccessibilityEventProvider();
+        return new WindowChangeEventProvider();
     }
 }

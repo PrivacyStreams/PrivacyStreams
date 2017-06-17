@@ -10,10 +10,11 @@ import com.github.privacystreams.utils.annotations.PSItemField;
 import java.util.Date;
 
 /**
+ * Deprecated.
+ * Moved to AccEvent.asUIActions.
  * A UI action, such as a view is clicked, selected, etc.
  */
-@PSItem
-public class UIAction extends BaseAccessibilityEvent {
+class UIAction extends BaseAccessibilityEvent {
 
     /**
      * The source node of the UI action, which is an instance of [AccessibilityNodeInfo](https://developer.android.com/reference/android/view/accessibility/AccessibilityNodeInfo.html).

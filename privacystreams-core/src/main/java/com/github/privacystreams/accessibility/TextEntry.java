@@ -10,10 +10,11 @@ import com.github.privacystreams.utils.annotations.PSItemField;
 import java.util.Date;
 
 /**
+ * Deprecated.
+ * Moved to AccEvent.asTextEntries.
  * A user text input action.
  */
-@PSItem
-public class TextEntry extends UIAction {
+class TextEntry extends UIAction {
     /**
      * The user-typed text content.
      */

@@ -10,10 +10,7 @@ class InputEvent {
     public int sequence;
     public int sourceHashCode;
     public String text;
-
     public InputEvent() {
         this.sequence = 0;
     }
-
-
 }
