@@ -43,7 +43,7 @@ class BrowserVisitStreamProvider extends MStreamProvider {
                                 && !title.equals(lastSavedUrlTitle)){
                             lastSavedUrl = url;
                             lastSavedUrlTitle = title;
-                            output(new BrowserVisit(title,packageName, url, System.currentTimeMillis()));
+                            output(new BrowserVisit(title,packageName, url));
                         }
 
                     }

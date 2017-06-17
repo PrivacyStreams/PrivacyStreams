@@ -22,8 +22,7 @@ class BrowserSearchUpdatesProvider extends MStreamProvider {
 
                     @Override
                     protected void onInput(Item input) {
-                        output(new BrowserSearch(input.getValueByField(TextEntry.CONTENT).toString(),
-                                System.currentTimeMillis()));
+                        output(new BrowserSearch(input.getValueByField(TextEntry.CONTENT).toString()));
                     }
                 });
     };

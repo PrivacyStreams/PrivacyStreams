@@ -8,15 +8,14 @@ import java.util.Date;
 
 class BaseAccessibilityEventProvider extends AccessibilityEventProvider {
 
-    public void handleAccessibilityEvent(AccessibilityEvent event, AccessibilityNodeInfo rootNode, Date timeStamp){
+    public void handleAccessibilityEvent(AccessibilityEvent event, AccessibilityNodeInfo rootNode){
         int eventType = event.getEventType();
         if (eventType == AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED
                 || eventType == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED
                 || eventType == AccessibilityEvent.TYPE_WINDOWS_CHANGED
                 || eventType == AccessibilityEvent.TYPE_VIEW_TEXT_SELECTION_CHANGED)
         {
-            this.output(new BaseAccessibilityEvent(event, rootNode, timeStamp));
-
+            this.output(new BaseAccessibilityEvent(event, rootNode));
         }
 
     }

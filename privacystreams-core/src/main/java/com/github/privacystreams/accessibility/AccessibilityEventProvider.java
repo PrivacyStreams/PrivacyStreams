@@ -32,5 +32,5 @@ abstract class AccessibilityEventProvider extends MStreamProvider {
         registered = false;
     }
 
-    public abstract void handleAccessibilityEvent(AccessibilityEvent event, AccessibilityNodeInfo rootNode, Date timeStamp);
+    public abstract void handleAccessibilityEvent(AccessibilityEvent event, AccessibilityNodeInfo rootNode);
 }

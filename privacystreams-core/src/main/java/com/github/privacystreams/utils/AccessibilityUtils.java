@@ -115,7 +115,7 @@ public class AccessibilityUtils {
             case AppUtils.APP_PACKAGE_WHATSAPP:
                 return getFullResID(AppUtils.APP_PACKAGE_WHATSAPP, WHATSAPP_MESSAGE_TEXT);
             case AppUtils.APP_PACKAGE_FACEBOOK_MESSENGER:
-                return getFullResID(AppUtils.APP_PACKAGE_FACEBOOK_MESSENGER,FACEBOOK_MESSAGE_TEXT);
+                return getFullResID(AppUtils.APP_PACKAGE_FACEBOOK_MESSENGER, FACEBOOK_MESSAGE_TEXT);
         }
         return null;
     }
@@ -133,7 +133,7 @@ public class AccessibilityUtils {
             case AppUtils.APP_PACKAGE_WHATSAPP:
                 return getFullResID(AppUtils.APP_PACKAGE_WHATSAPP, WHATSAPP_MESSAGE_ENTRY);
             case AppUtils.APP_PACKAGE_FACEBOOK_MESSENGER:
-                return getFullResID(AppUtils.APP_PACKAGE_FACEBOOK_MESSENGER,FACEBOOK_MESSAGE_ENTRY);
+                return getFullResID(AppUtils.APP_PACKAGE_FACEBOOK_MESSENGER, FACEBOOK_MESSAGE_ENTRY);
         }
         return null;
     }
@@ -386,6 +386,7 @@ public class AccessibilityUtils {
 
         return serializedNode;
     }
+
     /**
      * Find out whether you are at the main page of chatting
      * @param root

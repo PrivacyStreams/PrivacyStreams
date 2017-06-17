@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 //            useCases.testImage();
-            useCases.testCurrentLocation();
+//            useCases.testCurrentLocation();
 //            useCases.testTextEntry();
 //            useCases.testNotification();
 //            useCases.testAudio();
@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
 //            useCases.testBrowserSearchUpdates();
 //            useCases.testBrowserHistoryUpdates();
 //
-//            useCases.testUIAction();
+            useCases.testUIAction();
 //
 //            useCases.testIMUpdates();
  //           useCases.testEmailUpdates();

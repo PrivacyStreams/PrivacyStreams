@@ -16,7 +16,7 @@ class TextEntryProvider extends AccessibilityEventProvider {
 
         if(mEvent != null && event != null){
             //Store Text Input.
-            this.output(new TextEntry(event, event.getSource(), mEvent.text, new Date(System.currentTimeMillis())));
+            this.output(new TextEntry(event, event.getSource(), mEvent.text));
         }
         this.mEvent = null;
 
@@ -31,7 +31,7 @@ class TextEntryProvider extends AccessibilityEventProvider {
             this.mEvent = null;
 
         } else {
-            onNewText((CharSequence) text.get(0), event);
+            onNewText(text.get(0), event);
         }
     }
 
@@ -61,7 +61,7 @@ class TextEntryProvider extends AccessibilityEventProvider {
         this.mEvent = event;
     }
 
-    public void handleAccessibilityEvent(AccessibilityEvent event, AccessibilityNodeInfo rootNode, Date timeStamp){
+    public void handleAccessibilityEvent(AccessibilityEvent event, AccessibilityNodeInfo rootNode){
 
         switch (event.getEventType()) {
             case AccessibilityEvent.TYPE_VIEW_FOCUSED:

@@ -16,15 +16,8 @@ public class BrowserSearch extends Item {
     @PSItemField(type = String.class)
     public static final String TEXT = "text";
 
-    /**
-     * The timestamp of when the search event is happened.
-     */
-    @PSItemField(type = Long.class)
-    public static final String TIMESTAMP = "timestamp";
-
-    BrowserSearch(String title, long timestamp) {
+    BrowserSearch(String title) {
         this.setFieldValue(TEXT, title);
-        this.setFieldValue(TIMESTAMP,timestamp);
     }
 
     /**

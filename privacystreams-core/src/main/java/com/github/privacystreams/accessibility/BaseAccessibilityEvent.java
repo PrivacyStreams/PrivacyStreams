@@ -16,12 +16,6 @@ import java.util.Date;
 @PSItem
 public class BaseAccessibilityEvent extends Item {
     /**
-     * The timestamp of when the item is generated.
-     */
-    @PSItemField(type = Long.class)
-    public static final String TIMESTAMP = "timestamp";
-
-    /**
      * The type of the event, see Android official document of [AccessibilityEvent](https://developer.android.com/reference/android/view/accessibility/AccessibilityEvent.html) for a list of event types.
      */
     @PSItemField(type = Integer.class)
@@ -50,13 +44,13 @@ public class BaseAccessibilityEvent extends Item {
      */
     @PSItemField(type = Integer.class)
     public static final String FROM_INDEX = "from_index";
-    BaseAccessibilityEvent(AccessibilityEvent accessibilityEvent, AccessibilityNodeInfo rootNode, Date timeStamp){
+
+    BaseAccessibilityEvent(AccessibilityEvent accessibilityEvent, AccessibilityNodeInfo rootNode) {
         this.setFieldValue(EVENT_TYPE, accessibilityEvent.getEventType());
-        this.setFieldValue(TIMESTAMP, timeStamp);
         this.setFieldValue(PACKAGE_NAME, accessibilityEvent.getPackageName());
         this.setFieldValue(ROOT_VIEW, rootNode);
         this.setFieldValue(ITEM_COUNT, accessibilityEvent.getItemCount());
-        this.setFieldValue(FROM_INDEX,accessibilityEvent.getFromIndex());
+        this.setFieldValue(FROM_INDEX, accessibilityEvent.getFromIndex());
     }
 
     /**

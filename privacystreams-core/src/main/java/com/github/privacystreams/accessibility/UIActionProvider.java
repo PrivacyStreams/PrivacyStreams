@@ -10,13 +10,13 @@ import java.util.Date;
  */
 class UIActionProvider extends AccessibilityEventProvider {
 
-    public void handleAccessibilityEvent(AccessibilityEvent event, AccessibilityNodeInfo rootNode, Date timeStamp){
+    public void handleAccessibilityEvent(AccessibilityEvent event, AccessibilityNodeInfo rootNode){
         int eventType = event.getEventType();
         if (eventType == AccessibilityEvent.TYPE_VIEW_CLICKED
                 || eventType == AccessibilityEvent.TYPE_VIEW_LONG_CLICKED
                 || eventType == AccessibilityEvent.TYPE_VIEW_FOCUSED
                 || eventType == AccessibilityEvent.TYPE_VIEW_SELECTED){
-            this.output(new UIAction(event, rootNode, timeStamp));
+            this.output(new UIAction(event, rootNode));
         }
 
     }

@@ -115,7 +115,7 @@ install {
 
 version = libraryVersion
 
-task doc_gen(type: Javadoc, dependsOn: tasks.getByPath(':doc_gen:jar')) {
+task doc_gen(type: Javadoc) {
     source = android.sourceSets.main.java.srcDirs
     destinationDir = file("build/PrivacyStreamsDocs/").absoluteFile
 

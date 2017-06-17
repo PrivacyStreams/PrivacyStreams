@@ -18,7 +18,7 @@ public class BrowserVisit extends Item {
     public static final String TITLE = "title";
 
     /**
-     * The package name of the browser used to visit webpage.
+     * The package name of the browser used to visit the webpage.
      */
     @PSItemField(type = String.class)
     public static final String PACKAGE_NAME = "package_name";
@@ -29,17 +29,10 @@ public class BrowserVisit extends Item {
     @PSItemField(type = String.class)
     public static final String URL = "url";
 
-    /**
-     * The timestamp of when the web page is visited.
-     */
-    @PSItemField(type = Long.class)
-    public static final String TIMESTAMP = "timestamp";
-
-    BrowserVisit(String title, String packageName, String url, long timestamp) {
+    BrowserVisit(String title, String packageName, String url) {
         this.setFieldValue(TITLE, title);
         this.setFieldValue(PACKAGE_NAME, packageName);
         this.setFieldValue(URL, url);
-        this.setFieldValue(TIMESTAMP,timestamp);
     }
 
     /**

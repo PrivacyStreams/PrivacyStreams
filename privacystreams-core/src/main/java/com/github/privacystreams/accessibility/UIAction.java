@@ -21,8 +21,8 @@ public class UIAction extends BaseAccessibilityEvent {
     @PSItemField(type = AccessibilityNodeInfo.class)
     public static final String SOURCE_NODE = "source_node";
 
-    public UIAction(AccessibilityEvent event, AccessibilityNodeInfo rootNode, Date timeStamp){
-        super(event, rootNode, timeStamp);
+    public UIAction(AccessibilityEvent event, AccessibilityNodeInfo rootNode){
+        super(event, rootNode);
         this.setFieldValue(SOURCE_NODE, event.getSource());
     }
 
