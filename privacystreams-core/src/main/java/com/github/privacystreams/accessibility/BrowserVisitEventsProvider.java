@@ -21,7 +21,7 @@ import java.util.List;
  */
 
 @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
-class BrowserVisitStreamProvider extends MStreamProvider {
+class BrowserVisitEventsProvider extends MStreamProvider {
     private static String lastSavedUrl = null;
     private static String lastSavedUrlTitle = null;
 

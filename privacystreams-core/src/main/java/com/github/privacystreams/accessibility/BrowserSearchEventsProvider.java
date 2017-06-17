@@ -11,7 +11,7 @@ import com.github.privacystreams.utils.AppUtils;
  * Provide a live stream of browser search events.
  */
 
-class BrowserSearchUpdatesProvider extends MStreamProvider {
+class BrowserSearchEventsProvider extends MStreamProvider {
 
     @Override
     protected void provide() {

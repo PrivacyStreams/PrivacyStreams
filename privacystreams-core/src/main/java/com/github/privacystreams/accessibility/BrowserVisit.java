@@ -6,7 +6,7 @@ import com.github.privacystreams.utils.annotations.PSItem;
 import com.github.privacystreams.utils.annotations.PSItemField;
 
 /**
- * A website visit event.
+ * Website visiting event.
  */
 @PSItem
 public class BrowserVisit extends Item {
@@ -43,7 +43,7 @@ public class BrowserVisit extends Item {
      */
     // @RequiresPermission(value = Manifest.permission.BIND_ACCESSIBILITY_SERVICE)
     public static MStreamProvider asUpdates(){
-        return new BrowserVisitStreamProvider();
+        return new BrowserVisitEventsProvider();
     }
 
 }

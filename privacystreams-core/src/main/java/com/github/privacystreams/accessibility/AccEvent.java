@@ -8,7 +8,7 @@ import com.github.privacystreams.core.providers.MStreamProvider;
 import com.github.privacystreams.utils.annotations.PSItemField;
 
 /**
- * An Accessibility event.
+ * Accessibility event.
  */
 
 public class AccEvent extends Item {
