@@ -104,13 +104,13 @@ public class PSDebugSocketServer {
         protected Void doInBackground(String... params) {
             for (String message : params) {
                 byte[] bytes = message.getBytes();
-                byte[] lenOfBytes = ByteBuffer.allocate(4).putInt(bytes.length).array();
+                byte[] header = ByteBuffer.allocate(6).put((byte) 0xFF).put((byte) 0x00).putInt(bytes.length).array();
 
                 Set<Socket> socketsToRemove = new HashSet<>();
 
                 for (Socket socket : sockets) {
                     try {
-                        socket.getOutputStream().write(lenOfBytes);
+                        socket.getOutputStream().write(header);
                         socket.getOutputStream().write(message.getBytes());
                         socket.getOutputStream().flush();
                     } catch (IOException e) {

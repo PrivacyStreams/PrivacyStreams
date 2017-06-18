@@ -239,12 +239,8 @@ public class UseCases {
 
     public void testAccEvents(){
         uqi.getData(AccEvent.asUpdates(), Purpose.TEST("AccEvent"))
-                .setField(AccEvent.ROOT_NODE, new Function<Item, String>() {
-                    @Override
-                    public String apply(UQI uqi, Item input) {
-                        return "" + AccessibilityUtils.serialize((AccessibilityNodeInfo) input.getValueByField(AccEvent.ROOT_NODE));
-                    }
-                }).debug();
+                .logOverSocket("accEvent")
+                .debug();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)

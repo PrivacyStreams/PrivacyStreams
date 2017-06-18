@@ -1,5 +1,6 @@
 package com.github.privacystreams.core;
 
+import com.github.privacystreams.utils.IOUtils;
 import com.github.privacystreams.utils.Logging;
 import com.github.privacystreams.utils.annotations.PSItem;
 import com.github.privacystreams.utils.annotations.PSItemField;
@@ -50,6 +51,10 @@ public class Item {
         Map<String, Object> outputMap = new HashMap<>();
         outputMap.putAll(this.itemMap);
         return outputMap;
+    }
+
+    public JSONObject toJson() {
+        return new JSONObject((Map) IOUtils.serialize(this.itemMap));
     }
 
     public String toString() {

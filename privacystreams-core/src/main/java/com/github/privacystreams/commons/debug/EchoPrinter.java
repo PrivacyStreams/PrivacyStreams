@@ -3,6 +3,7 @@ package com.github.privacystreams.commons.debug;
 import android.util.Log;
 
 import com.github.privacystreams.core.Function;
+import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.UQI;
 import com.github.privacystreams.utils.Assertions;
 import com.github.privacystreams.utils.PSDebugSocketServer;
@@ -18,18 +19,24 @@ final class EchoPrinter<T> extends Function<T, T> {
     private final String logTag;
     private final boolean sendToSocket;
 
-    EchoPrinter(String logTag, boolean sendToSocket) {
+    EchoPrinter(String logTag, boolean sendOverSocket) {
         this.logTag = Assertions.notNull("logTag", logTag);
-        this.sendToSocket = sendToSocket;
-        if (sendToSocket) this.addRequiredPermissions(android.Manifest.permission.INTERNET);
+        this.sendToSocket = sendOverSocket;
+        if (sendOverSocket) this.addRequiredPermissions(android.Manifest.permission.INTERNET);
     }
 
     @Override
     public T apply(UQI uqi, T input) {
-        Log.d(this.logTag, "" + input);
+        String logMsg = "";
+        if (input instanceof Item) logMsg = ((Item) input).toJson().toString();
+        else logMsg = "" + input;
+
         if (sendToSocket) {
-            String message = String.format(Locale.getDefault(), "%s >>> %s", this.logTag, "" + input);
+            String message = String.format(Locale.getDefault(), "%s >>> %s", this.logTag, logMsg);
             PSDebugSocketServer.v().send(message);
+        }
+        else {
+            Log.d(this.logTag, logMsg);
         }
         return input;
     }
