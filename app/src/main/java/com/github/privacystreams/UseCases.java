@@ -295,7 +295,7 @@ public class UseCases {
             System.out.println(recentCalledPhoneNumbers);
             List<String> recentCalledNames = uqi
                     .getData(Contact.getAll(), Purpose.FEATURE("getData names of recent called phone numbers"))
-                    .filter(ListOperators.intersects(Contact.PHONES, recentCalledPhoneNumbers.toArray()))
+//                    .filter(ListOperators.intersects(Contact.PHONES, recentCalledPhoneNumbers.toArray()))
                     .asList(Contact.NAME);
             System.out.println(recentCalledNames);
         }
