@@ -52,6 +52,7 @@ public class Call extends Item {
         this.setFieldValue(CONTACT, phone_number);
         this.setFieldValue(DURATION, duration);
         this.setFieldValue(TYPE, call_type);
+
     }
 
     /**
