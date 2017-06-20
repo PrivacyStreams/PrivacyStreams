@@ -10,7 +10,7 @@ import java.util.Map;
  * Get the item map of an item.
  */
 
-class ItemIdFunction extends ItemFunction<Item> {
+class ItemIdleFunction extends ItemFunction<Item> {
 
     @Override
     public Item apply(UQI uqi, Item input) {

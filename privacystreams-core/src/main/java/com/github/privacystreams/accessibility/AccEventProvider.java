@@ -12,11 +12,11 @@ import java.util.Date;
 /**
  * The abstract class of Accessibility-related stream providers.
  */
-abstract class AccessibilityEventProvider extends MStreamProvider {
+abstract class AccEventProvider extends MStreamProvider {
 
     private boolean registered = false;
 
-    AccessibilityEventProvider() {
+    AccEventProvider() {
         this.addRequiredPermissions(PermissionUtils.USE_ACCESSIBILITY_SERVICE);
     }
 
@@ -32,5 +32,5 @@ abstract class AccessibilityEventProvider extends MStreamProvider {
         registered = false;
     }
 
-    public abstract void handleAccessibilityEvent(AccessibilityEvent event, AccessibilityNodeInfo rootNode, Date timeStamp);
+    public abstract void handleAccessibilityEvent(AccessibilityEvent event, AccessibilityNodeInfo rootNode);
 }

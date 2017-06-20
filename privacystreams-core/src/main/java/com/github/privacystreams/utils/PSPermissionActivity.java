@@ -3,17 +3,25 @@ package com.github.privacystreams.utils;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.util.Pair;
 import android.widget.Toast;
 
+import com.github.privacystreams.accessibility.PSAccessibilityService;
 import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.R;
 import com.github.privacystreams.core.UQI;
+import com.github.privacystreams.notification.PSNotificationListenerService;
+
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -22,12 +30,14 @@ import java.util.Set;
  */
 public class PSPermissionActivity extends Activity {
 
-
     private static final String TAG = "PSPermissionActivity";
     public static final String REQUEST_CODE = "request_code";
     private String appName;
     private Set<String> requestedPermissions;
     private int requestCode;
+    private List<Integer> requestList;
+    private int requestListId;
+    private Handler requestHandler;
 
     private static final int REQUEST_ACCESSIBILITY = 1;
     private static final int REQUEST_NOTIFICATION = 2;
@@ -35,15 +45,66 @@ public class PSPermissionActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getIntent() != null && getIntent().getExtras() != null
-                && getIntent().getSerializableExtra(REQUEST_CODE) != null) {
-            requestCode = (int) getIntent().getSerializableExtra(REQUEST_CODE);
-            Pair<UQI, Function<Void, Void>> uqiQuery = PermissionUtils.pendingUQIQueries.get(requestCode);
-            requestedPermissions = new HashSet<>(uqiQuery.second.getRequiredPermissions());
-            int labelId = this.getApplicationInfo().labelRes;
-            appName = labelId == 0 ? this.getPackageName() : this.getString(labelId);
-            this.requestPermissions();
-        } else {
+        int labelId = this.getApplicationInfo().labelRes;
+        appName = labelId == 0 ? this.getPackageName() : this.getString(labelId);
+        requestedPermissions = new HashSet<>();
+        requestCode = -1;
+        requestList = new ArrayList<>();
+        requestListId = 0;
+        requestHandler = new Handler(getMainLooper()) {
+            @Override
+            public void handleMessage(Message msg) {
+                int requestCode = msg.what;
+                Pair<UQI, Function<Void, Void>> uqiQuery = PermissionUtils.pendingUQIQueries.get(requestCode);
+                if(uqiQuery != null) {
+                    PSPermissionActivity.this.requestCode = requestCode;
+                    PSPermissionActivity.this.requestedPermissions = new HashSet<>(uqiQuery.second.getRequiredPermissions());
+                    PSPermissionActivity.this.requestPermissions();
+                }
+            }
+        };
+
+        Intent intent = getIntent();
+        this.onNewIntent(intent);
+
+        permRequestTask.execute();
+    }
+
+    AsyncTask<Object, Object, Object> permRequestTask = new AsyncTask<Object, Object, Object>() {
+        @Override
+        protected Object doInBackground(Object[] params) {
+            while (requestList.size() > requestListId) {
+                int curRequestCode = requestList.get(requestListId);
+                if (curRequestCode == requestCode) {
+                    try {
+                        Thread.sleep(100);
+                    }
+                    catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    continue;
+                }
+                requestCode = curRequestCode;
+                Message msg = requestHandler.obtainMessage(curRequestCode);
+                msg.sendToTarget();
+            }
+            Logging.debug("All permission requests processed.");
+            PSPermissionActivity.this.finish();
+            return null;
+        }
+    };
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        if (intent != null && intent.getExtras() != null && intent.getSerializableExtra(REQUEST_CODE) != null) {
+            int newRequestCode = (int) intent.getSerializableExtra(REQUEST_CODE);
+            requestList.add(newRequestCode);
+            Logging.debug("New permission request: " + newRequestCode);
+        }
+        else {
+            // Shouldn't be here
+            Logging.warn("PSPermissionActivity started without an intent.");
             Intent result = new Intent();
             setResult(Activity.RESULT_OK, result);
             finish();
@@ -52,7 +113,7 @@ public class PSPermissionActivity extends Activity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        Log.d(TAG, "onActivityResult()" + requestCode);
+        // Log.d(TAG, "onActivityResult()" + requestCode);
         if (requestCode == REQUEST_ACCESSIBILITY || requestCode == REQUEST_NOTIFICATION) {
             // If it is Accessibility request or Notification request, continue requesting.
             this.requestPermissions();
@@ -62,36 +123,38 @@ public class PSPermissionActivity extends Activity {
     private void requestPermissions() {
         if (requestedPermissions.contains(PermissionUtils.USE_ACCESSIBILITY_SERVICE)) {
             requestedPermissions.remove(PermissionUtils.USE_ACCESSIBILITY_SERVICE);
-            boolean accessibilityEnabled = this.getResources().getBoolean(R.bool.accessibility_enabled);
-            if (!accessibilityEnabled) {
-                Logging.warn("Cannot request accessibility service permission. " +
-                        "You need to set accessibility_enabled to true in res/values/bools.xml");
-            }
-            else {
-                // request to turn on accessibility service
-                try {
-                    Intent settingsIntent = new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS);
-                    this.startActivityForResult(settingsIntent, REQUEST_ACCESSIBILITY);
-                    Toast.makeText(this, "Please turn on accessibility service for " + appName, Toast.LENGTH_LONG).show();
-                    return;
-                } catch (ActivityNotFoundException ignored) {
+            if (!PSAccessibilityService.enabled) {
+                boolean accessibilityEnabled = this.getResources().getBoolean(R.bool.accessibility_enabled);
+                if (!accessibilityEnabled) {
+                    Logging.warn("Cannot request accessibility service permission. " +
+                            "You need to set accessibility_enabled to true in res/values/bools.xml");
+                } else {
+                    // request to turn on accessibility service
+                    try {
+                        Intent settingsIntent = new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS);
+                        this.startActivityForResult(settingsIntent, REQUEST_ACCESSIBILITY);
+                        Toast.makeText(this, "Please turn on accessibility service for " + appName, Toast.LENGTH_LONG).show();
+                        return;
+                    } catch (ActivityNotFoundException ignored) {
+                    }
                 }
             }
         }
         if (requestedPermissions.contains(PermissionUtils.USE_NOTIFICATION_SERVICE)) {
             requestedPermissions.remove(PermissionUtils.USE_NOTIFICATION_SERVICE);
-            boolean notificationEnabled = this.getResources().getBoolean(R.bool.notification_enabled);
-            if (!notificationEnabled) {
-                Logging.warn("Cannot request notification listener permission. " +
-                        "You need to set \"notification_enabled\" to true in res/values/bools.xml");
-            }
-            else if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP_MR1) {
-                try {
-                    Intent settingsIntent = new Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS);
-                    this.startActivityForResult(settingsIntent, REQUEST_NOTIFICATION);
-                    Toast.makeText(this, "Please turn on notification service for " + appName, Toast.LENGTH_LONG).show();
-                    return;
-                } catch (ActivityNotFoundException ignored) {
+            if (!PSNotificationListenerService.enabled) {
+                boolean notificationEnabled = this.getResources().getBoolean(R.bool.notification_enabled);
+                if (!notificationEnabled) {
+                    Logging.warn("Cannot request notification listener permission. " +
+                            "You need to set \"notification_enabled\" to true in res/values/bools.xml");
+                } else if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP_MR1) {
+                    try {
+                        Intent settingsIntent = new Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS);
+                        this.startActivityForResult(settingsIntent, REQUEST_NOTIFICATION);
+                        Toast.makeText(this, "Please turn on notification service for " + appName, Toast.LENGTH_LONG).show();
+                        return;
+                    } catch (ActivityNotFoundException ignored) {
+                    }
                 }
             }
         }
@@ -108,7 +171,8 @@ public class PSPermissionActivity extends Activity {
         Pair<UQI, Function<Void, Void>> uqiQuery = PermissionUtils.pendingUQIQueries.get(requestCode);
         uqiQuery.first.evaluate(uqiQuery.second, false);
         PermissionUtils.pendingUQIQueries.remove(requestCode);
-        finish();
+        this.requestListId++;
+        Logging.debug("Processed permission request: " + requestCode);
     }
 
     @Override

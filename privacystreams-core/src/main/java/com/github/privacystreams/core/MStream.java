@@ -407,6 +407,16 @@ public class MStream extends Stream {
     }
 
     /**
+     * Print the items in current stream over socket.
+     *
+     * @param logTag the log tag to use in printing current stream
+     */
+    @PSTransformation
+    public MStream logOverSocket(String logTag) {
+        return this.map(DebugOperators.<Item>logOverSocket(logTag));
+    }
+
+    /**
      * Count the number of items.
      *
      * @return the count of number of items in the stream.

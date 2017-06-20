@@ -42,13 +42,6 @@ public class ItemTest {
     }
 
     @Test
-    public void toJson() throws Exception {
-        JSONObject testItemJson = this.testItem.toJson();
-        assertEquals(testObject.getX(), testItemJson.getInt(TestItem.X));
-        assertEquals(testObject.getY(), testItemJson.getString(TestItem.Y));
-    }
-
-    @Test
     public void getValueByField() throws Exception {
         assertEquals(testObject.getX(), testItem.getValueByField(TestItem.X));
         assertEquals(testObject.getY(), testItem.getValueByField(TestItem.Y));

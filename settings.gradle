@@ -1,1 +1,1 @@
-include ':app', ':privacystreams-core', ':privacystreams-third_parties', ':doc_gen'
+include ':app', ':privacystreams-core', ':doc_gen'

@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
 
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -28,14 +27,14 @@ public class PSAccessibilityService extends AccessibilityService {
         return super.onUnbind(intent);
     }
 
-    private static Set<AccessibilityEventProvider> accessibilityEventProviders = new HashSet<>();
+    private static Set<AccEventProvider> accEventProviders = new HashSet<>();
 
     @Override
     public void onAccessibilityEvent(AccessibilityEvent accessibilityEvent) {
         if (accessibilityEvent == null) return;
         AccessibilityNodeInfo rootNode = getRootInActiveWindow();
-        for(AccessibilityEventProvider provider : accessibilityEventProviders){
-            provider.handleAccessibilityEvent(accessibilityEvent, rootNode, new Date());
+        for(AccEventProvider provider : accEventProviders){
+            provider.handleAccessibilityEvent(accessibilityEvent, rootNode);
         }
     }
 
@@ -43,13 +42,13 @@ public class PSAccessibilityService extends AccessibilityService {
     public void onInterrupt() {
     }
 
-    static void registerProvider(AccessibilityEventProvider provider){
+    static void registerProvider(AccEventProvider provider){
         if (provider != null)
-            accessibilityEventProviders.add(provider);
+            accEventProviders.add(provider);
     }
 
-    static void unregisterProvider(AccessibilityEventProvider provider){
-        if (provider != null && accessibilityEventProviders.contains(provider))
-            accessibilityEventProviders.remove(provider);
+    static void unregisterProvider(AccEventProvider provider){
+        if (provider != null && accEventProviders.contains(provider))
+            accEventProviders.remove(provider);
     }
 }

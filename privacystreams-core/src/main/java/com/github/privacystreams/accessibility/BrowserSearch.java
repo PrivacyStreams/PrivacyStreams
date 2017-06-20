@@ -6,7 +6,7 @@ import com.github.privacystreams.utils.annotations.PSItem;
 import com.github.privacystreams.utils.annotations.PSItemField;
 
 /**
- * A browser search activity.
+ * Browser search activity.
  */
 @PSItem
 public class BrowserSearch extends Item {
@@ -16,15 +16,8 @@ public class BrowserSearch extends Item {
     @PSItemField(type = String.class)
     public static final String TEXT = "text";
 
-    /**
-     * The timestamp of when the search event is happened.
-     */
-    @PSItemField(type = Long.class)
-    public static final String TIMESTAMP = "timestamp";
-
-    BrowserSearch(String title, long timestamp) {
+    BrowserSearch(String title) {
         this.setFieldValue(TEXT, title);
-        this.setFieldValue(TIMESTAMP,timestamp);
     }
 
     /**
@@ -35,7 +28,7 @@ public class BrowserSearch extends Item {
      */
     // @RequiresPermission(value = Manifest.permission.BIND_ACCESSIBILITY_SERVICE)
     public static MStreamProvider asUpdates(){
-        return new BrowserSearchUpdatesProvider();
+        return new BrowserSearchEventsProvider();
     }
 
 }

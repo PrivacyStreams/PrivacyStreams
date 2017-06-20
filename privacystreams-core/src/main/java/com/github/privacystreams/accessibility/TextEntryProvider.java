@@ -3,26 +3,27 @@ package com.github.privacystreams.accessibility;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
 
-import java.util.Date;
 import java.util.List;
 
 /**
  * Provide a live stream of TextEntry items.
  */
-class TextEntryProvider extends AccessibilityEventProvider {
-    protected InputEvent mEvent;
+class TextEntryProvider extends AccEventProvider {
+    private InputEvent mEvent;
+    private String textContent;
 
-    protected void onViewFocused(AccessibilityEvent event) {
+    private void onViewFocused(AccessibilityEvent event, AccessibilityNodeInfo rootNode) {
 
-        if(mEvent != null && event != null){
-            //Store Text Input.
-            this.output(new TextEntry(event, event.getSource(), mEvent.text, new Date(System.currentTimeMillis())));
+        if(mEvent != null && event != null) {
+            // Store Text Input.
+            AccEvent accEvent = new AccEvent(event, rootNode);
+            accEvent.setFieldValue(AccEvent.TEXT, mEvent.text);
+            this.output(accEvent);
         }
         this.mEvent = null;
-
     }
 
-    protected void onViewTextChanged(AccessibilityEvent event) {
+    private void onViewTextChanged(AccessibilityEvent event) {
         List<CharSequence> text = event.getText();
         if (text == null
                 || text.size()==0
@@ -31,11 +32,11 @@ class TextEntryProvider extends AccessibilityEventProvider {
             this.mEvent = null;
 
         } else {
-            onNewText((CharSequence) text.get(0), event);
+            onNewText(text.get(0), event);
         }
     }
 
-    protected void onNewText(CharSequence text, AccessibilityEvent event) {
+    private void onNewText(CharSequence text, AccessibilityEvent event) {
         AccessibilityNodeInfo src = event.getSource();
         int hashCode = -1;
         if (src != null) {
@@ -53,7 +54,6 @@ class TextEntryProvider extends AccessibilityEventProvider {
     }
 
     private void beginEvent(String packageName, int hashCode, CharSequence text) {
-
         InputEvent event = new InputEvent();
         event.packageName = packageName;
         event.sourceHashCode = hashCode;
@@ -61,11 +61,11 @@ class TextEntryProvider extends AccessibilityEventProvider {
         this.mEvent = event;
     }
 
-    public void handleAccessibilityEvent(AccessibilityEvent event, AccessibilityNodeInfo rootNode, Date timeStamp){
+    public void handleAccessibilityEvent(AccessibilityEvent event, AccessibilityNodeInfo rootNode){
 
         switch (event.getEventType()) {
             case AccessibilityEvent.TYPE_VIEW_FOCUSED:
-                onViewFocused(event);
+                onViewFocused(event, rootNode);
                 break;
             case AccessibilityEvent.TYPE_VIEW_TEXT_CHANGED:
                 onViewTextChanged(event);
@@ -74,5 +74,16 @@ class TextEntryProvider extends AccessibilityEventProvider {
                 break;
         }
 
+    }
+
+    private class InputEvent {
+        public String last;
+        public String packageName;
+        public int sequence;
+        public int sourceHashCode;
+        public String text;
+        public InputEvent() {
+            this.sequence = 0;
+        }
     }
 }

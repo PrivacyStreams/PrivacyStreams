@@ -213,6 +213,16 @@ public class SStream extends Stream {
     }
 
     /**
+     * Print the items in current stream over socket.
+     *
+     * @param logTag the log tag to use in printing current stream
+     */
+    @PSTransformation
+    public SStream logOverSocket(String logTag) {
+        return this.map(DebugOperators.<Item>logOverSocket(logTag));
+    }
+
+    /**
      * Reuse current stream.
      *
      * @param numOfReuses number of reuses

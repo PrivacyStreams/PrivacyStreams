@@ -26,6 +26,17 @@ public class DebugOperators {
      * @return the function
      */
     public static <T> Function<T, T> logAs(String logTag) {
-        return new EchoPrinter<>(logTag);
+        return new EchoPrinter<>(logTag, false);
+    }
+
+    /**
+     * Log the input in socket and return as original.
+     *
+     * @param logTag the log tag to use in logging
+     * @param <T> the input/output type
+     * @return the function
+     */
+    public static <T> Function<T, T> logOverSocket(String logTag) {
+        return new EchoPrinter<>(logTag, true);
     }
 }
