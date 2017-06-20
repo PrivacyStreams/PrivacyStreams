@@ -1,30 +1,25 @@
-package com.github.privacystreams;//package xyz.ylimit.personaldataapp;
+//package com.github.privacystreams;
 //
-//import xyz.ylimit.personaldataapp.privacystreams.UQI;
-//import xyz.ylimit.personaldataapp.privacystreams.collectors.location.Locations;
-//import xyz.ylimit.personaldataapp.privacystreams.collectors.statistic.StatisticOperators;
-//import xyz.ylimit.personaldataapp.privacystreams.generic.Callback;
-//import xyz.ylimit.personaldataapp.privacystreams.generic.MStream;
-//import xyz.ylimit.personaldataapp.privacystreams.providers.app.AppEvent;
-//import xyz.ylimit.personaldataapp.privacystreams.providers.audio.Audio;
-//import xyz.ylimit.personaldataapp.privacystreams.providers.call.Call;
-//import xyz.ylimit.personaldataapp.privacystreams.providers.environment.LightEnv;
-//import xyz.ylimit.personaldataapp.privacystreams.providers.location.Geolocation;
-//import xyz.ylimit.personaldataapp.privacystreams.providers.motion.AccelMotion;
-//import xyz.ylimit.personaldataapp.privacystreams.providers.sms.Message;
-//import xyz.ylimit.personaldataapp.privacystreams.providers.system.DeviceState;
-//import xyz.ylimit.personaldataapp.privacystreams.purposes.Purpose;
-//import xyz.ylimit.personaldataapp.privacystreams.utils.time.Duration;
+//import android.content.Context;
 //
-//import static java.lang.Thread.sleep;
-//import static xyz.ylimit.personaldataapp.privacystreams.transformations.map.Mappers.setField;
+//import com.github.privacystreams.audio.Audio;
+//import com.github.privacystreams.commons.statistic.StatisticOperators;
+//import com.github.privacystreams.core.Callback;
+//import com.github.privacystreams.core.MStream;
+//import com.github.privacystreams.core.UQI;
+//import com.github.privacystreams.core.purposes.Purpose;
+//import com.github.privacystreams.image.Image;
+//import com.github.privacystreams.location.Geolocation;
+//import com.github.privacystreams.location.GeolocationOperators;
 //
 ///**
 // * Some show cases of PrivacyStreams
 // */
 //public class ResearchUseCases {
+//    private UQI uqi;
 //
-//    public ResearchUseCases() {
+//    public ResearchUseCases(Context context) {
+//        uqi = new UQI(context);
 //    }
 //
 //    /**
@@ -35,9 +30,9 @@ package com.github.privacystreams;//package xyz.ylimit.personaldataapp;
 //     * at their asLastKnown location.
 //     */
 //    void Connecto_CHI_08() {
-//        UQI
-//                .getDataItems(Geolocation.asUpdates(), Purpose.feature("displaying location amongst your friends"))
-//                .map(setField("semantic_loc", Locations.geotag(Geolocation.COORDINATES)))
+//        uqi
+//                .getData(Geolocation.asUpdates(1000, Geolocation.LEVEL_BUILDING), Purpose.FEATURE("displaying location amongst your friends"))
+//                .setField("semantic_loc", GeolocationOperators.geotag(Geolocation.LAT_LON))
 //                .localGroupBy("semantic_loc")
 //                .setGroupField("duration", StatisticOperators.range(Geolocation.TIMESTAMP))
 //                .list();
@@ -50,28 +45,28 @@ package com.github.privacystreams;//package xyz.ylimit.personaldataapp;
 //     * duration of phone lock, duration of stationary status, duration of silence.
 //     */
 //    void BES_PervasiveHealth_2013() {
-//        Purpose purpose = Purpose.feature("sleep monitoring");
-//        MStream lightStream = UQI
-//                .getDataItems(LightEnv.asUpdates(Duration.seconds(60)), purpose)
+//        Purpose purpose = Purpose.FEATURE("sleep monitoring");
+//        MStream lightStream = uqi
+//                .getData(LightEnv.asUpdates(Duration.seconds(60)), purpose)
 //                .project("timestamp", LightEnv.ILLUMINANCE);
 //
-//        MStream phoneLockStream = UQI
-//                .getDataItems(DeviceState.asUpdates(Duration.seconds(60)), purpose)
+//        MStream phoneLockStream = uqi
+//                .getData(DeviceState.asUpdates(Duration.seconds(60)), purpose)
 //                .project("timestamp", DeviceState.LOCKED);
 //
-//        MStream stationaryStream = UQI
-//                .getDataItems(AccelMotion.asUpdates(), purpose)
-//                .map(setField("timestamp", round(Motion.TIMESTAMP, Duration.seconds(60))))
+//        MStream stationaryStream = uqi
+//                .getData(AccelMotion.asUpdates(), purpose)
+//                .setField("timestamp", round(Motion.TIMESTAMP, Duration.seconds(60)))
 //                .localGroupBy("timestamp")
 //                .setGroupField("isStationary", underThreshold(Motion.values, 0));
 //
-//        MStream silenceStream = UQI
-//                .getDataItems(Microphone.asUpdates(Duration.seconds(60), Duration.seconds(60)), purpose)
-//                .map(setField("timestamp", round(Audio.TIMESTAMP, Duration.seconds(60))))
+//        MStream silenceStream = uqi
+//                .getData(Microphone.asUpdates(Duration.seconds(60), Duration.seconds(60)), purpose)
+//                .setField("timestamp", round(Audio.TIMESTAMP, Duration.seconds(60)))
 //                .map("loudness", calculateLoudness(Audio.URI))
 //                .map(setField("isSlient", underThreshold(Motion.values, 0));
 //
-//        MStream fusionStream = UQI
+//        MStream fusionStream = uqi
 //                .fusionStream("timestamp", lightStream, phoneLockStream, stationaryStream, silenceStream);
 //    }
 //
@@ -84,21 +79,21 @@ package com.github.privacystreams;//package xyz.ylimit.personaldataapp;
 //     */
 //    void IODetector_SenSys_2012() {
 //        Purpose purpose = Purpose.feature("sleep monitoring");
-//        MStream lightStream = UQI
-//                .getDataItems(LightEnv.asUpdates(Duration.seconds(60)), purpose)
+//        MStream lightStream = uqi
+//                .getData(LightEnv.asUpdates(Duration.seconds(60)), purpose)
 //                .project("timestamp", LightEnv.ILLUMINANCE);
 //
-//        MStream cellurSignalStream = UQI
-//                .getDataItems(Cellular.asUpdates(Duration.seconds(60)), purpose)
+//        MStream cellurSignalStream = uqi
+//                .getData(Cellular.asUpdates(Duration.seconds(60)), purpose)
 //                .project("timestamp", Cellular.SIGNAL_STRENGTH);
 //
-//        MStream magneticIntensityStream = UQI
-//                .getDataItems(MagnetFieldSensor.asUpdates(), purpose)
+//        MStream magneticIntensityStream = uqi
+//                .getData(MagnetFieldSensor.asUpdates(), purpose)
 //                .map(setField("timestamp", round(EnvSensor.TIMESTAMP, Duration.seconds(60))))
 //                .localGroupBy("timestamp")
 //                .setGroupField("magnet_field_intensity", average(EnvSensor.values));
 //
-//        MStream fusionStream = UQI
+//        MStream fusionStream = uqi
 //                .fusionStream("timestamp", lightStream, cellurSignalStream, magneticIntensityStream);
 //    }
 //
@@ -110,19 +105,19 @@ package com.github.privacystreams;//package xyz.ylimit.personaldataapp;
 //     and audio clips once user starts a foreground activity.
 //     */
 //    void CrowdSense_UbiComp_2012() {
-//        Purpose purpose = Purpose.feature("opportunstically collecting images and audio");
+//        final Purpose purpose = Purpose.feature("opportunstically collecting images and audio");
 //
 //        Callback callback = new Callback() {
 //            @Override
 //            public void invoke(Object input) {
-//                sleep(Duration.seconds(10));
-//                UQI.getDataItem(Camera.take(), xxx);
-//                UQI.getDataItem(Audio.record(), xxx);
+//                Thread.sleep(10*1000);
+//                UQI.getData(Image.takeFromCamera(), purpose);
+//                UQI.getData(Audio.record(), purpose);
 //            }
 //        };
 //
 //        UQI
-//                .getDataItems(AppEvent.asUpdates(), purpose)
+//                .getData(AppEvent.asUpdates(), purpose)
 //                .filter(AppEvent.TYPE, AppEvent.Type.START)
 //                .forEach(callback);
 //    }
@@ -139,13 +134,13 @@ package com.github.privacystreams;//package xyz.ylimit.personaldataapp;
 //    void MoodScope_MobiSys_2013() {
 //        Purpose purpose = Purpose.feature("inferring mood");
 //        UQI
-//                .getDataItems(Call.getLogs(), purpose)
-//                .map(setField("timestamp_3days", round(Call.TIMESTAMP, Duration.days(3))))
+//                .getData(Call.getLogs(), purpose)
+//                .setField("timestamp_3days", round(Call.TIMESTAMP, Duration.days(3)))
 //                .localGroupBy("timestamp_3days")
 //                .setGroupField("duration", sum(Call.DURATION));
 //
 //        UQI
-//                .getDataItems(Message.getAllSMS(), purpose)
+//                .getData(Message.getAllSMS(), purpose)
 //                .groupBy(Message.CONTACT);
 //
 //    }
@@ -186,7 +181,5 @@ package com.github.privacystreams;//package xyz.ylimit.personaldataapp;
 //    void depression_AAAI_2014() {
 //
 //    }
-//
-//
 //
 //}
