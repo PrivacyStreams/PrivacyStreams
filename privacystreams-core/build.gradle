@@ -10,16 +10,16 @@ ext {
     artifact = 'privacystreams-core'
 
     libraryName = 'PrivacyStreams-core'
-    libraryDescription = 'The core package in PrivacyStreams framework.'
+    libraryDescription = 'A library for easy and transparent personal data access and processing.'
     libraryVersion = "0.1.4"
 
     bintrayRepo = 'PrivacyStreams'
     bintrayOrganization = "privacystreams"
     publishedGroupId = 'com.github.privacystreams'
 
-    siteUrl = 'https://github.com/ylimit/PrivacyStreams'
-    gitUrl = 'https://github.com/ylimit/PrivacyStreams.git'
-    githubRepository= 'ylimit/PrivacyStreams'
+    siteUrl = 'https://github.com/PrivacyStreams/PrivacyStreams'
+    gitUrl = 'https://github.com/PrivacyStreams/PrivacyStreams.git'
+    githubRepository= 'PrivacyStreams/PrivacyStreams'
 
     developerId = 'ylimit'
     developerName = 'Yuanchun Li'
