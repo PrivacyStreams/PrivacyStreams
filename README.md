@@ -1,11 +1,17 @@
+![Introduction](images/ps_intro.jpg)
+
 # PrivacyStreams
-PrivacyStreams framework implemented in Android.
+
+[ ![API](https://img.shields.io/badge/API-16%2B-orange.svg?style=flat) ](https://android-arsenal.com/api?level=16)
+[ ![Download](https://api.bintray.com/packages/ylimit/PrivacyStreams/PrivacyStreams-core/images/download.svg) ](https://bintray.com/ylimit/PrivacyStreams/PrivacyStreams-core/_latestVersion)
+
+Accessing and processing smartphone data with an easy, uniform, and privacy-friendly API.
 
 ## About
 
 PrivacyStreams is a framework for transparent personal data processing.
 It offers a functional programming model for accessing and processing personal data
-which is designed to be easy-to-use for developers and, as a positive side effect,
+which is designed to be easy-to-use for developers and, as a positive \side effect,
 can also make their apps more privacy-friendly.
 
 This repo is an Android library implementation of PrivacyStreams.
@@ -38,3 +44,7 @@ Please make sure your contributions meet the following requirements:
 3. The new APIs are carefully designed (please refer to [Josh Bloch's API design guide](http://www.cs.cmu.edu/~charlie/courses/15-214/2016-fall/slides/13-api%20design.pdf));
 4. No unnecessary class or method is exposed as public.
 
+## Acknowledgments
+
+- [CHIMPS Lab] and [SYNERGY Lab] at Carnegie Mellon University.
+- Icons from [Paomedia on iconfinder.com](https://www.iconfinder.com/paomedia)
