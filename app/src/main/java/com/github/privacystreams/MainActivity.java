@@ -32,10 +32,6 @@ public class MainActivity extends AppCompatActivity {
             UseCases useCases = new UseCases(MainActivity.this);
 
 //            useCases.getRecentCalledNames(2);
-<<<<<<< HEAD
-=======
-
->>>>>>> c2666558575cbca2cb0902d152e51bcf71892fae
 
 //            useCases.testImage();
 //            useCases.testCurrentLocation();

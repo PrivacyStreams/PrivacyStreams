@@ -4,12 +4,10 @@ import android.Manifest;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
-import android.util.Log;
 
 import com.easilydo.sift.api.ApiException;
 import com.easilydo.sift.api.ApiManager;
 import com.easilydo.sift.crypto.Signatory;
-import com.easilydo.sift.model.Sift;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
@@ -467,8 +465,6 @@ abstract class BaseGmailProvider extends MStreamProvider implements GmailResultL
     }
 
 
-
-
     private void request(String emailData){
 
         String path = "/v1/discovery";
@@ -476,7 +472,7 @@ abstract class BaseGmailProvider extends MStreamProvider implements GmailResultL
         params.put("email", emailData.trim());
 
         params = addCommonParams("POST", path, params);
-        new PostAsync().execute(params);
+//        new FetchEmailTask().execute(params);
 
     }
     private void checkGmailApiRequirements() {
