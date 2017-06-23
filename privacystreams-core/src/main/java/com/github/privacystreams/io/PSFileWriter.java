@@ -1,4 +1,4 @@
-package com.github.privacystreams.storage;
+package com.github.privacystreams.io;
 
 import android.Manifest;
 

@@ -7,7 +7,9 @@
             android:name="com.github.privacystreams.utils.PSPermissionActivity"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:configChanges="keyboardHidden|orientation|screenSize"
+            android:launchMode="singleTop"
             android:exported="true" />
+
         <activity
             android:name="com.github.privacystreams.communication.GmailAuthorizationActivity"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"

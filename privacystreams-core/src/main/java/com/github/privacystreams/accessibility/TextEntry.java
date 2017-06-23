@@ -10,18 +10,19 @@ import com.github.privacystreams.utils.annotations.PSItemField;
 import java.util.Date;
 
 /**
+ * Deprecated.
+ * Moved to AccEvent.asTextEntries.
  * A user text input action.
  */
-@PSItem
-public class TextEntry extends UIAction {
+class TextEntry extends UIAction {
     /**
      * The user-typed text content.
      */
     @PSItemField(type = String.class)
     public static final String CONTENT = "content";
 
-    TextEntry(AccessibilityEvent event, AccessibilityNodeInfo sourceNode, String content, Date timeStamp){
-        super(event, sourceNode, timeStamp);
+    TextEntry(AccessibilityEvent event, AccessibilityNodeInfo sourceNode, String content){
+        super(event, sourceNode);
         this.setFieldValue(CONTENT, content);
     }
 

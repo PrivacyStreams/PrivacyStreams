@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
 
-import com.github.privacystreams.accessibility.BaseAccessibilityEvent;
+import com.github.privacystreams.accessibility.AccEvent;
 import com.github.privacystreams.commons.comparison.Comparators;
 import com.github.privacystreams.commons.item.ItemOperators;
 import com.github.privacystreams.core.Callback;
@@ -28,8 +28,12 @@ import java.util.Map;
  * The messages are accessed with Android Accessibility APIs.
  */
 class IMUpdatesProvider extends MStreamProvider {
+<<<<<<< HEAD
     private int lastEventItemCountWhatsapp = 0;
     private int result = 0;
+=======
+    private int lastEventItemCountWhatsapp=0;
+>>>>>>> ae4dc834a6fdc8674d46b45c06d76a4d82ae246f
     private String detContactName = "";
     private int lastFromIndexWhatsapp = 0;
     private int lastFacebookInputLength = 0;
@@ -39,6 +43,7 @@ class IMUpdatesProvider extends MStreamProvider {
     private Map<String, ArrayList<String>> dbWhatsapp = new HashMap<>();
     private Map<String, ArrayList<String>> dbFacebook = new HashMap<>();
 
+<<<<<<< HEAD
     private void saveNewMessageScrolling(List<AccessibilityNodeInfo> nodeInfoList, String contactName, String packageName, int eventCount, int theFromIndex) {
         switch (packageName) {
             case AppUtils.APP_PACKAGE_WHATSAPP:
@@ -49,6 +54,18 @@ class IMUpdatesProvider extends MStreamProvider {
                     if (size == eventCount) {
                         for (int i = 0; i < nodeInfoList.size(); i++) {
                             if (dbList.get(fromIndex + i) == null) {
+=======
+    private void saveNewMessageScrolling(List<AccessibilityNodeInfo> nodeInfoList, String contactName, String packageName, int eventCount,int theFromIndex){
+        switch (packageName) {
+            case AppUtils.APP_PACKAGE_WHATSAPP:
+                int fromIndex = theFromIndex - 2;
+                if(dbWhatsapp.containsKey(contactName) && fromIndex > 0){
+                    ArrayList<String> dbList = dbWhatsapp.get(contactName);
+                    int size = dbList.size();
+                    if (size==eventCount){
+                        for (int i = 0; i<nodeInfoList.size();i++) {
+                            if (dbList.get(fromIndex+i)==null){
+>>>>>>> ae4dc834a6fdc8674d46b45c06d76a4d82ae246f
                                 AccessibilityNodeInfo nodeInfo = nodeInfoList.get(i);
                                 String messageContent = nodeInfoList.get(i).getText().toString();
                                 String messageType = AccessibilityUtils.isIncomingMessage
@@ -61,6 +78,7 @@ class IMUpdatesProvider extends MStreamProvider {
                         }
                     } else if (eventCount > size) {
                         String[] list = new String[eventCount];
+<<<<<<< HEAD
                         int count = 0;
                         for (String s : dbList) {
                             list[eventCount - size + count] = s;
@@ -75,6 +93,20 @@ class IMUpdatesProvider extends MStreamProvider {
                                         : Message.TYPE_SENT;
                                 this.output(new Message(messageType, messageContent, packageName, contactName, System.currentTimeMillis()));
                                 list[fromIndex + i] = messageContent;
+=======
+                        int count =0;
+                        for (String s : dbList){
+                            list[eventCount-size+count]=s;
+                            count++;
+                        }
+                        for (int i = 0; i<nodeInfoList.size();i++) {
+                            if(list[fromIndex+i]==null){
+                                AccessibilityNodeInfo nodeInfo = nodeInfoList.get(i);
+                                String messageContent = nodeInfoList.get(i).getText().toString();
+                                String messageType = AccessibilityUtils.isIncomingMessage(nodeInfo,getContext()) ? Message.TYPE_RECEIVED : Message.TYPE_SENT;
+                                this.output(new Message(messageType,messageContent,packageName,contactName,System.currentTimeMillis()));
+                                list[fromIndex+i] = messageContent;
+>>>>>>> ae4dc834a6fdc8674d46b45c06d76a4d82ae246f
                             }
                         }
                         dbList = new ArrayList<>(Arrays.asList(list));
@@ -173,19 +205,23 @@ class IMUpdatesProvider extends MStreamProvider {
 
     @Override
     protected void provide() {
-        getUQI().getData(BaseAccessibilityEvent.asUpdates(), Purpose.LIB_INTERNAL("Event Triggers"))
-                .filter(ItemOperators.isFieldIn(BaseAccessibilityEvent.PACKAGE_NAME,
-                        new String[]{AppUtils.APP_PACKAGE_WHATSAPP,
+        getUQI().getData(AccEvent.asWindowChanges(), Purpose.LIB_INTERNAL("IMUpdatesProvider"))
+                .filter(ItemOperators.isFieldIn(AccEvent.PACKAGE_NAME,
+                        new String[]{
+                                AppUtils.APP_PACKAGE_WHATSAPP,
                                 AppUtils.APP_PACKAGE_FACEBOOK_MESSENGER}))
                 .forEach(new Callback<Item>() {
                     @Override
                     protected void onInput(Item input) {
-                        AccessibilityNodeInfo rootView =
-                                input.getValueByField(BaseAccessibilityEvent.ROOT_VIEW);
-                        String packageName = input.getValueByField(BaseAccessibilityEvent.PACKAGE_NAME);
+                        AccessibilityEvent event = input.getValueByField(AccEvent.EVENT);
+                        AccessibilityNodeInfo rootNode = input.getValueByField(AccEvent.ROOT_NODE);
+                        String packageName = input.getValueByField(AccEvent.PACKAGE_NAME);
+                        int itemCount = event.getItemCount();
+                        int eventType = event.getEventType();
                         String contactName;
                         Map<String, Integer> unreadMessageList;
                         List<AccessibilityNodeInfo> nodeInfos;
+<<<<<<< HEAD
                         switch (packageName) {
                             case AppUtils.APP_PACKAGE_WHATSAPP:
                                 int eventType = input.getValueByField(BaseAccessibilityEvent.EVENT_TYPE);
@@ -220,6 +256,41 @@ class IMUpdatesProvider extends MStreamProvider {
                                                     && (eventItemCount - lastEventItemCountWhatsapp) != (index - lastFromIndexWhatsapp)) {
                                                 if ((lastFromIndexWhatsapp - index) > 1) {
                                                     saveNewMessageScrolling(nodeInfos, contactName, packageName, eventItemCount, index);
+=======
+                        switch (packageName){
+                           case AppUtils.APP_PACKAGE_WHATSAPP:
+                               if(eventType == AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED){
+                                    if(itemCount > 2){
+                                        if(AccessibilityUtils.getMainPageSymbol(rootNode,packageName)){     // Check if it is at the main page
+                                            unreadMessageList = AccessibilityUtils.getUnreadMessageList(rootNode,packageName);
+                                            if(unreadMessageList != null)
+                                                fullUnreadMessageListWhatsapp.putAll(unreadMessageList);
+                                        }
+                                        else{
+                                            contactName = AccessibilityUtils.getContactNameInChat(rootNode, packageName);
+                                            if (contactName == null) return;
+                                            detContactName = contactName;
+                                            nodeInfos = AccessibilityUtils.getMessageList(rootNode, packageName);
+                                            int eventItemCount = getEventItemCount(packageName, itemCount);
+                                            if(!contactName.equals(detContactName)){
+                                                initialize(eventItemCount, packageName);;
+                                            }
+                                            if(nodeInfos == null || nodeInfos.size() == 0){
+                                                return;
+                                            }
+                                            int index = event.getFromIndex();
+                                            if(AccessibilityUtils.getUnreadSymbol(rootNode, packageName)){
+                                                eventItemCount = eventItemCount - 1;
+                                            }
+                                            if(fullUnreadMessageListWhatsapp.containsKey(contactName)&&fullUnreadMessageListWhatsapp.get(contactName)>0){
+                                                saveNewMessage(nodeInfos, contactName,packageName,true);
+                                            }
+                                            else if((eventItemCount - lastEventItemCountWhatsapp)!=1
+                                                    &&lastFromIndexWhatsapp!=0
+                                                    &&(eventItemCount-lastEventItemCountWhatsapp)!=(index-lastFromIndexWhatsapp)){
+                                                if((lastFromIndexWhatsapp-index)>1){
+                                                    saveNewMessageScrolling(nodeInfos,contactName,packageName,eventItemCount,index);
+>>>>>>> ae4dc834a6fdc8674d46b45c06d76a4d82ae246f
                                                 }
                                             } else if (eventItemCount - lastEventItemCountWhatsapp == 1) {
                                                 saveNewMessage(nodeInfos, contactName, packageName, false);
@@ -229,6 +300,7 @@ class IMUpdatesProvider extends MStreamProvider {
                                         }
                                     }
                                 }
+<<<<<<< HEAD
                                 break;
                             case AppUtils.APP_PACKAGE_FACEBOOK_MESSENGER:
                                 if (!AccessibilityUtils.getMainPageSymbol(rootView, packageName)) {
@@ -252,6 +324,32 @@ class IMUpdatesProvider extends MStreamProvider {
                                 }
                                 break;
                         }
+=======
+                               break;
+                           case AppUtils.APP_PACKAGE_FACEBOOK_MESSENGER:
+                               if(!AccessibilityUtils.getMainPageSymbol(rootNode,packageName)){
+                                  contactName = AccessibilityUtils.getContactNameInChat(rootNode, packageName);
+                                   if(contactName==null) {
+                                       return;
+                                   }
+                                   nodeInfos = AccessibilityUtils.getMessageList(rootNode, packageName);
+                                   if(nodeInfos==null || nodeInfos.size()==0){
+                                       return;
+                                   }
+                                   int inputLength = AccessibilityUtils.getInputBarInputSize(rootNode,packageName);
+                                   if(fullUnreadMessageListFacebook.containsKey(contactName)&&
+                                           fullUnreadMessageListFacebook.get(contactName)>0){
+                                       saveNewMessage(nodeInfos, contactName,packageName,true);
+                                   }
+                                   else if(lastFacebookInputLength!=-1
+                                           &&lastFacebookInputLength>inputLength){
+                                       saveNewMessage(nodeInfos, contactName,packageName,false);
+                                   }
+                                   lastFacebookInputLength = inputLength;
+                               }
+                               break;
+                       }
+>>>>>>> ae4dc834a6fdc8674d46b45c06d76a4d82ae246f
 
                     }
                 });
@@ -295,6 +393,7 @@ class IMUpdatesProvider extends MStreamProvider {
                 });
     }
 
+<<<<<<< HEAD
     private int getEventItemCount(String pckName, Item input) {
         int temp = input.getValueByField(BaseAccessibilityEvent.ITEM_COUNT);
         if (pckName.equals(AppUtils.APP_PACKAGE_WHATSAPP)) {
@@ -311,11 +410,20 @@ class IMUpdatesProvider extends MStreamProvider {
             result = index;
         } else if (pckName.equals(AppUtils.APP_PACKAGE_FACEBOOK_MESSENGER)) {
             result = index;
+=======
+    private int getEventItemCount(String pckName, int eventCount){
+        int result = 0;
+        if(pckName.equals(AppUtils.APP_PACKAGE_WHATSAPP)) {
+            result = eventCount-2;
+        }
+        else if(pckName.equals(AppUtils.APP_PACKAGE_FACEBOOK_MESSENGER)) {
+            result = eventCount-1;
+>>>>>>> ae4dc834a6fdc8674d46b45c06d76a4d82ae246f
         }
         return result;
     }
 
-    private boolean initializing(int eventItemCount, String packageName) {
+    private boolean initialize(int eventItemCount, String packageName) {
         try {
             switch (packageName) {
                 case AppUtils.APP_PACKAGE_WHATSAPP:
@@ -328,6 +436,7 @@ class IMUpdatesProvider extends MStreamProvider {
         }
     }
 
+<<<<<<< HEAD
     /**
      * Get contactNameFromExtras for WhatsApp notifications
      * @param extras
@@ -335,6 +444,10 @@ class IMUpdatesProvider extends MStreamProvider {
      */
 
     private String getContactNameFromExtras(Bundle extras) {
+=======
+    // Finds the hidden information in whatsapp
+    private String dumpExtras(Bundle extras) {
+>>>>>>> ae4dc834a6fdc8674d46b45c06d76a4d82ae246f
         String contactName = "";
         if (extras != null) {
             for (String k : extras.keySet()) {

@@ -18,10 +18,15 @@ public class Globals {
         public static int audioSource = MediaRecorder.AudioSource.MIC;
     }
 
+    public static class DebugConfig {
+        public static int socketPort = 7336;
+    }
+
     public static class LoggingConfig {
         public static boolean isEnabled = true;
         public static int level = Log.DEBUG;
     }
+
     public static class EmailConfig{
         public static long pollingInterval = Duration.minutes(2);
         public static int defaultMaxNumberOfReturnResults = Integer.MAX_VALUE;

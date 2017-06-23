@@ -7,6 +7,7 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.easilydo.sift.api.ApiException;
+import com.easilydo.sift.api.ApiManager;
 import com.easilydo.sift.crypto.Signatory;
 import com.easilydo.sift.model.Sift;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -54,6 +55,7 @@ import javax.mail.Part;
 import javax.mail.Session;
 import javax.mail.internet.MimeMessage;
 
+import static android.R.attr.apiKey;
 
 /**
  * Base class for Gmail-related Providers.
@@ -69,8 +71,8 @@ abstract class BaseGmailProvider extends MStreamProvider implements GmailResultL
     boolean authorized = false;
     long mLastEmailTime = 0;
     public static final String API_ENDPOINT = "https://api.easilydo.com";
-    private String apiKey = "9aed6c22c1623a1bfd6473a4328f85b0";
-    private String apiSecret = "fa53d475c36bc18ea66196afa23cc2f35ea6012c";
+    private String API_KEY = "9aed6c22c1623a1bfd6473a4328f85b0";
+    private String API_SECRET = "fa53d475c36bc18ea66196afa23cc2f35ea6012c";
     private Signatory signatory;
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
@@ -175,11 +177,11 @@ abstract class BaseGmailProvider extends MStreamProvider implements GmailResultL
 
 
 
-    /**
-     * Extracts available domain data from the provided eml file.
-     * @param emailData	a stream of eml data
-     * @return 	list of sifts objects with extracted data
-     */
+//    /**
+//     * Extracts available domain data from the provided eml file.
+//     * @param emailData	a stream of eml data
+//     * @return 	list of sifts objects with extracted data
+//     */
 //    public List<Sift> discovery(String emailData) {
 //        List<Sift> sifts = new ArrayList<>();
 //        String path = "/v1/discovery";
@@ -215,12 +217,16 @@ abstract class BaseGmailProvider extends MStreamProvider implements GmailResultL
         this.addRequiredPermissions(Manifest.permission.INTERNET,
                 Manifest.permission.GET_ACCOUNTS,
                 Manifest.permission.ACCESS_NETWORK_STATE);
-        signatory = new Signatory(apiSecret);
+        signatory = new Signatory(API_KEY);
+
     }
 
     @Override
     protected void provide() {
+        ApiManager apiMan = new ApiManager(API_KEY, API_SECRET);
+        apiMan.addUser("fanglin_chen", "en_US");
         checkGmailApiRequirements();
+
     }
 
     /**
@@ -460,47 +466,6 @@ abstract class BaseGmailProvider extends MStreamProvider implements GmailResultL
         return query.toString();
     }
 
-    class PostAsync extends AsyncTask<HashMap<String,Object>, Void, JSONObject> {
-        JSONParser jsonParser = new JSONParser();
-
-        private static final String LOGIN_URL = API_ENDPOINT+"/v1/discovery";
-
-
-        @Override
-        protected JSONObject doInBackground(HashMap<String, Object>... params) {
-
-            try {
-
-                JSONObject json = jsonParser.makeHttpRequest(
-                        LOGIN_URL, "POST", params[0]);
-
-                if (json != null) {
-                    Log.d("JSON result", json.toString());
-
-                    return json;
-                }
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            return null;
-        }
-
-        protected void onPostExecute(JSONObject json) {
-
-            JsonNode result = convertJsonFormat(json);
-            List<Sift> sifts = new ArrayList<>();
-            Iterator<JsonNode> iter = result.elements();
-            while(iter.hasNext()) {
-                sifts.add(Sift.unmarshallSift(iter.next()));
-            }
-            for(Sift sift: sifts) {
-                Logging.debug(sift.toString());
-            }
-        }
-
-    }
 
 
 

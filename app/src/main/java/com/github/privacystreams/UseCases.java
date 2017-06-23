@@ -3,12 +3,15 @@ package com.github.privacystreams;
 import android.content.Context;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
+<<<<<<< HEAD
 import android.util.Log;
+=======
+import android.view.accessibility.AccessibilityNodeInfo;
+>>>>>>> c2666558575cbca2cb0902d152e51bcf71892fae
 
+import com.github.privacystreams.accessibility.AccEvent;
 import com.github.privacystreams.accessibility.BrowserSearch;
 import com.github.privacystreams.accessibility.BrowserVisit;
-import com.github.privacystreams.accessibility.TextEntry;
-import com.github.privacystreams.accessibility.UIAction;
 import com.github.privacystreams.audio.Audio;
 import com.github.privacystreams.audio.AudioOperators;
 import com.github.privacystreams.commons.arithmetic.ArithmeticOperators;
@@ -44,8 +47,8 @@ import com.github.privacystreams.location.Geolocation;
 import com.github.privacystreams.location.GeolocationOperators;
 import com.github.privacystreams.location.LatLon;
 import com.github.privacystreams.notification.Notification;
-import com.github.privacystreams.storage.DropboxOperators;
-import com.github.privacystreams.storage.StorageOperators;
+import com.github.privacystreams.io.IOOperators;
+import com.github.privacystreams.utils.AccessibilityUtils;
 import com.github.privacystreams.utils.Duration;
 import com.github.privacystreams.utils.Globals;
 import com.github.privacystreams.utils.Logging;
@@ -151,7 +154,9 @@ public class UseCases {
 
     public void testCurrentLocation() {
         Globals.LocationConfig.useGoogleService = true;
-        uqi.getData(Geolocation.asCurrent(Geolocation.LEVEL_CITY), Purpose.TEST("test")).debug();
+        uqi.getData(Geolocation.asCurrent(Geolocation.LEVEL_CITY), Purpose.TEST("test"))
+                .logOverSocket("location")
+                .debug();
 
     }
 
@@ -165,7 +170,9 @@ public class UseCases {
     }
 
 
-    public void testEmailUpdates(){uqi.getData(Email.asGmailUpdates(),Purpose.TEST("test")).debug();}
+    public void testEmailUpdates(){
+        uqi.getData(Email.asGmailUpdates(),Purpose.TEST("test")).debug();
+    }
 
     public void testEmailList(){
         uqi.getData(Email.asGmailList(System.currentTimeMillis()-Duration.hours(100),
@@ -184,7 +191,7 @@ public class UseCases {
                 .timeout(Duration.seconds(10))
                 .map(ItemOperators.setField("time_round", ArithmeticOperators.roundUp(TestItem.TIME_CREATED, Duration.seconds(2))))
                 .localGroupBy("time_round")
-                .forEach(StorageOperators.<Item>writeTo("PrivacyStreams/testData.txt", true, true));
+                .forEach(IOOperators.<Item>writeToFile("PrivacyStreams/testData.txt", true, true));
 
         uqi
                 .getData(TestItem.asUpdates(20, 100, 500), Purpose.TEST("test"))
@@ -193,7 +200,7 @@ public class UseCases {
                 .map(ItemOperators.setField("time_round", ArithmeticOperators.roundUp(TestItem.TIME_CREATED, Duration.seconds(2))))
                 .localGroupBy("time_round")
                 .setIndependentField("uuid", DeviceOperators.getDeviceId())
-                .forEach(DropboxOperators.uploadTo(new Function<Item, String>() {
+                .forEach(IOOperators.uploadToDropbox(new Function<Item, String>() {
                     @Override
                     public String apply(UQI uqi, Item input) {
                         return input.getValueByField("uuid") + "/mockItem/" + input.getValueByField(Item.TIME_CREATED) + ".json";
@@ -212,14 +219,6 @@ public class UseCases {
                 .setIndependentField("uuid", DeviceOperators.getDeviceId())
                 .limit(3)
                 .debug();
-    }
-
-
-    /*
-     * Getting a stream of text entries and printing
-     */
-    public void testTextEntry() {
-        uqi.getData(TextEntry.asUpdates(), Purpose.TEST("test")).debug();
     }
 
     /*
@@ -244,8 +243,10 @@ public class UseCases {
         uqi.getData(BrowserSearch.asUpdates(), Purpose.FEATURE("browser search")).debug();
     }
 
-    public void testUIAction(){
-        uqi.getData(UIAction.asUpdates(), Purpose.FEATURE("ui action")).debug();
+    public void testAccEvents(){
+        uqi.getData(AccEvent.asUpdates(), Purpose.TEST("AccEvent"))
+                .logOverSocket("accEvent")
+                .debug();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
@@ -414,7 +415,7 @@ public class UseCases {
 //        return uqi
 //                .getData(Message.getAllSMS(), Purpose.FEATURE("calculate the sentiment across all Message messages"))
 
-////                .setField("sentiment", StringOperators.sentiment(Message.CONTENT))
+////                .setField("sentiment", StringOperators.sentiment(Message.TEXT))
 ////                .outputItems(StatisticOperators.average("sentiment"));
 //    }
 
