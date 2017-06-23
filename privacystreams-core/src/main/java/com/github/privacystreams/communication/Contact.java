@@ -18,7 +18,7 @@ public class Contact extends Item {
     /**
      * The contact's unique ID in Android database.
      */
-    @PSItemField(type = String.class)
+    @PSItemField(type = Long.class)
     public static final String ID = "id";
 
     /**
@@ -36,140 +36,146 @@ public class Contact extends Item {
     /**
      * The home number of the contact.
      */
-    @PSItemField(type = String.class)
+    @PSItemField(type = List.class)
     public static final String HOME_PHONE = "home phone";
 
     /**
      * The work number of the contact.
      */
-    @PSItemField(type = String.class)
+    @PSItemField(type = List.class)
     public static final String WORK_PHONE = "work phone";
 
     /**
      * The work fax number of the contact.
      */
-    @PSItemField(type = String.class)
+    @PSItemField(type = List.class)
     public static final String WORKFAX = "work fax";
 
     /**
      * The home fax number of the contact.
      */
-    @PSItemField(type = String.class)
+    @PSItemField(type = List.class)
     public static final String HOMEFAX = "home fax";
 
     /**
      * The assistant number of the contact.
      */
-    @PSItemField(type = String.class)
+    @PSItemField(type = List.class)
     public static final String  ASSISTANT= "assistant";
 
     /**
      * The call back number of the contact.
      */
-    @PSItemField(type = String.class)
+    @PSItemField(type = List.class)
     public static final String CALLBACK = "call back";
 
     /**
      * The car number of the contact.
      */
-    @PSItemField(type = String.class)
+    @PSItemField(type = List.class)
     public static final String CAR = "car";
 
     /**
      * The company main number of the contact.
      */
-    @PSItemField(type = String.class)
+    @PSItemField(type = List.class)
     public static final String COMPANY_MAIN = "company main";
 
     /**
      * The ISDN of the contact.
      */
-    @PSItemField(type = String.class)
+    @PSItemField(type = List.class)
     public static final String ISDN = "ISDN";
 
     /**
      * The main number of the contact.
      */
-    @PSItemField(type = String.class)
+    @PSItemField(type = List.class)
     public static final String MAIN = "main";
 
     /**
      * The MMS number of the contact.
      */
-    @PSItemField(type = String.class)
+    @PSItemField(type = List.class)
     public static final String MMS = "MMS";
 
     /**
      * The other number of the contact.
      */
-    @PSItemField(type = String.class)
+    @PSItemField(type = List.class)
     public static final String OTHER_PHONE = "other phone";
 
     /**
      * The other fax number of the contact.
      */
-    @PSItemField(type = String.class)
+    @PSItemField(type = List.class)
     public static final String OTHER_FAX = "other fax";
 
     /**
      * The pager number of the contact.
      */
-    @PSItemField(type = String.class)
+    @PSItemField(type = List.class)
     public static final String PAGER = "pager";
 
     /**
      * The radio number of the contact.
      */
-    @PSItemField(type = String.class)
+    @PSItemField(type = List.class)
     public static final String RADIO = "radio";
 
     /**
      * The telex number of the contact.
      */
-    @PSItemField(type = String.class)
+    @PSItemField(type = List.class)
     public static final String TELEX = "telex";
 
     /**
      * The TTY_TDD of the contact.
      */
-    @PSItemField(type = String.class)
+    @PSItemField(type = List.class)
     public static final String TTY_TDD = "TTY_TDD";
 
     /**
      * The work mobile number of the contact.
      */
-    @PSItemField(type = String.class)
+    @PSItemField(type = List.class)
     public static final String WORK_MOBILE = "work mobile";
 
     /**
      * The work pager number of the contact.
      */
-    @PSItemField(type = String.class)
+    @PSItemField(type = List.class)
     public static final String WORK_PAGER = "work pager";
 
     /**
      * The home email of the contact.
      */
-    @PSItemField(type = String.class)
+    @PSItemField(type = List.class)
     public static final String HOME_EMAIL = "homeEmail";
 
     /**
      * The work email of the contact.
      */
-    @PSItemField(type = String.class)
+    @PSItemField(type = List.class)
     public static final String WORK_EMAIL = "workEmail";
 
     /**
      * The other email of the contact.
      */
-    @PSItemField(type = String.class)
+    @PSItemField(type = List.class)
     public static final String OTHER_EMAIL = "otherEmail";
 
     /**
      * The mobile email of the contact.
      */
-    @PSItemField(type = String.class)
+    @PSItemField(type = List.class)
     public static final String MOBILE_EMAIL = "mobileEmail";
+
+    /**
+     *
+     */
+    @PSItemField(type = String.class)
+    public static final String STATUS = "status";
 
     /**
      * construct a contact item
@@ -178,7 +184,7 @@ public class Contact extends Item {
      * @param phones
      * @param emails
      */
-    Contact(String id, String name, HashMap<String, String> phones, HashMap<String,String> emails) {
+    Contact(Long id, String name, HashMap<String, List> phones, HashMap<String,List> emails, String status) {
         this.setFieldValue(ID, id);
         this.setFieldValue(NAME, name);
         if(phones.containsKey("mobilePhone")) this.setFieldValue(MOBILE_PHONE, phones.get("mobilePhone"));
@@ -187,7 +193,7 @@ public class Contact extends Item {
         if(phones.containsKey("workPhone")) this.setFieldValue(WORK_PHONE, phones.get("workPhone"));
         if(phones.containsKey("homeFax")) this.setFieldValue(HOMEFAX, phones.get("homeFax"));
         if(phones.containsKey("assistant")) this.setFieldValue(ASSISTANT, phones.get("assistant"));
-        if(phones.containsKey("callBack")) this.setFieldValue(CALLBACK, phones.get("callBack"));
+        if(phones.containsKey("callback")) this.setFieldValue(CALLBACK, phones.get("callback"));
         if(phones.containsKey("car")) this.setFieldValue(CAR, phones.get("car"));
         if(phones.containsKey("companyMain")) this.setFieldValue(COMPANY_MAIN, phones.get("companyMain"));
         if(phones.containsKey("ISDN")) this.setFieldValue(ISDN, phones.get("ISDN"));
@@ -205,6 +211,7 @@ public class Contact extends Item {
         if(emails.containsKey("workEmail")) this.setFieldValue(WORK_EMAIL, emails.get("workEmail"));
         if(emails.containsKey("otherEmail")) this.setFieldValue(OTHER_EMAIL, emails.get("otherEmail"));
         if(emails.containsKey("mobileEmail")) this.setFieldValue(MOBILE_EMAIL, emails.get("mobileEmail"));
+        this.setFieldValue(STATUS, status);
     }
 
     /**
@@ -216,5 +223,8 @@ public class Contact extends Item {
     // @RequiresPermission(value = Manifest.permission.READ_CONTACTS)
     public static MStreamProvider getAll() {
         return new ContactListProvider();
+    }
+
+    public static MStreamProvider asUpdates() {return new ContactUpdatesProvider();
     }
 }

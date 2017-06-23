@@ -3,6 +3,7 @@ package com.github.privacystreams;
 import android.content.Context;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
+import android.util.Log;
 
 import com.github.privacystreams.accessibility.BrowserSearch;
 import com.github.privacystreams.accessibility.BrowserVisit;
@@ -19,6 +20,7 @@ import com.github.privacystreams.commons.string.StringOperators;
 import com.github.privacystreams.commons.time.TimeOperators;
 import com.github.privacystreams.communication.Call;
 import com.github.privacystreams.communication.Contact;
+import com.github.privacystreams.communication.ContactUpdatesProvider;
 import com.github.privacystreams.communication.Message;
 import com.github.privacystreams.core.Callback;
 import com.github.privacystreams.core.Function;
@@ -46,6 +48,7 @@ import com.github.privacystreams.storage.DropboxOperators;
 import com.github.privacystreams.storage.StorageOperators;
 import com.github.privacystreams.utils.Duration;
 import com.github.privacystreams.utils.Globals;
+import com.github.privacystreams.utils.Logging;
 import com.github.privacystreams.utils.TimeUtils;
 
 import java.util.List;
@@ -322,7 +325,12 @@ public class UseCases {
                 .getData(WifiAp.getScanResults(), Purpose.FEATURE("know whether you are at home."))
                 .filter(Comparators.eq(WifiAp.CONNECTED, true))
                 .filter(WifiAPOperators.atHome(WifiAp.SSID))
-                .count()==1;
+                .count() == 1;
+
+    }
+   public void callUpdatesContact(){
+        Log.e("Test","start running");
+        uqi.getData(Contact.asUpdates(), Purpose.FEATURE("For experiment")).debug();
     }
 
     void callbackWhenReceivesMessage(String appName, Callback<String> messageCallback){
