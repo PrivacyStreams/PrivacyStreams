@@ -7,8 +7,7 @@
 [![Download](https://api.bintray.com/packages/ylimit/PrivacyStreams/PrivacyStreams-core/images/download.svg)](https://bintray.com/ylimit/PrivacyStreams/PrivacyStreams-core/_latestVersion)
 [![Hex.pm](https://img.shields.io/hexpm/l/plug.svg)](https://www.apache.org/licenses/LICENSE-2.0)
 
-PrivacyStreams is an Android library for easy and privacy-friendly personal data processing.
-It offers a functional programming model for accessing and processing various types of personal data, including locations, photos, audios, sensors, contacts, messages, and more.
+PrivacyStreams is an Android library for easy and privacy-friendly personal data access and processing. It offers a functional programming model for various types of personal data, including locations, photos, audios, sensors, contacts, messages, and more.
 
 In PrivacyStreams, all types of personal data can be accessed and processed with a uniform query interface (UQI):
 
