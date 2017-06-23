@@ -3,6 +3,7 @@ package com.github.privacystreams;
 import android.content.Context;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
+import android.util.Log;
 
 import com.github.privacystreams.accessibility.BrowserSearch;
 import com.github.privacystreams.audio.Audio;
@@ -312,6 +313,126 @@ public class Examples {
         } catch (PSException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Get emails addresses for all contacts on the device.
+     * Make sure the following line is added to AndroidManifest.xml
+     * <uses-permission android:name="android.permission.READ_CONTACTS" />
+     */
+    public void getEmails(Context context) {
+        try {
+            List<List<String>> contactEmails = new UQI(context)
+                    .getData(Contact.getAll(), Purpose.SOCIAL("recommend friends"))
+                    .asList(Contact.EMAILS);
+            // Do something with contact emails
+            System.out.println("Contact emails: " + contactEmails);
+        } catch (PSException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Get the current location.
+     * Make sure the following line is added to AndroidManifest.xml
+     * <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+     */
+    public void getCurrentLocation(Context context) {
+        try {
+            LatLon latLon = new UQI(context)
+                    .getData(Geolocation.asCurrent(Geolocation.LEVEL_CITY), Purpose.UTILITY("check weather"))
+                    .getField(Geolocation.LAT_LON);
+            // Do something with geolocation
+            Log.d("Location", "" + latLon.getLatitude() + ", " + latLon.getLongitude());
+        } catch (PSException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static final double CENTER_LATITUDE = 40;
+    private static final double CENTER_LONGITUDE = -80;
+    private static final double RADIUS = 20.0;
+
+    /**
+     * Monitor location updates and callback when in a circular area.
+     * Make sure the following line is added to AndroidManifest.xml
+     * <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+     */
+    public void geofence(Context context) {
+        new UQI(context)
+                .getData(Geolocation.asUpdates(10*1000, Geolocation.LEVEL_EXACT), Purpose.GAME("notifying the player"))
+                .setField("inRegion", GeolocationOperators.inCircle(Geolocation.LAT_LON, CENTER_LATITUDE, CENTER_LONGITUDE, RADIUS))
+                .onChange("inRegion", new Callback<Boolean>() {
+                    @Override
+                    protected void onInput(Boolean inRegion) {
+                        // Do something when enters/leaves region.
+                        Log.d("Geofence", inRegion ? "entering" : "leaving");
+                    }
+                });
+    }
+
+    private static final String SERVER_PHONE_NUMBER = "123456789";
+    private static final String AUTH_MESSAGE_PREFIX = "Your code is ";
+
+    /**
+     * Wait for SMS messages and read the auth code
+     * Make sure the following line is added to AndroidManifest.xml
+     * <uses-permission android:name="android.permission.RECEIVE_SMS" />
+     */
+    public void readAuthSMS(Context context) {
+        new UQI(context).getData(Message.asIncomingSMS(), Purpose.UTILITY("two-factor authentication"))
+                .filter(Message.TYPE, Message.TYPE_RECEIVED)
+                .filter(Message.CONTACT, SERVER_PHONE_NUMBER)
+                .filter(StringOperators.contains(Message.CONTENT, AUTH_MESSAGE_PREFIX))
+                .ifPresent(Message.CONTENT, new Callback<String>() {
+                    @Override
+                    protected void onInput(String text) {
+                        String authCode = text.substring(13);
+                        // Do something with the auth code
+                        Log.d("Auth code", authCode);
+                    }
+                });
+    }
+
+    /**
+     * Get local images in media storage.
+     * Make sure the following line is added to AndroidManifest.xml
+     * <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+     */
+    public void getLocalImages(Context context) {
+        try {
+            List<String> filePaths = new UQI(context)
+                    .getData(Image.getFromStorage(), Purpose.UTILITY("editing photos"))
+                    .setField("filePath", ImageOperators.getFilepath(Image.IMAGE_DATA))
+                    .asList("filePath");
+            // Do something with the images
+            Log.d("Image paths", "" + filePaths);
+        } catch (PSException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    private static final long DURATION = 10 * 1000; // 10 seconds
+    private static final long INTERVAL = 10 * 60 * 1000; // 10 minutes
+
+    /**
+     * Getting microphone loudness periodically.
+     * Make sure the following line is added to AndroidManifest.xml
+     * <uses-permission android:name="android.permission.RECORD_AUDIO" />
+     */
+    public void getLoudnessPeriodically(Context context) {
+        // Your code here
+        new UQI(context)
+                .getData(Audio.recordPeriodic(DURATION, INTERVAL), Purpose.HEALTH("monitor sleep"))
+                .setField("loudness", AudioOperators.calcLoudness(Audio.AUDIO_DATA))
+                .forEach("loudness", new Callback<Double>() {
+                    @Override
+                    protected void onInput(Double loudness) {
+                        // Do something with the loudness value.
+                        Log.d("Loudness", "" + loudness + " dB.");
+                    }
+                });
     }
 
 }
