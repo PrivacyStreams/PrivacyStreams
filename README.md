@@ -163,7 +163,7 @@ Based on the functions used in the query and the purpose specified by the develo
     }
 ```
 
-## Install
+## Installation
 
 #### Option 1. Using Gradle (recommended for the most users)
 
