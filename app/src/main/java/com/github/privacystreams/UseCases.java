@@ -3,11 +3,6 @@ package com.github.privacystreams;
 import android.content.Context;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
-<<<<<<< HEAD
-import android.util.Log;
-=======
-import android.view.accessibility.AccessibilityNodeInfo;
->>>>>>> c2666558575cbca2cb0902d152e51bcf71892fae
 
 import com.github.privacystreams.accessibility.AccEvent;
 import com.github.privacystreams.accessibility.BrowserSearch;
@@ -17,13 +12,12 @@ import com.github.privacystreams.audio.AudioOperators;
 import com.github.privacystreams.commons.arithmetic.ArithmeticOperators;
 import com.github.privacystreams.commons.comparison.Comparators;
 import com.github.privacystreams.commons.item.ItemOperators;
-import com.github.privacystreams.commons.list.ListOperators;
 import com.github.privacystreams.commons.statistic.StatisticOperators;
 import com.github.privacystreams.commons.string.StringOperators;
 import com.github.privacystreams.commons.time.TimeOperators;
 import com.github.privacystreams.communication.Call;
 import com.github.privacystreams.communication.Contact;
-import com.github.privacystreams.communication.ContactUpdatesProvider;
+import com.github.privacystreams.communication.Email;
 import com.github.privacystreams.communication.Message;
 import com.github.privacystreams.core.Callback;
 import com.github.privacystreams.core.Function;
@@ -40,18 +34,15 @@ import com.github.privacystreams.device.DeviceEvent;
 import com.github.privacystreams.device.DeviceOperators;
 import com.github.privacystreams.device.WifiAPOperators;
 import com.github.privacystreams.device.WifiAp;
-import com.github.privacystreams.communication.Email;
 import com.github.privacystreams.image.Image;
 import com.github.privacystreams.image.ImageOperators;
+import com.github.privacystreams.io.IOOperators;
 import com.github.privacystreams.location.Geolocation;
 import com.github.privacystreams.location.GeolocationOperators;
 import com.github.privacystreams.location.LatLon;
 import com.github.privacystreams.notification.Notification;
-import com.github.privacystreams.io.IOOperators;
-import com.github.privacystreams.utils.AccessibilityUtils;
 import com.github.privacystreams.utils.Duration;
 import com.github.privacystreams.utils.Globals;
-import com.github.privacystreams.utils.Logging;
 import com.github.privacystreams.utils.TimeUtils;
 
 import java.util.List;
@@ -330,7 +321,6 @@ public class UseCases {
 
     }
    public void callUpdatesContact(){
-        Log.e("Test","start running");
         uqi.getData(Contact.asUpdates(), Purpose.FEATURE("For experiment")).debug();
     }
 

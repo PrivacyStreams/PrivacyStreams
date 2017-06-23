@@ -3,7 +3,6 @@ package com.github.privacystreams.communication;
 
 import android.Manifest;
 import android.database.ContentObserver;
-import android.util.Log;
 
 import com.github.privacystreams.core.MStream;
 import com.github.privacystreams.core.UQI;
@@ -14,17 +13,16 @@ import com.github.privacystreams.core.purposes.Purpose;
 import java.util.ArrayList;
 import java.util.List;
 
-import static android.provider.ContactsContract.*;
+import static android.provider.ContactsContract.Contacts;
 
 /**
  * Provide a stream of updated contacts
  */
 
 public class ContactUpdatesProvider extends MStreamProvider {
-    protected Contact updatedContact;
+    private Contact updatedContact;
     private ContactStateObserver contactStateObserver;
-    MStream contactStream = null;
-    List contactList = null;
+    private List contactList = null;
 
     public ContactUpdatesProvider() {
         this.addRequiredPermissions(Manifest.permission.READ_CONTACTS);
@@ -55,7 +53,7 @@ public class ContactUpdatesProvider extends MStreamProvider {
                 e.printStackTrace();
             }
             if (contactList == null) {
-                contactStream = newContactStream;
+                MStream contactStream = newContactStream;
                 try {
                     contactList = contactStream.asList();
                 } catch (PSException e) {

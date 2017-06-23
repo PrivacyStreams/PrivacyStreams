@@ -133,14 +133,14 @@ public class SIFTApiManager {
 
 		//TODO: add include_eml handling
 		addCommonParams("GET", path, params);
-		executeRequest(API_ENDPOINT + path, "GET", listener, params));
+		executeRequest(API_ENDPOINT + path, "GET", listener, params);
 
 //		JsonNode result =
 
 //
 //		Sift sift = Sift.unmarshallSift(result);
 
-//		return sift;
+		return null;
 	}
 
 	/**
@@ -185,6 +185,7 @@ public class SIFTApiManager {
 		executeRequest(API_ENDPOINT + path,"POST",listener,params);
 
 //		return result.get("user_id").asLong();
+		return -1;
 	}
 
 	/**
@@ -257,7 +258,8 @@ public class SIFTApiManager {
 	public long addGmailConnection(String username, String account, String refreshToken, Context context) {
 		Map<String,Object> credentials = new HashMap<String,Object>();
 		credentials.put("refresh_token", refreshToken);
-		return addEmailConnection(username, account, EmailType.GOOGLE, credentials);
+//		return addEmailConnection(username, account, EmailType.GOOGLE, credentials);
+		return -1;
 	}
 
 
