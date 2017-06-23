@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.multidex.MultiDex;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -19,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Log.e("Button","Clicked");
                 new MyAsyncTask().execute();
             }
         });
@@ -30,7 +32,10 @@ public class MainActivity extends AppCompatActivity {
             UseCases useCases = new UseCases(MainActivity.this);
 
 //            useCases.getRecentCalledNames(2);
+<<<<<<< HEAD
+=======
 
+>>>>>>> c2666558575cbca2cb0902d152e51bcf71892fae
 
 //            useCases.testImage();
 //            useCases.testCurrentLocation();
@@ -48,7 +53,9 @@ public class MainActivity extends AppCompatActivity {
 //
 //            useCases.testIMUpdates();
  //           useCases.testEmailUpdates();
-            useCases.testEmailList();
+//            useCases.testEmailList();
+
+            useCases.callUpdatesContact();
 
             return null;
         }

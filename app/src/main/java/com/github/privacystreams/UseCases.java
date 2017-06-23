@@ -3,7 +3,11 @@ package com.github.privacystreams;
 import android.content.Context;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
+<<<<<<< HEAD
+import android.util.Log;
+=======
 import android.view.accessibility.AccessibilityNodeInfo;
+>>>>>>> c2666558575cbca2cb0902d152e51bcf71892fae
 
 import com.github.privacystreams.accessibility.AccEvent;
 import com.github.privacystreams.accessibility.BrowserSearch;
@@ -19,6 +23,7 @@ import com.github.privacystreams.commons.string.StringOperators;
 import com.github.privacystreams.commons.time.TimeOperators;
 import com.github.privacystreams.communication.Call;
 import com.github.privacystreams.communication.Contact;
+import com.github.privacystreams.communication.ContactUpdatesProvider;
 import com.github.privacystreams.communication.Message;
 import com.github.privacystreams.core.Callback;
 import com.github.privacystreams.core.Function;
@@ -46,6 +51,7 @@ import com.github.privacystreams.io.IOOperators;
 import com.github.privacystreams.utils.AccessibilityUtils;
 import com.github.privacystreams.utils.Duration;
 import com.github.privacystreams.utils.Globals;
+import com.github.privacystreams.utils.Logging;
 import com.github.privacystreams.utils.TimeUtils;
 
 import java.util.List;
@@ -293,7 +299,7 @@ public class UseCases {
             System.out.println(recentCalledPhoneNumbers);
             List<String> recentCalledNames = uqi
                     .getData(Contact.getAll(), Purpose.FEATURE("getData names of recent called phone numbers"))
-                    .filter(ListOperators.intersects(Contact.PHONES, recentCalledPhoneNumbers.toArray()))
+//                    .filter(ListOperators.intersects(Contact.PHONES, recentCalledPhoneNumbers.toArray()))
                     .asList(Contact.NAME);
             System.out.println(recentCalledNames);
         }
@@ -320,7 +326,12 @@ public class UseCases {
                 .getData(WifiAp.getScanResults(), Purpose.FEATURE("know whether you are at home."))
                 .filter(Comparators.eq(WifiAp.CONNECTED, true))
                 .filter(WifiAPOperators.atHome(WifiAp.SSID))
-                .count()==1;
+                .count() == 1;
+
+    }
+   public void callUpdatesContact(){
+        Log.e("Test","start running");
+        uqi.getData(Contact.asUpdates(), Purpose.FEATURE("For experiment")).debug();
     }
 
     void callbackWhenReceivesMessage(String appName, Callback<String> messageCallback){
