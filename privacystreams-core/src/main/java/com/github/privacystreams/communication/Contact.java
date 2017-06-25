@@ -1,6 +1,7 @@
 package com.github.privacystreams.communication;
 
 import com.github.privacystreams.core.Item;
+import com.github.privacystreams.core.exceptions.PSException;
 import com.github.privacystreams.core.providers.MStreamProvider;
 import com.github.privacystreams.utils.annotations.PSItem;
 import com.github.privacystreams.utils.annotations.PSItemField;
@@ -225,6 +226,5 @@ public class Contact extends Item {
         return new ContactListProvider();
     }
 
-    public static MStreamProvider asUpdates() {return new ContactUpdatesProvider();
-    }
+    public static MStreamProvider asUpdates() {return new ContactUpdatesProvider();}
 }

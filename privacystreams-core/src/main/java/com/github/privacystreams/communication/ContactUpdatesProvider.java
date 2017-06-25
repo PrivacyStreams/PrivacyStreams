@@ -10,6 +10,7 @@ import com.github.privacystreams.core.exceptions.PSException;
 import com.github.privacystreams.core.providers.MStreamProvider;
 import com.github.privacystreams.core.purposes.Purpose;
 
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,63 +24,83 @@ public class ContactUpdatesProvider extends MStreamProvider {
     private Contact updatedContact;
     private ContactStateObserver contactStateObserver;
     private List contactList = null;
+    private long lastUpdateTime = 0;
 
     public ContactUpdatesProvider() {
         this.addRequiredPermissions(Manifest.permission.READ_CONTACTS);
     }
 
+
     @Override
     protected void provide() {
         contactStateObserver = new ContactStateObserver();
-        getContext().getApplicationContext().getContentResolver().registerContentObserver(Contacts.CONTENT_URI, true, contactStateObserver);
+        UQI oldUqi = new UQI(getContext());
+        try {
+            contactList = oldUqi.getData(Contact.getAll(), Purpose.FEATURE("get original contacts on phone")).asList();
+        } catch (PSException e) {
+            e.printStackTrace();
+        }
+        oldUqi.stopAll();
+        getContext().getApplicationContext().getContentResolver().registerContentObserver(Contacts.CONTENT_URI, false, contactStateObserver);
     }
 
     //observer
     private class ContactStateObserver extends ContentObserver {
 
-        public ContactStateObserver() {
+        ContactStateObserver() {
             super(null);
         }
 
         @Override
         public void onChange(boolean selfChange) {
+            //import Date to handle exceptions raised by actions like refreshing the contact
+            //which will call the onChange method but will return nothing
+            Date timer = new Date();
+            long thisTime = timer.getTime();
+            if (lastUpdateTime == 0) {
+                outputEffectiveData();
+            } else if (thisTime - lastUpdateTime > 1000) {
+                outputEffectiveData();
+            }
+            lastUpdateTime = thisTime;
             super.onChange(selfChange);
+        }
+
+        //a method just used to avoid repeated codes
+        private void outputEffectiveData() {
             UQI uqi = new UQI(getContext());
             MStream newContactStream = uqi.getData(Contact.getAll(), Purpose.FEATURE("to get the new contact list"));
+            uqi.stopAll();
             List newContactList = null;
             try {
                 newContactList = newContactStream.asList();
             } catch (PSException e) {
                 e.printStackTrace();
             }
-            if (contactList == null) {
-                MStream contactStream = newContactStream;
-                try {
-                    contactList = contactStream.asList();
-                } catch (PSException e) {
-                    e.printStackTrace();
-                }
-            } else {
-                try {
-                    updatedContact = contactChange(contactList, newContactList);
-                } catch (PSException e) {
-                    e.printStackTrace();
-                }
-                ContactUpdatesProvider.this.output(updatedContact);
+            try {
+                updatedContact = contactChange(contactList, newContactList);
+            } catch (PSException e) {
+                e.printStackTrace();
             }
+
+            if (updatedContact != null) {
+                ContactUpdatesProvider.this.output(updatedContact);
+                updatedContact = null;
+            }
+
+            uqi.stopAll();
         }
-
-
-        public void onStop() {
-            getContext().getApplicationContext().getContentResolver().unregisterContentObserver(contactStateObserver);
-        }
-
     }
 
-    public Contact contactChange(List oldContactList, List newContactList) throws PSException {
+    @Override
+    public void onCancel(UQI uqi) {
+        getContext().getApplicationContext().getContentResolver().unregisterContentObserver(contactStateObserver);
+    }
+
+    private Contact contactChange(List oldContactList, List newContactList) throws PSException {
         Contact editedContact;
-        List listOfID = new ArrayList();
-        List newListOfID = new ArrayList();
+        List<Long> listOfID = new ArrayList<>();
+        List<Long> newListOfID = new ArrayList<>();
         int listTotal = oldContactList.size();
         int newListTotal = newContactList.size();
         for (int i = 0; i < listTotal; i++) {
@@ -91,7 +112,7 @@ public class ContactUpdatesProvider extends MStreamProvider {
             newListOfID.add((long) newContactAtj.getValueByField(Contact.ID));
         }
 
-        List similar = new ArrayList();
+        List<Long> similar = new ArrayList<>();
         for (int k = 0; k < listOfID.size(); k++) {
             similar.add(listOfID.get(k));
         }
@@ -107,14 +128,14 @@ public class ContactUpdatesProvider extends MStreamProvider {
         }
         //delete
         else if (similar.size() != listOfID.size()) {
-            List difference = new ArrayList();
+            List<Long> difference = new ArrayList<>();
             for (int j = 0; j < listTotal; j++) {
                 difference.add(listOfID.get(j));
             }
             difference.removeAll(similar);
-            long deleted = (long) difference.get(0);
+            long deleted = difference.get(0);
             for (int i = 0; i < listTotal; i++) {
-                if (deleted == (long) listOfID.get(i)) {
+                if (deleted == listOfID.get(i)) {
                     Contact tempContact = (Contact) oldContactList.get(i);
                     tempContact.setFieldValue(Contact.STATUS, "deleted");
                     editedContact = tempContact;
@@ -140,6 +161,7 @@ public class ContactUpdatesProvider extends MStreamProvider {
                 i++;
             } while (i < contactList.size());
         }
+        contactList = newContactList;
         return null;
     }
 }

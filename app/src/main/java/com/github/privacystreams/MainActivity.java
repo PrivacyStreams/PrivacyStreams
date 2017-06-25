@@ -8,6 +8,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import com.github.privacystreams.core.exceptions.PSException;
+
 public class MainActivity extends AppCompatActivity {
     public Button mButton;
 
@@ -51,7 +53,12 @@ public class MainActivity extends AppCompatActivity {
  //           useCases.testEmailUpdates();
 //            useCases.testEmailList();
 
-            useCases.callUpdatesContact();
+            try {
+                useCases.callUpdatesContact();
+            } catch (PSException e) {
+                e.printStackTrace();
+            }
+
 
             return null;
         }

@@ -3,6 +3,7 @@ package com.github.privacystreams;
 import android.content.Context;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
+import android.util.Log;
 
 import com.github.privacystreams.accessibility.AccEvent;
 import com.github.privacystreams.accessibility.BrowserSearch;
@@ -320,7 +321,7 @@ public class UseCases {
                 .count() == 1;
 
     }
-   public void callUpdatesContact(){
+   public void callUpdatesContact() throws PSException {
         uqi.getData(Contact.asUpdates(), Purpose.FEATURE("For experiment")).debug();
     }
 
