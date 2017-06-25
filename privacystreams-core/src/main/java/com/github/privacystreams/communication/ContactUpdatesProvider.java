@@ -4,14 +4,14 @@ package com.github.privacystreams.communication;
 import android.Manifest;
 import android.database.ContentObserver;
 
-import com.github.privacystreams.core.MStream;
+import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.UQI;
 import com.github.privacystreams.core.exceptions.PSException;
 import com.github.privacystreams.core.providers.MStreamProvider;
 import com.github.privacystreams.core.purposes.Purpose;
 
-import java.util.Date;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static android.provider.ContactsContract.Contacts;
@@ -69,19 +69,16 @@ public class ContactUpdatesProvider extends MStreamProvider {
         //a method just used to avoid repeated codes
         private void outputEffectiveData() {
             UQI uqi = new UQI(getContext());
-            MStream newContactStream = uqi.getData(Contact.getAll(), Purpose.FEATURE("to get the new contact list"));
-            uqi.stopAll();
-            List newContactList = null;
+            List<Item> newContactList;
+
             try {
-                newContactList = newContactStream.asList();
-            } catch (PSException e) {
-                e.printStackTrace();
-            }
-            try {
+                newContactList = uqi.getData(Contact.getAll(), Purpose.FEATURE("to get the new contact list"))
+                                .asList();
                 updatedContact = contactChange(contactList, newContactList);
             } catch (PSException e) {
                 e.printStackTrace();
             }
+
 
             if (updatedContact != null) {
                 ContactUpdatesProvider.this.output(updatedContact);
