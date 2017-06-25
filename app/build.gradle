@@ -44,7 +44,7 @@ dependencies {
     })
     compile 'com.android.support:appcompat-v7:25.3.1'
     testCompile 'junit:junit:4.12'
-    compile 'com.github.chentc:PrivacyStreams:v0.1.4'
+    compile 'com.github.chentc:PrivacyStreams:v0.1.4.1'
     compile('com.google.apis:google-api-services-gmail:v1-rev29-1.20.0'){
         exclude group: 'org.apache.httpcomponents', module: 'httpclient'
     }
