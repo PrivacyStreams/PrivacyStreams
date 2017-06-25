@@ -15,7 +15,8 @@ ext {
 
     bintrayRepo = 'PrivacyStreams'
     bintrayOrganization = "privacystreams"
-    publishedGroupId = 'com.github.privacystreams'
+    publishedGroupId = 'com.github.chentc'
+//    publishedGroupId = 'com.github.privacystreams'
 
     siteUrl = 'https://github.com/PrivacyStreams/PrivacyStreams'
     gitUrl = 'https://github.com/PrivacyStreams/PrivacyStreams.git'
