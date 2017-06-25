@@ -82,9 +82,8 @@ public class PSDoclet extends HtmlDoclet {
             File itemDocsFile = new File(destDirName, "items.md");
             PrintStream itemDocsPrinter = new PrintStream(itemDocsFile);
 
-            itemDocsPrinter.println("# " + this.docTitle + " - Items\n");
-
-            itemDocsPrinter.println("This document contains all types of personal data available in PrivacyStreams.\n");
+//            itemDocsPrinter.println("# " + this.docTitle + " - Items\n");
+//            itemDocsPrinter.println("This document introduces all types of personal data available in PrivacyStreams.\n");
 
             Collections.sort(this.psItems, new Comparator<PSItemDoc>() {
                 @Override
@@ -110,9 +109,9 @@ public class PSDoclet extends HtmlDoclet {
         try {
             File operatorDocsFile = new File(destDirName, "operators.md");
             PrintStream operatorDocsPrinter = new PrintStream(operatorDocsFile);
-            operatorDocsPrinter.println("# " + this.docTitle + " - Operators\n");
 
-            operatorDocsPrinter.println("This document contains all operators available in PrivacyStreams.\n");
+//            operatorDocsPrinter.println("# " + this.docTitle + " - Operators\n");
+//            operatorDocsPrinter.println("This document introduces all operators available in PrivacyStreams.\n");
 
             operatorDocsPrinter.print(Consts.OPERATORS_TABLE_HEADER);
 
@@ -143,9 +142,9 @@ public class PSDoclet extends HtmlDoclet {
         try {
             File operatorDocsFile = new File(destDirName, "pipeline.md");
             PrintStream operatorDocsPrinter = new PrintStream(operatorDocsFile);
-            operatorDocsPrinter.println("# " + this.docTitle + " - Pipeline functions\n");
 
-            operatorDocsPrinter.println("This document contains all pipeline functions available in PrivacyStreams.\n");
+//            operatorDocsPrinter.println("# " + this.docTitle + " - Transformations and Actions\n");
+//            operatorDocsPrinter.println("This document introduces all pipeline functions available in PrivacyStreams.\n");
 
             operatorDocsPrinter.println("\n## Transformations\n");
             operatorDocsPrinter.print(Consts.PIPELINE_TABLE_HEADER);
@@ -185,8 +184,7 @@ public class PSDoclet extends HtmlDoclet {
         return HtmlDoclet.optionLength(option);
     }
 
-    public static boolean validOptions(String options[][],
-                                       DocErrorReporter reporter) {
+    public static boolean validOptions(String options[][], DocErrorReporter reporter) {
         return HtmlDoclet.validOptions(options, reporter);
     }
 
