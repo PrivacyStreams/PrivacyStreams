@@ -10,7 +10,6 @@ import org.json.JSONObject;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -138,7 +137,7 @@ public class Item {
     }
 
     public boolean equals(Item anotherItem) {
-        return this.toMap().equals(anotherItem.toMap());
+        return anotherItem != null && this.toMap().equals(anotherItem.toMap());
     }
 
 }
