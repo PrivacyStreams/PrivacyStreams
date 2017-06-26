@@ -320,17 +320,17 @@ public class Examples {
      * Make sure the following line is added to AndroidManifest.xml
      * <uses-permission android:name="android.permission.READ_CONTACTS" />
      */
-    public void getEmails(Context context) {
-        try {
-            List<List<String>> contactEmails = new UQI(context)
-                    .getData(Contact.getAll(), Purpose.SOCIAL("recommend friends"))
-                    .asList(Contact.EMAILS);
-            // Do something with contact emails
-            System.out.println("Contact emails: " + contactEmails);
-        } catch (PSException e) {
-            e.printStackTrace();
-        }
-    }
+//    public void getEmails(Context context) {
+//        try {
+//            List<List<String>> contactEmails = new UQI(context)
+//                    .getData(Contact.getAll(), Purpose.SOCIAL("recommend friends"))
+//                    .asList(Contact.EMAILS);
+//            // Do something with contact emails
+//            System.out.println("Contact emails: " + contactEmails);
+//        } catch (PSException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     /**
      * Get the current location.

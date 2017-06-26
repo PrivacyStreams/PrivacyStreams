@@ -3,6 +3,7 @@ package com.github.privacystreams.communication;
 
 import android.Manifest;
 import android.database.ContentObserver;
+import android.util.Log;
 
 import com.github.privacystreams.core.MStream;
 import com.github.privacystreams.core.UQI;
@@ -25,6 +26,7 @@ public class ContactUpdatesProvider extends MStreamProvider {
     private ContactStateObserver contactStateObserver;
     private List contactList = null;
     private long lastUpdateTime = 0;
+    private Contact lastUpdate = null;
 
     public ContactUpdatesProvider() {
         this.addRequiredPermissions(Manifest.permission.READ_CONTACTS);
@@ -57,38 +59,26 @@ public class ContactUpdatesProvider extends MStreamProvider {
             //which will call the onChange method but will return nothing
             Date timer = new Date();
             long thisTime = timer.getTime();
-            if (lastUpdateTime == 0) {
-                outputEffectiveData();
-            } else if (thisTime - lastUpdateTime > 1000) {
-                outputEffectiveData();
+            if (lastUpdateTime == 0 ||thisTime - lastUpdateTime > 1000) {
+                UQI uqi = new UQI(getContext());
+                MStream newContactStream = uqi.getData(Contact.getAll(), Purpose.FEATURE("to get the new contact list"));
+                uqi.stopAll();
+                List newContactList;
+                try {
+                    newContactList = newContactStream.asList();
+                    updatedContact = contactChange(contactList, newContactList);
+                } catch (PSException e) {
+                    e.printStackTrace();
+                }
+                if(lastUpdate==null||(!lastUpdate.equals(updatedContact)&&updatedContact!=null)){
+                    ContactUpdatesProvider.this.output(updatedContact);
+                    lastUpdate = updatedContact;
+                    updatedContact = null;
+                }
+                uqi.stopAll();
             }
             lastUpdateTime = thisTime;
             super.onChange(selfChange);
-        }
-
-        //a method just used to avoid repeated codes
-        private void outputEffectiveData() {
-            UQI uqi = new UQI(getContext());
-            MStream newContactStream = uqi.getData(Contact.getAll(), Purpose.FEATURE("to get the new contact list"));
-            uqi.stopAll();
-            List newContactList = null;
-            try {
-                newContactList = newContactStream.asList();
-            } catch (PSException e) {
-                e.printStackTrace();
-            }
-            try {
-                updatedContact = contactChange(contactList, newContactList);
-            } catch (PSException e) {
-                e.printStackTrace();
-            }
-
-            if (updatedContact != null) {
-                ContactUpdatesProvider.this.output(updatedContact);
-                updatedContact = null;
-            }
-
-            uqi.stopAll();
         }
     }
 
