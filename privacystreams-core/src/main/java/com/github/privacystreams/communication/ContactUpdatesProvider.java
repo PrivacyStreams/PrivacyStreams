@@ -4,7 +4,6 @@ package com.github.privacystreams.communication;
 import android.Manifest;
 import android.database.ContentObserver;
 
-import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.UQI;
 import com.github.privacystreams.core.exceptions.PSException;
 import com.github.privacystreams.core.providers.MStreamProvider;
@@ -21,7 +20,7 @@ import static android.provider.ContactsContract.Contacts;
  */
 
 public class ContactUpdatesProvider extends MStreamProvider {
-    private Contact updatedContact;
+    private Contact lastUpdatedContact = null;
     private ContactStateObserver contactStateObserver;
     private List contactList = null;
     private long lastUpdateTime = 0;
@@ -34,14 +33,14 @@ public class ContactUpdatesProvider extends MStreamProvider {
     @Override
     protected void provide() {
         contactStateObserver = new ContactStateObserver();
-        UQI oldUqi = new UQI(getContext());
+        UQI uqi = new UQI(getContext());
         try {
-            contactList = oldUqi.getData(Contact.getAll(), Purpose.FEATURE("get original contacts on phone")).asList();
+            contactList = uqi.getData(Contact.getAll(), Purpose.FEATURE("get original contacts on phone")).asList();
         } catch (PSException e) {
             e.printStackTrace();
         }
-        oldUqi.stopAll();
-        getContext().getApplicationContext().getContentResolver().registerContentObserver(Contacts.CONTENT_URI, false, contactStateObserver);
+        uqi.stopAll();
+        getContext().getContentResolver().registerContentObserver(Contacts.CONTENT_URI, false, contactStateObserver);
     }
 
     //observer
@@ -57,44 +56,41 @@ public class ContactUpdatesProvider extends MStreamProvider {
             //which will call the onChange method but will return nothing
             Date timer = new Date();
             long thisTime = timer.getTime();
-            if (lastUpdateTime == 0) {
-                outputEffectiveData();
-            } else if (thisTime - lastUpdateTime > 1000) {
-                outputEffectiveData();
+            if (thisTime - lastUpdateTime > 1000) {
+                UQI uqi = new UQI(getContext());
+                List newContactList = null;
+                Contact newContactUpdateOutput = null;
+
+                try {
+                    newContactList = uqi.getData(Contact.getAll(),
+                            Purpose.FEATURE("to get the new contact list")).asList();
+                } catch (PSException e) {
+                    e.printStackTrace();
+                }
+                uqi.stopAll();
+                try {
+                    newContactUpdateOutput = contactChange(contactList, newContactList);
+                    if (newContactUpdateOutput != null
+                            &&!newContactUpdateOutput.equals(lastUpdatedContact)) {
+                        ContactUpdatesProvider.this.output(newContactUpdateOutput);
+                        lastUpdatedContact = newContactUpdateOutput;
+                    }
+                } catch (PSException e) {
+                    e.printStackTrace();
+                }
+
             }
             lastUpdateTime = thisTime;
             super.onChange(selfChange);
-        }
-
-        //a method just used to avoid repeated codes
-        private void outputEffectiveData() {
-            UQI uqi = new UQI(getContext());
-            List<Item> newContactList;
-
-            try {
-                newContactList = uqi.getData(Contact.getAll(), Purpose.FEATURE("to get the new contact list"))
-                                .asList();
-                updatedContact = contactChange(contactList, newContactList);
-
-            } catch (PSException e) {
-                e.printStackTrace();
-            }
-
-
-            if (updatedContact != null) {
-                ContactUpdatesProvider.this.output(updatedContact);
-                updatedContact = null;
-            }
-
-            uqi.stopAll();
         }
     }
 
     @Override
     public void onCancel(UQI uqi) {
-        getContext().getApplicationContext().getContentResolver().unregisterContentObserver(contactStateObserver);
+        getContext().getContentResolver().unregisterContentObserver(contactStateObserver);
     }
 
+    //TODO: documentation
     private Contact contactChange(List oldContactList, List newContactList) throws PSException {
         Contact editedContact;
         List<Long> listOfID = new ArrayList<>();

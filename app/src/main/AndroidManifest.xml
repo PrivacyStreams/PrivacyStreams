@@ -53,4 +53,13 @@
         </activity>
     </application>
 
+    <receiver android:name="your.package.name.CatchChangesReceiver"
+        android:priority="1000" >
+        <intent-filter>
+            <action android:name="android.intent.action.PROVIDER_CHANGED" />
+            <data android:scheme="content" />
+            <data android:host="com.android.calendar" />
+        </intent-filter>
+    </receiver>
+
 </manifest>
