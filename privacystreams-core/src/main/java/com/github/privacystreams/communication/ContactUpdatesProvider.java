@@ -10,14 +10,15 @@ import com.github.privacystreams.core.providers.MStreamProvider;
 import com.github.privacystreams.core.purposes.Purpose;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import static android.provider.ContactsContract.Contacts;
 
 
 /**
- * Provide a stream of updated contacts
+ * use content observer to observe the changes in users' contact. Every time a user make any change to the contact,
+ * this class will output a contact including the information in the changed contact.
+ * This contact has three status: add, delete and edit to show user's operation on the contact
  */
 
 public class ContactUpdatesProvider extends MStreamProvider {
@@ -53,10 +54,10 @@ public class ContactUpdatesProvider extends MStreamProvider {
 
         @Override
         public void onChange(boolean selfChange) {
-            //import Date to handle exceptions raised by actions like refreshing the contact
-            //which will call the onChange method but will return nothing
-            Date timer = new Date();
-            long thisTime = timer.getTime();
+            //use the difference between two return time
+            // to handle exceptions raised by actions like refreshing the contact
+            //which will call the onChange method several times but will return nothing
+            long thisTime = System.currentTimeMillis();
             if (thisTime - lastUpdateTime > 1000) {
                 UQI uqi = new UQI(getContext());
                 List newContactList;
@@ -65,15 +66,17 @@ public class ContactUpdatesProvider extends MStreamProvider {
                 try {
                     newContactList = uqi.getData(Contact.getAll(),
                             Purpose.FEATURE("to get the new contact list")).asList();
-                uqi.stopAll();
+                    uqi.stopAll();
                     List<Contact> oldContactList = new ArrayList<>();
                     //get a deep copy of contact list to avoid bugs happening during the delete part
-                    for (Object o: contactList
-                         ) {oldContactList.add(new Contact((Contact) o));}
+                    for (Object o : contactList
+                            ) {
+                        oldContactList.add(new Contact((Contact) o));
+                    }
                     newContactUpdateOutput = contactChange(oldContactList, newContactList);
-
-                    if (newContactUpdateOutput!=null
-                            &&!newContactUpdateOutput.equals(lastUpdatedContact)) {
+                    //block some redundant output
+                    if (newContactUpdateOutput != null
+                            && !newContactUpdateOutput.equals(lastUpdatedContact)) {
                         ContactUpdatesProvider.this.output(newContactUpdateOutput);
                         lastUpdatedContact = newContactUpdateOutput;
                     }
@@ -93,7 +96,8 @@ public class ContactUpdatesProvider extends MStreamProvider {
 
     /**
      * this method takes two list of contact in which only one contact differs
-     * this method will return the changed element, including three types: add, delete and edit
+     * this method will return the changed contact and set its statues field to three type: add, delete and edit
+     *
      * @param oldContactList contact list before the onchange method is called
      * @param newContactList new contact list after the change
      * @return editedContact
@@ -121,7 +125,7 @@ public class ContactUpdatesProvider extends MStreamProvider {
         intersection.retainAll(newListOfID);
 
         //add
-        if (intersection.size() != newListOfID.size()&&intersection.size()==listOfID.size()) {
+        if (intersection.size() != newListOfID.size() && intersection.size() == listOfID.size()) {
             Contact tempContact = (Contact) newContactList.get(newContactList.size() - 1);
             tempContact.setFieldValue(Contact.STATUS, "added");
             editedContact = tempContact;
@@ -129,7 +133,7 @@ public class ContactUpdatesProvider extends MStreamProvider {
             return editedContact;
         }
         //delete
-        else if (intersection.size() != listOfID.size()&&intersection.size()==newListOfID.size()) {
+        else if (intersection.size() != listOfID.size() && intersection.size() == newListOfID.size()) {
             List<Long> difference = new ArrayList<>();
             for (int j = 0; j < listTotal; j++) {
                 difference.add(listOfID.get(j));
