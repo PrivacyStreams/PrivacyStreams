@@ -215,6 +215,35 @@ public class Contact extends Item {
         this.setFieldValue(STATUS, status);
     }
 
+    public Contact(Contact another){
+        this.setFieldValue(ID, another.getValueByField(Contact.ID));
+        this.setFieldValue(NAME, another.getValueByField(Contact.NAME));
+        this.setFieldValue(STATUS, another.getValueByField(Contact.STATUS));
+        if(another.containsField(Contact.ASSISTANT)) this.setFieldValue(STATUS, another.getValueByField(Contact.ASSISTANT));
+        if(another.containsField(Contact.CALLBACK)) this.setFieldValue(STATUS, another.getValueByField(Contact.CALLBACK));
+        if(another.containsField(Contact.COMPANY_MAIN)) this.setFieldValue(STATUS, another.getValueByField(Contact.COMPANY_MAIN));
+        if(another.containsField(Contact.CAR)) this.setFieldValue(STATUS, another.getValueByField(Contact.CAR));
+        if(another.containsField(Contact.HOME_EMAIL)) this.setFieldValue(STATUS, another.getValueByField(Contact.HOME_EMAIL));
+        if(another.containsField(Contact.HOME_PHONE)) this.setFieldValue(STATUS, another.getValueByField(Contact.HOME_PHONE));
+        if(another.containsField(Contact.HOMEFAX)) this.setFieldValue(STATUS, another.getValueByField(Contact.HOMEFAX));
+        if(another.containsField(Contact.MOBILE_PHONE)) this.setFieldValue(STATUS, another.getValueByField(Contact.MOBILE_PHONE));
+        if(another.containsField(Contact.OTHER_EMAIL)) this.setFieldValue(STATUS, another.getValueByField(Contact.OTHER_EMAIL));
+        if(another.containsField(Contact.OTHER_PHONE)) this.setFieldValue(STATUS, another.getValueByField(Contact.OTHER_PHONE));
+        if(another.containsField(Contact.OTHER_FAX)) this.setFieldValue(STATUS, another.getValueByField(Contact.OTHER_FAX));
+        if(another.containsField(Contact.WORK_PHONE)) this.setFieldValue(STATUS, another.getValueByField(Contact.WORK_PHONE));
+        if(another.containsField(Contact.WORK_EMAIL)) this.setFieldValue(STATUS, another.getValueByField(Contact.WORK_EMAIL));
+        if(another.containsField(Contact.WORKFAX)) this.setFieldValue(STATUS, another.getValueByField(Contact.WORKFAX));
+        if(another.containsField(Contact.WORK_PAGER)) this.setFieldValue(STATUS, another.getValueByField(Contact.WORK_PAGER));
+        if(another.containsField(Contact.WORK_MOBILE)) this.setFieldValue(STATUS, another.getValueByField(Contact.WORK_MOBILE));
+        if(another.containsField(Contact.PAGER)) this.setFieldValue(STATUS, another.getValueByField(Contact.PAGER));
+        if(another.containsField(Contact.TTY_TDD)) this.setFieldValue(STATUS, another.getValueByField(Contact.TTY_TDD));
+        if(another.containsField(Contact.TELEX)) this.setFieldValue(STATUS, another.getValueByField(Contact.TELEX));
+        if(another.containsField(Contact.RADIO)) this.setFieldValue(STATUS, another.getValueByField(Contact.RADIO));
+        if(another.containsField(Contact.MOBILE_EMAIL)) this.setFieldValue(STATUS, another.getValueByField(Contact.MOBILE_EMAIL));
+        if(another.containsField(Contact.ISDN)) this.setFieldValue(STATUS, another.getValueByField(Contact.ISDN));
+        if(another.containsField(Contact.MAIN)) this.setFieldValue(STATUS, another.getValueByField(Contact.MAIN));
+        if(another.containsField(Contact.MMS)) this.setFieldValue(STATUS, another.getValueByField(Contact.MMS));
+    }
     /**
      * Provide all Contact items in device's contacts database.
      * This provider requires `android.permission.READ_CONTACTS` permission.

@@ -15,16 +15,16 @@ import java.util.List;
 
 import static android.provider.ContactsContract.Contacts;
 
+
 /**
  * Provide a stream of updated contacts
  */
 
 public class ContactUpdatesProvider extends MStreamProvider {
-    private Contact updatedContact;
+    private Contact lastUpdatedContact = null;
     private ContactStateObserver contactStateObserver;
     private List contactList = null;
     private long lastUpdateTime = 0;
-    private Contact lastUpdate = null;
 
     public ContactUpdatesProvider() {
         this.addRequiredPermissions(Manifest.permission.READ_CONTACTS);
@@ -34,14 +34,14 @@ public class ContactUpdatesProvider extends MStreamProvider {
     @Override
     protected void provide() {
         contactStateObserver = new ContactStateObserver();
-        UQI oldUqi = new UQI(getContext());
+        UQI uqi = new UQI(getContext());
         try {
-            contactList = oldUqi.getData(Contact.getAll(), Purpose.FEATURE("get original contacts on phone")).asList();
+            contactList = uqi.getData(Contact.getAll(), Purpose.FEATURE("get original contacts on phone")).asList();
         } catch (PSException e) {
             e.printStackTrace();
         }
-        oldUqi.stopAll();
-        getContext().getApplicationContext().getContentResolver().registerContentObserver(Contacts.CONTENT_URI, false, contactStateObserver);
+        uqi.stopAll();
+        getContext().getContentResolver().registerContentObserver(Contacts.CONTENT_URI, false, contactStateObserver);
     }
 
     //observer
@@ -57,26 +57,29 @@ public class ContactUpdatesProvider extends MStreamProvider {
             //which will call the onChange method but will return nothing
             Date timer = new Date();
             long thisTime = timer.getTime();
-            if (lastUpdateTime == 0 ||thisTime - lastUpdateTime > 1000) {
+            if (thisTime - lastUpdateTime > 1000) {
                 UQI uqi = new UQI(getContext());
-                List newContactList = null;
+                List newContactList;
+                Contact newContactUpdateOutput;
+
                 try {
-                    newContactList = uqi.getData(Contact.getAll(), Purpose.FEATURE("to get the new contact list")).asList();
+                    newContactList = uqi.getData(Contact.getAll(),
+                            Purpose.FEATURE("to get the new contact list")).asList();
+                uqi.stopAll();
+                    List<Contact> oldContactList = new ArrayList<>();
+                    //get a deep copy of contact list to avoid bugs happening during the delete part
+                    for (Object o: contactList
+                         ) {oldContactList.add(new Contact((Contact) o));}
+                    newContactUpdateOutput = contactChange(oldContactList, newContactList);
+
+                    if (newContactUpdateOutput!=null
+                            &&!newContactUpdateOutput.equals(lastUpdatedContact)) {
+                        ContactUpdatesProvider.this.output(newContactUpdateOutput);
+                        lastUpdatedContact = newContactUpdateOutput;
+                    }
                 } catch (PSException e) {
                     e.printStackTrace();
                 }
-                uqi.stopAll();
-                try {
-                    updatedContact = contactChange(contactList, newContactList);
-                } catch (PSException e) {
-                    e.printStackTrace();
-                }
-                if(lastUpdate==null||(!lastUpdate.equals(updatedContact)&&updatedContact!=null)){
-                    ContactUpdatesProvider.this.output(updatedContact);
-                    lastUpdate = updatedContact;
-                    updatedContact = null;
-                }
-                uqi.stopAll();
             }
             lastUpdateTime = thisTime;
             super.onChange(selfChange);
@@ -85,17 +88,25 @@ public class ContactUpdatesProvider extends MStreamProvider {
 
     @Override
     public void onCancel(UQI uqi) {
-        getContext().getApplicationContext().getContentResolver().unregisterContentObserver(contactStateObserver);
+        getContext().getContentResolver().unregisterContentObserver(contactStateObserver);
     }
 
-    private Contact contactChange(List oldContactList, List newContactList) throws PSException {
+    /**
+     * this method takes two list of contact in which only one contact differs
+     * this method will return the changed element, including three types: add, delete and edit
+     * @param oldContactList contact list before the onchange method is called
+     * @param newContactList new contact list after the change
+     * @return editedContact
+     * @throws PSException exceptions caused by casting
+     */
+    private Contact contactChange(List<Contact> oldContactList, List newContactList) throws PSException {
         Contact editedContact;
         List<Long> listOfID = new ArrayList<>();
         List<Long> newListOfID = new ArrayList<>();
         int listTotal = oldContactList.size();
         int newListTotal = newContactList.size();
         for (int i = 0; i < listTotal; i++) {
-            Contact contactAti = (Contact) oldContactList.get(i);
+            Contact contactAti = oldContactList.get(i);
             listOfID.add((long) contactAti.getValueByField(Contact.ID));
         }
         for (int j = 0; j < newListTotal; j++) {
@@ -103,14 +114,14 @@ public class ContactUpdatesProvider extends MStreamProvider {
             newListOfID.add((long) newContactAtj.getValueByField(Contact.ID));
         }
 
-        List<Long> similar = new ArrayList<>();
+        List<Long> intersection = new ArrayList<>();
         for (int k = 0; k < listOfID.size(); k++) {
-            similar.add(listOfID.get(k));
+            intersection.add(listOfID.get(k));
         }
-        similar.retainAll(newListOfID);
+        intersection.retainAll(newListOfID);
 
         //add
-        if (similar.size() != newListOfID.size()) {
+        if (intersection.size() != newListOfID.size()&&intersection.size()==listOfID.size()) {
             Contact tempContact = (Contact) newContactList.get(newContactList.size() - 1);
             tempContact.setFieldValue(Contact.STATUS, "added");
             editedContact = tempContact;
@@ -118,16 +129,16 @@ public class ContactUpdatesProvider extends MStreamProvider {
             return editedContact;
         }
         //delete
-        else if (similar.size() != listOfID.size()) {
+        else if (intersection.size() != listOfID.size()&&intersection.size()==newListOfID.size()) {
             List<Long> difference = new ArrayList<>();
             for (int j = 0; j < listTotal; j++) {
                 difference.add(listOfID.get(j));
             }
-            difference.removeAll(similar);
+            difference.removeAll(intersection);
             long deleted = difference.get(0);
             for (int i = 0; i < listTotal; i++) {
                 if (deleted == listOfID.get(i)) {
-                    Contact tempContact = (Contact) oldContactList.get(i);
+                    Contact tempContact = oldContactList.get(i);
                     tempContact.setFieldValue(Contact.STATUS, "deleted");
                     editedContact = tempContact;
                     contactList = newContactList;
@@ -140,9 +151,9 @@ public class ContactUpdatesProvider extends MStreamProvider {
             int i = 0;
             do {
                 long newTimeCreated = ((Contact) newContactList.get(i)).getValueByField(Contact.TIME_CREATED);
-                Contact oldContact = (Contact) oldContactList.get(i);
+                Contact oldContact = oldContactList.get(i);
                 oldContact.setFieldValue(Contact.TIME_CREATED, newTimeCreated);
-                if (!((Contact) oldContactList.get(i)).equals((Contact) newContactList.get(i))) {
+                if (!(oldContactList.get(i)).equals((Contact) newContactList.get(i))) {
                     Contact tempContact = (Contact) newContactList.get(i);
                     tempContact.setFieldValue(Contact.STATUS, "edited");
                     editedContact = tempContact;
@@ -156,5 +167,6 @@ public class ContactUpdatesProvider extends MStreamProvider {
         return null;
     }
 }
+
 
 

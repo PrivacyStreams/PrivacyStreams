@@ -137,8 +137,6 @@ public class Item {
         this.itemMap.keySet().removeAll(fieldKeysToRemove);
     }
 
-    public boolean equals(Item anotherItem) {
-        return this.toMap().equals(anotherItem.toMap());
-    }
+    public boolean equals(Item anotherItem) {return anotherItem != null && this.toMap().equals(anotherItem.toMap());}
 
 }
