@@ -16,10 +16,18 @@ import java.util.TimerTask;
 /**
  * This is the provider which constantly fetches the gmail updates.
  */
- class GmailUpdatesProvider extends BaseGmailProvider{
-    private Timer timer = new Timer();
-    private boolean running = false;
-    private long lastTime = (System.currentTimeMillis()- Duration.hours(100))/1000; // The unit is second
+class GmailUpdatesProvider extends BaseGmailProvider {
+    private transient Timer timer = new Timer();
+    private transient boolean running = false;
+    // Last time of fetching emails
+    private transient long lastTime = System.currentTimeMillis() / 1000;
+
+    private long frequency;
+
+    GmailUpdatesProvider(long frequency) {
+        this.frequency = frequency;
+        this.addParameters(frequency);
+    }
 
     /**
      * For queries in all other times later on, when the app does not need to get
@@ -58,26 +66,27 @@ import java.util.TimerTask;
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
-                        try{
+                        try {
                             if(ConnectionUtils.isDeviceOnline(getContext())){
-                                if(mLastEmailTime!=0){
+                                if (mLastEmailTime != 0) {
                                     new FetchEmailTask().execute(buildTimeQuery(mLastEmailTime));
                                 }
-                                else{
+                                else {
                                     new FetchEmailTask().execute(buildTimeQuery(lastTime));
-                                    lastTime = System.currentTimeMillis();
+                                    lastTime = System.currentTimeMillis() / 1000;
                                 }
                             }
                             else
                                 Logging.error("No internet connection");
-                        }catch (Exception e){
+                        } catch (Exception e){
                             e.printStackTrace();
                         }
                     }
                 });
             }
         };
-        timer.schedule(doEmailUpdatesTask,0, Globals.EmailConfig.pollingInterval);
+
+        timer.schedule(doEmailUpdatesTask, 0, GmailUpdatesProvider.this.frequency);
 
     }
 }

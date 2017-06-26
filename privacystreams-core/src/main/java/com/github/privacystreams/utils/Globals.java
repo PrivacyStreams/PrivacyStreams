@@ -27,11 +27,6 @@ public class Globals {
         public static int level = Log.DEBUG;
     }
 
-    public static class EmailConfig{
-        public static long pollingInterval = Duration.minutes(2);
-        public static int defaultMaxNumberOfReturnResults = Integer.MAX_VALUE;
-    }
-
     public static class HashConfig {
         public static String defaultAlgorithm = HashUtils.SHA256;
 

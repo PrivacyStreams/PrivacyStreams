@@ -6,7 +6,7 @@ import com.google.api.services.gmail.Gmail;
  * This is the provider that can query the time from a certain time period, which is for one time using.
  */
 
-class GmailListProvider extends BaseGmailProvider{
+class GmailHistoryProvider extends BaseGmailProvider {
 
     /**
      * beginTime and endTime are all in ms.
@@ -14,10 +14,10 @@ class GmailListProvider extends BaseGmailProvider{
      * return email allowed for one query.
      */
 
-    GmailListProvider(long beginTime,long endTime,int maxResult){
+    GmailHistoryProvider(long beginTime, long endTime, int maxResult) {
         super();
-        mBegin = beginTime/1000;
-        mEnd = endTime/1000;
+        mBegin = beginTime / 1000;
+        mEnd = endTime / 1000;
         mMaxResult = maxResult;
     }
 
@@ -30,7 +30,7 @@ class GmailListProvider extends BaseGmailProvider{
     protected void provide() {
         super.provide();
         if(authorized){
-            new FetchEmailTask().execute(buildTimeQuery(mBegin,mEnd));
+            new FetchEmailTask().execute(buildTimeQuery(mBegin, mEnd));
         }
     }
 
@@ -40,8 +40,7 @@ class GmailListProvider extends BaseGmailProvider{
     @Override
     public void onSuccess(Gmail service) {
         super.onSuccess(service);
-        new FetchEmailTask().execute(buildTimeQuery(mBegin,mEnd));
+        new FetchEmailTask().execute(buildTimeQuery(mBegin, mEnd));
     }
-
 
 }

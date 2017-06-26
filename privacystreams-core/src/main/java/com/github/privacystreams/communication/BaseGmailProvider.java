@@ -39,12 +39,11 @@ abstract class BaseGmailProvider extends MStreamProvider implements GmailResultL
     static final String PREF_ACCOUNT_NAME = "accountName";
     static final String[] SCOPES = {GmailScopes.GMAIL_LABELS, GmailScopes.GMAIL_READONLY};
     private Gmail mService;
-    int mMaxResult = Globals.EmailConfig.defaultMaxNumberOfReturnResults;
+    int mMaxResult = Integer.MAX_VALUE;
     long mBegin = 0;
     long mEnd = 0;
     boolean authorized = false;
     long mLastEmailTime = 0;
-
 
     BaseGmailProvider() {
         this.addRequiredPermissions(Manifest.permission.INTERNET,
@@ -108,9 +107,9 @@ abstract class BaseGmailProvider extends MStreamProvider implements GmailResultL
                             case "Date":
                                 String date = header.getValue();
                                 if(date.contains(","))
-                                    date = date.substring(date.indexOf(",")+2,date.length());;
+                                    date = date.substring(date.indexOf(",") + 2,date.length());;
                                 String timestampFormat = "dd MMM yyyy HH:mm:ss Z";
-                                timestamp = TimeUtils.fromFormattedString(timestampFormat,date)/1000;
+                                timestamp = TimeUtils.fromFormattedString(timestampFormat,date) / 1000;
                                 break;
                         }
                     }
@@ -126,7 +125,7 @@ abstract class BaseGmailProvider extends MStreamProvider implements GmailResultL
                         }
                     }
                 }
-                if(mLastEmailTime<timestamp) mLastEmailTime = timestamp;
+                if(mLastEmailTime < timestamp) mLastEmailTime = timestamp;
                 this.output(new Email(content, AppUtils.APP_PACKAGE_GMAIL, from, deliverTo, subject, timestamp));
             }
         }
@@ -189,7 +188,7 @@ abstract class BaseGmailProvider extends MStreamProvider implements GmailResultL
             query.append(before);
             query.append(" ");
         }
-         query.append(" -category:{social promotions} ");
+        query.append(" -category:{social promotions} ");
         Logging.debug(query.toString());
         return query.toString();
     }

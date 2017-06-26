@@ -6,7 +6,7 @@ import com.github.privacystreams.utils.annotations.PSItem;
 import com.github.privacystreams.utils.annotations.PSItemField;
 
 /**
- * A received or sent email.
+ * Email.
  */
 @PSItem
 public class Email extends Item {
@@ -49,30 +49,34 @@ public class Email extends Item {
     public static final String TIMESTAMP = "timestamp";
 
     Email(String body, String packageName, String from, String to, String subject, long timeStamp){
-        this.setFieldValue(BODY,body);
-        this.setFieldValue(PACKAGE_NAME,packageName);
-        this.setFieldValue(FROM,from);
-        this.setFieldValue(TO,to);
-        this.setFieldValue(SUBJECT,subject);
-        this.setFieldValue(TIMESTAMP,timeStamp);
+        this.setFieldValue(BODY, body);
+        this.setFieldValue(PACKAGE_NAME, packageName);
+        this.setFieldValue(FROM, from);
+        this.setFieldValue(TO, to);
+        this.setFieldValue(SUBJECT, subject);
+        this.setFieldValue(TIMESTAMP, timeStamp);
     }
 
     /**
-     * Provide a list of Email items from the Gmail app.
-     * List will be generated given a time window (in ms) and
-     * a max number of returned results for query.
+     * Provide a list of Email items from Gmail.
+     *
+     * @param afterTime the minimum timestamp of emails to get
+     * @param beforeTime the maximum timestamp of emails to get
+     * @param maxNumberOfResults the max number of emails to get
      * @return the provider function.
      */
-    public static MStreamProvider asGmailList(long afterTime, long beforeTime, int maxNumberOfResults){
-        return new GmailListProvider(afterTime,beforeTime,maxNumberOfResults);
+    public static MStreamProvider asGmailHistory(long afterTime, long beforeTime, int maxNumberOfResults){
+        return new GmailHistoryProvider(afterTime, beforeTime, maxNumberOfResults);
     }
 
     /**
-     * Provide a live stream of Email items from the Gmail app.
+     * Provide a live stream of Emails from Gmail.
      * Updates will be generated if there are emails sent or received per hour.
+     *
+     * @param frequency the frequency of checking updates
      * @return the provider function.
      */
-    public static MStreamProvider asGmailUpdates(){
-        return new GmailUpdatesProvider();
+    public static MStreamProvider asGmailUpdates(long frequency) {
+        return new GmailUpdatesProvider(frequency);
     }
 }
