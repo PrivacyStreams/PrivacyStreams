@@ -1,4 +1,4 @@
-package com.github.privacystreams.environment;
+package com.github.privacystreams.sensor;
 
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.providers.MStreamProvider;
@@ -25,7 +25,7 @@ public class LightSensor extends Item {
      * Provide a live stream of LightSensor items that are read from the light sensor.
      * @return the provider function.
      */
-    public static MStreamProvider asUpdates(){
-        return new LightUpdatesProvider();
+    public static MStreamProvider asUpdates(int sensorDelay){
+        return new LightUpdatesProvider(sensorDelay);
     }
 }
