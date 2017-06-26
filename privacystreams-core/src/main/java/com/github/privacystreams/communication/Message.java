@@ -34,6 +34,7 @@ public class Message extends Item {
     @PSItemField(type = String.class)
     public static final String CONTACT = "contact";
 
+
     /**
      * The timestamp of when the message is sent or received.
      */

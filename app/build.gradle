@@ -54,6 +54,5 @@ dependencies {
     compile 'com.google.android.gms:play-services:10.2.4'
     compile 'com.sun.mail:android-mail:1.5.5'
     compile 'com.sun.mail:android-activation:1.5.5'
-    compile 'com.easilydo:sift-sdk:1.0.0'
     compile 'com.android.support:multidex:1.0.1'
 }
