@@ -149,7 +149,6 @@ Based on the functions used in the query and the purpose specified by the develo
      * <uses-permission android:name="android.permission.RECORD_AUDIO" />
      */
     public void getLoudnessPeriodically(Context context) {
-        // Your code here
         new UQI(context)
                 .getData(Audio.recordPeriodic(DURATION, INTERVAL), Purpose.HEALTH("monitor sleep"))
                 .setField("loudness", AudioOperators.calcLoudness(Audio.AUDIO_DATA))
