@@ -75,6 +75,7 @@ public class ContactUpdatesProvider extends MStreamProvider {
                 newContactList = uqi.getData(Contact.getAll(), Purpose.FEATURE("to get the new contact list"))
                                 .asList();
                 updatedContact = contactChange(contactList, newContactList);
+
             } catch (PSException e) {
                 e.printStackTrace();
             }
