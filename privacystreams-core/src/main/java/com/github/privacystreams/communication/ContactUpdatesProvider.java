@@ -3,16 +3,14 @@ package com.github.privacystreams.communication;
 
 import android.Manifest;
 import android.database.ContentObserver;
-import android.util.Log;
 
-import com.github.privacystreams.core.MStream;
 import com.github.privacystreams.core.UQI;
 import com.github.privacystreams.core.exceptions.PSException;
 import com.github.privacystreams.core.providers.MStreamProvider;
 import com.github.privacystreams.core.purposes.Purpose;
 
-import java.util.Date;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static android.provider.ContactsContract.Contacts;
@@ -61,11 +59,14 @@ public class ContactUpdatesProvider extends MStreamProvider {
             long thisTime = timer.getTime();
             if (lastUpdateTime == 0 ||thisTime - lastUpdateTime > 1000) {
                 UQI uqi = new UQI(getContext());
-                MStream newContactStream = uqi.getData(Contact.getAll(), Purpose.FEATURE("to get the new contact list"));
-                uqi.stopAll();
-                List newContactList;
+                List newContactList = null;
                 try {
-                    newContactList = newContactStream.asList();
+                    newContactList = uqi.getData(Contact.getAll(), Purpose.FEATURE("to get the new contact list")).asList();
+                } catch (PSException e) {
+                    e.printStackTrace();
+                }
+                uqi.stopAll();
+                try {
                     updatedContact = contactChange(contactList, newContactList);
                 } catch (PSException e) {
                     e.printStackTrace();

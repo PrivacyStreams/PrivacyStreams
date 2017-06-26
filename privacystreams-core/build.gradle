@@ -15,7 +15,8 @@ ext {
 
     bintrayRepo = 'PrivacyStreams'
     bintrayOrganization = "privacystreams"
-    publishedGroupId = 'com.github.privacystreams'
+    publishedGroupId = 'com.github.chentc'
+//    publishedGroupId = 'com.github.privacystreams'
 
     siteUrl = 'https://github.com/PrivacyStreams/PrivacyStreams'
     gitUrl = 'https://github.com/PrivacyStreams/PrivacyStreams.git'
@@ -70,6 +71,7 @@ dependencies {
     provided ('com.google.apis:google-api-services-gmail:v1-rev29-1.20.0') {
         exclude group: 'org.apache.httpcomponents'
     }
+
     compile 'com.easilydo:sift-sdk:1.0.0'
     compile 'com.sun.mail:android-mail:1.5.5'
 }
