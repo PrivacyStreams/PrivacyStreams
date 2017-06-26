@@ -18,6 +18,7 @@ import com.github.privacystreams.commons.time.TimeOperators;
 import com.github.privacystreams.communication.Call;
 import com.github.privacystreams.communication.Contact;
 import com.github.privacystreams.communication.Email;
+import com.github.privacystreams.communication.InstantMessage;
 import com.github.privacystreams.communication.Message;
 import com.github.privacystreams.core.Callback;
 import com.github.privacystreams.core.Function;
@@ -239,6 +240,12 @@ public class UseCases {
                 .logOverSocket("accEvent")
                 .debug();
     }
+
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
+    public void testIMUIUpdates(){
+        uqi.getData(InstantMessage.asUpdatesInIM(),Purpose.FEATURE("im updates")).debug();
+    }
+
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
     public void testIMUpdates(){

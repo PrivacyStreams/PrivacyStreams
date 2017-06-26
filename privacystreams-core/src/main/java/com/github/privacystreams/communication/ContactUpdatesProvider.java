@@ -59,7 +59,7 @@ public class ContactUpdatesProvider extends MStreamProvider {
             if (thisTime - lastUpdateTime > 1000) {
                 UQI uqi = new UQI(getContext());
                 List newContactList = null;
-                Contact newContactUpdateOutput = null;
+                Contact newContactUpdateOutput;
 
                 try {
                     newContactList = uqi.getData(Contact.getAll(),
