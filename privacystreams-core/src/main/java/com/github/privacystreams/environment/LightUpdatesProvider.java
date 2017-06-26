@@ -15,8 +15,9 @@ import static android.content.Context.SENSOR_SERVICE;
  */
 class LightUpdatesProvider extends MStreamProvider {
 
-    private transient MyLightListener lightListener;
+    private transient SensorEventListener lightListener;
     private transient SensorManager sensorManager;
+    private transient Sensor lightSensor;
 
     @Override
     protected void onCancel(UQI uqi) {
@@ -26,29 +27,22 @@ class LightUpdatesProvider extends MStreamProvider {
 
     @Override
     protected void provide() {
-        lightListener = new MyLightListener();
+        sensorManager = (SensorManager) getContext().getSystemService(SENSOR_SERVICE);
+        lightSensor = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
+        lightListener = new SensorEventListener() {
+
+            @Override
+            public void onSensorChanged(SensorEvent event) {
+                output(new LightSensor(event.values[0]));
+            }
+
+            @Override
+            public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
+            }
+        };
     }
 
-    private final class MyLightListener implements SensorEventListener{
-
-        private Sensor lightSensor;
-
-        MyLightListener(){
-            sensorManager = (SensorManager)getContext().getSystemService(SENSOR_SERVICE);
-            lightSensor = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
-            sensorManager.registerListener(this,lightSensor, SensorManager.SENSOR_DELAY_NORMAL);
-        }
-
-        @Override
-        public void onSensorChanged(SensorEvent event) {
-            output(new LightEnv(event.values[0], System.currentTimeMillis()));
-        }
-
-        @Override
-        public void onAccuracyChanged(Sensor sensor, int accuracy) {
-
-        }
-    }
 }
 
 

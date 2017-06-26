@@ -47,8 +47,8 @@
 //    void BES_PervasiveHealth_2013() {
 //        Purpose purpose = Purpose.FEATURE("sleep monitoring");
 //        MStream lightStream = uqi
-//                .getData(LightEnv.asUpdates(Duration.seconds(60)), purpose)
-//                .project("timestamp", LightEnv.ILLUMINANCE);
+//                .getData(LightSensor.asUpdates(Duration.seconds(60)), purpose)
+//                .project("timestamp", LightSensor.ILLUMINANCE);
 //
 //        MStream phoneLockStream = uqi
 //                .getData(DeviceState.asUpdates(Duration.seconds(60)), purpose)
@@ -80,8 +80,8 @@
 //    void IODetector_SenSys_2012() {
 //        Purpose purpose = Purpose.feature("sleep monitoring");
 //        MStream lightStream = uqi
-//                .getData(LightEnv.asUpdates(Duration.seconds(60)), purpose)
-//                .project("timestamp", LightEnv.ILLUMINANCE);
+//                .getData(LightSensor.asUpdates(Duration.seconds(60)), purpose)
+//                .project("timestamp", LightSensor.ILLUMINANCE);
 //
 //        MStream cellurSignalStream = uqi
 //                .getData(Cellular.asUpdates(Duration.seconds(60)), purpose)
