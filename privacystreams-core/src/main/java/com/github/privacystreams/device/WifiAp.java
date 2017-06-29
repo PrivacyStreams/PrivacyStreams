@@ -51,7 +51,12 @@ public class WifiAp extends Item {
      * Whether this AP is connected.
      */
     @PSItemField(type = Boolean.class)
-    public static final String CONNECTED = "connected";
+    public static final String STATUS = "status";
+
+
+    public static final String STATUS_CONNECTED = "connected";
+    public static final String STATUS_DISCONNECTED = "disconnected";
+    public static final String STATUS_SCANNED = "scanned";
 
     WifiAp(ScanResult scanResult, boolean connected) {
         this.setFieldValue(TIMESTAMP, scanResult.timestamp);
@@ -59,7 +64,11 @@ public class WifiAp extends Item {
         this.setFieldValue(SSID, scanResult.SSID);
         this.setFieldValue(FREQUENCY, scanResult.frequency);
         this.setFieldValue(RSSI, scanResult.level);
-        this.setFieldValue(CONNECTED, connected);
+        if(connected)
+            this.setFieldValue(STATUS, STATUS_CONNECTED);
+        else{
+            this.setFieldValue(STATUS, STATUS_SCANNED);
+        }
     }
 
     /**

@@ -35,17 +35,18 @@ public class CalendarUpdatesProvider extends MStreamProvider {
         filter.addDataAuthority("com.android.calendar", null);
         filter.addDataScheme("content");
         filter.setPriority(1000);
+
         getContext().registerReceiver(calendarUpdatesReceiver, filter);
 
         UQI uqi = new UQI(getContext());
         try {
-            calendarEventsList = uqi
-                    .getData(CalendarEvent.getAll(),
+            calendarEventsList = uqi.getData(CalendarEvent.getAll(),
                             Purpose.FEATURE("to get update information of calendar")).asList();
         } catch (PSException e) {
             e.printStackTrace();
             Log.e("exception", "data getting from uqi is not valid");
         }
+        uqi.stopAll();
     }
 
     @Override
@@ -54,12 +55,9 @@ public class CalendarUpdatesProvider extends MStreamProvider {
     }
 
     public class CalendarUpdatesReceiver extends CalendarEventsUpdatesReceiver{
-        /*
-        overrides abstract class in CalendarEventsUpdatesReceiver, would be called once a change
-        happend
-         */
+
         @Override
-        public void ifReceive(){
+        public void onCalendarEventsUpdatesReceived(){
             List newCalendarEventsList = null;
             UQI uqi = new UQI(getContext());
             //gets new calendar list after change
@@ -74,8 +72,7 @@ public class CalendarUpdatesProvider extends MStreamProvider {
             uqi.stopAll();
             List oldCalendarEventsList = new ArrayList();
             //makes deep copy of contactlist to avoid bugs when delete events
-            for (Object o: calendarEventsList
-                    ) {
+            for (Object o: calendarEventsList) {
                 oldCalendarEventsList.add(o);
             }
             CalendarEvent editedCalendarEvent =
@@ -87,7 +84,7 @@ public class CalendarUpdatesProvider extends MStreamProvider {
     }
 
     /**
-     * takes two calendarlist and compare them,to see if a calendarEvent is added, deleted or edited
+     * compares two calendar lists to see if a calendar event is added, deleted or edited.
      * @param oldCalendarEventsList a deep copy of the calendar list before change
      * @param newCalendarEventsList calendar list after change
      * @return changed calendar event
@@ -96,12 +93,10 @@ public class CalendarUpdatesProvider extends MStreamProvider {
     private CalendarEvent outputChangedCalendarEvent(List oldCalendarEventsList, List newCalendarEventsList){
         int oldCalendarCount=0;
         int newCalendarCount=0;
-        for (Object o: oldCalendarEventsList
-             ) {
+        for (Object o: oldCalendarEventsList) {
             if(o!=null) oldCalendarCount++;
         }
-        for(Object o: newCalendarEventsList
-                ){
+        for(Object o: newCalendarEventsList){
             if(o!=null) newCalendarCount++;
         }
         //add
