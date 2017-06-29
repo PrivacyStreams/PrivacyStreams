@@ -327,6 +327,8 @@ public class UseCases {
                 .count() == 1;
 
     }
+
+
    public void testUpdatesContact() {
         uqi.getData(Contact.asUpdates(), Purpose.FEATURE("For experiment")).debug();
     }
