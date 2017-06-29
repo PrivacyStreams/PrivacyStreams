@@ -1,9 +1,19 @@
 package com.github.privacystreams.device;
 
+import android.Manifest;
+
+import com.github.privacystreams.core.providers.MStreamProvider;
+
 /**
- * Created by DELL on 6/29/2017.
+ * provides wifi status will connect and disconnect
  */
 //Todo: to be complete
-public class WifiUpdatesProvider {
+public class WifiUpdatesProvider extends MStreamProvider {
+    public WifiUpdatesProvider(){
+        this.addRequiredPermissions(Manifest.permission.ACCESS_WIFI_STATE);
+    }
+    @Override
+    protected void provide(){
 
+    }
 }

@@ -32,31 +32,31 @@ public class Contact extends Item {
      * The mobile number of the contact.
      */
     @PSItemField(type = List.class)
-    public static final String MOBILE_PHONE = "mobile phone";
+    public static final String MOBILE_PHONE = "mobile_phone";
 
     /**
      * The home number of the contact.
      */
     @PSItemField(type = List.class)
-    public static final String HOME_PHONE = "home phone";
+    public static final String HOME_PHONE = "home_phone";
 
     /**
      * The work number of the contact.
      */
     @PSItemField(type = List.class)
-    public static final String WORK_PHONE = "work phone";
+    public static final String WORK_PHONE = "work_phone";
 
     /**
      * The work fax number of the contact.
      */
     @PSItemField(type = List.class)
-    public static final String WORKFAX = "work fax";
+    public static final String WORK_FAX = "work_fax";
 
     /**
      * The home fax number of the contact.
      */
     @PSItemField(type = List.class)
-    public static final String HOMEFAX = "home fax";
+    public static final String HOME_FAX = "home_fax";
 
     /**
      * The assistant number of the contact.
@@ -68,7 +68,7 @@ public class Contact extends Item {
      * The call back number of the contact.
      */
     @PSItemField(type = List.class)
-    public static final String CALLBACK = "call back";
+    public static final String CALLBACK = "call_back";
 
     /**
      * The car number of the contact.
@@ -80,7 +80,7 @@ public class Contact extends Item {
      * The company main number of the contact.
      */
     @PSItemField(type = List.class)
-    public static final String COMPANY_MAIN = "company main";
+    public static final String COMPANY_MAIN = "company_main";
 
     /**
      * The ISDN of the contact.
@@ -104,13 +104,13 @@ public class Contact extends Item {
      * The other number of the contact.
      */
     @PSItemField(type = List.class)
-    public static final String OTHER_PHONE = "other phone";
+    public static final String OTHER_PHONE = "other_phone";
 
     /**
      * The other fax number of the contact.
      */
     @PSItemField(type = List.class)
-    public static final String OTHER_FAX = "other fax";
+    public static final String OTHER_FAX = "other_fax";
 
     /**
      * The pager number of the contact.
@@ -140,37 +140,37 @@ public class Contact extends Item {
      * The work mobile number of the contact.
      */
     @PSItemField(type = List.class)
-    public static final String WORK_MOBILE = "work mobile";
+    public static final String WORK_MOBILE = "work_mobile";
 
     /**
      * The work pager number of the contact.
      */
     @PSItemField(type = List.class)
-    public static final String WORK_PAGER = "work pager";
+    public static final String WORK_PAGER = "work_pager";
 
     /**
      * The home email of the contact.
      */
     @PSItemField(type = List.class)
-    public static final String HOME_EMAIL = "homeEmail";
+    public static final String HOME_EMAIL = "home_email";
 
     /**
      * The work email of the contact.
      */
     @PSItemField(type = List.class)
-    public static final String WORK_EMAIL = "workEmail";
+    public static final String WORK_EMAIL = "work_email";
 
     /**
      * The other email of the contact.
      */
     @PSItemField(type = List.class)
-    public static final String OTHER_EMAIL = "otherEmail";
+    public static final String OTHER_EMAIL = "other_email";
 
     /**
      * The mobile email of the contact.
      */
     @PSItemField(type = List.class)
-    public static final String MOBILE_EMAIL = "mobileEmail";
+    public static final String MOBILE_EMAIL = "mobile_email";
 
     /**
      *
@@ -180,38 +180,62 @@ public class Contact extends Item {
 
     /**
      * construct a contact item
-     * @param id
-     * @param name
-     * @param phones
-     * @param emails
+     * @param id id of contact
+     * @param name name of contact
+     * @param phones array list of phone numbers
+     * @param emails array list of emails
      */
     Contact(Long id, String name, HashMap<String, List> phones, HashMap<String,List> emails, String status) {
         this.setFieldValue(ID, id);
         this.setFieldValue(NAME, name);
-        if(phones.containsKey("mobilePhone")) this.setFieldValue(MOBILE_PHONE, phones.get("mobilePhone"));
-        if(phones.containsKey("workFax")) this.setFieldValue(WORKFAX, phones.get("workFax"));
-        if(phones.containsKey("homePhone")) this.setFieldValue(HOME_PHONE, phones.get("homePhone"));
-        if(phones.containsKey("workPhone")) this.setFieldValue(WORK_PHONE, phones.get("workPhone"));
-        if(phones.containsKey("homeFax")) this.setFieldValue(HOMEFAX, phones.get("homeFax"));
-        if(phones.containsKey("assistant")) this.setFieldValue(ASSISTANT, phones.get("assistant"));
-        if(phones.containsKey("callback")) this.setFieldValue(CALLBACK, phones.get("callback"));
-        if(phones.containsKey("car")) this.setFieldValue(CAR, phones.get("car"));
-        if(phones.containsKey("companyMain")) this.setFieldValue(COMPANY_MAIN, phones.get("companyMain"));
-        if(phones.containsKey("ISDN")) this.setFieldValue(ISDN, phones.get("ISDN"));
-        if(phones.containsKey("main")) this.setFieldValue(MAIN, phones.get("main"));
-        if(phones.containsKey("MMS")) this.setFieldValue(MMS, phones.get("MMS"));
-        if(phones.containsKey("otherPhone")) this.setFieldValue(OTHER_PHONE, phones.get("otherPhone"));
-        if(phones.containsKey("otherFax")) this.setFieldValue(OTHER_FAX, phones.get("otherFax"));
-        if(phones.containsKey("pager")) this.setFieldValue(PAGER, phones.get("pager"));
-        if(phones.containsKey("radio")) this.setFieldValue(RADIO, phones.get("radio"));
-        if(phones.containsKey("telex")) this.setFieldValue(TELEX, phones.get("telex"));
-        if(phones.containsKey("TTY_TDD")) this.setFieldValue(TTY_TDD, phones.get("TTY_TDD"));
-        if(phones.containsKey("workMobile")) this.setFieldValue(WORK_MOBILE, phones.get("workMobile"));
-        if(phones.containsKey("workPager")) this.setFieldValue(WORK_PAGER, phones.get("workPager"));
-        if(emails.containsKey("homeEmail")) this.setFieldValue(HOME_EMAIL, emails.get("homeEmail"));
-        if(emails.containsKey("workEmail")) this.setFieldValue(WORK_EMAIL, emails.get("workEmail"));
-        if(emails.containsKey("otherEmail")) this.setFieldValue(OTHER_EMAIL, emails.get("otherEmail"));
-        if(emails.containsKey("mobileEmail")) this.setFieldValue(MOBILE_EMAIL, emails.get("mobileEmail"));
+        if(phones.containsKey(MOBILE_PHONE)) this.setFieldValue(MOBILE_PHONE, phones.get(MOBILE_PHONE));
+        else this.setFieldValue(MOBILE_PHONE, null);
+        if(phones.containsKey(WORK_FAX)) this.setFieldValue(WORK_FAX, phones.get(WORK_FAX));
+        else this.setFieldValue(WORK_FAX, null);
+        if(phones.containsKey(HOME_PHONE)) this.setFieldValue(HOME_PHONE, phones.get(HOME_PHONE));
+        else this.setFieldValue(HOME_PHONE, null);
+        if(phones.containsKey(WORK_PHONE)) this.setFieldValue(WORK_PHONE, phones.get(WORK_PHONE));
+        else this.setFieldValue(WORK_PHONE, null);
+        if(phones.containsKey(HOME_FAX)) this.setFieldValue(HOME_FAX, phones.get(HOME_FAX));
+        else this.setFieldValue(HOME_FAX, null);
+        if(phones.containsKey(ASSISTANT)) this.setFieldValue(ASSISTANT, phones.get(ASSISTANT));
+        else this.setFieldValue(ASSISTANT, null);
+        if(phones.containsKey(CALLBACK)) this.setFieldValue(CALLBACK, phones.get(CALLBACK));
+        else this.setFieldValue(CALLBACK, null);
+        if(phones.containsKey(CAR)) this.setFieldValue(CAR, phones.get(CAR));
+        else this.setFieldValue(CAR, null);
+        if(phones.containsKey(COMPANY_MAIN)) this.setFieldValue(COMPANY_MAIN, phones.get(COMPANY_MAIN));
+        else this.setFieldValue(COMPANY_MAIN, null);
+        if(phones.containsKey(ISDN)) this.setFieldValue(ISDN, phones.get(ISDN));
+        else this.setFieldValue(ISDN, null);
+        if(phones.containsKey(MAIN)) this.setFieldValue(MAIN, phones.get(MAIN));
+        else this.setFieldValue(MAIN, null);
+        if(phones.containsKey(MMS)) this.setFieldValue(MMS, phones.get(MMS));
+        else this.setFieldValue(MMS, null);
+        if(phones.containsKey(OTHER_PHONE)) this.setFieldValue(OTHER_PHONE, phones.get(OTHER_PHONE));
+        else this.setFieldValue(OTHER_PHONE, null);
+        if(phones.containsKey(OTHER_FAX)) this.setFieldValue(OTHER_FAX, phones.get(OTHER_FAX));
+        else this.setFieldValue(OTHER_FAX, null);
+        if(phones.containsKey(PAGER)) this.setFieldValue(PAGER, phones.get(PAGER));
+        else this.setFieldValue(PAGER, null);
+        if(phones.containsKey(RADIO)) this.setFieldValue(RADIO, phones.get(RADIO));
+        else this.setFieldValue(RADIO, null);
+        if(phones.containsKey(TELEX)) this.setFieldValue(TELEX, phones.get(TELEX));
+        else this.setFieldValue(TELEX, null);
+        if(phones.containsKey(TTY_TDD)) this.setFieldValue(TTY_TDD, phones.get(TTY_TDD));
+        else this.setFieldValue(TTY_TDD, null);
+        if(phones.containsKey(WORK_MOBILE)) this.setFieldValue(WORK_MOBILE, phones.get(WORK_MOBILE));
+        else this.setFieldValue(WORK_MOBILE, null);
+        if(phones.containsKey(WORK_PAGER)) this.setFieldValue(WORK_PAGER, phones.get(WORK_PAGER));
+        else this.setFieldValue(WORK_PAGER, null);
+        if(emails.containsKey(HOME_EMAIL)) this.setFieldValue(HOME_EMAIL, emails.get(HOME_EMAIL));
+        else this.setFieldValue(HOME_EMAIL, null);
+        if(emails.containsKey(WORK_EMAIL)) this.setFieldValue(WORK_EMAIL, emails.get(WORK_EMAIL));
+        else this.setFieldValue(WORK_EMAIL, null);
+        if(emails.containsKey(OTHER_EMAIL)) this.setFieldValue(OTHER_EMAIL, emails.get(OTHER_EMAIL));
+        else this.setFieldValue(OTHER_EMAIL, null);
+        if(emails.containsKey(MOBILE_EMAIL)) this.setFieldValue(MOBILE_EMAIL, emails.get(MOBILE_EMAIL));
+        else this.setFieldValue(MOBILE_EMAIL, null);
         this.setFieldValue(STATUS, status);
     }
 
@@ -219,30 +243,30 @@ public class Contact extends Item {
         this.setFieldValue(ID, another.getValueByField(Contact.ID));
         this.setFieldValue(NAME, another.getValueByField(Contact.NAME));
         this.setFieldValue(STATUS, another.getValueByField(Contact.STATUS));
-        if(another.containsField(Contact.ASSISTANT)) this.setFieldValue(STATUS, another.getValueByField(Contact.ASSISTANT));
-        if(another.containsField(Contact.CALLBACK)) this.setFieldValue(STATUS, another.getValueByField(Contact.CALLBACK));
-        if(another.containsField(Contact.COMPANY_MAIN)) this.setFieldValue(STATUS, another.getValueByField(Contact.COMPANY_MAIN));
-        if(another.containsField(Contact.CAR)) this.setFieldValue(STATUS, another.getValueByField(Contact.CAR));
-        if(another.containsField(Contact.HOME_EMAIL)) this.setFieldValue(STATUS, another.getValueByField(Contact.HOME_EMAIL));
-        if(another.containsField(Contact.HOME_PHONE)) this.setFieldValue(STATUS, another.getValueByField(Contact.HOME_PHONE));
-        if(another.containsField(Contact.HOMEFAX)) this.setFieldValue(STATUS, another.getValueByField(Contact.HOMEFAX));
-        if(another.containsField(Contact.MOBILE_PHONE)) this.setFieldValue(STATUS, another.getValueByField(Contact.MOBILE_PHONE));
-        if(another.containsField(Contact.OTHER_EMAIL)) this.setFieldValue(STATUS, another.getValueByField(Contact.OTHER_EMAIL));
-        if(another.containsField(Contact.OTHER_PHONE)) this.setFieldValue(STATUS, another.getValueByField(Contact.OTHER_PHONE));
-        if(another.containsField(Contact.OTHER_FAX)) this.setFieldValue(STATUS, another.getValueByField(Contact.OTHER_FAX));
-        if(another.containsField(Contact.WORK_PHONE)) this.setFieldValue(STATUS, another.getValueByField(Contact.WORK_PHONE));
-        if(another.containsField(Contact.WORK_EMAIL)) this.setFieldValue(STATUS, another.getValueByField(Contact.WORK_EMAIL));
-        if(another.containsField(Contact.WORKFAX)) this.setFieldValue(STATUS, another.getValueByField(Contact.WORKFAX));
-        if(another.containsField(Contact.WORK_PAGER)) this.setFieldValue(STATUS, another.getValueByField(Contact.WORK_PAGER));
-        if(another.containsField(Contact.WORK_MOBILE)) this.setFieldValue(STATUS, another.getValueByField(Contact.WORK_MOBILE));
-        if(another.containsField(Contact.PAGER)) this.setFieldValue(STATUS, another.getValueByField(Contact.PAGER));
-        if(another.containsField(Contact.TTY_TDD)) this.setFieldValue(STATUS, another.getValueByField(Contact.TTY_TDD));
-        if(another.containsField(Contact.TELEX)) this.setFieldValue(STATUS, another.getValueByField(Contact.TELEX));
-        if(another.containsField(Contact.RADIO)) this.setFieldValue(STATUS, another.getValueByField(Contact.RADIO));
-        if(another.containsField(Contact.MOBILE_EMAIL)) this.setFieldValue(STATUS, another.getValueByField(Contact.MOBILE_EMAIL));
-        if(another.containsField(Contact.ISDN)) this.setFieldValue(STATUS, another.getValueByField(Contact.ISDN));
-        if(another.containsField(Contact.MAIN)) this.setFieldValue(STATUS, another.getValueByField(Contact.MAIN));
-        if(another.containsField(Contact.MMS)) this.setFieldValue(STATUS, another.getValueByField(Contact.MMS));
+        this.setFieldValue(STATUS, another.getValueByField(Contact.ASSISTANT));
+        this.setFieldValue(STATUS, another.getValueByField(Contact.CALLBACK));
+        this.setFieldValue(STATUS, another.getValueByField(Contact.COMPANY_MAIN));
+        this.setFieldValue(STATUS, another.getValueByField(Contact.CAR));
+        this.setFieldValue(STATUS, another.getValueByField(Contact.HOME_EMAIL));
+        this.setFieldValue(STATUS, another.getValueByField(Contact.HOME_PHONE));
+        this.setFieldValue(STATUS, another.getValueByField(Contact.HOME_FAX));
+        this.setFieldValue(STATUS, another.getValueByField(Contact.MOBILE_PHONE));
+        this.setFieldValue(STATUS, another.getValueByField(Contact.OTHER_EMAIL));
+        this.setFieldValue(STATUS, another.getValueByField(Contact.OTHER_PHONE));
+        this.setFieldValue(STATUS, another.getValueByField(Contact.OTHER_FAX));
+        this.setFieldValue(STATUS, another.getValueByField(Contact.WORK_PHONE));
+        this.setFieldValue(STATUS, another.getValueByField(Contact.WORK_EMAIL));
+        this.setFieldValue(STATUS, another.getValueByField(Contact.WORK_FAX));
+        this.setFieldValue(STATUS, another.getValueByField(Contact.WORK_PAGER));
+        this.setFieldValue(STATUS, another.getValueByField(Contact.WORK_MOBILE));
+        this.setFieldValue(STATUS, another.getValueByField(Contact.PAGER));
+        this.setFieldValue(STATUS, another.getValueByField(Contact.TTY_TDD));
+        this.setFieldValue(STATUS, another.getValueByField(Contact.TELEX));
+        this.setFieldValue(STATUS, another.getValueByField(Contact.RADIO));
+        this.setFieldValue(STATUS, another.getValueByField(Contact.MOBILE_EMAIL));
+        this.setFieldValue(STATUS, another.getValueByField(Contact.ISDN));
+        this.setFieldValue(STATUS, another.getValueByField(Contact.MAIN));
+        this.setFieldValue(STATUS, another.getValueByField(Contact.MMS));
     }
     /**
      * Provide all Contact items in device's contacts database.
