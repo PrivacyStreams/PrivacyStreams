@@ -3,21 +3,16 @@ package com.github.privacystreams.communication;
 import android.Manifest;
 import android.content.ContentResolver;
 import android.database.Cursor;
-import android.provider.Contacts;
 import android.provider.ContactsContract;
 import android.provider.ContactsContract.CommonDataKinds.Email;
 import android.provider.ContactsContract.CommonDataKinds.Phone;
-import android.util.Log;
-import android.widget.Switch;
 
 import com.github.privacystreams.core.providers.MStreamProvider;
 import com.github.privacystreams.utils.CommunicationUtils;
-import com.github.privacystreams.utils.Logging;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Provide a stream of contact list.
@@ -89,83 +84,83 @@ class ContactListProvider extends MStreamProvider {
                         switch(phoneType){
                             case Phone.TYPE_MOBILE:
                                 mobileList.add(CommunicationUtils.normalizePhoneNumber(number));
-                                if(!phones.containsKey("mobilePhone")) phones.put("mobilePhone", mobileList);
+                                if(!phones.containsKey(Contact.MOBILE_PHONE)) phones.put(Contact.MOBILE_PHONE, mobileList);
                                 break;
                             case Phone.TYPE_HOME:
                                 homeList.add(CommunicationUtils.normalizePhoneNumber(number));
-                                if(!phones.containsKey("homePhone")) phones.put("homePhone", homeList);
+                                if(!phones.containsKey(Contact.HOME_PHONE)) phones.put(Contact.HOME_PHONE, homeList);
                                 break;
                             case Phone.TYPE_WORK:
                                 workList.add(CommunicationUtils.normalizePhoneNumber(number));
-                                if(!phones.containsKey("workPhone")) phones.put("workPhone", workList);
+                                if(!phones.containsKey(Contact.WORK_PHONE)) phones.put(Contact.WORK_PHONE, workList);
                                 break;
                             case Phone.TYPE_FAX_HOME:
                                 homeFaxList.add(CommunicationUtils.normalizePhoneNumber(number));
-                                if(!phones.containsKey("homeFax")) phones.put("homeFax", homeFaxList);
+                                if(!phones.containsKey(Contact.HOME_FAX)) phones.put(Contact.HOME_FAX, homeFaxList);
                                 break;
                             case Phone.TYPE_PAGER:
                                 pagerList.add(CommunicationUtils.normalizePhoneNumber(number));
-                                if(!phones.containsKey("pager")) phones.put("pager", pagerList);
+                                if(!phones.containsKey(Contact.PAGER)) phones.put(Contact.PAGER, pagerList);
                                 break;
                             case Phone.TYPE_CALLBACK:
                                 callbackList.add(CommunicationUtils.normalizePhoneNumber(number));
-                                if(!phones.containsKey("callback")) phones.put("mobilePhone", callbackList);
+                                if(!phones.containsKey(Contact.MOBILE_PHONE)) phones.put(Contact.MOBILE_PHONE, callbackList);
                                 break;
                             case Phone.TYPE_CAR:
                                 carList.add(CommunicationUtils.normalizePhoneNumber(number));
-                                if(!phones.containsKey("car")) phones.put("car", carList);
+                                if(!phones.containsKey(Contact.CAR)) phones.put(Contact.CAR, carList);
                                 break;
                             case Phone.TYPE_ASSISTANT:
                                 assistantList.add(CommunicationUtils.normalizePhoneNumber(number));
-                                if(!phones.containsKey("assistant")) phones.put("assistant", assistantList);
+                                if(!phones.containsKey(Contact.ASSISTANT)) phones.put(Contact.ASSISTANT, assistantList);
                                 break;
                             case Phone.TYPE_COMPANY_MAIN:
                                 companyMainList.add(CommunicationUtils.normalizePhoneNumber(number));
-                                if(!phones.containsKey("companyMain")) phones.put("companyMain", companyMainList);
+                                if(!phones.containsKey(Contact.COMPANY_MAIN)) phones.put(Contact.COMPANY_MAIN, companyMainList);
                                 break;
                             case Phone.TYPE_FAX_WORK:
                                 workFaxList.add(CommunicationUtils.normalizePhoneNumber(number));
-                                if(!phones.containsKey("workFax")) phones.put("workFax", workFaxList);
+                                if(!phones.containsKey(Contact.WORK_FAX)) phones.put(Contact.WORK_FAX, workFaxList);
                                 break;
                             case Phone.TYPE_OTHER:
                                 otherList.add(CommunicationUtils.normalizePhoneNumber(number));
-                                if(!phones.containsKey("otherPhone")) phones.put("otherphone", otherList);
+                                if(!phones.containsKey(Contact.OTHER_PHONE)) phones.put(Contact.OTHER_PHONE, otherList);
                                 break;
                             case Phone.TYPE_OTHER_FAX:
                                 otherFaxList.add(CommunicationUtils.normalizePhoneNumber(number));
-                                if(!phones.containsKey("otherFax")) phones.put("otherFax", otherFaxList);
+                                if(!phones.containsKey(Contact.OTHER_FAX)) phones.put(Contact.OTHER_FAX, otherFaxList);
                                 break;
                             case Phone.TYPE_ISDN:
                                 ISDNList.add(CommunicationUtils.normalizePhoneNumber(number));
-                                if(!phones.containsKey("ISDN")) phones.put("ISDN", ISDNList);
+                                if(!phones.containsKey(Contact.ISDN)) phones.put(Contact.ISDN, ISDNList);
                                 break;
                             case Phone.TYPE_MAIN:
                                 mainList.add(CommunicationUtils.normalizePhoneNumber(number));
-                                if(!phones.containsKey("main")) phones.put("main", mainList);
+                                if(!phones.containsKey(Contact.MAIN)) phones.put(Contact.MAIN, mainList);
                                 break;
                             case Phone.TYPE_MMS:
                                 MMSList.add(CommunicationUtils.normalizePhoneNumber(number));
-                                if(!phones.containsKey("MMS")) phones.put("MMS", MMSList);
+                                if(!phones.containsKey(Contact.MMS)) phones.put(Contact.MMS, MMSList);
                                 break;
                             case Phone.TYPE_RADIO:
                                 radioList.add(CommunicationUtils.normalizePhoneNumber(number));
-                                if(!phones.containsKey("radio")) phones.put("radio", radioList);
+                                if(!phones.containsKey(Contact.RADIO)) phones.put(Contact.RADIO, radioList);
                                 break;
                             case Phone.TYPE_TELEX:
                                 telexList.add(CommunicationUtils.normalizePhoneNumber(number));
-                                if(!phones.containsKey("telex")) phones.put("telex", telexList);
+                                if(!phones.containsKey(Contact.TELEX)) phones.put(Contact.TELEX, telexList);
                                 break;
                             case Phone.TYPE_TTY_TDD:
                                 TTY_TDDList.add(CommunicationUtils.normalizePhoneNumber(number));
-                                if(!phones.containsKey("TTY_TDD")) phones.put("TTY_TDD", TTY_TDDList);
+                                if(!phones.containsKey(Contact.TTY_TDD)) phones.put(Contact.TTY_TDD, TTY_TDDList);
                                 break;
                             case Phone.TYPE_WORK_MOBILE:
                                 workMobileList.add(CommunicationUtils.normalizePhoneNumber(number));
-                                if(!phones.containsKey("workMobile")) phones.put("workMobile", workMobileList);
+                                if(!phones.containsKey(Contact.WORK_MOBILE)) phones.put(Contact.WORK_MOBILE, workMobileList);
                                 break;
                             case Phone.TYPE_WORK_PAGER:
                                 workPagerList.add(CommunicationUtils.normalizePhoneNumber(number));
-                                if(!phones.containsKey("workPager")) phones.put("workPager", workPagerList);
+                                if(!phones.containsKey(Contact.WORK_PAGER)) phones.put(Contact.WORK_PAGER, workPagerList);
                                 break;
                         }
                     }

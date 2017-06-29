@@ -44,7 +44,7 @@ class CalendarEventListProvider extends MStreamProvider {
                         CalendarContract.Events.TITLE,
                         CalendarContract.Events.DTSTART,
                         CalendarContract.Events.EVENT_LOCATION,
-                        CalendarContract.Events.DURATION},
+                        CalendarContract.Events.DTEND},
                 null,
                 null,
                 null
@@ -53,15 +53,14 @@ class CalendarEventListProvider extends MStreamProvider {
         if (c != null && c.getCount() > 0) {
             c.moveToFirst();
             while (!c.isAfterLast()) {
-                String id = c.getString(c.getColumnIndex(
+                long id = c.getLong(c.getColumnIndex(
                         CalendarContract.Events._ID));
                 String title = c.getString(c.getColumnIndex(
                         CalendarContract.Events.TITLE));
                 Long startTime = c.getLong(c.getColumnIndex(CalendarContract.Events.DTSTART));
                 String location = c.getString(c.getColumnIndex(CalendarContract.Events.EVENT_LOCATION));
-                Long duration = c.getLong(c.getColumnIndex(CalendarContract.Events.DURATION));
-                Log.e("event", title + "," + location);
-                CalendarEvent calendarEvent = new CalendarEvent(id, title, startTime, duration, location);
+                Long endTime = c.getLong(c.getColumnIndex(CalendarContract.Events.DTEND));
+                CalendarEvent calendarEvent = new CalendarEvent(id, title, startTime, endTime, location);
                 output(calendarEvent);
 
                 c.moveToNext();

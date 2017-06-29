@@ -13,7 +13,7 @@ public class CalendarEvent extends Item {
     /**
      * Event ID.
      */
-    @PSItemField(type = String.class)
+    @PSItemField(type = Long.class)
     public static final String ID = "id";
 
     /**
@@ -34,7 +34,7 @@ public class CalendarEvent extends Item {
      * Duration of the event.
      */
     @PSItemField(type = Long.class)
-    public static final String DURATION = "duration";
+    public static final String END_TIME = "end_time";
 
     /**
      * Event location.
@@ -42,12 +42,28 @@ public class CalendarEvent extends Item {
     @PSItemField(type = String.class)
     public static final String EVENT_LOCATION = "event_location";
 
-    CalendarEvent(String id, String title, long startTime, long duration, String eventLocation) {
+    /**
+     * Event status.
+     */
+    @PSItemField(type = String.class)
+    public static String STATUS = "status";
+
+    CalendarEvent(long id, String title, long startTime, long endTime, String eventLocation) {
         this.setFieldValue(ID, id);
         this.setFieldValue(TITLE, title);
         this.setFieldValue(START_TIME, startTime);
-        this.setFieldValue(DURATION, duration);
+        this.setFieldValue(END_TIME, endTime);
         this.setFieldValue(EVENT_LOCATION, eventLocation);
+        this.setFieldValue(STATUS, "added");
+    }
+
+    CalendarEvent(CalendarEvent another){
+        this.setFieldValue(CalendarEvent.ID, another.getValueByField(CalendarEvent.ID));
+        this.setFieldValue(CalendarEvent.STATUS, another.getValueByField(CalendarEvent.STATUS));
+        this.setFieldValue(CalendarEvent.END_TIME, another.getValueByField(CalendarEvent.END_TIME));
+        this.setFieldValue(CalendarEvent.EVENT_LOCATION, another.getValueByField(CalendarEvent.EVENT_LOCATION));
+        this.setFieldValue(CalendarEvent.START_TIME, another.getValueByField(CalendarEvent.START_TIME));
+        this.setFieldValue(CalendarEvent.TITLE, another.getValueByField(CalendarEvent.TITLE));
     }
 
     /**
@@ -60,5 +76,7 @@ public class CalendarEvent extends Item {
     public static MStreamProvider getAll() {
         return new CalendarEventListProvider();
     }
-
+    public static MStreamProvider getUpdates() {
+        return new CalendarUpdatesProvider();
+    }
 }
