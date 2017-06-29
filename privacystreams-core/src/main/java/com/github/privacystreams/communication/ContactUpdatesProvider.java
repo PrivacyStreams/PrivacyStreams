@@ -37,12 +37,14 @@ public class ContactUpdatesProvider extends MStreamProvider {
         contactStateObserver = new ContactStateObserver();
         UQI uqi = new UQI(getContext());
         try {
-            contactList = uqi.getData(Contact.getAll(), Purpose.FEATURE("get original contacts on phone")).asList();
+            contactList = uqi.getData(Contact.getAll(),
+                    Purpose.FEATURE("get original contacts on phone")).asList();
         } catch (PSException e) {
             e.printStackTrace();
         }
         uqi.stopAll();
-        getContext().getContentResolver().registerContentObserver(Contacts.CONTENT_URI, false, contactStateObserver);
+        getContext().getContentResolver()
+                .registerContentObserver(Contacts.CONTENT_URI, false, contactStateObserver);
     }
 
     //observer
@@ -96,7 +98,8 @@ public class ContactUpdatesProvider extends MStreamProvider {
 
     /**
      * this method takes two list of contact in which only one contact differs
-     * this method will return the changed contact and set its statues field to three type: add, delete and edit
+     * this method will return the changed contact and set its statues field to three type:
+     * add, delete and edit
      *
      * @param oldContactList contact list before the onchange method is called
      * @param newContactList new contact list after the change

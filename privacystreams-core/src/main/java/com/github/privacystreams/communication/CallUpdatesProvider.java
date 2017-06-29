@@ -2,6 +2,7 @@ package com.github.privacystreams.communication;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.IntentFilter;
 
 import com.github.privacystreams.core.UQI;

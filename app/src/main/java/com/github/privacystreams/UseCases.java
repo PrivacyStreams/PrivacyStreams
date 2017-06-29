@@ -3,12 +3,14 @@ package com.github.privacystreams;
 import android.content.Context;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
+import android.util.Log;
 
 import com.github.privacystreams.accessibility.AccEvent;
 import com.github.privacystreams.accessibility.BrowserSearch;
 import com.github.privacystreams.accessibility.BrowserVisit;
 import com.github.privacystreams.audio.Audio;
 import com.github.privacystreams.audio.AudioOperators;
+import com.github.privacystreams.calendar.CalendarEvent;
 import com.github.privacystreams.commons.arithmetic.ArithmeticOperators;
 import com.github.privacystreams.commons.comparison.Comparators;
 import com.github.privacystreams.commons.item.ItemOperators;
@@ -327,8 +329,17 @@ public class UseCases {
                 .count() == 1;
 
     }
+
    public void testUpdatesContact() {
         uqi.getData(Contact.asUpdates(), Purpose.FEATURE("For experiment")).debug();
+    }
+
+    public void testUpdatesCalendar(){
+        uqi.getData(CalendarEvent.getUpdates(), Purpose.FEATURE("For test")).debug();
+    }
+
+    public void testCalendarList(){
+        uqi.getData(CalendarEvent.getAll(), Purpose.FEATURE("for test")).debug();
     }
 
     void callbackWhenReceivesMessage(String appName, Callback<String> messageCallback){
