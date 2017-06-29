@@ -35,7 +35,7 @@ class WifiApListProvider extends MStreamProvider {
                     WifiApListProvider.this.output(new WifiAp(result, WifiAp.STATUS_CONNECTED));
                 }
                 else{
-                    WifiApListProvider.this.output(new WifiAp(result,WifiAp.STATUS_DISCONNECTED));
+                    WifiApListProvider.this.output(new WifiAp(result,WifiAp.STATUS_SCANNED));
                 }
             }
             WifiApListProvider.this.finish();

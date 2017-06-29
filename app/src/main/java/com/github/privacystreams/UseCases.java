@@ -3,7 +3,6 @@ package com.github.privacystreams;
 import android.content.Context;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
-import android.util.Log;
 
 import com.github.privacystreams.accessibility.AccEvent;
 import com.github.privacystreams.accessibility.BrowserSearch;
@@ -324,7 +323,7 @@ public class UseCases {
     boolean isAtHome() throws PSException {
         return uqi
                 .getData(WifiAp.getScanResults(), Purpose.FEATURE("know whether you are at home."))
-                .filter(Comparators.eq(WifiAp.CONNECTED, true))
+                .filter(Comparators.eq(WifiAp.STATUS, WifiAp.STATUS_CONNECTED))
                 .filter(WifiAPOperators.atHome(WifiAp.SSID))
                 .count() == 1;
 

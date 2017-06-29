@@ -31,14 +31,14 @@ import java.util.Map;
  */
 
 public class IMUIUpdatesProvider extends MStreamProvider {
-    private int mWhatsappLastEventItemCount=0;
+    private int mWhatsAppLastEventItemCount=0;
     private String mDetContactName = "";
-    private int mWhatsappLastFromIndex = 0;
+    private int mWhatsAppLastFromIndex = 0;
     private int mFacebookLastInputLength = 0;
 
-    private Map<String,Integer> mWhatsappFullUnreadMessageList = new HashMap<>();
+    private Map<String,Integer> mWhatsAppFullUnreadMessageList = new HashMap<>();
     private Map<String,Integer> mFacebookFullUnreadMessageList = new HashMap<>();
-    private Map<String,ArrayList<String>> mWhatsappDb = new  HashMap<>();
+    private Map<String,ArrayList<String>> mWhatsAppDb = new  HashMap<>();
     private Map<String,ArrayList<String>> mFacebookDb = new  HashMap<>();
 
     private void saveNewMessageScrolling(List<AccessibilityNodeInfo> nodeInfoList,
@@ -51,8 +51,8 @@ public class IMUIUpdatesProvider extends MStreamProvider {
         switch (packageName) {
             case AppUtils.APP_PACKAGE_WHATSAPP:
                 int fromIndex = theFromIndex - 2;
-                if(mWhatsappDb.containsKey(contactName) && fromIndex > 0){
-                    ArrayList<String> dbList = mWhatsappDb.get(contactName);
+                if(mWhatsAppDb.containsKey(contactName) && fromIndex > 0){
+                    ArrayList<String> dbList = mWhatsAppDb.get(contactName);
                     int dbSize = dbList.size();
                     if (dbSize==eventCount){
                         for (int i = 0; i<nodoInfoListSize;i++) {
@@ -94,7 +94,7 @@ public class IMUIUpdatesProvider extends MStreamProvider {
                         }
                         dbList = new ArrayList<>(Arrays.asList(list));
                     }
-                    mWhatsappDb.put(contactName,dbList);
+                    mWhatsAppDb.put(contactName,dbList);
                 }
                 break;
             case AppUtils.APP_PACKAGE_FACEBOOK_MESSENGER:
@@ -111,10 +111,10 @@ public class IMUIUpdatesProvider extends MStreamProvider {
         ArrayList<String> individualDb;
         switch (packageName){
             case AppUtils.APP_PACKAGE_WHATSAPP:
-                if(!mWhatsappDb.containsKey(contactName)){
-                    mWhatsappDb.put(contactName,new ArrayList<String>());
+                if(!mWhatsAppDb.containsKey(contactName)){
+                    mWhatsAppDb.put(contactName,new ArrayList<String>());
                 }
-                individualDb = mWhatsappDb.get(contactName);
+                individualDb = mWhatsAppDb.get(contactName);
                 if(!contains){
                     messageAmount =1;
                     if(individualDb.size()>0
@@ -127,7 +127,7 @@ public class IMUIUpdatesProvider extends MStreamProvider {
                 }
                 else
                 {
-                    messageAmount = mWhatsappFullUnreadMessageList.get(contactName);
+                    messageAmount = mWhatsAppFullUnreadMessageList.get(contactName);
                     if(messageAmount>nodoInfoListSize)
                         messageAmount = nodoInfoListSize;
                     else{
@@ -136,7 +136,7 @@ public class IMUIUpdatesProvider extends MStreamProvider {
                         }while(messageAmount<nodoInfoListSize&&individualDb.size()>0&&!individualDb.get(individualDb.size()-1).equals(nodeInfoList.get(nodoInfoListSize - messageAmount).getText().toString()));
                         messageAmount--;
                     }
-                    mWhatsappFullUnreadMessageList.put(contactName,0);
+                    mWhatsAppFullUnreadMessageList.put(contactName,0);
                 }
                 for(int i = messageAmount;i>0;i--){
                     // Put certain amount of message into the database
@@ -160,7 +160,7 @@ public class IMUIUpdatesProvider extends MStreamProvider {
                     ));
                     individualDb.add(messageContent);
                 }
-                mWhatsappDb.put(contactName,individualDb);
+                mWhatsAppDb.put(contactName,individualDb);
                 break;
             case AppUtils.APP_PACKAGE_FACEBOOK_MESSENGER:
                 // Get the amount of unread message
@@ -245,7 +245,7 @@ public class IMUIUpdatesProvider extends MStreamProvider {
                                         if(AccessibilityUtils.getMainPageSymbol(rootNode,packageName)){     // Check if it is at the main page
                                             unreadMessageList = AccessibilityUtils.getUnreadMessageList(rootNode,packageName);
                                             if(unreadMessageList != null)
-                                                mWhatsappFullUnreadMessageList.putAll(unreadMessageList);
+                                                mWhatsAppFullUnreadMessageList.putAll(unreadMessageList);
                                         }
                                         else{
                                             contactName = AccessibilityUtils.getContactNameInChat(rootNode, packageName);
@@ -263,18 +263,18 @@ public class IMUIUpdatesProvider extends MStreamProvider {
                                             if(AccessibilityUtils.getUnreadSymbol(rootNode, packageName)){
                                                 eventItemCount = eventItemCount - 1;
                                             }
-                                            if(mWhatsappFullUnreadMessageList.containsKey(contactName)
-                                                    &&mWhatsappFullUnreadMessageList.get(contactName)>0){
+                                            if(mWhatsAppFullUnreadMessageList.containsKey(contactName)
+                                                    &&mWhatsAppFullUnreadMessageList.get(contactName)>0){
                                                 saveNewMessage(nodeInfos,
                                                         contactName,
                                                         packageName,
                                                         true,
                                                         rootNode);
                                             }
-                                            else if((eventItemCount - mWhatsappLastEventItemCount)!=1
-                                                    && mWhatsappLastFromIndex!=0
-                                                    &&(eventItemCount-mWhatsappLastEventItemCount)!=(index-mWhatsappLastFromIndex)){
-                                                if((mWhatsappLastFromIndex-index)>1){
+                                            else if((eventItemCount - mWhatsAppLastEventItemCount)!=1
+                                                    && mWhatsAppLastFromIndex!=0
+                                                    &&(eventItemCount-mWhatsAppLastEventItemCount)!=(index-mWhatsAppLastFromIndex)){
+                                                if((mWhatsAppLastFromIndex-index)>1){
                                                     saveNewMessageScrolling(nodeInfos,
                                                             contactName,
                                                             packageName,
@@ -283,15 +283,15 @@ public class IMUIUpdatesProvider extends MStreamProvider {
                                                             rootNode);
                                                 }
                                             }
-                                            else if (eventItemCount - mWhatsappLastEventItemCount == 1) {
+                                            else if (eventItemCount - mWhatsAppLastEventItemCount == 1) {
                                                 saveNewMessage(nodeInfos,
                                                         contactName,
                                                         packageName,
                                                         false,
                                                         rootNode);
                                             }
-                                            mWhatsappLastEventItemCount = eventItemCount;
-                                            mWhatsappLastFromIndex = index;
+                                            mWhatsAppLastEventItemCount = eventItemCount;
+                                            mWhatsAppLastFromIndex = index;
                                         }
                                     }
                                 }
@@ -348,15 +348,15 @@ public class IMUIUpdatesProvider extends MStreamProvider {
                         switch (packageName){
                             case AppUtils.APP_PACKAGE_WHATSAPP:
                                 if(contactName.equals("WhatsApp")){
-                                    String name =getWhatsappContactName((Bundle) input.getValueByField(Notification.EXTRA));
+                                    String name =getWhatsAppContactName((Bundle) input.getValueByField(Notification.EXTRA));
                                     if(name!=null) contactName = name;
                                 }
-                                if(mWhatsappFullUnreadMessageList.containsKey(contactName)){
-                                    num = mWhatsappFullUnreadMessageList.get(contactName);
-                                    mWhatsappFullUnreadMessageList.put(contactName,num+1);
+                                if(mWhatsAppFullUnreadMessageList.containsKey(contactName)){
+                                    num = mWhatsAppFullUnreadMessageList.get(contactName);
+                                    mWhatsAppFullUnreadMessageList.put(contactName,num+1);
                                 }
                                 else{
-                                    mWhatsappFullUnreadMessageList.put(contactName,1);
+                                    mWhatsAppFullUnreadMessageList.put(contactName,1);
                                 }
                                 break;
                             case AppUtils.APP_PACKAGE_FACEBOOK_MESSENGER:
@@ -388,7 +388,7 @@ public class IMUIUpdatesProvider extends MStreamProvider {
         try {
             switch (packageName){
                 case AppUtils.APP_PACKAGE_WHATSAPP:
-                    mWhatsappLastEventItemCount = eventItemCount;
+                    mWhatsAppLastEventItemCount = eventItemCount;
                     break;
             }
             return true;
@@ -398,8 +398,8 @@ public class IMUIUpdatesProvider extends MStreamProvider {
         }
     }
 
-    // Finds the hidden information in whatsapp
-    private String getWhatsappContactName(Bundle extras) {
+    // Finds the hidden information in whatsApp
+    private String getWhatsAppContactName(Bundle extras) {
         String contactName = "";
         if (extras != null) {
             for (String k : extras.keySet()) {
