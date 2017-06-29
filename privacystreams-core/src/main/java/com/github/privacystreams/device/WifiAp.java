@@ -58,17 +58,13 @@ public class WifiAp extends Item {
     public static final String STATUS_DISCONNECTED = "disconnected";
     public static final String STATUS_SCANNED = "scanned";
 
-    WifiAp(ScanResult scanResult, boolean connected) {
+    WifiAp(ScanResult scanResult, String status) {
         this.setFieldValue(TIMESTAMP, scanResult.timestamp);
         this.setFieldValue(BSSID, scanResult.BSSID);
         this.setFieldValue(SSID, scanResult.SSID);
         this.setFieldValue(FREQUENCY, scanResult.frequency);
         this.setFieldValue(RSSI, scanResult.level);
-        if(connected)
-            this.setFieldValue(STATUS, STATUS_CONNECTED);
-        else{
-            this.setFieldValue(STATUS, STATUS_SCANNED);
-        }
+        this.setFieldValue(STATUS,status);
     }
 
     /**
