@@ -31,15 +31,15 @@ import java.util.Map;
  */
 
 public class IMUIUpdatesProvider extends MStreamProvider {
-    private int lastEventItemCountWhatsapp=0;
-    private String detContactName = "";
-    private int lastFromIndexWhatsapp = 0;
-    private int lastFacebookInputLength = 0;
+    private int mWhatsappLastEventItemCount=0;
+    private String mDetContactName = "";
+    private int mWhatsappLastFromIndex = 0;
+    private int mFacebookLastInputLength = 0;
 
-    private Map<String,Integer> fullUnreadMessageListWhatsapp = new HashMap<>();
-    private Map<String,Integer> fullUnreadMessageListFacebook = new HashMap<>();
-    private Map<String,ArrayList<String>> dbWhatsapp = new  HashMap<>();
-    private Map<String,ArrayList<String>> dbFacebook = new  HashMap<>();
+    private Map<String,Integer> mWhatsappFullUnreadMessageList = new HashMap<>();
+    private Map<String,Integer> mFacebookFullUnreadMessageList = new HashMap<>();
+    private Map<String,ArrayList<String>> mWhatsappDb = new  HashMap<>();
+    private Map<String,ArrayList<String>> mFacebookDb = new  HashMap<>();
 
     private void saveNewMessageScrolling(List<AccessibilityNodeInfo> nodeInfoList,
                                          String contactName,
@@ -47,45 +47,30 @@ public class IMUIUpdatesProvider extends MStreamProvider {
                                          int eventCount,
                                          int theFromIndex,
                                          AccessibilityNodeInfo rootNode){
+        int nodoInfoListSize = nodeInfoList.size();
         switch (packageName) {
             case AppUtils.APP_PACKAGE_WHATSAPP:
                 int fromIndex = theFromIndex - 2;
-                if(dbWhatsapp.containsKey(contactName) && fromIndex > 0){
-                    ArrayList<String> dbList = dbWhatsapp.get(contactName);
-                    int size = dbList.size();
-                    if (size==eventCount){
-                        for (int i = 0; i<nodeInfoList.size();i++) {
+                if(mWhatsappDb.containsKey(contactName) && fromIndex > 0){
+                    ArrayList<String> dbList = mWhatsappDb.get(contactName);
+                    int dbSize = dbList.size();
+                    if (dbSize==eventCount){
+                        for (int i = 0; i<nodoInfoListSize;i++) {
                             if (dbList.get(fromIndex+i)==null){
-                                AccessibilityNodeInfo nodeInfo = nodeInfoList.get(i);
                                 String messageContent = nodeInfoList.get(i).getText().toString();
-                                String messageType = AccessibilityUtils.isIncomingMessage
-                                        (nodeInfo,this.getContext()) ?
-                                        InstantMessage.TYPE_RECEIVED : InstantMessage.TYPE_SENT;
-
-                                Rect rect = new Rect();
-                                nodeInfo.getBoundsInScreen(rect);
-                                int [] messagePosition = new int[] {rect.left, rect.top, rect.right, rect.bottom};
-
-                                this.output(new InstantMessage(messageType,
-                                        messageContent,
-                                        packageName,
-                                        contactName,
-                                        System.currentTimeMillis(),
-                                        messagePosition,
-                                        rootNode));
                                 dbList.remove(fromIndex+i);
                                 dbList.add(fromIndex+i,messageContent);
                             }
                         }
                     }
-                    else if(eventCount>size){
+                    else if(eventCount>dbSize){
                         String[] list = new String[eventCount];
                         int count =0;
                         for (String s : dbList){
-                            list[eventCount-size+count]=s;
+                            list[eventCount-dbSize+count]=s;
                             count++;
                         }
-                        for (int i = 0; i<nodeInfoList.size();i++) {
+                        for (int i = 0; i<nodoInfoListSize;i++) {
                             if(list[fromIndex+i]==null){
                                 AccessibilityNodeInfo nodeInfo = nodeInfoList.get(i);
                                 String messageContent = nodeInfoList.get(i).getText().toString();
@@ -95,7 +80,6 @@ public class IMUIUpdatesProvider extends MStreamProvider {
                                 Rect rect = new Rect();
                                 nodeInfo.getBoundsInScreen(rect);
                                 int [] messagePosition = new int[] {rect.left, rect.top, rect.right, rect.bottom};
-
 
                                 this.output(new InstantMessage(messageType,
                                         messageContent,
@@ -110,7 +94,7 @@ public class IMUIUpdatesProvider extends MStreamProvider {
                         }
                         dbList = new ArrayList<>(Arrays.asList(list));
                     }
-                    dbWhatsapp.put(contactName,dbList);
+                    mWhatsappDb.put(contactName,dbList);
                 }
                 break;
             case AppUtils.APP_PACKAGE_FACEBOOK_MESSENGER:
@@ -122,41 +106,42 @@ public class IMUIUpdatesProvider extends MStreamProvider {
                                 String packageName,
                                 Boolean contains,
                                 AccessibilityNodeInfo rootNode) {
-        int size;
-        ArrayList<String> list;
+        int messageAmount;
+        int nodoInfoListSize = nodeInfoList.size();
+        ArrayList<String> individualDb;
         switch (packageName){
             case AppUtils.APP_PACKAGE_WHATSAPP:
-                if(!dbWhatsapp.containsKey(contactName)){
-                    dbWhatsapp.put(contactName,new ArrayList<String>());
+                if(!mWhatsappDb.containsKey(contactName)){
+                    mWhatsappDb.put(contactName,new ArrayList<String>());
                 }
-                list = dbWhatsapp.get(contactName);
+                individualDb = mWhatsappDb.get(contactName);
                 if(!contains){
-                    size =1;
-                    if(list.size()>0
-                            &&!(list.get(list.size()-1).equals(nodeInfoList.get(nodeInfoList.size() -1).getText().toString()))){
+                    messageAmount =1;
+                    if(individualDb.size()>0
+                            &&!(individualDb.get(individualDb.size()-1).equals(nodeInfoList.get(nodoInfoListSize -1).getText().toString()))){
                         do{
-                            size++;
-                        }while(size<nodeInfoList.size()&&list.size()>0&&!list.get(list.size()-1).equals(nodeInfoList.get(nodeInfoList.size() - size).getText().toString()));
-                        size--;
+                            messageAmount++;
+                        }while(messageAmount<nodoInfoListSize&&individualDb.size()>0&&!individualDb.get(individualDb.size()-1).equals(nodeInfoList.get(nodoInfoListSize - messageAmount).getText().toString()));
+                        messageAmount--;
                     }
                 }
                 else
                 {
-                    size = fullUnreadMessageListWhatsapp.get(contactName);
-                    if(size>nodeInfoList.size())
-                        size = nodeInfoList.size();
+                    messageAmount = mWhatsappFullUnreadMessageList.get(contactName);
+                    if(messageAmount>nodoInfoListSize)
+                        messageAmount = nodoInfoListSize;
                     else{
                         do{
-                            size++;
-                        }while(size<nodeInfoList.size()&&list.size()>0&&!list.get(list.size()-1).equals(nodeInfoList.get(nodeInfoList.size() - size).getText().toString()));
-                        size--;
+                            messageAmount++;
+                        }while(messageAmount<nodoInfoListSize&&individualDb.size()>0&&!individualDb.get(individualDb.size()-1).equals(nodeInfoList.get(nodoInfoListSize - messageAmount).getText().toString()));
+                        messageAmount--;
                     }
-                    fullUnreadMessageListWhatsapp.put(contactName,0);
+                    mWhatsappFullUnreadMessageList.put(contactName,0);
                 }
-                for(int i = size;i>0;i--){
+                for(int i = messageAmount;i>0;i--){
                     // Put certain amount of message into the database
-                    AccessibilityNodeInfo nodeInfo = nodeInfoList.get(nodeInfoList.size() - i);
-                    String messageContent = nodeInfoList.get(nodeInfoList.size() - i).getText().toString();
+                    AccessibilityNodeInfo nodeInfo = nodeInfoList.get(nodoInfoListSize - i);
+                    String messageContent = nodeInfoList.get(nodoInfoListSize - i).getText().toString();
                     String messageType = AccessibilityUtils.isIncomingMessage(nodeInfo,this.getContext())
                             ? Message.TYPE_RECEIVED : Message.TYPE_SENT;
 
@@ -173,45 +158,50 @@ public class IMUIUpdatesProvider extends MStreamProvider {
                             messagePosition,
                             rootNode
                     ));
-                    list.add(messageContent);
+                    individualDb.add(messageContent);
                 }
-                dbWhatsapp.put(contactName,list);
+                mWhatsappDb.put(contactName,individualDb);
                 break;
             case AppUtils.APP_PACKAGE_FACEBOOK_MESSENGER:
                 // Get the amount of unread message
-                if(!dbFacebook.containsKey(contactName)){
-                    dbFacebook.put(contactName,new ArrayList<String>());
+                if(!mFacebookDb.containsKey(contactName)){
+                    mFacebookDb.put(contactName,new ArrayList<String>());
                 }
-                list = dbFacebook.get(contactName);
+                individualDb = mFacebookDb.get(contactName);
                 if(!contains){
-                    size =1;
-                    if(list.size()>0&&!(list.get(list.size()-1).equals(nodeInfoList.get(nodeInfoList.size() -1).getText().toString()))){
+                    messageAmount =1;
+                    if(individualDb.size()>0
+                            &&!(individualDb.get(individualDb.size()-1).equals(nodeInfoList.get(nodoInfoListSize -1).getText().toString())))
+                    {
                         do{
-                            size++;
-                        }while(size<nodeInfoList.size()&&list.size()>0&&!list.get(list.size()-1).equals(nodeInfoList.get(nodeInfoList.size() - size).getText().toString()));
-                        size--;
+                            messageAmount++;
+                        }while(messageAmount<nodoInfoListSize
+                                &&individualDb.size()>0
+                                &&!individualDb.get(individualDb.size()-1).equals(nodeInfoList.get(nodoInfoListSize - messageAmount).getText().toString()));
+                        messageAmount--;
                     }
                 }
                 else
                 {
-                    size = fullUnreadMessageListFacebook.get(contactName);
-                    if(size>nodeInfoList.size())
-                        size = nodeInfoList.size();
+                    messageAmount = mFacebookFullUnreadMessageList.get(contactName);
+                    if(messageAmount>nodoInfoListSize)
+                        messageAmount = nodoInfoListSize;
                     else{
                         do{
-                            size++;
-                        }while(size<nodeInfoList.size()&&list.size()>0
-                                &&!list.get(list.size()-1).equals(nodeInfoList.get(nodeInfoList.size() - size).getText().toString()));
-                        size--;
+                            messageAmount++;
+                        }while(messageAmount<nodoInfoListSize
+                                &&individualDb.size()>0
+                                &&!individualDb.get(individualDb.size()-1).equals(nodeInfoList.get(nodoInfoListSize - messageAmount).getText().toString()));
+                        messageAmount--;
                     }
-                    fullUnreadMessageListFacebook.put(contactName,0);
+                    mFacebookFullUnreadMessageList.put(contactName,0);
                 }
-                for(int i = size;i>0;i--){
+                for(int i = messageAmount;i>0;i--){
                     // Put certain amount of message into the database
-                    AccessibilityNodeInfo nodeInfo = nodeInfoList.get(nodeInfoList.size() - i);
-                    String messageContent = nodeInfoList.get(nodeInfoList.size() - i).getText().toString();
-                    String messageType = AccessibilityUtils.isIncomingMessage(
-                            nodeInfo,this.getContext()) ? InstantMessage.TYPE_RECEIVED : InstantMessage.TYPE_SENT;
+                    AccessibilityNodeInfo nodeInfo = nodeInfoList.get(nodoInfoListSize - i);
+                    String messageContent = nodeInfoList.get(nodoInfoListSize - i).getText().toString();
+                    String messageType = AccessibilityUtils.isIncomingMessage(nodeInfo,this.getContext())
+                            ? InstantMessage.TYPE_RECEIVED : InstantMessage.TYPE_SENT;
 
                     Rect rect = new Rect();
                     nodeInfo.getBoundsInScreen(rect);
@@ -224,9 +214,9 @@ public class IMUIUpdatesProvider extends MStreamProvider {
                             System.currentTimeMillis(),
                             messagePosition,
                             rootNode));
-                    list.add(messageContent);
+                    individualDb.add(messageContent);
                 }
-                dbFacebook.put(contactName,list);
+                mFacebookDb.put(contactName,individualDb);
                 break;
         }
     }
@@ -255,15 +245,15 @@ public class IMUIUpdatesProvider extends MStreamProvider {
                                         if(AccessibilityUtils.getMainPageSymbol(rootNode,packageName)){     // Check if it is at the main page
                                             unreadMessageList = AccessibilityUtils.getUnreadMessageList(rootNode,packageName);
                                             if(unreadMessageList != null)
-                                                fullUnreadMessageListWhatsapp.putAll(unreadMessageList);
+                                                mWhatsappFullUnreadMessageList.putAll(unreadMessageList);
                                         }
                                         else{
                                             contactName = AccessibilityUtils.getContactNameInChat(rootNode, packageName);
                                             if (contactName == null) return;
-                                            detContactName = contactName;
+                                            mDetContactName = contactName;
                                             nodeInfos = AccessibilityUtils.getMessageList(rootNode, packageName);
                                             int eventItemCount = getEventItemCount(packageName, itemCount);
-                                            if(!contactName.equals(detContactName)){
+                                            if(!contactName.equals(mDetContactName)){
                                                 initialize(eventItemCount, packageName);;
                                             }
                                             if(nodeInfos == null || nodeInfos.size() == 0){
@@ -273,17 +263,18 @@ public class IMUIUpdatesProvider extends MStreamProvider {
                                             if(AccessibilityUtils.getUnreadSymbol(rootNode, packageName)){
                                                 eventItemCount = eventItemCount - 1;
                                             }
-                                            if(fullUnreadMessageListWhatsapp.containsKey(contactName)&&fullUnreadMessageListWhatsapp.get(contactName)>0){
+                                            if(mWhatsappFullUnreadMessageList.containsKey(contactName)
+                                                    &&mWhatsappFullUnreadMessageList.get(contactName)>0){
                                                 saveNewMessage(nodeInfos,
                                                         contactName,
                                                         packageName,
                                                         true,
                                                         rootNode);
                                             }
-                                            else if((eventItemCount - lastEventItemCountWhatsapp)!=1
-                                                    &&lastFromIndexWhatsapp!=0
-                                                    &&(eventItemCount-lastEventItemCountWhatsapp)!=(index-lastFromIndexWhatsapp)){
-                                                if((lastFromIndexWhatsapp-index)>1){
+                                            else if((eventItemCount - mWhatsappLastEventItemCount)!=1
+                                                    && mWhatsappLastFromIndex!=0
+                                                    &&(eventItemCount-mWhatsappLastEventItemCount)!=(index-mWhatsappLastFromIndex)){
+                                                if((mWhatsappLastFromIndex-index)>1){
                                                     saveNewMessageScrolling(nodeInfos,
                                                             contactName,
                                                             packageName,
@@ -292,15 +283,15 @@ public class IMUIUpdatesProvider extends MStreamProvider {
                                                             rootNode);
                                                 }
                                             }
-                                            else if (eventItemCount - lastEventItemCountWhatsapp == 1) {
+                                            else if (eventItemCount - mWhatsappLastEventItemCount == 1) {
                                                 saveNewMessage(nodeInfos,
                                                         contactName,
                                                         packageName,
                                                         false,
                                                         rootNode);
                                             }
-                                            lastEventItemCountWhatsapp = eventItemCount;
-                                            lastFromIndexWhatsapp = index;
+                                            mWhatsappLastEventItemCount = eventItemCount;
+                                            mWhatsappLastFromIndex = index;
                                         }
                                     }
                                 }
@@ -317,23 +308,23 @@ public class IMUIUpdatesProvider extends MStreamProvider {
                                         return;
                                     }
                                     int inputLength = AccessibilityUtils.getInputBarInputSize(rootNode,packageName);
-                                    if(fullUnreadMessageListFacebook.containsKey(contactName)&&
-                                            fullUnreadMessageListFacebook.get(contactName)>0){
+                                    if(mFacebookFullUnreadMessageList.containsKey(contactName)&&
+                                            mFacebookFullUnreadMessageList.get(contactName)>0){
                                         saveNewMessage(nodeInfos,
                                                 contactName,
                                                 packageName,
                                                 true,
                                                 rootNode);
                                     }
-                                    else if(lastFacebookInputLength!=-1
-                                            &&lastFacebookInputLength>inputLength){
+                                    else if(mFacebookLastInputLength!=-1
+                                            &&mFacebookLastInputLength>inputLength){
                                         saveNewMessage(nodeInfos,
                                                 contactName,
                                                 packageName,
                                                 false,
                                                 rootNode);
                                     }
-                                    lastFacebookInputLength = inputLength;
+                                    mFacebookLastInputLength = inputLength;
                                 }
                                 break;
                         }
@@ -357,24 +348,24 @@ public class IMUIUpdatesProvider extends MStreamProvider {
                         switch (packageName){
                             case AppUtils.APP_PACKAGE_WHATSAPP:
                                 if(contactName.equals("WhatsApp")){
-                                    String name =dumpExtras((Bundle) input.getValueByField(Notification.EXTRA));
+                                    String name =getWhatsappContactName((Bundle) input.getValueByField(Notification.EXTRA));
                                     if(name!=null) contactName = name;
                                 }
-                                if(fullUnreadMessageListWhatsapp.containsKey(contactName)){
-                                    num = fullUnreadMessageListWhatsapp.get(contactName);
-                                    fullUnreadMessageListWhatsapp.put(contactName,num+1);
+                                if(mWhatsappFullUnreadMessageList.containsKey(contactName)){
+                                    num = mWhatsappFullUnreadMessageList.get(contactName);
+                                    mWhatsappFullUnreadMessageList.put(contactName,num+1);
                                 }
                                 else{
-                                    fullUnreadMessageListWhatsapp.put(contactName,1);
+                                    mWhatsappFullUnreadMessageList.put(contactName,1);
                                 }
                                 break;
                             case AppUtils.APP_PACKAGE_FACEBOOK_MESSENGER:
-                                if(fullUnreadMessageListFacebook.containsKey(contactName)){
-                                    num = fullUnreadMessageListFacebook.get(contactName);
-                                    fullUnreadMessageListFacebook.put(contactName,num+1);
+                                if(mFacebookFullUnreadMessageList.containsKey(contactName)){
+                                    num = mFacebookFullUnreadMessageList.get(contactName);
+                                    mFacebookFullUnreadMessageList.put(contactName,num+1);
                                 }
                                 else{
-                                    fullUnreadMessageListFacebook.put(contactName,1);
+                                    mFacebookFullUnreadMessageList.put(contactName,1);
                                 }
                         }
                     }
@@ -397,7 +388,7 @@ public class IMUIUpdatesProvider extends MStreamProvider {
         try {
             switch (packageName){
                 case AppUtils.APP_PACKAGE_WHATSAPP:
-                    lastEventItemCountWhatsapp = eventItemCount;
+                    mWhatsappLastEventItemCount = eventItemCount;
                     break;
             }
             return true;
@@ -408,7 +399,7 @@ public class IMUIUpdatesProvider extends MStreamProvider {
     }
 
     // Finds the hidden information in whatsapp
-    private String dumpExtras(Bundle extras) {
+    private String getWhatsappContactName(Bundle extras) {
         String contactName = "";
         if (extras != null) {
             for (String k : extras.keySet()) {
