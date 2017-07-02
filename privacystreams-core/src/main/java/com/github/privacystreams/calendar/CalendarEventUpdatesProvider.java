@@ -20,11 +20,11 @@ import java.util.List;
  * to what change had been made
  */
 
-public class CalendarUpdatesProvider extends MStreamProvider {
+public class CalendarEventUpdatesProvider extends MStreamProvider {
     private List calendarEventsList;
     private CalendarUpdatesReceiver calendarUpdatesReceiver;
 
-    public CalendarUpdatesProvider() {
+    public CalendarEventUpdatesProvider() {
         this.addRequiredPermissions(Manifest.permission.READ_CALENDAR);
     }
 
@@ -54,7 +54,7 @@ public class CalendarUpdatesProvider extends MStreamProvider {
         this.getContext().unregisterReceiver(calendarUpdatesReceiver);
     }
 
-    public class CalendarUpdatesReceiver extends CalendarEventsUpdatesReceiver{
+    public class CalendarUpdatesReceiver extends CalendarEventUpdatesReceiver{
 
         @Override
         public void onCalendarEventsUpdatesReceived(){
@@ -78,7 +78,7 @@ public class CalendarUpdatesProvider extends MStreamProvider {
             CalendarEvent editedCalendarEvent =
                     outputChangedCalendarEvent(oldCalendarEventsList, newCalendarEventsList);
             if (editedCalendarEvent!=null){
-                CalendarUpdatesProvider.this.output(editedCalendarEvent);
+                CalendarEventUpdatesProvider.this.output(editedCalendarEvent);
             }
         }
     }
