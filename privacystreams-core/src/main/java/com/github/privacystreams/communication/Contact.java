@@ -178,6 +178,10 @@ public class Contact extends Item {
     @PSItemField(type = String.class)
     public static final String STATUS = "status";
 
+    public static final String ADDED = "added";
+    public static final String DELETED = "deleted";
+    public static final String EDITED = "edited";
+
     /**
      * construct a contact item
      * @param id id of contact

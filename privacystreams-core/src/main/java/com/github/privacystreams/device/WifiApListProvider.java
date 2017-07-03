@@ -31,8 +31,15 @@ class WifiApListProvider extends MStreamProvider {
             WifiInfo wifiInfo = wifiMgr.getConnectionInfo();
             String name = wifiInfo.getSSID();
             for(ScanResult result: wifiMgr.getScanResults()){
-                Log.e("test", new WifiAp(result, name.equals(result.SSID)).toString());
-                WifiApListProvider.this.output(new WifiAp(result, name.equals(result.SSID)));
+
+                if(name.equals(result.SSID)){
+                    Log.e("privacystreams", new WifiAp(result, WifiAp.STATUS_CONNECTED).toString());
+                    WifiApListProvider.this.output(new WifiAp(result, WifiAp.STATUS_CONNECTED));
+                }
+                else{
+                    Log.e("privacystreams", new WifiAp(result, WifiAp.STATUS_CONNECTED).toString());
+                    WifiApListProvider.this.output(new WifiAp(result,WifiAp.STATUS_SCANNED));
+                }
             }
             WifiApListProvider.this.finish();
         }

@@ -229,6 +229,13 @@ public class UseCases {
         }
     }
 
+    public void newTestWifiTrueUpdates(){
+        uqi.getData(WifiAp.getNewUpdatesStatus(), Purpose.FEATURE("check new new provider")).debug();
+    }
+    public void testWifiTrueUpdates(){
+        uqi.getData(WifiAp.getUpdateStatus(), Purpose.FEATURE("check new provider")).debug();
+    }
+
     public void testBrowserHistoryUpdates(){
         uqi.getData(BrowserVisit.asUpdates(), Purpose.FEATURE("browser history")).debug();
     }
@@ -324,12 +331,11 @@ public class UseCases {
     boolean isAtHome() throws PSException {
         return uqi
                 .getData(WifiAp.getScanResults(), Purpose.FEATURE("know whether you are at home."))
-                .filter(Comparators.eq(WifiAp.CONNECTED, true))
+//                .filter(Comparators.eq(WifiAp.CONNECTED, true))
                 .filter(WifiAPOperators.atHome(WifiAp.SSID))
                 .count() == 1;
 
     }
-
    public void testUpdatesContact() {
         uqi.getData(Contact.asUpdates(), Purpose.FEATURE("For experiment")).debug();
     }
