@@ -43,8 +43,9 @@ import static android.content.Context.CONNECTIVITY_SERVICE;
             filter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
             getContext().registerReceiver(wifiUpdatesReceiver, filter);
             //get connection information if the device is connected to wifi for the first time
-            ConnectivityManager cm = (ConnectivityManager) getContext().getSystemService(CONNECTIVITY_SERVICE);
-            NetworkInfo networkInfo = cm.getActiveNetworkInfo();
+            ConnectivityManager connectivityManager = (ConnectivityManager) getContext()
+                    .getSystemService(CONNECTIVITY_SERVICE);
+            NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
             if (networkInfo != null) {
                 if (networkInfo.getType() == ConnectivityManager.TYPE_WIFI) {
                     oldWifiOutput = getChangedWifi();
@@ -65,7 +66,8 @@ import static android.content.Context.CONNECTIVITY_SERVICE;
                 if (intent.getAction().equals(WifiManager.NETWORK_STATE_CHANGED_ACTION)) {
                     NetworkInfo networkInfo =
                             intent.getParcelableExtra(WifiManager.EXTRA_NETWORK_INFO);
-                    WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+                    WifiManager wifiManager
+                            = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
                     if (networkInfo != null&&wifiManager.getConnectionInfo().getBSSID()!=null) {
                         if (networkInfo.isConnected()) {
                             WifiAp wifiOutput = getChangedWifi();
@@ -77,8 +79,9 @@ import static android.content.Context.CONNECTIVITY_SERVICE;
             }
             //from connected to disconnected
                  if (intent.getAction().equals(ConnectivityManager.CONNECTIVITY_ACTION)) {
-                    ConnectivityManager cm = (ConnectivityManager) getContext().getSystemService(CONNECTIVITY_SERVICE);
-                    NetworkInfo networkInfo = cm.getActiveNetworkInfo();
+                    ConnectivityManager connectivityManager = (ConnectivityManager) getContext()
+                            .getSystemService(CONNECTIVITY_SERVICE);
+                    NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
                     if (networkInfo == null && oldWifiOutput != null) {
                         oldWifiOutput.setFieldValue(WifiAp.STATUS, WifiAp.STATUS_DISCONNECTED);
                         WifiUpdatesProvider.this.output(oldWifiOutput);
@@ -99,13 +102,13 @@ import static android.content.Context.CONNECTIVITY_SERVICE;
          */
             @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
             private WifiAp getChangedWifi() {
-                WifiManager wifiMgr = (WifiManager) getContext().getApplicationContext()
+                WifiManager wifiManager = (WifiManager) getContext().getApplicationContext()
                         .getSystemService(Context.WIFI_SERVICE);
 
                 WifiAp wifiOutput;
                 WifiInfo wifiInfo;
 
-                wifiInfo = wifiMgr.getConnectionInfo();
+                wifiInfo = wifiManager.getConnectionInfo();
                 wifiOutput = new WifiAp(wifiInfo, WifiAp.STATUS_SCANNED);
                 return wifiOutput;
             }

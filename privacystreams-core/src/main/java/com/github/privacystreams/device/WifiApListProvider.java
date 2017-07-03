@@ -27,7 +27,8 @@ class WifiApListProvider extends MStreamProvider {
         @Override
         public void onReceive(Context context, Intent intent)
         {
-            WifiManager wifiMgr = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+            WifiManager wifiMgr = (WifiManager) context.getApplicationContext()
+                    .getSystemService(Context.WIFI_SERVICE);
             WifiInfo wifiInfo = wifiMgr.getConnectionInfo();
             String name = wifiInfo.getSSID();
             for(ScanResult result: wifiMgr.getScanResults()){
@@ -69,11 +70,13 @@ class WifiApListProvider extends MStreamProvider {
     @Override
     protected void provide() {
 
-        WifiManager wifiMgr = (WifiManager) this.getContext().getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+        WifiManager wifiMgr = (WifiManager) this.getContext().getApplicationContext()
+                .getSystemService(Context.WIFI_SERVICE);
 
         if(wifiMgr.isWifiEnabled()) {
             Log.e("wifi","enabled");
-            this.getContext().registerReceiver(this.wifiReceiver, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
+            this.getContext().registerReceiver
+                    (this.wifiReceiver, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
             wifiMgr.startScan();
         }
         else{

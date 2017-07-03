@@ -94,7 +94,8 @@ public class WifiAp extends Item {
      *
      * @return the provider function.
      */
-    // @RequiresPermission(allOf = {Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.CHANGE_WIFI_STATE, Manifest.permission.ACCESS_WIFI_STATE})
+    // @RequiresPermission(allOf = {Manifest.permission.ACCESS_COARSE_LOCATION
+    // , Manifest.permission.CHANGE_WIFI_STATE, Manifest.permission.ACCESS_WIFI_STATE})
     public static MStreamProvider getScanResults() {
         return new WifiApListProvider();
     }
