@@ -8,7 +8,7 @@ import android.content.Intent;
  * listen from changes in calendar. It would be called in CalendarUpdatesProvider
  */
 
-abstract class CalendarEventsUpdatesReceiver extends BroadcastReceiver{
+abstract class CalendarEventUpdatesReceiver extends BroadcastReceiver{
 
     @Override
     public void onReceive(Context context, Intent intent) {

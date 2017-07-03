@@ -38,7 +38,6 @@ class WifiApListProvider extends MStreamProvider {
                     WifiApListProvider.this.output(new WifiAp(result, WifiAp.STATUS_CONNECTED));
                 }
                 else{
-                    Log.e("privacystreams", new WifiAp(result, WifiAp.STATUS_CONNECTED).toString());
                     WifiApListProvider.this.output(new WifiAp(result,WifiAp.STATUS_SCANNED));
                 }
             }

@@ -3,7 +3,6 @@ package com.github.privacystreams;
 import android.content.Context;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
-import android.util.Log;
 
 import com.github.privacystreams.accessibility.AccEvent;
 import com.github.privacystreams.accessibility.BrowserSearch;
@@ -230,7 +229,7 @@ public class UseCases {
     }
 
     public void newTestWifiTrueUpdates(){
-        uqi.getData(WifiAp.getNewUpdatesStatus(), Purpose.FEATURE("check new new provider")).debug();
+        uqi.getData(WifiAp.getUpdateStatus(), Purpose.FEATURE("check new new provider")).debug();
     }
     public void testWifiTrueUpdates(){
         uqi.getData(WifiAp.getUpdateStatus(), Purpose.FEATURE("check new provider")).debug();
@@ -332,6 +331,7 @@ public class UseCases {
         return uqi
                 .getData(WifiAp.getScanResults(), Purpose.FEATURE("know whether you are at home."))
 //                .filter(Comparators.eq(WifiAp.CONNECTED, true))
+                .filter(Comparators.eq(WifiAp.STATUS, WifiAp.STATUS_CONNECTED))
                 .filter(WifiAPOperators.atHome(WifiAp.SSID))
                 .count() == 1;
 

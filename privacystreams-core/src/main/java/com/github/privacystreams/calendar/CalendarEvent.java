@@ -81,6 +81,6 @@ public class CalendarEvent extends Item {
         return new CalendarEventListProvider();
     }
     public static MStreamProvider getUpdates() {
-        return new CalendarUpdatesProvider();
+        return new CalendarEventUpdatesProvider();
     }
 }

@@ -1,7 +1,6 @@
 package com.github.privacystreams.communication;
 
 import com.github.privacystreams.core.Item;
-import com.github.privacystreams.core.exceptions.PSException;
 import com.github.privacystreams.core.providers.MStreamProvider;
 import com.github.privacystreams.utils.annotations.PSItem;
 import com.github.privacystreams.utils.annotations.PSItemField;
@@ -45,6 +44,12 @@ public class Contact extends Item {
      */
     @PSItemField(type = List.class)
     public static final String WORK_PHONE = "work_phone";
+
+    /**
+     * The other number of the contact.
+     */
+    @PSItemField(type = List.class)
+    public static final String OTHER_PHONE = "other_phone";
 
     /**
      * The work fax number of the contact.
@@ -100,11 +105,6 @@ public class Contact extends Item {
     @PSItemField(type = List.class)
     public static final String MMS = "MMS";
 
-    /**
-     * The other number of the contact.
-     */
-    @PSItemField(type = List.class)
-    public static final String OTHER_PHONE = "other_phone";
 
     /**
      * The other fax number of the contact.
