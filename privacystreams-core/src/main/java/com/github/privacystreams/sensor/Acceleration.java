@@ -6,10 +6,10 @@ import com.github.privacystreams.utils.annotations.PSItem;
 import com.github.privacystreams.utils.annotations.PSItemField;
 
 /**
- * Accelerometer.
+ * Acceleration.
  */
 @PSItem
-public class Accelerometer extends Item {
+public class Acceleration extends Item {
 
     /**
      * Acceleration force along the x axis (including gravity).
@@ -29,7 +29,7 @@ public class Accelerometer extends Item {
     @PSItemField(type = Float.class)
     public static final String Z = "z";
 
-    Accelerometer(float x, float y, float z) {
+    Acceleration(float x, float y, float z) {
         this.setFieldValue(X, x);
         this.setFieldValue(Y, y);
         this.setFieldValue(Z, z);
@@ -40,6 +40,6 @@ public class Accelerometer extends Item {
      * @return the provider.
      */
     public static MStreamProvider asUpdates(int sensorDelay){
-        return new AccelerometerUpdatesProvider(sensorDelay);
+        return new AccelerationUpdatesProvider(sensorDelay);
     }
 }

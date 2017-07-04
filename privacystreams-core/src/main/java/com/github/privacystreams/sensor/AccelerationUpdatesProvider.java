@@ -4,17 +4,17 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 
 /**
- * Provide a live stream of linear acceleration sensor updates.
+ * Provide a live stream of accelerometer sensor updates.
  */
-class LinearAccelerometerUpdatesProvider extends SensorUpdatesProvider {
+class AccelerationUpdatesProvider extends SensorUpdatesProvider {
 
-    LinearAccelerometerUpdatesProvider(int sensorDelay) {
-        super(Sensor.TYPE_LINEAR_ACCELERATION, sensorDelay);
+    AccelerationUpdatesProvider(int sensorDelay) {
+        super(Sensor.TYPE_ACCELEROMETER, sensorDelay);
     }
 
     @Override
     protected void handleSensorEvent(SensorEvent sensorEvent) {
-        output(new LinearAccelerometer(
+        output(new Acceleration(
                 sensorEvent.values[0], sensorEvent.values[1], sensorEvent.values[2]));
     }
 

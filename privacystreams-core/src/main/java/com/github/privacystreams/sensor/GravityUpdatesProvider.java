@@ -14,7 +14,7 @@ class GravityUpdatesProvider extends SensorUpdatesProvider {
 
     @Override
     protected void handleSensorEvent(SensorEvent sensorEvent) {
-        output(new GravitySensor(
+        output(new Gravity(
                 sensorEvent.values[0], sensorEvent.values[1], sensorEvent.values[2]));
     }
 

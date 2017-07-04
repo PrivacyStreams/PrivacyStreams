@@ -9,7 +9,7 @@ import com.github.privacystreams.utils.annotations.PSItemField;
  * Gravity sensor.
  */
 @PSItem
-public class GravitySensor extends Item {
+public class Gravity extends Item {
 
     /**
      * Force of gravity along the x axis.
@@ -29,7 +29,7 @@ public class GravitySensor extends Item {
     @PSItemField(type = Float.class)
     public static final String Z = "z";
 
-    GravitySensor(float x, float y, float z) {
+    Gravity(float x, float y, float z) {
         this.setFieldValue(X, x);
         this.setFieldValue(Y, y);
         this.setFieldValue(Z, z);

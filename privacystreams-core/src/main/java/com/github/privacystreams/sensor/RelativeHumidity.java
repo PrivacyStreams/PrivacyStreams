@@ -6,26 +6,26 @@ import com.github.privacystreams.utils.annotations.PSItem;
 import com.github.privacystreams.utils.annotations.PSItemField;
 
 /**
- * Light environment sensor.
+ * Ambient relative humidity sensor.
  */
 @PSItem
-public class LightSensor extends Item {
+public class RelativeHumidity extends Item {
 
     /**
-     * The light intensity, in lumen.
+     * Ambient relative humidity. Unit: %.
      */
     @PSItemField(type = Float.class)
-    public static final String INTENSITY = "intensity";
+    public static final String HUMIDITY = "humidity";
 
-    LightSensor(float intensity) {
-        this.setFieldValue(INTENSITY, intensity);
+    RelativeHumidity(float humidity) {
+        this.setFieldValue(HUMIDITY, humidity);
     }
 
     /**
-     * Provide a live stream of sensor readings from light sensor.
+     * Provide a live stream of sensor readings from ambient relative humidity sensor.
      * @return the provider.
      */
     public static MStreamProvider asUpdates(int sensorDelay){
-        return new LightUpdatesProvider(sensorDelay);
+        return new RelativeHumidityUpdatesProvider(sensorDelay);
     }
 }
