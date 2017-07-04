@@ -22,8 +22,8 @@ public class LightSensor extends Item {
     }
 
     /**
-     * Provide a live stream of LightSensor items that are read from the light sensor.
-     * @return the provider function.
+     * Provide a live stream of sensor readings from light sensor.
+     * @return the provider.
      */
     public static MStreamProvider asUpdates(int sensorDelay){
         return new LightUpdatesProvider(sensorDelay);
