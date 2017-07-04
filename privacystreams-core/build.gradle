@@ -115,14 +115,14 @@ install {
 
 version = libraryVersion
 
-task doc_gen(type: Javadoc) {
+task generateDoc(type: Javadoc) {
     source = android.sourceSets.main.java.srcDirs
     destinationDir = file("build/PrivacyStreamsDocs/").absoluteFile
 
     classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
     classpath += configurations.compile
 
-    options.docletpath = [file('../doc_gen/build/libs/doc_gen.jar')]
+    options.docletpath = [file('../docket/build/libs/doclet.jar')]
     options.doclet = "com.github.privacystreams.PSDoclet"
 }
 

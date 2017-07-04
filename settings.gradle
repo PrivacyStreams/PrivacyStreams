@@ -1,1 +1,1 @@
-include ':app', ':privacystreams-core', ':doc_gen'
+include ':app', ':privacystreams-core', ':doclet'
