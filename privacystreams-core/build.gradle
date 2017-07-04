@@ -10,8 +10,8 @@ ext {
     artifact = 'privacystreams-core'
 
     libraryName = 'PrivacyStreams-core'
-    libraryDescription = 'A library for easy and transparent personal data access and processing.'
-    libraryVersion = "0.1.4"
+    libraryDescription = 'An Android library for easy and transparent personal data access and processing.'
+    libraryVersion = "0.1.5"
 
     bintrayRepo = 'PrivacyStreams'
     bintrayOrganization = "privacystreams"
@@ -36,8 +36,8 @@ android {
     defaultConfig {
         minSdkVersion 16
         targetSdkVersion 25
-        versionCode 14
-        versionName "0.1.4"
+        versionCode 15
+        versionName "0.1.5"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
