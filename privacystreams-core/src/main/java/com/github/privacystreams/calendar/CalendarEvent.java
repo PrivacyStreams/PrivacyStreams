@@ -42,9 +42,10 @@ public class CalendarEvent extends Item {
     @PSItemField(type = String.class)
     public static final String EVENT_LOCATION = "event_location";
 
-    public static final String ADDED = "added";
-    public static final String DELETED = "deleted";
-    public static final String EDITED = "edited";
+
+    public static final String STATUS_ADDED = "added";
+    public static final String STATUS_DELETED = "deleted";
+    public static final String STATUS_EDITED = "edited";
 
     /**
      * Event status.
@@ -58,7 +59,7 @@ public class CalendarEvent extends Item {
         this.setFieldValue(START_TIME, startTime);
         this.setFieldValue(END_TIME, endTime);
         this.setFieldValue(EVENT_LOCATION, eventLocation);
-        this.setFieldValue(STATUS, ADDED);
+        this.setFieldValue(STATUS, STATUS_ADDED);
     }
 
     CalendarEvent(CalendarEvent another){

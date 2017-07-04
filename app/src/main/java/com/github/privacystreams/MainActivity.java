@@ -58,7 +58,8 @@ public class MainActivity extends AppCompatActivity {
 //            useCases.testIMUIUpdates();
 //            useCases.testCalendarList();
 //            useCases.testWifiUpdates();
-            useCases.newTestWifiTrueUpdates();
+//            useCases.newTestWifiTrueUpdates();
+            useCases.testUpdatesCalendar();
 
 
 

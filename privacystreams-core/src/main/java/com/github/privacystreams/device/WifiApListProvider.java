@@ -48,11 +48,7 @@ class WifiApListProvider extends MStreamProvider {
     @Override
     protected void onCancel(UQI uqi) {
         super.onCancel(uqi);
-        try {
             getContext().unregisterReceiver(wifiReceiver);
-        }
-        catch (Exception ignored) {
-        }
     }
 
     private transient WifiReceiver wifiReceiver;
