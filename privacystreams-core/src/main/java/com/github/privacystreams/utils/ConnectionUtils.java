@@ -27,8 +27,7 @@ public class ConnectionUtils {
         WifiManager wifiManager = (WifiManager) uqi.getContext().getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         if (wifiManager == null || !wifiManager.isWifiEnabled()) return false;
         WifiInfo wifiInfo = wifiManager.getConnectionInfo();
-        if (wifiInfo == null || wifiInfo.getNetworkId() == -1) return false;
-        return wifiInfo.getSupplicantState() == SupplicantState.ASSOCIATED;
+        return !(wifiInfo == null || wifiInfo.getNetworkId() == -1) && wifiInfo.getSupplicantState() == SupplicantState.ASSOCIATED;
     }
 
     /* Checks whether the device currently has a network connection.
