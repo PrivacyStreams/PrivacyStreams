@@ -63,12 +63,11 @@ public class CalendarEvent extends Item {
     }
 
     CalendarEvent(CalendarEvent another){
-        this.setFieldValue(CalendarEvent.ID, another.getValueByField(CalendarEvent.ID));
-        this.setFieldValue(CalendarEvent.STATUS, another.getValueByField(CalendarEvent.STATUS));
-        this.setFieldValue(CalendarEvent.END_TIME, another.getValueByField(CalendarEvent.END_TIME));
-        this.setFieldValue(CalendarEvent.EVENT_LOCATION, another.getValueByField(CalendarEvent.EVENT_LOCATION));
-        this.setFieldValue(CalendarEvent.START_TIME, another.getValueByField(CalendarEvent.START_TIME));
-        this.setFieldValue(CalendarEvent.TITLE, another.getValueByField(CalendarEvent.TITLE));
+
+        for(String key: another.toMap().keySet()){
+            this.setFieldValue(key, another.getValueByField(key));
+        }
+        
     }
 
     /**
