@@ -51,8 +51,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import static com.github.privacystreams.commons.items.ItemsOperators.getItemWithMax;
-import static com.github.privacystreams.commons.statistic.StatisticOperators.count;
 import static com.github.privacystreams.commons.time.TimeOperators.recent;
 
 /**
@@ -228,6 +226,13 @@ public class UseCases {
         }
     }
 
+    public void newTestWifiTrueUpdates(){
+        uqi.getData(WifiAp.getUpdateStatus(), Purpose.FEATURE("check new new provider")).debug();
+    }
+    public void testWifiTrueUpdates(){
+        uqi.getData(WifiAp.getUpdateStatus(), Purpose.FEATURE("check new provider")).debug();
+    }
+
     public void testBrowserHistoryUpdates(){
         uqi.getData(BrowserVisit.asUpdates(), Purpose.FEATURE("browser history")).debug();
     }
@@ -256,28 +261,31 @@ public class UseCases {
     // get a count of the #contacts in contact list
     void testContacts() {
         try {
-            int count = uqi
-                    .getData(Contact.getAll(), Purpose.FEATURE("estimate how popular you are."))
+            uqi.
+                    getData(Contact.getAll(),Purpose.FEATURE("xxx"))
                     .count();
-            System.out.println(count);
-
-            uqi
-                    .getData(Call.getLogs(), Purpose.SOCIAL("finding your closest contact."))
-                    .filter(recent("timestamp", Duration.days(365)))
-                    .groupBy("contact")
-                    .setGroupField("#calls", count())
-                    .select(getItemWithMax("#calls"))
-                    .ifPresent("contact", new Callback<String>() {
-                        @Override
-                        protected void onInput(String contact) {
-                            System.out.println("Most-called contact: " + contact);
-                        }
-
-                        @Override
-                        protected void onFail(PSException e) {
-                            System.out.println(e.getMessage());
-                        }
-                    });
+//            int count = uqi
+//                    .getData(Contact.getAll(), Purpose.FEATURE("estimate how popular you are."))
+//                    .count();
+//            System.out.println(count);
+//
+//            uqi
+//                    .getData(Call.getLogs(), Purpose.SOCIAL("finding your closest contact."))
+//                    .filter(recent("timestamp", Duration.days(365)))
+//                    .groupBy("contact")
+//                    .setGroupField("#calls", count())
+//                    .select(getItemWithMax("#calls"))
+//                    .ifPresent("contact", new Callback<String>() {
+//                        @Override
+//                        protected void onInput(String contact) {
+//                            System.out.println("Most-called contact: " + contact);
+//                        }
+//
+//                        @Override
+//                        protected void onFail(PSException e) {
+//                            System.out.println(e.getMessage());
+//                        }
+//                    });
 
         } catch (PSException e) {
             System.out.println(e.getMessage());
@@ -323,6 +331,7 @@ public class UseCases {
     boolean isAtHome() throws PSException {
         return uqi
                 .getData(WifiAp.getScanResults(), Purpose.FEATURE("know whether you are at home."))
+//                .filter(Comparators.eq(WifiAp.CONNECTED, true))
                 .filter(Comparators.eq(WifiAp.STATUS, WifiAp.STATUS_CONNECTED))
                 .filter(WifiAPOperators.atHome(WifiAp.SSID))
                 .count() == 1;

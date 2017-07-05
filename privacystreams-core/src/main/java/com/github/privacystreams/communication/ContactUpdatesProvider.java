@@ -130,7 +130,7 @@ public class ContactUpdatesProvider extends MStreamProvider {
         //add
         if (intersection.size() != newListOfID.size() && intersection.size() == listOfID.size()) {
             Contact tempContact = (Contact) newContactList.get(newContactList.size() - 1);
-            tempContact.setFieldValue(Contact.STATUS, "added");
+            tempContact.setFieldValue(Contact.STATUS, Contact.STATUS_ADDED);
             editedContact = tempContact;
             contactList = newContactList;
             return editedContact;
@@ -146,7 +146,7 @@ public class ContactUpdatesProvider extends MStreamProvider {
             for (int i = 0; i < listTotal; i++) {
                 if (deleted == listOfID.get(i)) {
                     Contact tempContact = oldContactList.get(i);
-                    tempContact.setFieldValue(Contact.STATUS, "deleted");
+                    tempContact.setFieldValue(Contact.STATUS, Contact.STATUS_DELETED);
                     editedContact = tempContact;
                     contactList = newContactList;
                     return editedContact;
@@ -162,7 +162,7 @@ public class ContactUpdatesProvider extends MStreamProvider {
                 oldContact.setFieldValue(Contact.TIME_CREATED, newTimeCreated);
                 if (!(oldContactList.get(i)).equals((Contact) newContactList.get(i))) {
                     Contact tempContact = (Contact) newContactList.get(i);
-                    tempContact.setFieldValue(Contact.STATUS, "edited");
+                    tempContact.setFieldValue(Contact.STATUS, Contact.STATUS_EDITED);
                     editedContact = tempContact;
                     contactList = newContactList;
                     return editedContact;

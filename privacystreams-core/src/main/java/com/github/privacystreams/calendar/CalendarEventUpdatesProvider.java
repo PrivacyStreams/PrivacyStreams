@@ -18,6 +18,10 @@ import java.util.List;
  * it returns calendar has been changed while a change happens
  * the returned calendar's status field would be set as one of "added, deleted and edited" according
  * to what change had been made
+ *
+ * this provider is tested on huawei Nexus 6p, huawei p9 lite, and samsung galaxy s8,
+ * but it does not work on the samsung galaxy s7 used to test, because the calendar list taken from
+ * that device using CalendarEventListProvider contains all the calendar events that have been deleted
  */
 
 public class CalendarEventUpdatesProvider extends MStreamProvider {
@@ -70,11 +74,7 @@ public class CalendarEventUpdatesProvider extends MStreamProvider {
                 Log.e("exception","updated data getting from uqi is not valid");
             }
             uqi.stopAll();
-            List oldCalendarEventsList = new ArrayList();
-            //makes deep copy of contactlist to avoid bugs when delete events
-            for (Object o: calendarEventsList) {
-                oldCalendarEventsList.add(o);
-            }
+            List oldCalendarEventsList = new ArrayList(calendarEventsList);
             CalendarEvent editedCalendarEvent =
                     outputChangedCalendarEvent(oldCalendarEventsList, newCalendarEventsList);
             if (editedCalendarEvent!=null){
@@ -91,34 +91,26 @@ public class CalendarEventUpdatesProvider extends MStreamProvider {
      */
 
     private CalendarEvent outputChangedCalendarEvent(List oldCalendarEventsList, List newCalendarEventsList){
-        int oldCalendarCount=0;
-        int newCalendarCount=0;
-        for (Object o: oldCalendarEventsList) {
-            if(o!=null) oldCalendarCount++;
-        }
-        for(Object o: newCalendarEventsList){
-            if(o!=null) newCalendarCount++;
-        }
         //add
-        if(oldCalendarCount<newCalendarCount){
+        if(oldCalendarEventsList.size()<newCalendarEventsList.size()){
             CalendarEvent changedCalendarEvent;
             changedCalendarEvent = (CalendarEvent) newCalendarEventsList
                     .get(newCalendarEventsList.size()-1);
-            changedCalendarEvent.setFieldValue(CalendarEvent.STATUS, "added");
+            changedCalendarEvent.setFieldValue(CalendarEvent.STATUS, CalendarEvent.STATUS_ADDED);
             calendarEventsList = newCalendarEventsList;
             return changedCalendarEvent;
         }
         //delete
-        else if(oldCalendarCount>newCalendarCount){
+        else if(oldCalendarEventsList.size()>newCalendarEventsList.size()){
             int calendarIndex =0;
-            while(calendarIndex<newCalendarCount){
+            while(calendarIndex<newCalendarEventsList.size()){
                 CalendarEvent calendarEvent = (CalendarEvent) oldCalendarEventsList.get(calendarIndex);
                 long id = calendarEvent.getValueByField(CalendarEvent.ID);
                 CalendarEvent newCalendarEvent =
                         (CalendarEvent) newCalendarEventsList.get(calendarIndex);
                 long newId = newCalendarEvent.getValueByField(CalendarEvent.ID);
                 if(id!=newId) {
-                    calendarEvent.setFieldValue(CalendarEvent.STATUS, "deleted");
+                    calendarEvent.setFieldValue(CalendarEvent.STATUS, CalendarEvent.STATUS_DELETED);
                     calendarEventsList = newCalendarEventsList;
                     return calendarEvent;
                 }
@@ -127,14 +119,14 @@ public class CalendarEventUpdatesProvider extends MStreamProvider {
             //when the deleted item is what created last
             CalendarEvent calendarEvent
                     = (CalendarEvent) oldCalendarEventsList.get(oldCalendarEventsList.size()-1);
-            calendarEvent.setFieldValue(CalendarEvent.STATUS, "deleted");
+            calendarEvent.setFieldValue(CalendarEvent.STATUS, CalendarEvent.STATUS_DELETED);
             calendarEventsList = newCalendarEventsList;
             return calendarEvent;
         }
         //edit
         else{
             int calendarIndex = 0;
-            while(calendarIndex<newCalendarCount){
+            while(calendarIndex<newCalendarEventsList.size()){
                 CalendarEvent calendarEvent = (CalendarEvent) oldCalendarEventsList.get(calendarIndex);
                 CalendarEvent newCalendarEvent
                         = (CalendarEvent) newCalendarEventsList.get(calendarIndex);
@@ -142,7 +134,7 @@ public class CalendarEventUpdatesProvider extends MStreamProvider {
                 long newTimeCreated = newCalendarEvent.getValueByField(CalendarEvent.TIME_CREATED);
                 calendarEvent.setFieldValue(CalendarEvent.TIME_CREATED, newTimeCreated);
                 if(!calendarEvent.equals(newCalendarEvent)){
-                    newCalendarEvent.setFieldValue(CalendarEvent.STATUS, "edited");
+                    newCalendarEvent.setFieldValue(CalendarEvent.STATUS, CalendarEvent.STATUS_EDITED);
                     calendarEventsList = newCalendarEventsList;
                     return newCalendarEvent;
                 }

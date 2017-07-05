@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
 //            useCases.testNotification();
 //            useCases.testAudio();
 //            useCases.testMockData();
-//            useCases.testContacts();
+            useCases.testContacts();
 //            useCases.testDeviceState();
 //
 //            useCases.testBrowserSearchUpdates();
@@ -52,9 +52,14 @@ public class MainActivity extends AppCompatActivity {
 //            useCases.testEmailList();
 
 //useCases.testUpdatesContact();
-            useCases.testWifiUpdates();
+
+//            useCases.testWifiUpdates();
+
 //            useCases.testIMUIUpdates();
 //            useCases.testCalendarList();
+//            useCases.testWifiUpdates();
+//            useCases.newTestWifiTrueUpdates();
+//            useCases.testUpdatesCalendar();
 
 
 

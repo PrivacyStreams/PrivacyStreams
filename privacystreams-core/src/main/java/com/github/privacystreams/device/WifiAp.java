@@ -2,6 +2,7 @@ package com.github.privacystreams.device;
 
 
 import android.net.wifi.ScanResult;
+import android.net.wifi.WifiInfo;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 
@@ -64,7 +65,26 @@ public class WifiAp extends Item {
         this.setFieldValue(SSID, scanResult.SSID);
         this.setFieldValue(FREQUENCY, scanResult.frequency);
         this.setFieldValue(RSSI, scanResult.level);
-        this.setFieldValue(STATUS,status);
+        this.setFieldValue(STATUS, status);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    WifiAp(WifiInfo wifiInfo, String status) {
+        this.setFieldValue(TIMESTAMP, System.currentTimeMillis());
+        this.setFieldValue(BSSID, wifiInfo.getBSSID());
+        this.setFieldValue(SSID, wifiInfo.getSSID());
+        this.setFieldValue(FREQUENCY, wifiInfo.getFrequency());
+        this.setFieldValue(RSSI, wifiInfo.getRssi());
+        this.setFieldValue(STATUS, status);
+    }
+
+    WifiAp(WifiAp another){
+        this.setFieldValue(TIMESTAMP, another.getValueByField(TIMESTAMP));
+        this.setFieldValue(BSSID, another.getValueByField(BSSID));
+        this.setFieldValue(SSID, another.getValueByField(SSID));
+        this.setFieldValue(FREQUENCY, another.getValueByField(FREQUENCY));
+        this.setFieldValue(RSSI, another.getValueByField(RSSI));
+        this.setFieldValue(STATUS, another.getValueByField(STATUS));
     }
 
     /**
@@ -74,9 +94,14 @@ public class WifiAp extends Item {
      *
      * @return the provider function.
      */
-    // @RequiresPermission(allOf = {Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.CHANGE_WIFI_STATE, Manifest.permission.ACCESS_WIFI_STATE})
+    // @RequiresPermission(allOf = {Manifest.permission.ACCESS_COARSE_LOCATION
+    // , Manifest.permission.CHANGE_WIFI_STATE, Manifest.permission.ACCESS_WIFI_STATE})
     public static MStreamProvider getScanResults() {
         return new WifiApListProvider();
+    }
+
+    public static MStreamProvider getUpdateStatus() {
+        return new WifiUpdatesProvider();
     }
 
 }

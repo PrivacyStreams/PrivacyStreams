@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.provider.ContactsContract;
 import android.provider.ContactsContract.CommonDataKinds.Email;
 import android.provider.ContactsContract.CommonDataKinds.Phone;
+import android.util.Log;
 
 import com.github.privacystreams.core.providers.MStreamProvider;
 import com.github.privacystreams.utils.CommunicationUtils;
@@ -81,6 +82,7 @@ class ContactListProvider extends MStreamProvider {
 
                         int phoneType = phoneCur.getInt(phoneCur.getColumnIndex(Phone.TYPE));
                         String number = phoneCur.getString(phoneCur.getColumnIndex(Phone.NUMBER));
+                        Log.e("number",number);
                         // provide phone numbers as different types
                         switch(phoneType){
                             case Phone.TYPE_MOBILE:
@@ -129,48 +131,56 @@ class ContactListProvider extends MStreamProvider {
                                 carList.add(CommunicationUtils.normalizePhoneNumber(number));
                                 if(!phones.containsKey(Contact.CAR))
                                     phones.put(Contact.CAR, carList);
+
                                 break;
 
                             case Phone.TYPE_ASSISTANT:
                                 assistantList.add(CommunicationUtils.normalizePhoneNumber(number));
                                 if(!phones.containsKey(Contact.ASSISTANT))
                                     phones.put(Contact.ASSISTANT, assistantList);
+
                                 break;
 
                             case Phone.TYPE_COMPANY_MAIN:
                                 companyMainList.add(CommunicationUtils.normalizePhoneNumber(number));
                                 if(!phones.containsKey(Contact.COMPANY_MAIN))
                                     phones.put(Contact.COMPANY_MAIN, companyMainList);
+
                                 break;
 
                             case Phone.TYPE_FAX_WORK:
                                 workFaxList.add(CommunicationUtils.normalizePhoneNumber(number));
                                 if(!phones.containsKey(Contact.WORK_FAX))
                                     phones.put(Contact.WORK_FAX, workFaxList);
+
                                 break;
 
                             case Phone.TYPE_OTHER:
                                 otherList.add(CommunicationUtils.normalizePhoneNumber(number));
                                 if(!phones.containsKey(Contact.OTHER_PHONE))
                                     phones.put(Contact.OTHER_PHONE, otherList);
+
                                 break;
 
                             case Phone.TYPE_OTHER_FAX:
                                 otherFaxList.add(CommunicationUtils.normalizePhoneNumber(number));
                                 if(!phones.containsKey(Contact.OTHER_FAX))
                                     phones.put(Contact.OTHER_FAX, otherFaxList);
+
                                 break;
 
                             case Phone.TYPE_ISDN:
                                 ISDNList.add(CommunicationUtils.normalizePhoneNumber(number));
                                 if(!phones.containsKey(Contact.ISDN))
                                     phones.put(Contact.ISDN, ISDNList);
+
                                 break;
 
                             case Phone.TYPE_MAIN:
                                 mainList.add(CommunicationUtils.normalizePhoneNumber(number));
                                 if(!phones.containsKey(Contact.MAIN))
                                     phones.put(Contact.MAIN, mainList);
+
                                 break;
 
                             case Phone.TYPE_MMS:
@@ -189,6 +199,7 @@ class ContactListProvider extends MStreamProvider {
                                 telexList.add(CommunicationUtils.normalizePhoneNumber(number));
                                 if(!phones.containsKey(Contact.TELEX))
                                     phones.put(Contact.TELEX, telexList);
+
                                 break;
 
                             case Phone.TYPE_TTY_TDD:
@@ -201,6 +212,7 @@ class ContactListProvider extends MStreamProvider {
                                 workMobileList.add(CommunicationUtils.normalizePhoneNumber(number));
                                 if(!phones.containsKey(Contact.WORK_MOBILE))
                                     phones.put(Contact.WORK_MOBILE, workMobileList);
+
                                 break;
 
                             case Phone.TYPE_WORK_PAGER:
@@ -235,6 +247,7 @@ class ContactListProvider extends MStreamProvider {
                                 homeEmailList.add(email);
                                 if(!emails.containsKey(Contact.HOME_EMAIL))
                                     emails.put(Contact.HOME_EMAIL,homeEmailList);
+
                                 break;
 
                             case Email.TYPE_MOBILE:
@@ -248,6 +261,7 @@ class ContactListProvider extends MStreamProvider {
                                 if(!emails.containsKey(Contact.OTHER_EMAIL))
                                     emails.put(Contact.OTHER_EMAIL,otherEmailList);
                                 break;
+
 
                             case Email.TYPE_WORK:
                                 workEmailList.add(email);
