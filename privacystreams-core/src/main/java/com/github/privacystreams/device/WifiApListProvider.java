@@ -10,7 +10,6 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
-import android.util.Log;
 
 import com.github.privacystreams.core.UQI;
 import com.github.privacystreams.core.providers.MStreamProvider;
@@ -34,7 +33,6 @@ class WifiApListProvider extends MStreamProvider {
             for(ScanResult result: wifiMgr.getScanResults()){
 
                 if(name.equals(result.SSID)){
-                    Log.e("privacystreams", new WifiAp(result, WifiAp.STATUS_CONNECTED).toString());
                     WifiApListProvider.this.output(new WifiAp(result, WifiAp.STATUS_CONNECTED));
                 }
                 else{
@@ -69,13 +67,11 @@ class WifiApListProvider extends MStreamProvider {
                 .getSystemService(Context.WIFI_SERVICE);
 
         if(wifiMgr.isWifiEnabled()) {
-            Log.e("wifi","enabled");
             this.getContext().registerReceiver
                     (this.wifiReceiver, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
             wifiMgr.startScan();
         }
         else{
-            Log.e("wifi","not enabled");
             this.finish();
         }
 

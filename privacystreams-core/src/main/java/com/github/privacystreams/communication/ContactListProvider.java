@@ -6,7 +6,6 @@ import android.database.Cursor;
 import android.provider.ContactsContract;
 import android.provider.ContactsContract.CommonDataKinds.Email;
 import android.provider.ContactsContract.CommonDataKinds.Phone;
-import android.util.Log;
 
 import com.github.privacystreams.core.providers.MStreamProvider;
 import com.github.privacystreams.utils.CommunicationUtils;
@@ -82,7 +81,6 @@ class ContactListProvider extends MStreamProvider {
 
                         int phoneType = phoneCur.getInt(phoneCur.getColumnIndex(Phone.TYPE));
                         String number = phoneCur.getString(phoneCur.getColumnIndex(Phone.NUMBER));
-                        Log.e("number",number);
                         // provide phone numbers as different types
                         switch(phoneType){
                             case Phone.TYPE_MOBILE:

@@ -49,12 +49,10 @@ class BluetoothDeviceListProvider extends MStreamProvider {
                 // Get the BluetoothDevice object from the Intent
                 android.bluetooth.BluetoothDevice device = intent.getParcelableExtra(android.bluetooth.BluetoothDevice.EXTRA_DEVICE);
                 // return the new bluetooth device
-                Log.e("bt device",device.getAddress());
                 BluetoothDeviceListProvider.this.output(new BluetoothDevice(device));
             }
             else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action))
             {
-                Log.e(TAG,"Entered the Finished ");
                 BluetoothDeviceListProvider.this.finish();
             }
 

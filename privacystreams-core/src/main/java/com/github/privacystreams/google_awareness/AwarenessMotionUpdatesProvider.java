@@ -12,6 +12,7 @@ import android.util.Log;
 import com.github.privacystreams.core.BuildConfig;
 import com.github.privacystreams.core.UQI;
 import com.github.privacystreams.core.providers.MStreamProvider;
+import com.github.privacystreams.utils.Logging;
 import com.google.android.gms.awareness.Awareness;
 import com.google.android.gms.awareness.fence.AwarenessFence;
 import com.google.android.gms.awareness.fence.DetectedActivityFence;
@@ -105,10 +106,8 @@ class AwarenessMotionUpdatesProvider extends MStreamProvider {
                 .setResultCallback(new ResultCallback<Status>() {
                     @Override
                     public void onResult(@NonNull Status status) {
-                        if (status.isSuccess()) {
-                            Log.e(fenceKey, "Fence was successfully registered.");
-                        } else {
-                            Log.e(fenceKey, "Fence could not be registered: " + status);
+                        if (!status.isSuccess()) {
+                            Logging.error("Fence could not be registered: " + status);
                         }
                     }
                 });
@@ -122,8 +121,6 @@ class AwarenessMotionUpdatesProvider extends MStreamProvider {
                 FenceState fenceState = FenceState.extract(intent);
                 switch (fenceState.getCurrentState()) {                         //Check the state info incase some error happened
                     case FenceState.TRUE:
-                        Log.e(fenceState.getFenceKey(), "Active");
-
                         // When new motion has been detected, output a new physical activity
                         output(new AwarenessMotion(System.currentTimeMillis(), fenceState.getFenceKey()));
                         break;
@@ -140,11 +137,9 @@ class AwarenessMotionUpdatesProvider extends MStreamProvider {
                         .build()).setResultCallback(new ResultCallback<Status>() {
             @Override
             public void onResult(@NonNull Status status) {
-                if (status.isSuccess()) {
-                    Log.e("Fence", "Fence " + fenceKey + " successfully removed.");
+                if (!status.isSuccess()) {
+                    Logging.error("Fence " + fenceKey + " can not be removed.");
 
-                } else {
-                    Log.e("Fence", "Fence " + fenceKey + " can not be removed.");
                 }
             }
         });

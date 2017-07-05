@@ -2,12 +2,12 @@ package com.github.privacystreams.calendar;
 
 import android.Manifest;
 import android.content.IntentFilter;
-import android.util.Log;
 
 import com.github.privacystreams.core.UQI;
 import com.github.privacystreams.core.exceptions.PSException;
 import com.github.privacystreams.core.providers.MStreamProvider;
 import com.github.privacystreams.core.purposes.Purpose;
+import com.github.privacystreams.utils.Logging;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +48,7 @@ public class CalendarEventUpdatesProvider extends MStreamProvider {
                             Purpose.FEATURE("to get update information of calendar")).asList();
         } catch (PSException e) {
             e.printStackTrace();
-            Log.e("exception", "data getting from uqi is not valid");
+            Logging.error("data getting from uqi is not valid");
         }
         uqi.stopAll();
     }
@@ -71,7 +71,7 @@ public class CalendarEventUpdatesProvider extends MStreamProvider {
                                 Purpose.FEATURE("get updated calendar information")).asList();
             } catch (PSException e) {
                 e.printStackTrace();
-                Log.e("exception","updated data getting from uqi is not valid");
+                Logging.error("updated data getting from uqi is not valid");
             }
             uqi.stopAll();
             List oldCalendarEventsList = new ArrayList(calendarEventsList);

@@ -6,7 +6,6 @@ import android.net.NetworkInfo;
 import android.net.wifi.SupplicantState;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
-import android.util.Log;
 
 import com.github.privacystreams.core.UQI;
 import com.google.android.gms.common.ConnectionResult;
@@ -65,7 +64,7 @@ public class ConnectionUtils {
         final int connectionStatusCode =
                 apiAvailability.isGooglePlayServicesAvailable(context);
         if (apiAvailability.isUserResolvableError(connectionStatusCode)) {
-           Log.e("Error","Connection Status Code"+connectionStatusCode);
+           Logging.debug("Connection Status Code"+connectionStatusCode);
         }
     }
 
