@@ -198,6 +198,7 @@ In Android Studio, the installation involves the following steps:
 
 - [GitHub issues](https://github.com/PrivacyStreams/PrivacyStreams/issues)
 - [Mailing list](https://groups.google.com/forum/#!forum/privacystreams)
+- Contact the [author](http://ylimit.github.io/)
 
 ## Acknowledgments
 
