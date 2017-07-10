@@ -71,30 +71,31 @@ public class BaseGoogleDriveProvider extends MStreamProvider implements GoogleDr
      * get data from google drive api
      * returning documents are selected in the range of the input beginning time and ending time
      * time here refers to modified time
+     *
      * @return output selected drive documents
      * @throws IOException caused by query
      */
-    private java.util.List<String> getDataFromApi() throws IOException{
+    private java.util.List<String> getDataFromApi() throws IOException {
         DateTime mBeginTime = new DateTime(mBegin);
         DateTime mEndTime = new DateTime(mEnd);
         FileList fileList = mDrive.files().list()
-                .setQ("modifiedTime>'"+mBeginTime+"' and modifiedTime<'"+mEndTime+"'")
+                .setQ("modifiedTime>'" + mBeginTime + "' and modifiedTime<'" + mEndTime + "'")
                 .setPageSize(mResultNum)
                 .setFields("nextPageToken, " +
                         "files(id, name, createdTime, modifiedTime, size, description)")
                 .execute();
         List<File> files = fileList.getFiles();
-        if(files!=null){
-            for (File f:
+        if (files != null) {
+            for (File f :
                     files) {
+                Log.e("privacystream", new DriveDocument(f).toString());
                 this.output(new DriveDocument(f));
             }
-        }
-        else{
+        } else {
             Log.e("privacystream", "Files selected does not exist");
         }
-        mBegin=0;
-        mEnd=0;
+        mBegin = 0;
+        mEnd = 0;
         return null;
     }
 
@@ -102,11 +103,15 @@ public class BaseGoogleDriveProvider extends MStreamProvider implements GoogleDr
      * An asynchronous task that handles the google drive API call.
      * Placing the API calls in their own task ensures the UI stays responsive.
      */
-    class FetchDriveTask extends AsyncTask<Void, Void, List<String>>{
+    class FetchDriveTask extends AsyncTask<Void, Void, List<String>> {
         @Override
-        protected List<String> doInBackground(Void...voids){
+        protected List<String> doInBackground(Void... voids) {
             try {
-                getDataFromApi();
+                if (mDrive != null) {
+                    getDataFromApi();
+                } else {
+                    Logging.error("mDrive is null");
+                }
             } catch (IOException e) {
                 if (e instanceof UserRecoverableAuthIOException) {
                     Intent authorizationIntent = new Intent(getContext(),
@@ -128,7 +133,7 @@ public class BaseGoogleDriveProvider extends MStreamProvider implements GoogleDr
     }
 
 
-    private void checkDriveApiRequirements(){
+    private void checkDriveApiRequirements() {
         String accountName = PreferenceManager.getDefaultSharedPreferences(getContext())
                 .getString(DRIVE_PREF_ACCOUNT_NAME, null);
 
@@ -141,7 +146,7 @@ public class BaseGoogleDriveProvider extends MStreamProvider implements GoogleDr
 
             if (!ConnectionUtils.isGooglePlayServicesAvailable(getContext())) {
                 ConnectionUtils.acquireGooglePlayServices(getContext());
-            }else{
+            } else {
                 mDrive = new Drive.Builder(
                         AndroidHttp.newCompatibleTransport(),
                         JacksonFactory.getDefaultInstance(), mCredential)
@@ -149,7 +154,7 @@ public class BaseGoogleDriveProvider extends MStreamProvider implements GoogleDr
                         .build();
                 authorized = true;
             }
-        }else {
+        } else {
             GoogleDriveAuthorizationActivity.setListener(this);
             getContext()
                     .startActivity(new Intent(getContext(), GoogleDriveAuthorizationActivity.class));

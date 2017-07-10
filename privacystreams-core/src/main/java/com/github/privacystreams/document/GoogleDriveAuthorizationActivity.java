@@ -24,85 +24,85 @@ import static com.github.privacystreams.document.BaseGoogleDriveProvider.DRIVE_P
 import static com.github.privacystreams.document.BaseGoogleDriveProvider.SCOPES;
 
 /**
- *This is the related activity for google drive providers,
- *  used for authorization and permission granting.
+ * This is the related activity for google drive providers,
+ * used for authorization and permission granting.
  */
-public class GoogleDriveAuthorizationActivity extends Activity{
-        static final int REQUEST_ACCOUNT_PICKER = 1000;
-        static final int REQUEST_AUTHORIZATION = 1001;
+public class GoogleDriveAuthorizationActivity extends Activity {
+    static final int REQUEST_ACCOUNT_PICKER = 1000;
+    static final int REQUEST_AUTHORIZATION = 1001;
 
-        private static GoogleDriveResultListener googleDriveResultListener;
-        private GoogleAccountCredential mCredential;
-        private Drive mDrive;
-        static void setListener(GoogleDriveResultListener gl){
-            googleDriveResultListener = gl;
-        }
+    private static GoogleDriveResultListener googleDriveResultListener;
+    private GoogleAccountCredential mCredential;
+    private Drive mDrive;
 
-        @Override
-        protected void onCreate(Bundle savedInstanceState){
-            super.onCreate(savedInstanceState);
+    static void setListener(GoogleDriveResultListener gl) {
+        googleDriveResultListener = gl;
+    }
 
-            if(googleDriveResultListener !=null){
-                if (! ConnectionUtils.isDeviceOnline(this)) {
-                    Logging.warn("No network connection available.");
-                }
-                if (! ConnectionUtils.isGooglePlayServicesAvailable(this)) {
-                    ConnectionUtils.acquireGooglePlayServices(this);
-                }
-                mCredential = GoogleAccountCredential.usingOAuth2(
-                        getApplicationContext(), Arrays.asList(SCOPES))
-                        .setBackOff(new ExponentialBackOff());
-                if (mCredential.getSelectedAccountName() == null) {
-                    chooseAccount();
-                }
-                if (getIntent().getAction()!=null) {
-                    if(getIntent().getAction().equalsIgnoreCase("UserRecoverableAuthIOException"))
-                        startActivityForResult((Intent) getIntent().
-                                        getExtras().get("request_authorization"),
-                                REQUEST_AUTHORIZATION);
-                }
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        if (googleDriveResultListener != null) {
+            if (!ConnectionUtils.isDeviceOnline(this)) {
+                Logging.warn("No network connection available.");
             }
-            else {
-                finish();
+            if (!ConnectionUtils.isGooglePlayServicesAvailable(this)) {
+                ConnectionUtils.acquireGooglePlayServices(this);
             }
-        }
-
-        @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data){
-
-            switch (requestCode){
-                case REQUEST_AUTHORIZATION:
-                    if (resultCode == RESULT_OK) {
-                        googleDriveResultListener.onSuccess(mDrive);
-                    }
-                    break;
-
-                case REQUEST_ACCOUNT_PICKER:
-                    if (resultCode == RESULT_OK && data != null &&
-                            data.getExtras() != null) {
-                        String accountName =
-                                data.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
-                        if (accountName != null) {
-                            SharedPreferences.Editor editor = PreferenceManager
-                                    .getDefaultSharedPreferences(this).edit();
-                            editor.putString(DRIVE_PREF_ACCOUNT_NAME,accountName);
-                            editor.apply();
-
-                            mCredential.setSelectedAccountName(accountName);
-
-                            mDrive = new Drive.Builder(
-                                    AndroidHttp.newCompatibleTransport()
-                                    , JacksonFactory.getDefaultInstance(), mCredential)
-                                    .setApplicationName(AppUtils.getApplicationName(this))
-                                    .build();
-                            googleDriveResultListener.onSuccess(mDrive);
-                        }
-
-                    }
-                    break;
+            mCredential = GoogleAccountCredential.usingOAuth2(
+                    getApplicationContext(), Arrays.asList(SCOPES))
+                    .setBackOff(new ExponentialBackOff());
+            if (mCredential.getSelectedAccountName() == null) {
+                chooseAccount();
             }
+            if (getIntent().getAction() != null) {
+                if (getIntent().getAction().equalsIgnoreCase("UserRecoverableAuthIOException"))
+                    startActivityForResult((Intent) getIntent().
+                                    getExtras().get("request_authorization"),
+                            REQUEST_AUTHORIZATION);
+            }
+        } else {
             finish();
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        switch (requestCode) {
+            case REQUEST_AUTHORIZATION:
+                if (resultCode == RESULT_OK) {
+                    googleDriveResultListener.onSuccess(mDrive);
+                }
+                break;
+
+            case REQUEST_ACCOUNT_PICKER:
+                if (resultCode == RESULT_OK && data != null &&
+                        data.getExtras() != null) {
+                    String accountName =
+                            data.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
+                    if (accountName != null) {
+                        SharedPreferences.Editor editor = PreferenceManager
+                                .getDefaultSharedPreferences(this).edit();
+                        editor.putString(DRIVE_PREF_ACCOUNT_NAME, accountName);
+                        editor.apply();
+
+                        mCredential.setSelectedAccountName(accountName);
+
+                        mDrive = new Drive.Builder(
+                                AndroidHttp.newCompatibleTransport()
+                                , JacksonFactory.getDefaultInstance(), mCredential)
+                                .setApplicationName(AppUtils.getApplicationName(this))
+                                .build();
+                        googleDriveResultListener.onSuccess(mDrive);
+                    }
+
+                }
+                break;
+        }
+        finish();
+    }
 
     /**
      * Attempts to set the account used with the API credentials. If an account
@@ -125,7 +125,7 @@ public class GoogleDriveAuthorizationActivity extends Activity{
                 startActivityForResult(
                         mCredential.newChooseAccountIntent(),
                         REQUEST_ACCOUNT_PICKER);
-            }catch (ActivityNotFoundException e){
+            } catch (ActivityNotFoundException e) {
                 Logging.error("no activity found for choosing account");
             }
         }

@@ -9,7 +9,7 @@ import com.google.api.services.drive.model.File;
  * drive documents output
  */
 @PSItem
-public class DriveDocument extends Item{
+public class DriveDocument extends Item {
     /*
     the string id of the drive document
      */
@@ -41,7 +41,7 @@ public class DriveDocument extends Item{
     @PSItemField(type = Long.class)
     public static final String FILE_SIZE = "file size";
 
-    DriveDocument(File file){
+    DriveDocument(File file) {
         this.setFieldValue(ID, file.getId());
         this.setFieldValue(TITLE, file.getName());
         this.setFieldValue(CREATED_DATE, file.getCreatedTime().getValue());
@@ -51,7 +51,7 @@ public class DriveDocument extends Item{
     }
 
     public static DriveListProvider testDriveList
-            (long beginTime, long endTime, int maxResultNum, int resultNum){
+            (long beginTime, long endTime, int maxResultNum, int resultNum) {
         return new DriveListProvider(beginTime, endTime, maxResultNum, resultNum);
     }
 }

@@ -7,8 +7,8 @@ import com.google.api.services.drive.Drive;
  * which is for one time using.
  */
 
-public class DriveListProvider extends BaseGoogleDriveProvider{
-    DriveListProvider(long beginTime, long endTime, int maxResult, int resultNum){
+public class DriveListProvider extends BaseGoogleDriveProvider {
+    DriveListProvider(long beginTime, long endTime, int maxResult, int resultNum) {
         super();
         mBegin = beginTime;
         mEnd = endTime;
@@ -20,9 +20,9 @@ public class DriveListProvider extends BaseGoogleDriveProvider{
      * For queries in all other times later on, when the app does not need to get
      * authorization and permission from the activity all over again.
      */
-    protected void provide(){
+    protected void provide() {
         super.provide();
-        if(authorized){
+        if (authorized) {
             new FetchDriveTask().execute();
         }
     }
