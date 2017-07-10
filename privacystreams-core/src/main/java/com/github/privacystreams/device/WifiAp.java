@@ -79,12 +79,9 @@ public class WifiAp extends Item {
     }
 
     WifiAp(WifiAp another){
-        this.setFieldValue(TIMESTAMP, another.getValueByField(TIMESTAMP));
-        this.setFieldValue(BSSID, another.getValueByField(BSSID));
-        this.setFieldValue(SSID, another.getValueByField(SSID));
-        this.setFieldValue(FREQUENCY, another.getValueByField(FREQUENCY));
-        this.setFieldValue(RSSI, another.getValueByField(RSSI));
-        this.setFieldValue(STATUS, another.getValueByField(STATUS));
+        for(String key: another.toMap().keySet()){
+            this.setFieldValue(key, another.getValueByField(key));
+        }
     }
 
     /**

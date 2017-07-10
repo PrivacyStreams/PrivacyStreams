@@ -3,7 +3,8 @@ package com.github.privacystreams.communication;
 import com.google.api.services.gmail.Gmail;
 
 /**
- * This is the provider that can query the time from a certain time period, which is for one time using.
+ * This is the provider that can query the time from a certain time period,
+ * which is for one time using.
  */
 
 class GmailListProvider extends BaseGmailProvider{

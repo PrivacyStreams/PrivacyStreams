@@ -3,6 +3,7 @@ package com.github.privacystreams.communication;
 
 import android.Manifest;
 import android.database.ContentObserver;
+import android.util.Log;
 
 import com.github.privacystreams.core.UQI;
 import com.github.privacystreams.core.exceptions.PSException;
@@ -79,6 +80,7 @@ public class ContactUpdatesProvider extends MStreamProvider {
                     //block some redundant output
                     if (newContactUpdateOutput != null
                             && !newContactUpdateOutput.equals(lastUpdatedContact)) {
+                        Log.e("privacystream", newContactUpdateOutput.toString());
                         ContactUpdatesProvider.this.output(newContactUpdateOutput);
                         lastUpdatedContact = newContactUpdateOutput;
                     }

@@ -245,7 +245,6 @@ class ContactListProvider extends MStreamProvider {
                                 homeEmailList.add(email);
                                 if(!emails.containsKey(Contact.HOME_EMAIL))
                                     emails.put(Contact.HOME_EMAIL,homeEmailList);
-
                                 break;
 
                             case Email.TYPE_MOBILE:

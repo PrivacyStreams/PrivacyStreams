@@ -19,7 +19,7 @@ import com.google.api.services.gmail.Gmail;
 
 import java.util.Arrays;
 
-import static com.github.privacystreams.communication.BaseGmailProvider.PREF_ACCOUNT_NAME;
+import static com.github.privacystreams.communication.BaseGmailProvider.GMAIL_PREF_ACCOUNT_NAME;
 import static com.github.privacystreams.communication.BaseGmailProvider.SCOPES;
 
 
@@ -60,13 +60,13 @@ public class GmailAuthorizationActivity extends Activity {
                     startActivityForResult((Intent) getIntent().
                         getExtras().get("request_authorization"),
                         REQUEST_AUTHORIZATION);
-
             }
 
         } else {
             finish();
         }
     }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -84,7 +84,7 @@ public class GmailAuthorizationActivity extends Activity {
                             data.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
                     if (accountName != null) {
                         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(this).edit();
-                        editor.putString(PREF_ACCOUNT_NAME,accountName);
+                        editor.putString(GMAIL_PREF_ACCOUNT_NAME,accountName);
                         editor.apply();
 
                         mCredential.setSelectedAccountName(accountName);
@@ -115,7 +115,7 @@ public class GmailAuthorizationActivity extends Activity {
      */
     private void chooseAccount() {
         String accountName = getPreferences(Context.MODE_PRIVATE)
-                .getString(PREF_ACCOUNT_NAME, null);
+                .getString(GMAIL_PREF_ACCOUNT_NAME, null);
         if (accountName != null) {
             mCredential.setSelectedAccountName(accountName);
         } else {
