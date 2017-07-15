@@ -36,6 +36,7 @@ import com.github.privacystreams.device.BluetoothDevice;
 import com.github.privacystreams.device.DeviceEvent;
 import com.github.privacystreams.device.DeviceOperators;
 import com.github.privacystreams.device.WifiAp;
+import com.github.privacystreams.document.DriveDocument;
 import com.github.privacystreams.image.Image;
 import com.github.privacystreams.image.ImageOperators;
 import com.github.privacystreams.io.IOOperators;
@@ -170,6 +171,12 @@ public class UseCases {
         uqi.getData(Email.asGmailList(System.currentTimeMillis()-Duration.hours(100),
                 System.currentTimeMillis()-Duration.hours(50),
                 100),Purpose.TEST("test")).debug();
+    }
+
+    public void testDriveList(){
+            uqi.getData(DriveDocument.testDriveList(System.currentTimeMillis()-Duration.days(365),
+                    System.currentTimeMillis(),
+                    100, 10),Purpose.TEST("test")).debug();
     }
     // For testing
     public void testMockData() {

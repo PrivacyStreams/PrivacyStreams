@@ -42,7 +42,7 @@ import javax.mail.internet.MimeMessage;
  */
 
 abstract class BaseGmailProvider extends MStreamProvider implements GmailResultListener {
-    static final String PREF_ACCOUNT_NAME = "accountName";
+    static final String GMAIL_PREF_ACCOUNT_NAME = "gmail accountName";
     static final String[] SCOPES = {GmailScopes.GMAIL_LABELS, GmailScopes.GMAIL_READONLY};
     private Gmail mService;
     int mMaxResult = Globals.EmailConfig.defaultMaxNumberOfReturnResults;
@@ -67,7 +67,6 @@ abstract class BaseGmailProvider extends MStreamProvider implements GmailResultL
     @Override
     protected void provide() {
         checkGmailApiRequirements();
-
     }
 
     /**
@@ -302,7 +301,7 @@ abstract class BaseGmailProvider extends MStreamProvider implements GmailResultL
 
 
         String accountName = PreferenceManager.getDefaultSharedPreferences(getContext())
-                .getString(PREF_ACCOUNT_NAME, null);
+                .getString(GMAIL_PREF_ACCOUNT_NAME, null);
 
         if (accountName != null) {
             GoogleAccountCredential mCredential = GoogleAccountCredential.usingOAuth2(

@@ -41,10 +41,12 @@ public class MainActivity extends AppCompatActivity {
 //            useCases.testNotification();
 //            useCases.testAudio();
 //            useCases.testMockData();
+
             for(Item item: useCases.isAtHome()){
                 Log.e("item",(String)item.getValueByField(WifiAp.BSSID));
             }
 
+//            useCases.testContacts();
 //            useCases.testDeviceState();
 //
 //            useCases.testBrowserSearchUpdates();
@@ -65,6 +67,11 @@ public class MainActivity extends AppCompatActivity {
 //            useCases.testWifiUpdates();
 //            useCases.newTestWifiTrueUpdates();
 //            useCases.testUpdatesCalendar();
+<<<<<<< HEAD
+=======
+            useCases.testDriveList();
+
+>>>>>>> 2d03d98f4d2ae44e4b6c096ef3bfd1fab92e1d8f
 
             return null;
         }

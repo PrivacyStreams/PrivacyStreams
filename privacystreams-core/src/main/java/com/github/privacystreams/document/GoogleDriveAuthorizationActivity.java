@@ -1,7 +1,8 @@
-package com.github.privacystreams.communication;
+package com.github.privacystreams.document;
 
 import android.accounts.AccountManager;
 import android.app.Activity;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -15,37 +16,38 @@ import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.util.ExponentialBackOff;
-import com.google.api.services.gmail.Gmail;
+import com.google.api.services.drive.Drive;
 
 import java.util.Arrays;
 
-import static com.github.privacystreams.communication.BaseGmailProvider.GMAIL_PREF_ACCOUNT_NAME;
-import static com.github.privacystreams.communication.BaseGmailProvider.SCOPES;
-
+import static com.github.privacystreams.document.BaseGoogleDriveProvider.DRIVE_PREF_ACCOUNT_NAME;
+import static com.github.privacystreams.document.BaseGoogleDriveProvider.SCOPES;
 
 /**
- * This is the related activity for Gmail providers, used for authorization and permission granting.
+ * This is the related activity for google drive providers,
+ * used for authorization and permission granting.
  */
-
-public class GmailAuthorizationActivity extends Activity {
+public class GoogleDriveAuthorizationActivity extends Activity {
     static final int REQUEST_ACCOUNT_PICKER = 1000;
     static final int REQUEST_AUTHORIZATION = 1001;
 
-    private static GmailResultListener gmailResultListener;
+    private static GoogleDriveResultListener googleDriveResultListener;
     private GoogleAccountCredential mCredential;
-    private Gmail mService;
-    static void setListener(GmailResultListener gl){
-        gmailResultListener = gl;
+    private Drive mDrive;
+
+    static void setListener(GoogleDriveResultListener gl) {
+        googleDriveResultListener = gl;
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (gmailResultListener!=null) {
-            if (! ConnectionUtils.isDeviceOnline(this)) {
+        if (googleDriveResultListener != null) {
+            if (!ConnectionUtils.isDeviceOnline(this)) {
                 Logging.warn("No network connection available.");
             }
-            if (! ConnectionUtils.isGooglePlayServicesAvailable(this)) {
+            if (!ConnectionUtils.isGooglePlayServicesAvailable(this)) {
                 ConnectionUtils.acquireGooglePlayServices(this);
             }
             mCredential = GoogleAccountCredential.usingOAuth2(
@@ -54,26 +56,24 @@ public class GmailAuthorizationActivity extends Activity {
             if (mCredential.getSelectedAccountName() == null) {
                 chooseAccount();
             }
-
-            if (getIntent().getAction()!=null) {
-                if(getIntent().getAction().equalsIgnoreCase("UserRecoverableAuthIOException"))
+            if (getIntent().getAction() != null) {
+                if (getIntent().getAction().equalsIgnoreCase("UserRecoverableAuthIOException"))
                     startActivityForResult((Intent) getIntent().
-                        getExtras().get("request_authorization"),
-                        REQUEST_AUTHORIZATION);
+                                    getExtras().get("request_authorization"),
+                            REQUEST_AUTHORIZATION);
             }
-
         } else {
             finish();
         }
     }
 
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch(requestCode) {
+
+        switch (requestCode) {
             case REQUEST_AUTHORIZATION:
                 if (resultCode == RESULT_OK) {
-                    gmailResultListener.onSuccess(mService);
+                    googleDriveResultListener.onSuccess(mDrive);
                 }
                 break;
 
@@ -83,17 +83,19 @@ public class GmailAuthorizationActivity extends Activity {
                     String accountName =
                             data.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
                     if (accountName != null) {
-                        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(this).edit();
-                        editor.putString(GMAIL_PREF_ACCOUNT_NAME,accountName);
+                        SharedPreferences.Editor editor = PreferenceManager
+                                .getDefaultSharedPreferences(this).edit();
+                        editor.putString(DRIVE_PREF_ACCOUNT_NAME, accountName);
                         editor.apply();
 
                         mCredential.setSelectedAccountName(accountName);
 
-                        mService = new Gmail.Builder(
-                                    AndroidHttp.newCompatibleTransport(), JacksonFactory.getDefaultInstance(), mCredential)
-                                    .setApplicationName(AppUtils.getApplicationName(this))
-                                    .build();
-                        gmailResultListener.onSuccess(mService);
+                        mDrive = new Drive.Builder(
+                                AndroidHttp.newCompatibleTransport()
+                                , JacksonFactory.getDefaultInstance(), mCredential)
+                                .setApplicationName(AppUtils.getApplicationName(this))
+                                .build();
+                        googleDriveResultListener.onSuccess(mDrive);
                     }
 
                 }
@@ -101,7 +103,6 @@ public class GmailAuthorizationActivity extends Activity {
         }
         finish();
     }
-
 
     /**
      * Attempts to set the account used with the API credentials. If an account
@@ -115,14 +116,19 @@ public class GmailAuthorizationActivity extends Activity {
      */
     private void chooseAccount() {
         String accountName = getPreferences(Context.MODE_PRIVATE)
-                .getString(GMAIL_PREF_ACCOUNT_NAME, null);
+                .getString(DRIVE_PREF_ACCOUNT_NAME, null);
         if (accountName != null) {
             mCredential.setSelectedAccountName(accountName);
         } else {
             // Start a dialog from which the user can choose an account
-            startActivityForResult(
-                    mCredential.newChooseAccountIntent(),
-                    REQUEST_ACCOUNT_PICKER);
+            try {
+                startActivityForResult(
+                        mCredential.newChooseAccountIntent(),
+                        REQUEST_ACCOUNT_PICKER);
+            } catch (ActivityNotFoundException e) {
+                Logging.error("no activity found for choosing account");
+            }
         }
     }
 }
+
