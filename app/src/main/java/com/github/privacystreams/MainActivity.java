@@ -4,8 +4,12 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.multidex.MultiDex;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+
+import com.github.privacystreams.core.Item;
+import com.github.privacystreams.device.WifiAp;
 
 public class MainActivity extends AppCompatActivity {
     public Button mButton;
@@ -37,7 +41,10 @@ public class MainActivity extends AppCompatActivity {
 //            useCases.testNotification();
 //            useCases.testAudio();
 //            useCases.testMockData();
-            useCases.testContacts();
+            for(Item item: useCases.isAtHome()){
+                Log.e("item",(String)item.getValueByField(WifiAp.BSSID));
+            }
+
 //            useCases.testDeviceState();
 //
 //            useCases.testBrowserSearchUpdates();
@@ -58,8 +65,6 @@ public class MainActivity extends AppCompatActivity {
 //            useCases.testWifiUpdates();
 //            useCases.newTestWifiTrueUpdates();
 //            useCases.testUpdatesCalendar();
-
-
 
             return null;
         }

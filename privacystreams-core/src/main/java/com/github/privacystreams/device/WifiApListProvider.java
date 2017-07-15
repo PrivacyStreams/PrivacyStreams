@@ -29,10 +29,10 @@ class WifiApListProvider extends MStreamProvider {
             WifiManager wifiMgr = (WifiManager) context.getApplicationContext()
                     .getSystemService(Context.WIFI_SERVICE);
             WifiInfo wifiInfo = wifiMgr.getConnectionInfo();
-            String name = wifiInfo.getSSID();
+            String name = wifiInfo.getBSSID();
             for(ScanResult result: wifiMgr.getScanResults()){
 
-                if(name.equals(result.SSID)){
+                if(name.equals(result.BSSID)){
                     WifiApListProvider.this.output(new WifiAp(result, WifiAp.STATUS_CONNECTED));
                 }
                 else{

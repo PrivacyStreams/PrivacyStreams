@@ -3,6 +3,7 @@ package com.github.privacystreams;
 import android.content.Context;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
+import android.util.Log;
 
 import com.github.privacystreams.accessibility.AccEvent;
 import com.github.privacystreams.accessibility.BrowserSearch;
@@ -34,7 +35,6 @@ import com.github.privacystreams.core.purposes.Purpose;
 import com.github.privacystreams.device.BluetoothDevice;
 import com.github.privacystreams.device.DeviceEvent;
 import com.github.privacystreams.device.DeviceOperators;
-import com.github.privacystreams.device.WifiAPOperators;
 import com.github.privacystreams.device.WifiAp;
 import com.github.privacystreams.image.Image;
 import com.github.privacystreams.image.ImageOperators;
@@ -66,6 +66,7 @@ public class UseCases {
     public void testBlueToothUpdatesProvider() {
         uqi.getData(BluetoothDevice.getScanResults(), Purpose.FEATURE("blueTooth device")).debug();
     }
+
 
     public void testImage() {
 //        uqi.getData(Image.getFromStorage(), Purpose.TEST("test"))
@@ -260,10 +261,10 @@ public class UseCases {
 
     // get a count of the #contacts in contact list
     void testContacts() {
-        try {
-            uqi.
-                    getData(Contact.getAll(),Purpose.FEATURE("xxx"))
-                    .count();
+        uqi.
+                getData(Contact.getAll(),Purpose.FEATURE("xxx"))
+                .debug();
+
 //            int count = uqi
 //                    .getData(Contact.getAll(), Purpose.FEATURE("estimate how popular you are."))
 //                    .count();
@@ -287,10 +288,6 @@ public class UseCases {
 //                        }
 //                    });
 
-        } catch (PSException e) {
-            System.out.println(e.getMessage());
-            e.printStackTrace();
-        }
     }
 
     // get recent called 10 contacts’ names
@@ -328,13 +325,21 @@ public class UseCases {
     }
 
     // TODO Problem set: use this function for test case.
-    boolean isAtHome() throws PSException {
-        return uqi
-                .getData(WifiAp.getScanResults(), Purpose.FEATURE("know whether you are at home."))
-//                .filter(Comparators.eq(WifiAp.CONNECTED, true))
-                .filter(Comparators.eq(WifiAp.STATUS, WifiAp.STATUS_CONNECTED))
-                .filter(WifiAPOperators.atHome(WifiAp.SSID))
-                .count() == 1;
+    List<Item> isAtHome()  {
+        try {
+            return uqi
+                    .getData(WifiAp.getScanResults(), Purpose.FEATURE("know whether you are at home."))
+                    .asList();
+        } catch (PSException e) {
+            Log.e("e",e.toString());
+            e.printStackTrace();
+            return null;
+        }
+
+////                .filter(Comparators.eq(WifiAp.CONNECTED, true))
+//                .filter(Comparators.eq(WifiAp.STATUS, WifiAp.STATUS_CONNECTED))
+//                .filter(WifiAPOperators.atHome(WifiAp.SSID))
+//                .count() == 1;
 
     }
    public void testUpdatesContact() {
