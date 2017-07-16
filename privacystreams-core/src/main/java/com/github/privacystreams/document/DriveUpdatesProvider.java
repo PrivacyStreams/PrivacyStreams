@@ -3,9 +3,6 @@ package com.github.privacystreams.document;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.drive.events.ChangeListener;
 
-/**
- * Created by DELL on 7/9/2017.
- */
 //TODO: to be completed
 public class DriveUpdatesProvider {
     GoogleApiClient mGoogleApiClient;

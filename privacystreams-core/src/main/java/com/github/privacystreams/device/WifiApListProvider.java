@@ -13,6 +13,7 @@ import android.support.annotation.RequiresApi;
 
 import com.github.privacystreams.core.UQI;
 import com.github.privacystreams.core.providers.MStreamProvider;
+import com.github.privacystreams.utils.Logging;
 
 
 /**
@@ -46,7 +47,15 @@ class WifiApListProvider extends MStreamProvider {
     @Override
     protected void onCancel(UQI uqi) {
         super.onCancel(uqi);
-            getContext().unregisterReceiver(wifiReceiver);
+        if(wifiReceiver!=null){
+            try{
+                getContext().unregisterReceiver(wifiReceiver);
+            }
+            catch (IllegalArgumentException exception){
+                Logging.warn("The following exception has been thrown: "+exception.getMessage());
+            }
+        }
+
     }
 
     private transient WifiReceiver wifiReceiver;

@@ -4,7 +4,6 @@ import android.Manifest;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
-import android.util.Log;
 
 import com.github.privacystreams.core.exceptions.PSException;
 import com.github.privacystreams.core.providers.MStreamProvider;
@@ -32,7 +31,7 @@ import java.util.List;
  */
 
 public class BaseGoogleDriveProvider extends MStreamProvider implements GoogleDriveResultListener {
-    static final String DRIVE_PREF_ACCOUNT_NAME = "drive mAccountName";
+    static final String DRIVE_PREF_ACCOUNT_NAME = "DRIVE_ACCOUNT_NAME";
     static final String[] SCOPES = {DriveScopes.DRIVE_READONLY};
     public Drive mDrive;
     int mMaxResult = Globals.DriveConfig.defaultMaxNumberOfReturnDrives;
@@ -88,12 +87,10 @@ public class BaseGoogleDriveProvider extends MStreamProvider implements GoogleDr
         if (files != null) {
             for (File f :
                     files) {
-                Log.e("privacystream", new DriveDocument(f).toString());
                 this.output(new DriveDocument(f));
             }
-        } else {
-            Log.e("privacystream", "Files selected does not exist");
         }
+
         mBegin = 0;
         mEnd = 0;
         return null;
@@ -110,7 +107,7 @@ public class BaseGoogleDriveProvider extends MStreamProvider implements GoogleDr
                 if (mDrive != null) {
                     getDataFromApi();
                 } else {
-                    Logging.error("mDrive is null");
+                    Logging.error("Google Drive is not Available");
                 }
             } catch (IOException e) {
                 if (e instanceof UserRecoverableAuthIOException) {
