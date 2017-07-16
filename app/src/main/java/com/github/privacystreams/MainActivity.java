@@ -67,11 +67,8 @@ public class MainActivity extends AppCompatActivity {
 //            useCases.testWifiUpdates();
 //            useCases.newTestWifiTrueUpdates();
 //            useCases.testUpdatesCalendar();
-<<<<<<< HEAD
-=======
-            useCases.testDriveList();
 
->>>>>>> 2d03d98f4d2ae44e4b6c096ef3bfd1fab92e1d8f
+            useCases.testDriveList();
 
             return null;
         }
