@@ -1,1 +1,1 @@
-include ':app', ':privacystreams-core', ':doclet'
+include ':test', ':privacystreams-core', ':doclet'
