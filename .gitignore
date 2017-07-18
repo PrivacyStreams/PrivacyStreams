@@ -59,6 +59,3 @@ keystores/
 .arc/
 out/
 gradle-app.setting
-
-app/src/main/res/values/secrets.xml
-love_study/src/main/res/values/secrets.xml

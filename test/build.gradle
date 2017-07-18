@@ -7,7 +7,7 @@ android {
         resolutionStrategy.force 'com.google.code.findbugs:jsr305:1.3.9'
     }
     defaultConfig {
-        applicationId "com.github.privacystreams"
+        applicationId "io.github.privacystreams"
         minSdkVersion 16
         targetSdkVersion 25
         versionCode 1
@@ -35,7 +35,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:25.3.1'
     testCompile 'junit:junit:4.12'
 
-    compile project(':privacystreams-core')
+    compile project(':privacystreams-android-sdk')
     compile 'com.dropbox.core:dropbox-core-sdk:2.1.1'
     compile 'com.google.android.gms:play-services-location:10.2.4'
     compile 'com.google.android.gms:play-services-vision:10.2.4'

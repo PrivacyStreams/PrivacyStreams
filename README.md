@@ -53,7 +53,7 @@ Based on the functions used in the query and the purpose specified by the develo
         try {
             LatLon latLon = new UQI(context)
                     .getData(Geolocation.asCurrent(Geolocation.LEVEL_CITY), Purpose.UTILITY("check weather"))
-                    .getField(Geolocation.LAT_LON);
+                    .getFirst(Geolocation.LAT_LON);
             // Do something with geolocation
             Log.d("Location", "" + latLon.getLatitude() + ", " + latLon.getLongitude());
         } catch (PSException e) {
@@ -171,7 +171,7 @@ Add the following line to `build.gradle` file under your app module.
 ```gradle
 dependencies {
     // The following line imports privacystreams library to your app
-    compile 'com.github.privacystreams:privacystreams-core:0.1.4'
+    compile 'io.github.privacystreams:privacystreams-android-sdk:0.1.5'
 }
 ```
 
@@ -184,11 +184,11 @@ Note that if you want to use Google location service instead of the Android loca
 In Android Studio, the installation involves the following steps:
 
 1. Clone this project to your computer.
-2. Open your own project, import privacystreams-core module.
+2. Open your own project, import privacystreams-android-sdk module.
     - Click **File -> New -> Import module...**.
-    - Select `privacystreams-core` directory as the source directory.
+    - Select `privacystreams-android-sdk` directory as the source directory.
 3. In your app module, add the following line to `dependencies`:
-    - `compile project(':privacystreams-core')`
+    - `compile project(':privacystreams-android-sdk')`
 
 ## Documentation
 
