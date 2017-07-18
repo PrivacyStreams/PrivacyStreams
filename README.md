@@ -4,7 +4,7 @@
 
 [![API](https://img.shields.io/badge/API-16%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=16)
 [![Website](https://img.shields.io/website-up-down-green-red/https/privacystreams.github.io.svg?label=docs)](https://privacystreams.github.io/)
-[![Download](https://api.bintray.com/packages/ylimit/PrivacyStreams/PrivacyStreams-core/images/download.svg)](https://bintray.com/ylimit/PrivacyStreams/PrivacyStreams-core/_latestVersion)
+[![Download](https://api.bintray.com/packages/ylimit/PrivacyStreams/PrivacyStreams-Android-SDK/images/download.svg) ](https://bintray.com/ylimit/PrivacyStreams/PrivacyStreams-Android-SDK/_latestVersion)
 [![Hex.pm](https://img.shields.io/hexpm/l/plug.svg)](https://www.apache.org/licenses/LICENSE-2.0)
 
 PrivacyStreams is an Android library for easy and privacy-friendly personal data access and processing. It offers a functional programming model for various types of personal data, including locations, photos, audios, sensors, contacts, messages, and more.
