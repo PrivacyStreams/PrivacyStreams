@@ -1,4 +1,4 @@
-package com.github.privacystreams;
+package com.github.privacystreams.test;
 
 import org.junit.Test;
 

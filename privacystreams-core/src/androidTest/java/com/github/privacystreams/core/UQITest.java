@@ -54,14 +54,4 @@ public class UQITest {
         assertEquals(10, itemCount);
     }
 
-    @Test
-    public void getDataItem() throws Exception {
-        TestObject testObject = TestObject.getRandomInstance();
-        int mockItemX = this.uqi
-                .getData(TestItem.getOneFrom(testObject), this.testPurpose)
-                .getField(TestItem.X);
-//        System.out.println("mockItemX: " + mockItemX);
-        assertEquals(testObject.getX(), mockItemX);
-    }
-
 }

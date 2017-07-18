@@ -1,4 +1,4 @@
-package com.github.privacystreams;
+package com.github.privacystreams.test;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -26,26 +26,25 @@ public class MainActivity extends AppCompatActivity {
     private class MyAsyncTask extends AsyncTask<Object, Object, Object> {
         @Override
         protected Object doInBackground(Object[] objects) {
-            UseCases useCases = new UseCases(MainActivity.this);
+            TestCases testCases = new TestCases(MainActivity.this);
 
-
-//            useCases.testImage();
-//            useCases.testCurrentLocation();
-//            useCases.testTextEntry();
-//            useCases.testNotification();
-//            useCases.testAudio();
-//            useCases.testMockData();
-//            useCases.testContacts();
-//            useCases.testDeviceState();
+            testCases.testImage();
+            testCases.testCurrentLocation();
+//            testCases.testTextEntry();
+//            testCases.testNotification();
+//            testCases.testAudio();
+//            testCases.testMockData();
+//            testCases.testContacts();
+//            testCases.testDeviceState();
 //
-//            useCases.testBrowserSearchUpdates();
-//            useCases.testBrowserHistoryUpdates();
+//            testCases.testBrowserSearchUpdates();
+//            testCases.testBrowserHistoryUpdates();
 //
-            useCases.testAccEvents();
+//            testCases.testAccEvents();
 //
-//            useCases.testIMUpdates();
- //           useCases.testEmailUpdates();
-//            useCases.testEmailList();
+//            testCases.testIMUpdates();
+ //           testCases.testEmailUpdates();
+//            testCases.testEmailList();
 
             return null;
         }

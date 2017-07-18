@@ -1,4 +1,4 @@
-package com.github.privacystreams;
+package com.github.privacystreams.test;
 
 import android.content.Context;
 import android.os.Build;
@@ -55,10 +55,10 @@ import static com.github.privacystreams.commons.time.TimeOperators.recent;
 /**
  * Some show cases of PrivacyStreams
  */
-public class UseCases {
+public class TestCases {
     private UQI uqi;
 
-    public UseCases(Context context) {
+    public TestCases(Context context) {
         this.uqi = new UQI(context);
     }
 

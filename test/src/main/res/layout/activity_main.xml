@@ -9,10 +9,10 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:orientation="vertical"
-    tools:context="com.github.privacystreams.MainActivity">
+    tools:context="com.github.privacystreams.test.MainActivity">
 
     <Button
-        android:text="Button"
+        android:text="TEST"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/button" />
@@ -21,6 +21,6 @@
         android:id="@+id/textview"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Hello World!" />
+        android:text="Click the button to test." />
 
 </LinearLayout>
