@@ -144,9 +144,15 @@ public class TestCases {
 
     public void testCurrentLocation() {
         Globals.LocationConfig.useGoogleService = true;
-        uqi.getData(Geolocation.asCurrent(Geolocation.LEVEL_CITY), Purpose.TEST("test"))
-                .logOverSocket("location")
-                .debug();
+        try {
+            LatLon latLon = uqi
+                    .getData(Geolocation.asCurrent(Geolocation.LEVEL_CITY), Purpose.TEST("test"))
+                    .logOverSocket("location")
+                    .getFirst(Geolocation.LAT_LON);
+            System.out.println(latLon.toString());
+        } catch (PSException e) {
+            e.printStackTrace();
+        }
 
     }
 
