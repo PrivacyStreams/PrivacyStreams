@@ -259,32 +259,50 @@ public class PStream extends Stream {
 
     /**
      * Group the items according to a field.
-     * After grouping, the item will only have two fields.
+     * After grouping, the items in the new stream will only have two fields.
      * One is the field used for grouping by. Another is "grouped_items" which is a list of grouped Items.
      * Eg. `groupBy("x")` will group the items with same "x" field,
      * and the item in the stream after groupping will contain two fields: "x" and "grouped_items".
      *
-     * @param fieldName     the field used to group the items in current stream.
+     * @param groupField the field used to group the items in current stream.
      * @return The grouped stream
      */
     @PSTransformation(changeOrder = true)
-    public PStream groupBy(String fieldName) {
-        return this.transform(Groupers.groupBy(fieldName));
+    public PStream groupBy(String groupField) {
+        return this.transform(Groupers.groupBy(groupField));
     }
 
     /**
      * Group the **contiguous** items according to a field.
-     * After grouping, the item will only have two fields.
+     * After grouping, the items in the new stream will only have two fields.
      * One is the field used for grouping by. Another is "grouped_items" which is a list of grouped Items.
      * Eg.  `localGroupBy("x")` will group the contiguous items with same "x" field,
      * and the item in the stream after groupping will contain two fields: "x" and "grouped_items".
      *
-     * @param fieldName     the field used to reorder the stream
+     * @param groupField the field used to group the items in current stream.
      * @return The grouped stream
      */
     @PSTransformation
-    public PStream localGroupBy(String fieldName) {
-        return this.transform(Groupers.localGroupBy(fieldName));
+    public PStream localGroupBy(String groupField) {
+        return this.transform(Groupers.localGroupBy(groupField));
+    }
+
+    /**
+     * Un-group a list field in each item to multiple items.
+     * Each element in the list will be a new field in each item of the new stream.
+     * After un-grouping, the items in the new streams will have the same amount of fields
+     * as the original stream.
+     * However, the list field (`unGroupField`) will be replaced by a new field (`newField`).
+     * Eg.  `unGroup("emails", "email")` will un-group the "emails" field (which is a list)
+     * in an item to several new items with a "email" field.
+     *
+     * @param unGroupField the field to un-group, whose value should be a list
+     * @param newField the new field name in the new stream
+     * @return The un-grouped stream
+     */
+    @PSTransformation
+    public PStream unGroup(String unGroupField, String newField) {
+        return this.transform(Groupers.unGroup(unGroupField, newField));
     }
 
     // *****************************
