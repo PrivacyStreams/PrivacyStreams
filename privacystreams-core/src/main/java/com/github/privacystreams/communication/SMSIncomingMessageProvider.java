@@ -11,14 +11,14 @@ import android.telephony.SmsManager;
 import android.telephony.SmsMessage;
 
 import com.github.privacystreams.core.UQI;
-import com.github.privacystreams.core.providers.MStreamProvider;
+import com.github.privacystreams.core.providers.PStreamProvider;
 import com.github.privacystreams.utils.CommunicationUtils;
 
 /**
  * Provide a live stream of incoming SMS messages
  */
 
-class SMSIncomingMessageProvider extends MStreamProvider {
+class SMSIncomingMessageProvider extends PStreamProvider {
 
     private SMSReceiver smsReceiver;
 

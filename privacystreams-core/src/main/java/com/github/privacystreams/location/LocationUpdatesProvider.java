@@ -9,14 +9,14 @@ import android.os.Bundle;
 import android.os.Looper;
 
 import com.github.privacystreams.core.UQI;
-import com.github.privacystreams.core.providers.MStreamProvider;
+import com.github.privacystreams.core.providers.PStreamProvider;
 import com.github.privacystreams.utils.Assertions;
 
 /**
  * Provide location updates with Android standard APIs.
  */
 
-final class LocationUpdatesProvider extends MStreamProvider {
+final class LocationUpdatesProvider extends PStreamProvider {
 
     private final long interval;
     private final String level;

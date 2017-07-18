@@ -18,7 +18,7 @@ public class ArithmeticOperators {
      * @return the function
      */
     public static Function<Item, Double> roundUp(final String numField, final Number value) {
-        return new RoundUpFunction(numField, value);
+        return new RoundUpOperator(numField, value);
     }
 
     /**
@@ -30,7 +30,7 @@ public class ArithmeticOperators {
      * @return the function
      */
     public static Function<Item, Double> roundDown(final String numField, final Number value) {
-        return new RoundDownFunction(numField, value);
+        return new RoundDownOperator(numField, value);
     }
 
     /**
@@ -40,7 +40,7 @@ public class ArithmeticOperators {
      * @return the function
      */
     public static Function<Item, Long> castToLong(final String numField) {
-        return new CastToLongFunction(numField);
+        return new CastToLongOperator(numField);
     }
 
     /**
@@ -50,7 +50,7 @@ public class ArithmeticOperators {
      * @return the function
      */
     public static Function<Item, Integer> castToInt(final String numField) {
-        return new CastToIntFunction(numField);
+        return new CastToIntOperator(numField);
     }
 
     /**
@@ -61,7 +61,7 @@ public class ArithmeticOperators {
      * @return the function
      */
     public static Function<Item, Number> add(final String numField1, final String numField2) {
-        return new AddFunction(numField1, numField2);
+        return new AddOperator(numField1, numField2);
     }
 
     /**
@@ -72,7 +72,7 @@ public class ArithmeticOperators {
      * @return the function
      */
     public static Function<Item, Number> sub(final String numField1, final String numField2) {
-        return new SubtractFunction(numField1, numField2);
+        return new SubtractOperator(numField1, numField2);
     }
 
     /**
@@ -83,7 +83,7 @@ public class ArithmeticOperators {
      * @return the function
      */
     public static Function<Item, Number> multiply(final String numField1, final String numField2) {
-        return new MultiplyFunction(numField1, numField2);
+        return new MultiplyOperator(numField1, numField2);
     }
 
     /**
@@ -94,7 +94,7 @@ public class ArithmeticOperators {
      * @return the function
      */
     public static Function<Item, Number> divide(final String numField1, final String numField2) {
-        return new DivideFunction(numField1, numField2);
+        return new DivideOperator(numField1, numField2);
     }
 
     /**
@@ -105,6 +105,6 @@ public class ArithmeticOperators {
      * @return the function
      */
     public static Function<Item, Number> mode(final String numField1, final String numField2) {
-        return new ModeFunction(numField1, numField2);
+        return new ModeOperator(numField1, numField2);
     }
 }

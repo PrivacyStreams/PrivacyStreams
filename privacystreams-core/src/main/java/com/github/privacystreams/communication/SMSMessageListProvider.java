@@ -5,14 +5,14 @@ import android.content.ContentResolver;
 import android.database.Cursor;
 import android.net.Uri;
 
-import com.github.privacystreams.core.providers.MStreamProvider;
+import com.github.privacystreams.core.providers.PStreamProvider;
 import com.github.privacystreams.utils.CommunicationUtils;
 
 /**
  * Provide a stream of existing SMS messages
  */
 
-class SMSMessageListProvider extends MStreamProvider {
+class SMSMessageListProvider extends PStreamProvider {
 
     public SMSMessageListProvider() {
         this.addRequiredPermissions(Manifest.permission.READ_SMS);

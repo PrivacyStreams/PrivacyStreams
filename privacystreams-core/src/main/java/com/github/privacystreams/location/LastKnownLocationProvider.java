@@ -5,7 +5,7 @@ import android.content.Context;
 import android.location.Location;
 import android.location.LocationManager;
 
-import com.github.privacystreams.core.providers.SStreamProvider;
+import com.github.privacystreams.core.providers.PStreamProvider;
 import com.github.privacystreams.utils.Assertions;
 import com.github.privacystreams.utils.Duration;
 import com.github.privacystreams.utils.PermissionUtils;
@@ -15,7 +15,7 @@ import com.github.privacystreams.utils.PermissionUtils;
  * Provide a last known location.
  */
 
-class LastKnownLocationProvider extends SStreamProvider {
+class LastKnownLocationProvider extends PStreamProvider {
 
     private static final String LOG_TAG = "[LastKnownLocationProvider]";
 

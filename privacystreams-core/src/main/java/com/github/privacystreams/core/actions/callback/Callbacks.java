@@ -2,8 +2,7 @@ package com.github.privacystreams.core.actions.callback;
 
 import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.Item;
-import com.github.privacystreams.core.actions.MStreamAction;
-import com.github.privacystreams.core.actions.SStreamAction;
+import com.github.privacystreams.core.actions.PStreamAction;
 import com.github.privacystreams.utils.annotations.PSOperatorWrapper;
 
 /**
@@ -19,7 +18,7 @@ public class Callbacks {
      * @param itemCallback the callback to be invoked for each item
      * @return the function
      */
-    public static MStreamAction forEach(Function<Item, Void> itemCallback) {
+    public static PStreamAction forEach(Function<Item, Void> itemCallback) {
         return new ForEachCallback(itemCallback);
     }
 
@@ -32,7 +31,7 @@ public class Callbacks {
      * @param <TValue> the type of field value
      * @return the function
      */
-    public static <TValue> MStreamAction forEachField(String fieldToSelect, Function<TValue, Void> fieldValueCallback) {
+    public static <TValue> PStreamAction forEachField(String fieldToSelect, Function<TValue, Void> fieldValueCallback) {
         return new ForEachFieldCallback<>(fieldToSelect, fieldValueCallback);
     }
 
@@ -44,7 +43,7 @@ public class Callbacks {
      * @param itemCallback the callback to be invoked with the first item.
      * @return the function
      */
-    public static MStreamAction ifPresent(Function<Item, Void> itemCallback) {
+    public static PStreamAction ifPresent(Function<Item, Void> itemCallback) {
         return new IfPresentCallback(itemCallback);
     }
 
@@ -58,7 +57,7 @@ public class Callbacks {
      * @param <TValue> the type of field value
      * @return the function
      */
-    public static <TValue> MStreamAction ifFieldPresent(String fieldToSelect, Function<TValue, Void> fieldValueCallback) {
+    public static <TValue> PStreamAction ifFieldPresent(String fieldToSelect, Function<TValue, Void> fieldValueCallback) {
         return new IfFieldPresentCallback<>(fieldToSelect, fieldValueCallback);
     }
 
@@ -70,7 +69,7 @@ public class Callbacks {
      * @param itemCallback the callback to be invoked with the changed item.
      * @return the function
      */
-    public static MStreamAction onChange(Function<Item, Void> itemCallback) {
+    public static PStreamAction onChange(Function<Item, Void> itemCallback) {
         return new OnChangeCallback(itemCallback);
     }
 
@@ -85,34 +84,8 @@ public class Callbacks {
      * @param <TValue> the type of field value
      * @return the function
      */
-    public static <TValue> MStreamAction onFieldChange(String fieldToSelect, Function<TValue, Void> fieldValueCallback) {
+    public static <TValue> PStreamAction onFieldChange(String fieldToSelect, Function<TValue, Void> fieldValueCallback) {
         return new OnFieldChangeCallback<>(fieldToSelect, fieldValueCallback);
-    }
-
-    /**
-     * Callback with an item in the SStream if there is a present one.
-     * If there is no present item, the callback will not be invoked.
-     * The callback will be invoked with the item as a parameter.
-     *
-     * @param itemCallback the callback to be invoked with the item.
-     * @return the function
-     */
-    public static SStreamAction ifPresent2(Function<Item, Void> itemCallback) {
-        return new IfPresentCallback2(itemCallback);
-    }
-
-    /**
-     * Callback with the value of a field in an item if there is a present one.
-     * If there is no item with a present field value, the callback will not be invoked.
-     * The callback will be invoked with the present field value.
-     *
-     * @param fieldToSelect the field to select
-     * @param fieldValueCallback the callback function to be invoked with the field value.
-     * @param <TValue> the type of field value
-     * @return the function
-     */
-    public static <TValue> SStreamAction ifFieldPresent2(String fieldToSelect, Function<TValue, Void> fieldValueCallback) {
-        return new IfFieldPresentCallback2<>(fieldToSelect, fieldValueCallback);
     }
 
 }

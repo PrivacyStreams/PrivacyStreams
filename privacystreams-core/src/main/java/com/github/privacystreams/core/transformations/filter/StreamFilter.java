@@ -1,13 +1,13 @@
 package com.github.privacystreams.core.transformations.filter;
 
 import com.github.privacystreams.core.Item;
-import com.github.privacystreams.core.transformations.M2MTransformation;
+import com.github.privacystreams.core.transformations.PStreamTransformation;
 
 /**
- * Exclude some items from MStream
+ * Exclude some items from PStream
  */
 
-abstract class StreamFilter extends M2MTransformation {
+abstract class StreamFilter extends PStreamTransformation {
 
     @Override
     protected void onInput(Item item) {

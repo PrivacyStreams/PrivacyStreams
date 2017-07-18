@@ -1,16 +1,14 @@
 package com.github.privacystreams.commons.item;
 
-import com.github.privacystreams.commons.ItemFunction;
+import com.github.privacystreams.commons.ItemOperator;
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.UQI;
-
-import java.util.Map;
 
 /**
  * Get the item map of an item.
  */
 
-class ItemIdleFunction extends ItemFunction<Item> {
+class ItemIdleOperator extends ItemOperator<Item> {
 
     @Override
     public Item apply(UQI uqi, Item input) {

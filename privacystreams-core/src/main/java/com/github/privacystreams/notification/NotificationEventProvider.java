@@ -5,10 +5,10 @@ import android.service.notification.StatusBarNotification;
 import android.support.annotation.RequiresApi;
 
 import com.github.privacystreams.core.UQI;
-import com.github.privacystreams.core.providers.MStreamProvider;
+import com.github.privacystreams.core.providers.PStreamProvider;
 import com.github.privacystreams.utils.PermissionUtils;
 
-abstract class NotificationEventProvider extends MStreamProvider {
+abstract class NotificationEventProvider extends PStreamProvider {
 
     NotificationEventProvider() {
         this.addRequiredPermissions(PermissionUtils.USE_NOTIFICATION_SERVICE);

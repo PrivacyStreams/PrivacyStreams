@@ -1,6 +1,6 @@
 package com.github.privacystreams.commons.item;
 
-import com.github.privacystreams.commons.ItemFunction;
+import com.github.privacystreams.commons.ItemOperator;
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.UQI;
 
@@ -12,7 +12,7 @@ import static com.github.privacystreams.utils.Assertions.notNull;
  * Get the value of a field.
  */
 
-final class SubItemGetter extends ItemFunction<Item> {
+final class SubItemGetter extends ItemOperator<Item> {
     private final String subItemField;
 
     SubItemGetter(String subItemField) {

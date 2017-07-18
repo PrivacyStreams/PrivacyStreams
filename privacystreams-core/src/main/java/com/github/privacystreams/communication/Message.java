@@ -4,7 +4,7 @@ import android.os.Build;
 import android.support.annotation.RequiresApi;
 
 import com.github.privacystreams.core.Item;
-import com.github.privacystreams.core.providers.MStreamProvider;
+import com.github.privacystreams.core.providers.PStreamProvider;
 import com.github.privacystreams.utils.annotations.PSItem;
 import com.github.privacystreams.utils.annotations.PSItemField;
 
@@ -67,7 +67,7 @@ public class Message extends Item {
      * @return the provider function
      */
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
-    public static MStreamProvider asUpdatesInIM(){
+    public static PStreamProvider asUpdatesInIM(){
         return new IMUpdatesProvider();
     }
 
@@ -78,7 +78,7 @@ public class Message extends Item {
      * @return the provider
      */
     // @RequiresPermission(value = Manifest.permission.RECEIVE_SMS)
-    public static MStreamProvider asIncomingSMS() {
+    public static PStreamProvider asIncomingSMS() {
         return new SMSIncomingMessageProvider();
     }
 
@@ -89,7 +89,7 @@ public class Message extends Item {
      * @return the provider
      */
     // @RequiresPermission(value = Manifest.permission.READ_SMS)
-    public static MStreamProvider getAllSMS() {
+    public static PStreamProvider getAllSMS() {
         return new SMSMessageListProvider();
     }
 }

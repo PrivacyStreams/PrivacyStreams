@@ -1,6 +1,6 @@
 package com.github.privacystreams.audio;
 
-import com.github.privacystreams.commons.ItemFunction;
+import com.github.privacystreams.commons.ItemOperator;
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.UQI;
 import com.github.privacystreams.utils.Assertions;
@@ -9,7 +9,7 @@ import com.github.privacystreams.utils.Assertions;
  * Calculate the max amplitude of an audio field.
  */
 
-class AmplitudeToLoudnessConverter extends ItemFunction<Double> {
+class AmplitudeToLoudnessConverter extends ItemOperator<Double> {
 
     private final String amplitudeField;
 

@@ -3,7 +3,7 @@ package com.github.privacystreams.communication;
 import android.Manifest;
 import android.database.Cursor;
 
-import com.github.privacystreams.core.providers.MStreamProvider;
+import com.github.privacystreams.core.providers.PStreamProvider;
 import com.github.privacystreams.utils.CommunicationUtils;
 
 
@@ -11,7 +11,7 @@ import com.github.privacystreams.utils.CommunicationUtils;
  * Provide a stream of local call logs.
  */
 
-class CallLogProvider extends MStreamProvider {
+class CallLogProvider extends PStreamProvider {
 
     CallLogProvider() {
         this.addRequiredPermissions(Manifest.permission.READ_CALL_LOG);

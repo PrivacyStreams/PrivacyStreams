@@ -1,6 +1,6 @@
 package com.github.privacystreams.image;
 
-import com.github.privacystreams.commons.ItemFunction;
+import com.github.privacystreams.commons.ItemOperator;
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.UQI;
 import com.github.privacystreams.utils.Assertions;
@@ -8,7 +8,7 @@ import com.github.privacystreams.utils.Assertions;
 /**
  * Process the photo field in an item.
  */
-abstract class ImageProcessor<Tout> extends ItemFunction<Tout> {
+abstract class ImageProcessor<Tout> extends ItemOperator<Tout> {
 
     private final String imageDataField;
 

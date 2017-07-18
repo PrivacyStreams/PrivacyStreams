@@ -3,11 +3,8 @@ package com.github.privacystreams.accessibility;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
 
-import com.github.privacystreams.core.providers.MStreamProvider;
-import com.github.privacystreams.utils.annotations.PSItem;
+import com.github.privacystreams.core.providers.PStreamProvider;
 import com.github.privacystreams.utils.annotations.PSItemField;
-
-import java.util.Date;
 
 /**
  * Deprecated.
@@ -34,7 +31,7 @@ class UIAction extends BaseAccessibilityEvent {
      * @return the provider function.
      */
     // @RequiresPermission(value = Manifest.permission.BIND_ACCESSIBILITY_SERVICE)
-    public static MStreamProvider asUpdates() {
+    public static PStreamProvider asUpdates() {
         return new UIActionProvider();
     }
 

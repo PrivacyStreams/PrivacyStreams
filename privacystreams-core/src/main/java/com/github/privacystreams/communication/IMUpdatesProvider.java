@@ -9,7 +9,7 @@ import com.github.privacystreams.commons.comparison.Comparators;
 import com.github.privacystreams.commons.item.ItemOperators;
 import com.github.privacystreams.core.Callback;
 import com.github.privacystreams.core.Item;
-import com.github.privacystreams.core.providers.MStreamProvider;
+import com.github.privacystreams.core.providers.PStreamProvider;
 import com.github.privacystreams.core.purposes.Purpose;
 import com.github.privacystreams.notification.Notification;
 import com.github.privacystreams.utils.AccessibilityUtils;
@@ -27,7 +27,7 @@ import java.util.Map;
  * Including WhatsApp, Facebook Messenger, etc.
  * The messages are accessed with Android Accessibility APIs.
  */
-class IMUpdatesProvider extends MStreamProvider {
+class IMUpdatesProvider extends PStreamProvider {
     private int lastEventItemCountWhatsapp=0;
     private String detContactName = "";
     private int lastFromIndexWhatsapp = 0;

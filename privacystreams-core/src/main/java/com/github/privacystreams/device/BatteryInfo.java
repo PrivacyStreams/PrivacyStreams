@@ -1,7 +1,7 @@
 package com.github.privacystreams.device;
 
 import com.github.privacystreams.core.Item;
-import com.github.privacystreams.core.providers.SStreamProvider;
+import com.github.privacystreams.core.providers.PStreamProvider;
 import com.github.privacystreams.utils.annotations.PSItem;
 import com.github.privacystreams.utils.annotations.PSItemField;
 
@@ -28,10 +28,10 @@ public class BatteryInfo extends Item {
     }
 
     /**
-     * Provider an SStream of current battery info.
+     * Provide current battery info.
      * @return the provider
      */
-    public static SStreamProvider asSnapshot() {
+    public static PStreamProvider asSnapshot() {
         return new BatteryInfoProvider();
     }
 }

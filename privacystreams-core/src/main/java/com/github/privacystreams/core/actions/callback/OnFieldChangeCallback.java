@@ -2,16 +2,15 @@ package com.github.privacystreams.core.actions.callback;
 
 import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.Item;
-import com.github.privacystreams.core.actions.MStreamAction;
+import com.github.privacystreams.core.actions.PStreamAction;
 import com.github.privacystreams.utils.Assertions;
-import com.github.privacystreams.utils.HashUtils;
 
 /**
  * Callback with a field value of an item
  * if the field value is different from the field value of the former item.
  */
 
-class OnFieldChangeCallback<TValue, Void> extends MStreamAction {
+class OnFieldChangeCallback<TValue, Void> extends PStreamAction {
     private final String fieldToSelect;
     private final Function<TValue, Void> fieldValueCallback;
 

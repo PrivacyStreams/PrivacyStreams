@@ -1,7 +1,7 @@
 package com.github.privacystreams.communication;
 
 import com.github.privacystreams.core.Item;
-import com.github.privacystreams.core.providers.MStreamProvider;
+import com.github.privacystreams.core.providers.PStreamProvider;
 import com.github.privacystreams.utils.annotations.PSItem;
 import com.github.privacystreams.utils.annotations.PSItemField;
 
@@ -65,7 +65,7 @@ public class Email extends Item {
      * @param maxNumberOfResults the max number of emails to get
      * @return the provider function.
      */
-    public static MStreamProvider asGmailHistory(long afterTime, long beforeTime, int maxNumberOfResults){
+    public static PStreamProvider asGmailHistory(long afterTime, long beforeTime, int maxNumberOfResults){
         return new GmailHistoryProvider(afterTime, beforeTime, maxNumberOfResults);
     }
 
@@ -76,7 +76,7 @@ public class Email extends Item {
      * @param frequency the frequency of checking updates
      * @return the provider function.
      */
-    public static MStreamProvider asGmailUpdates(long frequency) {
+    public static PStreamProvider asGmailUpdates(long frequency) {
         return new GmailUpdatesProvider(frequency);
     }
 }

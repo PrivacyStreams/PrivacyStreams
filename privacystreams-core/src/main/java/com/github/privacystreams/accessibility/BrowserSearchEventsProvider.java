@@ -3,7 +3,7 @@ package com.github.privacystreams.accessibility;
 import com.github.privacystreams.commons.item.ItemOperators;
 import com.github.privacystreams.core.Callback;
 import com.github.privacystreams.core.Item;
-import com.github.privacystreams.core.providers.MStreamProvider;
+import com.github.privacystreams.core.providers.PStreamProvider;
 import com.github.privacystreams.core.purposes.Purpose;
 import com.github.privacystreams.utils.AppUtils;
 
@@ -11,7 +11,7 @@ import com.github.privacystreams.utils.AppUtils;
  * Provide a live stream of browser search events.
  */
 
-class BrowserSearchEventsProvider extends MStreamProvider {
+class BrowserSearchEventsProvider extends PStreamProvider {
 
     @Override
     protected void provide() {

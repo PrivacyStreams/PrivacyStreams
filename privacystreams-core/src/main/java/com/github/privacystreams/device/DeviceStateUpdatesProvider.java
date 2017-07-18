@@ -5,7 +5,7 @@ import android.support.annotation.RequiresApi;
 
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.exceptions.PSException;
-import com.github.privacystreams.core.providers.MStreamProvider;
+import com.github.privacystreams.core.providers.PStreamProvider;
 import com.github.privacystreams.core.purposes.Purpose;
 
 import java.util.List;
@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * Provide a live stream of device states.
  */
-class DeviceStateUpdatesProvider extends MStreamProvider {
+class DeviceStateUpdatesProvider extends PStreamProvider {
     private long frequency;
     private int mask;
 
@@ -26,7 +26,7 @@ class DeviceStateUpdatesProvider extends MStreamProvider {
     @Override
     protected void provide() {
 
-        while(true){
+        while (true){
             if(!isCancelled){
                 Item deviceState = new Item();
                 if ((mask & DeviceState.Masks.BLUETOOTH_DEVICE_LIST) != 0) {
@@ -55,7 +55,7 @@ class DeviceStateUpdatesProvider extends MStreamProvider {
         try {
             float level = this.getUQI()
                     .getData(BatteryInfo.asSnapshot(), Purpose.LIB_INTERNAL("BatteryInfoProvider"))
-                    .getField(BatteryInfo.LEVEL);
+                    .getFirst(BatteryInfo.LEVEL);
 
             deviceState.setFieldValue(DeviceState.BATTERY_LEVEL, level);
         } catch (PSException e) {

@@ -4,7 +4,7 @@ import android.Manifest;
 import android.database.Cursor;
 import android.provider.MediaStore;
 
-import com.github.privacystreams.core.providers.MStreamProvider;
+import com.github.privacystreams.core.providers.PStreamProvider;
 
 import java.io.File;
 
@@ -12,7 +12,7 @@ import java.io.File;
  * Provide a stream of images stored in local sd card.
  */
 
-class AudioStorageProvider extends MStreamProvider {
+class AudioStorageProvider extends PStreamProvider {
 
     AudioStorageProvider(){
         this.addRequiredPermissions(Manifest.permission.READ_EXTERNAL_STORAGE);

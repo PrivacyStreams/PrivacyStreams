@@ -69,7 +69,7 @@ public class ImageOperators {
      */
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     public static Function<Item, ImageData> blur(String imageDataField) {
-        return new ImageBlurFunction(imageDataField);
+        return new ImageBlurOperator(imageDataField);
     }
 
     /**

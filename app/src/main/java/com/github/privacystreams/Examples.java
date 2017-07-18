@@ -9,7 +9,6 @@ import com.github.privacystreams.accessibility.BrowserSearch;
 import com.github.privacystreams.audio.Audio;
 import com.github.privacystreams.audio.AudioOperators;
 import com.github.privacystreams.commons.comparison.Comparators;
-import com.github.privacystreams.commons.items.ItemsOperators;
 import com.github.privacystreams.commons.list.ListOperators;
 import com.github.privacystreams.commons.statistic.StatisticOperators;
 import com.github.privacystreams.commons.string.StringOperators;
@@ -19,7 +18,7 @@ import com.github.privacystreams.communication.Contact;
 import com.github.privacystreams.communication.Message;
 import com.github.privacystreams.core.Callback;
 import com.github.privacystreams.core.Item;
-import com.github.privacystreams.core.MStream;
+import com.github.privacystreams.core.PStream;
 import com.github.privacystreams.core.UQI;
 import com.github.privacystreams.core.exceptions.PSException;
 import com.github.privacystreams.core.purposes.Purpose;
@@ -71,9 +70,9 @@ public class Examples {
     /** Take a photo with camera and get the new photo's path. */
     public void takePhoto() {
         try {
-            Item photoItem = uqi.getData(Image.takeFromCamera(), purpose) // get an SStream of image from camera, user will need to take a photo here.
+            Item photoItem = uqi.getData(Image.takeFromCamera(), purpose) // get an PStream of image from camera, user will need to take a photo here.
                     .setField("photo_path", ImageOperators.getFilepath("image_data")) // create a field "photo_path" from "image_data" field using `getFilepath` operator.
-                    .asItem(); // get the photo item.
+                    .getFirst(); // get the photo item.
             String photoPath = photoItem.getValueByField("photo_path"); // get the value of "photo_path" field.
 
 //            // You can also use `getField` instead of `asItem`.
@@ -120,8 +119,8 @@ public class Examples {
     /** Get current city-level location. */
     public void getCityLocation() {
         try {
-            LatLon latLon = uqi.getData(Geolocation.asCurrent(Geolocation.LEVEL_CITY), purpose) // get an SStream of current location, the location granularity is "CITY".
-                    .getField("lat_lon"); // get the "lat_lon" field of current location.
+            LatLon latLon = uqi.getData(Geolocation.asCurrent(Geolocation.LEVEL_CITY), purpose) // get an PStream of current location, the location granularity is "CITY".
+                    .getFirst("lat_lon"); // get the "lat_lon" field of current location.
             System.out.println("Current location: lat=" + latLon.getLatitude() + ", lng=" + latLon.getLongitude());
         } catch (PSException e) {
             e.printStackTrace();
@@ -153,8 +152,9 @@ public class Examples {
                     .filter(TimeOperators.recent("timestamp", 365*24*60*60*1000L)) // keep the items whose "timestamp" field is a time in recent 365 days.
                     .groupBy("contact") // group by "contact" field.
                     .setGroupField("#calls", StatisticOperators.count()) // create a new field "#calls" as the count of grouped items in each group
-                    .select(ItemsOperators.getItemWithMax("#calls")) // select the item with the max "#calls" value.
-                    .getField("contact"); // get the value of "contact" field
+                    .sortBy("#calls") // select the item with the max "#calls" value.
+                    .reverse()
+                    .getFirst("contact"); // get the value of "contact" field
             System.out.println("The phone number with the most calls: " + phoneNum);
         } catch (PSException e) {
             e.printStackTrace();
@@ -299,7 +299,7 @@ public class Examples {
 
         // With reusing:
         try {
-            MStream contactStream = uqi.getData(Contact.getAll(), purpose).reuse(2); // get a stream of contact for reusing twice.
+            PStream contactStream = uqi.getData(Contact.getAll(), purpose).reuse(2); // get a stream of contact for reusing twice.
             int count1 = contactStream.setField("nameLen", StringOperators.length("name")) // set a new field "nameLen" as the length of "name" field value
                     .filter(Comparators.lt("nameLen", 10)) // keep the items whose "nameLen" field is less than 10
                     .count(); // get the count of items
@@ -341,7 +341,7 @@ public class Examples {
         try {
             LatLon latLon = new UQI(context)
                     .getData(Geolocation.asCurrent(Geolocation.LEVEL_CITY), Purpose.UTILITY("check weather"))
-                    .getField(Geolocation.LAT_LON);
+                    .getFirst(Geolocation.LAT_LON);
             // Do something with geolocation
             Log.d("Location", "" + latLon.getLatitude() + ", " + latLon.getLongitude());
         } catch (PSException e) {

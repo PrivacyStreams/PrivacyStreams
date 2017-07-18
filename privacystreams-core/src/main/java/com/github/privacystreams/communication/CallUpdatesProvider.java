@@ -5,7 +5,7 @@ import android.content.Context;
 import android.content.IntentFilter;
 
 import com.github.privacystreams.core.UQI;
-import com.github.privacystreams.core.providers.MStreamProvider;
+import com.github.privacystreams.core.providers.PStreamProvider;
 
 import java.util.Date;
 
@@ -14,7 +14,7 @@ import static com.github.privacystreams.utils.CommunicationUtils.normalizePhoneN
 /**
  * Provide a live stream of phone call events.
  */
-class CallUpdatesProvider extends MStreamProvider {
+class CallUpdatesProvider extends PStreamProvider {
 
     private CallReceiver callReceiver;
 

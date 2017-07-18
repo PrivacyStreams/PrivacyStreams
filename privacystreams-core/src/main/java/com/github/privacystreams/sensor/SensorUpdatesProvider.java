@@ -6,14 +6,14 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 
 import com.github.privacystreams.core.UQI;
-import com.github.privacystreams.core.providers.MStreamProvider;
+import com.github.privacystreams.core.providers.PStreamProvider;
 
 import static android.content.Context.SENSOR_SERVICE;
 
 /**
  * Provide a live stream of sensor updates.
  */
-abstract class SensorUpdatesProvider extends MStreamProvider {
+abstract class SensorUpdatesProvider extends PStreamProvider {
 
     private transient SensorEventListener sensorListener;
     private transient SensorManager sensorManager;

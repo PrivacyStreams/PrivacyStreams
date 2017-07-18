@@ -3,7 +3,6 @@ package com.github.privacystreams;
 import android.content.Context;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
-import android.view.accessibility.AccessibilityNodeInfo;
 
 import com.github.privacystreams.accessibility.AccEvent;
 import com.github.privacystreams.accessibility.BrowserSearch;
@@ -23,7 +22,7 @@ import com.github.privacystreams.communication.Message;
 import com.github.privacystreams.core.Callback;
 import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.Item;
-import com.github.privacystreams.core.MStream;
+import com.github.privacystreams.core.PStream;
 import com.github.privacystreams.core.UQI;
 import com.github.privacystreams.core.actions.collect.Collectors;
 import com.github.privacystreams.core.exceptions.PSException;
@@ -33,7 +32,6 @@ import com.github.privacystreams.core.purposes.Purpose;
 import com.github.privacystreams.device.BluetoothDevice;
 import com.github.privacystreams.device.DeviceEvent;
 import com.github.privacystreams.device.DeviceOperators;
-import com.github.privacystreams.device.WifiAPOperators;
 import com.github.privacystreams.device.WifiAp;
 import com.github.privacystreams.communication.Email;
 import com.github.privacystreams.image.Image;
@@ -43,7 +41,6 @@ import com.github.privacystreams.location.GeolocationOperators;
 import com.github.privacystreams.location.LatLon;
 import com.github.privacystreams.notification.Notification;
 import com.github.privacystreams.io.IOOperators;
-import com.github.privacystreams.utils.AccessibilityUtils;
 import com.github.privacystreams.utils.Duration;
 import com.github.privacystreams.utils.Globals;
 import com.github.privacystreams.utils.TimeUtils;
@@ -52,7 +49,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import static com.github.privacystreams.commons.items.ItemsOperators.getItemWithMax;
 import static com.github.privacystreams.commons.statistic.StatisticOperators.count;
 import static com.github.privacystreams.commons.time.TimeOperators.recent;
 
@@ -106,7 +102,7 @@ public class UseCases {
 
     public void testReuse() {
         try {
-            MStream stream = uqi
+            PStream stream = uqi
                     .getData(TestItem.getAllRandom(20, 100, 100), Purpose.TEST("test"))
                     .limit(100)
                     .reuse(3);
@@ -124,7 +120,7 @@ public class UseCases {
 
     public void testLocation() {
         Globals.LocationConfig.useGoogleService = true;
-        MStream locationStream = uqi.getData(Geolocation.asUpdates(1000, Geolocation.LEVEL_CITY), Purpose.TEST("test"))
+        PStream locationStream = uqi.getData(Geolocation.asUpdates(1000, Geolocation.LEVEL_CITY), Purpose.TEST("test"))
                 .setField("distorted_lat_lon", GeolocationOperators.distort(Geolocation.LAT_LON, 1000))
                 .setField("distortion", GeolocationOperators.distanceBetween(Geolocation.LAT_LON, "distorted_lat_lon"))
                 .reuse(2);
@@ -165,14 +161,15 @@ public class UseCases {
 
 
     public void testEmailUpdates(){
-        uqi.getData(Email.asGmailUpdates(),Purpose.TEST("test")).debug();
+        uqi.getData(Email.asGmailUpdates(15*60*1000), Purpose.TEST("test")).debug();
     }
 
     public void testEmailList(){
-        uqi.getData(Email.asGmailList(System.currentTimeMillis()-Duration.hours(100),
+        uqi.getData(Email.asGmailHistory(System.currentTimeMillis()-Duration.hours(100),
                 System.currentTimeMillis()-Duration.hours(50),
                 100),Purpose.TEST("test")).debug();
     }
+
     // For testing
     public void testMockData() {
         Globals.DropboxConfig.accessToken = "access_token_here";
@@ -261,7 +258,8 @@ public class UseCases {
                     .filter(recent("timestamp", Duration.days(365)))
                     .groupBy("contact")
                     .setGroupField("#calls", count())
-                    .select(getItemWithMax("#calls"))
+                    .sortBy("#calls")
+                    .reverse()
                     .ifPresent("contact", new Callback<String>() {
                         @Override
                         protected void onInput(String contact) {
@@ -314,13 +312,15 @@ public class UseCases {
         uqi.getData(DeviceEvent.asUpdates(), Purpose.FEATURE("device states")).debug();
     }
 
-    // TODO Problem set: use this function for test case.
     boolean isAtHome() throws PSException {
-        return uqi
-                .getData(WifiAp.getScanResults(), Purpose.FEATURE("know whether you are at home."))
-                .filter(Comparators.eq(WifiAp.CONNECTED, true))
-                .filter(WifiAPOperators.atHome(WifiAp.SSID))
-                .count()==1;
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+//            return uqi
+//                    .getData(WifiAp.getScanResults(), Purpose.FEATURE("know whether you are at home."))
+//                    .filter(Comparators.eq(WifiAp.CONNECTED, true))
+//                    .filter(WifiAPOperators.atHome(WifiAp.SSID))
+//                    .count()==1;
+//        }
+        return false;
     }
 
     void callbackWhenReceivesMessage(String appName, Callback<String> messageCallback){

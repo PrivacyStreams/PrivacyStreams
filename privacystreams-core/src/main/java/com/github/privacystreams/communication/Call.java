@@ -2,7 +2,7 @@ package com.github.privacystreams.communication;
 
 
 import com.github.privacystreams.core.Item;
-import com.github.privacystreams.core.providers.MStreamProvider;
+import com.github.privacystreams.core.providers.PStreamProvider;
 import com.github.privacystreams.utils.annotations.PSItem;
 import com.github.privacystreams.utils.annotations.PSItemField;
 
@@ -61,7 +61,7 @@ public class Call extends Item {
      * @return the stream provider
      */
     // @RequiresPermission(value = Manifest.permission.READ_CALL_LOG)
-    public static MStreamProvider getLogs() {
+    public static PStreamProvider getLogs() {
         return new CallLogProvider();
     }
 
@@ -74,7 +74,7 @@ public class Call extends Item {
      * @return the stream provider
      */
     // @RequiresPermission(allOf = {Manifest.permission.PROCESS_OUTGOING_CALLS, Manifest.permission.READ_PHONE_STATE})
-    public static MStreamProvider asUpdates() {
+    public static PStreamProvider asUpdates() {
         return new CallUpdatesProvider();
     }
 }

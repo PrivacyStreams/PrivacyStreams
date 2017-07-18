@@ -19,7 +19,7 @@ public class StringOperators {
      * @return the function.
      */
     public static Function<Item, Boolean> contains(String stringField, String searchString) {
-        return new StringContainFunction(stringField, searchString);
+        return new StringContainOperator(stringField, searchString);
     }
 
     /**
@@ -29,7 +29,7 @@ public class StringOperators {
      * @return the function.
      */
     public static Function<Item, String> md5(String stringField) {
-        return new StringHashFunction(stringField, HashUtils.MD5);
+        return new StringHashOperator(stringField, HashUtils.MD5);
     }
 
     /**
@@ -39,7 +39,7 @@ public class StringOperators {
      * @return the function.
      */
     public static Function<Item, String> sha1(String stringField) {
-        return new StringHashFunction(stringField, HashUtils.SHA1);
+        return new StringHashOperator(stringField, HashUtils.SHA1);
     }
 
     /**
@@ -49,7 +49,7 @@ public class StringOperators {
      * @return the function.
      */
     public static Function<Item, String> sha256(String stringField) {
-        return new StringHashFunction(stringField, HashUtils.SHA256);
+        return new StringHashOperator(stringField, HashUtils.SHA256);
     }
 
     /**
@@ -60,7 +60,7 @@ public class StringOperators {
      * @return the function
      */
     public static Function<Item, Integer> indexOf(String stringField, String searchString) {
-        return new StringIndexOfFunction(stringField, searchString);
+        return new StringIndexOfOperator(stringField, searchString);
     }
 
     /**
@@ -70,7 +70,7 @@ public class StringOperators {
      * @return the function
      */
     public static Function<Item, Integer> length(String stringField) {
-        return new StringLengthFunction(stringField);
+        return new StringLengthOperator(stringField);
     }
 
     /**
@@ -82,7 +82,7 @@ public class StringOperators {
      * @return the function
      */
     public static Function<Item, String> replace(String stringField, String searchString, String replaceString) {
-        return new StringReplaceFunction(stringField, searchString, replaceString);
+        return new StringReplaceOperator(stringField, searchString, replaceString);
     }
 
     /**
@@ -96,7 +96,7 @@ public class StringOperators {
      * @return the function
      */
     public static Function<Item, String> subString(String stringField, int start, int end) {
-        return new SubStringFunction(stringField, start, end);
+        return new SubStringOperator(stringField, start, end);
     }
 
     /**
@@ -110,6 +110,6 @@ public class StringOperators {
      * @return the function
      */
     public static Function<Item, String> elide(String stringField, int start, int end) {
-        return new StringElideFunction(stringField, start, end);
+        return new StringElideOperator(stringField, start, end);
     }
 }

@@ -1,6 +1,6 @@
 package com.github.privacystreams.commons.string;
 
-import com.github.privacystreams.commons.ItemFunction;
+import com.github.privacystreams.commons.ItemOperator;
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.UQI;
 import com.github.privacystreams.utils.Assertions;
@@ -8,7 +8,7 @@ import com.github.privacystreams.utils.Assertions;
 /**
  * Process the string specified by a field in an item.
  */
-abstract class StringProcessor<Tout> extends ItemFunction<Tout> {
+abstract class StringProcessor<Tout> extends ItemOperator<Tout> {
 
     private final String stringField;
 

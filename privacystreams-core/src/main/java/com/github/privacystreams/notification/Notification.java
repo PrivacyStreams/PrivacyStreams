@@ -1,16 +1,12 @@
 package com.github.privacystreams.notification;
 
-import android.annotation.TargetApi;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.UserHandle;
 import android.service.notification.StatusBarNotification;
 import android.support.annotation.RequiresApi;
-import android.util.Log;
 
 import com.github.privacystreams.core.Item;
-import com.github.privacystreams.core.providers.MStreamProvider;
-import com.github.privacystreams.utils.AppUtils;
+import com.github.privacystreams.core.providers.PStreamProvider;
 import com.github.privacystreams.utils.annotations.PSItem;
 import com.github.privacystreams.utils.annotations.PSItemField;
 
@@ -111,7 +107,7 @@ public class Notification extends Item {
      */
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     // @RequiresPermission(value = Manifest.permission.BIND_NOTIFICATION_LISTENER_SERVICE)
-    public static MStreamProvider asUpdates() {
+    public static PStreamProvider asUpdates() {
         return new NotificationUpdatesProvider();
     }
 }

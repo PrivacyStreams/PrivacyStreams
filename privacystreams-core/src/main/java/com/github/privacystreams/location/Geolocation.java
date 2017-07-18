@@ -3,8 +3,7 @@ package com.github.privacystreams.location;
 import android.location.Location;
 
 import com.github.privacystreams.core.Item;
-import com.github.privacystreams.core.providers.MStreamProvider;
-import com.github.privacystreams.core.providers.SStreamProvider;
+import com.github.privacystreams.core.providers.PStreamProvider;
 import com.github.privacystreams.utils.Globals;
 import com.github.privacystreams.utils.annotations.PSItem;
 import com.github.privacystreams.utils.annotations.PSItemField;
@@ -106,7 +105,7 @@ public class Geolocation extends Item {
      * @return the provider
      */
     // @RequiresPermission(anyOf = {Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, conditional = true)
-    public static MStreamProvider asUpdates(long interval, String level) {
+    public static PStreamProvider asUpdates(long interval, String level) {
         if (Globals.LocationConfig.useGoogleService)
             return new GoogleLocationUpdatesProvider(interval, level);
         else
@@ -114,7 +113,7 @@ public class Geolocation extends Item {
     }
 
     /**
-     * Provide an SStream of a Geolocation item, as the last known location.
+     * Provide an PStream of a Geolocation item, as the last known location.
      * If `level` is `Geolocation.LEVEL_EXACT`, this provider requires `android.permission.ACCESS_COARSE_LOCATION` permission.
      * If `level` is any other level, this provider requires `android.permission.ACCESS_FINE_LOCATION` permission.
      *
@@ -123,7 +122,7 @@ public class Geolocation extends Item {
      *              `Geolocation.LEVEL_BUILDING`, or `Geolocation.LEVEL_EXACT`.
      * @return the provider
      */
-    public static SStreamProvider asLastKnown(String level) {
+    public static PStreamProvider asLastKnown(String level) {
         if (Globals.LocationConfig.useGoogleService)
             return new GoogleLastLocationProvider(level);
         else
@@ -131,7 +130,7 @@ public class Geolocation extends Item {
     }
 
     /**
-     * Provide an SStream of a Geolocation item, as the current location.
+     * Provide an PStream of a Geolocation item, as the current location.
      * If `level` is `Geolocation.LEVEL_EXACT`, this provider requires `android.permission.ACCESS_COARSE_LOCATION` permission.
      * If `level` is any other level, this provider requires `android.permission.ACCESS_FINE_LOCATION` permission.
      *
@@ -141,7 +140,7 @@ public class Geolocation extends Item {
      *              or `Geolocation.LEVEL_EXACT`.
      * @return the provider
      */
-    public static SStreamProvider asCurrent(String level) {
+    public static PStreamProvider asCurrent(String level) {
         if (Globals.LocationConfig.useGoogleService)
             return new GoogleCurrentLocationProvider(level);
         else
@@ -153,7 +152,7 @@ public class Geolocation extends Item {
 //     *
 //     * @return the stream provider
 //     */
-//    public static MStreamProvider asHistory() {
+//    public static PStreamProvider asHistory() {
 //        return null;
 //    }
 }

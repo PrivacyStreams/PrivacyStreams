@@ -1,6 +1,6 @@
 package com.github.privacystreams.commons.items;
 
-import com.github.privacystreams.commons.ItemsFunction;
+import com.github.privacystreams.commons.ItemsOperator;
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.UQI;
 import com.github.privacystreams.utils.Assertions;
@@ -13,7 +13,7 @@ import java.util.List;
  * return null if fails to find an item
  */
 
-abstract class ByFieldItemSelector extends ItemsFunction<Item> {
+abstract class ByFieldItemSelector extends ItemsOperator<Item> {
     protected final String field;
 
     ByFieldItemSelector(String field) {

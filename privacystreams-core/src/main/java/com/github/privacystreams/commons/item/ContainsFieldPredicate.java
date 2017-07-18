@@ -1,6 +1,6 @@
 package com.github.privacystreams.commons.item;
 
-import com.github.privacystreams.commons.ItemFunction;
+import com.github.privacystreams.commons.ItemOperator;
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.UQI;
 import com.github.privacystreams.utils.Assertions;
@@ -9,7 +9,7 @@ import com.github.privacystreams.utils.Assertions;
  * Check if the item contains a certain field
  */
 
-class ContainsFieldPredicate extends ItemFunction<Boolean> {
+class ContainsFieldPredicate extends ItemOperator<Boolean> {
     private final String fieldToCheck;
 
     ContainsFieldPredicate(String fieldToCheck) {

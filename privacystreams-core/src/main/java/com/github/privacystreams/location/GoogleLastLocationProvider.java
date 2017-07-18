@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.github.privacystreams.core.providers.SStreamProvider;
+import com.github.privacystreams.core.providers.PStreamProvider;
 import com.github.privacystreams.utils.Assertions;
 import com.github.privacystreams.utils.Logging;
 import com.google.android.gms.common.ConnectionResult;
@@ -17,7 +17,7 @@ import com.google.android.gms.location.LocationServices;
 /**
  * Provide a last known location with Google API.
  */
-class GoogleLastLocationProvider extends SStreamProvider implements
+class GoogleLastLocationProvider extends PStreamProvider implements
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener {
 

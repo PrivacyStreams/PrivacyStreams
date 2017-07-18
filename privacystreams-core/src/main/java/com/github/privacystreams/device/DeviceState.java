@@ -1,7 +1,7 @@
 package com.github.privacystreams.device;
 
 import com.github.privacystreams.core.Item;
-import com.github.privacystreams.core.providers.MStreamProvider;
+import com.github.privacystreams.core.providers.PStreamProvider;
 import com.github.privacystreams.utils.annotations.PSItem;
 import com.github.privacystreams.utils.annotations.PSItemField;
 
@@ -49,7 +49,7 @@ public class DeviceState extends Item {
      * @param mask the mask of device state type, could be `DeviceState.Masks.BLUETOOTH_DEVICE_LIST`, `DeviceState.Masks.WIFI_AP_LIST`, etc.
      * @return the provider function
      */
-    public static MStreamProvider asUpdates(long interval, int mask) {
+    public static PStreamProvider asUpdates(long interval, int mask) {
         return new DeviceStateUpdatesProvider(interval, mask);
     }
 }

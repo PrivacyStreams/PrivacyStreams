@@ -1,7 +1,7 @@
 package com.github.privacystreams.device;
 
 import com.github.privacystreams.core.Item;
-import com.github.privacystreams.core.providers.MStreamProvider;
+import com.github.privacystreams.core.providers.PStreamProvider;
 import com.github.privacystreams.utils.annotations.PSItem;
 import com.github.privacystreams.utils.annotations.PSItemField;
 
@@ -42,7 +42,7 @@ public class BluetoothDevice extends Item {
      * @return the provider function.
      */
     // @RequiresPermission(allOf = {Manifest.permission.BLUETOOTH, Manifest.permission.BLUETOOTH_ADMIN})
-    public static MStreamProvider getScanResults() {
+    public static PStreamProvider getScanResults() {
         return new BluetoothDeviceListProvider();
     }
 }

@@ -1,7 +1,7 @@
 package com.github.privacystreams.calendar;
 
 import com.github.privacystreams.core.Item;
-import com.github.privacystreams.core.providers.MStreamProvider;
+import com.github.privacystreams.core.providers.PStreamProvider;
 import com.github.privacystreams.utils.annotations.PSItem;
 import com.github.privacystreams.utils.annotations.PSItemField;
 
@@ -57,7 +57,7 @@ public class CalendarEvent extends Item {
      * @return the provider function.
      */
     // @RequiresPermission(value = Manifest.permission.READ_CALENDAR)
-    public static MStreamProvider getAll() {
+    public static PStreamProvider getAll() {
         return new CalendarEventListProvider();
     }
 

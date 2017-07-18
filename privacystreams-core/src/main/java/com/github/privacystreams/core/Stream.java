@@ -15,14 +15,14 @@ import java.util.Map;
  * Most personal data access/process operation in PrivacyStreams use Stream as the intermediate.
  *
  * A Stream is consist of one or multiple items.
- * The items are produced by MStreamProvider functions (like LocationUpdatesProvider, CallLogProvider, etc.),
- * transformed by M2MTransformation functions (like filter, reorder, map, etc.),
- * and outputted by ItemsFunction functions (like print, toList, etc.).
+ * The items are produced by PStreamProvider functions (like LocationUpdatesProvider, CallLogProvider, etc.),
+ * transformed by PStreamTransformation functions (like filter, reorder, map, etc.),
+ * and outputted by ItemsOperator functions (like print, toList, etc.).
  *
- * Stream producer functions (including MStreamProvider and M2MTransformation)
+ * Stream producer functions (including PStreamProvider and PStreamTransformation)
  * should make sure the stream is not closed before writing items to it, using:
  *      stream.isClosed()
- * Stream consumer functions (including M2MTransformation and ItemsFunction)
+ * Stream consumer functions (including PStreamTransformation and ItemsOperator)
  * should stop reading from Stream if the stream is ended.
  *      If stream.read() returns a null, it means the stream is ended.
  */

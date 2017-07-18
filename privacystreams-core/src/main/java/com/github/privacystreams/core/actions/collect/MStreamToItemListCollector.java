@@ -2,7 +2,7 @@ package com.github.privacystreams.core.actions.collect;
 
 import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.Item;
-import com.github.privacystreams.core.MStream;
+import com.github.privacystreams.core.PStream;
 import com.github.privacystreams.core.UQI;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -14,7 +14,7 @@ import java.util.List;
  * A function that outputs a multi-item stream.
  */
 
-class MStreamToItemListCollector extends Function<MStream, List<Item>> {
+class MStreamToItemListCollector extends Function<PStream, List<Item>> {
 
     MStreamToItemListCollector() {
     }
@@ -23,7 +23,7 @@ class MStreamToItemListCollector extends Function<MStream, List<Item>> {
     private transient volatile boolean isFinished;
 
     @Override
-    public List<Item> apply(UQI uqi, MStream input) {
+    public List<Item> apply(UQI uqi, PStream input) {
         this.items = new ArrayList<>();
         this.isFinished = false;
 

@@ -1,7 +1,7 @@
 package com.github.privacystreams.sensor;
 
 import com.github.privacystreams.core.Item;
-import com.github.privacystreams.core.providers.MStreamProvider;
+import com.github.privacystreams.core.providers.PStreamProvider;
 import com.github.privacystreams.utils.annotations.PSItem;
 import com.github.privacystreams.utils.annotations.PSItemField;
 
@@ -46,7 +46,7 @@ public class RotationVector extends Item {
      * Provide a live stream of sensor readings from rotation vector sensor.
      * @return the provider.
      */
-    public static MStreamProvider asUpdates(int sensorDelay){
+    public static PStreamProvider asUpdates(int sensorDelay){
         return new RotationVectorUpdatesProvider(sensorDelay);
     }
 }

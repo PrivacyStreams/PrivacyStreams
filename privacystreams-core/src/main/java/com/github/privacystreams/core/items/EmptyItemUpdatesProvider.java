@@ -1,13 +1,13 @@
 package com.github.privacystreams.core.items;
 
-import com.github.privacystreams.core.providers.MStreamProvider;
+import com.github.privacystreams.core.providers.PStreamProvider;
 
 
 /**
  * Provide a live stream of EmptyItem
  */
 
-class EmptyItemUpdatesProvider extends MStreamProvider {
+class EmptyItemUpdatesProvider extends PStreamProvider {
 
     private final long interval;
 

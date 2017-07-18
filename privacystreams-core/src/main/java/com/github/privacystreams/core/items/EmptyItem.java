@@ -1,7 +1,7 @@
 package com.github.privacystreams.core.items;
 
 import com.github.privacystreams.core.Item;
-import com.github.privacystreams.core.providers.MStreamProvider;
+import com.github.privacystreams.core.providers.PStreamProvider;
 import com.github.privacystreams.utils.annotations.PSItem;
 
 /**
@@ -15,7 +15,7 @@ public class EmptyItem extends Item {
      *
      * @return the provider function
      */
-    public static MStreamProvider asUpdates(long interval) {
+    public static PStreamProvider asUpdates(long interval) {
         return new EmptyItemUpdatesProvider(interval);
     }
 }

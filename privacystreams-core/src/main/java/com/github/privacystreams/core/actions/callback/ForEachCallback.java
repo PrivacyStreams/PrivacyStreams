@@ -2,14 +2,14 @@ package com.github.privacystreams.core.actions.callback;
 
 import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.Item;
-import com.github.privacystreams.core.actions.MStreamAction;
+import com.github.privacystreams.core.actions.PStreamAction;
 import com.github.privacystreams.utils.Assertions;
 
 /**
  * Callback with each item in the stream.
  * The callback will be invoked with the item map as a parameter.
  */
-class ForEachCallback extends MStreamAction {
+class ForEachCallback extends PStreamAction {
     private final Function<Item, Void> itemCallback;
 
     ForEachCallback(Function<Item, Void> itemCallback) {

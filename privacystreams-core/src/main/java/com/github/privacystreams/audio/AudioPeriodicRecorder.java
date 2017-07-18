@@ -3,7 +3,7 @@ package com.github.privacystreams.audio;
 import android.Manifest;
 
 import com.github.privacystreams.core.exceptions.PSException;
-import com.github.privacystreams.core.providers.MStreamProvider;
+import com.github.privacystreams.core.providers.PStreamProvider;
 
 import java.io.IOException;
 
@@ -11,7 +11,7 @@ import java.io.IOException;
  * Record audio periodically with the microphone.
  */
 
-class AudioPeriodicRecorder extends MStreamProvider {
+class AudioPeriodicRecorder extends PStreamProvider {
     private final Long durationPerRecord;
     private final Long interval;
 

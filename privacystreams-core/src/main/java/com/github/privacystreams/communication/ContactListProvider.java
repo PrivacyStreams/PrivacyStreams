@@ -7,7 +7,7 @@ import android.provider.ContactsContract;
 import android.provider.ContactsContract.CommonDataKinds.Email;
 import android.provider.ContactsContract.CommonDataKinds.Phone;
 
-import com.github.privacystreams.core.providers.MStreamProvider;
+import com.github.privacystreams.core.providers.PStreamProvider;
 import com.github.privacystreams.utils.CommunicationUtils;
 
 import java.util.ArrayList;
@@ -17,7 +17,7 @@ import java.util.List;
  * Provide a stream of contact list.
  */
 
-class ContactListProvider extends MStreamProvider {
+class ContactListProvider extends PStreamProvider {
 
     ContactListProvider() {
         this.addRequiredPermissions(Manifest.permission.READ_CONTACTS);

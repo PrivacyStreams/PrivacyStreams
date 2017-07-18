@@ -1,6 +1,6 @@
 package com.github.privacystreams.location;
 
-import com.github.privacystreams.commons.ItemFunction;
+import com.github.privacystreams.commons.ItemOperator;
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.UQI;
 import com.github.privacystreams.utils.Assertions;
@@ -9,7 +9,7 @@ import com.github.privacystreams.utils.LocationUtils;
 /**
  * Compute the distance between two locations, in meters.
  */
-class LocationDistanceCalculator extends ItemFunction<Double> {
+class LocationDistanceCalculator extends ItemOperator<Double> {
 
     private final String latLonField1;
     private final String latLonField2;

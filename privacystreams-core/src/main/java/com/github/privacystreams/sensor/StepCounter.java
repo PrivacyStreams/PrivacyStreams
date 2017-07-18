@@ -3,11 +3,10 @@ package com.github.privacystreams.sensor;
 import android.os.Build;
 
 import com.github.privacystreams.core.Item;
-import com.github.privacystreams.core.providers.MStreamProvider;
+import com.github.privacystreams.core.providers.PStreamProvider;
 import com.github.privacystreams.utils.Logging;
 import com.github.privacystreams.utils.annotations.PSItem;
 import com.github.privacystreams.utils.annotations.PSItemField;
-import com.google.api.client.googleapis.util.Utils;
 
 /**
  * Step counter.
@@ -29,7 +28,7 @@ public class StepCounter extends Item {
      * Provide a live stream of sensor readings from the step counter.
      * @return the provider.
      */
-    public static MStreamProvider asUpdates(int sensorDelay){
+    public static PStreamProvider asUpdates(int sensorDelay){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             return new StepCounterUpdatesProvider(sensorDelay);
         }

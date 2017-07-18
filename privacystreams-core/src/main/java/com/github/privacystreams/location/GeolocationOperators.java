@@ -79,7 +79,7 @@ public class GeolocationOperators {
 //     * @return the function
 //     */
 //    public static Function<Item, String> asPostcode(String latLonField) {
-//        return new LocationPostcodeFunction(latLonField);
+//        return new LocationPostcodeOperator(latLonField);
 //    }
 //
 //    /**

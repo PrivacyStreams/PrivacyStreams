@@ -6,7 +6,7 @@ import android.os.Build;
 import android.support.annotation.RequiresApi;
 
 import com.github.privacystreams.core.Item;
-import com.github.privacystreams.core.providers.MStreamProvider;
+import com.github.privacystreams.core.providers.PStreamProvider;
 import com.github.privacystreams.utils.annotations.PSItem;
 import com.github.privacystreams.utils.annotations.PSItemField;
 
@@ -70,7 +70,7 @@ public class WifiAp extends Item {
      * @return the provider function.
      */
     // @RequiresPermission(allOf = {Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.CHANGE_WIFI_STATE, Manifest.permission.ACCESS_WIFI_STATE})
-    public static MStreamProvider getScanResults() {
+    public static PStreamProvider getScanResults() {
         return new WifiApListProvider();
     }
 

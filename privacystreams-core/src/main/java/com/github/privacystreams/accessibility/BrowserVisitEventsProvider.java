@@ -9,7 +9,7 @@ import com.github.privacystreams.commons.comparison.Comparators;
 import com.github.privacystreams.commons.item.ItemOperators;
 import com.github.privacystreams.core.Callback;
 import com.github.privacystreams.core.Item;
-import com.github.privacystreams.core.providers.MStreamProvider;
+import com.github.privacystreams.core.providers.PStreamProvider;
 import com.github.privacystreams.core.purposes.Purpose;
 import com.github.privacystreams.utils.AccessibilityUtils;
 import com.github.privacystreams.utils.AppUtils;
@@ -21,7 +21,7 @@ import java.util.List;
  */
 
 @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
-class BrowserVisitEventsProvider extends MStreamProvider {
+class BrowserVisitEventsProvider extends PStreamProvider {
     private static String lastSavedUrl = null;
     private static String lastSavedUrlTitle = null;
 

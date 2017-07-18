@@ -2,14 +2,14 @@ package com.github.privacystreams.core.actions.callback;
 
 import com.github.privacystreams.core.Function;
 import com.github.privacystreams.core.Item;
-import com.github.privacystreams.core.actions.MStreamAction;
+import com.github.privacystreams.core.actions.PStreamAction;
 import com.github.privacystreams.utils.Assertions;
 
 /**
  * Callback with an item if the item is different from the former one.
  */
 
-class OnChangeCallback extends MStreamAction {
+class OnChangeCallback extends PStreamAction {
     private final Function<Item, Void> itemCallback;
 
     OnChangeCallback(Function<Item, Void> itemCallback) {

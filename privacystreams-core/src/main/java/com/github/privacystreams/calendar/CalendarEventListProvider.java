@@ -3,9 +3,10 @@ package com.github.privacystreams.calendar;
 import android.Manifest;
 import android.database.Cursor;
 import android.provider.CalendarContract;
+import android.support.annotation.RequiresPermission;
 import android.util.Log;
 
-import com.github.privacystreams.core.providers.MStreamProvider;
+import com.github.privacystreams.core.providers.PStreamProvider;
 
 import java.util.Calendar;
 
@@ -13,7 +14,7 @@ import java.util.Calendar;
  * Provide existing calendar events.
  */
 
-class CalendarEventListProvider extends MStreamProvider {
+class CalendarEventListProvider extends PStreamProvider {
 
     public static boolean isUpcomingToday(long timestamp){
         Calendar eventCalendar = Calendar.getInstance();

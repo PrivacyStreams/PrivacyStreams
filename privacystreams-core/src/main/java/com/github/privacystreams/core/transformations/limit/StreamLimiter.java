@@ -1,12 +1,12 @@
 package com.github.privacystreams.core.transformations.limit;
 
 import com.github.privacystreams.core.Item;
-import com.github.privacystreams.core.transformations.M2MTransformation;
+import com.github.privacystreams.core.transformations.PStreamTransformation;
 
 /**
  * Limit the length of the stream.
  */
-abstract class StreamLimiter extends M2MTransformation {
+abstract class StreamLimiter extends PStreamTransformation {
 
     @Override
     protected void onInput(Item item) {

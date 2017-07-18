@@ -16,7 +16,7 @@ public class LogicOperators {
      * @return the function
      */
     public static Function<Item, Boolean> not(final Function<Item, Boolean> predicate) {
-        return new NotFunction(predicate);
+        return new NotOperator(predicate);
     }
 
     /**
@@ -27,7 +27,7 @@ public class LogicOperators {
      * @return the function
      */
     public static Function<Item, Boolean> and(final Function<Item, Boolean> predicate1, final Function<Item, Boolean> predicate2) {
-        return new AndFunction(predicate1, predicate2);
+        return new AndOperator(predicate1, predicate2);
     }
 
     /**
@@ -38,6 +38,6 @@ public class LogicOperators {
      * @return the function
      */
     public static Function<Item, Boolean> or(final Function<Item, Boolean> predicate1, final Function<Item, Boolean> predicate2) {
-        return new OrFunction(predicate1, predicate2);
+        return new OrOperator(predicate1, predicate2);
     }
 }

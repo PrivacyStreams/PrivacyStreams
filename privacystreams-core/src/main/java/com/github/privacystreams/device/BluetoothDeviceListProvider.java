@@ -9,7 +9,7 @@ import android.content.IntentFilter;
 import android.util.Log;
 
 import com.github.privacystreams.core.UQI;
-import com.github.privacystreams.core.providers.MStreamProvider;
+import com.github.privacystreams.core.providers.PStreamProvider;
 
 import static android.content.ContentValues.TAG;
 
@@ -17,7 +17,7 @@ import static android.content.ContentValues.TAG;
  * Provide a stream of current visible bluetooth device list.
  */
 
-class BluetoothDeviceListProvider extends MStreamProvider {
+class BluetoothDeviceListProvider extends PStreamProvider {
 
     // Sets up the permission requirement
     BluetoothDeviceListProvider() {

@@ -1,6 +1,6 @@
 package com.github.privacystreams.commons.items;
 
-import com.github.privacystreams.commons.ItemsFunction;
+import com.github.privacystreams.commons.ItemsOperator;
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.UQI;
 
@@ -14,7 +14,7 @@ import static com.github.privacystreams.utils.Assertions.notNull;
  * Each item in the list is the field value in type TValue.
  */
 
-class StreamFieldListCollector<TValue> extends ItemsFunction<List<TValue>> {
+class StreamFieldListCollector<TValue> extends ItemsOperator<List<TValue>> {
     private final String fieldToSelect;
 
     StreamFieldListCollector(String fieldToSelect) {

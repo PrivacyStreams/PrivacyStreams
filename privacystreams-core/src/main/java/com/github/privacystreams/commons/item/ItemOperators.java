@@ -54,7 +54,7 @@ public class ItemOperators {
      * @return the function
      */
     public static <Tout> Function<Item, Tout> wrapSubStreamFunction(Function<List<Item>, Tout> subStreamFunction) {
-        return new ItemSubStreamFunction<>(subStreamFunction);
+        return new ItemSubStreamOperator<>(subStreamFunction);
     }
 
     /**
@@ -65,7 +65,7 @@ public class ItemOperators {
      * @return the function
      */
     public static <Tout> Function<Item, Tout> wrapValueGenerator(Function<Void, Tout> valueGenerator) {
-        return new IndependentItemFunction<>(valueGenerator);
+        return new IndependentItemOperator<>(valueGenerator);
     }
 
     /**
@@ -81,7 +81,7 @@ public class ItemOperators {
      * @return the stream of items with the new field set
      */
     public static <TValue> Function<Item, Item> setGroupField(String fieldToSet, Function<List<Item>, TValue> fieldValueComputer) {
-        return new FieldSetter<>(fieldToSet, new ItemSubStreamFunction<>(fieldValueComputer));
+        return new FieldSetter<>(fieldToSet, new ItemSubStreamOperator<>(fieldValueComputer));
     }
 
     /**
@@ -98,7 +98,7 @@ public class ItemOperators {
      * @return the item mapper function.
      */
     public static <TValue> Function<Item, Item> setIndependentField(String fieldToSet, Function<Void, TValue> valueGenerator) {
-        return new FieldSetter<>(fieldToSet, new IndependentItemFunction<>(valueGenerator));
+        return new FieldSetter<>(fieldToSet, new IndependentItemOperator<>(valueGenerator));
     }
 
     /**
@@ -107,7 +107,7 @@ public class ItemOperators {
      * @return the function.
      */
     public static Function<Item, Item> asItem() {
-        return new ItemIdleFunction();
+        return new ItemIdleOperator();
     }
 
     /**

@@ -5,9 +5,8 @@ import android.media.MediaRecorder;
 
 import com.github.privacystreams.core.UQI;
 import com.github.privacystreams.core.exceptions.PSException;
-import com.github.privacystreams.core.providers.SStreamProvider;
+import com.github.privacystreams.core.providers.PStreamProvider;
 import com.github.privacystreams.utils.Globals;
-import com.github.privacystreams.utils.Logging;
 import com.github.privacystreams.utils.StorageUtils;
 import com.github.privacystreams.utils.TimeUtils;
 
@@ -20,7 +19,7 @@ import java.util.List;
  * Record audio for a duration from microphone
  */
 
-class AudioRecorder extends SStreamProvider {
+class AudioRecorder extends PStreamProvider {
     private final Long duration;
 
     AudioRecorder(long duration) {

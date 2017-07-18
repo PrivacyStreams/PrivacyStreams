@@ -4,7 +4,7 @@ import android.Manifest;
 import android.content.Intent;
 
 import com.github.privacystreams.core.exceptions.PSException;
-import com.github.privacystreams.core.providers.SStreamProvider;
+import com.github.privacystreams.core.providers.PStreamProvider;
 import com.github.privacystreams.utils.StorageUtils;
 import com.github.privacystreams.utils.TimeUtils;
 
@@ -13,10 +13,10 @@ import com.github.privacystreams.utils.TimeUtils;
 import java.io.File;
 
 /**
- * Provide an SStream with an Image item, which represents a photo taken from camera.
+ * Provide an PStream with an Image item, which represents a photo taken from camera.
  */
 
-class ImageCameraProvider extends SStreamProvider implements CameraResultListener {
+class ImageCameraProvider extends PStreamProvider implements CameraResultListener {
 
     ImageCameraProvider(){
         this.addRequiredPermissions(Manifest.permission.CAMERA,

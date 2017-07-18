@@ -1,6 +1,6 @@
 package com.github.privacystreams.commons.list;
 
-import com.github.privacystreams.commons.ItemFunction;
+import com.github.privacystreams.commons.ItemOperator;
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.UQI;
 import com.github.privacystreams.utils.Assertions;
@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Process the list field in an item.
  */
-abstract class NumListProcessor<Tout> extends ItemFunction<Tout> {
+abstract class NumListProcessor<Tout> extends ItemOperator<Tout> {
 
     private final String numListField;
 

@@ -6,10 +6,9 @@ import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 
 import com.github.privacystreams.core.exceptions.PSException;
-import com.github.privacystreams.core.providers.MStreamProvider;
+import com.github.privacystreams.core.providers.PStreamProvider;
 import com.github.privacystreams.utils.AppUtils;
 import com.github.privacystreams.utils.ConnectionUtils;
-import com.github.privacystreams.utils.Globals;
 import com.github.privacystreams.utils.Logging;
 import com.github.privacystreams.utils.TimeUtils;
 import com.google.api.client.extensions.android.http.AndroidHttp;
@@ -35,7 +34,7 @@ import java.util.List;
  * Base class for Gmail-related Providers.
  */
 
-abstract class BaseGmailProvider extends MStreamProvider implements GmailResultListener {
+abstract class BaseGmailProvider extends PStreamProvider implements GmailResultListener {
     static final String PREF_ACCOUNT_NAME = "accountName";
     static final String[] SCOPES = {GmailScopes.GMAIL_LABELS, GmailScopes.GMAIL_READONLY};
     private Gmail mService;

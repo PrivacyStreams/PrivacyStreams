@@ -5,7 +5,7 @@
 //import com.github.privacystreams.audio.Audio;
 //import com.github.privacystreams.commons.statistic.StatisticOperators;
 //import com.github.privacystreams.core.Callback;
-//import com.github.privacystreams.core.MStream;
+//import com.github.privacystreams.core.PStream;
 //import com.github.privacystreams.core.UQI;
 //import com.github.privacystreams.core.purposes.Purpose;
 //import com.github.privacystreams.image.Image;
@@ -46,27 +46,27 @@
 //     */
 //    void BES_PervasiveHealth_2013() {
 //        Purpose purpose = Purpose.FEATURE("sleep monitoring");
-//        MStream lightStream = uqi
+//        PStream lightStream = uqi
 //                .getData(Light.asUpdates(Duration.seconds(60)), purpose)
 //                .project("timestamp", Light.ILLUMINANCE);
 //
-//        MStream phoneLockStream = uqi
+//        PStream phoneLockStream = uqi
 //                .getData(DeviceState.asUpdates(Duration.seconds(60)), purpose)
 //                .project("timestamp", DeviceState.LOCKED);
 //
-//        MStream stationaryStream = uqi
+//        PStream stationaryStream = uqi
 //                .getData(AccelMotion.asUpdates(), purpose)
 //                .setField("timestamp", round(Motion.TIMESTAMP, Duration.seconds(60)))
 //                .localGroupBy("timestamp")
 //                .setGroupField("isStationary", underThreshold(Motion.values, 0));
 //
-//        MStream silenceStream = uqi
+//        PStream silenceStream = uqi
 //                .getData(Microphone.asUpdates(Duration.seconds(60), Duration.seconds(60)), purpose)
 //                .setField("timestamp", round(Audio.TIMESTAMP, Duration.seconds(60)))
 //                .map("loudness", calculateLoudness(Audio.URI))
 //                .map(setField("isSlient", underThreshold(Motion.values, 0));
 //
-//        MStream fusionStream = uqi
+//        PStream fusionStream = uqi
 //                .fusionStream("timestamp", lightStream, phoneLockStream, stationaryStream, silenceStream);
 //    }
 //
@@ -79,21 +79,21 @@
 //     */
 //    void IODetector_SenSys_2012() {
 //        Purpose purpose = Purpose.feature("sleep monitoring");
-//        MStream lightStream = uqi
+//        PStream lightStream = uqi
 //                .getData(Light.asUpdates(Duration.seconds(60)), purpose)
 //                .project("timestamp", Light.ILLUMINANCE);
 //
-//        MStream cellurSignalStream = uqi
+//        PStream cellurSignalStream = uqi
 //                .getData(Cellular.asUpdates(Duration.seconds(60)), purpose)
 //                .project("timestamp", Cellular.SIGNAL_STRENGTH);
 //
-//        MStream magneticIntensityStream = uqi
+//        PStream magneticIntensityStream = uqi
 //                .getData(MagnetFieldSensor.asUpdates(), purpose)
 //                .map(setField("timestamp", round(EnvSensor.TIMESTAMP, Duration.seconds(60))))
 //                .localGroupBy("timestamp")
 //                .setGroupField("magnet_field_intensity", average(EnvSensor.values));
 //
-//        MStream fusionStream = uqi
+//        PStream fusionStream = uqi
 //                .fusionStream("timestamp", lightStream, cellurSignalStream, magneticIntensityStream);
 //    }
 //

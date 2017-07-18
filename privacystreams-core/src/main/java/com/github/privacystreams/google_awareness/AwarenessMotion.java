@@ -1,7 +1,7 @@
 package com.github.privacystreams.google_awareness;
 
 import com.github.privacystreams.core.Item;
-import com.github.privacystreams.core.providers.MStreamProvider;
+import com.github.privacystreams.core.providers.PStreamProvider;
 import com.github.privacystreams.utils.annotations.PSItemField;
 
 /**
@@ -32,7 +32,7 @@ class AwarenessMotion extends Item{
      * @return the function
      */
     // @RequiresPermission(value = "com.google.android.gms.permission.ACTIVITY_RECOGNITION")
-    public static MStreamProvider asUpdates() {
+    public static PStreamProvider asUpdates() {
         return new AwarenessMotionUpdatesProvider();
     }
 }

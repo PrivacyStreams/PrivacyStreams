@@ -7,7 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.github.privacystreams.core.UQI;
-import com.github.privacystreams.core.providers.SStreamProvider;
+import com.github.privacystreams.core.providers.PStreamProvider;
 import com.github.privacystreams.utils.Assertions;
 import com.github.privacystreams.utils.Logging;
 import com.google.android.gms.common.ConnectionResult;
@@ -20,7 +20,7 @@ import com.google.android.gms.location.LocationServices;
 /**
  * Provide current location with Google API.
  */
-class GoogleCurrentLocationProvider extends SStreamProvider implements
+class GoogleCurrentLocationProvider extends PStreamProvider implements
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
         LocationListener  {

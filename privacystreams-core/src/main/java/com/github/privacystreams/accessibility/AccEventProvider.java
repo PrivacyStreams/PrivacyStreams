@@ -4,15 +4,13 @@ import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
 
 import com.github.privacystreams.core.UQI;
-import com.github.privacystreams.core.providers.MStreamProvider;
+import com.github.privacystreams.core.providers.PStreamProvider;
 import com.github.privacystreams.utils.PermissionUtils;
-
-import java.util.Date;
 
 /**
  * The abstract class of Accessibility-related stream providers.
  */
-abstract class AccEventProvider extends MStreamProvider {
+abstract class AccEventProvider extends PStreamProvider {
 
     private boolean registered = false;
 

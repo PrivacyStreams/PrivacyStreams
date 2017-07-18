@@ -11,7 +11,7 @@ import android.util.Log;
 
 import com.github.privacystreams.core.BuildConfig;
 import com.github.privacystreams.core.UQI;
-import com.github.privacystreams.core.providers.MStreamProvider;
+import com.github.privacystreams.core.providers.PStreamProvider;
 import com.google.android.gms.awareness.Awareness;
 import com.google.android.gms.awareness.fence.AwarenessFence;
 import com.google.android.gms.awareness.fence.DetectedActivityFence;
@@ -25,7 +25,7 @@ import com.google.android.gms.common.api.Status;
 /**
  * Provide motion context with Google Awareness API
  */
-class AwarenessMotionUpdatesProvider extends MStreamProvider {
+class AwarenessMotionUpdatesProvider extends PStreamProvider {
     private class GoogleApiFixUncaughtExceptionHandler implements Thread.UncaughtExceptionHandler {
 
         private final Thread.UncaughtExceptionHandler mWrappedHandler;

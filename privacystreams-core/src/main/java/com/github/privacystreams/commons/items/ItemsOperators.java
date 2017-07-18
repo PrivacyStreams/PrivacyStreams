@@ -18,7 +18,7 @@ public class ItemsOperators {
      *
      * @return the function
      */
-    public static Function<List<Item>, List<Item>> asList() {
+    public static Function<List<Item>, List<Item>> asFieldList() {
         return new StreamListCollector();
     }
 
@@ -29,7 +29,7 @@ public class ItemsOperators {
      * @param fieldToCollect the name of the field to collect.
      * @return the function
      */
-    public static <TValue> Function<List<Item>, List<TValue>> asList(String fieldToCollect) {
+    public static <TValue> Function<List<Item>, List<TValue>> asFieldList(String fieldToCollect) {
         return new StreamFieldListCollector<>(fieldToCollect);
     }
 

@@ -9,14 +9,14 @@ import android.os.Bundle;
 import android.os.Looper;
 
 import com.github.privacystreams.core.UQI;
-import com.github.privacystreams.core.providers.SStreamProvider;
+import com.github.privacystreams.core.providers.PStreamProvider;
 import com.github.privacystreams.utils.Assertions;
 
 /**
  * Provide current location with Android standard APIs.
  */
 
-final class CurrentLocationProvider extends SStreamProvider {
+final class CurrentLocationProvider extends PStreamProvider {
 
     private final String level;
 

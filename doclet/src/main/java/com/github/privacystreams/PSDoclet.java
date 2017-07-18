@@ -52,14 +52,7 @@ public class PSDoclet extends HtmlDoclet {
             PSOperatorWrapperDoc operatorWrapperDoc = PSOperatorWrapperDoc.build(classDoc);
             if (operatorWrapperDoc != null) this.psOperatorWrappers.add(operatorWrapperDoc);
 
-            if (Utils.instanceOf(classDoc, Consts.TYPE_M_STREAM)) {
-                for (MethodDoc methodDoc : classDoc.methods()) {
-                    PSPipelineDoc pipelineDoc = PSPipelineDoc.build(classDoc, methodDoc);
-                    if (pipelineDoc != null) this.psPipelines.add(pipelineDoc);
-                }
-            }
-
-            if (Utils.instanceOf(classDoc, Consts.TYPE_S_STREAM)) {
+            if (Utils.instanceOf(classDoc, Consts.TYPE_P_STREAM)) {
                 for (MethodDoc methodDoc : classDoc.methods()) {
                     PSPipelineDoc pipelineDoc = PSPipelineDoc.build(classDoc, methodDoc);
                     if (pipelineDoc != null) this.psPipelines.add(pipelineDoc);

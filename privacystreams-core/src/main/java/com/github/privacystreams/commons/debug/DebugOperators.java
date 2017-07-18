@@ -15,7 +15,7 @@ public class DebugOperators {
      * @return the function
      */
     public static <Tin> Function<Tin, Void> debug() {
-        return new DebugPrinter<>();
+        return new DebugPrintOperator<>();
     }
 
     /**
@@ -26,7 +26,7 @@ public class DebugOperators {
      * @return the function
      */
     public static <T> Function<T, T> logAs(String logTag) {
-        return new EchoPrinter<>(logTag, false);
+        return new EchoOperator<>(logTag, false);
     }
 
     /**
@@ -37,6 +37,6 @@ public class DebugOperators {
      * @return the function
      */
     public static <T> Function<T, T> logOverSocket(String logTag) {
-        return new EchoPrinter<>(logTag, true);
+        return new EchoOperator<>(logTag, true);
     }
 }

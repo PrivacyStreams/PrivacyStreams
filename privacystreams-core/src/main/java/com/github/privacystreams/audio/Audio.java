@@ -1,8 +1,7 @@
 package com.github.privacystreams.audio;
 
 import com.github.privacystreams.core.Item;
-import com.github.privacystreams.core.providers.MStreamProvider;
-import com.github.privacystreams.core.providers.SStreamProvider;
+import com.github.privacystreams.core.providers.PStreamProvider;
 import com.github.privacystreams.utils.annotations.PSItem;
 import com.github.privacystreams.utils.annotations.PSItemField;
 
@@ -40,7 +39,7 @@ public class Audio extends Item {
      * @return the provider.
      */
     // @RequiresPermission(value = Manifest.permission.RECORD_AUDIO)
-    public static SStreamProvider record(long duration) {
+    public static PStreamProvider record(long duration) {
         return new AudioRecorder(duration);
     }
 
@@ -56,7 +55,7 @@ public class Audio extends Item {
      * @return the provider
      */
     // @RequiresPermission(value = Manifest.permission.RECORD_AUDIO)
-    public static MStreamProvider recordPeriodic(long durationPerRecord, long interval) {
+    public static PStreamProvider recordPeriodic(long durationPerRecord, long interval) {
         return new AudioPeriodicRecorder(durationPerRecord, interval);
     }
 
@@ -67,7 +66,7 @@ public class Audio extends Item {
      * @return the provider function.
      */
     // @RequiresPermission(value = Manifest.permission.READ_EXTERNAL_STORAGE)
-    public static MStreamProvider getFromStorage() {
+    public static PStreamProvider getFromStorage() {
         return new AudioStorageProvider();
     }
 }

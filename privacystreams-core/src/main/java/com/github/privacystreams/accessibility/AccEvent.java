@@ -4,7 +4,7 @@ import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
 
 import com.github.privacystreams.core.Item;
-import com.github.privacystreams.core.providers.MStreamProvider;
+import com.github.privacystreams.core.providers.PStreamProvider;
 import com.github.privacystreams.utils.annotations.PSItemField;
 
 /**
@@ -62,7 +62,7 @@ public class AccEvent extends Item {
      * @return the provider function.
      */
     // @RequiresPermission(value = Manifest.permission.BIND_ACCESSIBILITY_SERVICE)
-    public static MStreamProvider asUpdates() {
+    public static PStreamProvider asUpdates() {
         return new AllAccEventProvider();
     }
 
@@ -71,7 +71,7 @@ public class AccEvent extends Item {
      * @return the provider function.
      */
     // @RequiresPermission(value = Manifest.permission.BIND_ACCESSIBILITY_SERVICE)
-    public static MStreamProvider asWindowChanges() {
+    public static PStreamProvider asWindowChanges() {
         return new WindowChangeEventProvider();
     }
 
@@ -80,7 +80,7 @@ public class AccEvent extends Item {
      * @return the provider function.
      */
     // @RequiresPermission(value = Manifest.permission.BIND_ACCESSIBILITY_SERVICE)
-    public static MStreamProvider asUIActions() {
+    public static PStreamProvider asUIActions() {
         return new UIActionProvider();
     }
 
@@ -89,7 +89,7 @@ public class AccEvent extends Item {
      * @return the provider function.
      */
     // @RequiresPermission(value = Manifest.permission.BIND_ACCESSIBILITY_SERVICE)
-    public static MStreamProvider asTextEntries() {
+    public static PStreamProvider asTextEntries() {
         return new TextEntryProvider();
     }
 }

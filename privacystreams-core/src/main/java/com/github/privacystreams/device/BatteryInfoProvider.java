@@ -4,12 +4,12 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.BatteryManager;
 
-import com.github.privacystreams.core.providers.SStreamProvider;
+import com.github.privacystreams.core.providers.PStreamProvider;
 
 /**
  * Provide a single item of current battery info.
  */
-class BatteryInfoProvider extends SStreamProvider {
+class BatteryInfoProvider extends PStreamProvider {
 
     private float getBatteryLevel() {
         Intent batteryIntent = this.getContext().registerReceiver(null, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));

@@ -1,8 +1,7 @@
 package com.github.privacystreams.core.items;
 
 import com.github.privacystreams.core.Item;
-import com.github.privacystreams.core.providers.MStreamProvider;
-import com.github.privacystreams.core.providers.SStreamProvider;
+import com.github.privacystreams.core.providers.PStreamProvider;
 import com.github.privacystreams.utils.annotations.PSItem;
 import com.github.privacystreams.utils.annotations.PSItemField;
 
@@ -56,8 +55,8 @@ public class TestItem extends Item {
      * @param interval the interval between each two items, in milliseconds
      * @return the provider function
      */
-    public static MStreamProvider asUpdatesFrom(List<TestObject> testObjects, long interval) {
-        return new MockLiveMStreamProvider(testObjects, interval);
+    public static PStreamProvider asUpdatesFrom(List<TestObject> testObjects, long interval) {
+        return new MockLivePStreamProvider(testObjects, interval);
     }
 
     /**
@@ -68,8 +67,8 @@ public class TestItem extends Item {
      * @param interval the interval between each two items, in milliseconds
      * @return the provider function
      */
-    public static MStreamProvider asUpdates(int maxInt, double maxDouble, long interval) {
-        return new RandomLiveMStreamProvider(maxInt, maxDouble, interval);
+    public static PStreamProvider asUpdates(int maxInt, double maxDouble, long interval) {
+        return new RandomLivePStreamProvider(maxInt, maxDouble, interval);
     }
 
     /**
@@ -78,8 +77,8 @@ public class TestItem extends Item {
      * @param testObjects the list of mock data
      * @return the provider function
      */
-    public static MStreamProvider getAllFrom(List<TestObject> testObjects) {
-        return new MockLocalMStreamProvider(testObjects);
+    public static PStreamProvider getAllFrom(List<TestObject> testObjects) {
+        return new MockLocalPStreamProvider(testObjects);
     }
 
     /**
@@ -90,26 +89,7 @@ public class TestItem extends Item {
      * @param count the number of random items
      * @return the provider function
      */
-    public static MStreamProvider getAllRandom(int maxInt, double maxDouble, int count) {
-        return new RandomLocalMStreamProvider(maxInt, maxDouble, count);
-    }
-
-    /**
-     * Provide one TestItem item, which is based on an given TestObject.
-     *
-     * @param testObject the mock data
-     * @return the provider function
-     */
-    public static SStreamProvider getOneFrom(TestObject testObject) {
-        return new MockSStreamProvider(testObject);
-    }
-
-    /**
-     * Provide one TestItem item, which is randomly generated.
-     *
-     * @return the provider function
-     */
-    public static SStreamProvider getOne() {
-        return new MockSStreamProvider(TestObject.getRandomInstance());
+    public static PStreamProvider getAllRandom(int maxInt, double maxDouble, int count) {
+        return new RandomLocalPStreamProvider(maxInt, maxDouble, count);
     }
 }

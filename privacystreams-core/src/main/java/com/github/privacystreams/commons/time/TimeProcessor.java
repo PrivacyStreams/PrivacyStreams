@@ -1,6 +1,6 @@
 package com.github.privacystreams.commons.time;
 
-import com.github.privacystreams.commons.ItemFunction;
+import com.github.privacystreams.commons.ItemOperator;
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.UQI;
 import com.github.privacystreams.utils.Assertions;
@@ -8,7 +8,7 @@ import com.github.privacystreams.utils.Assertions;
 /**
  * Process the timestamp specified by a field in an item.
  */
-abstract class TimeProcessor<Tout> extends ItemFunction<Tout> {
+abstract class TimeProcessor<Tout> extends ItemOperator<Tout> {
 
     private final String timestampField;
 
