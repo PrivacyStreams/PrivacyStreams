@@ -2,7 +2,7 @@ package io.github.privacystreams.communication;
 
 
 import io.github.privacystreams.core.Item;
-import io.github.privacystreams.core.providers.PStreamProvider;
+import io.github.privacystreams.core.PStreamProvider;
 import io.github.privacystreams.utils.annotations.PSItem;
 import io.github.privacystreams.utils.annotations.PSItemField;
 

@@ -6,7 +6,7 @@ import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 
 import io.github.privacystreams.core.exceptions.PSException;
-import io.github.privacystreams.core.providers.PStreamProvider;
+import io.github.privacystreams.core.PStreamProvider;
 import io.github.privacystreams.utils.AppUtils;
 import io.github.privacystreams.utils.ConnectionUtils;
 import io.github.privacystreams.utils.Logging;

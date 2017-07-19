@@ -1,7 +1,8 @@
-package io.github.privacystreams.core.transformations;
+package io.github.privacystreams.core;
 
 import io.github.privacystreams.core.EventDrivenFunction;
 import io.github.privacystreams.core.Item;
+import io.github.privacystreams.core.PStream;
 import io.github.privacystreams.core.Stream;
 import io.github.privacystreams.core.UQI;
 import io.github.privacystreams.utils.Logging;
@@ -12,7 +13,7 @@ import org.greenrobot.eventbus.Subscribe;
  * Transform a stream to a stream
  */
 
-abstract class StreamTransformation<InStream extends Stream, OutStream extends Stream> extends EventDrivenFunction<InStream, OutStream> {
+abstract class PStreamTransformation extends EventDrivenFunction<PStream, PStream> {
 
     protected abstract void onInput(Item item);
 
@@ -35,6 +36,7 @@ abstract class StreamTransformation<InStream extends Stream, OutStream extends S
 
     @Override
     protected void init() {
+        this.output = new PStream(this.getUQI(), input.getStreamProvider().compound(this));
         this.input.register(this);
     }
 

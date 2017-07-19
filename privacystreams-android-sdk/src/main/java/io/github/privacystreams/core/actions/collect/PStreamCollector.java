@@ -2,7 +2,7 @@ package io.github.privacystreams.core.actions.collect;
 
 import io.github.privacystreams.core.Function;
 import io.github.privacystreams.core.Item;
-import io.github.privacystreams.core.actions.PStreamAction;
+import io.github.privacystreams.core.PStreamAction;
 import io.github.privacystreams.utils.Assertions;
 
 import java.util.ArrayList;

@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.BatteryManager;
 
-import io.github.privacystreams.core.providers.PStreamProvider;
+import io.github.privacystreams.core.PStreamProvider;
 
 /**
  * Provide a single item of current battery info.

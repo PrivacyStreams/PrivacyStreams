@@ -11,7 +11,7 @@ import android.util.Log;
 
 import io.github.privacystreams.core.BuildConfig;
 import io.github.privacystreams.core.UQI;
-import io.github.privacystreams.core.providers.PStreamProvider;
+import io.github.privacystreams.core.PStreamProvider;
 import com.google.android.gms.awareness.Awareness;
 import com.google.android.gms.awareness.fence.AwarenessFence;
 import com.google.android.gms.awareness.fence.DetectedActivityFence;

@@ -3,7 +3,6 @@ package io.github.privacystreams.core;
 import android.content.Context;
 
 import io.github.privacystreams.core.exceptions.PSException;
-import io.github.privacystreams.core.providers.PStreamProvider;
 import io.github.privacystreams.core.purposes.Purpose;
 import io.github.privacystreams.utils.Logging;
 import io.github.privacystreams.utils.PermissionUtils;

@@ -3,7 +3,7 @@ package io.github.privacystreams.communication;
 import android.Manifest;
 import android.database.Cursor;
 
-import io.github.privacystreams.core.providers.PStreamProvider;
+import io.github.privacystreams.core.PStreamProvider;
 import io.github.privacystreams.utils.CommunicationUtils;
 
 

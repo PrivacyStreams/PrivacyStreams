@@ -4,7 +4,7 @@ import android.Manifest;
 import android.content.Intent;
 
 import io.github.privacystreams.core.exceptions.PSException;
-import io.github.privacystreams.core.providers.PStreamProvider;
+import io.github.privacystreams.core.PStreamProvider;
 import io.github.privacystreams.utils.StorageUtils;
 import io.github.privacystreams.utils.TimeUtils;
 

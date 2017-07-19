@@ -3,7 +3,7 @@ package io.github.privacystreams.audio;
 import android.Manifest;
 
 import io.github.privacystreams.core.exceptions.PSException;
-import io.github.privacystreams.core.providers.PStreamProvider;
+import io.github.privacystreams.core.PStreamProvider;
 
 import java.io.IOException;
 

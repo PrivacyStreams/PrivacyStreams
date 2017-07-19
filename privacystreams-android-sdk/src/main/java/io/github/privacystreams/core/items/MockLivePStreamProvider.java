@@ -1,6 +1,6 @@
 package io.github.privacystreams.core.items;
 
-import io.github.privacystreams.core.providers.PStreamProvider;
+import io.github.privacystreams.core.PStreamProvider;
 import io.github.privacystreams.utils.Assertions;
 
 import java.util.List;

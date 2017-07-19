@@ -5,7 +5,7 @@ import android.service.notification.StatusBarNotification;
 import android.support.annotation.RequiresApi;
 
 import io.github.privacystreams.core.UQI;
-import io.github.privacystreams.core.providers.PStreamProvider;
+import io.github.privacystreams.core.PStreamProvider;
 import io.github.privacystreams.utils.PermissionUtils;
 
 abstract class NotificationEventProvider extends PStreamProvider {

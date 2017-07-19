@@ -9,7 +9,7 @@ import android.os.Bundle;
 import android.os.Looper;
 
 import io.github.privacystreams.core.UQI;
-import io.github.privacystreams.core.providers.PStreamProvider;
+import io.github.privacystreams.core.PStreamProvider;
 import io.github.privacystreams.utils.Assertions;
 
 /**

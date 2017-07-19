@@ -4,7 +4,7 @@ import android.Manifest;
 import android.database.Cursor;
 import android.provider.MediaStore;
 
-import io.github.privacystreams.core.providers.PStreamProvider;
+import io.github.privacystreams.core.PStreamProvider;
 
 import java.io.File;
 

@@ -4,7 +4,7 @@ import io.github.privacystreams.core.Callback;
 import io.github.privacystreams.core.Function;
 import io.github.privacystreams.core.Item;
 import io.github.privacystreams.core.PStream;
-import io.github.privacystreams.core.actions.PStreamAction;
+import io.github.privacystreams.core.PStreamAction;
 import io.github.privacystreams.utils.annotations.PSOperatorWrapper;
 
 import java.util.List;

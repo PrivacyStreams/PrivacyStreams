@@ -5,7 +5,7 @@ import android.content.Context;
 import android.location.Location;
 import android.location.LocationManager;
 
-import io.github.privacystreams.core.providers.PStreamProvider;
+import io.github.privacystreams.core.PStreamProvider;
 import io.github.privacystreams.utils.Assertions;
 import io.github.privacystreams.utils.Duration;
 import io.github.privacystreams.utils.PermissionUtils;

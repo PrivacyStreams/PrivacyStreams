@@ -1,6 +1,6 @@
 package io.github.privacystreams.core.items;
 
-import io.github.privacystreams.core.providers.PStreamProvider;
+import io.github.privacystreams.core.PStreamProvider;
 
 /**
  * Provide continuous random TestItem updates.

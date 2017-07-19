@@ -1,7 +1,8 @@
-package io.github.privacystreams.core.actions;
+package io.github.privacystreams.core;
 
 import io.github.privacystreams.core.EventDrivenFunction;
 import io.github.privacystreams.core.Item;
+import io.github.privacystreams.core.PStream;
 import io.github.privacystreams.core.Stream;
 import io.github.privacystreams.core.UQI;
 
@@ -11,7 +12,7 @@ import org.greenrobot.eventbus.Subscribe;
  * Output a stream.
  */
 
-abstract class StreamAction<InStream extends Stream> extends EventDrivenFunction<InStream, Void> {
+public abstract class PStreamAction extends EventDrivenFunction<PStream, Void> {
 
     protected abstract void onInput(Item item);
 

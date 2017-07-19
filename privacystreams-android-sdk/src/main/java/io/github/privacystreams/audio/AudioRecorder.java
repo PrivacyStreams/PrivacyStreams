@@ -5,7 +5,7 @@ import android.media.MediaRecorder;
 
 import io.github.privacystreams.core.UQI;
 import io.github.privacystreams.core.exceptions.PSException;
-import io.github.privacystreams.core.providers.PStreamProvider;
+import io.github.privacystreams.core.PStreamProvider;
 import io.github.privacystreams.utils.Globals;
 import io.github.privacystreams.utils.StorageUtils;
 import io.github.privacystreams.utils.TimeUtils;

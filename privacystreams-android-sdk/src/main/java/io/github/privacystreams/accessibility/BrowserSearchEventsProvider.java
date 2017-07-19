@@ -3,7 +3,7 @@ package io.github.privacystreams.accessibility;
 import io.github.privacystreams.commons.item.ItemOperators;
 import io.github.privacystreams.core.Callback;
 import io.github.privacystreams.core.Item;
-import io.github.privacystreams.core.providers.PStreamProvider;
+import io.github.privacystreams.core.PStreamProvider;
 import io.github.privacystreams.core.purposes.Purpose;
 import io.github.privacystreams.utils.AppUtils;
 

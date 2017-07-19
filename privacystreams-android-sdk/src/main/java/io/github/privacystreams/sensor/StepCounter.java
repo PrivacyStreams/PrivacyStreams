@@ -3,7 +3,7 @@ package io.github.privacystreams.sensor;
 import android.os.Build;
 
 import io.github.privacystreams.core.Item;
-import io.github.privacystreams.core.providers.PStreamProvider;
+import io.github.privacystreams.core.PStreamProvider;
 import io.github.privacystreams.utils.Logging;
 import io.github.privacystreams.utils.annotations.PSItem;
 import io.github.privacystreams.utils.annotations.PSItemField;

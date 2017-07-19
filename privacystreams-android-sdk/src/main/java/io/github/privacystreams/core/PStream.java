@@ -5,7 +5,6 @@ import io.github.privacystreams.commons.debug.DebugOperators;
 import io.github.privacystreams.commons.item.ItemOperators;
 import io.github.privacystreams.commons.items.ItemsOperators;
 import io.github.privacystreams.commons.statistic.StatisticOperators;
-import io.github.privacystreams.core.actions.PStreamAction;
 import io.github.privacystreams.core.actions.callback.Callbacks;
 import io.github.privacystreams.core.actions.collect.Collectors;
 import io.github.privacystreams.core.exceptions.PSException;

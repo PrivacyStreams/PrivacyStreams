@@ -5,7 +5,7 @@ import android.support.annotation.RequiresApi;
 
 import io.github.privacystreams.core.Item;
 import io.github.privacystreams.core.exceptions.PSException;
-import io.github.privacystreams.core.providers.PStreamProvider;
+import io.github.privacystreams.core.PStreamProvider;
 import io.github.privacystreams.core.purposes.Purpose;
 
 import java.util.List;
