@@ -1,19 +1,14 @@
 package io.github.privacystreams.core;
 
-import io.github.privacystreams.core.EventDrivenFunction;
-import io.github.privacystreams.core.Item;
-import io.github.privacystreams.core.PStream;
-import io.github.privacystreams.core.Stream;
-import io.github.privacystreams.core.UQI;
-import io.github.privacystreams.utils.Logging;
-
 import org.greenrobot.eventbus.Subscribe;
+
+import io.github.privacystreams.utils.Logging;
 
 /**
  * Transform a stream to a stream
  */
 
-abstract class PStreamTransformation extends EventDrivenFunction<PStream, PStream> {
+public abstract class PStreamTransformation extends EventDrivenFunction<PStream, PStream> {
 
     protected abstract void onInput(Item item);
 

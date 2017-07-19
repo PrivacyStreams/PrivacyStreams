@@ -2,7 +2,7 @@ package io.github.privacystreams.core.transformations.map;
 
 import io.github.privacystreams.core.Function;
 import io.github.privacystreams.core.Item;
-import io.github.privacystreams.core.transformations.PStreamTransformation;
+import io.github.privacystreams.core.PStreamTransformation;
 
 import static io.github.privacystreams.utils.Assertions.notNull;
 

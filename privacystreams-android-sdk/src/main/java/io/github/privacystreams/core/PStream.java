@@ -1,5 +1,9 @@
 package io.github.privacystreams.core;
 
+import java.util.List;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
+
 import io.github.privacystreams.commons.comparison.Comparators;
 import io.github.privacystreams.commons.debug.DebugOperators;
 import io.github.privacystreams.commons.item.ItemOperators;
@@ -8,7 +12,6 @@ import io.github.privacystreams.commons.statistic.StatisticOperators;
 import io.github.privacystreams.core.actions.callback.Callbacks;
 import io.github.privacystreams.core.actions.collect.Collectors;
 import io.github.privacystreams.core.exceptions.PSException;
-import io.github.privacystreams.core.transformations.PStreamTransformation;
 import io.github.privacystreams.core.transformations.filter.Filters;
 import io.github.privacystreams.core.transformations.group.Groupers;
 import io.github.privacystreams.core.transformations.limit.Limiters;
@@ -16,10 +19,6 @@ import io.github.privacystreams.core.transformations.map.Mappers;
 import io.github.privacystreams.core.transformations.reorder.Reorders;
 import io.github.privacystreams.utils.annotations.PSAction;
 import io.github.privacystreams.utils.annotations.PSTransformation;
-
-import java.util.List;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
 
 /**
  * The interface of PStream (privacy stream).

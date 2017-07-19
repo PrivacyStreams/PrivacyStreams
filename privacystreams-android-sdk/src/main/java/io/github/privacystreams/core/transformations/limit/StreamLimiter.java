@@ -1,7 +1,7 @@
 package io.github.privacystreams.core.transformations.limit;
 
 import io.github.privacystreams.core.Item;
-import io.github.privacystreams.core.transformations.PStreamTransformation;
+import io.github.privacystreams.core.PStreamTransformation;
 
 /**
  * Limit the length of the stream.

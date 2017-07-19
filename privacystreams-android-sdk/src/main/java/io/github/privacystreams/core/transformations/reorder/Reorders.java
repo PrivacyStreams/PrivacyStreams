@@ -1,6 +1,6 @@
 package io.github.privacystreams.core.transformations.reorder;
 
-import io.github.privacystreams.core.transformations.PStreamTransformation;
+import io.github.privacystreams.core.PStreamTransformation;
 import io.github.privacystreams.utils.annotations.PSOperatorWrapper;
 
 /**

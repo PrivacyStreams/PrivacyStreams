@@ -1,7 +1,7 @@
 package io.github.privacystreams.core.transformations.reorder;
 
 import io.github.privacystreams.core.Item;
-import io.github.privacystreams.core.transformations.PStreamTransformation;
+import io.github.privacystreams.core.PStreamTransformation;
 
 import java.util.ArrayList;
 import java.util.List;

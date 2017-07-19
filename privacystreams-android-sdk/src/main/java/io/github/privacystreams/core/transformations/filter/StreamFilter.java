@@ -1,7 +1,7 @@
 package io.github.privacystreams.core.transformations.filter;
 
 import io.github.privacystreams.core.Item;
-import io.github.privacystreams.core.transformations.PStreamTransformation;
+import io.github.privacystreams.core.PStreamTransformation;
 
 /**
  * Exclude some items from PStream
