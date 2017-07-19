@@ -78,8 +78,9 @@ public class PermissionUtils {
      * @param uqi UQI instance
      */
     public static void requestPermissionAndEvaluate(UQI uqi, Function<Void, Void> query) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            // For Android version M and above, there is chance to request permissions at runtime
+        //if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            // For Android version M and above, there is chance to request most permissions at runtime
+            Logging.debug("Request permissions...");
             Pair<UQI, Function<Void, Void>> uqiQuery = new Pair<>(uqi, query);
             int requestCode = uqiQuery.hashCode();
             pendingUQIQueries.put(requestCode, uqiQuery);
@@ -87,11 +88,11 @@ public class PermissionUtils {
             permissionRequest.putExtra(PSPermissionActivity.REQUEST_CODE, requestCode);
             permissionRequest.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             uqi.getContext().startActivity(permissionRequest);
-        }
-        else {
+        //}
+        //else {
             // For Android M-, we cannot request permissions at runtime
-            uqi.evaluate(query, false);
-        }
+        //    uqi.evaluate(query, false);
+        //}
     }
     static Map<Integer, Pair<UQI, Function<Void, Void>>> pendingUQIQueries = new HashMap<>();
 
