@@ -124,7 +124,7 @@ public class PSPermissionActivity extends Activity {
         if (requestedPermissions.contains(PermissionUtils.USE_ACCESSIBILITY_SERVICE)) {
             requestedPermissions.remove(PermissionUtils.USE_ACCESSIBILITY_SERVICE);
             if (!PSAccessibilityService.enabled) {
-                boolean accessibilityEnabled = this.getResources().getBoolean(R.bool.accessibility_enabled);
+                boolean accessibilityEnabled = this.getResources().getBoolean(R.bool.ps_accessibility_enabled);
                 if (!accessibilityEnabled) {
                     Logging.warn("Cannot request accessibility service permission. " +
                             "You need to set accessibility_enabled to true in res/values/bools.xml");
@@ -143,7 +143,7 @@ public class PSPermissionActivity extends Activity {
         if (requestedPermissions.contains(PermissionUtils.USE_NOTIFICATION_SERVICE)) {
             requestedPermissions.remove(PermissionUtils.USE_NOTIFICATION_SERVICE);
             if (!PSNotificationListenerService.enabled) {
-                boolean notificationEnabled = this.getResources().getBoolean(R.bool.notification_enabled);
+                boolean notificationEnabled = this.getResources().getBoolean(R.bool.ps_notification_enabled);
                 if (!notificationEnabled) {
                     Logging.warn("Cannot request notification listener permission. " +
                             "You need to set \"notification_enabled\" to true in res/values/bools.xml");

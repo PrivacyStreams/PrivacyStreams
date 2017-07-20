@@ -16,6 +16,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <service android:name="io.github.privacystreams.app.PStreamService">
+        </service>
     </application>
 
 </manifest>
