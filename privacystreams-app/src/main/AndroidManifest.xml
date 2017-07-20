@@ -17,7 +17,7 @@
             </intent-filter>
         </activity>
 
-        <service android:name="io.github.privacystreams.app.PStreamService">
+        <service android:name="io.github.privacystreams.app.PStreamRemoteService">
         </service>
     </application>
 

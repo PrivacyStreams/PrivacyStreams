@@ -11,7 +11,7 @@ ext {
 
     libraryName = 'PrivacyStreams Android SDK'
     libraryDescription = 'An Android library for easy and transparent personal data access and processing.'
-    libraryVersion = "0.1.5"
+    libraryVersion = "0.1.6"
 
     bintrayRepo = 'PrivacyStreams'
     bintrayOrganization = "privacystreams"
@@ -36,8 +36,8 @@ android {
     defaultConfig {
         minSdkVersion 16
         targetSdkVersion 25
-        versionCode 15
-        versionName "0.1.5"
+        versionCode 16
+        versionName "0.1.6"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -182,4 +182,3 @@ bintray {
         }
     }
 }
-
