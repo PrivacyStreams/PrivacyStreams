@@ -3,6 +3,7 @@ package com.github.privacystreams.communication;
 import android.Manifest;
 import android.database.Cursor;
 import android.provider.ContactsContract;
+import android.util.Log;
 
 import com.github.privacystreams.core.MStream;
 import com.github.privacystreams.core.providers.MStreamProvider;
@@ -24,34 +25,33 @@ public class WhatsAppListProvider extends MStreamProvider{
     WhatsAppListProvider(){this.addRequiredPermissions(Manifest.permission.READ_CONTACTS);};
 
     private void getWhatsAppContactList(){
-        Cursor c = this.getContext().getContentResolver().query(
-                ContactsContract.RawContacts.CONTENT_URI,
-                new String[] { ContactsContract.RawContacts.CONTACT_ID, ContactsContract.RawContacts.DISPLAY_NAME_PRIMARY },
-                ContactsContract.RawContacts.ACCOUNT_TYPE + "= ?",
-                new String[] { "com.whatsapp" },
-                null);
-        if (c != null && c.getCount() > 0) {
-            c.moveToFirst();
-            while (!c.isAfterLast()) {
-                HashMap<String,List> phones = new HashMap<>();
-//                long _id = c.getLong(c.getColumnIndex(ContactsContract.Data._ID));
-//                Cursor phoneCur = this.getContext().getContentResolver().query(
-//                        ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
-//                        null,
-//                        ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = " + _id,
-//                        null,
-//                        null);
+        String[] projection    = new String[] {
+                ContactsContract.RawContacts._ID, ContactsContract.RawContacts.DISPLAY_NAME_PRIMARY,  ContactsContract.CommonDataKinds.Phone.CONTACT_ID,      ContactsContract.CommonDataKinds.Phone.NUMBER};
+        Cursor people = this.getContext().getContentResolver().query(  ContactsContract.CommonDataKinds.Phone.CONTENT_URI, projection,   ContactsContract.RawContacts.ACCOUNT_TYPE + "= ?",
+                new String[] { "com.whatsapp" }, null);
 
-                 String displayNameKey = ContactsContract.RawContacts.DISPLAY_NAME_PRIMARY;
-                 String name = c.getString(c.getColumnIndex(displayNameKey));
-                 Contact contact = new Contact(null, name, null, null, null);
-                this.output(contact);
-                c.moveToNext();
-                    }
-                }
-                if (c != null) {
-                    c.close();
-                }
-                this.finish();
+        int indexName = people.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME);
+        int indexNumber = people.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
+        int indexUid=people.getColumnIndex(ContactsContract.CommonDataKinds.Phone.CONTACT_ID);
+
+        if(people != null   && people.moveToFirst()){
+            people.moveToFirst();
+            while(!people.isAfterLast()){
+            HashMap<String,List> phones = new HashMap<>();
+            List mobileList = new ArrayList();
+            String name   = people.getString(indexName);
+            String number2 = people.getString(indexNumber);
+            mobileList.add(0,number2);
+            String uid=people.getString(indexUid);
+            phones.put(Contact.MOBILE_PHONE, mobileList);
+            Contact contact = new Contact(null, name, phones, new HashMap<String,List>(), null,uid);
+            this.output(contact);
+            people.moveToNext();
+        }
+        }
+        if (people != null) {
+            people.close();
+        }
+        this.finish();
     }
 }

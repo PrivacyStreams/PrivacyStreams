@@ -271,7 +271,7 @@ class ContactListProvider extends MStreamProvider {
                     emailCur.close();
                 }
 
-                Contact contact = new Contact(_id, name, phones, emails, Contact.STATUS_ADDED);
+                Contact contact = new Contact(_id, name, phones, emails, Contact.STATUS_ADDED,null);
                 this.output(contact);
                 contactCur.moveToNext();
             }

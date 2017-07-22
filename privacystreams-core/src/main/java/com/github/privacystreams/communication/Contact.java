@@ -20,7 +20,11 @@ public class Contact extends Item {
      */
     @PSItemField(type = Long.class)
     public static final String ID = "id";
-
+    /**
+     * Whats app contact id
+     */
+    @PSItemField(type = Long.class)
+    public static final String WHATSAPPID = "whatsappid";
     /**
      * The contact name.
      */
@@ -189,10 +193,11 @@ public class Contact extends Item {
      * @param phones array list of phone numbers
      * @param emails array list of emails
      */
-    Contact(Long id, String name, HashMap<String, List> phones, HashMap<String,List> emails, String status) {
+    Contact(Long id, String name, HashMap<String, List> phones, HashMap<String,List> emails, String status, String whatsappid) {
         this.setFieldValue(ID, id);
         this.setFieldValue(NAME, name);
-        if (phones != null && emails != null) {
+        this.setFieldValue(WHATSAPPID, whatsappid);
+
             if (phones.containsKey(MOBILE_PHONE))
                 this.setFieldValue(MOBILE_PHONE, phones.get(MOBILE_PHONE));
             else
@@ -314,7 +319,7 @@ public class Contact extends Item {
                 this.setFieldValue(MOBILE_EMAIL, null);
 
             this.setFieldValue(STATUS, status);
-        }
+
     }
     public Contact(Contact another){
         for(String key: another.toMap().keySet()){
