@@ -90,6 +90,9 @@ public class UseCases {
 //                    }
 //                });
     }
+    public void testWhatsContact() throws PSException {
+       Log.i("whatsapp", String.valueOf(uqi.getData(Contact.getWhatAppAll(), Purpose.UTILITY("test")).asList()));
+    }
 
     public void testAudio() {
         uqi.getData(Audio.recordPeriodic(1000, 1000), Purpose.HEALTH("monitoring sleep."))

@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.github.privacystreams.core.Item;
+import com.github.privacystreams.core.exceptions.PSException;
 import com.github.privacystreams.device.WifiAp;
 
 public class MainActivity extends AppCompatActivity {
@@ -26,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
                 new MyAsyncTask().execute();
             }
         });
+
     }
 
     private class MyAsyncTask extends AsyncTask<Object, Object, Object> {
@@ -41,6 +43,11 @@ public class MainActivity extends AppCompatActivity {
 //            useCases.testNotification();
 //            useCases.testAudio();
 //            useCases.testMockData();
+            try {
+                useCases.testWhatsContact();
+            } catch (PSException e) {
+                e.printStackTrace();
+            }
 
             for(Item item: useCases.isAtHome()){
                 Log.e("item",(String)item.getValueByField(WifiAp.BSSID));
