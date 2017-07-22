@@ -36,19 +36,20 @@ public class WhatsAppListProvider extends MStreamProvider{
 
         if(people != null   && people.moveToFirst()){
             people.moveToFirst();
+
             while(!people.isAfterLast()){
-            HashMap<String,List> phones = new HashMap<>();
-            List mobileList = new ArrayList();
-            String name   = people.getString(indexName);
-            String number2 = people.getString(indexNumber);
-            mobileList.add(0,number2);
-            String uid=people.getString(indexUid);
-            phones.put(Contact.MOBILE_PHONE, mobileList);
-            Contact contact = new Contact(null, name, phones, new HashMap<String,List>(), null,uid);
-            this.output(contact);
-            people.moveToNext();
-        }
-        }
+                HashMap<String,List> phones = new HashMap<>();
+                List mobileList = new ArrayList();
+                String name   = people.getString(indexName);
+                String phone_number = people.getString(indexNumber);
+                mobileList.add(0,phone_number);
+                String uid=people.getString(indexUid);
+                phones.put(Contact.MOBILE_PHONE, mobileList);
+                Contact contact = new Contact(null, name, phones, new HashMap<String,List>(), null,uid);
+                this.output(contact);
+                people.moveToNext();
+                 }
+             }
         if (people != null) {
             people.close();
         }
