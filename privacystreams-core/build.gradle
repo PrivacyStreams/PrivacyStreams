@@ -203,8 +203,17 @@ publishing {
             groupId libraryGroupId
             version libraryVersion
             artifactId libraryArtifactId
-
             artifact("$buildDir/outputs/aar/${artifactId}-release.aar")
+
+            pom.withXml {
+                def dependencies = asNode().appendNode('dependencies')
+                configurations.getByName("_releaseCompile").getResolvedConfiguration().getFirstLevelModuleDependencies().each {
+                    def dependency = dependencies.appendNode('dependency')
+                    dependency.appendNode('groupId', it.moduleGroup)
+                    dependency.appendNode('artifactId', it.moduleName)
+                    dependency.appendNode('version', it.moduleVersion)
+                }
+            }
         }
     }
 }
