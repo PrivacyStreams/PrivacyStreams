@@ -3,6 +3,8 @@ plugins {
     id "com.github.dcendents.android-maven" version "1.5"
 }
 
+apply plugin: 'com.jfrog.artifactory'
+apply plugin: 'maven-publish'
 apply plugin: 'com.android.library'
 
 ext {
@@ -189,3 +191,40 @@ bintray {
         }
     }
 }
+
+// yiad.am jfrog repo
+def libraryGroupId = 'privacystreams'
+def libraryArtifactId = 'privacystreams-core'
+def libraryVersion = '0.1.4.8'
+
+publishing {
+    publications {
+        aar(MavenPublication) {
+            groupId libraryGroupId
+            version libraryVersion
+            artifactId libraryArtifactId
+
+            artifact("$buildDir/outputs/aar/${artifactId}-release.aar")
+        }
+    }
+}
+
+artifactory {
+    contextUrl = 'https://jfrog.yiad.am/artifactory'
+    publish {
+        repository {
+            repoKey = 'MessageOnTap-release'
+
+            username = yiadam_jfrog_username
+            password = yiadam_jfrog_password
+        }
+        defaults {
+            publications('aar')
+            publishArtifacts = true
+
+            properties = ['qa.level': 'basic', 'q.os': 'android', 'dev.team': 'core']
+            publishPom = true
+        }
+    }
+}
+
