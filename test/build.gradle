@@ -2,10 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "25.0.2"
-    configurations.all {
-        resolutionStrategy.force 'com.google.code.findbugs:jsr305:1.3.9'
-    }
+    buildToolsVersion "25.0.3"
     defaultConfig {
         applicationId "io.github.privacystreams"
         minSdkVersion 16
