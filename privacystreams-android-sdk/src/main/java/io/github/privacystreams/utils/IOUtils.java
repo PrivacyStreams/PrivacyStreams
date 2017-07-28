@@ -29,6 +29,9 @@ public class IOUtils {
         else if (object instanceof String) {
             return object;
         }
+        else if (object instanceof CharSequence) {
+            return object.toString();
+        }
         else if (object instanceof List) {
             List<Object> result = new ArrayList<>();
             for (Object obj : (List) object) {
@@ -55,11 +58,11 @@ public class IOUtils {
             AccessibilityEvent event = (AccessibilityEvent) object;
             result.put("event_type", AccessibilityEvent.eventTypeToString(event.getEventType()));
             result.put("event_time", event.getEventTime());
-            result.put("package_name", event.getPackageName());
+            result.put("package_name", serialize(event.getPackageName()));
             result.put("action", event.getAction());
-            result.put("class_name", event.getClassName());
-            result.put("text", event.getText());
-            result.put("content_description", event.getContentDescription());
+            result.put("class_name", serialize(event.getClassName()));
+            result.put("text", serialize(event.getText()));
+            result.put("content_description", serialize(event.getContentDescription()));
             result.put("item_count", event.getItemCount());
             result.put("current_item_index", event.getCurrentItemIndex());
             result.put("enabled", event.isEnabled());
@@ -67,7 +70,7 @@ public class IOUtils {
             result.put("checked", event.isChecked());
             result.put("full_screen", event.isFullScreen());
             result.put("scrollable", event.isScrollable());
-            result.put("before_text", event.getBeforeText());
+            result.put("before_text", serialize(event.getBeforeText()));
             result.put("from_index", event.getFromIndex());
             result.put("to_index", event.getToIndex());
             result.put("scroll_x", event.getScrollX());
@@ -85,11 +88,11 @@ public class IOUtils {
         else if (object instanceof AccessibilityNodeInfo) {
             Map<String, Object> result = new HashMap<>();
             AccessibilityNodeInfo nodeInfo = (AccessibilityNodeInfo) object;
-            result.put("package", nodeInfo.getPackageName());
-            result.put("text", nodeInfo.getText());
-            result.put("class", nodeInfo.getClassName());
+            result.put("package", serialize(nodeInfo.getPackageName()));
+            result.put("text", serialize(nodeInfo.getText()));
+            result.put("class", serialize(nodeInfo.getClassName()));
             result.put("child_count", nodeInfo.getChildCount());
-            result.put("content_description", nodeInfo.getContentDescription());
+            result.put("content_description", serialize(nodeInfo.getContentDescription()));
             result.put("enabled", nodeInfo.isEnabled());
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
                 result.put("resource_id", nodeInfo.getViewIdResourceName());
