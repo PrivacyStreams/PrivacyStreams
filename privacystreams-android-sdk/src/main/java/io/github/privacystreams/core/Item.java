@@ -58,6 +58,10 @@ public class Item {
     }
 
     public String toString() {
+        return this.toJson().toString();
+    }
+
+    public String toDebugString() {
         if (this == EOS) return "ITEM_EOS";
         String itemStr = "ITEM {\n";
         for (String fieldKey : this.itemMap.keySet()) {

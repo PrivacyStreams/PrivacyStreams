@@ -488,7 +488,7 @@ public class PStream extends Stream {
      * @param <TValue> the type of the field
      */
     @PSAction(blocking = false)
-    public <TValue> void forEach(String fieldToSelect, Callback<TValue> callback) {
+    public <TValue> void forEach(String fieldToSelect, Function<TValue, Void> callback) {
         this.output(Callbacks.forEachField(fieldToSelect, callback));
     }
 
@@ -510,7 +510,7 @@ public class PStream extends Stream {
      * @param <TValue> the type of the field
      */
     @PSAction(blocking = false)
-    public <TValue> void onChange(String fieldToSelect, Callback<TValue> callback) {
+    public <TValue> void onChange(String fieldToSelect, Function<TValue, Void> callback) {
         this.output(Callbacks.onFieldChange(fieldToSelect, callback));
     }
 
@@ -532,7 +532,7 @@ public class PStream extends Stream {
      * @param <TValue> the type of the field
      */
     @PSAction(blocking = false)
-    public <TValue> void ifPresent(String fieldToSelect, Callback<TValue> callback) {
+    public <TValue> void ifPresent(String fieldToSelect, Function<TValue, Void> callback) {
         this.output(Callbacks.ifFieldPresent(fieldToSelect, callback));
     }
 

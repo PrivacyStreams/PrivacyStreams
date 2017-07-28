@@ -43,6 +43,7 @@ import io.github.privacystreams.notification.Notification;
 import io.github.privacystreams.io.IOOperators;
 import io.github.privacystreams.utils.Duration;
 import io.github.privacystreams.utils.Globals;
+import io.github.privacystreams.utils.IOUtils;
 import io.github.privacystreams.utils.TimeUtils;
 
 import java.util.List;
@@ -57,8 +58,10 @@ import static io.github.privacystreams.commons.time.TimeOperators.recent;
  */
 public class TestCases {
     private UQI uqi;
+    private Context context;
 
     public TestCases(Context context) {
+        this.context = context;
         this.uqi = new UQI(context);
     }
 
@@ -216,6 +219,11 @@ public class TestCases {
                 .setIndependentField("uuid", DeviceOperators.getDeviceId())
                 .limit(3)
                 .debug();
+    }
+
+    public void testDumpAccEvents() {
+        new UQI(this.context).getData(AccEvent.asUpdates(), Purpose.TEST("Test"))
+                .forEach(IOOperators.<Item>writeToFile("accEvent.txt", true, true));
     }
 
     /*

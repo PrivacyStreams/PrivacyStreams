@@ -67,12 +67,12 @@ public class PSPermissionActivity extends Activity {
         Intent intent = getIntent();
         this.onNewIntent(intent);
 
-        permRequestTask.execute();
+        permRequestTask.start();
     }
 
-    AsyncTask<Object, Object, Object> permRequestTask = new AsyncTask<Object, Object, Object>() {
+    Thread permRequestTask = new Thread() {
         @Override
-        protected Object doInBackground(Object[] params) {
+        public void run() {
             while (requestList.size() > requestListId) {
                 int curRequestCode = requestList.get(requestListId);
                 if (curRequestCode == requestCode) {
@@ -90,7 +90,6 @@ public class PSPermissionActivity extends Activity {
             }
             Logging.debug("All permission requests processed.");
             PSPermissionActivity.this.finish();
-            return null;
         }
     };
 
@@ -127,7 +126,7 @@ public class PSPermissionActivity extends Activity {
                 boolean accessibilityEnabled = this.getResources().getBoolean(R.bool.ps_accessibility_enabled);
                 if (!accessibilityEnabled) {
                     Logging.warn("Cannot request accessibility service permission. " +
-                            "You need to set accessibility_enabled to true in res/values/bools.xml");
+                            "You need to set ps_accessibility_enabled to true in res/values/bools.xml");
                 } else {
                     // request to turn on accessibility service
                     try {
@@ -146,7 +145,7 @@ public class PSPermissionActivity extends Activity {
                 boolean notificationEnabled = this.getResources().getBoolean(R.bool.ps_notification_enabled);
                 if (!notificationEnabled) {
                     Logging.warn("Cannot request notification listener permission. " +
-                            "You need to set \"notification_enabled\" to true in res/values/bools.xml");
+                            "You need to set \"ps_notification_enabled\" to true in res/values/bools.xml");
                 } else if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP_MR1) {
                     try {
                         Intent settingsIntent = new Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS);

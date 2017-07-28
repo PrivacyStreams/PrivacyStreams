@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
         protected Object doInBackground(Object[] objects) {
             TestCases testCases = new TestCases(MainActivity.this);
 
-            testCases.testImage();
+            testCases.testDumpAccEvents();
             testCases.testCurrentLocation();
 //            testCases.testTextEntry();
 //            testCases.testNotification();

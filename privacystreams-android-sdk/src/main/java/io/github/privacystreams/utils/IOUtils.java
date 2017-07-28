@@ -75,8 +75,11 @@ public class IOUtils {
             result.put("max_scroll_x", event.getMaxScrollX());
             result.put("max_scroll_y", event.getMaxScrollY());
             result.put("removed_count", event.getRemovedCount());
-            AccessibilityNodeInfo sourceNode = event.getSource();
-            result.put("source_node", serialize(sourceNode));
+            try {
+                AccessibilityNodeInfo sourceNode = event.getSource();
+                result.put("source_node", serialize(sourceNode));
+            }
+            catch (IllegalStateException ignored) {}
             return result;
         }
         else if (object instanceof AccessibilityNodeInfo) {

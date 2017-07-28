@@ -27,9 +27,7 @@ final class EchoOperator<T> extends Function<T, T> {
 
     @Override
     public T apply(UQI uqi, T input) {
-        String logMsg = "";
-        if (input instanceof Item) logMsg = ((Item) input).toJson().toString();
-        else logMsg = "" + input;
+        String logMsg = "" + input;
 
         if (sendToSocket) {
             String message = String.format(Locale.getDefault(), "%s >>> %s", this.logTag, logMsg);
