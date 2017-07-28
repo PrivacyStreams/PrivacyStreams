@@ -10,7 +10,7 @@ ext {
     artifact = 'privacystreams-android-sdk'
 
     libraryName = 'PrivacyStreams Android SDK'
-    libraryDescription = 'An Android library for easy and transparent personal data access and processing.'
+    libraryDescription = 'An Android library for easy and privacy-friendly personal data processing.'
     libraryVersion = "0.1.6"
 
     bintrayRepo = 'PrivacyStreams'

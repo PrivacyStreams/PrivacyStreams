@@ -171,7 +171,7 @@ Add the following line to `build.gradle` file under your app module.
 ```gradle
 dependencies {
     // The following line imports privacystreams library to your app
-    compile 'io.github.privacystreams:privacystreams-android-sdk:0.1.5'
+    compile 'io.github.privacystreams:privacystreams-android-sdk:0.1.6'
 }
 ```
 
