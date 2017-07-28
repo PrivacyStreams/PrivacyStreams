@@ -1,7 +1,5 @@
 package io.github.privacystreams.utils;
 
-import android.os.AsyncTask;
-
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -62,8 +60,8 @@ public class PSDebugSocketServer {
         sockets.clear();
     }
 
-    public void send(String message) {
-        new SocketSendThread().execute(message);
+    public void send(String... messages) {
+        new SocketSendThread(messages).start();
     }
 
     private ServerSocket serverSocket;
@@ -98,11 +96,15 @@ public class PSDebugSocketServer {
         }
     }
 
-    private class SocketSendThread extends AsyncTask<String, Void, Void> {
+    private class SocketSendThread extends Thread {
+        String[] messages;
 
-        @Override
-        protected Void doInBackground(String... params) {
-            for (String message : params) {
+        SocketSendThread(String... messages) {
+            this.messages = messages;
+        }
+
+        public void run() {
+            for (String message : this.messages) {
                 byte[] bytes = message.getBytes();
                 byte[] header = ByteBuffer.allocate(6).put((byte) 0xFF).put((byte) 0x00).putInt(bytes.length).array();
 
@@ -129,7 +131,6 @@ public class PSDebugSocketServer {
                     }
                 }
             }
-            return null;
         }
     }
 }

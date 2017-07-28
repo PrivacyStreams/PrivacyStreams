@@ -102,15 +102,6 @@ public class ItemOperators {
     }
 
     /**
-     * Output the item as a key-value map.
-     *
-     * @return the function.
-     */
-    public static Function<Item, Item> asItem() {
-        return new ItemIdleOperator();
-    }
-
-    /**
      * Set the value of a new field with a function.
      *
      * @param fieldToSet the name of the field to set, it can be a new name.
