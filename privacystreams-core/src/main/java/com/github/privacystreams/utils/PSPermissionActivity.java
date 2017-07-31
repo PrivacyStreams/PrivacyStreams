@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -121,7 +122,9 @@ public class PSPermissionActivity extends Activity {
     }
 
     private void requestPermissions() {
-        if (requestedPermissions.contains(PermissionUtils.USE_ACCESSIBILITY_SERVICE)) {
+        // Starting API 5
+        if ( Build.VERSION.SDK_INT >= Build.VERSION_CODES.ECLAIR
+                && requestedPermissions.contains(PermissionUtils.USE_ACCESSIBILITY_SERVICE)) {
             requestedPermissions.remove(PermissionUtils.USE_ACCESSIBILITY_SERVICE);
             if (!PSAccessibilityService.enabled) {
                 boolean accessibilityEnabled = this.getResources().getBoolean(R.bool.accessibility_enabled);
@@ -140,7 +143,10 @@ public class PSPermissionActivity extends Activity {
                 }
             }
         }
-        if (requestedPermissions.contains(PermissionUtils.USE_NOTIFICATION_SERVICE)) {
+
+        // Starting API 22
+        if ( Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1
+                && requestedPermissions.contains(PermissionUtils.USE_NOTIFICATION_SERVICE)) {
             requestedPermissions.remove(PermissionUtils.USE_NOTIFICATION_SERVICE);
             if (!PSNotificationListenerService.enabled) {
                 boolean notificationEnabled = this.getResources().getBoolean(R.bool.notification_enabled);
@@ -158,12 +164,15 @@ public class PSPermissionActivity extends Activity {
                 }
             }
         }
-        if (!requestedPermissions.isEmpty()) {
-            ActivityCompat.requestPermissions(PSPermissionActivity.this,
-                    requestedPermissions.toArray(new String[requestedPermissions.size()]), requestCode);
-        }
-        else {
-            this.retry();
+
+        // Starting API 23
+        if ( Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+            if (!requestedPermissions.isEmpty()) {
+                ActivityCompat.requestPermissions(PSPermissionActivity.this,
+                        requestedPermissions.toArray(new String[requestedPermissions.size()]), requestCode);
+            } else {
+                this.retry();
+            }
         }
     }
 

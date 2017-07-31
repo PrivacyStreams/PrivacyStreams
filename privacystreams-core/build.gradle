@@ -3,6 +3,8 @@ plugins {
     id "com.github.dcendents.android-maven" version "1.5"
 }
 
+apply plugin: 'com.jfrog.artifactory'
+apply plugin: 'maven-publish'
 apply plugin: 'com.android.library'
 
 ext {
@@ -75,7 +77,10 @@ dependencies {
         exclude group: 'org.apache.httpcomponents'
     }
 
-    compile 'com.easilydo:sift-sdk:1.0.0'
+    compile ( 'com.easilydo:sift-sdk:1.0.0' ) {
+        exclude group: 'org.apache.httpcomponents'
+        exclude group: 'org.json'
+    }
     compile 'com.sun.mail:android-mail:1.5.5'
 }
 
@@ -189,3 +194,49 @@ bintray {
         }
     }
 }
+
+// yiad.am jfrog repo
+def libraryGroupId = 'privacystreams'
+def libraryArtifactId = 'privacystreams-core'
+def libraryVersion = '0.1.4.9'
+
+publishing {
+    publications {
+        aar(MavenPublication) {
+            groupId libraryGroupId
+            version libraryVersion
+            artifactId libraryArtifactId
+            artifact("$buildDir/outputs/aar/${artifactId}-release.aar")
+
+            pom.withXml {
+                def dependencies = asNode().appendNode('dependencies')
+                configurations.getByName("_releaseCompile").getResolvedConfiguration().getFirstLevelModuleDependencies().each {
+                    def dependency = dependencies.appendNode('dependency')
+                    dependency.appendNode('groupId', it.moduleGroup)
+                    dependency.appendNode('artifactId', it.moduleName)
+                    dependency.appendNode('version', it.moduleVersion)
+                }
+            }
+        }
+    }
+}
+
+artifactory {
+    contextUrl = 'https://jfrog.yiad.am/artifactory'
+    publish {
+        repository {
+            repoKey = 'MessageOnTap-release'
+
+            username = yiadam_jfrog_username
+            password = yiadam_jfrog_password
+        }
+        defaults {
+            publications('aar')
+            publishArtifacts = true
+
+            properties = ['qa.level': 'basic', 'q.os': 'android', 'dev.team': 'core']
+            publishPom = true
+        }
+    }
+}
+

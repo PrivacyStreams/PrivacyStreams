@@ -1,5 +1,7 @@
 package com.github.privacystreams.core.providers;
 
+import android.util.Log;
+
 import com.github.privacystreams.core.EventDrivenFunction;
 import com.github.privacystreams.core.Item;
 import com.github.privacystreams.core.Stream;
@@ -10,10 +12,12 @@ import com.github.privacystreams.utils.Logging;
  */
 abstract class StreamProvider<OutStream extends Stream> extends EventDrivenFunction<Void, OutStream> {
     protected void init() {
+        Log.e("StreamProvier", "init");
         this.isCancelled = false;
         Thread providingThread = new Thread() {
             @Override
             public void run() {
+                Log.e("StreamProvider", "calling provide");
                 provide();
             }
         };

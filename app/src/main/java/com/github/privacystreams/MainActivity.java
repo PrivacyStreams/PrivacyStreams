@@ -22,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
                 new MyAsyncTask().execute();
             }
         });
+
     }
 
     private class MyAsyncTask extends AsyncTask<Object, Object, Object> {
@@ -38,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
 //            useCases.testAudio();
 //            useCases.testMockData();
 
+
 //            for(Item item: useCases.isAtHome()){
 //                Log.e("item",(String)item.getValueByField(WifiAp.BSSID));
 //            }
@@ -50,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
 //
 //            useCases.testAccEvents();
 //
-//            useCases.testIMUpdates();
+            useCases.testIMUpdates();
  //           useCases.testEmailUpdates();
 //            useCases.testEmailList();
 
@@ -64,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
 //            useCases.newTestWifiTrueUpdates();
 //            useCases.testUpdatesCalendar();
 
-            useCases.testDriveList();
+//            useCases.testDriveList();
 
             return null;
         }

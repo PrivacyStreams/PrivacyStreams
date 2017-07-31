@@ -20,7 +20,11 @@ public class Contact extends Item {
      */
     @PSItemField(type = Long.class)
     public static final String ID = "id";
-
+    /**
+     * Whats app contact id
+     */
+    @PSItemField(type = Long.class)
+    public static final String WHATSAPPID = "whatsappid";
     /**
      * The contact name.
      */
@@ -189,133 +193,134 @@ public class Contact extends Item {
      * @param phones array list of phone numbers
      * @param emails array list of emails
      */
-    Contact(Long id, String name, HashMap<String, List> phones, HashMap<String,List> emails, String status) {
+    Contact(Long id, String name, HashMap<String, List> phones, HashMap<String,List> emails, String status, String whatsappid) {
         this.setFieldValue(ID, id);
         this.setFieldValue(NAME, name);
+        this.setFieldValue(WHATSAPPID, whatsappid);
 
-        if(phones.containsKey(MOBILE_PHONE))
-            this.setFieldValue(MOBILE_PHONE, phones.get(MOBILE_PHONE));
-        else
-            this.setFieldValue(MOBILE_PHONE, null);
+            if (phones.containsKey(MOBILE_PHONE))
+                this.setFieldValue(MOBILE_PHONE, phones.get(MOBILE_PHONE));
+            else
+                this.setFieldValue(MOBILE_PHONE, null);
 
-        if(phones.containsKey(WORK_FAX))
-            this.setFieldValue(WORK_FAX, phones.get(WORK_FAX));
-        else
-            this.setFieldValue(WORK_FAX, null);
+            if (phones.containsKey(WORK_FAX))
+                this.setFieldValue(WORK_FAX, phones.get(WORK_FAX));
+            else
+                this.setFieldValue(WORK_FAX, null);
 
-        if(phones.containsKey(HOME_PHONE))
-            this.setFieldValue(HOME_PHONE, phones.get(HOME_PHONE));
-        else
-            this.setFieldValue(HOME_PHONE, null);
+            if (phones.containsKey(HOME_PHONE))
+                this.setFieldValue(HOME_PHONE, phones.get(HOME_PHONE));
+            else
+                this.setFieldValue(HOME_PHONE, null);
 
-        if(phones.containsKey(WORK_PHONE))
-            this.setFieldValue(WORK_PHONE, phones.get(WORK_PHONE));
-        else
-            this.setFieldValue(WORK_PHONE, null);
+            if (phones.containsKey(WORK_PHONE))
+                this.setFieldValue(WORK_PHONE, phones.get(WORK_PHONE));
+            else
+                this.setFieldValue(WORK_PHONE, null);
 
-        if(phones.containsKey(HOME_FAX))
-            this.setFieldValue(HOME_FAX, phones.get(HOME_FAX));
-        else
-            this.setFieldValue(HOME_FAX, null);
+            if (phones.containsKey(HOME_FAX))
+                this.setFieldValue(HOME_FAX, phones.get(HOME_FAX));
+            else
+                this.setFieldValue(HOME_FAX, null);
 
-        if(phones.containsKey(ASSISTANT))
-            this.setFieldValue(ASSISTANT, phones.get(ASSISTANT));
-        else
-            this.setFieldValue(ASSISTANT, null);
+            if (phones.containsKey(ASSISTANT))
+                this.setFieldValue(ASSISTANT, phones.get(ASSISTANT));
+            else
+                this.setFieldValue(ASSISTANT, null);
 
-        if(phones.containsKey(CALLBACK))
-            this.setFieldValue(CALLBACK, phones.get(CALLBACK));
-        else
-            this.setFieldValue(CALLBACK, null);
+            if (phones.containsKey(CALLBACK))
+                this.setFieldValue(CALLBACK, phones.get(CALLBACK));
+            else
+                this.setFieldValue(CALLBACK, null);
 
-        if(phones.containsKey(CAR))
-            this.setFieldValue(CAR, phones.get(CAR));
-        else
-            this.setFieldValue(CAR, null);
+            if (phones.containsKey(CAR))
+                this.setFieldValue(CAR, phones.get(CAR));
+            else
+                this.setFieldValue(CAR, null);
 
-        if(phones.containsKey(COMPANY_MAIN))
-            this.setFieldValue(COMPANY_MAIN, phones.get(COMPANY_MAIN));
-        else
-            this.setFieldValue(COMPANY_MAIN, null);
+            if (phones.containsKey(COMPANY_MAIN))
+                this.setFieldValue(COMPANY_MAIN, phones.get(COMPANY_MAIN));
+            else
+                this.setFieldValue(COMPANY_MAIN, null);
 
-        if(phones.containsKey(ISDN))
-            this.setFieldValue(ISDN, phones.get(ISDN));
-        else
-            this.setFieldValue(ISDN, null);
+            if (phones.containsKey(ISDN))
+                this.setFieldValue(ISDN, phones.get(ISDN));
+            else
+                this.setFieldValue(ISDN, null);
 
-        if(phones.containsKey(MAIN))
-            this.setFieldValue(MAIN, phones.get(MAIN));
-        else
-            this.setFieldValue(MAIN, null);
+            if (phones.containsKey(MAIN))
+                this.setFieldValue(MAIN, phones.get(MAIN));
+            else
+                this.setFieldValue(MAIN, null);
 
-        if(phones.containsKey(MMS))
-            this.setFieldValue(MMS, phones.get(MMS));
-        else
-            this.setFieldValue(MMS, null);
+            if (phones.containsKey(MMS))
+                this.setFieldValue(MMS, phones.get(MMS));
+            else
+                this.setFieldValue(MMS, null);
 
-        if(phones.containsKey(OTHER_PHONE))
-            this.setFieldValue(OTHER_PHONE, phones.get(OTHER_PHONE));
-        else
-            this.setFieldValue(OTHER_PHONE, null);
+            if (phones.containsKey(OTHER_PHONE))
+                this.setFieldValue(OTHER_PHONE, phones.get(OTHER_PHONE));
+            else
+                this.setFieldValue(OTHER_PHONE, null);
 
-        if(phones.containsKey(OTHER_FAX))
-            this.setFieldValue(OTHER_FAX, phones.get(OTHER_FAX));
-        else
-            this.setFieldValue(OTHER_FAX, null);
+            if (phones.containsKey(OTHER_FAX))
+                this.setFieldValue(OTHER_FAX, phones.get(OTHER_FAX));
+            else
+                this.setFieldValue(OTHER_FAX, null);
 
-        if(phones.containsKey(PAGER))
-            this.setFieldValue(PAGER, phones.get(PAGER));
-        else
-            this.setFieldValue(PAGER, null);
+            if (phones.containsKey(PAGER))
+                this.setFieldValue(PAGER, phones.get(PAGER));
+            else
+                this.setFieldValue(PAGER, null);
 
-        if(phones.containsKey(RADIO))
-            this.setFieldValue(RADIO, phones.get(RADIO));
-        else
-            this.setFieldValue(RADIO, null);
+            if (phones.containsKey(RADIO))
+                this.setFieldValue(RADIO, phones.get(RADIO));
+            else
+                this.setFieldValue(RADIO, null);
 
-        if(phones.containsKey(TELEX))
-            this.setFieldValue(TELEX, phones.get(TELEX));
-        else
-            this.setFieldValue(TELEX, null);
+            if (phones.containsKey(TELEX))
+                this.setFieldValue(TELEX, phones.get(TELEX));
+            else
+                this.setFieldValue(TELEX, null);
 
-        if(phones.containsKey(TTY_TDD))
-            this.setFieldValue(TTY_TDD, phones.get(TTY_TDD));
-        else
-            this.setFieldValue(TTY_TDD, null);
+            if (phones.containsKey(TTY_TDD))
+                this.setFieldValue(TTY_TDD, phones.get(TTY_TDD));
+            else
+                this.setFieldValue(TTY_TDD, null);
 
-        if(phones.containsKey(WORK_MOBILE))
-            this.setFieldValue(WORK_MOBILE, phones.get(WORK_MOBILE));
-        else
-            this.setFieldValue(WORK_MOBILE, null);
+            if (phones.containsKey(WORK_MOBILE))
+                this.setFieldValue(WORK_MOBILE, phones.get(WORK_MOBILE));
+            else
+                this.setFieldValue(WORK_MOBILE, null);
 
-        if(phones.containsKey(WORK_PAGER))
-            this.setFieldValue(WORK_PAGER, phones.get(WORK_PAGER));
-        else
-            this.setFieldValue(WORK_PAGER, null);
+            if (phones.containsKey(WORK_PAGER))
+                this.setFieldValue(WORK_PAGER, phones.get(WORK_PAGER));
+            else
+                this.setFieldValue(WORK_PAGER, null);
 
-        if(emails.containsKey(HOME_EMAIL))
-            this.setFieldValue(HOME_EMAIL, emails.get(HOME_EMAIL));
-        else
-            this.setFieldValue(HOME_EMAIL, null);
+            if (emails.containsKey(HOME_EMAIL))
+                this.setFieldValue(HOME_EMAIL, emails.get(HOME_EMAIL));
+            else
+                this.setFieldValue(HOME_EMAIL, null);
 
-        if(emails.containsKey(WORK_EMAIL))
-            this.setFieldValue(WORK_EMAIL, emails.get(WORK_EMAIL));
-        else
-            this.setFieldValue(WORK_EMAIL, null);
+            if (emails.containsKey(WORK_EMAIL))
+                this.setFieldValue(WORK_EMAIL, emails.get(WORK_EMAIL));
+            else
+                this.setFieldValue(WORK_EMAIL, null);
 
-        if(emails.containsKey(OTHER_EMAIL))
-            this.setFieldValue(OTHER_EMAIL, emails.get(OTHER_EMAIL));
-        else
-            this.setFieldValue(OTHER_EMAIL, null);
+            if (emails.containsKey(OTHER_EMAIL))
+                this.setFieldValue(OTHER_EMAIL, emails.get(OTHER_EMAIL));
+            else
+                this.setFieldValue(OTHER_EMAIL, null);
 
-        if(emails.containsKey(MOBILE_EMAIL))
-            this.setFieldValue(MOBILE_EMAIL, emails.get(MOBILE_EMAIL));
-        else
-            this.setFieldValue(MOBILE_EMAIL, null);
+            if (emails.containsKey(MOBILE_EMAIL))
+                this.setFieldValue(MOBILE_EMAIL, emails.get(MOBILE_EMAIL));
+            else
+                this.setFieldValue(MOBILE_EMAIL, null);
 
-        this.setFieldValue(STATUS, status);
+            this.setFieldValue(STATUS, status);
+
     }
-
     public Contact(Contact another){
         for(String key: another.toMap().keySet()){
             this.setFieldValue(key, another.getValueByField(key));
@@ -333,4 +338,6 @@ public class Contact extends Item {
     }
 
     public static MStreamProvider asUpdates() {return new ContactUpdatesProvider();}
+
+    public static MStreamProvider getWhatAppAll(){return new WhatsAppListProvider();}
 }
