@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 import com.github.privacystreams.core.exceptions.PSException;
 import com.github.privacystreams.core.providers.MStreamProvider;
@@ -87,6 +88,7 @@ public class BaseGoogleDriveProvider extends MStreamProvider implements GoogleDr
         if (files != null) {
             for (File f :
                     files) {
+                Log.e("f",new DriveDocument(f).toJson().toString());
                 this.output(new DriveDocument(f));
             }
         }
