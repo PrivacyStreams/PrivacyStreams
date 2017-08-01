@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="ps_accessibility_enabled" type="bool" format="boolean">false</item>
+    <item name="ps_notification_enabled" type="bool" format="boolean">false</item>
+</resources>

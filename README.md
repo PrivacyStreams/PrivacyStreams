@@ -4,7 +4,7 @@
 
 [![API](https://img.shields.io/badge/API-16%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=16)
 [![Website](https://img.shields.io/website-up-down-green-red/https/privacystreams.github.io.svg?label=docs)](https://privacystreams.github.io/)
-[![Download](https://api.bintray.com/packages/ylimit/PrivacyStreams/PrivacyStreams-core/images/download.svg)](https://bintray.com/ylimit/PrivacyStreams/PrivacyStreams-core/_latestVersion)
+[![Download](https://api.bintray.com/packages/ylimit/PrivacyStreams/PrivacyStreams-Android-SDK/images/download.svg) ](https://bintray.com/ylimit/PrivacyStreams/PrivacyStreams-Android-SDK/_latestVersion)
 [![Hex.pm](https://img.shields.io/hexpm/l/plug.svg)](https://www.apache.org/licenses/LICENSE-2.0)
 
 PrivacyStreams is an Android library for easy and privacy-friendly personal data access and processing. It offers a functional programming model for various types of personal data, including locations, photos, audios, sensors, contacts, messages, and more.
@@ -53,7 +53,7 @@ Based on the functions used in the query and the purpose specified by the develo
         try {
             LatLon latLon = new UQI(context)
                     .getData(Geolocation.asCurrent(Geolocation.LEVEL_CITY), Purpose.UTILITY("check weather"))
-                    .getField(Geolocation.LAT_LON);
+                    .getFirst(Geolocation.LAT_LON);
             // Do something with geolocation
             Log.d("Location", "" + latLon.getLatitude() + ", " + latLon.getLongitude());
         } catch (PSException e) {
@@ -171,7 +171,7 @@ Add the following line to `build.gradle` file under your app module.
 ```gradle
 dependencies {
     // The following line imports privacystreams library to your app
-    compile 'com.github.privacystreams:privacystreams-core:0.1.4'
+    compile 'io.github.privacystreams:privacystreams-android-sdk:0.1.6'
 }
 ```
 
@@ -184,11 +184,11 @@ Note that if you want to use Google location service instead of the Android loca
 In Android Studio, the installation involves the following steps:
 
 1. Clone this project to your computer.
-2. Open your own project, import privacystreams-core module.
+2. Open your own project, import privacystreams-android-sdk module.
     - Click **File -> New -> Import module...**.
-    - Select `privacystreams-core` directory as the source directory.
+    - Select `privacystreams-android-sdk` directory as the source directory.
 3. In your app module, add the following line to `dependencies`:
-    - `compile project(':privacystreams-core')`
+    - `compile project(':privacystreams-android-sdk')`
 
 ## Documentation
 
@@ -198,6 +198,7 @@ In Android Studio, the installation involves the following steps:
 
 - [GitHub issues](https://github.com/PrivacyStreams/PrivacyStreams/issues)
 - [Mailing list](https://groups.google.com/forum/#!forum/privacystreams)
+- Contact the [author](http://ylimit.github.io/)
 
 ## Acknowledgments
 
