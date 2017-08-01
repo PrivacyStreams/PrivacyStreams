@@ -14,6 +14,7 @@ import io.github.privacystreams.utils.ImageUtils;
 import io.github.privacystreams.utils.Logging;
 import io.github.privacystreams.utils.StorageUtils;
 import io.github.privacystreams.utils.TimeUtils;
+
 import com.google.android.gms.vision.Frame;
 import com.google.android.gms.vision.text.TextBlock;
 import com.google.android.gms.vision.text.TextRecognizer;
@@ -73,8 +74,7 @@ public class ImageData {
 
         if (this.imageFile != null) {
             this.filePath = this.imageFile.getAbsolutePath();
-        }
-        else if (this.bitmap != null) {
+        } else if (this.bitmap != null) {
             String imagePath = "temp/image_" + TimeUtils.getTimeTag() + ".jpg";
             this.imageFile = StorageUtils.getValidFile(uqi.getContext(), imagePath, false);
             try {
@@ -86,8 +86,7 @@ public class ImageData {
                 e.printStackTrace();
             }
             this.filePath = this.imageFile.getAbsolutePath();
-        }
-        else {
+        } else {
             Logging.warn(LOG_TAG + "Both file path and bitmap don't exist.");
         }
 
@@ -116,7 +115,7 @@ public class ImageData {
         if (exifInterface == null) return null;
         float[] latLong = new float[2];
         boolean hasLatLong = exifInterface.getLatLong(latLong);
-        if(hasLatLong) {
+        if (hasLatLong) {
             this.latLon = new LatLon((double) latLong[0], (double) latLong[1]);
         }
         return this.latLon;
@@ -133,6 +132,7 @@ public class ImageData {
     }
 
     private transient Bitmap bitmap565;
+
     Bitmap getBitmapRGB565(UQI uqi) {
         if (this.bitmap565 != null) return this.bitmap565;
 

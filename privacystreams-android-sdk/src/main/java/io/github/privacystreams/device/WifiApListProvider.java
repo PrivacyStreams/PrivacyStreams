@@ -22,22 +22,19 @@ import io.github.privacystreams.utils.Logging;
 @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
 class WifiApListProvider extends PStreamProvider {
 
-    class WifiReceiver extends BroadcastReceiver
-    {
+    class WifiReceiver extends BroadcastReceiver {
         @Override
-        public void onReceive(Context context, Intent intent)
-        {
+        public void onReceive(Context context, Intent intent) {
             WifiManager wifiMgr = (WifiManager) context.getApplicationContext()
                     .getSystemService(Context.WIFI_SERVICE);
             WifiInfo wifiInfo = wifiMgr.getConnectionInfo();
             String name = wifiInfo.getBSSID();
-            for(ScanResult result: wifiMgr.getScanResults()){
+            for (ScanResult result : wifiMgr.getScanResults()) {
 
-                if(name.equals(result.BSSID)){
+                if (name.equals(result.BSSID)) {
                     WifiApListProvider.this.output(new WifiAp(result, WifiAp.STATUS_CONNECTED));
-                }
-                else{
-                    WifiApListProvider.this.output(new WifiAp(result,WifiAp.STATUS_SCANNED));
+                } else {
+                    WifiApListProvider.this.output(new WifiAp(result, WifiAp.STATUS_SCANNED));
                 }
             }
             WifiApListProvider.this.finish();
@@ -47,12 +44,11 @@ class WifiApListProvider extends PStreamProvider {
     @Override
     protected void onCancel(UQI uqi) {
         super.onCancel(uqi);
-        if(wifiReceiver!=null){
-            try{
+        if (wifiReceiver != null) {
+            try {
                 getContext().unregisterReceiver(wifiReceiver);
-            }
-            catch (IllegalArgumentException exception){
-                Logging.warn("The following exception has been thrown: "+exception.getMessage());
+            } catch (IllegalArgumentException exception) {
+                Logging.warn("The following exception has been thrown: " + exception.getMessage());
             }
         }
 
@@ -75,12 +71,11 @@ class WifiApListProvider extends PStreamProvider {
         WifiManager wifiMgr = (WifiManager) this.getContext().getApplicationContext()
                 .getSystemService(Context.WIFI_SERVICE);
 
-        if(wifiMgr.isWifiEnabled()) {
+        if (wifiMgr.isWifiEnabled()) {
             this.getContext().registerReceiver
                     (this.wifiReceiver, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
             wifiMgr.startScan();
-        }
-        else{
+        } else {
             this.finish();
         }
 

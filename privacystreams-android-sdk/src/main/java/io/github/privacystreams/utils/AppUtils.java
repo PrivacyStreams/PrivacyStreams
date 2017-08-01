@@ -20,8 +20,9 @@ public class AppUtils {
 
     // Browsing Apps
     public static final String APP_PACKAGE_CHROME = "com.android.chrome";
-    public static final String APP_PACKAGE_FIREFOX="org.mozilla.firefox";
-    public static final String APP_PACKAGE_OPERA="com.opera.browser";
+    public static final String APP_PACKAGE_FIREFOX = "org.mozilla.firefox";
+    public static final String APP_PACKAGE_OPERA = "com.opera.browser";
+
     /**
      * Get the application name of PrivacyStreams
      *
@@ -40,7 +41,7 @@ public class AppUtils {
      * @param packageName the package name of the app.
      * @return whether the app is instant messaging app or not.
      */
-    public static boolean isIMApp(String packageName){
+    public static boolean isIMApp(String packageName) {
         return packageName != null
                 && (packageName.equals(APP_PACKAGE_WHATSAPP)
                 || packageName.equals(APP_PACKAGE_WECHAT)
@@ -53,12 +54,11 @@ public class AppUtils {
      * @param packageName the package name of the app.
      * @return whether the app is browser app or not.
      */
-    public static boolean isBrowserApp(String packageName){
+    public static boolean isBrowserApp(String packageName) {
         return packageName != null
-                && (packageName.equals(APP_PACKAGE_CHROME)||packageName.equals(APP_PACKAGE_FIREFOX)
-                ||packageName.equals(APP_PACKAGE_OPERA)||packageName.equals(APP_PACKAGE_SEARCHBOX));
+                && (packageName.equals(APP_PACKAGE_CHROME) || packageName.equals(APP_PACKAGE_FIREFOX)
+                || packageName.equals(APP_PACKAGE_OPERA) || packageName.equals(APP_PACKAGE_SEARCHBOX));
     }
-
 
 
 }

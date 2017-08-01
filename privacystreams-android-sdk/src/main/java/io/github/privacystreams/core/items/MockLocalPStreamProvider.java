@@ -20,7 +20,7 @@ class MockLocalPStreamProvider extends PStreamProvider {
 
     @Override
     protected void provide() {
-        for(TestObject testObject : testObjects){
+        for (TestObject testObject : testObjects) {
             if (this.isCancelled) break;
             TestItem item = new TestItem(testObject);
             this.output(item);

@@ -26,9 +26,9 @@ public class Callbacks {
      * Callback with the field value for each item in the stream.
      * The callback will be invoked with the field value for each item.
      *
-     * @param fieldToSelect the field to select
+     * @param fieldToSelect      the field to select
      * @param fieldValueCallback the callback function to be invoked for each field value
-     * @param <TValue> the type of field value
+     * @param <TValue>           the type of field value
      * @return the function
      */
     public static <TValue> PStreamAction forEachField(String fieldToSelect, Function<TValue, Void> fieldValueCallback) {
@@ -52,9 +52,9 @@ public class Callbacks {
      * If there is no item with a present field value, the callback will not be invoked.
      * The callback will be invoked with the present field value.
      *
-     * @param fieldToSelect the field to select
+     * @param fieldToSelect      the field to select
      * @param fieldValueCallback the callback function to be invoked with the first field value
-     * @param <TValue> the type of field value
+     * @param <TValue>           the type of field value
      * @return the function
      */
     public static <TValue> PStreamAction ifFieldPresent(String fieldToSelect, Function<TValue, Void> fieldValueCallback) {
@@ -79,9 +79,9 @@ public class Callbacks {
      * null values are ignored.
      * The callback will be invoked with the field value as a parameter.
      *
-     * @param fieldToSelect the field to select
+     * @param fieldToSelect      the field to select
      * @param fieldValueCallback the callback function to be invoked with the changed field value.
-     * @param <TValue> the type of field value
+     * @param <TValue>           the type of field value
      * @return the function
      */
     public static <TValue> PStreamAction onFieldChange(String fieldToSelect, Function<TValue, Void> fieldValueCallback) {

@@ -6,6 +6,7 @@ package io.github.privacystreams.core.purposes;
 
 public class Purpose {
     private String purposeString;
+
     private Purpose(String purposeString) {
         this.purposeString = purposeString;
     }
@@ -24,6 +25,7 @@ public class Purpose {
 
     /**
      * Advertising purpose.
+     *
      * @param description a short description of the purpose.
      * @return the Purpose instance
      */
@@ -33,6 +35,7 @@ public class Purpose {
 
     /**
      * The purpose for analytics.
+     *
      * @param description a short description of the purpose.
      * @return the Purpose instance
      */
@@ -42,6 +45,7 @@ public class Purpose {
 
     /**
      * The purpose for app's features.
+     *
      * @param description a short description of the purpose.
      * @return the Purpose instance
      */
@@ -51,6 +55,7 @@ public class Purpose {
 
     /**
      * Utility purpose.
+     *
      * @param description a short description of the purpose.
      * @return the Purpose instance
      */
@@ -60,6 +65,7 @@ public class Purpose {
 
     /**
      * The purpose for health monitoring.
+     *
      * @param description a short description of the purpose.
      * @return the Purpose instance
      */
@@ -69,6 +75,7 @@ public class Purpose {
 
     /**
      * The purpose for social interaction (analyzing social relationship, recommending friends, etc.).
+     *
      * @param description a short description of the purpose.
      * @return the Purpose instance
      */
@@ -78,6 +85,7 @@ public class Purpose {
 
     /**
      * Research purpose.
+     *
      * @param description a short description of the purpose.
      * @return the Purpose instance
      */
@@ -87,6 +95,7 @@ public class Purpose {
 
     /**
      * The purpose for game.
+     *
      * @param description a short description of the purpose.
      * @return the Purpose instance
      */

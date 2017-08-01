@@ -53,7 +53,7 @@ public class Message extends Item {
     public static final String TYPE_PENDING = "pending";
     public static final String TYPE_UNKNOWN = "unknown";
 
-    Message(String type, String content, String packageName, String contact, long timestamp){
+    Message(String type, String content, String packageName, String contact, long timestamp) {
         this.setFieldValue(TYPE, type);
         this.setFieldValue(CONTENT, content);
         this.setFieldValue(PACKAGE_NAME, packageName);
@@ -68,7 +68,7 @@ public class Message extends Item {
      * @return the provider function
      */
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
-    public static PStreamProvider asUpdatesInIM(){
+    public static PStreamProvider asUpdatesInIM() {
         return new IMUpdatesProvider();
     }
 

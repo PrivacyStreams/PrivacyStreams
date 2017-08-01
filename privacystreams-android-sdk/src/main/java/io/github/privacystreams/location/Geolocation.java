@@ -61,19 +61,29 @@ public class Geolocation extends Item {
     @PSItemField(type = Float.class)
     public static final String BEARING = "bearing";
 
-    /** Country level. This level's accuracy is about 100,000 meters. */
+    /**
+     * Country level. This level's accuracy is about 100,000 meters.
+     */
     public static final String LEVEL_COUNTRY = "country";
     static final int ACCURACY_COUNTRY = 100000;
-    /** City level. This level's accuracy is about 10,000 meters. */
+    /**
+     * City level. This level's accuracy is about 10,000 meters.
+     */
     public static final String LEVEL_CITY = "city";
     static final int ACCURACY_CITY = 10000;
-    /** Neighborhood level. This level's accuracy is about 1,000 meters. */
+    /**
+     * Neighborhood level. This level's accuracy is about 1,000 meters.
+     */
     public static final String LEVEL_NEIGHBORHOOD = "neighborhood";
     static final int ACCURACY_NEIGHBORHOOD = 1000;
-    /** Building level. This level's accuracy is about 100 meters. */
+    /**
+     * Building level. This level's accuracy is about 100 meters.
+     */
     public static final String LEVEL_BUILDING = "building";
     static final int ACCURACY_BUILDING = 100;
-    /** Exact level. This level's accuracy is about 10 meters. */
+    /**
+     * Exact level. This level's accuracy is about 10 meters.
+     */
     public static final String LEVEL_EXACT = "exact";
     static final int ACCURACY_EXACT = 10;
 
@@ -99,9 +109,9 @@ public class Geolocation extends Item {
      * If `level` is any other level, this provider requires `android.permission.ACCESS_FINE_LOCATION` permission.
      *
      * @param interval The interval between each two location updates.
-     * @param level The location granularity level, could be
-     *              `Geolocation.LEVEL_COUNTRY`, `Geolocation.LEVEL_CITY`, `Geolocation.LEVEL_NEIGHBORHOOD`,
-     *              `Geolocation.LEVEL_BUILDING`, or `Geolocation.LEVEL_EXACT`.
+     * @param level    The location granularity level, could be
+     *                 `Geolocation.LEVEL_COUNTRY`, `Geolocation.LEVEL_CITY`, `Geolocation.LEVEL_NEIGHBORHOOD`,
+     *                 `Geolocation.LEVEL_BUILDING`, or `Geolocation.LEVEL_EXACT`.
      * @return the provider
      */
     // @RequiresPermission(anyOf = {Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, conditional = true)

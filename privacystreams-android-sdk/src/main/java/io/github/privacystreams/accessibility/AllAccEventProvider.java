@@ -6,7 +6,7 @@ import android.view.accessibility.AccessibilityNodeInfo;
 
 class AllAccEventProvider extends AccEventProvider {
 
-    public void handleAccessibilityEvent(AccessibilityEvent event, AccessibilityNodeInfo rootNode){
+    public void handleAccessibilityEvent(AccessibilityEvent event, AccessibilityNodeInfo rootNode) {
         this.output(new AccEvent(event, rootNode));
     }
 }

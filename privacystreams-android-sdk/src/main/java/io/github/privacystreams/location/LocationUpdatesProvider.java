@@ -28,8 +28,7 @@ final class LocationUpdatesProvider extends PStreamProvider {
         this.addParameters(interval, level);
         if (Geolocation.LEVEL_EXACT.equals(level)) {
             this.addRequiredPermissions(Manifest.permission.ACCESS_FINE_LOCATION);
-        }
-        else {
+        } else {
             this.addRequiredPermissions(Manifest.permission.ACCESS_COARSE_LOCATION);
         }
     }
@@ -48,8 +47,7 @@ final class LocationUpdatesProvider extends PStreamProvider {
         String provider;
         if (Geolocation.LEVEL_EXACT.equals(level)) {
             provider = LocationManager.GPS_PROVIDER;
-        }
-        else {
+        } else {
             provider = LocationManager.NETWORK_PROVIDER;
         }
         locationManager.requestLocationUpdates(provider, minTime, minDistance, locationListener);
@@ -90,5 +88,7 @@ final class LocationUpdatesProvider extends PStreamProvider {
             LocationUpdatesProvider.this.stopLocationUpdate();
         }
 
-    };
+    }
+
+    ;
 }

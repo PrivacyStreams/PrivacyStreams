@@ -7,6 +7,7 @@ import com.dropbox.core.DbxException;
 import com.dropbox.core.DbxRequestConfig;
 import com.dropbox.core.v2.DbxClientV2;
 import com.dropbox.core.v2.files.WriteMode;
+
 import io.github.privacystreams.core.UQI;
 
 import java.io.File;

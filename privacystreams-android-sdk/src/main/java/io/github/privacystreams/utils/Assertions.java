@@ -37,16 +37,15 @@ public final class Assertions {
      * Cast an object to T.
      * Throw IllegalArgumentException if the the value is not castable.
      *
-     * @param name      the parameter name
-     * @param value     the value to cast from
-     * @param <T>       the type to cast to
+     * @param name  the parameter name
+     * @param value the value to cast from
+     * @param <T>   the type to cast to
      * @throws java.lang.IllegalArgumentException if the value is not
      */
     public static <T> T cast(final String name, final Object value) {
         try {
             return (T) value;
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             throw new IllegalArgumentException(name + " cannot be casted: " + value.getClass().getName());
         }
     }

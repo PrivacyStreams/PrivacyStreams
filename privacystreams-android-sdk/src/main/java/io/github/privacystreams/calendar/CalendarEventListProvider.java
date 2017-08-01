@@ -15,7 +15,7 @@ import java.util.Calendar;
 
 class CalendarEventListProvider extends PStreamProvider {
 
-    public static boolean isUpcomingToday(long timestamp){
+    public static boolean isUpcomingToday(long timestamp) {
         Calendar eventCalendar = Calendar.getInstance();
         eventCalendar.setTimeInMillis(timestamp);
 
@@ -23,7 +23,7 @@ class CalendarEventListProvider extends PStreamProvider {
         Calendar nowCalendar = Calendar.getInstance();
         nowCalendar.setTimeInMillis(System.currentTimeMillis());
 
-        return  eventCalendar.get(Calendar.YEAR) == nowCalendar.get(Calendar.YEAR) &&
+        return eventCalendar.get(Calendar.YEAR) == nowCalendar.get(Calendar.YEAR) &&
                 eventCalendar.get(Calendar.DAY_OF_YEAR) == nowCalendar.get(Calendar.DAY_OF_YEAR) &&
                 eventCalendar.after(nowCalendar);
     }

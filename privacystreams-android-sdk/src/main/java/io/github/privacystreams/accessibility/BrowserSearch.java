@@ -27,7 +27,7 @@ public class BrowserSearch extends Item {
      * @return the provider function
      */
     // @RequiresPermission(value = Manifest.permission.BIND_ACCESSIBILITY_SERVICE)
-    public static PStreamProvider asUpdates(){
+    public static PStreamProvider asUpdates() {
         return new BrowserSearchEventsProvider();
     }
 

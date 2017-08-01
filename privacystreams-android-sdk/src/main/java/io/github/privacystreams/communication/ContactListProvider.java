@@ -49,7 +49,7 @@ class ContactListProvider extends PStreamProvider {
                 String displayNameKey = ContactsContract.Data.DISPLAY_NAME_PRIMARY;
                 String name = contactCur.getString(contactCur.getColumnIndex(displayNameKey));
 
-                HashMap<String,List> phones = new HashMap<>();
+                HashMap<String, List> phones = new HashMap<>();
                 List mobileList = new ArrayList();
                 List homeList = new ArrayList();
                 List workList = new ArrayList();
@@ -84,140 +84,140 @@ class ContactListProvider extends PStreamProvider {
                         int phoneType = phoneCur.getInt(phoneCur.getColumnIndex(Phone.TYPE));
                         String number = phoneCur.getString(phoneCur.getColumnIndex(Phone.NUMBER));
                         // provide phone numbers as different types
-                        switch(phoneType){
+                        switch (phoneType) {
                             case Phone.TYPE_MOBILE:
                                 mobileList.add(CommunicationUtils.normalizePhoneNumber(number));
-                                if(!phones.containsKey(Contact.MOBILE_PHONE))
+                                if (!phones.containsKey(Contact.MOBILE_PHONE))
                                     phones.put(Contact.MOBILE_PHONE, mobileList);
 
                                 break;
 
                             case Phone.TYPE_HOME:
                                 homeList.add(CommunicationUtils.normalizePhoneNumber(number));
-                                if(!phones.containsKey(Contact.HOME_PHONE))
+                                if (!phones.containsKey(Contact.HOME_PHONE))
                                     phones.put(Contact.HOME_PHONE, homeList);
 
                                 break;
 
                             case Phone.TYPE_WORK:
                                 workList.add(CommunicationUtils.normalizePhoneNumber(number));
-                                if(!phones.containsKey(Contact.WORK_PHONE))
+                                if (!phones.containsKey(Contact.WORK_PHONE))
                                     phones.put(Contact.WORK_PHONE, workList);
 
                                 break;
 
                             case Phone.TYPE_FAX_HOME:
                                 homeFaxList.add(CommunicationUtils.normalizePhoneNumber(number));
-                                if(!phones.containsKey(Contact.HOME_FAX))
+                                if (!phones.containsKey(Contact.HOME_FAX))
                                     phones.put(Contact.HOME_FAX, homeFaxList);
 
                                 break;
 
                             case Phone.TYPE_PAGER:
                                 pagerList.add(CommunicationUtils.normalizePhoneNumber(number));
-                                if(!phones.containsKey(Contact.PAGER))
+                                if (!phones.containsKey(Contact.PAGER))
                                     phones.put(Contact.PAGER, pagerList);
 
                                 break;
 
                             case Phone.TYPE_CALLBACK:
                                 callbackList.add(CommunicationUtils.normalizePhoneNumber(number));
-                                if(!phones.containsKey(Contact.MOBILE_PHONE))
+                                if (!phones.containsKey(Contact.MOBILE_PHONE))
                                     phones.put(Contact.MOBILE_PHONE, callbackList);
 
                                 break;
 
                             case Phone.TYPE_CAR:
                                 carList.add(CommunicationUtils.normalizePhoneNumber(number));
-                                if(!phones.containsKey(Contact.CAR))
+                                if (!phones.containsKey(Contact.CAR))
                                     phones.put(Contact.CAR, carList);
 
                                 break;
 
                             case Phone.TYPE_ASSISTANT:
                                 assistantList.add(CommunicationUtils.normalizePhoneNumber(number));
-                                if(!phones.containsKey(Contact.ASSISTANT))
+                                if (!phones.containsKey(Contact.ASSISTANT))
                                     phones.put(Contact.ASSISTANT, assistantList);
 
                                 break;
 
                             case Phone.TYPE_COMPANY_MAIN:
                                 companyMainList.add(CommunicationUtils.normalizePhoneNumber(number));
-                                if(!phones.containsKey(Contact.COMPANY_MAIN))
+                                if (!phones.containsKey(Contact.COMPANY_MAIN))
                                     phones.put(Contact.COMPANY_MAIN, companyMainList);
 
                                 break;
 
                             case Phone.TYPE_FAX_WORK:
                                 workFaxList.add(CommunicationUtils.normalizePhoneNumber(number));
-                                if(!phones.containsKey(Contact.WORK_FAX))
+                                if (!phones.containsKey(Contact.WORK_FAX))
                                     phones.put(Contact.WORK_FAX, workFaxList);
 
                                 break;
 
                             case Phone.TYPE_OTHER:
                                 otherList.add(CommunicationUtils.normalizePhoneNumber(number));
-                                if(!phones.containsKey(Contact.OTHER_PHONE))
+                                if (!phones.containsKey(Contact.OTHER_PHONE))
                                     phones.put(Contact.OTHER_PHONE, otherList);
 
                                 break;
 
                             case Phone.TYPE_OTHER_FAX:
                                 otherFaxList.add(CommunicationUtils.normalizePhoneNumber(number));
-                                if(!phones.containsKey(Contact.OTHER_FAX))
+                                if (!phones.containsKey(Contact.OTHER_FAX))
                                     phones.put(Contact.OTHER_FAX, otherFaxList);
 
                                 break;
 
                             case Phone.TYPE_ISDN:
                                 ISDNList.add(CommunicationUtils.normalizePhoneNumber(number));
-                                if(!phones.containsKey(Contact.ISDN))
+                                if (!phones.containsKey(Contact.ISDN))
                                     phones.put(Contact.ISDN, ISDNList);
 
                                 break;
 
                             case Phone.TYPE_MAIN:
                                 mainList.add(CommunicationUtils.normalizePhoneNumber(number));
-                                if(!phones.containsKey(Contact.MAIN))
+                                if (!phones.containsKey(Contact.MAIN))
                                     phones.put(Contact.MAIN, mainList);
 
                                 break;
 
                             case Phone.TYPE_MMS:
                                 MMSList.add(CommunicationUtils.normalizePhoneNumber(number));
-                                if(!phones.containsKey(Contact.MMS))
+                                if (!phones.containsKey(Contact.MMS))
                                     phones.put(Contact.MMS, MMSList);
                                 break;
 
                             case Phone.TYPE_RADIO:
                                 radioList.add(CommunicationUtils.normalizePhoneNumber(number));
-                                if(!phones.containsKey(Contact.RADIO))
+                                if (!phones.containsKey(Contact.RADIO))
                                     phones.put(Contact.RADIO, radioList);
                                 break;
 
                             case Phone.TYPE_TELEX:
                                 telexList.add(CommunicationUtils.normalizePhoneNumber(number));
-                                if(!phones.containsKey(Contact.TELEX))
+                                if (!phones.containsKey(Contact.TELEX))
                                     phones.put(Contact.TELEX, telexList);
 
                                 break;
 
                             case Phone.TYPE_TTY_TDD:
                                 TTY_TDDList.add(CommunicationUtils.normalizePhoneNumber(number));
-                                if(!phones.containsKey(Contact.TTY_TDD))
+                                if (!phones.containsKey(Contact.TTY_TDD))
                                     phones.put(Contact.TTY_TDD, TTY_TDDList);
                                 break;
 
                             case Phone.TYPE_WORK_MOBILE:
                                 workMobileList.add(CommunicationUtils.normalizePhoneNumber(number));
-                                if(!phones.containsKey(Contact.WORK_MOBILE))
+                                if (!phones.containsKey(Contact.WORK_MOBILE))
                                     phones.put(Contact.WORK_MOBILE, workMobileList);
 
                                 break;
 
                             case Phone.TYPE_WORK_PAGER:
                                 workPagerList.add(CommunicationUtils.normalizePhoneNumber(number));
-                                if(!phones.containsKey(Contact.WORK_PAGER))
+                                if (!phones.containsKey(Contact.WORK_PAGER))
                                     phones.put(Contact.WORK_PAGER, workPagerList);
                                 break;
                         }
@@ -225,7 +225,7 @@ class ContactListProvider extends PStreamProvider {
                     phoneCur.close();
                 }
 
-                HashMap<String,List> emails = new HashMap<>();
+                HashMap<String, List> emails = new HashMap<>();
                 Cursor emailCur = contentResolver.query(
                         Email.CONTENT_URI,
                         null,
@@ -242,30 +242,30 @@ class ContactListProvider extends PStreamProvider {
                         List workEmailList = new ArrayList();
 
                         //provide emails as different types
-                        switch(emailType){
+                        switch (emailType) {
                             case Email.TYPE_HOME:
                                 homeEmailList.add(email);
-                                if(!emails.containsKey(Contact.HOME_EMAIL))
-                                    emails.put(Contact.HOME_EMAIL,homeEmailList);
+                                if (!emails.containsKey(Contact.HOME_EMAIL))
+                                    emails.put(Contact.HOME_EMAIL, homeEmailList);
                                 break;
 
                             case Email.TYPE_MOBILE:
                                 mobileEmailList.add(email);
-                                if(!emails.containsKey(Contact.MOBILE_EMAIL))
-                                    emails.put(Contact.MOBILE_EMAIL,mobileEmailList);
+                                if (!emails.containsKey(Contact.MOBILE_EMAIL))
+                                    emails.put(Contact.MOBILE_EMAIL, mobileEmailList);
                                 break;
 
                             case Email.TYPE_OTHER:
                                 otherEmailList.add(email);
-                                if(!emails.containsKey(Contact.OTHER_EMAIL))
-                                    emails.put(Contact.OTHER_EMAIL,otherEmailList);
+                                if (!emails.containsKey(Contact.OTHER_EMAIL))
+                                    emails.put(Contact.OTHER_EMAIL, otherEmailList);
                                 break;
 
 
                             case Email.TYPE_WORK:
                                 workEmailList.add(email);
-                                if(!emails.containsKey(Contact.WORK_EMAIL))
-                                    emails.put(Contact.WORK_EMAIL,workEmailList);
+                                if (!emails.containsKey(Contact.WORK_EMAIL))
+                                    emails.put(Contact.WORK_EMAIL, workEmailList);
                                 break;
 
                         }
@@ -273,7 +273,7 @@ class ContactListProvider extends PStreamProvider {
                     emailCur.close();
                 }
 
-                Contact contact = new Contact(_id, name, phones, emails, Contact.STATUS_ADDED,null);
+                Contact contact = new Contact(_id, name, phones, emails, Contact.STATUS_ADDED, null);
                 this.output(contact);
                 contactCur.moveToNext();
             }

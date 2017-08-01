@@ -48,13 +48,11 @@ public class PSCameraActivity extends Activity {
             if (resultCode == Activity.RESULT_OK) {
 //                Logging.debug(TAG + "OK.");
                 cameraResultListener.onSuccess();
-            }
-            else {
+            } else {
                 Logging.warn(TAG + "failed with result code: " + resultCode);
                 cameraResultListener.onFail();
             }
-        }
-        else {
+        } else {
             Logging.warn(TAG + "unknown request code: " + requestCode);
         }
         PSCameraActivity.cameraResultListener = null;

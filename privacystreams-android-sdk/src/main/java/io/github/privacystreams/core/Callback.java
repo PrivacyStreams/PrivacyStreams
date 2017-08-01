@@ -22,13 +22,18 @@ public abstract class Callback<Tin> extends Function<Tin, Void> {
 
     /**
      * This method will be invoked on received an input.
+     *
      * @param input the result
      */
     protected abstract void onInput(Tin input);
 
     /**
      * This method will be invoked if failed to get the result.
+     *
      * @param exception the exception happened during getting the result.
      */
-    protected void onFail(PSException exception) {};
+    protected void onFail(PSException exception) {
+    }
+
+    ;
 }

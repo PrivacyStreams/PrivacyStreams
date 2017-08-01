@@ -78,8 +78,8 @@ public class WifiAp extends Item {
         this.setFieldValue(STATUS, status);
     }
 
-    WifiAp(WifiAp another){
-        for(String key: another.toMap().keySet()){
+    WifiAp(WifiAp another) {
+        for (String key : another.toMap().keySet()) {
             this.setFieldValue(key, another.getValueByField(key));
         }
     }

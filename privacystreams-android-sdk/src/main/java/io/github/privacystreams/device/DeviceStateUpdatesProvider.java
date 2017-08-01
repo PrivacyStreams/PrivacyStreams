@@ -17,7 +17,7 @@ class DeviceStateUpdatesProvider extends PStreamProvider {
     private long frequency;
     private int mask;
 
-    DeviceStateUpdatesProvider(long frequency, int mask){
+    DeviceStateUpdatesProvider(long frequency, int mask) {
         this.frequency = frequency;
         this.mask = mask;
         this.addParameters(frequency, mask);
@@ -26,8 +26,8 @@ class DeviceStateUpdatesProvider extends PStreamProvider {
     @Override
     protected void provide() {
 
-        while (true){
-            if(!isCancelled){
+        while (true) {
+            if (!isCancelled) {
                 Item deviceState = new Item();
                 if ((mask & DeviceState.Masks.BLUETOOTH_DEVICE_LIST) != 0) {
                     getBluetoothDeviceList(deviceState);
@@ -37,7 +37,7 @@ class DeviceStateUpdatesProvider extends PStreamProvider {
                     getWifiList(deviceState);
                 }
 
-                if ((mask& DeviceState.Masks.BATTERY_LEVEL)!=0){
+                if ((mask & DeviceState.Masks.BATTERY_LEVEL) != 0) {
                     getBatteryInfo(deviceState);
                 }
                 output(deviceState);
@@ -51,7 +51,7 @@ class DeviceStateUpdatesProvider extends PStreamProvider {
         }
     }
 
-    private void getBatteryInfo(Item deviceState){
+    private void getBatteryInfo(Item deviceState) {
         try {
             float level = this.getUQI()
                     .getData(BatteryInfo.asSnapshot(), Purpose.LIB_INTERNAL("BatteryInfoProvider"))

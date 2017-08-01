@@ -39,6 +39,7 @@ class BaseAccessibilityEvent extends Item {
 
     /**
      * Provide a live stream of BaseAccessibilityEvent items.
+     *
      * @return the provider function.
      */
     // @RequiresPermission(value = Manifest.permission.BIND_ACCESSIBILITY_SERVICE)

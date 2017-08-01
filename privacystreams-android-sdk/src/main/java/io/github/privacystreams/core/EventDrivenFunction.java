@@ -6,7 +6,7 @@ import android.content.Context;
  * An EventDrivenFunction is driven by events.
  * When applying this function, the output will immediately return,
  * but the content in output will be generated later.
- *
+ * <p>
  * Subclass must implement:
  * `init` method which initializes the output object and returns in current thread.
  */
@@ -30,6 +30,7 @@ public abstract class EventDrivenFunction<Tin, Tout> extends Function<Tin, Tout>
     protected UQI getUQI() {
         return this.uqi;
     }
+
     protected Context getContext() {
         return this.getUQI().getContext();
     }

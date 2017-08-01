@@ -22,7 +22,7 @@ public class TimeUtils {
             SimpleDateFormat dateFormat = new SimpleDateFormat(timeFormat, Locale.getDefault());
             Date parsedDate = dateFormat.parse(timeString);
             return parsedDate.getTime();
-        } catch (ParseException|NullPointerException e) {
+        } catch (ParseException | NullPointerException e) {
             e.printStackTrace();
             return (long) -1;
         }
@@ -37,6 +37,7 @@ public class TimeUtils {
 
     /**
      * Generate a time tag of current timestamp, using the time format at `Globals.TimeConfig.defaultTimeFormat`.
+     *
      * @return the formatted string
      */
     public static String getTimeTag() {
@@ -45,6 +46,7 @@ public class TimeUtils {
 
     /**
      * Format a timestamp to a string using the time format at `Globals.TimeConfig.defaultTimeFormat`.
+     *
      * @param timestamp the timestamp to format
      * @return the formatted string
      */
@@ -58,7 +60,7 @@ public class TimeUtils {
      * Format a timestamp to a string using a time format.
      *
      * @param timeFormat the time format
-     * @param timestamp the timestamp to format
+     * @param timestamp  the timestamp to format
      * @return the formatted string
      */
     public static String toFormattedString(String timeFormat, long timestamp) {

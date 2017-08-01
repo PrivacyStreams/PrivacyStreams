@@ -30,7 +30,7 @@ class GmailHistoryProvider extends BaseGmailProvider {
     @Override
     protected void provide() {
         super.provide();
-        if(authorized){
+        if (authorized) {
             new FetchEmailTask().execute(buildTimeQuery(mBegin, mEnd));
         }
     }

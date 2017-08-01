@@ -38,9 +38,9 @@ class BrowserVisitEventsProvider extends PStreamProvider {
                         String packageName = input.getValueByField(AccEvent.PACKAGE_NAME);
                         String url = AccessibilityUtils.getBrowserCurrentUrl(rootNode, packageName);
                         String title = AccessibilityUtils.getWebViewTitle(nodeInfos);
-                        if(url!=null && title !=null
+                        if (url != null && title != null
                                 && !url.equals(lastSavedUrl)
-                                && !title.equals(lastSavedUrlTitle)){
+                                && !title.equals(lastSavedUrlTitle)) {
                             lastSavedUrl = url;
                             lastSavedUrlTitle = title;
                             output(new BrowserVisit(title, packageName, url));

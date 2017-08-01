@@ -16,12 +16,12 @@ class BatteryInfoProvider extends PStreamProvider {
         int level = batteryIntent.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
         int scale = batteryIntent.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
 
-        return ((float)level / (float)scale) * 100.0f;
+        return ((float) level / (float) scale) * 100.0f;
     }
 
     @Override
     protected void provide() {
-        output(new BatteryInfo(System.currentTimeMillis(),getBatteryLevel()));
+        output(new BatteryInfo(System.currentTimeMillis(), getBatteryLevel()));
         this.finish();
     }
 }

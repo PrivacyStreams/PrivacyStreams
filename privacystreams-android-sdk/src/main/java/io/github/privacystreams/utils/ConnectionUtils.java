@@ -8,6 +8,7 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 
 import io.github.privacystreams.core.UQI;
+
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 
@@ -19,6 +20,7 @@ import com.google.android.gms.common.GoogleApiAvailability;
 public class ConnectionUtils {
     /**
      * Check whether Wifi is connected
+     *
      * @param uqi a UQI instance
      * @return true if Wifi is connected
      */
@@ -35,15 +37,16 @@ public class ConnectionUtils {
       */
     public static boolean isDeviceOnline(Context context) {
         ConnectivityManager connMgr =
-                (ConnectivityManager)context.getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+                (ConnectivityManager) context.getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
         return (networkInfo != null && networkInfo.isConnected());
     }
 
     /**
      * Check that Google Play services APK is installed and up to date.
+     *
      * @return true if Google Play Services is available and up to
-     *     date on this device; false otherwise.
+     * date on this device; false otherwise.
      */
     public static boolean isGooglePlayServicesAvailable(Context context) {
         GoogleApiAvailability apiAvailability =
@@ -54,16 +57,16 @@ public class ConnectionUtils {
         return connectionStatusCode == ConnectionResult.SUCCESS;
     }
 
-         /* Attempt to resolve a missing, out-of-date, invalid or disabled Google
-      * Play Services installation via a user dialog, if possible.
-      */
+    /* Attempt to resolve a missing, out-of-date, invalid or disabled Google
+ * Play Services installation via a user dialog, if possible.
+ */
     public static void acquireGooglePlayServices(Context context) {
         GoogleApiAvailability apiAvailability =
                 GoogleApiAvailability.getInstance();
         final int connectionStatusCode =
                 apiAvailability.isGooglePlayServicesAvailable(context);
         if (apiAvailability.isUserResolvableError(connectionStatusCode)) {
-           Logging.debug("Connection Status Code"+connectionStatusCode);
+            Logging.debug("Connection Status Code" + connectionStatusCode);
         }
     }
 

@@ -21,7 +21,7 @@ class DeviceEventUpdatesProvider extends PStreamProvider {
             String event = null;
             String type = null;
 
-            switch(intent.getAction()){
+            switch (intent.getAction()) {
                 case Intent.ACTION_SCREEN_OFF:
                     event = DeviceEvent.EVENT_SCREEN_OFF;
                     type = DeviceEvent.TYPE_SCREEN;
@@ -68,7 +68,7 @@ class DeviceEventUpdatesProvider extends PStreamProvider {
                     break;
 
                 case AudioManager.RINGER_MODE_CHANGED_ACTION:
-                    AudioManager am = (AudioManager)getContext().getSystemService(Context.AUDIO_SERVICE);
+                    AudioManager am = (AudioManager) getContext().getSystemService(Context.AUDIO_SERVICE);
                     switch (am.getRingerMode()) {
                         case AudioManager.RINGER_MODE_SILENT:
                             event = DeviceEvent.EVENT_RINGER_SILENT;

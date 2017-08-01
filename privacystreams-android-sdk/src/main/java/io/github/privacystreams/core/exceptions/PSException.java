@@ -18,7 +18,8 @@ public class PSException extends Exception {
     private String interruptMessage = "";
     private HashSet<String> deniedPermissions = new HashSet<>();
 
-    private PSException() {}
+    private PSException() {
+    }
 
     public static PSException PERMISSION_DENIED(Set<String> deniedPermissions) {
         PSException e = new PSException();

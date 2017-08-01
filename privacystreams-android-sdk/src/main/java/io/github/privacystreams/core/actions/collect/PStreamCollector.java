@@ -24,6 +24,7 @@ class PStreamCollector<Tout> extends PStreamAction {
     }
 
     private transient List<Item> items;
+
     @Override
     protected void onInput(Item item) {
         if (this.items == null) this.items = new ArrayList<>();
@@ -32,8 +33,7 @@ class PStreamCollector<Tout> extends PStreamAction {
             if (this.resultHandler != null)
                 this.resultHandler.apply(this.getUQI(), result);
             this.finish();
-        }
-        else {
+        } else {
             this.items.add(item);
         }
     }

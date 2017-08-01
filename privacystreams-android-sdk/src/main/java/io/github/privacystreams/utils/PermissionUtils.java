@@ -28,7 +28,8 @@ public class PermissionUtils {
 
     /**
      * Check if the permission are granted in current context
-     * @param context the context instance
+     *
+     * @param context            the context instance
      * @param requiredPermission the permissions to check
      * @return true if the permission is granted
      */
@@ -40,7 +41,8 @@ public class PermissionUtils {
 
     /**
      * Check if the permissions are granted in current context
-     * @param context the context instance
+     *
+     * @param context             the context instance
      * @param requiredPermissions the list of permissions to check
      * @return true if all permissions are granted
      */
@@ -50,7 +52,8 @@ public class PermissionUtils {
 
     /**
      * Get a list of denied permissions
-     * @param context the context instance
+     *
+     * @param context             the context instance
      * @param requiredPermissions the list of permissions to check
      * @return the denied permissions
      */
@@ -61,11 +64,9 @@ public class PermissionUtils {
             for (String p : requiredPermissions) {
                 if (p.equals(PermissionUtils.USE_ACCESSIBILITY_SERVICE)) {
                     if (!PSAccessibilityService.enabled) deniedPermissions.add(p);
-                }
-                else if (p.equals(PermissionUtils.USE_NOTIFICATION_SERVICE)) {
+                } else if (p.equals(PermissionUtils.USE_NOTIFICATION_SERVICE)) {
                     if (!PSNotificationListenerService.enabled) deniedPermissions.add(p);
-                }
-                else if (ContextCompat.checkSelfPermission(context, p) != PackageManager.PERMISSION_GRANTED) {
+                } else if (ContextCompat.checkSelfPermission(context, p) != PackageManager.PERMISSION_GRANTED) {
                     deniedPermissions.add(p);
                 }
             }
@@ -75,25 +76,27 @@ public class PermissionUtils {
 
     /**
      * try request permission and evaluate UQI
+     *
      * @param uqi UQI instance
      */
     public static void requestPermissionAndEvaluate(UQI uqi, Function<Void, Void> query) {
         //if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            // For Android version M and above, there is chance to request most permissions at runtime
-            Logging.debug("Request permissions...");
-            Pair<UQI, Function<Void, Void>> uqiQuery = new Pair<>(uqi, query);
-            int requestCode = uqiQuery.hashCode();
-            pendingUQIQueries.put(requestCode, uqiQuery);
-            Intent permissionRequest = new Intent(uqi.getContext(), PSPermissionActivity.class);
-            permissionRequest.putExtra(PSPermissionActivity.REQUEST_CODE, requestCode);
-            permissionRequest.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            uqi.getContext().startActivity(permissionRequest);
+        // For Android version M and above, there is chance to request most permissions at runtime
+        Logging.debug("Request permissions...");
+        Pair<UQI, Function<Void, Void>> uqiQuery = new Pair<>(uqi, query);
+        int requestCode = uqiQuery.hashCode();
+        pendingUQIQueries.put(requestCode, uqiQuery);
+        Intent permissionRequest = new Intent(uqi.getContext(), PSPermissionActivity.class);
+        permissionRequest.putExtra(PSPermissionActivity.REQUEST_CODE, requestCode);
+        permissionRequest.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        uqi.getContext().startActivity(permissionRequest);
         //}
         //else {
-            // For Android M-, we cannot request permissions at runtime
+        // For Android M-, we cannot request permissions at runtime
         //    uqi.evaluate(query, false);
         //}
     }
+
     static Map<Integer, Pair<UQI, Function<Void, Void>>> pendingUQIQueries = new HashMap<>();
 
 }

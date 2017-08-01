@@ -1,4 +1,4 @@
-package com.github.privacystreams.communication;
+package io.github.privacystreams.communication;
 
 import org.json.JSONObject;
 

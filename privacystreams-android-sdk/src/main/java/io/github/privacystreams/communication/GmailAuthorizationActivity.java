@@ -35,18 +35,20 @@ public class GmailAuthorizationActivity extends Activity {
     private static GmailResultListener gmailResultListener;
     private GoogleAccountCredential mCredential;
     private Gmail mService;
-    static void setListener(GmailResultListener gl){
+
+    static void setListener(GmailResultListener gl) {
         gmailResultListener = gl;
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (gmailResultListener!=null) {
-            if (! ConnectionUtils.isDeviceOnline(this)) {
+        if (gmailResultListener != null) {
+            if (!ConnectionUtils.isDeviceOnline(this)) {
                 Logging.warn("No network connection available.");
             }
-            if (! ConnectionUtils.isGooglePlayServicesAvailable(this)) {
+            if (!ConnectionUtils.isGooglePlayServicesAvailable(this)) {
                 ConnectionUtils.acquireGooglePlayServices(this);
             }
             mCredential = GoogleAccountCredential.usingOAuth2(
@@ -56,11 +58,11 @@ public class GmailAuthorizationActivity extends Activity {
                 chooseAccount();
             }
 
-            if (getIntent().getAction()!=null) {
-                if(getIntent().getAction().equalsIgnoreCase("UserRecoverableAuthIOException"))
+            if (getIntent().getAction() != null) {
+                if (getIntent().getAction().equalsIgnoreCase("UserRecoverableAuthIOException"))
                     startActivityForResult((Intent) getIntent().
-                        getExtras().get("request_authorization"),
-                        REQUEST_AUTHORIZATION);
+                                    getExtras().get("request_authorization"),
+                            REQUEST_AUTHORIZATION);
             }
 
         } else {
@@ -71,7 +73,7 @@ public class GmailAuthorizationActivity extends Activity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch(requestCode) {
+        switch (requestCode) {
             case REQUEST_AUTHORIZATION:
                 if (resultCode == RESULT_OK) {
                     gmailResultListener.onSuccess(mService);
@@ -85,15 +87,15 @@ public class GmailAuthorizationActivity extends Activity {
                             data.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
                     if (accountName != null) {
                         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(this).edit();
-                        editor.putString(GMAIL_PREF_ACCOUNT_NAME,accountName);
+                        editor.putString(GMAIL_PREF_ACCOUNT_NAME, accountName);
                         editor.apply();
 
                         mCredential.setSelectedAccountName(accountName);
 
                         mService = new Gmail.Builder(
-                                    AndroidHttp.newCompatibleTransport(), JacksonFactory.getDefaultInstance(), mCredential)
-                                    .setApplicationName(AppUtils.getApplicationName(this))
-                                    .build();
+                                AndroidHttp.newCompatibleTransport(), JacksonFactory.getDefaultInstance(), mCredential)
+                                .setApplicationName(AppUtils.getApplicationName(this))
+                                .build();
                         gmailResultListener.onSuccess(mService);
                     }
 

@@ -19,8 +19,8 @@ public class Collectors {
      * Collect the items in the stream with a collector function, and handle the result with another function.
      *
      * @param itemsCollector the function to collect the items
-     * @param resultHandler the function to handle result
-     * @param <Tout> the output type of collector
+     * @param resultHandler  the function to handle result
+     * @param <Tout>         the output type of collector
      * @return the function
      */
     public static <Tout> PStreamAction collectItems(Function<List<Item>, Tout> itemsCollector,
@@ -40,6 +40,7 @@ public class Collectors {
 
     /**
      * Collect the PStream to a list of Items.
+     *
      * @return the function
      */
     public static Function<PStream, List<Item>> toItemList() {

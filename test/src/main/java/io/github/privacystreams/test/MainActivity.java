@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
 //            testCases.testAccEvents();
 //
             testCases.testIMUpdates();
- //           testCases.testEmailUpdates();
+            //           testCases.testEmailUpdates();
 //            testCases.testEmailList();
 
 

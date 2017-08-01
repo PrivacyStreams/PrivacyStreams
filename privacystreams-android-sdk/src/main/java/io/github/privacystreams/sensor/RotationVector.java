@@ -44,9 +44,10 @@ public class RotationVector extends Item {
 
     /**
      * Provide a live stream of sensor readings from rotation vector sensor.
+     *
      * @return the provider.
      */
-    public static PStreamProvider asUpdates(int sensorDelay){
+    public static PStreamProvider asUpdates(int sensorDelay) {
         return new RotationVectorUpdatesProvider(sensorDelay);
     }
 }

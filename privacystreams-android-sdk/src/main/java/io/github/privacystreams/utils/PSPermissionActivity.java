@@ -57,7 +57,7 @@ public class PSPermissionActivity extends Activity {
             public void handleMessage(Message msg) {
                 int requestCode = msg.what;
                 Pair<UQI, Function<Void, Void>> uqiQuery = PermissionUtils.pendingUQIQueries.get(requestCode);
-                if(uqiQuery != null) {
+                if (uqiQuery != null) {
                     PSPermissionActivity.this.requestCode = requestCode;
                     PSPermissionActivity.this.requestedPermissions = new HashSet<>(uqiQuery.second.getRequiredPermissions());
                     PSPermissionActivity.this.requestPermissions();
@@ -79,8 +79,7 @@ public class PSPermissionActivity extends Activity {
                 if (curRequestCode == requestCode) {
                     try {
                         Thread.sleep(100);
-                    }
-                    catch (InterruptedException e) {
+                    } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
                     continue;
@@ -101,8 +100,7 @@ public class PSPermissionActivity extends Activity {
             int newRequestCode = (int) intent.getSerializableExtra(REQUEST_CODE);
             requestList.add(newRequestCode);
             Logging.debug("New permission request: " + newRequestCode);
-        }
-        else {
+        } else {
             // Shouldn't be here
             Logging.warn("PSPermissionActivity started without an intent.");
             Intent result = new Intent();
@@ -122,7 +120,7 @@ public class PSPermissionActivity extends Activity {
 
     private void requestPermissions() {
         // Starting API 5
-        if ( Build.VERSION.SDK_INT >= Build.VERSION_CODES.ECLAIR
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ECLAIR
                 && requestedPermissions.contains(PermissionUtils.USE_ACCESSIBILITY_SERVICE)) {
             requestedPermissions.remove(PermissionUtils.USE_ACCESSIBILITY_SERVICE);
             if (!PSAccessibilityService.enabled) {
@@ -144,7 +142,7 @@ public class PSPermissionActivity extends Activity {
         }
 
         // Starting API 22
-        if ( Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1
                 && requestedPermissions.contains(PermissionUtils.USE_NOTIFICATION_SERVICE)) {
             requestedPermissions.remove(PermissionUtils.USE_NOTIFICATION_SERVICE);
             if (!PSNotificationListenerService.enabled) {
@@ -165,7 +163,7 @@ public class PSPermissionActivity extends Activity {
         }
 
         // Starting API 23
-        if ( Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (!requestedPermissions.isEmpty()) {
                 ActivityCompat.requestPermissions(PSPermissionActivity.this,
                         requestedPermissions.toArray(new String[requestedPermissions.size()]), requestCode);

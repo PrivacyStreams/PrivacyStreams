@@ -58,7 +58,6 @@ abstract class BaseGmailProvider extends PStreamProvider implements GmailResultL
     private String API_SECRET = "fa53d475c36bc18ea66196afa23cc2f35ea6012c";
 
 
-
     BaseGmailProvider() {
         this.addRequiredPermissions(Manifest.permission.INTERNET,
                 Manifest.permission.GET_ACCOUNTS,
@@ -130,7 +129,6 @@ abstract class BaseGmailProvider extends PStreamProvider implements GmailResultL
     }
 
 
-
     public Map getMessageDetails(String messageId) {
         Map<String, Object> messageDetails = new HashMap<>();
         try {
@@ -174,7 +172,7 @@ abstract class BaseGmailProvider extends PStreamProvider implements GmailResultL
         String content = "";
         long timestamp = 0;
         if (response.getMessages() != null) {
-            for(int i = response.getMessages().size()-1;i>=0;i--){
+            for (int i = response.getMessages().size() - 1; i >= 0; i--) {
                 Message item = response.getMessages().get(i);
 
 
@@ -201,10 +199,11 @@ abstract class BaseGmailProvider extends PStreamProvider implements GmailResultL
                                 break;
                             case "Date":
                                 String date = header.getValue();
-                                if(date.contains(","))
-                                    date = date.substring(date.indexOf(",") + 2,date.length());;
+                                if (date.contains(","))
+                                    date = date.substring(date.indexOf(",") + 2, date.length());
+                                ;
                                 String timestampFormat = "dd MMM yyyy HH:mm:ss Z";
-                                timestamp = TimeUtils.fromFormattedString(timestampFormat,date) / 1000;
+                                timestamp = TimeUtils.fromFormattedString(timestampFormat, date) / 1000;
                                 break;
                         }
                     }
@@ -220,7 +219,7 @@ abstract class BaseGmailProvider extends PStreamProvider implements GmailResultL
                         }
                     }
                 }
-                if(mLastEmailTime < timestamp) mLastEmailTime = timestamp;
+                if (mLastEmailTime < timestamp) mLastEmailTime = timestamp;
                 this.output(new Email(content, AppUtils.APP_PACKAGE_GMAIL, from, deliverTo, subject, timestamp));
             }
         }
@@ -240,6 +239,7 @@ abstract class BaseGmailProvider extends PStreamProvider implements GmailResultL
 
         /**
          * Background task to call Gmail API.
+         *
          * @param queries the gmail api query.
          */
         @Override
@@ -303,8 +303,7 @@ abstract class BaseGmailProvider extends PStreamProvider implements GmailResultL
 
             if (!ConnectionUtils.isGooglePlayServicesAvailable(getContext())) {
                 ConnectionUtils.acquireGooglePlayServices(getContext());
-            }
-            else{
+            } else {
                 mService = new Gmail.Builder(
                         AndroidHttp.newCompatibleTransport(), JacksonFactory.getDefaultInstance(), mCredential)
                         .setApplicationName(AppUtils.getApplicationName(getContext()))

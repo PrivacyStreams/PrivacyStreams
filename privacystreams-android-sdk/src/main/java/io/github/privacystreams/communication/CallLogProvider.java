@@ -17,9 +17,9 @@ class CallLogProvider extends PStreamProvider {
         this.addRequiredPermissions(Manifest.permission.READ_CALL_LOG);
     }
 
-    private String callLogTypeInString(int type){
+    private String callLogTypeInString(int type) {
         String typeString = null;
-        switch (type){
+        switch (type) {
             case android.provider.CallLog.Calls.OUTGOING_TYPE:
                 typeString = Call.TYPE_OUTGOING;
                 break;
@@ -34,7 +34,7 @@ class CallLogProvider extends PStreamProvider {
         return typeString;
     }
 
-    private void getPhoneLogs(){
+    private void getPhoneLogs() {
         Cursor c;
         c = this.getContext().getContentResolver().query(
                 android.provider.CallLog.Calls.CONTENT_URI,
@@ -74,6 +74,7 @@ class CallLogProvider extends PStreamProvider {
         }
 
     }
+
     @Override
     protected void provide() {
         getPhoneLogs();

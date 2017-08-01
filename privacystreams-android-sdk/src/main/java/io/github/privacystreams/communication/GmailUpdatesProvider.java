@@ -7,6 +7,7 @@ import io.github.privacystreams.utils.ConnectionUtils;
 import io.github.privacystreams.utils.Duration;
 import io.github.privacystreams.utils.Globals;
 import io.github.privacystreams.utils.Logging;
+
 import com.google.api.services.gmail.Gmail;
 
 import java.util.Timer;
@@ -38,7 +39,7 @@ class GmailUpdatesProvider extends BaseGmailProvider {
         Looper.prepare();
         super.provide();
 
-        if(authorized){
+        if (authorized) {
             doEmailUpdates();
         }
         Looper.loop();
@@ -47,38 +48,35 @@ class GmailUpdatesProvider extends BaseGmailProvider {
     @Override
     public void onSuccess(Gmail service) {
         super.onSuccess(service);
-        if(running){
+        if (running) {
             timer.cancel();
-        }
-        else{
+        } else {
             timer = new Timer();
         }
         doEmailUpdates();
     }
 
 
-    private void doEmailUpdates(){
+    private void doEmailUpdates() {
         running = true;
         final Handler handler = new Handler();
-        TimerTask doEmailUpdatesTask = new TimerTask(){
+        TimerTask doEmailUpdatesTask = new TimerTask() {
             @Override
             public void run() {
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
                         try {
-                            if(ConnectionUtils.isDeviceOnline(getContext())){
+                            if (ConnectionUtils.isDeviceOnline(getContext())) {
                                 if (mLastEmailTime != 0) {
                                     new FetchEmailTask().execute(buildTimeQuery(mLastEmailTime));
-                                }
-                                else {
+                                } else {
                                     new FetchEmailTask().execute(buildTimeQuery(lastTime));
                                     lastTime = System.currentTimeMillis() / 1000;
                                 }
-                            }
-                            else
+                            } else
                                 Logging.error("No internet connection");
-                        } catch (Exception e){
+                        } catch (Exception e) {
                             e.printStackTrace();
                         }
                     }

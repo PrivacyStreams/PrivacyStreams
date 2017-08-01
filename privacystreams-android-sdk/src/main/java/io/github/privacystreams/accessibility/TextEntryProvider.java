@@ -14,7 +14,7 @@ class TextEntryProvider extends AccEventProvider {
 
     private void onViewFocused(AccessibilityEvent event, AccessibilityNodeInfo rootNode) {
 
-        if(mEvent != null && event != null) {
+        if (mEvent != null && event != null) {
             // Store Text Input.
             AccEvent accEvent = new AccEvent(event, rootNode);
             accEvent.setFieldValue(AccEvent.TEXT, mEvent.text);
@@ -26,7 +26,7 @@ class TextEntryProvider extends AccEventProvider {
     private void onViewTextChanged(AccessibilityEvent event) {
         List<CharSequence> text = event.getText();
         if (text == null
-                || text.size()==0
+                || text.size() == 0
                 || text.get(0).length() == 0
                 || event.isPassword()) {
             this.mEvent = null;
@@ -47,8 +47,7 @@ class TextEntryProvider extends AccEventProvider {
         if (this.mEvent != null
                 && this.mEvent.sourceHashCode == hashCode) {
             this.mEvent.text = text.toString();
-        }
-        else{
+        } else {
             beginEvent(String.valueOf(event.getPackageName()), hashCode, text);
         }
     }
@@ -61,7 +60,7 @@ class TextEntryProvider extends AccEventProvider {
         this.mEvent = event;
     }
 
-    public void handleAccessibilityEvent(AccessibilityEvent event, AccessibilityNodeInfo rootNode){
+    public void handleAccessibilityEvent(AccessibilityEvent event, AccessibilityNodeInfo rootNode) {
 
         switch (event.getEventType()) {
             case AccessibilityEvent.TYPE_VIEW_FOCUSED:
@@ -82,6 +81,7 @@ class TextEntryProvider extends AccEventProvider {
         public int sequence;
         public int sourceHashCode;
         public String text;
+
         public InputEvent() {
             this.sequence = 0;
         }

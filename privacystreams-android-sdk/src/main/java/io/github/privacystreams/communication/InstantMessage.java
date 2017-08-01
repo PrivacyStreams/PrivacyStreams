@@ -1,16 +1,16 @@
-package com.github.privacystreams.communication;
+package io.github.privacystreams.communication;
 
 
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.view.accessibility.AccessibilityNodeInfo;
 
-import com.github.privacystreams.core.providers.MStreamProvider;
-import com.github.privacystreams.utils.annotations.PSItemField;
+import io.github.privacystreams.core.PStreamProvider;
+import io.github.privacystreams.utils.annotations.PSItemField;
 
 import java.util.List;
 
-public class InstantMessage extends Message{
+public class InstantMessage extends Message {
     /**
      * The current position of this message
      * represented by a long[] with left, top, right, bottom
@@ -26,12 +26,12 @@ public class InstantMessage extends Message{
 
 
     public InstantMessage(String type,
-                   String content,
-                   String packageName,
-                   String contact,
-                   long timestamp,
-                   int[] position,
-                   AccessibilityNodeInfo rootNode){
+                          String content,
+                          String packageName,
+                          String contact,
+                          long timestamp,
+                          int[] position,
+                          AccessibilityNodeInfo rootNode) {
         super(type, content, packageName, contact, timestamp);
         this.setFieldValue(POSITION, position);
         this.setFieldValue(ROOT_NODE, rootNode);
@@ -52,7 +52,7 @@ public class InstantMessage extends Message{
      * @return the provider function
      */
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
-    public static MStreamProvider asUpdatesInIM(){
+    public static PStreamProvider asUpdatesInIM() {
         return new IMUIUpdatesProvider();
     }
 

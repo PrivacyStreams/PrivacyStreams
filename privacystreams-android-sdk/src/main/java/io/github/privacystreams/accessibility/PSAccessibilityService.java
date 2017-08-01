@@ -33,7 +33,7 @@ public class PSAccessibilityService extends AccessibilityService {
     public void onAccessibilityEvent(AccessibilityEvent accessibilityEvent) {
         if (accessibilityEvent == null) return;
         AccessibilityNodeInfo rootNode = getRootInActiveWindow();
-        for(AccEventProvider provider : accEventProviders){
+        for (AccEventProvider provider : accEventProviders) {
             provider.handleAccessibilityEvent(accessibilityEvent, rootNode);
         }
     }
@@ -42,12 +42,12 @@ public class PSAccessibilityService extends AccessibilityService {
     public void onInterrupt() {
     }
 
-    static void registerProvider(AccEventProvider provider){
+    static void registerProvider(AccEventProvider provider) {
         if (provider != null)
             accEventProviders.add(provider);
     }
 
-    static void unregisterProvider(AccEventProvider provider){
+    static void unregisterProvider(AccEventProvider provider) {
         if (provider != null && accEventProviders.contains(provider))
             accEventProviders.remove(provider);
     }

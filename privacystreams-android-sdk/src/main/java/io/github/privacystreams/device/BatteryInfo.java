@@ -22,13 +22,14 @@ public class BatteryInfo extends Item {
     @PSItemField(type = Float.class)
     public static final String LEVEL = "level";
 
-    BatteryInfo(long timestamp, float level){
+    BatteryInfo(long timestamp, float level) {
         setFieldValue(TIMESTAMP, timestamp);
         setFieldValue(LEVEL, level);
     }
 
     /**
      * Provide current battery info.
+     *
      * @return the provider
      */
     public static PStreamProvider asSnapshot() {

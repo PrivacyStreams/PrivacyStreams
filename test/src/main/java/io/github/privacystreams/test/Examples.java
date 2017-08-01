@@ -48,7 +48,9 @@ public class Examples {
         this.purpose = Purpose.TEST("Examples"); // Developers should replace with actual purpose in real apps.
     }
 
-    /** Get the location metadata of all local images. */
+    /**
+     * Get the location metadata of all local images.
+     */
     public void getImageMetadata() {
         uqi.getData(Image.getFromStorage(), purpose) // get a stream of local images.
                 .setField("lat_lon", ImageOperators.getLatLon("image_data")) // create a new field "lat_lon" from the "image_data" field using `getLatLon` operator.
@@ -67,7 +69,9 @@ public class Examples {
                 });
     }
 
-    /** Take a photo with camera and get the new photo's path. */
+    /**
+     * Take a photo with camera and get the new photo's path.
+     */
     public void takePhoto() {
         try {
             Item photoItem = uqi.getData(Image.takeFromCamera(), purpose) // get an PStream of image from camera, user will need to take a photo here.
@@ -86,9 +90,11 @@ public class Examples {
         }
     }
 
-    /** Record audio in next 10 seconds and get loudness. */
+    /**
+     * Record audio in next 10 seconds and get loudness.
+     */
     public void getCurrentLoudness() {
-        uqi.getData(Audio.record(10*1000), purpose) // get an audio stream from microphone, the only item is an 10-second audio recorded from microphone
+        uqi.getData(Audio.record(10 * 1000), purpose) // get an audio stream from microphone, the only item is an 10-second audio recorded from microphone
                 .setField("loudness", AudioOperators.calcLoudness("audio_data")) // create a field "loudness" based on "audio_data" field using `calcLoudness` operator.
                 .ifPresent("loudness", new Callback<Double>() {
                     @Override
@@ -98,7 +104,9 @@ public class Examples {
                 });
     }
 
-    /** Monitor fine-grained location once per second and check whether it's in an square region. */
+    /**
+     * Monitor fine-grained location once per second and check whether it's in an square region.
+     */
     public void monitorLocationUpdates() {
         double minLat = 40.0, minLng = -180.0, maxLat = 40.1, maxLng = -180.1; // the square region.
 
@@ -116,7 +124,9 @@ public class Examples {
                 });
     }
 
-    /** Get current city-level location. */
+    /**
+     * Get current city-level location.
+     */
     public void getCityLocation() {
         try {
             LatLon latLon = uqi.getData(Geolocation.asCurrent(Geolocation.LEVEL_CITY), purpose) // get an PStream of current location, the location granularity is "CITY".
@@ -128,13 +138,17 @@ public class Examples {
 
     }
 
-    /** Get a stream of notifications and print each notification. */
+    /**
+     * Get a stream of notifications and print each notification.
+     */
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public void printNotification() {
         uqi.getData(Notification.asUpdates(), purpose).debug();
     }
 
-    /** Monitor user's browser search events. */
+    /**
+     * Monitor user's browser search events.
+     */
     public void getBrowserSearchEvents() {
         uqi.getData(BrowserSearch.asUpdates(), purpose) // get a live stream of BrowserSearch events.
                 .forEach("text", new Callback<String>() { // callback with the "text" value for each event.
@@ -145,11 +159,13 @@ public class Examples {
                 });
     }
 
-    /** Get the phone number of the contact with the most calls in recent 1 year. */
+    /**
+     * Get the phone number of the contact with the most calls in recent 1 year.
+     */
     public void getContactWithMostCalls() {
         try {
             String phoneNum = uqi.getData(Call.getLogs(), purpose) // get a stream of call logs.
-                    .filter(TimeOperators.recent("timestamp", 365*24*60*60*1000L)) // keep the items whose "timestamp" field is a time in recent 365 days.
+                    .filter(TimeOperators.recent("timestamp", 365 * 24 * 60 * 60 * 1000L)) // keep the items whose "timestamp" field is a time in recent 365 days.
                     .groupBy("contact") // group by "contact" field.
                     .setGroupField("#calls", StatisticOperators.count()) // create a new field "#calls" as the count of grouped items in each group
                     .sortBy("#calls") // select the item with the max "#calls" value.
@@ -161,7 +177,9 @@ public class Examples {
         }
     }
 
-    /** Get the names of contacts that the user had phone call with. */
+    /**
+     * Get the names of contacts that the user had phone call with.
+     */
     public void getCalledNames() {
         try {
             List<String> calledPhoneNumbers = uqi.getData(Call.getLogs(), purpose) // get call logs
@@ -175,7 +193,9 @@ public class Examples {
         }
     }
 
-    /** Calculate total number of calls and length of calls for each contact in call log. */
+    /**
+     * Calculate total number of calls and length of calls for each contact in call log.
+     */
     public void getNumCallsEachContact() {
         try {
             List<Item> items = uqi.getData(Call.getLogs(), purpose) // get call logs
@@ -194,7 +214,9 @@ public class Examples {
         }
     }
 
-    /** Get all received SMS messages that contains "Alert" substring and hashed phone number. */
+    /**
+     * Get all received SMS messages that contains "Alert" substring and hashed phone number.
+     */
     public void searchReceivedMessages() {
         try {
             List<Item> items = uqi.getData(Message.getAllSMS(), purpose) // get all SMS messages.
@@ -214,9 +236,11 @@ public class Examples {
         }
     }
 
-    /** Monitor messages in IM apps (WhatsApp, Facebook Messenger, etc.). */
+    /**
+     * Monitor messages in IM apps (WhatsApp, Facebook Messenger, etc.).
+     */
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
-    public void monitorMessagesIM(){
+    public void monitorMessagesIM() {
         uqi.getData(Message.asUpdatesInIM(), purpose) // get a live stream of IM message updates.
                 .forEach(new Callback<Item>() {
                     @Override
@@ -226,15 +250,16 @@ public class Examples {
                         String contact = input.getValueByField("contact"); // get the value of "contact" field.
                         if ("sent".equals(type)) {
                             System.out.println("Sent a message to " + contact + ": " + content);
-                        }
-                        else if ("received".equals(type)) {
+                        } else if ("received".equals(type)) {
                             System.out.println("Received a message from " + contact + ": " + content);
                         }
                     }
                 });
     }
 
-    /** Get the SSID of the connected Wifi Ap. */
+    /**
+     * Get the SSID of the connected Wifi Ap.
+     */
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     public void getConnectedWifiSSID() {
         uqi.getData(WifiAp.getScanResults(), purpose)  // get a stream of Wifi Ap scan results.
@@ -247,7 +272,9 @@ public class Examples {
                 });
     }
 
-    /** Get the mac addresses of surrounding bluetooth devices. */
+    /**
+     * Get the mac addresses of surrounding bluetooth devices.
+     */
     public void getBluetoothMacAddresses() {
         try {
             List<String> macAddresses = uqi.getData(BluetoothDevice.getScanResults(), purpose)  // get a stream of bluetooth scan results.
@@ -264,10 +291,10 @@ public class Examples {
      */
     public void uploadCurrentLocation() {
         Globals.DropboxConfig.accessToken = "Your Dropbox access token here.";
-        Globals.DropboxConfig.leastSyncInterval = 60*60*1000L; // Upload to Dropbox once per hour.
+        Globals.DropboxConfig.leastSyncInterval = 60 * 60 * 1000L; // Upload to Dropbox once per hour.
         Globals.DropboxConfig.onlyOverWifi = false; // Upload only over WIFI.
 
-        uqi.getData(Geolocation.asUpdates(10*60*1000L, Geolocation.LEVEL_EXACT), purpose) // get a live stream of exact geolocation, with a 10-minute interval.
+        uqi.getData(Geolocation.asUpdates(10 * 60 * 1000L, Geolocation.LEVEL_EXACT), purpose) // get a live stream of exact geolocation, with a 10-minute interval.
                 .setIndependentField("uuid", DeviceOperators.getDeviceId()) // create a new field "uuid" using `getDeviceId` operator.
                 .project("lat_lon", "uuid") // keep the "lat_lon", "uuid" fields in each item.
                 .forEach(IOOperators.<Item>uploadToDropbox("Location.txt", true)); // upload the item to "Location.txt" file in Dropbox.
@@ -360,7 +387,7 @@ public class Examples {
      */
     public void geofence(Context context) {
         new UQI(context)
-                .getData(Geolocation.asUpdates(10*1000, Geolocation.LEVEL_EXACT), Purpose.GAME("notifying the player"))
+                .getData(Geolocation.asUpdates(10 * 1000, Geolocation.LEVEL_EXACT), Purpose.GAME("notifying the player"))
                 .setField("inRegion", GeolocationOperators.inCircle(Geolocation.LAT_LON, CENTER_LATITUDE, CENTER_LONGITUDE, RADIUS))
                 .onChange("inRegion", new Callback<Boolean>() {
                     @Override

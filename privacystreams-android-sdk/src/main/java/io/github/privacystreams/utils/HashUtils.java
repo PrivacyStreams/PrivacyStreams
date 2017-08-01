@@ -32,6 +32,7 @@ public class HashUtils {
 
     /**
      * Return the value hash of an object
+     *
      * @see Boolean#hashCode()
      */
     public static int valueHash(Object obj) {

@@ -18,7 +18,7 @@ class TextEntry extends UIAction {
     @PSItemField(type = String.class)
     public static final String CONTENT = "content";
 
-    TextEntry(AccessibilityEvent event, AccessibilityNodeInfo sourceNode, String content){
+    TextEntry(AccessibilityEvent event, AccessibilityNodeInfo sourceNode, String content) {
         super(event, sourceNode);
         this.setFieldValue(CONTENT, content);
     }

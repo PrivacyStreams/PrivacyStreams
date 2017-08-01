@@ -13,18 +13,18 @@ import java.util.Map;
 /**
  * Stream is one of the essential classes used in PrivacyStreams.
  * Most personal data access/process operation in PrivacyStreams use Stream as the intermediate.
- *
+ * <p>
  * A Stream is consist of one or multiple items.
  * The items are produced by PStreamProvider functions (like LocationUpdatesProvider, CallLogProvider, etc.),
  * transformed by PStreamTransformation functions (like filter, reorder, map, etc.),
  * and outputted by ItemsOperator functions (like print, toList, etc.).
- *
+ * <p>
  * Stream producer functions (including PStreamProvider and PStreamTransformation)
  * should make sure the stream is not closed before writing items to it, using:
- *      stream.isClosed()
+ * stream.isClosed()
  * Stream consumer functions (including PStreamTransformation and ItemsOperator)
  * should stop reading from Stream if the stream is ended.
- *      If stream.read() returns a null, it means the stream is ended.
+ * If stream.read() returns a null, it means the stream is ended.
  */
 
 public abstract class Stream {
@@ -49,7 +49,8 @@ public abstract class Stream {
     /**
      * Write an item to the stream,
      * or write a null to end the stream.
-     * @param item  the item to write to the stream, null indicates the end of the stream
+     *
+     * @param item           the item to write to the stream, null indicates the end of the stream
      * @param streamProvider the function that provide current stream
      */
     public void write(Item item, Function<?, ? extends Stream> streamProvider) {
@@ -84,6 +85,7 @@ public abstract class Stream {
 
     /**
      * Register a function to current stream.
+     *
      * @param streamReceiver the function that receives stream items
      */
     public synchronized void register(Function<? extends Stream, ?> streamReceiver) {
@@ -102,6 +104,7 @@ public abstract class Stream {
 
     /**
      * Unregister a function from current stream.
+     *
      * @param streamReceiver the function that receives stream items
      */
     public synchronized void unregister(Function<? extends Stream, ?> streamReceiver) {
@@ -122,6 +125,7 @@ public abstract class Stream {
     /**
      * Check whether the stream is closed,
      * Stream generator functions should make sure the stream is not closed this writing items to it.
+     *
      * @return true if the stream is closed, meaning the stream does not accept new items
      */
     public boolean isClosed() {

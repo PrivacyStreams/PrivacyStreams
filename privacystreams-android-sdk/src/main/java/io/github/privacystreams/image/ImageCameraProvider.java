@@ -9,7 +9,6 @@ import io.github.privacystreams.utils.StorageUtils;
 import io.github.privacystreams.utils.TimeUtils;
 
 
-
 import java.io.File;
 
 /**
@@ -18,7 +17,7 @@ import java.io.File;
 
 class ImageCameraProvider extends PStreamProvider implements CameraResultListener {
 
-    ImageCameraProvider(){
+    ImageCameraProvider() {
         this.addRequiredPermissions(Manifest.permission.CAMERA,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE);
     }

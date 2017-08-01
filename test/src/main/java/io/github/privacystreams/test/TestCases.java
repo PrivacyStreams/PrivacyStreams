@@ -93,8 +93,9 @@ public class TestCases {
 //                    }
 //                });
     }
+
     public void testWhatsContact() throws PSException {
-       Log.i("whatsapp", String.valueOf(uqi.getData(Contact.getWhatAppAll(), Purpose.UTILITY("test")).asList()));
+        Log.i("whatsapp", String.valueOf(uqi.getData(Contact.getWhatAppAll(), Purpose.UTILITY("test")).asList()));
     }
 
     public void testAudio() {
@@ -175,22 +176,23 @@ public class TestCases {
     }
 
 
-    public void testEmailUpdates(){
-        uqi.getData(Email.asGmailUpdates(15*60*1000), Purpose.TEST("test")).debug();
+    public void testEmailUpdates() {
+        uqi.getData(Email.asGmailUpdates(15 * 60 * 1000), Purpose.TEST("test")).debug();
     }
 
-    public void testEmailList(){
-        uqi.getData(Email.asGmailHistory(System.currentTimeMillis()-Duration.hours(100),
-                System.currentTimeMillis()-Duration.hours(50),
-                100),Purpose.TEST("test")).debug();
+    public void testEmailList() {
+        uqi.getData(Email.asGmailHistory(System.currentTimeMillis() - Duration.hours(100),
+                System.currentTimeMillis() - Duration.hours(50),
+                100), Purpose.TEST("test")).debug();
     }
 
-    public void testDriveList(){
-            uqi.getData(DriveDocument.testDriveList(System.currentTimeMillis()-Duration.days(365),
-                    System.currentTimeMillis(),
-                    100, 10),Purpose.TEST("test")).debug();
+    public void testDriveList() {
+        uqi.getData(DriveDocument.testDriveList(System.currentTimeMillis() - Duration.days(365),
+                System.currentTimeMillis(),
+                100, 10), Purpose.TEST("test")).debug();
     }
-   // For testing
+
+    // For testing
     public void testMockData() {
         Globals.DropboxConfig.accessToken = "access_token_here";
         Globals.DropboxConfig.leastSyncInterval = Duration.seconds(3);
@@ -245,42 +247,43 @@ public class TestCases {
         uqi.getData(Notification.asUpdates(), Purpose.TEST("test")).debug();
     }
 
-    public void testWifiUpdates(){
+    public void testWifiUpdates() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
             uqi.getData(WifiAp.getScanResults(), Purpose.FEATURE("wifi updates")).debug();
         }
     }
 
-    public void newTestWifiTrueUpdates(){
+    public void newTestWifiTrueUpdates() {
         uqi.getData(WifiAp.getUpdateStatus(), Purpose.FEATURE("check new new provider")).debug();
     }
-    public void testWifiTrueUpdates(){
+
+    public void testWifiTrueUpdates() {
         uqi.getData(WifiAp.getUpdateStatus(), Purpose.FEATURE("check new provider")).debug();
     }
 
-    public void testBrowserHistoryUpdates(){
+    public void testBrowserHistoryUpdates() {
         uqi.getData(BrowserVisit.asUpdates(), Purpose.FEATURE("browser history")).debug();
     }
 
-    public void testBrowserSearchUpdates(){
+    public void testBrowserSearchUpdates() {
         uqi.getData(BrowserSearch.asUpdates(), Purpose.FEATURE("browser search")).debug();
     }
 
-    public void testAccEvents(){
+    public void testAccEvents() {
         uqi.getData(AccEvent.asUpdates(), Purpose.TEST("AccEvent"))
                 .logOverSocket("accEvent")
                 .debug();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
-    public void testIMUIUpdates(){
-        uqi.getData(Message.asUpdatesInIM(),Purpose.FEATURE("im updates")).debug();
+    public void testIMUIUpdates() {
+        uqi.getData(Message.asUpdatesInIM(), Purpose.FEATURE("im updates")).debug();
     }
 
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
-    public void testIMUpdates(){
-        uqi.getData(Message.asUpdatesInIM(),Purpose.FEATURE("im updates")).debug();
+    public void testIMUpdates() {
+        uqi.getData(Message.asUpdatesInIM(), Purpose.FEATURE("im updates")).debug();
     }
 
     // get a count of the #contacts in contact list
@@ -316,7 +319,7 @@ public class TestCases {
         }
     }
 
-        // get recent called 10 contacts’ names
+    // get recent called 10 contacts’ names
     public void getRecentCalledNames(int n) {
         try {
             List<String> recentCalledPhoneNumbers = uqi
@@ -332,8 +335,7 @@ public class TestCases {
 //                    .filter(ListOperators.intersects(Contact.PHONES, recentCalledPhoneNumbers.toArray()))
                     .asList(Contact.NAME);
             System.out.println(recentCalledNames);
-        }
-        catch (PSException e) {
+        } catch (PSException e) {
             e.printStackTrace();
         }
     }
@@ -346,18 +348,18 @@ public class TestCases {
                 .count();
     }
 
-    void testDeviceStateChangeUpdates(){
+    void testDeviceStateChangeUpdates() {
         uqi.getData(DeviceEvent.asUpdates(), Purpose.FEATURE("device states")).debug();
     }
 
     // TODO Problem set: use this function for test case.
-    List<Item> isAtHome()  {
+    List<Item> isAtHome() {
         try {
             return uqi
                     .getData(WifiAp.getScanResults(), Purpose.FEATURE("know whether you are at home."))
                     .asList();
         } catch (PSException e) {
-            Log.e("e",e.toString());
+            Log.e("e", e.toString());
             e.printStackTrace();
             return null;
         }
@@ -368,11 +370,12 @@ public class TestCases {
 //                .count() == 1;
 
     }
-   public void testUpdatesContact() {
+
+    public void testUpdatesContact() {
         uqi.getData(Contact.asUpdates(), Purpose.FEATURE("For experiment")).debug();
     }
 
-    public void testUpdatesCalendar(){
+    public void testUpdatesCalendar() {
         uqi.getData(CalendarEvent.getUpdates(), Purpose.FEATURE("For test")).debug();
     }
 
@@ -380,7 +383,7 @@ public class TestCases {
         uqi.getData(CalendarEvent.getAll(), Purpose.FEATURE("for test")).debug();
     }
 
-    void callbackWhenReceivesMessage(String appName, Callback<String> messageCallback){
+    void callbackWhenReceivesMessage(String appName, Callback<String> messageCallback) {
         uqi
                 .getData(Message.asIncomingSMS(), Purpose.FEATURE(""));
     }

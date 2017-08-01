@@ -62,12 +62,12 @@ public class CalendarEvent extends Item {
         this.setFieldValue(STATUS, STATUS_ADDED);
     }
 
-    CalendarEvent(CalendarEvent another){
+    CalendarEvent(CalendarEvent another) {
 
-        for(String key: another.toMap().keySet()){
+        for (String key : another.toMap().keySet()) {
             this.setFieldValue(key, another.getValueByField(key));
         }
-        
+
     }
 
     /**
@@ -80,6 +80,7 @@ public class CalendarEvent extends Item {
     public static PStreamProvider getAll() {
         return new CalendarEventListProvider();
     }
+
     public static PStreamProvider getUpdates() {
         return new CalendarEventUpdatesProvider();
     }

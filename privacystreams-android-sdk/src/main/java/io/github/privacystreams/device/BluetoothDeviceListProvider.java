@@ -50,9 +50,7 @@ class BluetoothDeviceListProvider extends PStreamProvider {
                 android.bluetooth.BluetoothDevice device = intent.getParcelableExtra(android.bluetooth.BluetoothDevice.EXTRA_DEVICE);
                 // return the new bluetooth device
                 BluetoothDeviceListProvider.this.output(new BluetoothDevice(device));
-            }
-            else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action))
-            {
+            } else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action)) {
                 BluetoothDeviceListProvider.this.finish();
             }
 
@@ -64,8 +62,7 @@ class BluetoothDeviceListProvider extends PStreamProvider {
         super.onCancel(uqi);
         try {
             getContext().unregisterReceiver(mReceiver);
-        }
-        catch (Exception ignored) {
+        } catch (Exception ignored) {
         }
     }
 }

@@ -45,6 +45,7 @@ class SMSIncomingMessageProvider extends PStreamProvider {
     public class SMSReceiver extends BroadcastReceiver {
         // SmsManager class is responsible for all SMS related actions
         final SmsManager sms = SmsManager.getDefault();
+
         public void onReceive(Context context, Intent intent) {
             if (intent.getAction().equals("android.provider.Telephony.SMS_RECEIVED")) {
                 // Get the SMS message received

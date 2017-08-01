@@ -8,7 +8,7 @@ import android.view.accessibility.AccessibilityNodeInfo;
  */
 class UIActionProvider extends AccEventProvider {
 
-    public void handleAccessibilityEvent(AccessibilityEvent event, AccessibilityNodeInfo rootNode){
+    public void handleAccessibilityEvent(AccessibilityEvent event, AccessibilityNodeInfo rootNode) {
         int eventType = event.getEventType();
         if (eventType == AccessibilityEvent.TYPE_VIEW_CLICKED
                 || eventType == AccessibilityEvent.TYPE_VIEW_LONG_CLICKED

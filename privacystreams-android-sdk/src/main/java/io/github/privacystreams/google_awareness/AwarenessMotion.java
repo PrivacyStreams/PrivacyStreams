@@ -9,7 +9,7 @@ import io.github.privacystreams.utils.annotations.PSItemField;
  * TODO clarify this class before making this public
  */
 
-class AwarenessMotion extends Item{
+class AwarenessMotion extends Item {
     /**
      * The timestamp of the event
      */
@@ -19,9 +19,9 @@ class AwarenessMotion extends Item{
     /**
      * The motion type, which is the return value of google Awareness API `FenceState.getFenceKey()`
      */
-    private static final String MOTION_TYPE ="motion_type";
+    private static final String MOTION_TYPE = "motion_type";
 
-    AwarenessMotion(long timestamp, String motionType){
+    AwarenessMotion(long timestamp, String motionType) {
         this.setFieldValue(TIMESTAMP, timestamp);                        //Assign value to each of the member variable
         this.setFieldValue(MOTION_TYPE, motionType);
     }

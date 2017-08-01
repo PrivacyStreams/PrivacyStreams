@@ -21,6 +21,7 @@ class OnFieldChangeCallback<TValue, Void> extends PStreamAction {
     }
 
     private transient TValue lastFieldValue;
+
     @Override
     protected void onInput(Item item) {
         if (item.isEndOfStream()) {

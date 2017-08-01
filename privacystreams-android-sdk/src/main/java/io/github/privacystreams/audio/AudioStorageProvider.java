@@ -14,7 +14,7 @@ import java.io.File;
 
 class AudioStorageProvider extends PStreamProvider {
 
-    AudioStorageProvider(){
+    AudioStorageProvider() {
         this.addRequiredPermissions(Manifest.permission.READ_EXTERNAL_STORAGE);
     }
 
@@ -25,7 +25,7 @@ class AudioStorageProvider extends PStreamProvider {
 
     }
 
-    private void getAudioInfo(){
+    private void getAudioInfo() {
 
         final String track_id = MediaStore.Audio.Media._ID;
         final String track_no = MediaStore.Audio.Media.TRACK;

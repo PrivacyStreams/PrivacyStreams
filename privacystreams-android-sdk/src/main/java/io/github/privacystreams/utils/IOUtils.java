@@ -25,35 +25,29 @@ public class IOUtils {
 
         if (object instanceof Number) {
             return object;
-        }
-        else if (object instanceof String) {
+        } else if (object instanceof String) {
             return object;
-        }
-        else if (object instanceof CharSequence) {
+        } else if (object instanceof CharSequence) {
             return object.toString();
-        }
-        else if (object instanceof List) {
+        } else if (object instanceof List) {
             List<Object> result = new ArrayList<>();
             for (Object obj : (List) object) {
                 result.add(serialize(obj));
             }
             return result;
-        }
-        else if (object instanceof Map) {
+        } else if (object instanceof Map) {
             Map<Object, Object> result = new HashMap<>();
             for (Object key : ((Map) object).keySet()) {
                 Object value = ((Map) object).get(key);
                 result.put(serialize(key), serialize(value));
             }
             return result;
-        }
-        else if (object instanceof LatLon) {
+        } else if (object instanceof LatLon) {
             Map<String, Double> result = new HashMap<>();
             result.put("lat", ((LatLon) object).getLatitude());
             result.put("lon", ((LatLon) object).getLongitude());
             return result;
-        }
-        else if (object instanceof AccessibilityEvent) {
+        } else if (object instanceof AccessibilityEvent) {
             Map<String, Object> result = new HashMap<>();
             AccessibilityEvent event = (AccessibilityEvent) object;
             result.put("event_type", AccessibilityEvent.eventTypeToString(event.getEventType()));
@@ -81,11 +75,10 @@ public class IOUtils {
             try {
                 AccessibilityNodeInfo sourceNode = event.getSource();
                 result.put("source_node", serialize(sourceNode));
+            } catch (IllegalStateException ignored) {
             }
-            catch (IllegalStateException ignored) {}
             return result;
-        }
-        else if (object instanceof AccessibilityNodeInfo) {
+        } else if (object instanceof AccessibilityNodeInfo) {
             Map<String, Object> result = new HashMap<>();
             AccessibilityNodeInfo nodeInfo = (AccessibilityNodeInfo) object;
             result.put("package", serialize(nodeInfo.getPackageName()));
@@ -120,24 +113,21 @@ public class IOUtils {
 //            result.put("bounds_in_parent", serialize(boundsInParent));
 
             List<Object> childNodes = new ArrayList<>();
-            for(int i = 0; i < nodeInfo.getChildCount(); i ++){
+            for (int i = 0; i < nodeInfo.getChildCount(); i++) {
                 AccessibilityNodeInfo childNode = nodeInfo.getChild(i);
-                if(childNode != null){
+                if (childNode != null) {
                     childNodes.add(serialize(childNode));
                 }
             }
             result.put("children", childNodes);
 
             return result;
-        }
-        else if (object instanceof Rect) {
+        } else if (object instanceof Rect) {
             Rect rect = (Rect) object;
             return new int[]{rect.left, rect.top, rect.right, rect.bottom};
-        }
-        else if (object instanceof ImageData) {
+        } else if (object instanceof ImageData) {
             // pass
-        }
-        else if (object instanceof AudioData) {
+        } else if (object instanceof AudioData) {
             // pass
         }
         return object.toString();
