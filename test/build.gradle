@@ -17,7 +17,7 @@ android {
         exclude 'META-INF/ASL2.0'
     }
     defaultConfig {
-        applicationId "com.github.privacystreams"
+        applicationId "io.github.privacystreams"
         minSdkVersion 16
         targetSdkVersion 25
         versionCode 1
