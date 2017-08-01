@@ -198,8 +198,8 @@ bintray {
 
 // yiad.am jfrog repo
 def libraryGroupId = 'privacystreams'
-def libraryArtifactId = 'privacystreams-core'
-def libraryVersion = '0.1.4.9'
+def libraryArtifactId = 'privacystreams-android-sdk'
+def libraryVersion = '0.1.5.0'
 
 publishing {
     publications {
