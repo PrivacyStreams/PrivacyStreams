@@ -18,6 +18,7 @@ abstract class AccEventProvider extends MStreamProvider {
 
     AccEventProvider() {
         this.addRequiredPermissions(PermissionUtils.USE_ACCESSIBILITY_SERVICE);
+        super.init();
     }
 
     @Override
