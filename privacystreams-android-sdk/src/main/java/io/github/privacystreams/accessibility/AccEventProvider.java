@@ -16,6 +16,7 @@ abstract class AccEventProvider extends PStreamProvider {
 
     AccEventProvider() {
         this.addRequiredPermissions(PermissionUtils.USE_ACCESSIBILITY_SERVICE);
+        super.init();
     }
 
     @Override
