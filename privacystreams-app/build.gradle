@@ -10,7 +10,6 @@ android {
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
-
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
     }
@@ -19,6 +18,18 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+    packagingOptions {
+        pickFirst 'META-INF/DEPENDENCIES.txt'
+        pickFirst 'META-INF/LICENSE.txt'
+        pickFirst 'META-INF/NOTICE.txt'
+        pickFirst 'META-INF/NOTICE'
+        pickFirst 'META-INF/LICENSE'
+        pickFirst 'META-INF/DEPENDENCIES'
+        pickFirst 'META-INF/notice.txt'
+        pickFirst 'META-INF/license.txt'
+        pickFirst 'META-INF/dependencies.txt'
+        pickFirst 'META-INF/LGPL2.1'
     }
 }
 

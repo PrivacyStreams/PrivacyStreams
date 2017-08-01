@@ -5,21 +5,6 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 
-<<<<<<< HEAD:privacystreams-core/src/main/java/com/github/privacystreams/communication/BaseGmailProvider.java
-import com.github.privacystreams.core.exceptions.PSException;
-import com.github.privacystreams.core.providers.MStreamProvider;
-import com.github.privacystreams.utils.AppUtils;
-import com.github.privacystreams.utils.ConnectionUtils;
-import com.github.privacystreams.utils.Globals;
-import com.github.privacystreams.utils.Logging;
-=======
-import io.github.privacystreams.core.exceptions.PSException;
-import io.github.privacystreams.core.PStreamProvider;
-import io.github.privacystreams.utils.AppUtils;
-import io.github.privacystreams.utils.ConnectionUtils;
-import io.github.privacystreams.utils.Logging;
-import io.github.privacystreams.utils.TimeUtils;
->>>>>>> eb641f8ad850f8242057d9884a6ce35f8fd5ea8f:privacystreams-android-sdk/src/main/java/io/github/privacystreams/communication/BaseGmailProvider.java
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException;
@@ -30,6 +15,8 @@ import com.google.api.services.gmail.Gmail;
 import com.google.api.services.gmail.GmailScopes;
 import com.google.api.services.gmail.model.ListMessagesResponse;
 import com.google.api.services.gmail.model.Message;
+import com.google.api.services.gmail.model.MessagePart;
+import com.google.api.services.gmail.model.MessagePartHeader;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -46,17 +33,19 @@ import javax.mail.Part;
 import javax.mail.Session;
 import javax.mail.internet.MimeMessage;
 
+import io.github.privacystreams.core.PStreamProvider;
+import io.github.privacystreams.core.exceptions.PSException;
+import io.github.privacystreams.utils.AppUtils;
+import io.github.privacystreams.utils.ConnectionUtils;
+import io.github.privacystreams.utils.Logging;
+import io.github.privacystreams.utils.TimeUtils;
+
 /**
  * Base class for Gmail-related Providers.
  */
 
-<<<<<<< HEAD:privacystreams-core/src/main/java/com/github/privacystreams/communication/BaseGmailProvider.java
-abstract class BaseGmailProvider extends MStreamProvider implements GmailResultListener {
-    static final String GMAIL_PREF_ACCOUNT_NAME = "gmail accountName";
-=======
 abstract class BaseGmailProvider extends PStreamProvider implements GmailResultListener {
-    static final String PREF_ACCOUNT_NAME = "accountName";
->>>>>>> eb641f8ad850f8242057d9884a6ce35f8fd5ea8f:privacystreams-android-sdk/src/main/java/io/github/privacystreams/communication/BaseGmailProvider.java
+    static final String GMAIL_PREF_ACCOUNT_NAME = "accountName";
     static final String[] SCOPES = {GmailScopes.GMAIL_LABELS, GmailScopes.GMAIL_READONLY};
     private Gmail mService;
     int mMaxResult = Integer.MAX_VALUE;
@@ -192,58 +181,7 @@ abstract class BaseGmailProvider extends PStreamProvider implements GmailResultL
                 if (total > mMaxResult) {
                     break;
                 }
-<<<<<<< HEAD:privacystreams-core/src/main/java/com/github/privacystreams/communication/BaseGmailProvider.java
-//                Message message = mService.users().messages().get(user, item.getId()).setFormat("raw").execute();
-                getMessageDetails(item.getId());
-//                List<MessagePart> messageParts = message.getPayload().getParts();
-//                List<MessagePartHeader> headers = message.getPayload().getHeaders();
-//                if(message.getRaw()!=null){
-//                    List<Sift> sifts = discovery(message.getRaw());
-//                    Logging.debug("-------");
-//                    for(Sift sift: sifts) {
-//                        Logging.debug(sift.toString());
-//                    }
-//                }
-//                else{
-//                    Logging.debug("null");
-//                }
-//
-//                if (!headers.isEmpty()) {
-//                    for (MessagePartHeader header : headers) {
-//                        String name = header.getName();
-//                        switch (name) {
-//                            case "From":
-//                                from = header.getValue();
-//                                break;
-//                            case "To":
-//                                deliverTo = header.getValue();
-//                                break;
-//                            case "Subject":
-//                                subject = header.getValue();
-//                                break;
-//                            case "Date":
-//                                String date = header.getValue();
-//                                if(date.contains(","))
-//                                    date = date.substring(date.indexOf(",")+2,date.length());;
-//                                String timestampFormat = "dd MMM yyyy HH:mm:ss Z";
-//                                timestamp = TimeUtils.fromFormattedString(timestampFormat,date)/1000;
-//                                break;
-//                        }
-//                    }
-//                }
-//                if (messageParts != null && !messageParts.isEmpty()) {
-//                    byte[] bytes = Base64.decodeBase64(messageParts.get(0).getBody().getData());
-//                    if (bytes != null) {
-//                        String mailText = new String(bytes);
-//                        if (!mailText.isEmpty()) {
-//                            total++;
-//                            content = mailText;
-//                            messageList.add(mailText);
-//                        }
-//                    }
-//                }
-//                if(mLastEmailTime<timestamp) mLastEmailTime = timestamp;
-=======
+
                 Message message = mService.users().messages().get(user, item.getId()).setFormat("full").execute();
                 List<MessagePart> messageParts = message.getPayload().getParts();
                 List<MessagePartHeader> headers = message.getPayload().getHeaders();
@@ -283,7 +221,6 @@ abstract class BaseGmailProvider extends PStreamProvider implements GmailResultL
                     }
                 }
                 if(mLastEmailTime < timestamp) mLastEmailTime = timestamp;
->>>>>>> eb641f8ad850f8242057d9884a6ce35f8fd5ea8f:privacystreams-android-sdk/src/main/java/io/github/privacystreams/communication/BaseGmailProvider.java
                 this.output(new Email(content, AppUtils.APP_PACKAGE_GMAIL, from, deliverTo, subject, timestamp));
             }
         }

@@ -1,7 +1,9 @@
 package io.github.privacystreams.test;
 
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.multidex.MultiDex;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -26,68 +28,21 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private class MyAsyncTask extends AsyncTask<Object, Object, Object> {
+        @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
         @Override
         protected Object doInBackground(Object[] objects) {
-<<<<<<< HEAD:app/src/main/java/com/github/privacystreams/MainActivity.java
-            UseCases useCases = new UseCases(MainActivity.this);
-
-//            useCases.getRecentCalledNames(2);
-
-//            useCases.testImage();
-//            useCases.testCurrentLocation();
-//            useCases.testTextEntry();
-//            useCases.testNotification();
-//            useCases.testAudio();
-//            useCases.testMockData();
-
-
-//            for(Item item: useCases.isAtHome()){
-//                Log.e("item",(String)item.getValueByField(WifiAp.BSSID));
-//            }
-
-//            useCases.testContacts();
-//            useCases.testDeviceState();
-=======
             TestCases testCases = new TestCases(MainActivity.this);
 
             testCases.testDumpAccEvents();
             testCases.testCurrentLocation();
-//            testCases.testTextEntry();
-//            testCases.testNotification();
-//            testCases.testAudio();
-//            testCases.testMockData();
-//            testCases.testContacts();
-//            testCases.testDeviceState();
->>>>>>> eb641f8ad850f8242057d9884a6ce35f8fd5ea8f:test/src/main/java/io/github/privacystreams/test/MainActivity.java
-//
-//            testCases.testBrowserSearchUpdates();
-//            testCases.testBrowserHistoryUpdates();
-//
-<<<<<<< HEAD:app/src/main/java/com/github/privacystreams/MainActivity.java
-//            useCases.testAccEvents();
-//
-            useCases.testIMUpdates();
- //           useCases.testEmailUpdates();
-//            useCases.testEmailList();
-=======
+
+
 //            testCases.testAccEvents();
 //
-//            testCases.testIMUpdates();
+            testCases.testIMUpdates();
  //           testCases.testEmailUpdates();
 //            testCases.testEmailList();
->>>>>>> eb641f8ad850f8242057d9884a6ce35f8fd5ea8f:test/src/main/java/io/github/privacystreams/test/MainActivity.java
 
-//useCases.testUpdatesContact();
-
-//            useCases.testWifiUpdates();
-
-//            useCases.testIMUIUpdates();
-//            useCases.testCalendarList();
-//            useCases.testWifiUpdates();
-//            useCases.newTestWifiTrueUpdates();
-//            useCases.testUpdatesCalendar();
-
-//            useCases.testDriveList();
 
             return null;
         }

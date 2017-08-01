@@ -78,11 +78,11 @@ dependencies {
         exclude group: 'org.apache.httpcomponents'
     }
 
-    compile ( 'com.easilydo:sift-sdk:1.0.0' ) {
+    provided ( 'com.easilydo:sift-sdk:1.0.0' ) {
         exclude group: 'org.apache.httpcomponents'
         exclude group: 'org.json'
     }
-    compile 'com.sun.mail:android-mail:1.5.5'
+    provided 'com.sun.mail:android-mail:1.5.5'
 }
 
 group = publishedGroupId                               // Maven Group ID for the artifact

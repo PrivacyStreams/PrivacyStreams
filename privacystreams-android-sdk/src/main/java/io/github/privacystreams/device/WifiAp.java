@@ -91,18 +91,13 @@ public class WifiAp extends Item {
      *
      * @return the provider function.
      */
-<<<<<<< HEAD:privacystreams-core/src/main/java/com/github/privacystreams/device/WifiAp.java
-    // @RequiresPermission(allOf = {Manifest.permission.ACCESS_COARSE_LOCATION
-    // , Manifest.permission.CHANGE_WIFI_STATE, Manifest.permission.ACCESS_WIFI_STATE})
-    public static MStreamProvider getScanResults() {
-=======
+
     // @RequiresPermission(allOf = {Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.CHANGE_WIFI_STATE, Manifest.permission.ACCESS_WIFI_STATE})
     public static PStreamProvider getScanResults() {
->>>>>>> eb641f8ad850f8242057d9884a6ce35f8fd5ea8f:privacystreams-android-sdk/src/main/java/io/github/privacystreams/device/WifiAp.java
         return new WifiApListProvider();
     }
 
-    public static MStreamProvider getUpdateStatus() {
+    public static PStreamProvider getUpdateStatus() {
         return new WifiUpdatesProvider();
     }
 

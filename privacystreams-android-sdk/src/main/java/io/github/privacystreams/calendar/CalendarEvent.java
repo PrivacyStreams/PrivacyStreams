@@ -80,7 +80,7 @@ public class CalendarEvent extends Item {
     public static PStreamProvider getAll() {
         return new CalendarEventListProvider();
     }
-    public static MStreamProvider getUpdates() {
+    public static PStreamProvider getUpdates() {
         return new CalendarEventUpdatesProvider();
     }
 }

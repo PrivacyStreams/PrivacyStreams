@@ -11,14 +11,9 @@ import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 
-<<<<<<< HEAD:privacystreams-core/src/main/java/com/github/privacystreams/device/WifiApListProvider.java
-import com.github.privacystreams.core.UQI;
-import com.github.privacystreams.core.providers.MStreamProvider;
-import com.github.privacystreams.utils.Logging;
-=======
-import io.github.privacystreams.core.UQI;
 import io.github.privacystreams.core.PStreamProvider;
->>>>>>> eb641f8ad850f8242057d9884a6ce35f8fd5ea8f:privacystreams-android-sdk/src/main/java/io/github/privacystreams/device/WifiApListProvider.java
+import io.github.privacystreams.core.UQI;
+import io.github.privacystreams.utils.Logging;
 
 
 /**

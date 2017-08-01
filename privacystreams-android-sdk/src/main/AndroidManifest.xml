@@ -5,7 +5,7 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
 
-    <application android:name="android.support.multidex.MultiDexApplication">
+    <application>
         <activity
             android:name="io.github.privacystreams.utils.PSPermissionActivity"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
@@ -19,7 +19,7 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true" />
 
-        <activity android:name="com.github.privacystreams.document.GoogleDriveAuthorizationActivity"
+        <activity android:name="io.github.privacystreams.document.GoogleDriveAuthorizationActivity"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true" />

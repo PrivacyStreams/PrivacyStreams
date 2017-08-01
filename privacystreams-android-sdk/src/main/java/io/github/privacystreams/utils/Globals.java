@@ -27,7 +27,6 @@ public class Globals {
         public static int level = Log.DEBUG;
     }
 
-<<<<<<< HEAD:privacystreams-core/src/main/java/com/github/privacystreams/utils/Globals.java
     public static class EmailConfig{
         public static long pollingInterval = Duration.minutes(2);
         public static int defaultMaxNumberOfReturnResults = Integer.MAX_VALUE;
@@ -38,9 +37,7 @@ public class Globals {
         public static int defaultMaxNumberOfReturnDrives = Integer.MAX_VALUE;
     }
 
-=======
->>>>>>> eb641f8ad850f8242057d9884a6ce35f8fd5ea8f:privacystreams-android-sdk/src/main/java/io/github/privacystreams/utils/Globals.java
-    public static class HashConfig {
+   public static class HashConfig {
         public static String defaultAlgorithm = HashUtils.SHA256;
 
     }

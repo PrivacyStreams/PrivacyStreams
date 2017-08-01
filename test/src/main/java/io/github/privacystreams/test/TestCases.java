@@ -3,67 +3,27 @@ package io.github.privacystreams.test;
 import android.content.Context;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
-<<<<<<< HEAD:app/src/main/java/com/github/privacystreams/UseCases.java
 import android.util.Log;
 
-import com.github.privacystreams.accessibility.AccEvent;
-import com.github.privacystreams.accessibility.BrowserSearch;
-import com.github.privacystreams.accessibility.BrowserVisit;
-import com.github.privacystreams.audio.Audio;
-import com.github.privacystreams.audio.AudioOperators;
-import com.github.privacystreams.calendar.CalendarEvent;
-import com.github.privacystreams.commons.arithmetic.ArithmeticOperators;
-import com.github.privacystreams.commons.comparison.Comparators;
-import com.github.privacystreams.commons.item.ItemOperators;
-import com.github.privacystreams.commons.statistic.StatisticOperators;
-import com.github.privacystreams.commons.string.StringOperators;
-import com.github.privacystreams.commons.time.TimeOperators;
-import com.github.privacystreams.communication.Call;
-import com.github.privacystreams.communication.Contact;
-import com.github.privacystreams.communication.Email;
-import com.github.privacystreams.communication.InstantMessage;
-import com.github.privacystreams.communication.Message;
-import com.github.privacystreams.core.Callback;
-import com.github.privacystreams.core.Function;
-import com.github.privacystreams.core.Item;
-import com.github.privacystreams.core.MStream;
-import com.github.privacystreams.core.UQI;
-import com.github.privacystreams.core.actions.collect.Collectors;
-import com.github.privacystreams.core.exceptions.PSException;
-import com.github.privacystreams.core.items.EmptyItem;
-import com.github.privacystreams.core.items.TestItem;
-import com.github.privacystreams.core.purposes.Purpose;
-import com.github.privacystreams.device.BluetoothDevice;
-import com.github.privacystreams.device.DeviceEvent;
-import com.github.privacystreams.device.DeviceOperators;
-import com.github.privacystreams.device.WifiAp;
-import com.github.privacystreams.document.DriveDocument;
-import com.github.privacystreams.image.Image;
-import com.github.privacystreams.image.ImageOperators;
-import com.github.privacystreams.io.IOOperators;
-import com.github.privacystreams.location.Geolocation;
-import com.github.privacystreams.location.GeolocationOperators;
-import com.github.privacystreams.location.LatLon;
-import com.github.privacystreams.notification.Notification;
-import com.github.privacystreams.utils.Duration;
-import com.github.privacystreams.utils.Globals;
-import com.github.privacystreams.utils.TimeUtils;
-=======
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 import io.github.privacystreams.accessibility.AccEvent;
 import io.github.privacystreams.accessibility.BrowserSearch;
 import io.github.privacystreams.accessibility.BrowserVisit;
 import io.github.privacystreams.audio.Audio;
 import io.github.privacystreams.audio.AudioOperators;
+import io.github.privacystreams.calendar.CalendarEvent;
 import io.github.privacystreams.commons.arithmetic.ArithmeticOperators;
 import io.github.privacystreams.commons.comparison.Comparators;
 import io.github.privacystreams.commons.item.ItemOperators;
-import io.github.privacystreams.commons.list.ListOperators;
 import io.github.privacystreams.commons.statistic.StatisticOperators;
 import io.github.privacystreams.commons.string.StringOperators;
 import io.github.privacystreams.commons.time.TimeOperators;
 import io.github.privacystreams.communication.Call;
 import io.github.privacystreams.communication.Contact;
+import io.github.privacystreams.communication.Email;
 import io.github.privacystreams.communication.Message;
 import io.github.privacystreams.core.Callback;
 import io.github.privacystreams.core.Function;
@@ -79,30 +39,21 @@ import io.github.privacystreams.device.BluetoothDevice;
 import io.github.privacystreams.device.DeviceEvent;
 import io.github.privacystreams.device.DeviceOperators;
 import io.github.privacystreams.device.WifiAp;
-import io.github.privacystreams.communication.Email;
+import io.github.privacystreams.document.DriveDocument;
 import io.github.privacystreams.image.Image;
 import io.github.privacystreams.image.ImageOperators;
+import io.github.privacystreams.io.IOOperators;
 import io.github.privacystreams.location.Geolocation;
 import io.github.privacystreams.location.GeolocationOperators;
 import io.github.privacystreams.location.LatLon;
 import io.github.privacystreams.notification.Notification;
-import io.github.privacystreams.io.IOOperators;
 import io.github.privacystreams.utils.Duration;
 import io.github.privacystreams.utils.Globals;
-import io.github.privacystreams.utils.IOUtils;
 import io.github.privacystreams.utils.TimeUtils;
->>>>>>> eb641f8ad850f8242057d9884a6ce35f8fd5ea8f:test/src/main/java/io/github/privacystreams/test/TestCases.java
 
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-
-<<<<<<< HEAD:app/src/main/java/com/github/privacystreams/UseCases.java
-import static com.github.privacystreams.commons.time.TimeOperators.recent;
-=======
 import static io.github.privacystreams.commons.statistic.StatisticOperators.count;
 import static io.github.privacystreams.commons.time.TimeOperators.recent;
->>>>>>> eb641f8ad850f8242057d9884a6ce35f8fd5ea8f:test/src/main/java/io/github/privacystreams/test/TestCases.java
+import static io.github.privacystreams.test.R.menu.main;
 
 /**
  * Some show cases of PrivacyStreams
@@ -234,15 +185,12 @@ public class TestCases {
                 100),Purpose.TEST("test")).debug();
     }
 
-<<<<<<< HEAD:app/src/main/java/com/github/privacystreams/UseCases.java
     public void testDriveList(){
             uqi.getData(DriveDocument.testDriveList(System.currentTimeMillis()-Duration.days(365),
                     System.currentTimeMillis(),
                     100, 10),Purpose.TEST("test")).debug();
     }
-=======
->>>>>>> eb641f8ad850f8242057d9884a6ce35f8fd5ea8f:test/src/main/java/io/github/privacystreams/test/TestCases.java
-    // For testing
+   // For testing
     public void testMockData() {
         Globals.DropboxConfig.accessToken = "access_token_here";
         Globals.DropboxConfig.leastSyncInterval = Duration.seconds(3);
@@ -326,7 +274,7 @@ public class TestCases {
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
     public void testIMUIUpdates(){
-        uqi.getData(InstantMessage.asUpdatesInIM(),Purpose.FEATURE("im updates")).debug();
+        uqi.getData(Message.asUpdatesInIM(),Purpose.FEATURE("im updates")).debug();
     }
 
 
@@ -337,34 +285,7 @@ public class TestCases {
 
     // get a count of the #contacts in contact list
     void testContacts() {
-<<<<<<< HEAD:app/src/main/java/com/github/privacystreams/UseCases.java
-        uqi.
-                getData(Contact.getAll(),Purpose.FEATURE("xxx"))
-                .debug();
 
-//            int count = uqi
-//                    .getData(Contact.getAll(), Purpose.FEATURE("estimate how popular you are."))
-//                    .count();
-//            System.out.println(count);
-//
-//            uqi
-//                    .getData(Call.getLogs(), Purpose.SOCIAL("finding your closest contact."))
-//                    .filter(recent("timestamp", Duration.days(365)))
-//                    .groupBy("contact")
-//                    .setGroupField("#calls", count())
-//                    .select(getItemWithMax("#calls"))
-//                    .ifPresent("contact", new Callback<String>() {
-//                        @Override
-//                        protected void onInput(String contact) {
-//                            System.out.println("Most-called contact: " + contact);
-//                        }
-//
-//                        @Override
-//                        protected void onFail(PSException e) {
-//                            System.out.println(e.getMessage());
-//                        }
-//                    });
-=======
         try {
             int count = uqi
                     .getData(Contact.getAll(), Purpose.FEATURE("estimate how popular you are."))
@@ -389,11 +310,13 @@ public class TestCases {
                             System.out.println(e.getMessage());
                         }
                     });
->>>>>>> eb641f8ad850f8242057d9884a6ce35f8fd5ea8f:test/src/main/java/io/github/privacystreams/test/TestCases.java
 
+        } catch (PSException e) {
+            e.printStackTrace();
+        }
     }
 
-    // get recent called 10 contacts’ names
+        // get recent called 10 contacts’ names
     public void getRecentCalledNames(int n) {
         try {
             List<String> recentCalledPhoneNumbers = uqi
@@ -427,7 +350,6 @@ public class TestCases {
         uqi.getData(DeviceEvent.asUpdates(), Purpose.FEATURE("device states")).debug();
     }
 
-<<<<<<< HEAD:app/src/main/java/com/github/privacystreams/UseCases.java
     // TODO Problem set: use this function for test case.
     List<Item> isAtHome()  {
         try {
@@ -454,19 +376,8 @@ public class TestCases {
         uqi.getData(CalendarEvent.getUpdates(), Purpose.FEATURE("For test")).debug();
     }
 
-    public void testCalendarList(){
+    public void testCalendarList() {
         uqi.getData(CalendarEvent.getAll(), Purpose.FEATURE("for test")).debug();
-=======
-    boolean isAtHome() throws PSException {
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-//            return uqi
-//                    .getData(WifiAp.getScanResults(), Purpose.FEATURE("know whether you are at home."))
-//                    .filter(Comparators.eq(WifiAp.CONNECTED, true))
-//                    .filter(WifiAPOperators.atHome(WifiAp.SSID))
-//                    .count()==1;
-//        }
-        return false;
->>>>>>> eb641f8ad850f8242057d9884a6ce35f8fd5ea8f:test/src/main/java/io/github/privacystreams/test/TestCases.java
     }
 
     void callbackWhenReceivesMessage(String appName, Callback<String> messageCallback){

@@ -7,18 +7,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
-import android.util.Log;
 
-<<<<<<< HEAD:privacystreams-core/src/main/java/com/github/privacystreams/google_awareness/AwarenessMotionUpdatesProvider.java
-import com.github.privacystreams.core.BuildConfig;
-import com.github.privacystreams.core.UQI;
-import com.github.privacystreams.core.providers.MStreamProvider;
-import com.github.privacystreams.utils.Logging;
-=======
-import io.github.privacystreams.core.BuildConfig;
-import io.github.privacystreams.core.UQI;
-import io.github.privacystreams.core.PStreamProvider;
->>>>>>> eb641f8ad850f8242057d9884a6ce35f8fd5ea8f:privacystreams-android-sdk/src/main/java/io/github/privacystreams/google_awareness/AwarenessMotionUpdatesProvider.java
 import com.google.android.gms.awareness.Awareness;
 import com.google.android.gms.awareness.fence.AwarenessFence;
 import com.google.android.gms.awareness.fence.DetectedActivityFence;
@@ -27,6 +16,11 @@ import com.google.android.gms.awareness.fence.FenceUpdateRequest;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
+
+import io.github.privacystreams.core.BuildConfig;
+import io.github.privacystreams.core.PStreamProvider;
+import io.github.privacystreams.core.UQI;
+import io.github.privacystreams.utils.Logging;
 
 
 /**

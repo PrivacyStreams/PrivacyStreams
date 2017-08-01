@@ -1,12 +1,12 @@
 package io.github.privacystreams.communication;
 
+import java.util.HashMap;
+import java.util.List;
+
 import io.github.privacystreams.core.Item;
 import io.github.privacystreams.core.PStreamProvider;
 import io.github.privacystreams.utils.annotations.PSItem;
 import io.github.privacystreams.utils.annotations.PSItemField;
-
-import java.util.HashMap;
-import java.util.List;
 
 
 /**
@@ -337,7 +337,9 @@ public class Contact extends Item {
         return new ContactListProvider();
     }
 
-    public static MStreamProvider asUpdates() {return new ContactUpdatesProvider();}
+    public static PStreamProvider asUpdates() {
+        return new ContactUpdatesProvider();
+    }
 
-    public static MStreamProvider getWhatAppAll(){return new WhatsAppListProvider();}
+    public static PStreamProvider getWhatAppAll(){return new WhatsAppListProvider();}
 }
