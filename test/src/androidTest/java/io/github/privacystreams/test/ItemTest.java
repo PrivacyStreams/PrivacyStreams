@@ -1,14 +1,17 @@
-package io.github.privacystreams.core;
+package io.github.privacystreams.test;
 
-import io.github.privacystreams.core.items.TestItem;
-import io.github.privacystreams.core.items.TestObject;
+import android.support.test.runner.AndroidJUnit4;
 
-import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import io.github.privacystreams.core.Item;
+import io.github.privacystreams.core.items.TestItem;
+import io.github.privacystreams.core.items.TestObject;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -17,6 +20,7 @@ import static org.junit.Assert.assertTrue;
 /**
  * Test cases for Item class
  */
+@RunWith(AndroidJUnit4.class)
 public class ItemTest {
     private TestObject testObject;
     private Item testItem;
