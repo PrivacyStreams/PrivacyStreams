@@ -1,17 +1,13 @@
-package io.github.privacystreams.commons.statistic;
+package io.github.privacystreams.test;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
-
-import io.github.privacystreams.core.Item;
-import io.github.privacystreams.core.UQI;
-import io.github.privacystreams.core.items.TestItem;
-import io.github.privacystreams.core.items.TestObject;
-import io.github.privacystreams.core.purposes.Purpose;
+import android.support.test.runner.AndroidJUnit4;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -19,12 +15,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.Assert.*;
+import io.github.privacystreams.commons.statistic.StatisticOperators;
+import io.github.privacystreams.core.Item;
+import io.github.privacystreams.core.UQI;
+import io.github.privacystreams.core.items.TestItem;
+import io.github.privacystreams.core.purposes.Purpose;
 
-/**
- * Test statistic operators
- */
-public class StatisticOperatorsTest {
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
+@RunWith(AndroidJUnit4.class)
+public class OperatorTest {
     private UQI uqi;
     private Purpose testPurpose;
     private List<Item> testItems;
@@ -177,5 +178,4 @@ public class StatisticOperatorsTest {
         assertNotNull(correctMode);
         assertEquals(correctMode.intValue(), mode.intValue());
     }
-
 }
