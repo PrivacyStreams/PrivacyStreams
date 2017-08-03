@@ -17,7 +17,7 @@ ext {
 
     bintrayRepo = 'PrivacyStreams'
     bintrayOrganization = "privacystreams"
-    publishedGroupId = 'com.github.chentc'
+    publishedGroupId = 'io.github.privacystreams'
 
     siteUrl = 'https://github.com/PrivacyStreams/PrivacyStreams'
     gitUrl = 'https://github.com/PrivacyStreams/PrivacyStreams.git'
@@ -192,51 +192,6 @@ bintray {
                 passphrase = properties.getProperty("bintray.gpg.password")
                 //Optional. The passphrase for GPG signing'
             }
-        }
-    }
-}
-
-// yiad.am jfrog repo
-def libraryGroupId = 'privacystreams'
-def libraryArtifactId = 'privacystreams-android-sdk'
-def libraryVersion = '0.1.5.2'
-
-publishing {
-    publications {
-        aar(MavenPublication) {
-            groupId libraryGroupId
-            version libraryVersion
-            artifactId libraryArtifactId
-            artifact("$buildDir/outputs/aar/${artifactId}-release.aar")
-
-            pom.withXml {
-                def dependencies = asNode().appendNode('dependencies')
-                configurations.getByName("_releaseCompile").getResolvedConfiguration().getFirstLevelModuleDependencies().each {
-                    def dependency = dependencies.appendNode('dependency')
-                    dependency.appendNode('groupId', it.moduleGroup)
-                    dependency.appendNode('artifactId', it.moduleName)
-                    dependency.appendNode('version', it.moduleVersion)
-                }
-            }
-        }
-    }
-}
-
-artifactory {
-    contextUrl = 'https://jfrog.yiad.am/artifactory'
-    publish {
-        repository {
-            repoKey = 'MessageOnTap-release'
-
-            username = yiadam_jfrog_username
-            password = yiadam_jfrog_password
-        }
-        defaults {
-            publications('aar')
-            publishArtifacts = true
-
-            properties = ['qa.level': 'basic', 'q.os': 'android', 'dev.team': 'core']
-            publishPom = true
         }
     }
 }
