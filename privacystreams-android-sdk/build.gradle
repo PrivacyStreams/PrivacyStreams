@@ -4,6 +4,7 @@ plugins {
 }
 
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
 
 ext {
     bintrayName = 'PrivacyStreams-Android-SDK'
@@ -72,6 +73,7 @@ dependencies {
     provided ('com.google.apis:google-api-services-gmail:v1-rev29-1.20.0') {
         exclude group: 'org.apache.httpcomponents'
     }
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
 }
 
 group = publishedGroupId                               // Maven Group ID for the artifact
@@ -183,4 +185,7 @@ bintray {
             }
         }
     }
+}
+repositories {
+    mavenCentral()
 }
