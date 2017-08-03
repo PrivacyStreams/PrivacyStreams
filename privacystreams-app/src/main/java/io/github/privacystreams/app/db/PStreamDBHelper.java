@@ -1,22 +1,30 @@
 package io.github.privacystreams.app.db;
 
-import android.content.ClipData;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import io.github.privacystreams.core.Item;
+import io.github.privacystreams.core.UQI;
+import io.github.privacystreams.core.purposes.Purpose;
 
 
-abstract class PStreamDBHelper extends SQLiteOpenHelper {
+public abstract class PStreamDBHelper extends SQLiteOpenHelper {
     // If you change the database schema, you must increment the database version.
     public static final int DATABASE_VERSION = 1;
     public static final String DATABASE_NAME = "privacystreams.db";
+
     protected final String tableName;
+    protected final UQI uqi;
+    protected final Purpose purpose;
+
+    public boolean isCollecting;
 
     public PStreamDBHelper(Context context, Class itemClass) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         tableName = itemClass.getSimpleName();
+        uqi = new UQI(context);
+        purpose = Purpose.TEST(tableName);
+        isCollecting = false;
     }
 
     @Override
@@ -37,4 +45,17 @@ abstract class PStreamDBHelper extends SQLiteOpenHelper {
     protected String getSqlDeleteEntries() {
         return "DROP TABLE IF EXISTS " + tableName;
     }
+
+    public final void startCollecting() {
+        this.uqi.stopAll();
+        this.redirectPrivacyStreamsToDB();
+        this.isCollecting = true;
+    }
+
+    public final void stopCollecting() {
+        this.uqi.stopAll();
+        this.isCollecting = false;
+    }
+
+    protected abstract void redirectPrivacyStreamsToDB();
 }

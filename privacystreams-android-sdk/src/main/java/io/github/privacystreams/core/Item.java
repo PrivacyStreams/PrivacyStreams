@@ -97,6 +97,66 @@ public class Item {
     }
 
     /**
+     * Get the value of a String field in the item.
+     *
+     * @param fieldName the name of the field
+     * @return the field value
+     */
+    public String getAsString(String fieldName) {
+        return getValueByField(fieldName);
+    }
+
+    /**
+     * Get the value of a Boolean field in the item.
+     *
+     * @param fieldName the name of the field
+     * @return the field value
+     */
+    public Boolean getAsBoolean(String fieldName) {
+        return getValueByField(fieldName);
+    }
+
+    /**
+     * Get the value of a Integer field in the item.
+     *
+     * @param fieldName the name of the field
+     * @return the field value
+     */
+    public Integer getAsInteger(String fieldName) {
+        return getValueByField(fieldName);
+    }
+
+    /**
+     * Get the value of a Long field in the item.
+     *
+     * @param fieldName the name of the field
+     * @return the field value
+     */
+    public Long getAsLong(String fieldName) {
+        return getValueByField(fieldName);
+    }
+
+    /**
+     * Get the value of a Double field in the item.
+     *
+     * @param fieldName the name of the field
+     * @return the field value
+     */
+    public Double getAsDouble(String fieldName) {
+        return getValueByField(fieldName);
+    }
+
+    /**
+     * Get the value of a Float field in the item.
+     *
+     * @param fieldName the name of the field
+     * @return the field value
+     */
+    public Float getAsFloat(String fieldName) {
+        return getValueByField(fieldName);
+    }
+
+    /**
      * Set a value to a field in the item
      *
      * @param fieldName the name of field
