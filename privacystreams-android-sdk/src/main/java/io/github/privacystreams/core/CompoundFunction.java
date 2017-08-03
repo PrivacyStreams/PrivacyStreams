@@ -14,7 +14,6 @@ final class CompoundFunction<Tin, Ttemp, Tout> extends Function<Tin, Tout> {
     CompoundFunction(Function<Tin, ? extends Ttemp> function1, Function<? super Ttemp, Tout> function2) {
         this.function1 = Assertions.notNull("function1", function1);
         this.function2 = Assertions.notNull("function2", function2);
-        ;
         this.addParameters(function1, function2);
     }
 
