@@ -10,18 +10,11 @@ import io.github.privacystreams.core.purposes.Purpose
 
 abstract class PStreamDBHelper(context: Context, itemClass: Class<*>) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
 
-    protected val tableName: String
-    protected val uqi: UQI
-    protected val purpose: Purpose
+    val tableName: String = itemClass.simpleName
+    protected val uqi: UQI = UQI(context)
+    protected val purpose: Purpose = Purpose.TEST(tableName)
 
     var isCollecting: Boolean = false
-
-    init {
-        tableName = itemClass.simpleName
-        uqi = UQI(context)
-        purpose = Purpose.TEST(tableName)
-        isCollecting = false
-    }
 
     override fun onCreate(db: SQLiteDatabase) {
         db.execSQL(sqlCreateEntries)
@@ -32,6 +25,10 @@ abstract class PStreamDBHelper(context: Context, itemClass: Class<*>) : SQLiteOp
         // to simply to discard the data and start over
         db.execSQL(sqlDeleteEntries)
         onCreate(db)
+    }
+
+    override fun onDowngrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
+        this.onUpgrade(db, oldVersion, newVersion)
     }
 
     protected abstract val sqlCreateEntries: String

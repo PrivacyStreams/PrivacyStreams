@@ -9,7 +9,8 @@ object PStreamContract {
 
     class GeolocationEntry : BaseColumns {
         companion object {
-            val TIME_CREATED = Item.TIME_CREATED
+            val TIME_CREATED = Geolocation.TIME_CREATED
+            val TIMESTAMP = Geolocation.TIMESTAMP
             val BEARING = Geolocation.BEARING
             val ACCURACY = Geolocation.ACCURACY
             val SPEED = Geolocation.SPEED

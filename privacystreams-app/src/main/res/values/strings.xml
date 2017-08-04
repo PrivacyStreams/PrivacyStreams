@@ -11,4 +11,5 @@
     </string>
     <string name="start_collecting">Start collecting</string>
     <string name="stop_collecting">Stop collecting</string>
+    <string name="test">TEST</string>
 </resources>

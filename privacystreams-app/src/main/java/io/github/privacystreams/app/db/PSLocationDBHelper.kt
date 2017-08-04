@@ -17,6 +17,7 @@ class PSLocationDBHelper(context: Context) : PStreamDBHelper(context, Geolocatio
     override protected val sqlCreateEntries: String
         get() = "CREATE TABLE " + tableName + " (" +
                 GeolocationEntry.TIME_CREATED + " INTEGER PRIMARY KEY," +
+                GeolocationEntry.TIMESTAMP + " INTEGER," +
                 GeolocationEntry.LATITUDE + " REAL," +
                 GeolocationEntry.LONGITUDE + " REAL, " +
                 GeolocationEntry.PROVIDER + " TEXT," +
@@ -33,6 +34,7 @@ class PSLocationDBHelper(context: Context) : PStreamDBHelper(context, Geolocatio
                         val values = ContentValues()
                         val latLon = input.getValueByField<LatLon>(Geolocation.LAT_LON) ?: return
                         values.put(GeolocationEntry.TIME_CREATED, input.getAsLong(Geolocation.TIME_CREATED))
+                        values.put(GeolocationEntry.TIMESTAMP, input.getAsLong(Geolocation.TIMESTAMP))
                         values.put(GeolocationEntry.LATITUDE, latLon.latitude)
                         values.put(GeolocationEntry.LONGITUDE, latLon.longitude)
                         values.put(GeolocationEntry.PROVIDER, input.getAsString(Geolocation.PROVIDER))
