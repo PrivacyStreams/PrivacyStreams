@@ -3,18 +3,25 @@ package io.github.privacystreams.app.db
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import android.databinding.ObservableBoolean
+import android.databinding.ObservableInt
+import android.graphics.drawable.Drawable
 
 import io.github.privacystreams.core.UQI
 import io.github.privacystreams.core.purposes.Purpose
+import java.util.*
 
 
 abstract class PStreamDBHelper(context: Context, itemClass: Class<*>) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
 
     val tableName: String = itemClass.simpleName
+    abstract val iconResId: Int
+
     protected val uqi: UQI = UQI(context)
     protected val purpose: Purpose = Purpose.TEST(tableName)
 
-    var isCollecting: Boolean = false
+    val isCollecting: ObservableBoolean = ObservableBoolean(false)
+    val numItems: ObservableInt = ObservableInt(0)
 
     override fun onCreate(db: SQLiteDatabase) {
         db.execSQL(sqlCreateEntries)
@@ -37,14 +44,21 @@ abstract class PStreamDBHelper(context: Context, itemClass: Class<*>) : SQLiteOp
         get() = "DROP TABLE IF EXISTS " + tableName
 
     fun startCollecting() {
+        this.isCollecting.set(true)
+
+        val db = this.readableDatabase
+        val cur = db.query(this.tableName, null, null, null, null, null, null)
+        this.numItems.set(cur.count)
+        cur.close()
+
         this.uqi.stopAll()
         this.redirectPrivacyStreamsToDB()
-        this.isCollecting = true
     }
 
     fun stopCollecting() {
+        this.isCollecting.set(false)
+
         this.uqi.stopAll()
-        this.isCollecting = false
     }
 
     protected abstract fun redirectPrivacyStreamsToDB()
@@ -53,5 +67,11 @@ abstract class PStreamDBHelper(context: Context, itemClass: Class<*>) : SQLiteOp
         // If you change the database schema, you must increment the database version.
         val DATABASE_VERSION = 1
         val DATABASE_NAME = "privacystreams.db"
+
+        fun getAllDBHelpers(context: Context): List<PStreamDBHelper> {
+            val dbHelpers: MutableList<PStreamDBHelper> = ArrayList()
+            dbHelpers.add(PSLocationDBHelper(context))
+            return dbHelpers
+        }
     }
 }

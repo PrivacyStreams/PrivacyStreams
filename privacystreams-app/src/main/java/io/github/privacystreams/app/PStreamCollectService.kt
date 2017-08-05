@@ -17,10 +17,9 @@ import io.github.privacystreams.app.db.PStreamDBHelper
 
 class PStreamCollectService : Service() {
 
-    internal var dbHelpers: MutableList<PStreamDBHelper> = ArrayList()
+    internal val dbHelpers: List<PStreamDBHelper> = PStreamDBHelper.getAllDBHelpers(this)
 
     override fun onCreate() {
-        this.dbHelpers.add(PSLocationDBHelper(this))
         for (dbHelper in this.dbHelpers) {
             dbHelper.startCollecting()
         }

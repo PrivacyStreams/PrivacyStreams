@@ -9,7 +9,11 @@
     <string name="collect_notification_text">
         All data will be stored in a private database and maintained properly.
     </string>
-    <string name="start_collecting">Start collecting</string>
-    <string name="stop_collecting">Stop collecting</string>
+    <string name="start_collecting_all">Start all</string>
+    <string name="stop_collecting_all">Stop all</string>
+    <string name="collecting_status">On</string>
+    <string name="not_collecting_status">Off</string>
+
     <string name="test">TEST</string>
+    <string name="data_icon_desc">Data type icon.</string>
 </resources>

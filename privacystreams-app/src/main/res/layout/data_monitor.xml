@@ -1,0 +1,59 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable name="dbHelper" type="io.github.privacystreams.app.db.PStreamDBHelper"/>
+    </data>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp">
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:id="@+id/dataIcon"
+            android:contentDescription="@string/data_icon_desc" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            app:layout_constraintLeft_toRightOf="@id/dataIcon"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/dataTitle"
+                android:textSize="18sp"
+                android:text="@{dbHelper.tableName}"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/dataItemCount"
+                android:textSize="14sp"
+                android:text='@{dbHelper.numItems.get() + " data items"}'/>
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:gravity="center_vertical"
+            android:id="@+id/dataStatus"
+            android:textSize="14sp"
+            android:textColor="@{dbHelper.isCollecting.get() ? @color/colorPrimary : @color/colorAccent}"
+            android:text='@{dbHelper.isCollecting.get() ? "ON" : "OFF"}'/>
+
+    </android.support.constraint.ConstraintLayout>
+</layout>

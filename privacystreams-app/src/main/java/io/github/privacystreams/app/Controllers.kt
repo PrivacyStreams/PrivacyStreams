@@ -3,13 +3,8 @@ package io.github.privacystreams.app
 
 import android.content.Context
 import android.content.Intent
-import io.github.privacystreams.app.db.PSLocationDBHelper
-import io.github.privacystreams.app.db.PStreamDBHelper
 import io.github.privacystreams.app.providers.PStreamHistory
-import io.github.privacystreams.core.PStream
 import io.github.privacystreams.core.UQI
-
-import io.github.privacystreams.core.actions.collect.Collectors
 import io.github.privacystreams.core.purposes.Purpose
 
 class Controllers internal constructor(private val context: Context) {
