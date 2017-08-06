@@ -28,12 +28,14 @@ abstract class PStreamTable(val dbHelper: PStreamDBHelper) {
 
     fun startCollecting() {
         this.tableStatus.isCollecting.set(true)
+        this.tableStatus.message.set("")
         this.uqi.stopAll()
         this.collectStreamToTable()
     }
 
     fun stopCollecting() {
         this.tableStatus.isCollecting.set(false)
+        this.tableStatus.message.set("")
         this.uqi.stopAll()
     }
 

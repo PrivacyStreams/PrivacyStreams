@@ -6,13 +6,9 @@ import android.databinding.ObservableInt
 import java.util.*
 
 class PStreamTableStatus {
-    val message = ObservableField<String>("hello")
+    val message = ObservableField<String>("")
     val isCollecting = ObservableBoolean(false)
     val numItems = ObservableInt(0)
-
-    fun changeMessage() {
-        message.set("hello " + Random().nextInt())
-    }
 
     fun increaseNumItems() {
         numItems.set(numItems.get() + 1)

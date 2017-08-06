@@ -5,6 +5,7 @@ import io.github.privacystreams.app.Config
 import io.github.privacystreams.app.R
 import io.github.privacystreams.core.Callback
 import io.github.privacystreams.core.Item
+import io.github.privacystreams.core.exceptions.PSException
 import io.github.privacystreams.location.Geolocation
 import io.github.privacystreams.location.LatLon
 
@@ -12,7 +13,7 @@ import io.github.privacystreams.location.LatLon
 class PSGeolocationTable(dbHelper: PStreamDBHelper) : PStreamTable(dbHelper) {
 
     companion object {
-        val TABLE_NAME = PSGeolocationTable::class.java.simpleName
+        val TABLE_NAME = "Geolocation"
         val ICON_RES_ID = R.drawable.location
         val TABLE_STATUS = PStreamTableStatus()
 
@@ -63,6 +64,13 @@ class PSGeolocationTable(dbHelper: PStreamDBHelper) : PStreamTable(dbHelper) {
                         values.put(SPEED, input.getAsFloat(Geolocation.SPEED))
                         db.insert(tableName, null, values)
                         tableStatus.increaseNumItems()
+                    }
+
+                    override fun onFail(exception: PSException) {
+                        tableStatus.isCollecting.set(false)
+                        if (exception.isPermissionDenied) {
+                            tableStatus.message.set("Denied")
+                        }
                     }
                 })
     }

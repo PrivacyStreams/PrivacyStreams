@@ -5,13 +5,14 @@ import android.os.Build
 import io.github.privacystreams.app.R
 import io.github.privacystreams.core.Callback
 import io.github.privacystreams.core.Item
+import io.github.privacystreams.core.exceptions.PSException
 import io.github.privacystreams.notification.Notification
 
 
 class PSNotificationTable(dbHelper: PStreamDBHelper) : PStreamTable(dbHelper) {
 
     companion object {
-        val TABLE_NAME = PSNotificationTable::class.java.simpleName
+        val TABLE_NAME = "Notification"
         val ICON_RES_ID = R.drawable.notification
         val TABLE_STATUS = PStreamTableStatus()
 
@@ -62,6 +63,13 @@ class PSNotificationTable(dbHelper: PStreamDBHelper) : PStreamTable(dbHelper) {
                             values.put(SUB_TEXT, input.getAsString(Notification.SUB_TEXT))
                             db.insert(tableName, null, values)
                             tableStatus.increaseNumItems()
+                        }
+
+                        override fun onFail(exception: PSException) {
+                            tableStatus.isCollecting.set(false)
+                            if (exception.isPermissionDenied) {
+                                tableStatus.message.set("Denied")
+                            }
                         }
                     })
         }
