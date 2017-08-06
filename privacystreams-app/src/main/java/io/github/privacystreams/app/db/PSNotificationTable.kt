@@ -23,6 +23,7 @@ class PSNotificationTable(dbHelper: PStreamDBHelper) : PStreamTable(dbHelper) {
         val PACKAGE_NAME = Notification.PACKAGE_NAME    // String
         val TITLE = Notification.TITLE                  // String
         val TEXT = Notification.TEXT                    // String
+        val SUB_TEXT = Notification.SUB_TEXT            // String
     }
 
     override val tableName: String = TABLE_NAME
@@ -37,7 +38,8 @@ class PSNotificationTable(dbHelper: PStreamDBHelper) : PStreamTable(dbHelper) {
                 CATEGORY + " TEXT, " +
                 PACKAGE_NAME + " TEXT," +
                 TITLE + " TEXT," +
-                TEXT + " TEXT)"
+                TEXT + " TEXT," +
+                SUB_TEXT + " TEXT)"
 
     override val sqlDeleteEntry: String
         get() = "DROP TABLE IF EXISTS " + tableName
@@ -57,6 +59,7 @@ class PSNotificationTable(dbHelper: PStreamDBHelper) : PStreamTable(dbHelper) {
                             values.put(PACKAGE_NAME, input.getAsString(Notification.PACKAGE_NAME))
                             values.put(TITLE, input.getAsString(Notification.TITLE))
                             values.put(TEXT, input.getAsString(Notification.TEXT))
+                            values.put(SUB_TEXT, input.getAsString(Notification.SUB_TEXT))
                             db.insert(tableName, null, values)
                             tableStatus.increaseNumItems()
                         }
@@ -77,6 +80,7 @@ class PSNotificationTable(dbHelper: PStreamDBHelper) : PStreamTable(dbHelper) {
                 item.setFieldValue(Notification.PACKAGE_NAME, cur.getString(cur.getColumnIndex(PACKAGE_NAME)))
                 item.setFieldValue(Notification.TITLE, cur.getString(cur.getColumnIndex(TITLE)))
                 item.setFieldValue(Notification.TEXT, cur.getString(cur.getColumnIndex(TEXT)))
+                item.setFieldValue(Notification.SUB_TEXT, cur.getString(cur.getColumnIndex(SUB_TEXT)))
                 output(item)
             }
             cur.close()

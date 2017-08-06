@@ -4,7 +4,7 @@
         Continuously collect different types of personal data to a secure database.
     </string>
     <string name="collect_notification_title">
-        PStream is collecting data.
+        PStream is collecting data
     </string>
     <string name="collect_notification_text">
         All data will be stored in a private database and maintained properly.

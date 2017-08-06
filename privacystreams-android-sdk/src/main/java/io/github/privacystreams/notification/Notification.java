@@ -64,6 +64,12 @@ public class Notification extends Item {
     public static final String TEXT = "text";
 
     /**
+     * The subtext of the notification.
+     */
+    @PSItemField(type = String.class)
+    public static final String SUB_TEXT = "sub_text";
+
+    /**
      * The extra bundle of the notification.
      */
     @PSItemField(type = Bundle.class)
@@ -92,10 +98,12 @@ public class Notification extends Item {
                 this.setFieldValue(CATEGORY, category);
             }
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
-                    String title = mNotification.extras.getString(android.app.Notification.EXTRA_TITLE);
+                    String title = "" + mNotification.extras.getString(android.app.Notification.EXTRA_TITLE);
                     this.setFieldValue(TITLE, title);
-                    String text = mNotification.extras.getString(android.app.Notification.EXTRA_TEXT);
+                    String text = "" + mNotification.extras.getString(android.app.Notification.EXTRA_TEXT);
                     this.setFieldValue(TEXT, text);
+                    String subText = "" + mNotification.extras.getString(android.app.Notification.EXTRA_SUB_TEXT);
+                    this.setFieldValue(SUB_TEXT, subText);
                     this.setFieldValue(EXTRA,mNotification.extras);
             }
         }
