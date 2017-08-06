@@ -6,10 +6,8 @@ import android.app.Service
 import android.content.Intent
 import android.os.IBinder
 
-import java.util.ArrayList
-
-import io.github.privacystreams.app.db.PSLocationDBHelper
 import io.github.privacystreams.app.db.PStreamDBHelper
+import io.github.privacystreams.app.db.PStreamTable
 
 /**
  * The PrivacyStreams always-on service for collecting historic data.
@@ -17,12 +15,10 @@ import io.github.privacystreams.app.db.PStreamDBHelper
 
 class PStreamCollectService : Service() {
 
-    internal val dbHelpers: List<PStreamDBHelper> = PStreamDBHelper.getAllDBHelpers(this)
+    internal val dbHelper = PStreamDBHelper(this)
 
     override fun onCreate() {
-        for (dbHelper in this.dbHelpers) {
-            dbHelper.startCollecting()
-        }
+        dbHelper.tables.map { it.startCollecting() }
 
         val notificationIntent = Intent(this, MainActivity::class.java)
         val pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0)
@@ -39,10 +35,7 @@ class PStreamCollectService : Service() {
     }
 
     override fun onDestroy() {
-        for (dbHelper in this.dbHelpers) {
-            dbHelper.stopCollecting()
-        }
-
+        dbHelper.tables.map { it.stopCollecting() }
         stopForeground(true)
     }
 

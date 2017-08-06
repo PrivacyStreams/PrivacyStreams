@@ -7,13 +7,12 @@ import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
 import io.github.privacystreams.app.databinding.ActivityMainBinding
 import io.github.privacystreams.app.databinding.DataMonitorBinding
-import io.github.privacystreams.app.db.PSLocationDBHelper
 import io.github.privacystreams.app.db.PStreamDBHelper
-import io.github.privacystreams.app.db.PStreamDBStatus
 
 
 class MainActivity : AppCompatActivity() {
     internal lateinit var binding: ActivityMainBinding
+    val dbHelper = PStreamDBHelper(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,11 +22,11 @@ class MainActivity : AppCompatActivity() {
         binding.controllers = controllers
 
         val inflater: LayoutInflater = this.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        for (dbHelper in PStreamDBHelper.getAllDBHelpers(this)) {
-            dbHelper.initStatus()
+        for (dbTable in dbHelper.tables) {
+            dbTable.initStatus()
             val dataMonitorBinding: DataMonitorBinding = DataMonitorBinding.inflate(inflater, binding.dataDetailList, true)
-            dataMonitorBinding.dbHelper = dbHelper
-            dataMonitorBinding.dataIcon.setImageResource(dbHelper.iconResId)
+            dataMonitorBinding.dbTable = dbTable
+            dataMonitorBinding.dataIcon.setImageResource(dbTable.iconResId)
         }
     }
 }

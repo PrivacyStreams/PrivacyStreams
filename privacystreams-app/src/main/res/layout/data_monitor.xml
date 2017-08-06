@@ -1,7 +1,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
-        <variable name="dbHelper" type="io.github.privacystreams.app.db.PStreamDBHelper"/>
+        <variable name="dbTable" type="io.github.privacystreams.app.db.PStreamTable"/>
     </data>
 
     <android.support.constraint.ConstraintLayout
@@ -32,14 +32,14 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/dataTitle"
                 android:textSize="18sp"
-                android:text="@{dbHelper.tableName}"/>
+                android:text="@{dbTable.tableName}"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/dataItemCount"
                 android:textSize="14sp"
-                android:text='@{dbHelper.dbStatus.numItems + " items in DB"}'/>
+                android:text='@{dbTable.tableStatus.numItems + " items in DB"}'/>
 
         </LinearLayout>
 
@@ -52,8 +52,8 @@
             android:gravity="center_vertical"
             android:id="@+id/dataStatus"
             android:textSize="14sp"
-            android:textColor="@{dbHelper.dbStatus.isCollecting ? @color/colorPrimary : @color/colorAccent}"
-            android:text='@{dbHelper.dbStatus.isCollecting ? "ON" : "OFF"}'/>
+            android:textColor="@{dbTable.tableStatus.isCollecting ? @color/colorPrimary : @color/colorAccent}"
+            android:text='@{dbTable.tableStatus.isCollecting ? "ON" : "OFF"}'/>
 
     </android.support.constraint.ConstraintLayout>
 </layout>

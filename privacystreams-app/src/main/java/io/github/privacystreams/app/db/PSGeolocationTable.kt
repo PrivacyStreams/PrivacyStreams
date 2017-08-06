@@ -1,7 +1,6 @@
 package io.github.privacystreams.app.db
 
 import android.content.ContentValues
-import android.content.Context
 import io.github.privacystreams.app.Config
 import io.github.privacystreams.app.R
 import io.github.privacystreams.app.db.PStreamContract.GeolocationEntry
@@ -11,10 +10,10 @@ import io.github.privacystreams.location.Geolocation
 import io.github.privacystreams.location.LatLon
 
 
-class PSLocationDBHelper(context: Context) : PStreamDBHelper(context, Geolocation::class.java) {
+class PSGeolocationTable(dbHelper: PStreamDBHelper) : PStreamTable(dbHelper) {
     override val iconResId: Int = R.drawable.location
 
-    override val sqlCreateEntries: String
+    override val sqlCreateEntry: String
         get() = "CREATE TABLE " + tableName + " (" +
                 GeolocationEntry.TIME_CREATED + " INTEGER PRIMARY KEY," +
                 GeolocationEntry.TIMESTAMP + " INTEGER," +
@@ -25,8 +24,8 @@ class PSLocationDBHelper(context: Context) : PStreamDBHelper(context, Geolocatio
                 GeolocationEntry.BEARING + " REAL," +
                 GeolocationEntry.SPEED + " REAL)"
 
-    public override fun redirectPrivacyStreamsToDB() {
-        val db = this.writableDatabase
+    override fun collectStreamToTable() {
+        val db = dbHelper.writableDatabase
         this.uqi.getData(Geolocation.asUpdates(Config.COLLECT_LOCATION_INTERVAL, Config.COLLECT_LOCATION_LEVEL), this.purpose)
                 .logAs(this.tableName)
                 .forEach(object : Callback<Item>() {
@@ -42,13 +41,34 @@ class PSLocationDBHelper(context: Context) : PStreamDBHelper(context, Geolocatio
                         values.put(GeolocationEntry.BEARING, input.getAsFloat(Geolocation.BEARING))
                         values.put(GeolocationEntry.SPEED, input.getAsFloat(Geolocation.SPEED))
                         db.insert(tableName, null, values)
-                        dbStatus.increaseNumItems()
+                        tableStatus.increaseNumItems()
                     }
                 })
     }
 
-    override val dbStatus: PStreamDBStatus = staticStatus
+    override fun provide() {
+        val db = dbHelper.readableDatabase
+        val cur = db.query(this.tableName, null, null, null, null, null, null)
+        while (cur.moveToNext()) {
+            val item : Item = Item()
+            item.setFieldValue(Geolocation.TIMESTAMP, cur.getLong(cur.getColumnIndex(GeolocationEntry.TIMESTAMP)))
+            item.setFieldValue(Geolocation.PROVIDER, cur.getString(cur.getColumnIndex(GeolocationEntry.PROVIDER)))
+            item.setFieldValue(Geolocation.SPEED, cur.getFloat(cur.getColumnIndex(GeolocationEntry.SPEED)))
+            item.setFieldValue(Geolocation.ACCURACY, cur.getFloat(cur.getColumnIndex(GeolocationEntry.ACCURACY)))
+            item.setFieldValue(Geolocation.BEARING, cur.getFloat(cur.getColumnIndex(GeolocationEntry.BEARING)))
+            item.setFieldValue(Geolocation.LAT_LON, LatLon(
+                    cur.getDouble(cur.getColumnIndex(GeolocationEntry.LATITUDE)),
+                    cur.getDouble(cur.getColumnIndex(GeolocationEntry.LONGITUDE))
+            ))
+            output(item)
+        }
+        cur.close()
+        db.close()
+        dbHelper.close()
+    }
+
+    override val tableStatus: PStreamTableStatus = TABLE_STATUS
     companion object {
-        val staticStatus = PStreamDBStatus()
+        val TABLE_STATUS = PStreamTableStatus()
     }
 }

@@ -5,7 +5,7 @@ import android.databinding.ObservableField
 import android.databinding.ObservableInt
 import java.util.*
 
-class PStreamDBStatus {
+class PStreamTableStatus {
     val message = ObservableField<String>("hello")
     val isCollecting = ObservableBoolean(false)
     val numItems = ObservableInt(0)

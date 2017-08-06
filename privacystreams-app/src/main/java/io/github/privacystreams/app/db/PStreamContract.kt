@@ -1,12 +1,12 @@
 package io.github.privacystreams.app.db
 
 import android.provider.BaseColumns
-
-import io.github.privacystreams.core.Item
 import io.github.privacystreams.location.Geolocation
 import io.github.privacystreams.notification.Notification
 
 object PStreamContract {
+    val DB_VERSION = 1
+    val DB_NAME = "privacystreams.db"
 
     class GeolocationEntry : BaseColumns {
         companion object {
@@ -26,10 +26,10 @@ object PStreamContract {
             val TIME_CREATED = Notification.TIME_CREATED    // Long
             val POST_TIME = Notification.POST_TIME          // Long
             val ACTION = Notification.ACTION                // String
-            val CATEGORY = "category"                       // String
-            val PACKAGE_NAME = "package_name"               // String
-            val TITLE = "title"                             // String
-            val TEXT = "text"                               // String
+            val CATEGORY = Notification.CATEGORY            // String
+            val PACKAGE_NAME = Notification.PACKAGE_NAME    // String
+            val TITLE = Notification.TITLE                  // String
+            val TEXT = Notification.TEXT                    // String
         }
     }
 }
