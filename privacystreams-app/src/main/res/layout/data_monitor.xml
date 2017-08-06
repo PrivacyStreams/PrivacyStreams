@@ -39,7 +39,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/dataItemCount"
                 android:textSize="14sp"
-                android:text='@{dbHelper.numItems.get() + " data items"}'/>
+                android:text='@{dbHelper.dbStatus.numItems + " items in DB"}'/>
 
         </LinearLayout>
 
@@ -52,8 +52,8 @@
             android:gravity="center_vertical"
             android:id="@+id/dataStatus"
             android:textSize="14sp"
-            android:textColor="@{dbHelper.isCollecting.get() ? @color/colorPrimary : @color/colorAccent}"
-            android:text='@{dbHelper.isCollecting.get() ? "ON" : "OFF"}'/>
+            android:textColor="@{dbHelper.dbStatus.isCollecting ? @color/colorPrimary : @color/colorAccent}"
+            android:text='@{dbHelper.dbStatus.isCollecting ? "ON" : "OFF"}'/>
 
     </android.support.constraint.ConstraintLayout>
 </layout>

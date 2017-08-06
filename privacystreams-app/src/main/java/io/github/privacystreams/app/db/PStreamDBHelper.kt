@@ -3,25 +3,22 @@ package io.github.privacystreams.app.db
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import android.databinding.ObservableBoolean
-import android.databinding.ObservableInt
-import android.graphics.drawable.Drawable
-
 import io.github.privacystreams.core.UQI
 import io.github.privacystreams.core.purposes.Purpose
 import java.util.*
 
 
-abstract class PStreamDBHelper(context: Context, itemClass: Class<*>) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
+abstract class PStreamDBHelper(context: Context, itemClass: Class<*>)
+    : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
 
     val tableName: String = itemClass.simpleName
+    protected abstract val sqlCreateEntries: String
+    protected val sqlDeleteEntries = "DROP TABLE IF EXISTS " + tableName
     abstract val iconResId: Int
+    abstract val dbStatus: PStreamDBStatus
 
     protected val uqi: UQI = UQI(context)
     protected val purpose: Purpose = Purpose.TEST(tableName)
-
-    val isCollecting: ObservableBoolean = ObservableBoolean(false)
-    val numItems: ObservableInt = ObservableInt(0)
 
     override fun onCreate(db: SQLiteDatabase) {
         db.execSQL(sqlCreateEntries)
@@ -38,26 +35,23 @@ abstract class PStreamDBHelper(context: Context, itemClass: Class<*>) : SQLiteOp
         this.onUpgrade(db, oldVersion, newVersion)
     }
 
-    protected abstract val sqlCreateEntries: String
-
-    protected val sqlDeleteEntries: String
-        get() = "DROP TABLE IF EXISTS " + tableName
+    fun initStatus() {
+        try {
+            val cur = readableDatabase.query(this.tableName, null, null, null, null, null, null)
+            this.dbStatus.numItems.set(cur.count)
+            cur.close()
+        } catch (ignored: Throwable) {
+        }
+    }
 
     fun startCollecting() {
-        this.isCollecting.set(true)
-
-        val db = this.readableDatabase
-        val cur = db.query(this.tableName, null, null, null, null, null, null)
-        this.numItems.set(cur.count)
-        cur.close()
-
+        this.dbStatus.isCollecting.set(true)
         this.uqi.stopAll()
         this.redirectPrivacyStreamsToDB()
     }
 
     fun stopCollecting() {
-        this.isCollecting.set(false)
-
+        this.dbStatus.isCollecting.set(false)
         this.uqi.stopAll()
     }
 
@@ -71,7 +65,9 @@ abstract class PStreamDBHelper(context: Context, itemClass: Class<*>) : SQLiteOp
         fun getAllDBHelpers(context: Context): List<PStreamDBHelper> {
             val dbHelpers: MutableList<PStreamDBHelper> = ArrayList()
             dbHelpers.add(PSLocationDBHelper(context))
+            dbHelpers.add(PSNotificationDBHelper(context))
             return dbHelpers
         }
     }
+
 }

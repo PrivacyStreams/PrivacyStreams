@@ -2,9 +2,6 @@ package io.github.privacystreams.app.db
 
 import android.content.ContentValues
 import android.content.Context
-import android.database.sqlite.SQLiteDatabase
-import android.graphics.drawable.Drawable
-
 import io.github.privacystreams.app.Config
 import io.github.privacystreams.app.R
 import io.github.privacystreams.app.db.PStreamContract.GeolocationEntry
@@ -45,8 +42,13 @@ class PSLocationDBHelper(context: Context) : PStreamDBHelper(context, Geolocatio
                         values.put(GeolocationEntry.BEARING, input.getAsFloat(Geolocation.BEARING))
                         values.put(GeolocationEntry.SPEED, input.getAsFloat(Geolocation.SPEED))
                         db.insert(tableName, null, values)
-                        numItems.set(numItems.get() + 1)
+                        dbStatus.increaseNumItems()
                     }
                 })
+    }
+
+    override val dbStatus: PStreamDBStatus = staticStatus
+    companion object {
+        val staticStatus = PStreamDBStatus()
     }
 }

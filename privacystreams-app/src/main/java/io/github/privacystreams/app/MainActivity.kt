@@ -5,12 +5,11 @@ import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.ArrayAdapter
 import io.github.privacystreams.app.databinding.ActivityMainBinding
 import io.github.privacystreams.app.databinding.DataMonitorBinding
+import io.github.privacystreams.app.db.PSLocationDBHelper
 import io.github.privacystreams.app.db.PStreamDBHelper
+import io.github.privacystreams.app.db.PStreamDBStatus
 
 
 class MainActivity : AppCompatActivity() {
@@ -25,6 +24,7 @@ class MainActivity : AppCompatActivity() {
 
         val inflater: LayoutInflater = this.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         for (dbHelper in PStreamDBHelper.getAllDBHelpers(this)) {
+            dbHelper.initStatus()
             val dataMonitorBinding: DataMonitorBinding = DataMonitorBinding.inflate(inflater, binding.dataDetailList, true)
             dataMonitorBinding.dbHelper = dbHelper
             dataMonitorBinding.dataIcon.setImageResource(dbHelper.iconResId)
