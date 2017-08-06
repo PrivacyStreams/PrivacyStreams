@@ -16,9 +16,10 @@ import io.github.privacystreams.app.db.PStreamTable
 class PStreamCollectService : Service() {
 
     internal val dbHelper = PStreamDBHelper(this)
+    internal val dbTables = dbHelper.tables
 
     override fun onCreate() {
-        dbHelper.tables.map { it.startCollecting() }
+        dbTables.map { it.startCollecting() }
 
         val notificationIntent = Intent(this, MainActivity::class.java)
         val pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0)
@@ -35,7 +36,7 @@ class PStreamCollectService : Service() {
     }
 
     override fun onDestroy() {
-        dbHelper.tables.map { it.stopCollecting() }
+        dbTables.map { it.stopCollecting() }
         stopForeground(true)
     }
 

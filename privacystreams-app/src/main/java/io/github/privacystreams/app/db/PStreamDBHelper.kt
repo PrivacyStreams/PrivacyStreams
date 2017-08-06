@@ -6,7 +6,12 @@ import android.database.sqlite.SQLiteOpenHelper
 import java.util.*
 
 class PStreamDBHelper(val context: Context)
-    : SQLiteOpenHelper(context, PStreamContract.DB_NAME, null, PStreamContract.DB_VERSION) {
+    : SQLiteOpenHelper(context, DB_NAME, null, DB_VERSION) {
+
+    companion object {
+        val DB_VERSION = 1
+        val DB_NAME = "privacystreams.db"
+    }
 
     val tables: List<PStreamTable>
         get() {

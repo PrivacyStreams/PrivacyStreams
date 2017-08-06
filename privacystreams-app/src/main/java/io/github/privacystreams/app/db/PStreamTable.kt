@@ -5,16 +5,16 @@ import io.github.privacystreams.core.UQI
 import io.github.privacystreams.core.purposes.Purpose
 
 
-abstract class PStreamTable(val dbHelper: PStreamDBHelper): PStreamProvider() {
+abstract class PStreamTable(val dbHelper: PStreamDBHelper) {
 
-    val tableName: String = this.javaClass.simpleName
+    abstract val tableName: String
     abstract val sqlCreateEntry: String
-    val sqlDeleteEntry = "DROP TABLE IF EXISTS " + tableName
+    abstract val sqlDeleteEntry: String
     abstract val iconResId: Int
     abstract val tableStatus: PStreamTableStatus
 
     protected val uqi: UQI = UQI(dbHelper.context)
-    protected val purpose: Purpose = Purpose.TEST(tableName)
+    protected val purpose: Purpose = Purpose.TEST("Save data to DB for future use")
 
     fun initStatus() {
         try {
