@@ -7,7 +7,6 @@ import android.content.Intent
 import android.os.IBinder
 
 import io.github.privacystreams.app.db.PStreamDBHelper
-import io.github.privacystreams.app.db.PStreamTable
 
 /**
  * The PrivacyStreams always-on service for collecting historic data.
@@ -21,7 +20,7 @@ class PStreamCollectService : Service() {
     override fun onCreate() {
         dbTables.map { it.startCollecting() }
 
-        val notificationIntent = Intent(this, MainActivity::class.java)
+        val notificationIntent = Intent(this, OverviewActivity::class.java)
         val pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0)
 
         val notification = Notification.Builder(this)
