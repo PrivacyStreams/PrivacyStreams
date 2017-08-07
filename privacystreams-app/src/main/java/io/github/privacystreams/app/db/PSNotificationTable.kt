@@ -16,6 +16,7 @@ class PSNotificationTable(dbHelper: PStreamDBHelper) : PStreamTable(dbHelper) {
         val ICON_RES_ID = R.drawable.notification
 
         /* Fields */
+        val _ID = "_id"                                 // Long
         val TIME_CREATED = Notification.TIME_CREATED    // Long
         val POST_TIME = Notification.POST_TIME          // Long
         val ACTION = Notification.ACTION                // String
@@ -31,7 +32,8 @@ class PSNotificationTable(dbHelper: PStreamDBHelper) : PStreamTable(dbHelper) {
 
     override val sqlCreateEntry: String
         get() = "CREATE TABLE " + tableName + " (" +
-                TIME_CREATED + " INTEGER PRIMARY KEY," +
+                _ID + " INTEGER PRIMARY KEY," +
+                TIME_CREATED + " INTEGER," +
                 POST_TIME + " INTEGER," +
                 ACTION + " TEXT," +
                 CATEGORY + " TEXT, " +

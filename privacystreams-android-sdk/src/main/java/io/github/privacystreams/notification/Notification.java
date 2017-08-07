@@ -4,6 +4,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.service.notification.StatusBarNotification;
 import android.support.annotation.RequiresApi;
+import android.text.SpannableString;
 
 import io.github.privacystreams.core.Item;
 import io.github.privacystreams.core.PStreamProvider;
@@ -98,11 +99,11 @@ public class Notification extends Item {
                 this.setFieldValue(CATEGORY, category);
             }
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
-                    String title = "" + mNotification.extras.getString(android.app.Notification.EXTRA_TITLE);
+                    String title = "" + mNotification.extras.getCharSequence(android.app.Notification.EXTRA_TITLE);
                     this.setFieldValue(TITLE, title);
-                    String text = "" + mNotification.extras.getString(android.app.Notification.EXTRA_TEXT);
+                    String text = "" + mNotification.extras.getCharSequence(android.app.Notification.EXTRA_TEXT);
                     this.setFieldValue(TEXT, text);
-                    String subText = "" + mNotification.extras.getString(android.app.Notification.EXTRA_SUB_TEXT);
+                    String subText = "" + mNotification.extras.getCharSequence(android.app.Notification.EXTRA_SUB_TEXT);
                     this.setFieldValue(SUB_TEXT, subText);
                     this.setFieldValue(EXTRA,mNotification.extras);
             }

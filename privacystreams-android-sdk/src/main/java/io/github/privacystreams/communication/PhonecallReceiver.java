@@ -27,8 +27,8 @@ abstract class PhonecallReceiver extends BroadcastReceiver {
             savedNumber = intent.getExtras().getString("android.intent.extra.PHONE_NUMBER");
         }
         else{
-            String stateStr = intent.getExtras().getString(TelephonyManager.EXTRA_STATE);
-            String number = intent.getExtras().getString(TelephonyManager.EXTRA_INCOMING_NUMBER);
+            String stateStr = intent.getStringExtra(TelephonyManager.EXTRA_STATE);
+            String number = intent.getStringExtra(TelephonyManager.EXTRA_INCOMING_NUMBER);
             int state = 0;
             assert stateStr != null;
             if(stateStr.equals(TelephonyManager.EXTRA_STATE_IDLE)){

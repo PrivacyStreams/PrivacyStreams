@@ -43,9 +43,7 @@ class ContactListProvider extends PStreamProvider {
             contactCur.moveToFirst();
             while (!contactCur.isAfterLast()) {
                 String _id = contactCur.getString(contactCur.getColumnIndex(ContactsContract.Data._ID));
-                // The primary display name
-                String displayNameKey = ContactsContract.Data.DISPLAY_NAME_PRIMARY;
-                String name = contactCur.getString(contactCur.getColumnIndex(displayNameKey));
+                String name = contactCur.getString(contactCur.getColumnIndex(Phone.DISPLAY_NAME));
 
                 List<String> phones = new ArrayList<>();
                 Cursor phoneCur = contentResolver.query(

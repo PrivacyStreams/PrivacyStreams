@@ -17,6 +17,7 @@ class PSGeolocationTable(dbHelper: PStreamDBHelper) : PStreamTable(dbHelper) {
         val ICON_RES_ID = R.drawable.location
 
         /* Fields */
+        val _ID = "_id"                                 // Long
         val TIME_CREATED = Geolocation.TIME_CREATED     // Long
         val TIMESTAMP = Geolocation.TIMESTAMP           // Long
         val BEARING = Geolocation.BEARING               // Float
@@ -32,7 +33,8 @@ class PSGeolocationTable(dbHelper: PStreamDBHelper) : PStreamTable(dbHelper) {
 
     override val sqlCreateEntry: String
         get() = "CREATE TABLE " + tableName + " (" +
-                TIME_CREATED + " INTEGER PRIMARY KEY," +
+                _ID + " INTEGER PRIMARY KEY," +
+                TIME_CREATED + " INTEGER," +
                 TIMESTAMP + " INTEGER," +
                 LATITUDE + " REAL," +
                 LONGITUDE + " REAL, " +

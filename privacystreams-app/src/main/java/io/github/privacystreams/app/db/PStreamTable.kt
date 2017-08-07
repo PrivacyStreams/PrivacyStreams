@@ -33,16 +33,16 @@ abstract class PStreamTable(val dbHelper: PStreamDBHelper) {
     }
 
     fun startCollecting() {
-        this.isCollecting.set(true)
         this.message.set("")
         this.uqi.stopAll()
+        this.isCollecting.set(true)
         this.collectStreamToTable()
     }
 
     fun stopCollecting() {
-        this.isCollecting.set(false)
         this.message.set("")
         this.uqi.stopAll()
+        this.isCollecting.set(false)
     }
 
     protected fun increaseNumItems() {
