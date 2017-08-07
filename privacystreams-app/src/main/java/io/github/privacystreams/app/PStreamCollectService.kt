@@ -37,6 +37,7 @@ class PStreamCollectService : Service() {
     override fun onDestroy() {
         dbTables.map { it.stopCollecting() }
         stopForeground(true)
+        dbHelper.close()
     }
 
     override fun onBind(intent: Intent): IBinder? {

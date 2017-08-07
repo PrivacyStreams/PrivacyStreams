@@ -92,8 +92,6 @@ class PSNotificationTable(dbHelper: PStreamDBHelper) : PStreamTable(dbHelper) {
                 output(item)
             }
             cur.close()
-            db.close()
-            dbHelper.close()
         }
     }
 }

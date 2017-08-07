@@ -94,8 +94,6 @@ class PSGeolocationTable(dbHelper: PStreamDBHelper) : PStreamTable(dbHelper) {
                 output(item)
             }
             cur.close()
-            db.close()
-            dbHelper.close()
         }
     }
 }
