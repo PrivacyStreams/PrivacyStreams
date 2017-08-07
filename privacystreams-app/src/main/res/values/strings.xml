@@ -3,6 +3,9 @@
     <string name="collect_service_description">
         Continuously collect different types of personal data to a secure database.
     </string>
+    <string name="QA_service_description">
+        A question-answering service to answer PrivacyStreams data query.
+    </string>
     <string name="collect_notification_title">
         PStream is collecting data
     </string>
@@ -16,4 +19,8 @@
 
     <string name="test">TEST</string>
     <string name="data_icon_desc">Data type icon.</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
 </resources>

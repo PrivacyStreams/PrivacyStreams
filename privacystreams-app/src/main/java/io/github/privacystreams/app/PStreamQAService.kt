@@ -8,7 +8,7 @@ import android.os.IBinder
  * The PrivacyStreams remote query-answering service.
  */
 
-class PStreamRemoteService : Service() {
+class PStreamQAService : Service() {
     override fun onBind(intent: Intent): IBinder? {
         return null
     }
