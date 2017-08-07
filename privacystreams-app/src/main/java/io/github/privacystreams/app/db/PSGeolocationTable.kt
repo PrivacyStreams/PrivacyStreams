@@ -31,20 +31,23 @@ class PSGeolocationTable(dbHelper: PStreamDBHelper) : PStreamTable(dbHelper) {
     override val tableName: String = TABLE_NAME
     override val iconResId: Int = ICON_RES_ID
 
-    override val sqlCreateEntry: String
-        get() = "CREATE TABLE " + tableName + " (" +
-                _ID + " INTEGER PRIMARY KEY," +
-                TIME_CREATED + " INTEGER," +
-                TIMESTAMP + " INTEGER," +
-                LATITUDE + " REAL," +
-                LONGITUDE + " REAL, " +
-                PROVIDER + " TEXT," +
-                ACCURACY + " REAL," +
-                BEARING + " REAL," +
-                SPEED + " REAL)"
+    override val sqlCreateEntries = listOf<String>(
+            "CREATE TABLE $TABLE_NAME (" +
+                "$_ID INTEGER PRIMARY KEY, " +
+                "$TIME_CREATED INTEGER," +
+                "$TIMESTAMP INTEGER," +
+                "$LATITUDE REAL," +
+                "$LONGITUDE REAL, " +
+                "$PROVIDER TEXT," +
+                "$ACCURACY REAL," +
+                "$BEARING REAL," +
+                "$SPEED REAL)",
+            "CREATE INDEX ${TABLE_NAME}_time_created_index on $TABLE_NAME ($TIME_CREATED)"
+    )
 
-    override val sqlDeleteEntry: String
-        get() = "DROP TABLE IF EXISTS " + tableName
+    override val sqlDeleteEntries = listOf<String>(
+            "DROP TABLE IF EXISTS $TABLE_NAME"
+    )
 
     override fun collectStreamToTable() {
         val db = dbHelper.writableDatabase

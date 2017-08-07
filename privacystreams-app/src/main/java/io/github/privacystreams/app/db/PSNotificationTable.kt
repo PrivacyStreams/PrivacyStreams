@@ -30,20 +30,25 @@ class PSNotificationTable(dbHelper: PStreamDBHelper) : PStreamTable(dbHelper) {
     override val tableName: String = TABLE_NAME
     override val iconResId: Int = ICON_RES_ID
 
-    override val sqlCreateEntry: String
-        get() = "CREATE TABLE " + tableName + " (" +
-                _ID + " INTEGER PRIMARY KEY," +
-                TIME_CREATED + " INTEGER," +
-                POST_TIME + " INTEGER," +
-                ACTION + " TEXT," +
-                CATEGORY + " TEXT, " +
-                PACKAGE_NAME + " TEXT," +
-                TITLE + " TEXT," +
-                TEXT + " TEXT," +
-                SUB_TEXT + " TEXT)"
+    override val sqlCreateEntries = listOf<String>(
+            "CREATE TABLE $TABLE_NAME (" +
+                "$_ID INTEGER PRIMARY KEY," +
+                "$TIME_CREATED INTEGER," +
+                "$POST_TIME INTEGER," +
+                "$ACTION TEXT," +
+                "$CATEGORY TEXT, " +
+                "$PACKAGE_NAME TEXT," +
+                "$TITLE TEXT," +
+                "$TEXT TEXT," +
+                "$SUB_TEXT TEXT)",
+            "CREATE INDEX ${TABLE_NAME}_time_created_index on $TABLE_NAME ($TIME_CREATED)",
+            "CREATE INDEX ${TABLE_NAME}_post_time_index on $TABLE_NAME ($POST_TIME)",
+            "CREATE INDEX ${TABLE_NAME}_package_name_index on $TABLE_NAME ($PACKAGE_NAME)"
+    )
 
-    override val sqlDeleteEntry: String
-        get() = "DROP TABLE IF EXISTS " + tableName
+    override val sqlDeleteEntries = listOf<String>(
+            "DROP TABLE IF EXISTS $TABLE_NAME"
+    )
 
     override fun collectStreamToTable() {
         val db = dbHelper.writableDatabase

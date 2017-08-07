@@ -34,13 +34,13 @@ class PStreamDBHelper private constructor(var context: Context)
     }
 
     override fun onCreate(db: SQLiteDatabase) {
-        tables.map { db.execSQL(it.sqlCreateEntry) }
+        tables.map { it.sqlCreateEntries.map{db.execSQL(it)} }
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
         // This database is only a cache for online data, so its upgrade policy is
         // to simply to discard the data and start over
-        tables.map { db.execSQL(it.sqlDeleteEntry) }
+        tables.map { it.sqlDeleteEntries.map{db.execSQL(it)} }
         onCreate(db)
     }
 

@@ -11,8 +11,8 @@ import io.github.privacystreams.core.purposes.Purpose
 abstract class PStreamTable(val dbHelper: PStreamDBHelper) {
 
     abstract val tableName: String
-    abstract val sqlCreateEntry: String
-    abstract val sqlDeleteEntry: String
+    abstract val sqlCreateEntries: List<String>
+    abstract val sqlDeleteEntries: List<String>
     abstract val iconResId: Int
 
     val message = ObservableField<String>("")
