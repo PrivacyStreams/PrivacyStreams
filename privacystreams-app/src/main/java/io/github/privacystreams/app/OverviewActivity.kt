@@ -12,7 +12,7 @@ import io.github.privacystreams.app.db.PStreamDBHelper
 
 class OverviewActivity : AppCompatActivity() {
     internal lateinit var binding: OverviewBinding
-    val dbHelper = PStreamDBHelper(this)
+    val dbHelper = PStreamDBHelper.getInstance(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

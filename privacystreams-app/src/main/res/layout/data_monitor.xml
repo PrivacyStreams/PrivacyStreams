@@ -40,7 +40,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/dataItemCount"
                 android:textSize="14sp"
-                android:text='@{dbTable.tableStatus.numItems + " items in DB"}'/>
+                android:text='@{dbTable.numItems + " items in DB"}'/>
 
         </LinearLayout>
 
@@ -61,15 +61,15 @@
                 android:layout_height="match_parent"
                 android:id="@+id/collectingStatus"
                 android:textSize="14sp"
-                android:textColor="@{dbTable.tableStatus.isCollecting ? @color/colorPrimary : @color/colorAccent}"
-                android:text='@{dbTable.tableStatus.isCollecting ? "ON" : "OFF"}'/>
+                android:textColor="@{dbTable.isCollecting ? @color/colorPrimary : @color/colorAccent}"
+                android:text='@{dbTable.isCollecting ? "ON" : "OFF"}'/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/tableMessage"
                 android:textSize="14sp"
-                android:text='@{dbTable.tableStatus.message}'/>
+                android:text='@{dbTable.message}'/>
 
         </LinearLayout>
 

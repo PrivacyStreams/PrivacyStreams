@@ -14,7 +14,6 @@ class PSNotificationTable(dbHelper: PStreamDBHelper) : PStreamTable(dbHelper) {
     companion object {
         val TABLE_NAME = "Notification"
         val ICON_RES_ID = R.drawable.notification
-        val TABLE_STATUS = PStreamTableStatus()
 
         /* Fields */
         val TIME_CREATED = Notification.TIME_CREATED    // Long
@@ -29,7 +28,6 @@ class PSNotificationTable(dbHelper: PStreamDBHelper) : PStreamTable(dbHelper) {
 
     override val tableName: String = TABLE_NAME
     override val iconResId: Int = ICON_RES_ID
-    override val tableStatus: PStreamTableStatus = TABLE_STATUS
 
     override val sqlCreateEntry: String
         get() = "CREATE TABLE " + tableName + " (" +
@@ -62,13 +60,13 @@ class PSNotificationTable(dbHelper: PStreamDBHelper) : PStreamTable(dbHelper) {
                             values.put(TEXT, input.getAsString(Notification.TEXT))
                             values.put(SUB_TEXT, input.getAsString(Notification.SUB_TEXT))
                             db.insert(tableName, null, values)
-                            tableStatus.increaseNumItems()
+                            increaseNumItems()
                         }
 
                         override fun onFail(exception: PSException) {
-                            tableStatus.isCollecting.set(false)
+                            isCollecting.set(false)
                             if (exception.isPermissionDenied) {
-                                tableStatus.message.set("Denied")
+                                message.set("Denied")
                             }
                         }
                     })
@@ -77,7 +75,7 @@ class PSNotificationTable(dbHelper: PStreamDBHelper) : PStreamTable(dbHelper) {
 
     class PROVIDER(): PStreamTableProvider() {
         override fun provide() {
-            val dbHelper = PStreamDBHelper(context)
+            val dbHelper = PStreamDBHelper.getInstance(context)
             val db = dbHelper.readableDatabase
             val cur = db.query(TABLE_NAME, null, null, null, null, null, null)
             while (cur.moveToNext()) {

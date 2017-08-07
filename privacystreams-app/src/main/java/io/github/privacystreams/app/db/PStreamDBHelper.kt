@@ -5,21 +5,33 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import java.util.*
 
-class PStreamDBHelper(val context: Context)
+class PStreamDBHelper private constructor(var context: Context)
     : SQLiteOpenHelper(context, DB_NAME, null, DB_VERSION) {
 
     companion object {
         val DB_VERSION = 2
         val DB_NAME = "privacystreams.db"
+
+        private var instance: PStreamDBHelper? = null
+        fun getInstance(context: Context): PStreamDBHelper {
+            if (instance == null) {
+                instance = PStreamDBHelper(context)
+            }
+            else {
+                instance!!.context = context
+            }
+            return instance!!
+        }
     }
 
-    val tables: List<PStreamTable>
-        get() {
-            val tables: MutableList<PStreamTable> = ArrayList()
-            tables.add(PSGeolocationTable(this))
-            tables.add(PSNotificationTable(this))
-            return tables
-        }
+    val tables: List<PStreamTable> = this.getAllTables()
+
+    private fun getAllTables(): List<PStreamTable> {
+        val tables: MutableList<PStreamTable> = ArrayList<PStreamTable>()
+        tables.add(PSGeolocationTable(this))
+        tables.add(PSNotificationTable(this))
+        return tables
+    }
 
     override fun onCreate(db: SQLiteDatabase) {
         tables.map { db.execSQL(it.sqlCreateEntry) }

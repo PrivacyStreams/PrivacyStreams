@@ -14,7 +14,7 @@ import io.github.privacystreams.app.db.PStreamDBHelper
 
 class PStreamCollectService : Service() {
 
-    internal val dbHelper = PStreamDBHelper(this)
+    internal val dbHelper = PStreamDBHelper.getInstance(this)
     internal val dbTables = dbHelper.tables
 
     override fun onCreate() {
