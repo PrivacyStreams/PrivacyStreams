@@ -20,7 +20,7 @@ class PStreamCollectService : Service() {
     override fun onCreate() {
         dbTables.map { it.startCollecting() }
 
-        val notificationIntent = Intent(this, OverviewActivity::class.java)
+        val notificationIntent = Intent(this, MainActivity::class.java)
         val pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0)
 
         val notification = Notification.Builder(this)

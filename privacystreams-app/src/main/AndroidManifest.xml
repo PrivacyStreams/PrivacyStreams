@@ -38,27 +38,22 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <activity
-            android:name=".OverviewActivity"
+            android:name=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar"
             android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
         <service
             android:name=".PStreamQAService"
-            android:description="@string/QA_service_description">
-        </service>
-
+            android:description="@string/QA_service_description"></service>
         <service
             android:name=".PStreamCollectService"
-            android:description="@string/collect_service_description">
-        </service>
-
+            android:description="@string/collect_service_description"></service>
     </application>
 
 </manifest>
