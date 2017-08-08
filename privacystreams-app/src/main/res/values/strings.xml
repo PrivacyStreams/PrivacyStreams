@@ -10,10 +10,10 @@
         PStream is collecting data
     </string>
     <string name="collect_notification_text">
-        All data will be stored in a private database and maintained properly.
+        Tap to see details and manage.
     </string>
-    <string name="start_collecting_all">Start all</string>
-    <string name="stop_collecting_all">Stop all</string>
+    <string name="start_collecting_all">Start collecting for all tables</string>
+    <string name="stop_collecting_all">Stop collecting for all tables</string>
     <string name="collecting_status">On</string>
     <string name="not_collecting_status">Off</string>
 
@@ -36,4 +36,9 @@
     <string name="timeline">Timeline</string>
     <string name="market">Market</string>
     <string name="insight">Insight</string>
+    <string name="tables">Tables</string>
+    <string name="control">Control</string>
+    <string name="title_activity_nav">NavActivity</string>
+    <string name="share">Share</string>
+    <string name="notification">Notification</string>
 </resources>

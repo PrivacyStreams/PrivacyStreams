@@ -39,21 +39,23 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:launchMode="singleTop">
+            android:name=".NavActivity"
+            android:launchMode="singleTop"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
         <service
             android:name=".PStreamQAService"
-            android:description="@string/QA_service_description"></service>
+            android:description="@string/QA_service_description" />
         <service
             android:name=".PStreamCollectService"
-            android:description="@string/collect_service_description"></service>
+            android:description="@string/collect_service_description" />
+
     </application>
 
 </manifest>

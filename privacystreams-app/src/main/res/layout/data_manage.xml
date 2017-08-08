@@ -6,53 +6,69 @@
         <variable name="controllers" type="io.github.privacystreams.app.Controllers"/>
     </data>
 
-    <android.support.constraint.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_margin="10dp"
         tools:context="io.github.privacystreams.app.ManageDataFragment">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/dashboardTitle"
-            android:visibility="invisible"
-            app:layout_constraintTop_toTopOf="parent"/>
+            android:text="@string/tables"
+            style="?android:attr/listSeparatorTextViewStyle"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:id="@+id/dataDetailList"
-            app:layout_constraintTop_toBottomOf="@id/dashboardTitle">
+            android:id="@+id/tableList" />
 
-        </LinearLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/manageDB"
+            android:text="@string/control"
+            style="?android:attr/listSeparatorTextViewStyle" />
 
         <Button
             android:id="@+id/startAllButton"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            style="@style/ListItemTextViewButton"
             android:text="@string/start_collecting_all"
-            app:layout_constraintTop_toBottomOf="@id/dataDetailList"
-            app:layout_constraintLeft_toLeftOf="parent"
             android:onClick="@{() -> controllers.startCollectService()}" />
+
+        <View
+            android:paddingLeft="48dp"
+            android:paddingRight="48dp"
+            style="@style/HorizontalDivider" />
 
         <Button
             android:id="@+id/stopAllButton"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            style="@style/ListItemTextViewButton"
             android:text="@string/stop_collecting_all"
-            app:layout_constraintTop_toBottomOf="@id/dataDetailList"
-            app:layout_constraintLeft_toRightOf="@id/startAllButton"
             android:onClick="@{() -> controllers.stopCollectService()}" />
+
+        <View style="@style/HorizontalDivider" />
 
         <Button
             android:id="@+id/testButton"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            style="@style/ListItemTextViewButton"
             android:text="@string/test"
-            app:layout_constraintTop_toBottomOf="@id/dataDetailList"
-            app:layout_constraintLeft_toRightOf="@id/stopAllButton"
             android:onClick="@{() -> controllers.test()}" />
 
-    </android.support.constraint.ConstraintLayout>
+        <View
+            android:paddingLeft="48dp"
+            android:paddingRight="48dp"
+            style="@style/HorizontalDivider" />
+
+    </LinearLayout>
 </layout>

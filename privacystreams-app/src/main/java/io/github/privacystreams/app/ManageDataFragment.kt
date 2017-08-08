@@ -20,9 +20,9 @@ class ManageDataFragment : Fragment() {
         binding.controllers = controllers
         for (dbTable in dbHelper.tables) {
             dbTable.initStatus()
-            val itemBinding = TableItemBinding.inflate(inflater, binding.dataDetailList, true)
+            val itemBinding = TableItemBinding.inflate(inflater, binding.tableList, true)
             itemBinding.dbTable = dbTable
-            itemBinding.dataIcon.setImageResource(dbTable.iconResId)
+            itemBinding.tableIcon.setImageResource(dbTable.iconResId)
         }
         return binding.root
     }
