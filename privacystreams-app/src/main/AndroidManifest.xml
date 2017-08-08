@@ -53,7 +53,7 @@
             android:name=".PStreamQAService"
             android:description="@string/QA_service_description" />
         <service
-            android:name=".PStreamCollectService"
+            android:name=".db.PStreamCollectService"
             android:description="@string/collect_service_description" />
 
     </application>

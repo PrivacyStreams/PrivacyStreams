@@ -1,4 +1,4 @@
-package io.github.privacystreams.app
+package io.github.privacystreams.app.db
 
 import android.app.Notification
 import android.app.PendingIntent
@@ -6,8 +6,8 @@ import android.app.Service
 import android.content.Intent
 import android.os.Bundle
 import android.os.IBinder
-
-import io.github.privacystreams.app.db.PStreamDBHelper
+import io.github.privacystreams.app.NavActivity
+import io.github.privacystreams.app.R
 
 /**
  * The PrivacyStreams always-on service for collecting historic data.

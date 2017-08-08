@@ -41,4 +41,6 @@
     <string name="title_activity_nav">NavActivity</string>
     <string name="share">Share</string>
     <string name="notification">Notification</string>
+    <string name="db_general_info_title">General information</string>
+    <string name="db_general_info_text">PStream stores your data in a private database.</string>
 </resources>

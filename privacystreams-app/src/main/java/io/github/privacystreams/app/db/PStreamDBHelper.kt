@@ -1,8 +1,12 @@
 package io.github.privacystreams.app.db
 
 import android.content.Context
+import android.content.Intent
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import io.github.privacystreams.core.UQI
+import io.github.privacystreams.core.purposes.Purpose
+import java.io.File
 import java.util.*
 
 class PStreamDBHelper private constructor(var context: Context)
@@ -46,5 +50,29 @@ class PStreamDBHelper private constructor(var context: Context)
 
     override fun onDowngrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
         this.onUpgrade(db, oldVersion, newVersion)
+    }
+
+    fun startCollectService() {
+        val collectServiceIntent = Intent(this.context, PStreamCollectService::class.java)
+        this.context.startService(collectServiceIntent)
+    }
+
+    fun stopCollectService() {
+        val collectServiceIntent = Intent(this.context, PStreamCollectService::class.java)
+        this.context.stopService(collectServiceIntent)
+    }
+
+    fun test() {
+        UQI(context).getData(PSGeolocationTable.PROVIDER(), Purpose.TEST("Test"))
+                .limit(10)
+                .debug();
+
+        UQI(context).getData(PSNotificationTable.PROVIDER(), Purpose.TEST("Test"))
+                .limit(10)
+                .debug();
+    }
+
+    fun getDBSize(): Long {
+        return context.getDatabasePath(DB_NAME).absoluteFile.length()
     }
 }

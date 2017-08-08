@@ -16,8 +16,7 @@ class ManageDataFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val dbHelper = PStreamDBHelper.getInstance(this.activity)
         val binding: DataManageBinding = DataBindingUtil.inflate(inflater, R.layout.data_manage, container, false)
-        val controllers = Controllers(this.activity)
-        binding.controllers = controllers
+        binding.dbHelper = dbHelper
         for (dbTable in dbHelper.tables) {
             dbTable.initStatus()
             val itemBinding = TableItemBinding.inflate(inflater, binding.tableList, true)

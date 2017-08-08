@@ -3,20 +3,51 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools" >
     <data>
-        <variable name="controllers" type="io.github.privacystreams.app.Controllers"/>
+        <variable name="dbHelper" type="io.github.privacystreams.app.db.PStreamDBHelper"/>
     </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_margin="10dp"
+        android:layout_marginBottom="0dp"
         tools:context="io.github.privacystreams.app.ManageDataFragment">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/dashboardTitle"
+            android:id="@+id/dbGeneralInfoTitle"
+            android:text="@string/db_general_info_title"
+            style="?android:attr/listSeparatorTextViewStyle"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="10dp"
+            android:id="@+id/dbGeneralInfoText"
+            android:text="@string/db_general_info_text"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="10dp"
+            android:id="@+id/dbSize"
+            android:text='@{"Current database size: " + (double)(dbHelper.getDBSize()/1024)/1000 + " MB"}'/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tableListTitle"
             android:text="@string/tables"
             style="?android:attr/listSeparatorTextViewStyle"
             app:layout_constraintTop_toTopOf="parent" />
@@ -38,9 +69,9 @@
             android:id="@+id/startAllButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/ListItemTextViewButton"
+            style="@style/ListItemTextView"
             android:text="@string/start_collecting_all"
-            android:onClick="@{() -> controllers.startCollectService()}" />
+            android:onClick="@{() -> dbHelper.startCollectService()}" />
 
         <View
             android:paddingLeft="48dp"
@@ -51,9 +82,9 @@
             android:id="@+id/stopAllButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/ListItemTextViewButton"
+            style="@style/ListItemTextView"
             android:text="@string/stop_collecting_all"
-            android:onClick="@{() -> controllers.stopCollectService()}" />
+            android:onClick="@{() -> dbHelper.stopCollectService()}" />
 
         <View style="@style/HorizontalDivider" />
 
@@ -61,9 +92,23 @@
             android:id="@+id/testButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/ListItemTextViewButton"
+            style="@style/ListItemTextView"
             android:text="@string/test"
-            android:onClick="@{() -> controllers.test()}" />
+            android:onClick="@{() -> dbHelper.test()}" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/ListItemTextView"
+            android:text="@string/test"
+            android:onClick="@{() -> dbHelper.test()}" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/ListItemTextView"
+            android:text="@string/test"
+            android:onClick="@{() -> dbHelper.test()}" />
 
         <View
             android:paddingLeft="48dp"
@@ -71,4 +116,5 @@
             style="@style/HorizontalDivider" />
 
     </LinearLayout>
+    </ScrollView>
 </layout>
