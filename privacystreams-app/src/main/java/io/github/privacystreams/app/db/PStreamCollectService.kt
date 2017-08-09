@@ -14,13 +14,17 @@ import io.github.privacystreams.app.R
  */
 
 class PStreamCollectService : Service() {
+    companion object {
+        val START_TABLE_NAME_KEY = "start_table_name"
+        val STOP_TABLE_NAME_KEY = "stop_table_name"
+        val ALL_TABLES = "all_tables"
+        private val ONGOING_NOTIFICATION_ID = 1
+    }
 
     internal val dbHelper = PStreamDBHelper.getInstance(this)
     internal val dbTables = dbHelper.tables
 
     override fun onCreate() {
-        dbTables.map { it.startCollecting() }
-
         val notificationIntent = Intent(this, NavActivity::class.java)
         val bundle = Bundle()
         bundle.putInt(NavActivity.NAV_ID_KEY, R.id.nav_data)
@@ -39,7 +43,7 @@ class PStreamCollectService : Service() {
     }
 
     override fun onDestroy() {
-        dbTables.map { it.stopCollecting() }
+        dbTables.forEach { it.stopCollecting() }
         stopForeground(true)
         dbHelper.close()
     }
@@ -49,10 +53,26 @@ class PStreamCollectService : Service() {
     }
 
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
+        val stopTableName = intent.getStringExtra(STOP_TABLE_NAME_KEY)
+        if (stopTableName == ALL_TABLES) {
+            dbTables.forEach { it.stopCollecting() }
+        } else if (stopTableName != null) {
+            dbTables.forEach { if (it.tableName == stopTableName) it.stopCollecting() }
+        }
+
+        val startTableName = intent.getStringExtra(START_TABLE_NAME_KEY)
+        if (startTableName == ALL_TABLES) {
+            dbTables.forEach { it.startCollecting() }
+        } else if (startTableName != null) {
+            dbTables.forEach { if (it.tableName == startTableName) it.startCollecting() }
+        }
+
+        var allTablesStopped = true
+        dbTables.forEach { if (it.isCollecting.get()) allTablesStopped = false }
+
+        if (allTablesStopped) this.stopSelf()
+
         return Service.START_STICKY
     }
 
-    companion object {
-        private val ONGOING_NOTIFICATION_ID = 1
-    }
 }

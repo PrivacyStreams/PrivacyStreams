@@ -1,9 +1,9 @@
 package io.github.privacystreams.app.db
 
+import android.content.Intent
 import android.databinding.ObservableBoolean
 import android.databinding.ObservableField
 import android.databinding.ObservableInt
-import io.github.privacystreams.core.PStreamProvider
 import io.github.privacystreams.core.UQI
 import io.github.privacystreams.core.purposes.Purpose
 
@@ -32,7 +32,22 @@ abstract class PStreamTable(val dbHelper: PStreamDBHelper) {
         }
     }
 
+    fun startCollectService() {
+        if (isCollecting.get()) return
+        val collectServiceIntent = Intent(dbHelper.context, PStreamCollectService::class.java)
+        collectServiceIntent.putExtra(PStreamCollectService.START_TABLE_NAME_KEY, tableName)
+        dbHelper.context.startService(collectServiceIntent)
+    }
+
+    fun stopCollectService() {
+        if (!isCollecting.get()) return
+        val collectServiceIntent = Intent(dbHelper.context, PStreamCollectService::class.java)
+        collectServiceIntent.putExtra(PStreamCollectService.STOP_TABLE_NAME_KEY, tableName)
+        dbHelper.context.startService(collectServiceIntent)
+    }
+
     fun startCollecting() {
+        if (isCollecting.get()) return
         this.message.set("")
         this.uqi.stopAll()
         this.isCollecting.set(true)
@@ -40,6 +55,7 @@ abstract class PStreamTable(val dbHelper: PStreamDBHelper) {
     }
 
     fun stopCollecting() {
+        if (!isCollecting.get()) return
         this.message.set("")
         this.uqi.stopAll()
         this.isCollecting.set(false)

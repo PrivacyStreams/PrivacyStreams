@@ -12,8 +12,8 @@
     <string name="collect_notification_text">
         Tap to see details and manage.
     </string>
-    <string name="start_collecting_all">Start collecting for all tables</string>
-    <string name="stop_collecting_all">Stop collecting for all tables</string>
+    <string name="start_collecting_all">Start all</string>
+    <string name="stop_collecting_all">Stop all</string>
     <string name="collecting_status">On</string>
     <string name="not_collecting_status">Off</string>
 

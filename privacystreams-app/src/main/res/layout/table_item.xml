@@ -16,6 +16,7 @@
             android:layout_marginRight="10dp"
             android:id="@+id/tableSwitch"
             android:checked="@{dbTable.isCollecting ? true : false, default=false}"
+            android:onCheckedChanged="@{(view, isChecked) -> isChecked ? dbTable.startCollectService() : dbTable.stopCollectService()}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintRight_toRightOf="parent"/>

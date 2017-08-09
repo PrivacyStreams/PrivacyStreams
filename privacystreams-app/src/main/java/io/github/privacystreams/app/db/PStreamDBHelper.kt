@@ -52,12 +52,13 @@ class PStreamDBHelper private constructor(var context: Context)
         this.onUpgrade(db, oldVersion, newVersion)
     }
 
-    fun startCollectService() {
+    fun startCollectServiceAll() {
         val collectServiceIntent = Intent(this.context, PStreamCollectService::class.java)
+        collectServiceIntent.putExtra(PStreamCollectService.START_TABLE_NAME_KEY, PStreamCollectService.ALL_TABLES)
         this.context.startService(collectServiceIntent)
     }
 
-    fun stopCollectService() {
+    fun stopCollectServiceAll() {
         val collectServiceIntent = Intent(this.context, PStreamCollectService::class.java)
         this.context.stopService(collectServiceIntent)
     }

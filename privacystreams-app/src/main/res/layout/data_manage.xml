@@ -58,35 +58,41 @@
             android:orientation="vertical"
             android:id="@+id/tableList" />
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:gravity="end"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/startAllButton"
+                style="@style/ListItemTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:padding="10dp"
+                android:text="@string/start_collecting_all"
+                android:onClick="@{() -> dbHelper.startCollectServiceAll()}" />
+
+            <Button
+                android:id="@+id/stopAllButton"
+                style="@style/ListItemTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:padding="10dp"
+                android:text="@string/stop_collecting_all"
+                android:onClick="@{() -> dbHelper.stopCollectServiceAll()}" />
+
+        </LinearLayout>
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/manageDB"
             android:text="@string/control"
             style="?android:attr/listSeparatorTextViewStyle" />
-
-        <Button
-            android:id="@+id/startAllButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            style="@style/ListItemTextView"
-            android:text="@string/start_collecting_all"
-            android:onClick="@{() -> dbHelper.startCollectService()}" />
-
-        <View
-            android:paddingLeft="48dp"
-            android:paddingRight="48dp"
-            style="@style/HorizontalDivider" />
-
-        <Button
-            android:id="@+id/stopAllButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            style="@style/ListItemTextView"
-            android:text="@string/stop_collecting_all"
-            android:onClick="@{() -> dbHelper.stopCollectService()}" />
-
-        <View style="@style/HorizontalDivider" />
 
         <Button
             android:id="@+id/testButton"

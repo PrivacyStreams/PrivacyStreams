@@ -12,9 +12,10 @@ class NavActivity : AppCompatActivity() {
 
     companion object {
         val NAV_ID_KEY = "navId"
+        val DEFAULT_NAV_ID = R.id.nav_data
         val LOG_TAG = "NavActivity"
     }
-    var navId = R.id.nav_timeline
+    var navId = DEFAULT_NAV_ID
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         loadFragment(item.itemId)
