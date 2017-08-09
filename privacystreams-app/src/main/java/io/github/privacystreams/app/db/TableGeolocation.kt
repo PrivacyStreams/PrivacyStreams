@@ -42,7 +42,7 @@ class TableGeolocation(dbHelper: PStreamDBHelper) : PStreamTable(dbHelper) {
                 "$ACCURACY REAL," +
                 "$BEARING REAL," +
                 "$SPEED REAL)",
-            "CREATE INDEX ${TABLE_NAME}_time_created_index on $TABLE_NAME ($TIME_CREATED)"
+            "CREATE INDEX ${TABLE_NAME}_${TIME_CREATED}_index on $TABLE_NAME ($TIME_CREATED)"
     )
 
     override val sqlDeleteEntries = listOf<String>(
@@ -85,11 +85,12 @@ class TableGeolocation(dbHelper: PStreamDBHelper) : PStreamTable(dbHelper) {
             val cur = db.query(TABLE_NAME, null, null, null, null, null, null)
             while (cur.moveToNext()) {
                 val item : Item = Item()
-                item.setFieldValue(Geolocation.TIMESTAMP, cur.getLong(cur.getColumnIndex(TIMESTAMP)))
-                item.setFieldValue(Geolocation.PROVIDER, cur.getString(cur.getColumnIndex(PROVIDER)))
-                item.setFieldValue(Geolocation.SPEED, cur.getFloat(cur.getColumnIndex(SPEED)))
-                item.setFieldValue(Geolocation.ACCURACY, cur.getFloat(cur.getColumnIndex(ACCURACY)))
-                item.setFieldValue(Geolocation.BEARING, cur.getFloat(cur.getColumnIndex(BEARING)))
+                item.setFieldValue(TIME_CREATED, cur.getLong(cur.getColumnIndex(TIME_CREATED)))
+                item.setFieldValue(TIMESTAMP, cur.getLong(cur.getColumnIndex(TIMESTAMP)))
+                item.setFieldValue(PROVIDER, cur.getString(cur.getColumnIndex(PROVIDER)))
+                item.setFieldValue(SPEED, cur.getFloat(cur.getColumnIndex(SPEED)))
+                item.setFieldValue(ACCURACY, cur.getFloat(cur.getColumnIndex(ACCURACY)))
+                item.setFieldValue(BEARING, cur.getFloat(cur.getColumnIndex(BEARING)))
                 item.setFieldValue(Geolocation.LAT_LON, LatLon(
                         cur.getDouble(cur.getColumnIndex(LATITUDE)),
                         cur.getDouble(cur.getColumnIndex(LONGITUDE))

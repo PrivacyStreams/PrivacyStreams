@@ -8,7 +8,7 @@ import android.preference.PreferenceManager;
 import io.github.privacystreams.core.exceptions.PSException;
 import io.github.privacystreams.core.PStreamProvider;
 import io.github.privacystreams.utils.AppUtils;
-import io.github.privacystreams.utils.ConnectionUtils;
+import io.github.privacystreams.utils.DeviceUtils;
 import io.github.privacystreams.utils.Logging;
 import io.github.privacystreams.utils.TimeUtils;
 import com.google.api.client.extensions.android.http.AndroidHttp;
@@ -205,8 +205,8 @@ abstract class BaseGmailProvider extends PStreamProvider implements GmailResultL
                     .setBackOff(new ExponentialBackOff());
             mCredential.setSelectedAccountName(accountName);
 
-            if (!ConnectionUtils.isGooglePlayServicesAvailable(getContext())) {
-                ConnectionUtils.acquireGooglePlayServices(getContext());
+            if (!DeviceUtils.isGooglePlayServicesAvailable(getContext())) {
+                DeviceUtils.acquireGooglePlayServices(getContext());
             }
             else{
                 mService = new Gmail.Builder(

@@ -41,9 +41,9 @@ class TableNotification(dbHelper: PStreamDBHelper) : PStreamTable(dbHelper) {
                 "$TITLE TEXT," +
                 "$TEXT TEXT," +
                 "$SUB_TEXT TEXT)",
-            "CREATE INDEX ${TABLE_NAME}_time_created_index on $TABLE_NAME ($TIME_CREATED)",
-            "CREATE INDEX ${TABLE_NAME}_post_time_index on $TABLE_NAME ($POST_TIME)",
-            "CREATE INDEX ${TABLE_NAME}_package_name_index on $TABLE_NAME ($PACKAGE_NAME)"
+            "CREATE INDEX ${TABLE_NAME}_${TIME_CREATED}_index on $TABLE_NAME ($TIME_CREATED)",
+            "CREATE INDEX ${TABLE_NAME}_${POST_TIME}_index on $TABLE_NAME ($POST_TIME)",
+            "CREATE INDEX ${TABLE_NAME}_${PACKAGE_NAME}_index on $TABLE_NAME ($PACKAGE_NAME)"
     )
 
     override val sqlDeleteEntries = listOf<String>(
@@ -87,13 +87,14 @@ class TableNotification(dbHelper: PStreamDBHelper) : PStreamTable(dbHelper) {
             val cur = db.query(TABLE_NAME, null, null, null, null, null, null)
             while (cur.moveToNext()) {
                 val item : Item = Item()
-                item.setFieldValue(Notification.POST_TIME, cur.getLong(cur.getColumnIndex(POST_TIME)))
-                item.setFieldValue(Notification.ACTION, cur.getString(cur.getColumnIndex(ACTION)))
-                item.setFieldValue(Notification.CATEGORY, cur.getString(cur.getColumnIndex(CATEGORY)))
-                item.setFieldValue(Notification.PACKAGE_NAME, cur.getString(cur.getColumnIndex(PACKAGE_NAME)))
-                item.setFieldValue(Notification.TITLE, cur.getString(cur.getColumnIndex(TITLE)))
-                item.setFieldValue(Notification.TEXT, cur.getString(cur.getColumnIndex(TEXT)))
-                item.setFieldValue(Notification.SUB_TEXT, cur.getString(cur.getColumnIndex(SUB_TEXT)))
+                item.setFieldValue(TIME_CREATED, cur.getLong(cur.getColumnIndex(TIME_CREATED)))
+                item.setFieldValue(POST_TIME, cur.getLong(cur.getColumnIndex(POST_TIME)))
+                item.setFieldValue(ACTION, cur.getString(cur.getColumnIndex(ACTION)))
+                item.setFieldValue(CATEGORY, cur.getString(cur.getColumnIndex(CATEGORY)))
+                item.setFieldValue(PACKAGE_NAME, cur.getString(cur.getColumnIndex(PACKAGE_NAME)))
+                item.setFieldValue(TITLE, cur.getString(cur.getColumnIndex(TITLE)))
+                item.setFieldValue(TEXT, cur.getString(cur.getColumnIndex(TEXT)))
+                item.setFieldValue(SUB_TEXT, cur.getString(cur.getColumnIndex(SUB_TEXT)))
                 output(item)
             }
             cur.close()

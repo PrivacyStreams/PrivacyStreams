@@ -73,7 +73,7 @@ public class DropboxUtils {
                 Set<String> waitingList = pref.getStringSet(DROPBOX_WAITING_LIST, new HashSet<String>());
 
                 if (waitingList.isEmpty()) return;
-                if (Globals.DropboxConfig.onlyOverWifi && !ConnectionUtils.isWifiConnected(uqi))
+                if (Globals.DropboxConfig.onlyOverWifi && !DeviceUtils.isWifiConnected(uqi.getContext()))
                     return;
 
                 syncing = true;

@@ -37,10 +37,13 @@
     <string name="market">Market</string>
     <string name="insight">Insight</string>
     <string name="tables">Tables</string>
-    <string name="control">Control</string>
+    <string name="management">Management</string>
     <string name="title_activity_nav">NavActivity</string>
     <string name="share">Share</string>
     <string name="notification">Notification</string>
     <string name="db_general_info_title">General information</string>
     <string name="db_general_info_text">PStream stores your data in a private database.</string>
+    <string name="clear_all_existing_data">Clear all existing data</string>
+    <string name="backup_data">Backup data</string>
+    <string name="restore_data">Restore data</string>
 </resources>

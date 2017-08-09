@@ -7,6 +7,7 @@ import android.content.IntentFilter;
 import android.media.AudioManager;
 
 import io.github.privacystreams.core.PStreamProvider;
+import io.github.privacystreams.core.UQI;
 
 /**
  * Provide a stream of device state updates, including screen, boot, battery, ringer, etc.
@@ -90,9 +91,11 @@ class DeviceEventUpdatesProvider extends PStreamProvider {
             }
 
             if (type != null)
-                output(new DeviceEvent(System.currentTimeMillis(), type, event));
+                output(new DeviceEvent(type, event));
         }
     }
+
+    private transient DeviceStateReceiver mReceiver;
 
     @Override
     protected void provide() {
@@ -108,7 +111,17 @@ class DeviceEventUpdatesProvider extends PStreamProvider {
         filter.addAction(Intent.ACTION_POWER_DISCONNECTED);
         filter.addAction(AudioManager.RINGER_MODE_CHANGED_ACTION);
 
-        DeviceStateReceiver mReceiver = new DeviceStateReceiver();
+        mReceiver = new DeviceStateReceiver();
         getContext().registerReceiver(mReceiver, filter);
+    }
+
+    @Override
+    protected void onCancel(UQI uqi) {
+        if (mReceiver != null) {
+            try {
+                getContext().unregisterReceiver(mReceiver);
+            } catch (Exception ignored) {
+            }
+        }
     }
 }

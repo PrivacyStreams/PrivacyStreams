@@ -7,6 +7,7 @@ import io.github.privacystreams.core.Item;
 import io.github.privacystreams.core.exceptions.PSException;
 import io.github.privacystreams.core.PStreamProvider;
 import io.github.privacystreams.core.purposes.Purpose;
+import io.github.privacystreams.utils.DeviceUtils;
 
 import java.util.List;
 
@@ -23,44 +24,47 @@ class DeviceStateUpdatesProvider extends PStreamProvider {
         this.addParameters(frequency, mask);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     @Override
     protected void provide() {
 
-        while (true){
-            if(!isCancelled){
-                Item deviceState = new Item();
-                if ((mask & DeviceState.Masks.BLUETOOTH_DEVICE_LIST) != 0) {
-                    getBluetoothDeviceList(deviceState);
-                }
+        while (!isCancelled){
+            Item deviceState = new Item();
+            if ((mask & DeviceState.Masks.BLUETOOTH_DEVICE_LIST) != 0) {
+                getBluetoothDeviceList(deviceState);
+            }
 
-                if ((mask & DeviceState.Masks.WIFI_AP_LIST) != 0) {
-                    getWifiList(deviceState);
-                }
+            if ((mask & DeviceState.Masks.WIFI_AP_LIST) != 0) {
+                getWifiList(deviceState);
+            }
 
-                if ((mask& DeviceState.Masks.BATTERY_LEVEL)!=0){
-                    getBatteryInfo(deviceState);
-                }
-                output(deviceState);
+            if ((mask & DeviceState.Masks.BATTERY_LEVEL) !=0) {
+                getBatteryInfo(deviceState);
+            }
 
-                try {
-                    Thread.sleep(frequency);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+            if ((mask & DeviceState.Masks.SCREEN_STATE) != 0) {
+                deviceState.setFieldValue(DeviceState.IS_SCREEN_ON, DeviceUtils.isDeviceInteractive(getContext()));
+            }
+
+            if ((mask & DeviceState.Masks.CONNECTION_INFO) != 0) {
+                deviceState.setFieldValue(DeviceState.IS_CONNECTED, DeviceUtils.isDeviceOnline(getContext()));
+                deviceState.setFieldValue(DeviceState.WIFI_BSSID, DeviceUtils.getWifiBSSID(getContext()));
+            }
+
+            output(deviceState);
+
+            try {
+                Thread.sleep(frequency);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
         }
     }
 
     private void getBatteryInfo(Item deviceState){
-        try {
-            float level = this.getUQI()
-                    .getData(BatteryInfo.asSnapshot(), Purpose.LIB_INTERNAL("BatteryInfoProvider"))
-                    .getFirst(BatteryInfo.LEVEL);
-
+        float level = DeviceUtils.getBatteryLevel(this.getContext());
+        if (level >= 0)
             deviceState.setFieldValue(DeviceState.BATTERY_LEVEL, level);
-        } catch (PSException e) {
-            e.printStackTrace();
-        }
     }
 
     private void getBluetoothDeviceList(Item deviceState) {

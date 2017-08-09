@@ -91,34 +91,50 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/manageDB"
-            android:text="@string/control"
+            android:text="@string/management"
             style="?android:attr/listSeparatorTextViewStyle" />
 
         <Button
-            android:id="@+id/testButton"
+            android:id="@+id/dbTest"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             style="@style/ListItemTextView"
             android:text="@string/test"
+            android:textAllCaps="false"
             android:onClick="@{() -> dbHelper.test()}" />
 
         <Button
+            android:id="@+id/dbBackupButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             style="@style/ListItemTextView"
-            android:text="@string/test"
-            android:onClick="@{() -> dbHelper.test()}" />
+            android:text="@string/backup_data"
+            android:textAllCaps="false"
+            android:onClick="@{() -> dbHelper.backupData()}" />
 
         <Button
+            android:id="@+id/dbRestoreButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             style="@style/ListItemTextView"
-            android:text="@string/test"
-            android:onClick="@{() -> dbHelper.test()}" />
+            android:text="@string/restore_data"
+            android:textAllCaps="false"
+            android:onClick="@{() -> dbHelper.restoreData()}" />
+
+        <Button
+            android:id="@+id/dbClearButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/ListItemTextView"
+            android:textColor="@color/colorDanger"
+            android:text="@string/clear_all_existing_data"
+            android:textAllCaps="false"
+            android:onClick="@{() -> dbHelper.clearData()}" />
 
         <View
-            android:paddingLeft="48dp"
-            android:paddingRight="48dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="48dp"
             style="@style/HorizontalDivider" />
 
     </LinearLayout>

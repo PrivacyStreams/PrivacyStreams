@@ -85,6 +85,7 @@ class TableUIEvent(dbHelper: PStreamDBHelper) : PStreamTable(dbHelper) {
             val cur = db.query(TABLE_NAME, null, null, null, null, null, null)
             while (cur.moveToNext()) {
                 val item : Item = Item()
+                item.setFieldValue(TIME_CREATED, cur.getLong(cur.getColumnIndex(TIME_CREATED)))
                 item.setFieldValue(EVENT_TIME, cur.getLong(cur.getColumnIndex(EVENT_TIME)))
                 item.setFieldValue(EVENT_TYPE, cur.getInt(cur.getColumnIndex(EVENT_TYPE)))
                 item.setFieldValue(PACKAGE_NAME, cur.getString(cur.getColumnIndex(PACKAGE_NAME)))

@@ -428,7 +428,7 @@ public class TestCases {
 //                .getData(Geolocation.asHistory(), Purpose.FEATURE("get the place you spent the most time"))
 //                .setField("geo_tag", GeolocationOperators.asGeotag(Geolocation.COORDINATES))
 //                .localGroupBy("geo_tag")
-//                .setGroupField("time_spent", StatisticOperators.range(Geolocation.TIMESTAMP))
+//                .setGroupField("time_spent", StatisticOperators.range(Geolocation.EVENT_TIME))
 //                .sortBy("time_spent")
 //                .reverse()
 //                .getFirst()

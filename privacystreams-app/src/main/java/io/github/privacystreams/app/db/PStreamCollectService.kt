@@ -21,10 +21,13 @@ class PStreamCollectService : Service() {
         private val ONGOING_NOTIFICATION_ID = 1
     }
 
-    internal val dbHelper = PStreamDBHelper.getInstance(this)
-    internal val dbTables = dbHelper.tables
+    internal lateinit var dbHelper: PStreamDBHelper
+    internal lateinit var dbTables: List<PStreamTable>
 
     override fun onCreate() {
+        dbHelper = PStreamDBHelper.getInstance(this)
+        dbTables = dbHelper.tables
+
         val notificationIntent = Intent(this, NavActivity::class.java)
         val bundle = Bundle()
         bundle.putInt(NavActivity.NAV_ID_KEY, R.id.nav_data)

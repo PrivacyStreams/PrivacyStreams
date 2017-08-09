@@ -9,7 +9,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 
 import io.github.privacystreams.utils.AppUtils;
-import io.github.privacystreams.utils.ConnectionUtils;
+import io.github.privacystreams.utils.DeviceUtils;
 import io.github.privacystreams.utils.Logging;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
@@ -42,11 +42,11 @@ public class GmailAuthorizationActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         if (gmailResultListener!=null) {
-            if (! ConnectionUtils.isDeviceOnline(this)) {
+            if (! DeviceUtils.isDeviceOnline(this)) {
                 Logging.warn("No network connection available.");
             }
-            if (! ConnectionUtils.isGooglePlayServicesAvailable(this)) {
-                ConnectionUtils.acquireGooglePlayServices(this);
+            if (! DeviceUtils.isGooglePlayServicesAvailable(this)) {
+                DeviceUtils.acquireGooglePlayServices(this);
             }
             mCredential = GoogleAccountCredential.usingOAuth2(
                     getApplicationContext(), Arrays.asList(SCOPES))
