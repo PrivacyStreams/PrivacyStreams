@@ -6,14 +6,13 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import io.github.privacystreams.core.UQI
 import io.github.privacystreams.core.purposes.Purpose
-import java.io.File
 import java.util.*
 
 class PStreamDBHelper private constructor(var context: Context)
     : SQLiteOpenHelper(context, DB_NAME, null, DB_VERSION) {
 
     companion object {
-        val DB_VERSION = 2
+        val DB_VERSION = 1
         val DB_NAME = "privacystreams.db"
 
         private var instance: PStreamDBHelper? = null
@@ -32,8 +31,9 @@ class PStreamDBHelper private constructor(var context: Context)
 
     private fun getAllTables(): List<PStreamTable> {
         val tables: MutableList<PStreamTable> = ArrayList<PStreamTable>()
-        tables.add(PSGeolocationTable(this))
-        tables.add(PSNotificationTable(this))
+        tables.add(TableGeolocation(this))
+        tables.add(TableNotification(this))
+        tables.add(TableUIEvent(this))
         return tables
     }
 
@@ -64,11 +64,11 @@ class PStreamDBHelper private constructor(var context: Context)
     }
 
     fun test() {
-        UQI(context).getData(PSGeolocationTable.PROVIDER(), Purpose.TEST("Test"))
+        UQI(context).getData(TableGeolocation.PROVIDER(), Purpose.TEST("Test"))
                 .limit(10)
                 .debug();
 
-        UQI(context).getData(PSNotificationTable.PROVIDER(), Purpose.TEST("Test"))
+        UQI(context).getData(TableNotification.PROVIDER(), Purpose.TEST("Test"))
                 .limit(10)
                 .debug();
     }

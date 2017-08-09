@@ -10,7 +10,7 @@ import io.github.privacystreams.location.Geolocation
 import io.github.privacystreams.location.LatLon
 
 
-class PSGeolocationTable(dbHelper: PStreamDBHelper) : PStreamTable(dbHelper) {
+class TableGeolocation(dbHelper: PStreamDBHelper) : PStreamTable(dbHelper) {
 
     companion object {
         val TABLE_NAME = "Geolocation"
@@ -70,7 +70,7 @@ class PSGeolocationTable(dbHelper: PStreamDBHelper) : PStreamTable(dbHelper) {
                     }
 
                     override fun onFail(exception: PSException) {
-                        isCollecting.set(false)
+                        stopCollectService()
                         if (exception.isPermissionDenied) {
                             message.set("Denied")
                         }

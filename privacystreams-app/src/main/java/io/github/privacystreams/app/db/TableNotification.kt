@@ -9,7 +9,7 @@ import io.github.privacystreams.core.exceptions.PSException
 import io.github.privacystreams.notification.Notification
 
 
-class PSNotificationTable(dbHelper: PStreamDBHelper) : PStreamTable(dbHelper) {
+class TableNotification(dbHelper: PStreamDBHelper) : PStreamTable(dbHelper) {
 
     companion object {
         val TABLE_NAME = "Notification"
@@ -71,7 +71,7 @@ class PSNotificationTable(dbHelper: PStreamDBHelper) : PStreamTable(dbHelper) {
                         }
 
                         override fun onFail(exception: PSException) {
-                            isCollecting.set(false)
+                            stopCollectService()
                             if (exception.isPermissionDenied) {
                                 message.set("Denied")
                             }

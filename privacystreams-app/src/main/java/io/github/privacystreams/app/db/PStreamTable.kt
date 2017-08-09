@@ -56,7 +56,6 @@ abstract class PStreamTable(val dbHelper: PStreamDBHelper) {
 
     fun stopCollecting() {
         if (!isCollecting.get()) return
-        this.message.set("")
         this.uqi.stopAll()
         this.isCollecting.set(false)
     }
