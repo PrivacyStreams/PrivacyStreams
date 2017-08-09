@@ -20,4 +20,29 @@ public class Filters {
     public static PStreamTransformation keep(Function<Item, Boolean> condition) {
         return new PredicateFilter(condition);
     }
+
+    /**
+     * Sample the items based on a given interval. The items sent within the time interval
+     * since last item are dropped.
+     * Eg. If a stream has items sent at 1ms, 3ms, 7ms, 11ms and 40ms,
+     * `sampleByInterval(10)` will only keep the items sent at 1ms, 11ms and 40ms.
+     *
+     * @param minInterval the minimum interval (in milliseconds) between each two items
+     * @return the filter function
+     */
+    public static PStreamTransformation sampleByInterval(long minInterval) {
+        return new SampleByIntervalFilter(minInterval);
+    }
+
+    /**
+     * Sample the items based on a given step count. The items are filtered to make sure
+     * `stepCount` number of items are dropped between each two new items.
+     * Eg. `sampleByCount(2)` will keep the 1st, 4th, 7th, 10th, ... items
+     *
+     * @param stepCount the num of items to drop since last item
+     * @return the filter function
+     */
+    public static PStreamTransformation sampleByCount(int stepCount) {
+        return new SampleByCountFilter(stepCount);
+    }
 }

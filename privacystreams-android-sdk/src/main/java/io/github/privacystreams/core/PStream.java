@@ -69,7 +69,7 @@ public class PStream extends Stream {
      * Specifically, keep the items that satisfy the function (aka. the function returns true).
      * Eg. `filter(eq("x", 100))` will keep the items whose x field is equal to 100.
      *
-     * @param itemChecker     the function to check each item.
+     * @param itemChecker the function to check each item.
      * @return The filtered stream.
      */
     @PSTransformation()
@@ -82,13 +82,40 @@ public class PStream extends Stream {
      * Specifically, keep the items in which the field equals the given value.
      * Eg. `filter("x", 100)` will keep the items whose x field is equal to 100.
      *
-     * @param fieldName     the name of field to check
-     * @param fieldValue    the value to compare with the field
+     * @param fieldName the name of field to check
+     * @param fieldValue the value to compare with the field
      * @return The filtered stream.
      */
     @PSTransformation()
     public <TValue> PStream filter(String fieldName, TValue fieldValue) {
         return this.filter(Comparators.eq(fieldName, fieldValue));
+    }
+
+    /**
+     * Sample the items based on a given interval. The items sent within the time interval
+     * since last item are dropped.
+     * Eg. If a stream has items sent at 1ms, 3ms, 7ms, 11ms and 40ms,
+     * `sampleByInterval(10)` will only keep the items sent at 1ms, 11ms and 40ms.
+     *
+     * @param minInterval the minimum interval (in milliseconds) between each two items.
+     * @return the filtered stream.
+     */
+    @PSTransformation()
+    public PStream sampleByInterval(long minInterval) {
+        return this.transform(Filters.sampleByInterval(minInterval));
+    }
+
+    /**
+     * Sample the items based on a given step count. The items are filtered to make sure
+     * `stepCount` number of items are dropped between each two new items.
+     * Eg. `sampleByCount(2)` will keep the 1st, 4th, 7th, 10th, ... items
+     *
+     * @param stepCount the num of items to drop since last item
+     * @return the filtered stream
+     */
+    @PSTransformation()
+    public PStream sampleByCount(int stepCount) {
+        return this.transform(Filters.sampleByCount(stepCount));
     }
 
     // *****************************
@@ -101,7 +128,7 @@ public class PStream extends Stream {
      * Eg. `limit(eq("x", 100))` will keep all items in the stream as long as x field equals to 100,
      * once an item's x value is not equal to 100, the stream stops.
      *
-     * @param itemChecker     the function to check each item.
+     * @param itemChecker the function to check each item.
      * @return The limited stream.
      */
     @PSTransformation()
