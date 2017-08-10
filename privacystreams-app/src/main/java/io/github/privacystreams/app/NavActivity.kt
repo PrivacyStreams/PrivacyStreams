@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
+import io.github.privacystreams.app.db.PStreamCollectService
 
 class NavActivity : AppCompatActivity() {
 
@@ -28,6 +29,8 @@ class NavActivity : AppCompatActivity() {
 
         val toolbar = findViewById(R.id.toolbar) as Toolbar
         setSupportActionBar(toolbar)
+
+        PStreamCollectService.start(this)
 
         val navigation = findViewById(R.id.navigation) as BottomNavigationView
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)

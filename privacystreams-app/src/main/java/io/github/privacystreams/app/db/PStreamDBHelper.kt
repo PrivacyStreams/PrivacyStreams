@@ -54,16 +54,9 @@ class PStreamDBHelper private constructor(var context: Context)
         this.onUpgrade(db, oldVersion, newVersion)
     }
 
-    fun startCollectServiceAll() {
-        val collectServiceIntent = Intent(this.context, PStreamCollectService::class.java)
-        collectServiceIntent.putExtra(PStreamCollectService.START_TABLE_NAME_KEY, PStreamCollectService.ALL_TABLES)
-        this.context.startService(collectServiceIntent)
-    }
+    fun startCollectServiceAll() = PStreamCollectService.startAllTables(context)
 
-    fun stopCollectServiceAll() {
-        val collectServiceIntent = Intent(this.context, PStreamCollectService::class.java)
-        this.context.stopService(collectServiceIntent)
-    }
+    fun stopCollectServiceAll() = PStreamCollectService.stopAllTables(context)
 
     fun test() {
         UQI(context).getData(TableGeolocation.PROVIDER(), Purpose.TEST("Test"))

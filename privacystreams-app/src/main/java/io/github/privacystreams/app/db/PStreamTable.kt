@@ -34,16 +34,12 @@ abstract class PStreamTable(val dbHelper: PStreamDBHelper) {
 
     fun startCollectService() {
         if (isCollecting.get()) return
-        val collectServiceIntent = Intent(dbHelper.context, PStreamCollectService::class.java)
-        collectServiceIntent.putExtra(PStreamCollectService.START_TABLE_NAME_KEY, tableName)
-        dbHelper.context.startService(collectServiceIntent)
+        PStreamCollectService.startTable(dbHelper.context, tableName)
     }
 
     fun stopCollectService() {
         if (!isCollecting.get()) return
-        val collectServiceIntent = Intent(dbHelper.context, PStreamCollectService::class.java)
-        collectServiceIntent.putExtra(PStreamCollectService.STOP_TABLE_NAME_KEY, tableName)
-        dbHelper.context.startService(collectServiceIntent)
+        PStreamCollectService.stopTable(dbHelper.context, tableName)
     }
 
     fun startCollecting() {

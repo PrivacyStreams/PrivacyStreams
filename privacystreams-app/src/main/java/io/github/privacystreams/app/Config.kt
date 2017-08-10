@@ -4,6 +4,8 @@ import io.github.privacystreams.device.DeviceState
 import io.github.privacystreams.location.Geolocation
 
 object Config {
+    val APP_NAME = "PStream"
+
     var COLLECT_LOCATION_INTERVAL = (1000 * 10).toLong()
     var COLLECT_LOCATION_LEVEL = Geolocation.LEVEL_EXACT
     var COLLECT_DEVICE_STATE_INTERVAL = (1000 * 10).toLong()
