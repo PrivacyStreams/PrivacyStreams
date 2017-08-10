@@ -110,7 +110,7 @@ public class PStream extends Stream {
      * @return the filtered stream.
      */
     @PSTransformation()
-    public <TValue> PStream keepChanges(String fieldName) {
+    public PStream keepChanges(String fieldName) {
         return this.transform(Filters.keepChanges(fieldName));
     }
 

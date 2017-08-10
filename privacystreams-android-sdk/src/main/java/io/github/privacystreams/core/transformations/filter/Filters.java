@@ -39,7 +39,7 @@ public class Filters {
      * @return the filter function
      */
     public static PStreamTransformation keepChanges(String fieldName) {
-        return new KeepChangesFilter();
+        return new KeepFieldChangesFilter(fieldName);
     }
 
     /**
