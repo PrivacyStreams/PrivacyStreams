@@ -92,6 +92,29 @@ public class PStream extends Stream {
     }
 
     /**
+     * Only keep the items that are different from the previous ones in the stream.
+     * Eg. a stream [1, 1, 2, 2, 2, 1, 1] will be [1, 2, 1] after `keepChanges()`
+     *
+     * @return the filtered stream.
+     */
+    @PSTransformation()
+    public PStream keepChanges() {
+        return this.transform(Filters.keepChanges());
+    }
+
+    /**
+     * Only Keep the items whose fields are different from the previous ones in the stream.
+     * Similar to `keepChanges()`, but only monitor a certain field
+     *
+     * @param fieldName the name of field to check whether an item should be kept
+     * @return the filtered stream.
+     */
+    @PSTransformation()
+    public <TValue> PStream keepChanges(String fieldName) {
+        return this.transform(Filters.keepChanges(fieldName));
+    }
+
+    /**
      * Sample the items based on a given interval. The items sent within the time interval
      * since last item are dropped.
      * Eg. If a stream has items sent at 1ms, 3ms, 7ms, 11ms and 40ms,
@@ -175,6 +198,19 @@ public class PStream extends Stream {
     @PSTransformation()
     public PStream map(Function<Item, Item> itemConverter) {
         return this.transform(Mappers.mapEachItem(itemConverter));
+    }
+
+    /**
+     * Make the items be sent in a fixed interval.
+     * Eg. If a stream has items sent at 1ms, 3ms, 7ms, 11ms and 40ms,
+     * `inFixedInterval(10)` will send items at 7ms, 11ms, 11ms and 40ms, in a 10ms interval.
+     *
+     * @param fixedInterval the fixed interval in milliseconds.
+     * @return The stream with items after mapping
+     */
+    @PSTransformation()
+    public PStream inFixedInterval(long fixedInterval) {
+        return this.transform(Mappers.inFixedInterval(fixedInterval));
     }
 
     /**
@@ -434,6 +470,14 @@ public class PStream extends Stream {
             return fieldValues.get(index);
         }
         return null;
+    }
+
+    /**
+     * Do nothing with the items.
+     */
+    @PSAction(blocking = false)
+    public void idle() {
+        this.forEach(new IdleFunction<Item, Void>());
     }
 
     /**

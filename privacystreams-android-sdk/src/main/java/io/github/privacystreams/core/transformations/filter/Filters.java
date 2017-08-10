@@ -22,6 +22,27 @@ public class Filters {
     }
 
     /**
+     * Only keep the items that are different from the previous ones in the stream.
+     * Eg. a stream [1, 1, 2, 2, 2, 1, 1] will be [1, 2, 1] after `keepChanges()`
+     *
+     * @return the filter function
+     */
+    public static PStreamTransformation keepChanges() {
+        return new KeepChangesFilter();
+    }
+
+    /**
+     * Only Keep the items whose fields are different from the previous ones in the stream.
+     * Similar to `keepChanges()`, but only monitor a certain field
+     *
+     * @param fieldName the name of field to check whether an item should be kept
+     * @return the filter function
+     */
+    public static PStreamTransformation keepChanges(String fieldName) {
+        return new KeepChangesFilter();
+    }
+
+    /**
      * Sample the items based on a given interval. The items sent within the time interval
      * since last item are dropped.
      * Eg. If a stream has items sent at 1ms, 3ms, 7ms, 11ms and 40ms,

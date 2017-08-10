@@ -202,6 +202,8 @@ public class Item {
     }
 
     public boolean equals(Item anotherItem) {
+        if (this == anotherItem) return true;
+        if (anotherItem == null) return false;
         return this.toMap().equals(anotherItem.toMap());
     }
 

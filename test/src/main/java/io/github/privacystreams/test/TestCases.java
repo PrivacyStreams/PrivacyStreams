@@ -250,8 +250,10 @@ public class TestCases {
 
     public void testAccEvents(){
         uqi.getData(AccEvent.asUpdates(), Purpose.TEST("AccEvent"))
-                .logOverSocket("accEvent")
-                .debug();
+                .inFixedInterval(1000)
+                .keepChanges()
+                .logAs("accEvent")
+                .idle();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
