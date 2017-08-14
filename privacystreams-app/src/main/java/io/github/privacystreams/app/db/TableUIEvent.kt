@@ -61,7 +61,7 @@ class TableUIEvent(dbHelper: PStreamDBHelper) : PStreamTable(dbHelper) {
                         val accEventStr = "" + IOUtils.serialize(accEvent)
                         values.put(TIME_CREATED, input.getAsLong(AccEvent.TIME_CREATED))
                         values.put(EVENT_TYPE, input.getAsInteger(AccEvent.EVENT_TYPE))
-                        values.put(EVENT_TIME, input.getAsInteger(AccEvent.EVENT_TIME))
+                        values.put(EVENT_TIME, input.getAsLong(AccEvent.EVENT_TIME))
                         values.put(PACKAGE_NAME, input.getAsString(AccEvent.PACKAGE_NAME))
                         values.put(ROOT_NODE_JSON, rootNodeStr)
                         values.put(EVENT_JSON, accEventStr)

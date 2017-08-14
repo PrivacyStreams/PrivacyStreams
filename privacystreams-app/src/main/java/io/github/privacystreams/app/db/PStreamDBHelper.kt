@@ -12,7 +12,7 @@ class PStreamDBHelper private constructor(var context: Context)
     : SQLiteOpenHelper(context, DB_NAME, null, DB_VERSION) {
 
     companion object {
-        val DB_VERSION = 2
+        val DB_VERSION = 1
         val DB_NAME = "privacystreams.db"
 
         private var instance: PStreamDBHelper? = null
