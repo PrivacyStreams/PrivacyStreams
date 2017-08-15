@@ -60,29 +60,28 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     testCompile 'junit:junit:4.12'
-
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'org.greenrobot:eventbus:3.0.0'
-
     // third-party packages
     provided 'com.dropbox.core:dropbox-core-sdk:2.1.1'
     provided 'com.google.android.gms:play-services:10.2.4'
-    provided ('com.google.api-client:google-api-client-android:1.20.0') {
+    provided('com.google.api-client:google-api-client-android:1.20.0') {
         exclude group: 'org.apache.httpcomponents'
     }
-    provided ('com.google.apis:google-api-services-drive:v3-rev76-1.22.0') {
+    provided('com.google.apis:google-api-services-drive:v3-rev76-1.22.0') {
         exclude group: 'org.apache.httpcomponents'
     }
-    provided ('com.google.apis:google-api-services-gmail:v1-rev29-1.20.0') {
+    provided('com.google.apis:google-api-services-gmail:v1-rev29-1.20.0') {
         exclude group: 'org.apache.httpcomponents'
     }
-
-    provided ( 'com.easilydo:sift-sdk:1.0.0' ) {
-        exclude group: 'org.apache.httpcomponents'
-        exclude group: 'org.json'
-    }
+    compile 'com.easilydo:sift-sdk:1.0.0'
     provided 'com.sun.mail:android-mail:1.5.5'
+    compile 'org.slf4j:slf4j-simple:1.7.13'
+    compile 'com.mashape.unirest:unirest-java:1.4.9'
+    compile  'org.apache.httpcomponents:httpclient:4.5.2'
+    compile  'org.apache.httpcomponents:httpmime:4.3.6'
+    compile  'com.googlecode.json-simple:json-simple:1.1'
+    compile files('unirest-java-1.4.9.jar')
 }
 
 group = publishedGroupId                               // Maven Group ID for the artifact
@@ -228,8 +227,8 @@ artifactory {
         repository {
             repoKey = 'MessageOnTap-release'
 
-            username = yiadam_jfrog_username
-            password = yiadam_jfrog_password
+            //username = yiadam_jfrog_username
+            //password = yiadam_jfrog_password
         }
         defaults {
             publications('aar')
@@ -238,6 +237,9 @@ artifactory {
             properties = ['qa.level': 'basic', 'q.os': 'android', 'dev.team': 'core']
             publishPom = true
         }
+    }
+    dependencies{
+        compile 'com.easilydo:sift-sdk:1.0.0'
     }
 }
 

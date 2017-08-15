@@ -42,12 +42,9 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'com.android.support:appcompat-v7:25.3.1'
-    testCompile 'junit:junit:4.12'
     compile project(':privacystreams-android-sdk')
-
-    compile 'com.google.android.gms:play-services-auth:10.2.0'
-    compile('com.google.apis:google-api-services-gmail:v1-rev29-1.20.0'){
+    compile 'com.easilydo:sift-sdk:1.0.0'
+    compile('com.google.apis:google-api-services-gmail:v1-rev29-1.20.0') {
         exclude group: 'org.apache.httpcomponents', module: 'httpclient'
     }
     compile('com.google.apis:google-api-services-drive:v3-rev76-1.22.0') {
@@ -56,9 +53,25 @@ dependencies {
     compile('com.google.api-client:google-api-client-android:1.22.0') {
         exclude group: 'org.apache.httpcomponents'
     }
-    compile 'com.google.android.gms:play-services:10.2.4'
+
+    compile 'com.android.support:appcompat-v7:25.3.1'
+    compile 'com.google.android.gms:play-services-auth:11.0.4'
+    compile 'com.google.android.gms:play-services:11.0.4'
     compile 'com.sun.mail:android-mail:1.5.5'
     compile 'com.sun.mail:android-activation:1.5.5'
     compile 'com.android.support:multidex:1.0.1'
-
+    compile 'pub.devrel:easypermissions:0.3.0'
+    compile('com.google.api-client:google-api-client-android:1.22.0') {
+        exclude group: 'org.apache.httpcomponents'
+    }
+    compile('com.google.apis:google-api-services-gmail:v1-rev70-1.22.0') {
+        exclude group: 'org.apache.httpcomponents'
+    }
+    compile 'org.slf4j:slf4j-simple:1.7.13'
+    compile 'com.mashape.unirest:unirest-java:1.4.9'
+    compile 'org.apache.httpcomponents:httpclient:4.5.2'
+    compile 'org.apache.httpcomponents:httpmime:4.3.6'
+    compile 'com.googlecode.json-simple:json-simple:1.1'
+    testCompile 'junit:junit:4.12'
+    compile files('privacystreams-android-sdk/unirest-java-1.4.9.jar')
 }

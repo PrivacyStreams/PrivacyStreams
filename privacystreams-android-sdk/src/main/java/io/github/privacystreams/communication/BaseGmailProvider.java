@@ -1,31 +1,49 @@
 package io.github.privacystreams.communication;
 
 import android.Manifest;
+import android.accounts.Account;
+import android.accounts.AccountManager;
+import android.accounts.AccountManagerFuture;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
 
+import com.google.android.gms.auth.GoogleAuthException;
 import com.google.api.client.extensions.android.http.AndroidHttp;
+import com.google.api.client.googleapis.batch.BatchRequest;
+import com.google.api.client.googleapis.batch.json.JsonBatchCallback;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
+import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAuthIOException;
 import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException;
+import com.google.api.client.googleapis.json.GoogleJsonError;
+import com.google.api.client.http.HttpHeaders;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.repackaged.org.apache.commons.codec.binary.Base64;
 import com.google.api.client.util.ExponentialBackOff;
+import com.google.api.services.drive.Drive;
 import com.google.api.services.gmail.Gmail;
 import com.google.api.services.gmail.GmailScopes;
 import com.google.api.services.gmail.model.ListMessagesResponse;
 import com.google.api.services.gmail.model.Message;
 import com.google.api.services.gmail.model.MessagePart;
 import com.google.api.services.gmail.model.MessagePartHeader;
+import com.google.firebase.auth.EmailAuthProvider;
+import com.easilydo.sift.api.ApiManager;
+import com.easilydo.sift.model.*;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.concurrent.TimeUnit;
 
 import javax.mail.MessagingException;
 import javax.mail.Multipart;
@@ -47,16 +65,19 @@ import io.github.privacystreams.utils.TimeUtils;
 abstract class BaseGmailProvider extends PStreamProvider implements GmailResultListener {
     static final String GMAIL_PREF_ACCOUNT_NAME = "accountName";
     static final String[] SCOPES = {GmailScopes.GMAIL_LABELS, GmailScopes.GMAIL_READONLY};
+
     private Gmail mService;
     int mMaxResult = Integer.MAX_VALUE;
     long mBegin = 0;
     long mEnd = 0;
     boolean authorized = false;
     long mLastEmailTime = 0;
-    public static final String API_ENDPOINT = "https://api.easilydo.com";
-    private String API_KEY = "9aed6c22c1623a1bfd6473a4328f85b0";
-    private String API_SECRET = "fa53d475c36bc18ea66196afa23cc2f35ea6012c";
 
+    public static final String API_ENDPOINT = "https://api.easilydo.com";
+    private String API_KEY = "e6b0dc00388a72b4d39043fa447660f2";
+    private String API_SECRET = "8705f9438b3c1c59522afbc430189c57329418a3";
+
+    private String userToken;
 
     BaseGmailProvider() {
         this.addRequiredPermissions(Manifest.permission.INTERNET,
@@ -161,74 +182,27 @@ abstract class BaseGmailProvider extends PStreamProvider implements GmailResultL
     }
 
 
-    private List<String> getDataFromApi(String query) throws IOException {
-        List<String> messageList = new ArrayList<>();
-        String user = "me";
-        ListMessagesResponse response = mService.users().messages().list(user).setQ(query).execute();
-        int total = 1;
-        String deliverTo = "";
-        String from = "";
-        String subject = "";
-        String content = "";
-        long timestamp = 0;
-        if (response.getMessages() != null) {
-            for (int i = response.getMessages().size() - 1; i >= 0; i--) {
-                Message item = response.getMessages().get(i);
+    private List<String> getDataFromApi(String query)  throws IOException{
+        Logging.error("start get data");
 
+        Gmail.Users.Messages.List request = mService.users().messages().list("me")
+                // or setQ("is:sent after:yyyy/MM/dd before:yyyy/MM/dd")
+                .setLabelIds(Arrays.asList("SENT"))
+                .setQ("from:----");
 
-                if (total > mMaxResult) {
-                    break;
-                }
-
-                Message message = mService.users().messages().get(user, item.getId()).setFormat("full").execute();
-                List<MessagePart> messageParts = message.getPayload().getParts();
-                List<MessagePartHeader> headers = message.getPayload().getHeaders();
-
-                if (!headers.isEmpty()) {
-                    for (MessagePartHeader header : headers) {
-                        String name = header.getName();
-                        switch (name) {
-                            case "From":
-                                from = header.getValue();
-                                break;
-                            case "To":
-                                deliverTo = header.getValue();
-                                break;
-                            case "Subject":
-                                subject = header.getValue();
-                                break;
-                            case "Date":
-                                String date = header.getValue();
-                                if (date.contains(","))
-                                    date = date.substring(date.indexOf(",") + 2, date.length());
-                                ;
-                                String timestampFormat = "dd MMM yyyy HH:mm:ss Z";
-                                timestamp = TimeUtils.fromFormattedString(timestampFormat, date) / 1000;
-                                break;
-                        }
-                    }
-                }
-                if (messageParts != null && !messageParts.isEmpty()) {
-                    byte[] bytes = Base64.decodeBase64(messageParts.get(0).getBody().getData());
-                    if (bytes != null) {
-                        String mailText = new String(bytes);
-                        if (!mailText.isEmpty()) {
-                            total++;
-                            content = mailText;
-                            messageList.add(mailText);
-                        }
-                    }
-                }
-                if (mLastEmailTime < timestamp) mLastEmailTime = timestamp;
-                this.output(new Email(content, AppUtils.APP_PACKAGE_GMAIL, from, deliverTo, subject, timestamp));
-            }
-        }
-
-        //Reset the value for from and to
-        mBegin = 0;
-        mEnd = 0;
-        return messageList;
+        List<Message> list = new LinkedList<>();
+        ListMessagesResponse response = null;
+        Logging.error("here");
+        do {
+            response = request.execute();
+            Logging.error("after execute");
+            list.addAll(response.getMessages());
+            request.setPageToken(response.getNextPageToken());
+            Logging.error("messageinfo:"+list.get(0).toString());
+        } while (request.getPageToken() != null && request.getPageToken().length() > 0);
+        return null;
     }
+
 
 
     /**
@@ -244,11 +218,14 @@ abstract class BaseGmailProvider extends PStreamProvider implements GmailResultL
          */
         @Override
         protected List<String> doInBackground(String... queries) {
-
+            Logging.error("trying to get info");
             try {
+
                 return getDataFromApi(queries[0]);
+
             } catch (Exception e) {
                 if (e instanceof UserRecoverableAuthIOException) {
+                    Logging.error("success get info2");
                     Intent authorizationIntent = new Intent(getContext(),
                             GmailAuthorizationActivity.class)
                             .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -261,6 +238,7 @@ abstract class BaseGmailProvider extends PStreamProvider implements GmailResultL
                 } else {
                     Logging.error("The following error occurred:\n"
                             + e.getMessage());
+                    e.printStackTrace();
                 }
                 return null;
             }
@@ -296,18 +274,38 @@ abstract class BaseGmailProvider extends PStreamProvider implements GmailResultL
                 .getString(GMAIL_PREF_ACCOUNT_NAME, null);
 
         if (accountName != null) {
+            Logging.error("accountName is : "+accountName);
+
             GoogleAccountCredential mCredential = GoogleAccountCredential.usingOAuth2(
                     getContext().getApplicationContext(), Arrays.asList(SCOPES))
                     .setBackOff(new ExponentialBackOff());
             mCredential.setSelectedAccountName(accountName);
 
+            // ApiManager apiMan = new ApiManager(API_KEY, API_SECRET);
+            //long userId = apiMan.addUser(accountName, "en_US");
+            //Logging.error("userId1:"+userId);
+            //ConnectToken.init(accountName);
             if (!ConnectionUtils.isGooglePlayServicesAvailable(getContext())) {
                 ConnectionUtils.acquireGooglePlayServices(getContext());
             } else {
+                Logging.error("asdassa");
                 mService = new Gmail.Builder(
                         AndroidHttp.newCompatibleTransport(), JacksonFactory.getDefaultInstance(), mCredential)
                         .setApplicationName(AppUtils.getApplicationName(getContext()))
                         .build();
+                try {
+                    userToken = mCredential.getToken();
+                    Logging.error("Token is:" + userToken);
+                }catch(Exception e){
+                    Logging.error("get token failed:"+e.getMessage());
+                }
+
+                try {
+                    SiftEmail sift = new SiftEmail(accountName,userToken);
+                    sift.main();
+                }catch(Exception e){
+                    Logging.error("sift failed:"+e.getMessage());
+                }
                 authorized = true;
             }
 
@@ -315,6 +313,7 @@ abstract class BaseGmailProvider extends PStreamProvider implements GmailResultL
         } else {
             GmailAuthorizationActivity.setListener(this);
             getContext().startActivity(new Intent(getContext(), GmailAuthorizationActivity.class));
+            Logging.error("select account ends");
         }
 
     }

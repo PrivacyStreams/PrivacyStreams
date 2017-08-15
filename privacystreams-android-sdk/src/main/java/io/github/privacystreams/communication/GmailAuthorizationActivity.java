@@ -8,6 +8,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 
+import com.easilydo.sift.api.ApiManager;
+import com.google.android.gms.drive.Drive;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 import com.google.api.client.json.jackson2.JacksonFactory;
@@ -22,13 +24,14 @@ import io.github.privacystreams.utils.Logging;
 
 import static io.github.privacystreams.communication.BaseGmailProvider.GMAIL_PREF_ACCOUNT_NAME;
 import static io.github.privacystreams.communication.BaseGmailProvider.SCOPES;
-
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.drive.events.ChangeListener;
 
 /**
  * This is the related activity for Gmail providers, used for authorization and permission granting.
  */
 
-public class GmailAuthorizationActivity extends Activity {
+public class GmailAuthorizationActivity extends Activity  {
     static final int REQUEST_ACCOUNT_PICKER = 1000;
     static final int REQUEST_AUTHORIZATION = 1001;
 
@@ -36,6 +39,9 @@ public class GmailAuthorizationActivity extends Activity {
     private GoogleAccountCredential mCredential;
     private Gmail mService;
 
+    public static final String API_ENDPOINT = "https://api.easilydo.com";
+    private String API_KEY = "e6b0dc00388a72b4d39043fa447660f2";
+    private String API_SECRET = "8705f9438b3c1c59522afbc430189c57329418a3";
     static void setListener(GmailResultListener gl) {
         gmailResultListener = gl;
     }
@@ -43,7 +49,6 @@ public class GmailAuthorizationActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         if (gmailResultListener != null) {
             if (!ConnectionUtils.isDeviceOnline(this)) {
                 Logging.warn("No network connection available.");
@@ -85,6 +90,7 @@ public class GmailAuthorizationActivity extends Activity {
                         data.getExtras() != null) {
                     String accountName =
                             data.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
+                    Logging.error("get accountName2:"+accountName);
                     if (accountName != null) {
                         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(this).edit();
                         editor.putString(GMAIL_PREF_ACCOUNT_NAME, accountName);
@@ -96,6 +102,10 @@ public class GmailAuthorizationActivity extends Activity {
                                 AndroidHttp.newCompatibleTransport(), JacksonFactory.getDefaultInstance(), mCredential)
                                 .setApplicationName(AppUtils.getApplicationName(this))
                                 .build();
+                        //ApiManager apiMan = new ApiManager(API_KEY, API_SECRET);
+                        //long userId = apiMan.addUser(accountName, "en_US");
+                        //Logging.error("userId1:"+userId);
+                        // ConnectToken.init(accountName);
                         gmailResultListener.onSuccess(mService);
                     }
 
