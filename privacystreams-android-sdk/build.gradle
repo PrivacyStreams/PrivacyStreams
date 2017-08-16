@@ -76,12 +76,7 @@ dependencies {
     }
     compile 'com.easilydo:sift-sdk:1.0.0'
     provided 'com.sun.mail:android-mail:1.5.5'
-    compile 'org.slf4j:slf4j-simple:1.7.13'
-    compile 'com.mashape.unirest:unirest-java:1.4.9'
-    compile  'org.apache.httpcomponents:httpclient:4.5.2'
-    compile  'org.apache.httpcomponents:httpmime:4.3.6'
-    compile  'com.googlecode.json-simple:json-simple:1.1'
-    compile files('unirest-java-1.4.9.jar')
+
 }
 
 group = publishedGroupId                               // Maven Group ID for the artifact
@@ -237,9 +232,6 @@ artifactory {
             properties = ['qa.level': 'basic', 'q.os': 'android', 'dev.team': 'core']
             publishPom = true
         }
-    }
-    dependencies{
-        compile 'com.easilydo:sift-sdk:1.0.0'
     }
 }
 

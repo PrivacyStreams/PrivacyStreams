@@ -35,10 +35,13 @@ import javax.crypto.spec.SecretKeySpec;
 
 import com.mashape.unirest.http.*;
 import com.mashape.unirest.http.exceptions.UnirestException;
+import com.mashape.unirest.request.HttpRequestWithBody;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import static com.mashape.unirest.http.Unirest.post;
 
 /**
  * Created by xiaobing1117 on 2017/8/14.
@@ -51,46 +54,62 @@ public class SiftEmail  {
     private static String userName = "";
     private static final String baseUrl = "https://api.edison.tech";
     private static String requests = "";
-    //private HttpResponse httpResponse;
     private static final String HMAC_SHA1_ALGORITHM = "HmacSHA1";
     private static final char[] hexArray = "0123456789ABCDEF".toCharArray();
-   // private static final String username = "dummy_username";
-    private static final String resource = "/v1/connect_token";
-    private static final String url = "https://api.edison.tech" + resource;
-    private ApiManager apiManager;
     public SiftEmail(String accountName,String token){
         this.userName = accountName;
         this.userToken = token;
-        //requests = baseUrl + "/v1/connect_email?api_key=<"+DEVELOPER_API_KEY+">&username=<"+userName+">&token="+userToken+">";
-        Logging.error("init");
-        apiManager = new ApiManager(DEVELOPER_API_KEY,DEVELOPER_API_SECRET);
-        Logging.error("apiManager init success");
     }
 
     /** the main function to connect with sift*/
     public void main() throws Exception{
-        String name = "whatever";
-       // String request1 = baseUrl + "/v1/user";//add a user
-        apiManager.addUser(name,"en_US");
-        Logging.error("addUser success");
-
-        long userId = apiManager.addGmailConnection(name,userName,userToken);
-        Logging.error("userId is:"+userId);
-        Logging.error("connections:"+apiManager.listConnections(name));
-        List list = apiManager.listSifts(name);
-        for(Object obj : list){
-            Logging.error("sift result:" + obj.toString());
-        }
         /*
-        HashMap<String, Object> params = new HashMap<String, Object>();
-        params.put("api_key", DEVELOPER_API_KEY);
-        params.put("timestamp", System.currentTimeMillis() / 1000L);
-        params.put("username", name);
-        Logging.error("start to generate sig");
-        String signature = generateSignature("POST", resource, params);
-        Logging.error("signature is:"+signature);
-        params.put("signature", signature);
-        */
+        HashMap<String,Object> param = new HashMap<>();
+        String addUser = "/v1/users";
+        String getToken = "/v1/connect_token";
+        param.put("api_key",DEVELOPER_API_KEY);
+        param.put("timestamp",System.currentTimeMillis() / 1000L);
+        param.put("username","whatever");
+        String requestMethod = "POST";
+        String signature = generateSignature(requestMethod,addUser,param);
+        param.put("signature",signature);
+        try{
+            HttpRequestWithBody request = Unirest.post(baseUrl+addUser).header("content-type", "x-www-form-urlencoded")
+                    .queryString(param);
+            if(request.getBody()!=null)
+            Logging.error("unirest response1 is"+request.getBody());
+            else
+            Logging.error("uni req1 return null");
+            param.clear();
+            param.put("api_key",DEVELOPER_API_KEY);
+            param.put("username","whatever");
+            param.put("timestamp",System.currentTimeMillis() / 1000L);
+            signature = generateSignature(requestMethod,getToken,param);
+            param.put("signature",signature);
+            request = Unirest.post(baseUrl+getToken).header("content-type", "x-www-form-urlencoded")
+                    .queryString(param);
+            if(request.getBody()!=null)
+            Logging.error("unirest response2 is"+request.getBody().toString());
+            else
+            Logging.error("unin req 2 return null");
+            String conn = "/v1/connect_email";
+            param.clear();
+            param.put("api_key",DEVELOPER_API_KEY);
+            param.put("username","whatever");
+            param.put("timestamp",System.currentTimeMillis() / 1000L);
+            signature = generateSignature(requestMethod,conn,param);
+            param.put("signature",signature);
+            request = Unirest.post(baseUrl+conn).header("content-type", "x-www-form-urlencoded")
+                    .queryString(param);
+            Logging.error("unirest response3 is"+request.getBody());
+
+        }catch (Exception e){
+            Logging.error("unirest error:"+e.getMessage());
+        }finally{
+
+        }*/
+        RequestWebTask rwt = new RequestWebTask();
+        rwt.doInBackground();
     }
 
     public static String bytesToHex(byte[] bytes)
@@ -120,6 +139,7 @@ public class SiftEmail  {
         } catch (Exception e) {
             throw new SignatureException("Failed to generate HMAC : " + e.getMessage());
         }
+
         return result;
     }
 
@@ -144,6 +164,7 @@ public class SiftEmail  {
 
         try {
             String signature = signData(baseString, DEVELOPER_API_SECRET);
+            Logging.error("signature is:"+signature);
             return signature;
         } catch (Exception e) {
             Logging.error("generate sig failed:"+e.getMessage());
@@ -151,7 +172,162 @@ public class SiftEmail  {
         }
     }
 
+     class RequestWebTask extends AsyncTask<Map<String,Object>,String,JSONArray> {
 
+        private String getResponseText(InputStream in){
+            return new Scanner(in).useDelimiter("\\A").next();
+        }
+        @Override
+        //func get JSON Respond
+        //Do in Background
+        //Get authorization
+        //Input URLs you want to get or post in String
+        //Output: JSONObject(func Flight_JSON_To_FlightContent in edu.cmu.chimps.messageontap.utility.GenericUtils will help to change that into String)
+        protected JSONArray doInBackground(Map<String,Object>... params) {
+            userName = userName.replace("@","%40");
+            String url = baseUrl+"/v1/users?";
+            HashMap<String,Object> param = new HashMap<>();
+            param.put("api_key",DEVELOPER_API_KEY);
+            param.put("username",userName);
+            long tm = System.currentTimeMillis() / 1000L;
+            param.put("timestamp",tm);
+            String requestMethod = "POST";
+            String signature = generateSignature(requestMethod,"/v1/users",param);
+            url += "api_key="+DEVELOPER_API_KEY
+                    +"&username="+userName
+                    +"&timestamp="+tm;
+
+            JSONObject jsonObject = null;
+            Logging.error("url is: "+url);
+            HttpURLConnection urlconnection = null;
+            try {
+
+                //create connection
+                java.net.URL urlToRequest;
+                url += "&signature="+ signature;
+                urlToRequest = new URL(url);
+                urlconnection = (HttpURLConnection)urlToRequest.openConnection();
+                urlconnection.setRequestMethod("POST");
+                int statusCode = urlconnection.getResponseCode();
+                Logging.error("attempt url with sig response:"+statusCode);
+                if(statusCode == 200) {
+                    InputStream in = new BufferedInputStream(urlconnection.getInputStream());
+                    jsonObject = new JSONObject(getResponseText(in));
+                    Logging.error(jsonObject.getJSONArray("result").toString());
+                }
+                long t = System.currentTimeMillis() / 1000L;
+                url = baseUrl + "/v1/connect_token?"+"api_key="+DEVELOPER_API_KEY
+                        +"&username="+userName
+                        +"&timestamp="+t;
+                param.clear();
+                param.put("api_key",DEVELOPER_API_KEY);
+                param.put("username",userName);
+                param.put("timestamp",t);
+                requestMethod = "POST";
+                signature = generateSignature(requestMethod,"/v1/connect_token",param);
+                url += "&signature=" + signature;
+                urlToRequest = new URL(url);
+                urlconnection = (HttpURLConnection)urlToRequest.openConnection();
+                urlconnection.setRequestMethod("POST");
+                statusCode = urlconnection.getResponseCode();
+                Logging.error("attempt url with sig response 222:"+statusCode);
+                if(statusCode == 200) {
+                    InputStream in = new BufferedInputStream(urlconnection.getInputStream());
+                    jsonObject = new JSONObject(getResponseText(in));
+                    String token = jsonObject.getJSONObject("result").toString().split(":")[1].replace("\"","").replace("}","");
+                    Logging.error("token = " + token);
+                    long time = System.currentTimeMillis() / 1000L;
+                    url = "https://api.edison.tech/v1/connect_email?"
+                            +"api_key="+DEVELOPER_API_KEY
+                            +"&username="+userName
+                            +"&token="+token
+                            +"&timestamp="+time;
+                    param.clear();
+                    param.put("api_key",DEVELOPER_API_KEY);
+                    param.put("username",userName);
+                    param.put("timestamp",time);
+                    param.put("token",token);
+                    signature = generateSignature("GET","/v1/connect_email",param);
+                    url += "&signature=" + signature;
+                    urlToRequest = new URL(url);
+                    urlconnection = (HttpURLConnection)urlToRequest.openConnection();
+                    urlconnection.setRequestMethod("GET");
+                    statusCode = urlconnection.getResponseCode();
+                    if(statusCode == 200) {
+                        in = new BufferedInputStream(urlconnection.getInputStream());
+                        String info = getResponseText(in);
+                        Logging.error("add conn"+info);
+                        param.clear();
+                        time = System.currentTimeMillis() / 1000L;
+                        url = "https://api.edison.tech/v1/users/"+userName+"/sifts?"
+                                +"api_key="+DEVELOPER_API_KEY
+                                +"&username="+userName
+                                +"&timestamp="+time;
+                        param.clear();
+                        param.put("api_key",DEVELOPER_API_KEY);
+                        param.put("username",userName);
+                        param.put("timestamp",time);
+                        signature = generateSignature("GET","/v1/users/"+userName+"/sifts",param);
+                        url += "&signature=" + signature;
+                        urlToRequest = new URL(url);
+                        urlconnection = (HttpURLConnection)urlToRequest.openConnection();
+                        urlconnection.setRequestMethod("GET");
+                        statusCode = urlconnection.getResponseCode();
+                        if(statusCode == 200){
+                            in = new BufferedInputStream(urlconnection.getInputStream());
+                            jsonObject = new JSONObject(getResponseText(in));
+                            Logging.error("list sifts:"+jsonObject);
+                        }
+                    }
+                }
+                if(statusCode == HttpURLConnection.HTTP_UNAUTHORIZED){
+                    //return null;
+                }
+                else if(statusCode != HttpURLConnection.HTTP_OK){
+                   // return null;
+
+                }
+                else
+                {
+                    Logging.error("aaa"+urlconnection.getResponseMessage()+"");
+                    InputStream in = new BufferedInputStream(urlconnection.getInputStream());
+                    jsonObject = new JSONObject(getResponseText(in));
+                    return jsonObject.getJSONArray("result");
+                }
+
+            } catch (MalformedURLException e) {
+                // URL is invalid
+                e.printStackTrace();
+            } catch (SocketTimeoutException e) {
+                // data retrieval or connection timed out
+                e.printStackTrace();
+            } catch (IOException e) {
+                // could not read response body
+                // (could not create input stream)
+                e.printStackTrace();
+            } catch (JSONException e) {
+                // response body is no valid JSON string
+                e.printStackTrace();
+            } finally {
+                if (urlconnection != null) {
+                    urlconnection.disconnect();
+                }
+            }
+
+            return null;
+
+        }
+
+
+        //Exit
+        //Back to main Thread
+        //Input JSONObject
+        //Series of operation
+        protected void onPostExecute(JSONArray jsonArray_private) {
+            //jsonArray = jsonArray_private;
+
+        }
+    }
 
 }
 
