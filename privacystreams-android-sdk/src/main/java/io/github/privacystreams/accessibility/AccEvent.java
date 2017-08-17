@@ -19,6 +19,12 @@ public class AccEvent extends Item {
     public static final String EVENT = "event";
 
     /**
+     * The time in which the event was sent.
+     */
+    @PSItemField(type = Long.class)
+    public static final String EVENT_TIME = "event_time";
+
+    /**
      * The root view of current event, which is an instance of AccessibilityNodeInfo.
      */
     @PSItemField(type = AccessibilityNodeInfo.class)
@@ -50,6 +56,7 @@ public class AccEvent extends Item {
 
     AccEvent(AccessibilityEvent accessibilityEvent, AccessibilityNodeInfo rootNode) {
         this.setFieldValue(EVENT, accessibilityEvent);
+        this.setFieldValue(EVENT_TIME, accessibilityEvent.getEventTime());
         this.setFieldValue(ROOT_NODE, rootNode);
         this.setFieldValue(EVENT_TYPE, accessibilityEvent.getEventType());
         CharSequence charSequence = accessibilityEvent.getPackageName();

@@ -110,7 +110,7 @@ class GoogleLocationUpdatesProvider extends PStreamProvider implements
     }
 
     private void stopLocationUpdate() {
-        if (mGoogleApiClient != null)
+        if (mGoogleApiClient != null && mGoogleApiClient.isConnected())
             LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
         this.finish();
     }

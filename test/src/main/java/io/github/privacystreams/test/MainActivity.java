@@ -33,15 +33,8 @@ public class MainActivity extends AppCompatActivity {
         protected Object doInBackground(Object[] objects) {
             TestCases testCases = new TestCases(MainActivity.this);
 
-            testCases.testDumpAccEvents();
-            testCases.testCurrentLocation();
 
-
-//            testCases.testAccEvents();
-//
             testCases.testIMUpdates();
-            //           testCases.testEmailUpdates();
-//            testCases.testEmailList();
 
 
             return null;

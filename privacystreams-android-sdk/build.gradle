@@ -6,6 +6,7 @@ plugins {
 apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
 
 ext {
     bintrayName = 'PrivacyStreams-Android-SDK'
@@ -76,7 +77,7 @@ dependencies {
     }
     compile 'com.easilydo:sift-sdk:1.0.0'
     provided 'com.sun.mail:android-mail:1.5.5'
-
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
 }
 
 group = publishedGroupId                               // Maven Group ID for the artifact
@@ -189,7 +190,6 @@ bintray {
         }
     }
 }
-
 // yiad.am jfrog repo
 def libraryGroupId = 'privacystreams'
 def libraryArtifactId = 'privacystreams-android-sdk'
@@ -234,4 +234,6 @@ artifactory {
         }
     }
 }
-
+repositories {
+    mavenCentral()
+}

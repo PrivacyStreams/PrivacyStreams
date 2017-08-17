@@ -1,3 +1,49 @@
 <resources>
     <string name="app_name">PStream</string>
+    <string name="collect_service_description">
+        Continuously collect different types of personal data to a secure database.
+    </string>
+    <string name="QA_service_description">
+        A question-answering service to answer PrivacyStreams data query.
+    </string>
+    <string name="collect_notification_title">
+        PStream is collecting data
+    </string>
+    <string name="collect_notification_text">
+        Tap to see details and manage.
+    </string>
+    <string name="start_collecting_all">Start all</string>
+    <string name="stop_collecting_all">Stop all</string>
+    <string name="collecting_status">On</string>
+    <string name="not_collecting_status">Off</string>
+
+    <string name="test">TEST</string>
+    <string name="data_icon_desc">Data type icon.</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="home">Home</string>
+    <string name="manage">Manage</string>
+    <string name="about">About</string>
+    <string name="account">Account</string>
+    <string name="data">Database</string>
+    <string name="timeline">Timeline</string>
+    <string name="market">Market</string>
+    <string name="insight">Insight</string>
+    <string name="tables">Tables</string>
+    <string name="management">Management</string>
+    <string name="title_activity_nav">NavActivity</string>
+    <string name="share">Share</string>
+    <string name="notification">Notification</string>
+    <string name="db_general_info_title">General information</string>
+    <string name="db_general_info_text">PStream stores your data in a private database.</string>
+    <string name="clear_all_existing_data">Clear all existing data</string>
+    <string name="backup_data">Backup data</string>
+    <string name="restore_data">Restore data</string>
 </resources>
