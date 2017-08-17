@@ -13,12 +13,6 @@ import java.util.List;
 @PSItem
 public class DeviceState extends Item {
     /**
-     * The timestamp of when the state is requested.
-     */
-    @PSItemField(type = Long.class)
-    public static final String TIMESTAMP = "timestamp";
-
-    /**
      * The list of currently scanned bluetooth device.
      */
     @PSItemField(type = List.class)
@@ -36,10 +30,30 @@ public class DeviceState extends Item {
     @PSItemField(type = Float.class)
     public static final String BATTERY_LEVEL = "battery_level";
 
+    /**
+     * Whether the current device is connected to network
+     */
+    @PSItemField(type = Boolean.class)
+    public static final String IS_CONNECTED = "is_connected";
+
+    /**
+     * The connected WiFi AP BSSID, could be null if the device is not connected to WiFi
+     */
+    @PSItemField(type = String.class)
+    public static final String WIFI_BSSID = "wifi_bssid";
+
+    /**
+     * Whether the screen is on
+     */
+    @PSItemField(type = String.class)
+    public static final String IS_SCREEN_ON = "is_screen_on";
+
     public static class Masks {
-        public static final int BLUETOOTH_DEVICE_LIST = 0x1;
-        public static final int WIFI_AP_LIST = 0x2;
-        public static final int BATTERY_LEVEL = 0x4;
+        public static final int BLUETOOTH_DEVICE_LIST = 1;
+        public static final int WIFI_AP_LIST = 1 << 1;
+        public static final int BATTERY_LEVEL = 1 << 2;
+        public static final int CONNECTION_INFO = 1 << 3;
+        public static final int SCREEN_STATE = 1 << 4;
     }
 
     /**

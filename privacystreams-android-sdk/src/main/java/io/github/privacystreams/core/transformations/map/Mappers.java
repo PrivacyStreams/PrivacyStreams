@@ -19,4 +19,14 @@ public class Mappers {
     public static PStreamTransformation mapEachItem(Function<Item, Item> perItemMapper) {
         return new PerItemMapper(perItemMapper);
     }
+
+    /**
+     * Make the items be sent in a fixed interval.
+     *
+     * @param fixedInterval the fixed interval in milliseconds.
+     * @return the stream mapper function.
+     */
+    public static PStreamTransformation inFixedInterval(long fixedInterval) {
+        return new FixedIntervalMapper(fixedInterval);
+    }
 }

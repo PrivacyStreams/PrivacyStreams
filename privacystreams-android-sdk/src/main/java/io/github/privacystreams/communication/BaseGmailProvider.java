@@ -1,62 +1,41 @@
 package io.github.privacystreams.communication;
 
 import android.Manifest;
-import android.accounts.Account;
-import android.accounts.AccountManager;
-import android.accounts.AccountManagerFuture;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.os.Bundle;
 import android.preference.PreferenceManager;
 
-import com.google.android.gms.auth.GoogleAuthException;
+import io.github.privacystreams.core.exceptions.PSException;
+import io.github.privacystreams.core.PStreamProvider;
+import io.github.privacystreams.utils.AppUtils;
+import io.github.privacystreams.utils.DeviceUtils;
+import io.github.privacystreams.utils.Logging;
 import com.google.api.client.extensions.android.http.AndroidHttp;
-import com.google.api.client.googleapis.batch.BatchRequest;
-import com.google.api.client.googleapis.batch.json.JsonBatchCallback;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
-import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAuthIOException;
 import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException;
-import com.google.api.client.googleapis.json.GoogleJsonError;
-import com.google.api.client.http.HttpHeaders;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.repackaged.org.apache.commons.codec.binary.Base64;
 import com.google.api.client.util.ExponentialBackOff;
-import com.google.api.services.drive.Drive;
 import com.google.api.services.gmail.Gmail;
 import com.google.api.services.gmail.GmailScopes;
 import com.google.api.services.gmail.model.ListMessagesResponse;
 import com.google.api.services.gmail.model.Message;
-import com.google.api.services.gmail.model.MessagePart;
-import com.google.api.services.gmail.model.MessagePartHeader;
-import com.google.firebase.auth.EmailAuthProvider;
-import com.easilydo.sift.api.ApiManager;
-import com.easilydo.sift.model.*;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
-import java.util.concurrent.TimeUnit;
 
 import javax.mail.MessagingException;
 import javax.mail.Multipart;
 import javax.mail.Part;
 import javax.mail.Session;
 import javax.mail.internet.MimeMessage;
-
-import io.github.privacystreams.core.PStreamProvider;
-import io.github.privacystreams.core.exceptions.PSException;
-import io.github.privacystreams.utils.AppUtils;
-import io.github.privacystreams.utils.ConnectionUtils;
-import io.github.privacystreams.utils.Logging;
-import io.github.privacystreams.utils.TimeUtils;
 
 /**
  * Base class for Gmail-related Providers.
@@ -187,7 +166,7 @@ abstract class BaseGmailProvider extends PStreamProvider implements GmailResultL
 
         Gmail.Users.Messages.List request = mService.users().messages().list("me")
                 // or setQ("is:sent after:yyyy/MM/dd before:yyyy/MM/dd")
-                .setLabelIds(Arrays.asList("SENT"))
+                .setLabelIds(Collections.singletonList("SENT"))
                 .setQ("from:----");
 
         List<Message> list = new LinkedList<>();
@@ -281,14 +260,11 @@ abstract class BaseGmailProvider extends PStreamProvider implements GmailResultL
                     .setBackOff(new ExponentialBackOff());
             mCredential.setSelectedAccountName(accountName);
 
-            // ApiManager apiMan = new ApiManager(API_KEY, API_SECRET);
-            //long userId = apiMan.addUser(accountName, "en_US");
-            //Logging.error("userId1:"+userId);
-            //ConnectToken.init(accountName);
-            if (!ConnectionUtils.isGooglePlayServicesAvailable(getContext())) {
-                ConnectionUtils.acquireGooglePlayServices(getContext());
-            } else {
-                Logging.error("asdassa");
+
+            if (!DeviceUtils.isGooglePlayServicesAvailable(getContext())) {
+                DeviceUtils.acquireGooglePlayServices(getContext());
+            }
+            else{
                 mService = new Gmail.Builder(
                         AndroidHttp.newCompatibleTransport(), JacksonFactory.getDefaultInstance(), mCredential)
                         .setApplicationName(AppUtils.getApplicationName(getContext()))

@@ -18,7 +18,7 @@ import com.google.api.services.drive.Drive;
 import java.util.Arrays;
 
 import io.github.privacystreams.utils.AppUtils;
-import io.github.privacystreams.utils.ConnectionUtils;
+import io.github.privacystreams.utils.DeviceUtils;
 import io.github.privacystreams.utils.Logging;
 
 import static io.github.privacystreams.document.BaseGoogleDriveProvider.DRIVE_PREF_ACCOUNT_NAME;
@@ -46,11 +46,11 @@ public class GoogleDriveAuthorizationActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         if (googleDriveResultListener != null) {
-            if (!ConnectionUtils.isDeviceOnline(this)) {
+            if (!DeviceUtils.isDeviceOnline(this)) {
                 Logging.warn("No network connection available.");
             }
-            if (!ConnectionUtils.isGooglePlayServicesAvailable(this)) {
-                ConnectionUtils.acquireGooglePlayServices(this);
+            if (!DeviceUtils.isGooglePlayServicesAvailable(this)) {
+                DeviceUtils.acquireGooglePlayServices(this);
             }
             mCredential = GoogleAccountCredential.usingOAuth2(
                     getApplicationContext(), Arrays.asList(SCOPES))

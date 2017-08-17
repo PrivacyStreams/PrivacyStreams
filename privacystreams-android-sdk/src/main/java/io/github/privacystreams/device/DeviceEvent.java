@@ -13,12 +13,6 @@ import io.github.privacystreams.utils.annotations.PSItemField;
 public class DeviceEvent extends Item {
 
     /**
-     * The timestamp of when the event is happened.
-     */
-    @PSItemField(type = Long.class)
-    public static final String TIMESTAMP = "timestamp";
-
-    /**
      * The type of the event, could be "screen", "boot", "battery", or "ringer".
      */
     @PSItemField(type = String.class)
@@ -54,8 +48,7 @@ public class DeviceEvent extends Item {
     public static final String EVENT_RINGER_VIBRATE = "vibrate";
     public static final String EVENT_RINGER_NORMAL = "normal";
 
-    DeviceEvent(long timestamp, String type, String event) {
-        this.setFieldValue(TIMESTAMP, timestamp);
+    DeviceEvent(String type, String event) {
         this.setFieldValue(TYPE, type);
         this.setFieldValue(EVENT, event);
     }

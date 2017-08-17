@@ -29,19 +29,22 @@ public class CalendarEvent extends Item {
     @PSItemField(type = Long.class)
     public static final String START_TIME = "start_time";
 
-
     /**
-     * Duration of the event.
+     * Event end time.
      */
     @PSItemField(type = Long.class)
     public static final String END_TIME = "end_time";
+    /**
+     * Duration of the event, in RFC2445 format.
+     */
+    @PSItemField(type = String.class)
+    public static final String DURATION = "duration";
 
     /**
      * Event location.
      */
     @PSItemField(type = String.class)
     public static final String EVENT_LOCATION = "event_location";
-
 
     public static final String STATUS_ADDED = "added";
     public static final String STATUS_DELETED = "deleted";
@@ -53,17 +56,18 @@ public class CalendarEvent extends Item {
     @PSItemField(type = String.class)
     public static String STATUS = "status";
 
-    CalendarEvent(long id, String title, long startTime, long endTime, String eventLocation) {
+    CalendarEvent(long id, String title, long startTime, long endTime, String duration, String eventLocation) {
+
         this.setFieldValue(ID, id);
         this.setFieldValue(TITLE, title);
         this.setFieldValue(START_TIME, startTime);
         this.setFieldValue(END_TIME, endTime);
+        this.setFieldValue(DURATION, duration);
         this.setFieldValue(EVENT_LOCATION, eventLocation);
         this.setFieldValue(STATUS, STATUS_ADDED);
     }
 
     CalendarEvent(CalendarEvent another) {
-
         for (String key : another.toMap().keySet()) {
             this.setFieldValue(key, another.getValueByField(key));
         }

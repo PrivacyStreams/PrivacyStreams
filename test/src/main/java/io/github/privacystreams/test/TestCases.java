@@ -271,8 +271,10 @@ public class TestCases {
 
     public void testAccEvents() {
         uqi.getData(AccEvent.asUpdates(), Purpose.TEST("AccEvent"))
-                .logOverSocket("accEvent")
-                .debug();
+                .inFixedInterval(1000)
+                .keepChanges()
+                .logAs("accEvent")
+                .idle();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
@@ -474,7 +476,7 @@ public class TestCases {
 //                .getData(Geolocation.asHistory(), Purpose.FEATURE("get the place you spent the most time"))
 //                .setField("geo_tag", GeolocationOperators.asGeotag(Geolocation.COORDINATES))
 //                .localGroupBy("geo_tag")
-//                .setGroupField("time_spent", StatisticOperators.range(Geolocation.TIMESTAMP))
+//                .setGroupField("time_spent", StatisticOperators.range(Geolocation.EVENT_TIME))
 //                .sortBy("time_spent")
 //                .reverse()
 //                .getFirst()

@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion 25
@@ -17,7 +18,7 @@ android {
         exclude 'META-INF/ASL2.0'
     }
     defaultConfig {
-        applicationId "io.github.privacystreams"
+        applicationId "io.github.privacystreams.test"
         minSdkVersion 16
         targetSdkVersion 25
         versionCode 1
@@ -45,7 +46,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:25.3.1'
     testCompile 'junit:junit:4.12'
     compile project(':privacystreams-android-sdk')
-    compile 'com.google.android.gms:play-services-auth:10.2.0'
+    compile 'com.google.android.gms:play-services-auth:11.0.2'
     compile('com.google.apis:google-api-services-gmail:v1-rev29-1.20.0') {
         exclude group: 'org.apache.httpcomponents'
     }
@@ -55,9 +56,17 @@ dependencies {
     compile('com.google.api-client:google-api-client-android:1.22.0') {
         exclude group: 'org.apache.httpcomponents'
     }
-    compile 'com.google.android.gms:play-services:10.2.4'
     compile 'com.sun.mail:android-mail:1.5.5'
     compile 'com.sun.mail:android-activation:1.5.5'
     compile 'com.android.support:multidex:1.0.1'
 
+    compile 'com.dropbox.core:dropbox-core-sdk:2.1.1'
+    compile 'com.google.android.gms:play-services-location:11.0.2'
+    compile 'com.google.android.gms:play-services-vision:11.0.2'
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+
+
+}
+repositories {
+    mavenCentral()
 }

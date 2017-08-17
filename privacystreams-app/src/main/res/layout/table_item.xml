@@ -1,0 +1,85 @@
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable name="dbTable" type="io.github.privacystreams.app.db.PStreamTable"/>
+    </data>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Switch
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginRight="10dp"
+            android:id="@+id/tableSwitch"
+            android:checked="@{dbTable.isCollecting ? true : false, default=false}"
+            android:onCheckedChanged="@{(view, isChecked) -> isChecked ? dbTable.startCollectService() : dbTable.stopCollectService()}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintRight_toRightOf="parent"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tableInfo"
+            android:orientation="horizontal"
+            android:layout_margin="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent">
+
+            <ImageView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:id="@+id/tableIcon"
+                android:contentDescription="@string/data_icon_desc" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:layout_gravity="center_vertical"
+                android:orientation="vertical"
+                android:id="@+id/tableText"
+                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/dataTitle"
+                    android:textSize="18sp"
+                    android:text="@{dbTable.tableName, default=TableName}"/>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/dataItemCount"
+                        android:textSize="14sp"
+                        android:text='@{dbTable.numItems + " items", default="0 items"}'/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/colorPrimary"
+                        android:id="@+id/tableMessage"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginStart="10dp"
+                        android:textSize="14sp"
+                        android:text='@{dbTable.message}'/>
+                </LinearLayout>
+
+            </LinearLayout>
+        </LinearLayout>
+
+    </android.support.constraint.ConstraintLayout>
+
+</layout>

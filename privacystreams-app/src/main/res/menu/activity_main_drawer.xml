@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/ic_home_black_24dp"
+            android:title="@string/home" />
+        <item
+            android:id="@+id/nav_timeline"
+            android:icon="@drawable/ic_timeline_black_24dp"
+            android:title="@string/timeline" />
+        <item
+            android:id="@+id/nav_insight"
+            android:icon="@drawable/ic_insert_chart_black_24dp"
+            android:title="@string/insight" />
+        <item
+            android:id="@+id/nav_market"
+            android:icon="@drawable/ic_business_center_black_24dp"
+            android:title="@string/market" />
+    </group>
+
+    <item android:title="@string/manage">
+        <menu>
+            <group
+                android:checkableBehavior="single">
+                <item
+                    android:id="@+id/nav_account"
+                    android:icon="@drawable/ic_account_circle_black_24dp"
+                    android:title="@string/account" />
+                <item
+                    android:id="@+id/nav_data"
+                    android:icon="@drawable/ic_storage_black_24dp"
+                    android:title="@string/data" />
+            </group>
+        </menu>
+    </item>
+
+</menu>

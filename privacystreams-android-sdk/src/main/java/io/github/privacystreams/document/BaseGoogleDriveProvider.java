@@ -24,7 +24,7 @@ import java.util.List;
 import io.github.privacystreams.core.PStreamProvider;
 import io.github.privacystreams.core.exceptions.PSException;
 import io.github.privacystreams.utils.AppUtils;
-import io.github.privacystreams.utils.ConnectionUtils;
+import io.github.privacystreams.utils.DeviceUtils;
 import io.github.privacystreams.utils.Globals;
 import io.github.privacystreams.utils.Logging;
 
@@ -144,8 +144,8 @@ public class BaseGoogleDriveProvider extends PStreamProvider implements GoogleDr
                     .setBackOff(new ExponentialBackOff());
             mCredential.setSelectedAccountName(accountName);
 
-            if (!ConnectionUtils.isGooglePlayServicesAvailable(getContext())) {
-                ConnectionUtils.acquireGooglePlayServices(getContext());
+            if (!DeviceUtils.isGooglePlayServicesAvailable(getContext())) {
+                DeviceUtils.acquireGooglePlayServices(getContext());
             } else {
                 mDrive = new Drive.Builder(
                         AndroidHttp.newCompatibleTransport(),

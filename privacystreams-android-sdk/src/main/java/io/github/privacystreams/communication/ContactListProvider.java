@@ -44,11 +44,9 @@ class ContactListProvider extends PStreamProvider {
         if (contactCur != null && contactCur.getCount() > 0) {
             contactCur.moveToFirst();
             while (!contactCur.isAfterLast()) {
-                long _id = contactCur.getLong(contactCur.getColumnIndex(ContactsContract.Data._ID));
-                // The primary display name
-                String displayNameKey = ContactsContract.Data.DISPLAY_NAME_PRIMARY;
-                String name = contactCur.getString(contactCur.getColumnIndex(displayNameKey));
 
+                String _id = contactCur.getString(contactCur.getColumnIndex(ContactsContract.Data._ID));
+                String name = contactCur.getString(contactCur.getColumnIndex(Phone.DISPLAY_NAME));
                 HashMap<String, List> phones = new HashMap<>();
                 List mobileList = new ArrayList();
                 List homeList = new ArrayList();
