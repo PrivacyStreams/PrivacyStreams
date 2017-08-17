@@ -197,7 +197,7 @@ public class SiftEmail  {
             java.net.URL urlToRequest;
             try {
                 /*first step: add a user
-                it will return a default username
+         
                  */
                 Logging.error("start first step");
                 String url = baseUrl+"/v1/users?";
