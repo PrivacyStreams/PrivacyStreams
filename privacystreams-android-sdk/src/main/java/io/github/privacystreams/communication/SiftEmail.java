@@ -36,6 +36,7 @@ import javax.crypto.spec.SecretKeySpec;
 import com.mashape.unirest.http.*;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import com.mashape.unirest.request.HttpRequestWithBody;
+import com.mashape.unirest.request.body.MultipartBody;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -56,6 +57,7 @@ public class SiftEmail  {
     private static String requests = "";
     private static final String HMAC_SHA1_ALGORITHM = "HmacSHA1";
     private static final char[] hexArray = "0123456789ABCDEF".toCharArray();
+    private static final String givenName = "whatever";
     public SiftEmail(String accountName,String token){
         this.userName = accountName;
         this.userToken = token;
@@ -63,7 +65,7 @@ public class SiftEmail  {
 
     /** the main function to connect with sift*/
     public void main() throws Exception{
-        /*
+
         HashMap<String,Object> param = new HashMap<>();
         String addUser = "/v1/users";
         String getToken = "/v1/connect_token";
@@ -74,8 +76,9 @@ public class SiftEmail  {
         String signature = generateSignature(requestMethod,addUser,param);
         param.put("signature",signature);
         try{
-            HttpRequestWithBody request = Unirest.post(baseUrl+addUser).header("content-type", "x-www-form-urlencoded")
-                    .queryString(param);
+            MultipartBody request = Unirest.post(baseUrl+addUser).header("content-type", "x-www-form-urlencoded").queryString(param).field("locale","en_US");
+            Logging.error("unirest:"+request.getEntity());
+            /*
             if(request.getBody()!=null)
             Logging.error("unirest response1 is"+request.getBody());
             else
@@ -102,14 +105,15 @@ public class SiftEmail  {
             request = Unirest.post(baseUrl+conn).header("content-type", "x-www-form-urlencoded")
                     .queryString(param);
             Logging.error("unirest response3 is"+request.getBody());
-
+            */
         }catch (Exception e){
             Logging.error("unirest error:"+e.getMessage());
-        }finally{
+        }finally {
 
-        }*/
-        RequestWebTask rwt = new RequestWebTask();
-        rwt.doInBackground();
+
+            RequestWebTask rwt = new RequestWebTask();
+            rwt.doInBackground();
+        }
     }
 
     public static String bytesToHex(byte[] bytes)
@@ -184,44 +188,80 @@ public class SiftEmail  {
         //Input URLs you want to get or post in String
         //Output: JSONObject(func Flight_JSON_To_FlightContent in edu.cmu.chimps.messageontap.utility.GenericUtils will help to change that into String)
         protected JSONArray doInBackground(Map<String,Object>... params) {
-            userName = userName.replace("@","%40");
-            String url = baseUrl+"/v1/users?";
+            /*init*/
+            //userName = userName.replace("@","%40");
+
             HashMap<String,Object> param = new HashMap<>();
-            param.put("api_key",DEVELOPER_API_KEY);
-            param.put("username",userName);
-            long tm = System.currentTimeMillis() / 1000L;
-            param.put("timestamp",tm);
-            String requestMethod = "POST";
-            String signature = generateSignature(requestMethod,"/v1/users",param);
-            url += "api_key="+DEVELOPER_API_KEY
-                    +"&username="+userName
-                    +"&timestamp="+tm;
-
             JSONObject jsonObject = null;
-            Logging.error("url is: "+url);
             HttpURLConnection urlconnection = null;
+            java.net.URL urlToRequest;
             try {
-
-                //create connection
-                java.net.URL urlToRequest;
+                /*first step: add a user
+                it will return a default username
+                 */
+                Logging.error("start first step");
+                String url = baseUrl+"/v1/users?";
+                param.put("api_key",DEVELOPER_API_KEY);
+                param.put("username",givenName);
+                long tm = System.currentTimeMillis() / 1000L;
+                param.put("timestamp",tm);
+                String requestMethod = "POST";
+                String signature = generateSignature(requestMethod,"/v1/users",param);
+                url += "api_key="+DEVELOPER_API_KEY
+                        +"&username="+givenName
+                        +"&timestamp="+tm;
+                Logging.error("url is: "+url);
                 url += "&signature="+ signature;
+                Logging.error("step 1 url:"+url);
                 urlToRequest = new URL(url);
                 urlconnection = (HttpURLConnection)urlToRequest.openConnection();
                 urlconnection.setRequestMethod("POST");
                 int statusCode = urlconnection.getResponseCode();
-                Logging.error("attempt url with sig response:"+statusCode);
                 if(statusCode == 200) {
                     InputStream in = new BufferedInputStream(urlconnection.getInputStream());
-                    jsonObject = new JSONObject(getResponseText(in));
-                    Logging.error(jsonObject.getJSONArray("result").toString());
+                    Logging.error("step 1: add user returns:"+getResponseText(in));
+                }else{
+                    Logging.error("step 1 failed with code:"+statusCode);
                 }
+
+                /*second step: add a email_connection*/
+                Logging.error("step 2 start");
+                tm = System.currentTimeMillis() / 1000L;
+                url = baseUrl + "/v1/users/"+givenName+"/email_connections?"+"api_key="+DEVELOPER_API_KEY
+                        +"&timestamp="+tm
+                        +"&account_type=google"
+                        +"&account="+userName
+                        +"&refresh_token="+userToken;
+                param.clear();
+                param.put("api_key",DEVELOPER_API_KEY);
+                param.put("timestamp",tm);
+                param.put("account_type","google");
+                param.put("account",userName);
+                param.put("refresh_token",userToken);
+                requestMethod = "POST";
+                signature = generateSignature(requestMethod,"/v1/users/"+givenName+"/email_connections",param);
+                url += "&signature=" + signature;
+                Logging.error("step 2 url:"+url);
+                urlToRequest = new URL(url);
+                urlconnection = (HttpURLConnection)urlToRequest.openConnection();
+                urlconnection.setRequestMethod("POST");
+                statusCode = urlconnection.getResponseCode();
+                if(statusCode == 200) {
+                    InputStream in = new BufferedInputStream(urlconnection.getInputStream());
+                    Logging.error("step 2: add email connection returns :"+getResponseText(in));
+                }
+                else{
+                    Logging.error("step 2 failed with code:"+statusCode);
+                }
+                /*third step: get token*/
+                Logging.error("step 3 starts");
                 long t = System.currentTimeMillis() / 1000L;
                 url = baseUrl + "/v1/connect_token?"+"api_key="+DEVELOPER_API_KEY
-                        +"&username="+userName
+                        +"&username="+givenName
                         +"&timestamp="+t;
                 param.clear();
                 param.put("api_key",DEVELOPER_API_KEY);
-                param.put("username",userName);
+                param.put("username",givenName);
                 param.put("timestamp",t);
                 requestMethod = "POST";
                 signature = generateSignature(requestMethod,"/v1/connect_token",param);
@@ -230,25 +270,27 @@ public class SiftEmail  {
                 urlconnection = (HttpURLConnection)urlToRequest.openConnection();
                 urlconnection.setRequestMethod("POST");
                 statusCode = urlconnection.getResponseCode();
-                Logging.error("attempt url with sig response 222:"+statusCode);
                 if(statusCode == 200) {
                     InputStream in = new BufferedInputStream(urlconnection.getInputStream());
                     jsonObject = new JSONObject(getResponseText(in));
                     String token = jsonObject.getJSONObject("result").toString().split(":")[1].replace("\"","").replace("}","");
-                    Logging.error("token = " + token);
+                    Logging.error("step 3 get token = " + token);
+
+                    /*fourth step: connect_email*/
+                    Logging.error("step 4 starts");
                     long time = System.currentTimeMillis() / 1000L;
                     url = "https://api.edison.tech/v1/connect_email?"
                             +"api_key="+DEVELOPER_API_KEY
-                            +"&username="+userName
+                            +"&username="+givenName
                             +"&token="+token
-                            +"&timestamp="+time;
+                            +"&redirect_url="+"www.google.com";
                     param.clear();
                     param.put("api_key",DEVELOPER_API_KEY);
-                    param.put("username",userName);
-                    param.put("timestamp",time);
+                    param.put("username",givenName);
                     param.put("token",token);
-                    signature = generateSignature("GET","/v1/connect_email",param);
-                    url += "&signature=" + signature;
+                    param.put("redirect_url","www.google.com");
+                    //signature = generateSignature("GET","/v1/connect_email",param);
+                    //url += "&signature=" + signature;
                     urlToRequest = new URL(url);
                     urlconnection = (HttpURLConnection)urlToRequest.openConnection();
                     urlconnection.setRequestMethod("GET");
@@ -256,18 +298,21 @@ public class SiftEmail  {
                     if(statusCode == 200) {
                         in = new BufferedInputStream(urlconnection.getInputStream());
                         String info = getResponseText(in);
-                        Logging.error("add conn"+info);
+                        Logging.error("Step 4 get connect email returns:"+info);
+
+                        /*last step: list sifts*/
+                        Logging.error("last step starts");
                         param.clear();
                         time = System.currentTimeMillis() / 1000L;
-                        url = "https://api.edison.tech/v1/users/"+userName+"/sifts?"
+                        url = "https://api.edison.tech/v1/users/"+givenName+"/sifts?"
                                 +"api_key="+DEVELOPER_API_KEY
-                                +"&username="+userName
+                                +"&username="+givenName
                                 +"&timestamp="+time;
                         param.clear();
                         param.put("api_key",DEVELOPER_API_KEY);
-                        param.put("username",userName);
+                        param.put("username",givenName);
                         param.put("timestamp",time);
-                        signature = generateSignature("GET","/v1/users/"+userName+"/sifts",param);
+                        signature = generateSignature("GET","/v1/users/"+givenName+"/sifts",param);
                         url += "&signature=" + signature;
                         urlToRequest = new URL(url);
                         urlconnection = (HttpURLConnection)urlToRequest.openConnection();
@@ -276,7 +321,7 @@ public class SiftEmail  {
                         if(statusCode == 200){
                             in = new BufferedInputStream(urlconnection.getInputStream());
                             jsonObject = new JSONObject(getResponseText(in));
-                            Logging.error("list sifts:"+jsonObject);
+                            Logging.error("step 5:list sifts:"+jsonObject);
                         }
                     }
                 }
