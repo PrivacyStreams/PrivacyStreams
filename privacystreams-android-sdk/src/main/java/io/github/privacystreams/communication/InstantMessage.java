@@ -5,10 +5,10 @@ import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.view.accessibility.AccessibilityNodeInfo;
 
+import java.util.List;
+
 import io.github.privacystreams.core.PStreamProvider;
 import io.github.privacystreams.utils.annotations.PSItemField;
-
-import java.util.List;
 
 public class InstantMessage extends Message {
     /**
@@ -24,25 +24,26 @@ public class InstantMessage extends Message {
     @PSItemField(type = AccessibilityNodeInfo.class)
     public static final String ROOT_NODE = "rootNode";
 
-
     public InstantMessage(String type,
                           String content,
+                          int logTime,
                           String packageName,
                           String contact,
                           long timestamp,
                           int[] position,
                           AccessibilityNodeInfo rootNode) {
-        super(type, content, packageName, contact, timestamp);
+        super(type, content, logTime, packageName, contact, timestamp);
         this.setFieldValue(POSITION, position);
         this.setFieldValue(ROOT_NODE, rootNode);
     }
 
     InstantMessage(String type,
                    String content,
+                   int logTime,
                    String packageName,
                    String contact,
                    long timestamp) {
-        super(type, content, packageName, contact, timestamp);
+        super(type, content, logTime, packageName, contact, timestamp);
     }
 
     /**
