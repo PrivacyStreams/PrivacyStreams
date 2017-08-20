@@ -69,7 +69,7 @@ public class Message extends Item {
      */
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
     public static PStreamProvider asUpdatesInIM() {
-        return new IMUpdatesProvider();
+        return new IMUIUpdatesProvider();
     }
 
     /**

@@ -38,6 +38,7 @@ class IMUpdatesProvider extends PStreamProvider {
 
     private void saveNewMessageScrolling(List<AccessibilityNodeInfo> nodeInfoList, String contactName, String packageName, int eventCount, int theFromIndex) {
         switch (packageName) {
+
             case AppUtils.APP_PACKAGE_WHATSAPP:
                 int fromIndex = theFromIndex - 2;
                 if (dbWhatsApp.containsKey(contactName) && fromIndex > 0) {
@@ -59,6 +60,7 @@ class IMUpdatesProvider extends PStreamProvider {
                     } else if (eventCount > size) {
                         String[] list = new String[eventCount];
                         int count = 0;
+                        getContext();
                         for (String s : dbList) {
                             list[eventCount - size + count] = s;
                             count++;

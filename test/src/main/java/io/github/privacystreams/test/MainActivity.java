@@ -33,7 +33,6 @@ public class MainActivity extends AppCompatActivity {
         protected Object doInBackground(Object[] objects) {
             TestCases testCases = new TestCases(MainActivity.this);
 
-
             testCases.testIMUpdates();
 
 
