@@ -1,9 +1,13 @@
 package io.github.privacystreams.communication;
 
-
-
-
 import android.os.AsyncTask;
+
+import com.mashape.unirest.http.Unirest;
+import com.mashape.unirest.request.body.MultipartBody;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
@@ -12,41 +16,19 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.SocketTimeoutException;
 import java.net.URL;
+import java.security.SignatureException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
-
-import com.easilydo.sift.api.ApiManager;
-import com.easilydo.sift.model.*;
-import com.mashape.unirest.http.JsonNode;
-import com.mashape.unirest.http.Unirest;
+import java.util.Map;
+import java.util.Scanner;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
 import io.github.privacystreams.utils.Logging;
 
-import java.util.*;
-import java.security.SignatureException;
-import javax.crypto.Mac;
-import javax.crypto.spec.SecretKeySpec;
-
-import com.mashape.unirest.http.*;
-import com.mashape.unirest.http.exceptions.UnirestException;
-import com.mashape.unirest.request.HttpRequestWithBody;
-import com.mashape.unirest.request.body.MultipartBody;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import static com.mashape.unirest.http.Unirest.post;
-
-/**
- * Created by xiaobing1117 on 2017/8/14.
- */
 
 public class SiftEmail  {
     private static final String DEVELOPER_API_KEY = "e6b0dc00388a72b4d39043fa447660f2";

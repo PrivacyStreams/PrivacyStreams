@@ -334,7 +334,7 @@ public class IMUIUpdatesProvider extends PStreamProvider {
                     }
                 });
 
-        getUQI().getData(   Notification.asUpdates(), Purpose.FEATURE("Notification Trigger"))
+        getUQI().getData(Notification.asUpdates(), Purpose.FEATURE("Notification Trigger"))
                 .filter(ItemOperators.isFieldIn(Notification.PACKAGE_NAME,
                         new String[]{AppUtils.APP_PACKAGE_WHATSAPP,
                                 AppUtils.APP_PACKAGE_FACEBOOK_MESSENGER}))
