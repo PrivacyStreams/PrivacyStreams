@@ -61,6 +61,15 @@ public class Message extends Item {
     public static final String TYPE_PENDING = "pending";
     public static final String TYPE_UNKNOWN = "unknown";
 
+    Message(String type, String content, String packageName, String contact, long timestamp) {
+        this.setFieldValue(TYPE, type);
+        this.setFieldValue(CONTENT, content);
+        this.setFieldValue(LOG_TIME, LOG_TIME_NA);
+        this.setFieldValue(PACKAGE_NAME, packageName);
+        this.setFieldValue(CONTACT, contact);
+        this.setFieldValue(TIMESTAMP, timestamp);
+    }
+
     Message(String type, String content, int logTime, String packageName, String contact, long timestamp) {
         this.setFieldValue(TYPE, type);
         this.setFieldValue(CONTENT, content);
