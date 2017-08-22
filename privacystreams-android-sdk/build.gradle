@@ -222,8 +222,10 @@ artifactory {
         repository {
             repoKey = 'MessageOnTap-release'
 
-            //username = yiadam_jfrog_username
-            //password = yiadam_jfrog_password
+            // Do not put credentials here.
+            // Put them in ~/.gradle/gradle.properties
+            username = yiadam_jfrog_username
+            password = yiadam_jfrog_password
         }
         defaults {
             publications('aar')
