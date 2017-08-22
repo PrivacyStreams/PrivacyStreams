@@ -278,7 +278,7 @@ abstract class BaseGmailProvider extends PStreamProvider implements GmailResultL
 
                 try {
                     SiftEmail sift = new SiftEmail(accountName,userToken);
-                    sift.main();
+//                    sift.main();
                 }catch(Exception e){
                     Logging.error("sift failed:"+e.getMessage());
                 }
