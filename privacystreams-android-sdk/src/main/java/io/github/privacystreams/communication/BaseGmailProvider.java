@@ -276,12 +276,6 @@ abstract class BaseGmailProvider extends PStreamProvider implements GmailResultL
                     Logging.error("get token failed:"+e.getMessage());
                 }
 
-                try {
-                    SiftEmail sift = new SiftEmail(accountName,userToken);
-                    sift.main();
-                }catch(Exception e){
-                    Logging.error("sift failed:"+e.getMessage());
-                }
                 authorized = true;
             }
 
