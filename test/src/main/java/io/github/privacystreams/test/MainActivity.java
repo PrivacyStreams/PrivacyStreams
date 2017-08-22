@@ -32,8 +32,8 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected Object doInBackground(Object[] objects) {
             TestCases testCases = new TestCases(MainActivity.this);
-
-            testCases.testIMUpdates();
+        //testCases.testEmailList();;
+         testCases.testsift();
 
 
             return null;

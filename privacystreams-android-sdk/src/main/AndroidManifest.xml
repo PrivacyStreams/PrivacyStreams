@@ -4,6 +4,8 @@
 
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
     <application>
         <activity
@@ -15,6 +17,11 @@
 
         <activity
             android:name="io.github.privacystreams.communication.GmailAuthorizationActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true" />
+        <activity
+            android:name="io.github.privacystreams.communication.WebActivity"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true" />
@@ -61,6 +68,7 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/ps_file_provider"/>
         </provider>
+
     </application>
 
 </manifest>

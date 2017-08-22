@@ -180,6 +180,10 @@ public class TestCases {
         uqi.getData(Email.asGmailUpdates(15 * 60 * 1000), Purpose.TEST("test")).debug();
     }
 
+    public void testsift(){
+        uqi.getData(Email.sift(),Purpose.TEST("test")).debug();
+    }
+
     public void testEmailList() {
         uqi.getData(Email.asGmailHistory(System.currentTimeMillis() - Duration.hours(100),
                 System.currentTimeMillis() - Duration.hours(50),
@@ -271,10 +275,8 @@ public class TestCases {
 
     public void testAccEvents() {
         uqi.getData(AccEvent.asUpdates(), Purpose.TEST("AccEvent"))
-                .inFixedInterval(1000)
-                .keepChanges()
-                .logAs("accEvent")
-                .idle();
+                .logOverSocket("accEvent")
+                .debug();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
@@ -476,7 +478,7 @@ public class TestCases {
 //                .getData(Geolocation.asHistory(), Purpose.FEATURE("get the place you spent the most time"))
 //                .setField("geo_tag", GeolocationOperators.asGeotag(Geolocation.COORDINATES))
 //                .localGroupBy("geo_tag")
-//                .setGroupField("time_spent", StatisticOperators.range(Geolocation.EVENT_TIME))
+//                .setGroupField("time_spent", StatisticOperators.range(Geolocation.TIMESTAMP))
 //                .sortBy("time_spent")
 //                .reverse()
 //                .getFirst()
