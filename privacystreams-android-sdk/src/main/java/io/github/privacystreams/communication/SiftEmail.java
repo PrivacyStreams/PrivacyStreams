@@ -38,6 +38,9 @@ public class SiftEmail extends PStreamProvider{
     /*for connectToken*/
     private final String TOKEN = "TOKEN";
 
+    /*for list sifts*/
+    private static String siftinfo = "666";
+
     private static String connectToken = null;
 
     SiftEmail(String key, String secret){
@@ -75,6 +78,11 @@ public class SiftEmail extends PStreamProvider{
         connectEmail("whatever",connectToken,null);
 
     }
+
+    public static String getsift(){
+        return siftinfo;
+    }
+
 
     public long addUser(String username, String locale){
         HashMap<String,Object> params = new HashMap<>();
@@ -160,14 +168,16 @@ public class SiftEmail extends PStreamProvider{
         }
     }
 
-    public void listSifts(String username){
+    public String listSifts(String username,int offset){
         HashMap<String, Object> params = new HashMap<>();
         String path = "/v1/users/"+username+"/sifts";
         String method = "GET";
         params.put("username",username);
+        params.put("offset",offset);
         params = addCommonParams(method,path,params);
         requestUrl = generateUrl(path,params);
         new WebRequests().execute(requestUrl,method,LISTSIFTS);
+        return siftinfo;
     }
 
     private String generateUrl(String path, HashMap<String,Object> params){
@@ -235,6 +245,14 @@ public class SiftEmail extends PStreamProvider{
             }
             switch (returnValue) {
                 case LISTSIFTS:
+                    try {
+                        responseJson = new JSONObject(responseString);
+                        Logging.error("json is:" + responseJson);
+                        siftinfo = responseJson.get("result").toString();
+                    } catch (Exception e) {
+                        Logging.error("parse json failed for list sifts");
+                        Logging.error("exception is" + e.getMessage());
+                    }
                     break;
                 case USERID:
                     try {
@@ -262,5 +280,6 @@ public class SiftEmail extends PStreamProvider{
             }
             return null;
         }
+
     }
 }
