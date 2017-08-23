@@ -15,6 +15,13 @@ import java.util.*;
 import io.github.privacystreams.core.PStreamProvider;
 import io.github.privacystreams.utils.Logging;
 
+import com.easilydo.sift.model.Sift;
+import com.easilydo.sift.model.Domain;
+import com.easilydo.sift.model.gen.*;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+
 public class SiftEmail extends PStreamProvider{
 
     /*for sifts info*/
@@ -37,12 +44,20 @@ public class SiftEmail extends PStreamProvider{
 
     /*for connectToken*/
     private final String TOKEN = "TOKEN";
-
-    /*for list sifts*/
-    private static String siftinfo = "666";
-
     private static String connectToken = null;
 
+    /*for list sifts*/
+    private static String siftinfo = null;
+
+    /*
+
+     */
+    private static final ObjectMapper objectMapper = new ObjectMapper();
+
+    /*
+    @params: api_key: the api_key generated on developer's sift account
+    @params: api_secret: the api_secret generated on developer's sift account
+     */
     SiftEmail(String key, String secret){
         if(key != null) {
             this.api_key = key;
@@ -52,9 +67,12 @@ public class SiftEmail extends PStreamProvider{
     }
 
     @Override
-    public void provide(){
+    public void provide() {
         testSelf();
+
+
     }
+
 
     /* just for test when debug*/
     private void testSelf(){
@@ -75,14 +93,15 @@ public class SiftEmail extends PStreamProvider{
         Logging.error("getConnectToken returns: "+connectToken);
 
         Logging.error("start to connect Email");
-        connectEmail("whatever",connectToken,null);
+        connectEmail("whatever",connectToken);
 
     }
 
-    public static String getsift(){
-        return siftinfo;
-    }
-
+    /*
+    Add a username to developer's sift account.
+    @params: username: A name specified by developer. It can be everything.
+    @params: locale: user's locale. e.g: "en_US"
+     */
 
     public long addUser(String username, String locale){
         HashMap<String,Object> params = new HashMap<>();
@@ -93,49 +112,14 @@ public class SiftEmail extends PStreamProvider{
         params = addCommonParams(method,path,params);
         requestUrl = generateUrl(path,params);
         new WebRequests().execute(requestUrl,method,USERID);
+        while(user_id == 0);
         return user_id;
     }
 
-    public void deleteUser(String username){
-        HashMap<String,Object> params = new HashMap<>();
-        String path = "/v1/users/"+username;
-        String method = "DELETE";
-        params.put("username", username);
-        params = addCommonParams(method,path,params);
-        requestUrl = generateUrl(path,params);
-
-    }
-
-    public long addGmailConnection(String username, String account, String refreshToken){
-        HashMap<String,Object> params = new HashMap<>();
-        String path = "/v1/users/"+username+"/email_connections";
-        String method = "POST";
-        params.put("username", username);
-        params.put("account_type","google");
-        params.put("account",account);
-        params.put("refreshToken",refreshToken);
-        params = addCommonParams(method,path,params);
-        requestUrl = generateUrl(path,params);
-        return 1;
-    }
-
-    public void deleteEmailConnection(String username, long id){
-        HashMap<String,Object> params = new HashMap<>();
-        String path = "/v1/users/"+username+"/email_connections/"+id;
-        String method = "DELETE";
-        params.put("username", username);
-        params = addCommonParams(method,path,params);
-        requestUrl = generateUrl(path,params);
-    }
-
-    public void listConnections(String username){
-        HashMap<String,Object> params = new HashMap<>();
-        String path = "/v1/users/"+username+"/email_connections";
-        String method = "GET";
-        params.put("username", username);
-        params = addCommonParams(method,path,params);
-        requestUrl = generateUrl(path,params);
-    }
+    /*
+    Get a connect token of the username
+    @params: username: The username specified by developer
+     */
 
     public String getConnectToken(String username){
         HashMap<String,Object> params = new HashMap<>();
@@ -145,19 +129,23 @@ public class SiftEmail extends PStreamProvider{
         params = addCommonParams(method,path,params);
         requestUrl = generateUrl(path,params);
         new WebRequests().execute(requestUrl,method,TOKEN);
+        while(connectToken == null);
         return connectToken;
     }
 
-    public void connectEmail(String username, String token, String redirectUrl){
+    /*
+    Let the user confirm to log in.
+    Will call the browser
+     @parameters: username: The username specified by developer
+     @parameters: token: The token got from function getConnectToken(String)
+    */
+    public void connectEmail(String username, String token){
         HashMap<String,Object> params = new HashMap<>();
         String path = "/v1/connect_email";
         String method = "GET";
         params.put("api_key", api_key);
         params.put("username", username);
         params.put("token", token);
-        if(redirectUrl!=null){
-            params.put("redirect_url", redirectUrl);
-        }
         requestUrl = generateUrl(path,params);
         Intent intent = new Intent(getContext(),WebActivity.class);
         intent.putExtra("url",requestUrl);
@@ -168,17 +156,58 @@ public class SiftEmail extends PStreamProvider{
         }
     }
 
-    public String listSifts(String username,int offset){
+    /*
+    List sift information
+    @params: username: The username specified by developer
+     */
+    public String listSifts(String username){
+        return listSifts(username,null,null);
+    }
+
+    /*
+    List sift information
+    @params: username: The username specified by developer
+    @params: lastUpdateTime: Specify the Date from which sifts information begins
+     */
+
+    public String listSifts(String username, Date lastUpdateTime){
+        return listSifts(username,null,lastUpdateTime);
+    }
+
+    /*
+    List sift information
+    @params: username: The username specified by developer
+    @params: offset: The number of sift information will be ignored from the beginning
+     */
+
+    public String listSifts(String username, int offset){
+        return listSifts(username,offset,null);
+    }
+
+    /*
+    List sift information
+    @params: username: The username specified by developer
+    @params: offset: The number of sift information will be ignored from the beginning
+    @params: lastUpdateTime: Specify the Date from which sifts information begins
+     */
+
+    public String listSifts(String username, Integer offset, Date lastUpdateTime){
         HashMap<String, Object> params = new HashMap<>();
         String path = "/v1/users/"+username+"/sifts";
         String method = "GET";
         params.put("username",username);
-        params.put("offset",offset);
+        if(offset!=null)
+            params.put("offset",offset);
+        if(lastUpdateTime != null){
+            params.put("last_update_time", getEpochSecs(lastUpdateTime));
+        }
         params = addCommonParams(method,path,params);
         requestUrl = generateUrl(path,params);
         new WebRequests().execute(requestUrl,method,LISTSIFTS);
+        while(siftinfo == null);
         return siftinfo;
     }
+
 
     private String generateUrl(String path, HashMap<String,Object> params){
         String base = new String(domain);
@@ -206,6 +235,10 @@ public class SiftEmail extends PStreamProvider{
 
     private long getCurrentTime(){
         return System.currentTimeMillis() / 1000L;
+    }
+
+    protected static long getEpochSecs(Date date) {
+        return date.getTime() / 1000;
     }
 
     class WebRequests extends AsyncTask<String,Void,Void> {
@@ -249,6 +282,56 @@ public class SiftEmail extends PStreamProvider{
                         responseJson = new JSONObject(responseString);
                         Logging.error("json is:" + responseJson);
                         siftinfo = responseJson.get("result").toString();
+                        JsonNode root = objectMapper.readTree(responseString);
+                        JsonNode result = root.get("result");
+                        JsonNode payload = result.has("@type") ? result : result.get("payload");
+                        String type = payload.get("@type").textValue();
+                        if(type.startsWith("x-")) {
+                            type = type.substring(2);
+                            Logging.error("type is:"+type);
+                        }
+                        else{
+                            Logging.error("type is:"+type);
+                        }
+                        if(type != null){
+                            switch(type){
+                                case "Unknown":
+                                    break;
+                                case "Order":
+                                    Logging.error("cast to order");
+                                    Order order = (Order) objectMapper.treeToValue(payload, Class.forName("com.easilydo.sift.model.gen." + type));
+                                    break;
+                                case "Deal":
+                                    Logging.error("cast to deal");
+                                    Deal deal = (Deal) objectMapper.treeToValue(payload, Class.forName("com.easilydo.sift.model.gen." + type));
+                                    break;
+                                default:
+                                    Logging.error("unknown type");
+                                    /*
+                                case "ParcelDelivery":
+                                    Order order = (Order) objectMapper.treeToValue(payload, Class.forName("com.easilydo.sift.model.gen." + type));
+                                    break;
+                                case "order":
+                                    Order order = (Order) objectMapper.treeToValue(payload, Class.forName("com.easilydo.sift.model.gen." + type));
+                                    break;
+                                case "order":
+                                    Order order = (Order) objectMapper.treeToValue(payload, Class.forName("com.easilydo.sift.model.gen." + type));
+                                    break;
+                                case "order":
+                                    Order order = (Order) objectMapper.treeToValue(payload, Class.forName("com.easilydo.sift.model.gen." + type));
+                                    break;
+                                case "order":
+                                    Order order = (Order) objectMapper.treeToValue(payload, Class.forName("com.easilydo.sift.model.gen." + type));
+                                    break;
+                                case "order":
+                                    Order order = (Order) objectMapper.treeToValue(payload, Class.forName("com.easilydo.sift.model.gen." + type));
+                                    break;
+                                case "order":
+                                    Order order = (Order) objectMapper.treeToValue(payload, Class.forName("com.easilydo.sift.model.gen." + type));
+                                    break;
+                                */
+                            }
+                        }
                     } catch (Exception e) {
                         Logging.error("parse json failed for list sifts");
                         Logging.error("exception is" + e.getMessage());
@@ -280,6 +363,7 @@ public class SiftEmail extends PStreamProvider{
             }
             return null;
         }
+
 
     }
 }

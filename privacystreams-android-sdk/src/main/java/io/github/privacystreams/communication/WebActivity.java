@@ -16,7 +16,7 @@ import io.github.privacystreams.utils.Logging;
  */
 
 public class WebActivity extends Activity {
-    final TextView t = (TextView)findViewById(R.id.siftinfo);
+    //final TextView t = (TextView)findViewById(R.id.siftinfo);
     @Override
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +31,7 @@ public class WebActivity extends Activity {
             public void onClick(View v) {
                 SiftEmail sift = new SiftEmail(null,null);
                 Logging.error("list sifts");
-                for(int i=0;i<100;++i) {
+                for(int i=0;i<10;++i) {
                     String str = sift.listSifts("whatever", i);
                     if (str==null || str.equals(""))
                         break;
