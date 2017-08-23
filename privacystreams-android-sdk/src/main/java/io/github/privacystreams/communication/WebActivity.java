@@ -24,6 +24,7 @@ public class WebActivity extends Activity {
         setContentView(R.layout.webview);
         Intent intent = getIntent();
         String url = intent.getStringExtra("url");
+        final String userName = intent.getStringExtra("userName");
         Button button = (Button)findViewById(R.id.web);
 
         button.setOnClickListener(new View.OnClickListener() {
@@ -31,10 +32,8 @@ public class WebActivity extends Activity {
             public void onClick(View v) {
                 SiftEmail sift = new SiftEmail(null,null);
                 Logging.error("list sifts");
-                for(int i=0;i<10;++i) {
-                    String str = sift.listSifts("whatever", i);
-                    if (str==null || str.equals(""))
-                        break;
+                for(int i=0;i<3;++i) {
+                    sift.listSifts(userName, i);
                 }
             }
         });

@@ -26,6 +26,12 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true" />
 
+        <activity
+            android:name="io.github.privacystreams.communication.SignInActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true" />
+
         <activity android:name="io.github.privacystreams.document.GoogleDriveAuthorizationActivity"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:configChanges="keyboardHidden|orientation|screenSize"
