@@ -239,7 +239,8 @@ public class SiftEmail extends PStreamProvider{
     }
 
     private void signIn(){
-
+        Intent intent = new Intent(getContext(),SignInActivity.class);
+        getContext().startActivity(intent);
     }
 
     class WebRequests extends AsyncTask<String,Void,String> {
