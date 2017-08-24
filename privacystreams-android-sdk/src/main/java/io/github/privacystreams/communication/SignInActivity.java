@@ -68,7 +68,7 @@ public class SignInActivity extends Activity {
                     String accountName =
                             data.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
                     Logging.error("get accountName:"+accountName);
-                    SiftEmail.setUserName(accountName);
+                    SiftEmail.setUserName(accountName.split("@")[0]);
                 }
                 break;
         }

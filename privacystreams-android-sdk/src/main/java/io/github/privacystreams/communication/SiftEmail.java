@@ -86,9 +86,10 @@ public class SiftEmail extends PStreamProvider{
                 Manifest.permission.ACCESS_NETWORK_STATE);
         Logging.error("signin");
         signIn();
+        while(userName == null);
         Logging.error("start testself");
-        this.api_key = "feb6159c2f04b44cf03b6d58fe10177c";
-        this.api_secret = "82aea7a170e5eb9648f77ead8c28f81a85f84dc3";
+        this.api_key = "15b6a990b4599c7f6b3deb95cd05307b";
+        this.api_secret = "2bc65281868a4a2ce6c83931cd91497f5deabc80";
         signatory = new Signatory(api_secret);
         addUser(userName,"en_US");
     }
@@ -239,8 +240,10 @@ public class SiftEmail extends PStreamProvider{
     }
 
     private void signIn(){
-        Intent intent = new Intent(getContext(),SignInActivity.class);
-        getContext().startActivity(intent);
+        if(userName == null) {
+            Intent intent = new Intent(getContext(), SignInActivity.class);
+            getContext().startActivity(intent);
+        }
     }
 
     class WebRequests extends AsyncTask<String,Void,String> {
