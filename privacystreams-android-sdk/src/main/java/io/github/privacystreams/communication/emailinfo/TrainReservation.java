@@ -1,17 +1,21 @@
 
 package io.github.privacystreams.communication.emailinfo;
 
-import com.github.privacystreams.communication.email.Domain;
-import com.github.privacystreams.communication.email.EmailInfoEntity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang.builder.ToStringBuilder;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.annotation.Generated;
 
 
 /**
@@ -20,7 +24,16 @@ import java.util.Map;
  * 
  * 
  */
-public class TrainReservation extends EmailInfoEntity {
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@Generated("org.jsonschema2pojo")
+@JsonPropertyOrder({
+        "provider",
+        "reservationFor",
+        "reservationId",
+        "reservationStatus",
+        "reservedTicket"
+})
+public class TrainReservation extends Sift {
 
     /**
      * Organization
@@ -28,8 +41,11 @@ public class TrainReservation extends EmailInfoEntity {
      * 
      * 
      */
+    @JsonProperty("provider")
     private Organization provider;
+    @JsonProperty("reservationFor")
     private List<TrainTrip> reservationFor = new ArrayList<TrainTrip>();
+    @JsonProperty("reservationId")
     private String reservationId;
     /**
      * ReservationStatus
@@ -37,8 +53,11 @@ public class TrainReservation extends EmailInfoEntity {
      * 
      * 
      */
+    @JsonProperty("reservationStatus")
     private ReservationStatus reservationStatus;
+    @JsonProperty("reservedTicket")
     private List<Ticket> reservedTicket = new ArrayList<Ticket>();
+    @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     public Domain getDomain() {
@@ -53,6 +72,7 @@ public class TrainReservation extends EmailInfoEntity {
      * @return
      *     The provider
      */
+    @JsonProperty("provider")
     public Organization getProvider() {
         return provider;
     }
@@ -65,6 +85,7 @@ public class TrainReservation extends EmailInfoEntity {
      * @param provider
      *     The provider
      */
+    @JsonProperty("provider")
     public void setProvider(Organization provider) {
         this.provider = provider;
     }
@@ -74,6 +95,7 @@ public class TrainReservation extends EmailInfoEntity {
      * @return
      *     The reservationFor
      */
+    @JsonProperty("reservationFor")
     public List<TrainTrip> getReservationFor() {
         return reservationFor;
     }
@@ -83,6 +105,7 @@ public class TrainReservation extends EmailInfoEntity {
      * @param reservationFor
      *     The reservationFor
      */
+    @JsonProperty("reservationFor")
     public void setReservationFor(List<TrainTrip> reservationFor) {
         this.reservationFor = reservationFor;
     }
@@ -92,6 +115,7 @@ public class TrainReservation extends EmailInfoEntity {
      * @return
      *     The reservationId
      */
+    @JsonProperty("reservationId")
     public String getReservationId() {
         return reservationId;
     }
@@ -101,6 +125,7 @@ public class TrainReservation extends EmailInfoEntity {
      * @param reservationId
      *     The reservationId
      */
+    @JsonProperty("reservationId")
     public void setReservationId(String reservationId) {
         this.reservationId = reservationId;
     }
@@ -113,6 +138,7 @@ public class TrainReservation extends EmailInfoEntity {
      * @return
      *     The reservationStatus
      */
+    @JsonProperty("reservationStatus")
     public ReservationStatus getReservationStatus() {
         return reservationStatus;
     }
@@ -125,6 +151,7 @@ public class TrainReservation extends EmailInfoEntity {
      * @param reservationStatus
      *     The reservationStatus
      */
+    @JsonProperty("reservationStatus")
     public void setReservationStatus(ReservationStatus reservationStatus) {
         this.reservationStatus = reservationStatus;
     }
@@ -134,6 +161,7 @@ public class TrainReservation extends EmailInfoEntity {
      * @return
      *     The reservedTicket
      */
+    @JsonProperty("reservedTicket")
     public List<Ticket> getReservedTicket() {
         return reservedTicket;
     }
@@ -143,6 +171,7 @@ public class TrainReservation extends EmailInfoEntity {
      * @param reservedTicket
      *     The reservedTicket
      */
+    @JsonProperty("reservedTicket")
     public void setReservedTicket(List<Ticket> reservedTicket) {
         this.reservedTicket = reservedTicket;
     }
@@ -152,10 +181,12 @@ public class TrainReservation extends EmailInfoEntity {
         return ToStringBuilder.reflectionToString(this);
     }
 
+    @JsonIgnore
     public Map<String, Object> getAdditionalProperties() {
         return this.additionalProperties;
     }
 
+    @JsonIgnore
     public void setAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
     }

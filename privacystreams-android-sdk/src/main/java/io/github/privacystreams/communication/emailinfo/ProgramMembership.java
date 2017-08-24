@@ -1,12 +1,19 @@
 
 package io.github.privacystreams.communication.emailinfo;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.apache.commons.lang3.builder.ToStringBuilder;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang.builder.ToStringBuilder;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.annotation.Generated;
 
 
 /**
@@ -15,9 +22,16 @@ import java.util.Map;
  * 
  * 
  */
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@Generated("org.jsonschema2pojo")
+@JsonPropertyOrder({
+        "membershipNumber"
+})
 public class ProgramMembership {
 
+    @JsonProperty("membershipNumber")
     private String membershipNumber;
+    @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     /**
@@ -25,6 +39,7 @@ public class ProgramMembership {
      * @return
      *     The membershipNumber
      */
+    @JsonProperty("membershipNumber")
     public String getMembershipNumber() {
         return membershipNumber;
     }
@@ -34,6 +49,7 @@ public class ProgramMembership {
      * @param membershipNumber
      *     The membershipNumber
      */
+    @JsonProperty("membershipNumber")
     public void setMembershipNumber(String membershipNumber) {
         this.membershipNumber = membershipNumber;
     }
@@ -43,10 +59,12 @@ public class ProgramMembership {
         return ToStringBuilder.reflectionToString(this);
     }
 
+    @JsonIgnore
     public Map<String, Object> getAdditionalProperties() {
         return this.additionalProperties;
     }
 
+    @JsonIgnore
     public void setAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
     }

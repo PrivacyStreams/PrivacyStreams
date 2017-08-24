@@ -1,12 +1,19 @@
 
 package io.github.privacystreams.communication.emailinfo;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.apache.commons.lang3.builder.ToStringBuilder;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang.builder.ToStringBuilder;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.annotation.Generated;
 
 
 /**
@@ -15,10 +22,23 @@ import java.util.Map;
  * 
  * 
  */
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@Generated("org.jsonschema2pojo")
+@JsonPropertyOrder({
+        "ticketUrl",
+        "url",
+        "ticketNumber",
+        "ticketSear",
+        "underName",
+        "description"
+})
 public class Ticket {
 
+    @JsonProperty("ticketUrl")
     private String ticketUrl;
+    @JsonProperty("url")
     private String url;
+    @JsonProperty("ticketNumber")
     private String ticketNumber;
     /**
      * Seat
@@ -26,6 +46,7 @@ public class Ticket {
      * 
      * 
      */
+    @JsonProperty("ticketedSeat")
     private Seat ticketedSeat;
     /**
      * Person
@@ -33,8 +54,11 @@ public class Ticket {
      * 
      * 
      */
+    @JsonProperty("underName")
     private Person underName;
+    @JsonProperty("description")
     private String description;
+    @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     /**
@@ -42,6 +66,7 @@ public class Ticket {
      * @return
      *     The ticketUrl
      */
+    @JsonProperty("ticketUrl")
     public String getTicketUrl() {
         return ticketUrl;
     }
@@ -51,6 +76,7 @@ public class Ticket {
      * @param ticketUrl
      *     The ticketUrl
      */
+    @JsonProperty("ticketUrl")
     public void setTicketUrl(String ticketUrl) {
         this.ticketUrl = ticketUrl;
     }
@@ -60,6 +86,7 @@ public class Ticket {
      * @return
      *     The url
      */
+    @JsonProperty("url")
     public String getUrl() {
         return url;
     }
@@ -69,6 +96,7 @@ public class Ticket {
      * @param url
      *     The url
      */
+    @JsonProperty("url")
     public void setUrl(String url) {
         this.url = url;
     }
@@ -78,6 +106,7 @@ public class Ticket {
      * @return
      *     The ticketNumber
      */
+    @JsonProperty("ticketNumber")
     public String getTicketNumber() {
         return ticketNumber;
     }
@@ -87,6 +116,7 @@ public class Ticket {
      * @param ticketNumber
      *     The ticketNumber
      */
+    @JsonProperty("ticketNumber")
     public void setTicketNumber(String ticketNumber) {
         this.ticketNumber = ticketNumber;
     }
@@ -99,6 +129,7 @@ public class Ticket {
      * @return
      *     The ticketedSeat
      */
+    @JsonProperty("ticketedSeat")
     public Seat getTicketedSeat() {
         return ticketedSeat;
     }
@@ -111,6 +142,7 @@ public class Ticket {
      * @param ticketedSeat
      *     The ticketedSeat
      */
+    @JsonProperty("ticketedSeat")
     public void setTicketedSeat(Seat ticketedSeat) {
         this.ticketedSeat = ticketedSeat;
     }
@@ -123,6 +155,7 @@ public class Ticket {
      * @return
      *     The underName
      */
+    @JsonProperty("underName")
     public Person getUnderName() {
         return underName;
     }
@@ -135,6 +168,7 @@ public class Ticket {
      * @param underName
      *     The underName
      */
+    @JsonProperty("underName")
     public void setUnderName(Person underName) {
         this.underName = underName;
     }
@@ -144,6 +178,7 @@ public class Ticket {
      * @return
      *     The description
      */
+    @JsonProperty("description")
     public String getDescription() {
         return description;
     }
@@ -153,6 +188,7 @@ public class Ticket {
      * @param description
      *     The description
      */
+    @JsonProperty("description")
     public void setDescription(String description) {
         this.description = description;
     }
@@ -162,10 +198,12 @@ public class Ticket {
         return ToStringBuilder.reflectionToString(this);
     }
 
+    @JsonIgnore
     public Map<String, Object> getAdditionalProperties() {
         return this.additionalProperties;
     }
 
+    @JsonIgnore
     public void setAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
     }

@@ -1,13 +1,20 @@
 
 package io.github.privacystreams.communication.emailinfo;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.apache.commons.lang3.builder.ToStringBuilder;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang.builder.ToStringBuilder;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.annotation.Generated;
 
 
 /**
@@ -16,6 +23,15 @@ import java.util.Map;
  * 
  * 
  */
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@Generated("org.jsonschema2pojo")
+@JsonPropertyOrder({
+        "arrivalStation",
+        "departureStation",
+        "departureTime",
+        "description",
+        "trainNumber"
+})
 public class TrainTrip {
 
     /**
@@ -24,6 +40,7 @@ public class TrainTrip {
      * 
      * 
      */
+    @JsonProperty("arrivalStation")
     private TrainStation arrivalStation;
     /**
      * TrainStation
@@ -31,10 +48,15 @@ public class TrainTrip {
      * 
      * 
      */
+    @JsonProperty("departureStation")
     private TrainStation departureStation;
+    @JsonProperty("departureTime")
     private Date departureTime;
+    @JsonProperty("description")
     private String description;
+    @JsonProperty("trainNumber")
     private String trainNumber;
+    @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     /**
@@ -45,6 +67,7 @@ public class TrainTrip {
      * @return
      *     The arrivalStation
      */
+    @JsonProperty("arrivalStation")
     public TrainStation getArrivalStation() {
         return arrivalStation;
     }
@@ -57,6 +80,7 @@ public class TrainTrip {
      * @param arrivalStation
      *     The arrivalStation
      */
+    @JsonProperty("arrivalStation")
     public void setArrivalStation(TrainStation arrivalStation) {
         this.arrivalStation = arrivalStation;
     }
@@ -69,6 +93,7 @@ public class TrainTrip {
      * @return
      *     The departureStation
      */
+    @JsonProperty("departureStation")
     public TrainStation getDepartureStation() {
         return departureStation;
     }
@@ -81,6 +106,7 @@ public class TrainTrip {
      * @param departureStation
      *     The departureStation
      */
+    @JsonProperty("departureStation")
     public void setDepartureStation(TrainStation departureStation) {
         this.departureStation = departureStation;
     }
@@ -90,6 +116,7 @@ public class TrainTrip {
      * @return
      *     The departureTime
      */
+    @JsonProperty("departureTime")
     public Date getDepartureTime() {
         return departureTime;
     }
@@ -99,6 +126,7 @@ public class TrainTrip {
      * @param departureTime
      *     The departureTime
      */
+    @JsonProperty("departureTime")
     public void setDepartureTime(Date departureTime) {
         this.departureTime = departureTime;
     }
@@ -108,6 +136,7 @@ public class TrainTrip {
      * @return
      *     The description
      */
+    @JsonProperty("description")
     public String getDescription() {
         return description;
     }
@@ -117,6 +146,7 @@ public class TrainTrip {
      * @param description
      *     The description
      */
+    @JsonProperty("description")
     public void setDescription(String description) {
         this.description = description;
     }
@@ -126,6 +156,7 @@ public class TrainTrip {
      * @return
      *     The trainNumber
      */
+    @JsonProperty("trainNumber")
     public String getTrainNumber() {
         return trainNumber;
     }
@@ -135,6 +166,7 @@ public class TrainTrip {
      * @param trainNumber
      *     The trainNumber
      */
+    @JsonProperty("trainNumber")
     public void setTrainNumber(String trainNumber) {
         this.trainNumber = trainNumber;
     }
@@ -144,10 +176,12 @@ public class TrainTrip {
         return ToStringBuilder.reflectionToString(this);
     }
 
+    @JsonIgnore
     public Map<String, Object> getAdditionalProperties() {
         return this.additionalProperties;
     }
 
+    @JsonIgnore
     public void setAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
     }

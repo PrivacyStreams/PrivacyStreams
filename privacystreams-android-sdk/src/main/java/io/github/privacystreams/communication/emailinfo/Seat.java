@@ -1,12 +1,19 @@
 
 package io.github.privacystreams.communication.emailinfo;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.apache.commons.lang3.builder.ToStringBuilder;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang.builder.ToStringBuilder;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.annotation.Generated;
 
 
 /**
@@ -15,11 +22,22 @@ import java.util.Map;
  * 
  * 
  */
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@Generated("org.jsonschema2pojo")
+@JsonPropertyOrder({
+        "seatNumber",
+        "seatRow",
+        "seatingType"
+})
 public class Seat {
 
+    @JsonProperty("seatNumber")
     private String seatNumber;
+    @JsonProperty("seatRow")
     private String seatRow;
+    @JsonProperty("seatingType")
     private String seatingType;
+    @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     /**
@@ -27,6 +45,7 @@ public class Seat {
      * @return
      *     The seatNumber
      */
+    @JsonProperty("seatNumber")
     public String getSeatNumber() {
         return seatNumber;
     }
@@ -36,6 +55,7 @@ public class Seat {
      * @param seatNumber
      *     The seatNumber
      */
+    @JsonProperty("seatNumber")
     public void setSeatNumber(String seatNumber) {
         this.seatNumber = seatNumber;
     }
@@ -45,6 +65,7 @@ public class Seat {
      * @return
      *     The seatRow
      */
+    @JsonProperty("seatRow")
     public String getSeatRow() {
         return seatRow;
     }
@@ -54,6 +75,7 @@ public class Seat {
      * @param seatRow
      *     The seatRow
      */
+    @JsonProperty("seatRow")
     public void setSeatRow(String seatRow) {
         this.seatRow = seatRow;
     }
@@ -63,6 +85,7 @@ public class Seat {
      * @return
      *     The seatingType
      */
+    @JsonProperty("seatingType")
     public String getSeatingType() {
         return seatingType;
     }
@@ -72,6 +95,7 @@ public class Seat {
      * @param seatingType
      *     The seatingType
      */
+    @JsonProperty("seatingType")
     public void setSeatingType(String seatingType) {
         this.seatingType = seatingType;
     }
@@ -81,10 +105,12 @@ public class Seat {
         return ToStringBuilder.reflectionToString(this);
     }
 
+    @JsonIgnore
     public Map<String, Object> getAdditionalProperties() {
         return this.additionalProperties;
     }
 
+    @JsonIgnore
     public void setAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
     }
