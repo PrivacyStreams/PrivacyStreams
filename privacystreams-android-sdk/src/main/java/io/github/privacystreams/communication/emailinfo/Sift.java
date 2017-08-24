@@ -4,13 +4,11 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import io.github.privacystreams.core.Item;
+import io.github.privacystreams.utils.Logging;
 
 public class Sift extends Item {
-    private static Logger logger = LoggerFactory.getLogger(com.easilydo.sift.model.Sift.class);
 
     private long siftId;
     private String mimeId;
@@ -64,7 +62,7 @@ public class Sift extends Item {
         this.accountId = accountId;
     }
 
-    public static com.easilydo.sift.model.Sift unmarshallSift(JsonNode result) {
+    public static Sift unmarshallSift(JsonNode result) {
         JsonNode payload = result.has("@type") ? result : result.get("payload");
         String type = payload.get("@type").textValue();
 
@@ -72,14 +70,14 @@ public class Sift extends Item {
             type = type.substring(2);
         }
 
-        com.easilydo.sift.model.Sift sift;
+        Sift sift;
         try {
-            sift = (com.easilydo.sift.model.Sift) objectMapper.treeToValue(payload, Class.forName("com.easilydo.sift.model.gen." + type));
+            sift = (Sift) objectMapper.treeToValue(payload, Class.forName("io.github.privacystreams.communication.emailinfo." + type));
         } catch(ClassNotFoundException cnfex) {
-            logger.error("Could not find class for type: " + type);
-            sift = new com.easilydo.sift.model.Sift();
+            Logging.error("Could not find class for type: " + type);
+            sift = new Sift();
         } catch(JsonProcessingException jpex) {
-            logger.error("Failed to parse sift json", jpex);
+            Logging.error("Failed to parse sift json"+ jpex);
             throw new RuntimeException(jpex);
         }
 

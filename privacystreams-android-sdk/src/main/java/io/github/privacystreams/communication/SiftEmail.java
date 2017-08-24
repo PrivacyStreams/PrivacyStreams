@@ -5,8 +5,6 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.easilydo.sift.model.gen.Deal;
-import com.easilydo.sift.model.gen.Order;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -22,6 +20,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
+import io.github.privacystreams.communication.emailinfo.Deal;
+import io.github.privacystreams.communication.emailinfo.Order;
 import io.github.privacystreams.core.PStreamProvider;
 import io.github.privacystreams.utils.Logging;
 
@@ -308,18 +308,18 @@ public class SiftEmail extends PStreamProvider{
 
                             switch(type){
                                 case "Contact":
-                                    com.easilydo.sift.model.gen.Contact contact = (com.easilydo.sift.model.gen.Contact) objectMapper.treeToValue(payload, Class.forName("com.easilydo.sift.model.gen." + type));
+                                    io.github.privacystreams.communication.emailinfo.Contact contact = (io.github.privacystreams.communication.emailinfo.Contact) objectMapper.treeToValue(payload, Class.forName("com.easilydo.sift.model.gen." + type));
                                     Log.e("contact",contact.getContacts().get(0).getEmail());
                                 case "Unknown":
                                     break;
                                 case "Order":
                                     Logging.error("cast to order");
-                                    Order order = (Order) objectMapper.treeToValue(payload, Class.forName("com.easilydo.sift.model.gen." + type));
+                                    Order order = (Order) objectMapper.treeToValue(payload, Class.forName("io.github.privacystreams.communication.emailinfo." + type));
                                     Log.e("order",order.getOrderNumber());
                                     break;
                                 case "Deal":
                                     Logging.error("cast to deal");
-                                    Deal deal = (Deal) objectMapper.treeToValue(payload, Class.forName("com.easilydo.sift.model.gen." + type));
+                                    Deal deal = (Deal) objectMapper.treeToValue(payload, Class.forName("io.github.privacystreams.communication.emailinfo." + type));
                                     Log.e("deal",deal.toString());
                                     break;
 

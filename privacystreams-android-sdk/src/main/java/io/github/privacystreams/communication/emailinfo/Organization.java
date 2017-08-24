@@ -1,7 +1,6 @@
 package io.github.privacystreams.communication.emailinfo;
 
 
-import com.easilydo.sift.model.gen.ContactPoint;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;

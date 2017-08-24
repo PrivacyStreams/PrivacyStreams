@@ -65,18 +65,22 @@ dependencies {
     compile 'org.greenrobot:eventbus:3.0.0'
     // third-party packages
     provided 'com.dropbox.core:dropbox-core-sdk:2.1.1'
-    provided 'com.google.android.gms:play-services:10.2.4'
+    provided "com.google.android.gms:play-services:$play_services_version"
     provided('com.google.api-client:google-api-client-android:1.20.0') {
         exclude group: 'org.apache.httpcomponents'
     }
+    compile group: 'commons-lang', name: 'commons-lang', version: '2.6'
+
     provided('com.google.apis:google-api-services-drive:v3-rev76-1.22.0') {
         exclude group: 'org.apache.httpcomponents'
     }
     provided('com.google.apis:google-api-services-gmail:v1-rev29-1.20.0') {
         exclude group: 'org.apache.httpcomponents'
     }
+    compile 'com.fasterxml.jackson.core:jackson-core:2.5.3'
+    compile 'com.fasterxml.jackson.core:jackson-annotations:2.5.3'
+    compile 'com.fasterxml.jackson.core:jackson-databind:2.5.3'
     provided 'org.glassfish:javax.annotation:10.0-b28'
-    compile 'com.easilydo:sift-sdk:1.0.0'
     provided 'com.sun.mail:android-mail:1.5.5'
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
 }
