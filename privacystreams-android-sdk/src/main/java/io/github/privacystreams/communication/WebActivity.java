@@ -20,6 +20,7 @@ public class WebActivity extends Activity {
         setContentView(R.layout.webview);
         Intent intent = getIntent();
         String url = intent.getStringExtra("url");
+        final String userName = intent.getStringExtra("userName");
         Button button = (Button)findViewById(R.id.web);
 
         button.setOnClickListener(new View.OnClickListener() {

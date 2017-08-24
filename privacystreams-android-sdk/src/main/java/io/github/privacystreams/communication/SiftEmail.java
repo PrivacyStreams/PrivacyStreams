@@ -53,6 +53,7 @@ public class SiftEmail extends PStreamProvider{
     /*for list sifts*/
     private static String siftinfo = null;
 
+    private static String userName = null;
     /*
 
      */
@@ -74,31 +75,27 @@ public class SiftEmail extends PStreamProvider{
     public void provide() {
         testSelf();
 
-
     }
 
+    public static void setUserName(String name){
+        Logging.error("now userName is:"+name);
+        userName = name;
+    }
 
     /* just for test when debug*/
     private void testSelf(){
+
         this.addRequiredPermissions(Manifest.permission.INTERNET,
                 Manifest.permission.GET_ACCOUNTS,
                 Manifest.permission.ACCESS_NETWORK_STATE);
-
+        Logging.error("signin");
+        signIn();
+        while(userName == null);
         Logging.error("start testself");
         this.api_key = "15b6a990b4599c7f6b3deb95cd05307b";
         this.api_secret = "2bc65281868a4a2ce6c83931cd91497f5deabc80";
         signatory = new Signatory(api_secret);
-        addUser("whatever","en_US");
-        while(user_id == 0);
-        Logging.error("addUser returns:"+user_id);
-
-        getConnectToken("whatever");
-        while(connectToken == null);
-        Logging.error("getConnectToken returns: "+connectToken);
-
-        Logging.error("start to connect Email");
-        connectEmail("whatever",connectToken);
-
+        addUser(userName,"en_US");
     }
 
     /*
@@ -107,7 +104,8 @@ public class SiftEmail extends PStreamProvider{
     @params: locale: user's locale. e.g: "en_US"
      */
 
-    public long addUser(String username, String locale){
+    private void addUser(String username, String locale){
+        Logging.error("addUser starts");
         HashMap<String,Object> params = new HashMap<>();
         String path = "/v1/users";
         String method = "POST";
@@ -116,8 +114,6 @@ public class SiftEmail extends PStreamProvider{
         params = addCommonParams(method,path,params);
         requestUrl = generateUrl(path,params);
         new WebRequests().execute(requestUrl,method,USERID);
-        while(user_id == 0);
-        return user_id;
     }
 
     /*
@@ -125,7 +121,8 @@ public class SiftEmail extends PStreamProvider{
     @params: username: The username specified by developer
      */
 
-    public String getConnectToken(String username){
+    private void getConnectToken(String username){
+        Logging.error("getConnectToken starts");
         HashMap<String,Object> params = new HashMap<>();
         String path = "/v1/connect_token";
         String method = "POST";
@@ -133,8 +130,6 @@ public class SiftEmail extends PStreamProvider{
         params = addCommonParams(method,path,params);
         requestUrl = generateUrl(path,params);
         new WebRequests().execute(requestUrl,method,TOKEN);
-        while(connectToken == null);
-        return connectToken;
     }
 
     /*
@@ -143,7 +138,8 @@ public class SiftEmail extends PStreamProvider{
      @parameters: username: The username specified by developer
      @parameters: token: The token got from function getConnectToken(String)
     */
-    public void connectEmail(String username, String token){
+    private void connectEmail(String username, String token){
+        Logging.error("connectEmail starts");
         HashMap<String,Object> params = new HashMap<>();
         String path = "/v1/connect_email";
         String method = "GET";
@@ -153,12 +149,14 @@ public class SiftEmail extends PStreamProvider{
         requestUrl = generateUrl(path,params);
         Intent intent = new Intent(getContext(),WebActivity.class);
         intent.putExtra("url",requestUrl);
+        intent.putExtra("userName",userName);
         try {
             getContext().startActivity(intent);
         }catch(Exception e){
             Logging.error("activity error:"+e.getMessage());
         }
     }
+
 
     /*
     List sift information
@@ -184,7 +182,7 @@ public class SiftEmail extends PStreamProvider{
     @params: offset: The number of sift information will be ignored from the beginning
      */
 
-    public String listSifts(String username, int offset){
+    protected String listSifts(String username, int offset){
         return listSifts(username,offset,null);
     }
 
@@ -195,7 +193,8 @@ public class SiftEmail extends PStreamProvider{
     @params: lastUpdateTime: Specify the Date from which sifts information begins
      */
 
-    public String listSifts(String username, Integer offset, Date lastUpdateTime){
+    protected String listSifts(String username, Integer offset, Date lastUpdateTime){
+        Logging.error("list sifts start");
         HashMap<String, Object> params = new HashMap<>();
         String path = "/v1/users/"+username+"/sifts";
         String method = "GET";
@@ -208,8 +207,7 @@ public class SiftEmail extends PStreamProvider{
         params = addCommonParams(method,path,params);
         requestUrl = generateUrl(path,params);
         new WebRequests().execute(requestUrl,method,LISTSIFTS);
-        while(siftinfo == null);
-        return siftinfo;
+        return null;
     }
 
 
@@ -245,13 +243,20 @@ public class SiftEmail extends PStreamProvider{
         return date.getTime() / 1000;
     }
 
-    class WebRequests extends AsyncTask<String,Void,Void> {
+    private void signIn(){
+        if(userName == null) {
+            Intent intent = new Intent(getContext(), SignInActivity.class);
+            getContext().startActivity(intent);
+        }
+    }
+
+    class WebRequests extends AsyncTask<String,Void,String> {
         private String getResponseText(InputStream in) {
             return new Scanner(in).useDelimiter("\\A").next();
         }
 
         @Override
-        protected Void doInBackground(String... params) {
+        protected String doInBackground(String... params) {
             String url = params[0]; //the url to request
             if(url!=null){
                 Logging.error("url is:"+url);
@@ -287,8 +292,9 @@ public class SiftEmail extends PStreamProvider{
                         Logging.error("json is:" + responseJson);
                         siftinfo = responseJson.get("result").toString();
                         JsonNode root = objectMapper.readTree(responseString);
+
                         JsonNode result = root.get("result");
-                       for(JsonNode each: result){
+                        for(JsonNode each: result){
                             Log.e("---------","---------------");
                             JsonNode payload = result.has("@type") ? each : each.get("payload");
                             String type = payload.get("@type").textValue();
@@ -299,6 +305,7 @@ public class SiftEmail extends PStreamProvider{
                             else{
                                 Logging.error("type is:"+type);
                             }
+
                             switch(type){
                                 case "Contact":
                                     com.easilydo.sift.model.gen.Contact contact = (com.easilydo.sift.model.gen.Contact) objectMapper.treeToValue(payload, Class.forName("com.easilydo.sift.model.gen." + type));
@@ -315,6 +322,7 @@ public class SiftEmail extends PStreamProvider{
                                     Deal deal = (Deal) objectMapper.treeToValue(payload, Class.forName("com.easilydo.sift.model.gen." + type));
                                     Log.e("deal",deal.toString());
                                     break;
+
                                 default:
                                     Logging.error("unknown type");
                                 /*
@@ -372,9 +380,24 @@ public class SiftEmail extends PStreamProvider{
                 default:
 
             }
-            return null;
+            return returnValue;
         }
 
-
+        @Override
+        protected  void onPostExecute(String lastProcess){
+            Logging.error("last step is: "+ lastProcess);
+            switch(lastProcess){
+                case USERID:
+                    getConnectToken(userName);
+                    break;
+                case TOKEN:
+                    connectEmail(userName,connectToken);
+                    break;
+                case LISTSIFTS:
+                    break;
+                default:
+                    Logging.error("something strange happened");
+            }
+        }
     }
 }
