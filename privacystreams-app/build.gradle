@@ -1,9 +1,20 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 25
     buildToolsVersion "26.0.1"
-
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/license.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/notice.txt'
+        exclude 'META-INF/ASL2.0'
+    }
     defaultConfig {
         applicationId "io.github.privacystreams.app"
         minSdkVersion 16
@@ -12,6 +23,7 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
+        vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
         release {
@@ -19,17 +31,9 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    packagingOptions {
-        pickFirst 'META-INF/DEPENDENCIES.txt'
-        pickFirst 'META-INF/LICENSE.txt'
-        pickFirst 'META-INF/NOTICE.txt'
-        pickFirst 'META-INF/NOTICE'
-        pickFirst 'META-INF/LICENSE'
-        pickFirst 'META-INF/DEPENDENCIES'
-        pickFirst 'META-INF/notice.txt'
-        pickFirst 'META-INF/license.txt'
-        pickFirst 'META-INF/dependencies.txt'
-        pickFirst 'META-INF/LGPL2.1'
+
+    dataBinding {
+        enabled = true
     }
 }
 
@@ -40,7 +44,16 @@ dependencies {
     })
 
     compile project(':privacystreams-android-sdk')
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile 'com.google.android.gms:play-services-location:11.0.4'
+    compile 'com.android.support:design:25.3.1'
+    compile 'com.android.support:support-vector-drawable:25.3.1'
     testCompile 'junit:junit:4.12'
+    kapt 'com.android.databinding:compiler:2.3.2'
+}
+repositories {
+    mavenCentral()
+    maven { url 'https://maven.google.com' }
 }

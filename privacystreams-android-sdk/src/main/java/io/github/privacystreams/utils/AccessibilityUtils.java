@@ -19,6 +19,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import io.github.privacystreams.communication.InstantMessage;
+import io.github.privacystreams.communication.Message;
+
 
 /**
  * A list of Accessibility-related utilities.
@@ -32,6 +35,7 @@ public class AccessibilityUtils {
 
     // WhatsApp Resource IDs
     private static String WHATSAPP_MESSAGE_TEXT = "message_text";
+    private static String WHATSAPP_MESSAGE_LOG_TIME = "date";
     private static String WHATSAPP_MESSAGE_CONTACT = "conversation_contact_name";
     private static String WHATSAPP_MESSAGE_ENTRY = "entry";
     private static String WHATSAPP_MAINPAGE_CONTACT_CONTAINER = "contact_row_container";
@@ -496,6 +500,29 @@ public class AccessibilityUtils {
             return null;
         }
         return null;
+    }
+
+    /**
+     * Get log time of the message if attainable
+     *
+     * @param root
+     * @param appName
+     * @return int representing time formatted in HHMM (e.g. 0840)
+     */
+    public static int getLogTimeByTextView(AccessibilityNodeInfo root, String appName) {
+        try {
+            switch (appName) {
+                case APP_PACKAGE_WHATSAPP:
+                    if (root.getText().toString().equals(WHATSAPP_MESSAGE_TEXT))
+                        return Integer.parseInt(root.getParent().findAccessibilityNodeInfosByViewId(WHATSAPP_MESSAGE_LOG_TIME)
+                                .get(0).toString().replace(":",""));
+                    return Message.LOG_TIME_NA;
+                default:
+                    return Message.LOG_TIME_NA;
+            }
+        } catch (Exception exception) {
+            return Message.LOG_TIME_NA;
+        }
     }
 
 }

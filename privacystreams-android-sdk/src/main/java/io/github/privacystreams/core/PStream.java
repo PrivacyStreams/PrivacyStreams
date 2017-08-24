@@ -93,6 +93,56 @@ public class PStream extends Stream {
         return this.filter(Comparators.eq(fieldName, fieldValue));
     }
 
+    /**
+     * Only keep the items that are different from the previous ones in the stream.
+     * Eg. a stream [1, 1, 2, 2, 2, 1, 1] will be [1, 2, 1] after `keepChanges()`
+     *
+     * @return the filtered stream.
+     */
+    @PSTransformation()
+    public PStream keepChanges() {
+        return this.transform(Filters.keepChanges());
+    }
+
+    /**
+     * Only Keep the items whose fields are different from the previous ones in the stream.
+     * Similar to `keepChanges()`, but only monitor a certain field
+     *
+     * @param fieldName the name of field to check whether an item should be kept
+     * @return the filtered stream.
+     */
+    @PSTransformation()
+    public PStream keepChanges(String fieldName) {
+        return this.transform(Filters.keepChanges(fieldName));
+    }
+
+    /**
+     * Sample the items based on a given interval. The items sent within the time interval
+     * since last item are dropped.
+     * Eg. If a stream has items sent at 1ms, 3ms, 7ms, 11ms and 40ms,
+     * `sampleByInterval(10)` will only keep the items sent at 1ms, 11ms and 40ms.
+     *
+     * @param minInterval the minimum interval (in milliseconds) between each two items.
+     * @return the filtered stream.
+     */
+    @PSTransformation()
+    public PStream sampleByInterval(long minInterval) {
+        return this.transform(Filters.sampleByInterval(minInterval));
+    }
+
+    /**
+     * Sample the items based on a given step count. The items are filtered to make sure
+     * `stepCount` number of items are dropped between each two new items.
+     * Eg. `sampleByCount(2)` will keep the 1st, 4th, 7th, 10th, ... items
+     *
+     * @param stepCount the num of items to drop since last item
+     * @return the filtered stream
+     */
+    @PSTransformation()
+    public PStream sampleByCount(int stepCount) {
+        return this.transform(Filters.sampleByCount(stepCount));
+    }
+
     // *****************************
     // Limiters
     // Limiters are used to limit the length of a stream.
@@ -150,6 +200,19 @@ public class PStream extends Stream {
     @PSTransformation()
     public PStream map(Function<Item, Item> itemConverter) {
         return this.transform(Mappers.mapEachItem(itemConverter));
+    }
+
+    /**
+     * Make the items be sent in a fixed interval.
+     * Eg. If a stream has items sent at 1ms, 3ms, 7ms, 11ms and 40ms,
+     * `inFixedInterval(10)` will send items at 7ms, 11ms, 11ms and 40ms, in a 10ms interval.
+     *
+     * @param fixedInterval the fixed interval in milliseconds.
+     * @return The stream with items after mapping
+     */
+    @PSTransformation()
+    public PStream inFixedInterval(long fixedInterval) {
+        return this.transform(Mappers.inFixedInterval(fixedInterval));
     }
 
     /**
@@ -409,6 +472,14 @@ public class PStream extends Stream {
             return fieldValues.get(index);
         }
         return null;
+    }
+
+    /**
+     * Do nothing with the items.
+     */
+    @PSAction(blocking = false)
+    public void idle() {
+        this.forEach(new IdleFunction<Item, Void>());
     }
 
     /**

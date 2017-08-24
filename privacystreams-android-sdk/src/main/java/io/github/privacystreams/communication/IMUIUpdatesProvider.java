@@ -48,7 +48,7 @@ public class IMUIUpdatesProvider extends PStreamProvider {
                                          int eventCount,
                                          int theFromIndex,
                                          AccessibilityNodeInfo rootNode) {
-        int nodoInfoListSize = nodeInfoList.size();
+        int nodeInfoListSize = nodeInfoList.size();
         switch (packageName) {
             case AppUtils.APP_PACKAGE_WHATSAPP:
                 int fromIndex = theFromIndex - 2;
@@ -56,7 +56,7 @@ public class IMUIUpdatesProvider extends PStreamProvider {
                     ArrayList<String> dbList = mWhatsAppDb.get(contactName);
                     int dbSize = dbList.size();
                     if (dbSize == eventCount) {
-                        for (int i = 0; i < nodoInfoListSize; i++) {
+                        for (int i = 0; i < nodeInfoListSize; i++) {
                             if (dbList.get(fromIndex + i) == null) {
                                 String messageContent = nodeInfoList.get(i).getText().toString();
                                 dbList.remove(fromIndex + i);
@@ -70,12 +70,13 @@ public class IMUIUpdatesProvider extends PStreamProvider {
                             list[eventCount - dbSize + count] = s;
                             count++;
                         }
-                        for (int i = 0; i < nodoInfoListSize; i++) {
+                        for (int i = 0; i < nodeInfoListSize; i++) {
                             if (list[fromIndex + i] == null) {
                                 AccessibilityNodeInfo nodeInfo = nodeInfoList.get(i);
                                 String messageContent = nodeInfoList.get(i).getText().toString();
                                 String messageType = AccessibilityUtils.isIncomingMessage(nodeInfo, getContext())
                                         ? InstantMessage.TYPE_RECEIVED : InstantMessage.TYPE_SENT;
+                                int messageLogTime = AccessibilityUtils.getLogTimeByTextView(nodeInfo, packageName);
 
                                 Rect rect = new Rect();
                                 nodeInfo.getBoundsInScreen(rect);
@@ -83,6 +84,7 @@ public class IMUIUpdatesProvider extends PStreamProvider {
 
                                 this.output(new InstantMessage(messageType,
                                         messageContent,
+                                        messageLogTime,
                                         packageName,
                                         contactName,
                                         System.currentTimeMillis(),
@@ -108,7 +110,7 @@ public class IMUIUpdatesProvider extends PStreamProvider {
                                 Boolean contains,
                                 AccessibilityNodeInfo rootNode) {
         int messageAmount;
-        int nodoInfoListSize = nodeInfoList.size();
+        int nodeInfoListSize = nodeInfoList.size();
         ArrayList<String> individualDb;
         switch (packageName) {
             case AppUtils.APP_PACKAGE_WHATSAPP:
@@ -119,32 +121,33 @@ public class IMUIUpdatesProvider extends PStreamProvider {
                 if (!contains) {
                     messageAmount = 1;
                     if (individualDb.size() > 0
-                            && !(individualDb.get(individualDb.size() - 1).equals(nodeInfoList.get(nodoInfoListSize - 1).getText().toString()))) {
+                            && !(individualDb.get(individualDb.size() - 1).equals(nodeInfoList.get(nodeInfoListSize - 1).getText().toString()))) {
                         do {
                             messageAmount++;
                         }
-                        while (messageAmount < nodoInfoListSize && individualDb.size() > 0 && !individualDb.get(individualDb.size() - 1).equals(nodeInfoList.get(nodoInfoListSize - messageAmount).getText().toString()));
+                        while (messageAmount < nodeInfoListSize && individualDb.size() > 0 && !individualDb.get(individualDb.size() - 1).equals(nodeInfoList.get(nodeInfoListSize - messageAmount).getText().toString()));
                         messageAmount--;
                     }
                 } else {
                     messageAmount = mWhatsAppFullUnreadMessageList.get(contactName);
-                    if (messageAmount > nodoInfoListSize)
-                        messageAmount = nodoInfoListSize;
+                    if (messageAmount > nodeInfoListSize)
+                        messageAmount = nodeInfoListSize;
                     else {
                         do {
                             messageAmount++;
                         }
-                        while (messageAmount < nodoInfoListSize && individualDb.size() > 0 && !individualDb.get(individualDb.size() - 1).equals(nodeInfoList.get(nodoInfoListSize - messageAmount).getText().toString()));
+                        while (messageAmount < nodeInfoListSize && individualDb.size() > 0 && !individualDb.get(individualDb.size() - 1).equals(nodeInfoList.get(nodeInfoListSize - messageAmount).getText().toString()));
                         messageAmount--;
                     }
                     mWhatsAppFullUnreadMessageList.put(contactName, 0);
                 }
                 for (int i = messageAmount; i > 0; i--) {
                     // Put certain amount of message into the database
-                    AccessibilityNodeInfo nodeInfo = nodeInfoList.get(nodoInfoListSize - i);
-                    String messageContent = nodeInfoList.get(nodoInfoListSize - i).getText().toString();
+                    AccessibilityNodeInfo nodeInfo = nodeInfoList.get(nodeInfoListSize - i);
+                    String messageContent = nodeInfoList.get(nodeInfoListSize - i).getText().toString();
                     String messageType = AccessibilityUtils.isIncomingMessage(nodeInfo, this.getContext())
                             ? Message.TYPE_RECEIVED : Message.TYPE_SENT;
+                    int messageLogTime = AccessibilityUtils.getLogTimeByTextView(nodeInfo, packageName);
 
                     Rect rect = new Rect();
                     nodeInfo.getBoundsInScreen(rect);
@@ -153,6 +156,7 @@ public class IMUIUpdatesProvider extends PStreamProvider {
 
                     this.output(new InstantMessage(messageType,
                             messageContent,
+                            messageLogTime,
                             packageName,
                             contactName,
                             System.currentTimeMillis(),
@@ -172,34 +176,35 @@ public class IMUIUpdatesProvider extends PStreamProvider {
                 if (!contains) {
                     messageAmount = 1;
                     if (individualDb.size() > 0
-                            && !(individualDb.get(individualDb.size() - 1).equals(nodeInfoList.get(nodoInfoListSize - 1).getText().toString()))) {
+                            && !(individualDb.get(individualDb.size() - 1).equals(nodeInfoList.get(nodeInfoListSize - 1).getText().toString()))) {
                         do {
                             messageAmount++;
-                        } while (messageAmount < nodoInfoListSize
+                        } while (messageAmount < nodeInfoListSize
                                 && individualDb.size() > 0
-                                && !individualDb.get(individualDb.size() - 1).equals(nodeInfoList.get(nodoInfoListSize - messageAmount).getText().toString()));
+                                && !individualDb.get(individualDb.size() - 1).equals(nodeInfoList.get(nodeInfoListSize - messageAmount).getText().toString()));
                         messageAmount--;
                     }
                 } else {
                     messageAmount = mFacebookFullUnreadMessageList.get(contactName);
-                    if (messageAmount > nodoInfoListSize)
-                        messageAmount = nodoInfoListSize;
+                    if (messageAmount > nodeInfoListSize)
+                        messageAmount = nodeInfoListSize;
                     else {
                         do {
                             messageAmount++;
-                        } while (messageAmount < nodoInfoListSize
+                        } while (messageAmount < nodeInfoListSize
                                 && individualDb.size() > 0
-                                && !individualDb.get(individualDb.size() - 1).equals(nodeInfoList.get(nodoInfoListSize - messageAmount).getText().toString()));
+                                && !individualDb.get(individualDb.size() - 1).equals(nodeInfoList.get(nodeInfoListSize - messageAmount).getText().toString()));
                         messageAmount--;
                     }
                     mFacebookFullUnreadMessageList.put(contactName, 0);
                 }
                 for (int i = messageAmount; i > 0; i--) {
                     // Put certain amount of message into the database
-                    AccessibilityNodeInfo nodeInfo = nodeInfoList.get(nodoInfoListSize - i);
-                    String messageContent = nodeInfoList.get(nodoInfoListSize - i).getText().toString();
+                    AccessibilityNodeInfo nodeInfo = nodeInfoList.get(nodeInfoListSize - i);
+                    String messageContent = nodeInfoList.get(nodeInfoListSize - i).getText().toString();
                     String messageType = AccessibilityUtils.isIncomingMessage(nodeInfo, this.getContext())
                             ? InstantMessage.TYPE_RECEIVED : InstantMessage.TYPE_SENT;
+                    int messageLogTime = AccessibilityUtils.getLogTimeByTextView(nodeInfo, packageName);
 
                     Rect rect = new Rect();
                     nodeInfo.getBoundsInScreen(rect);
@@ -207,6 +212,7 @@ public class IMUIUpdatesProvider extends PStreamProvider {
 
                     this.output(new InstantMessage(messageType,
                             messageContent,
+                            messageLogTime,
                             packageName,
                             contactName,
                             System.currentTimeMillis(),

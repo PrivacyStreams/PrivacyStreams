@@ -18,7 +18,7 @@ public class Contact extends Item {
     /**
      * The contact's unique ID in Android database.
      */
-    @PSItemField(type = Long.class)
+    @PSItemField(type = String.class)
     public static final String ID = "id";
     /**
      * Whats app contact id
@@ -194,7 +194,7 @@ public class Contact extends Item {
      * @param phones array list of phone numbers
      * @param emails array list of emails
      */
-    Contact(Long id, String name, HashMap<String, List> phones, HashMap<String, List> emails, String status, String whatsappid) {
+    Contact(String id, String name, HashMap<String, List> phones, HashMap<String, List> emails, String status, String whatsappid) {
         this.setFieldValue(ID, id);
         this.setFieldValue(NAME, name);
         this.setFieldValue(WHATSAPPID, whatsappid);

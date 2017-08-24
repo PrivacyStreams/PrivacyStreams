@@ -180,6 +180,10 @@ public class TestCases {
         uqi.getData(Email.asGmailUpdates(15 * 60 * 1000), Purpose.TEST("test")).debug();
     }
 
+    public void testsift(){
+        uqi.getData(Email.sift(),Purpose.TEST("test")).debug();
+    }
+
     public void testEmailList() {
         uqi.getData(Email.asGmailHistory(System.currentTimeMillis() - Duration.hours(100),
                 System.currentTimeMillis() - Duration.hours(50),

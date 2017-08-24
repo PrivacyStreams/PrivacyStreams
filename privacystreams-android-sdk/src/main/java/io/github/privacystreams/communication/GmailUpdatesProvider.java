@@ -3,9 +3,7 @@ package io.github.privacystreams.communication;
 import android.os.Handler;
 import android.os.Looper;
 
-import io.github.privacystreams.utils.ConnectionUtils;
-import io.github.privacystreams.utils.Duration;
-import io.github.privacystreams.utils.Globals;
+import io.github.privacystreams.utils.DeviceUtils;
 import io.github.privacystreams.utils.Logging;
 
 import com.google.api.services.gmail.Gmail;
@@ -67,7 +65,7 @@ class GmailUpdatesProvider extends BaseGmailProvider {
                     @Override
                     public void run() {
                         try {
-                            if (ConnectionUtils.isDeviceOnline(getContext())) {
+                            if(DeviceUtils.isDeviceOnline(getContext())){
                                 if (mLastEmailTime != 0) {
                                     new FetchEmailTask().execute(buildTimeQuery(mLastEmailTime));
                                 } else {

@@ -4,7 +4,7 @@ import android.Manifest;
 
 import io.github.privacystreams.core.Function;
 import io.github.privacystreams.core.UQI;
-import io.github.privacystreams.utils.ConnectionUtils;
+import io.github.privacystreams.utils.DeviceUtils;
 
 /**
  * Get device id
@@ -17,6 +17,6 @@ class WifiStatusChecker extends Function<Void, Boolean> {
 
     @Override
     public Boolean apply(UQI uqi, Void input) {
-        return ConnectionUtils.isWifiConnected(uqi);
+        return DeviceUtils.isWifiConnected(uqi.getContext());
     }
 }

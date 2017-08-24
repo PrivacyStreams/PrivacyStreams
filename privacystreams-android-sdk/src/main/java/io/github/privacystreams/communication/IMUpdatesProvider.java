@@ -38,6 +38,7 @@ class IMUpdatesProvider extends PStreamProvider {
 
     private void saveNewMessageScrolling(List<AccessibilityNodeInfo> nodeInfoList, String contactName, String packageName, int eventCount, int theFromIndex) {
         switch (packageName) {
+
             case AppUtils.APP_PACKAGE_WHATSAPP:
                 int fromIndex = theFromIndex - 2;
                 if (dbWhatsApp.containsKey(contactName) && fromIndex > 0) {
@@ -50,7 +51,8 @@ class IMUpdatesProvider extends PStreamProvider {
                                 String messageContent = nodeInfoList.get(i).getText().toString();
                                 String messageType = AccessibilityUtils.isIncomingMessage
                                         (nodeInfo, this.getContext()) ? Message.TYPE_RECEIVED : Message.TYPE_SENT;
-                                this.output(new Message(messageType, messageContent,
+                                int messageLogTime = AccessibilityUtils.getLogTimeByTextView(nodeInfo, packageName);
+                                this.output(new Message(messageType, messageContent, messageLogTime,
                                         packageName, contactName, System.currentTimeMillis()));
                                 dbList.remove(fromIndex + i);
                                 dbList.add(fromIndex + i, messageContent);
@@ -59,6 +61,7 @@ class IMUpdatesProvider extends PStreamProvider {
                     } else if (eventCount > size) {
                         String[] list = new String[eventCount];
                         int count = 0;
+                        getContext();
                         for (String s : dbList) {
                             list[eventCount - size + count] = s;
                             count++;
@@ -68,7 +71,8 @@ class IMUpdatesProvider extends PStreamProvider {
                                 AccessibilityNodeInfo nodeInfo = nodeInfoList.get(i);
                                 String messageContent = nodeInfoList.get(i).getText().toString();
                                 String messageType = AccessibilityUtils.isIncomingMessage(nodeInfo, getContext()) ? Message.TYPE_RECEIVED : Message.TYPE_SENT;
-                                this.output(new Message(messageType, messageContent, packageName, contactName, System.currentTimeMillis()));
+                                int messageLogTime = AccessibilityUtils.getLogTimeByTextView(nodeInfo, packageName);
+                                this.output(new Message(messageType, messageContent, messageLogTime, packageName, contactName, System.currentTimeMillis()));
                                 list[fromIndex + i] = messageContent;
                             }
                         }
@@ -120,7 +124,8 @@ class IMUpdatesProvider extends PStreamProvider {
                     String messageContent = nodeInfoList.get(nodeInfoList.size() - i).getText().toString();
                     String messageType = AccessibilityUtils.isIncomingMessage(nodeInfo, this.getContext())
                             ? Message.TYPE_RECEIVED : Message.TYPE_SENT;
-                    this.output(new Message(messageType, messageContent, packageName, contactName, System.currentTimeMillis()));
+                    int messageLogTime = AccessibilityUtils.getLogTimeByTextView(nodeInfo, packageName);
+                    this.output(new Message(messageType, messageContent, messageLogTime, packageName, contactName, System.currentTimeMillis()));
                     list.add(messageContent);
                 }
                 dbWhatsApp.put(contactName, list);
@@ -158,7 +163,8 @@ class IMUpdatesProvider extends PStreamProvider {
                     AccessibilityNodeInfo nodeInfo = nodeInfoList.get(nodeInfoList.size() - i);
                     String messageContent = nodeInfoList.get(nodeInfoList.size() - i).getText().toString();
                     String messageType = AccessibilityUtils.isIncomingMessage(nodeInfo, this.getContext()) ? Message.TYPE_RECEIVED : Message.TYPE_SENT;
-                    this.output(new Message(messageType, messageContent, packageName, contactName, System.currentTimeMillis()));
+                    int messageLogTime = AccessibilityUtils.getLogTimeByTextView(nodeInfo, packageName);
+                    this.output(new Message(messageType, messageContent, messageLogTime, packageName, contactName, System.currentTimeMillis()));
                     list.add(messageContent);
                 }
                 dbFacebook.put(contactName, list);

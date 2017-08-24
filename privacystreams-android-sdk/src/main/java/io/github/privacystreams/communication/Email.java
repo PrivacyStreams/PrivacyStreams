@@ -79,4 +79,9 @@ public class Email extends Item {
     public static PStreamProvider asGmailUpdates(long frequency) {
         return new GmailUpdatesProvider(frequency);
     }
+
+    public static PStreamProvider sift(){
+        return new SiftEmail("","");
+    }
+
 }

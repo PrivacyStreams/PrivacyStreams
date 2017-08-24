@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools" >
+    <data>
+        <variable name="dbHelper" type="io.github.privacystreams.app.db.PStreamDBHelper"/>
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_margin="10dp"
+        android:layout_marginBottom="0dp"
+        tools:context="io.github.privacystreams.app.ManageDataFragment">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/dbGeneralInfoTitle"
+            android:text="@string/db_general_info_title"
+            style="?android:attr/listSeparatorTextViewStyle"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="10dp"
+            android:id="@+id/dbGeneralInfoText"
+            android:text="@string/db_general_info_text"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="10dp"
+            android:id="@+id/dbSize"
+            android:text='@{"Current database size: " + (double)(dbHelper.getDBSize()/1024)/1000 + " MB"}'/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tableListTitle"
+            android:text="@string/tables"
+            style="?android:attr/listSeparatorTextViewStyle"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:id="@+id/tableList" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:gravity="end"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/startAllButton"
+                style="@style/ListItemTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:padding="10dp"
+                android:text="@string/start_collecting_all"
+                android:onClick="@{() -> dbHelper.startCollectServiceAll()}" />
+
+            <Button
+                android:id="@+id/stopAllButton"
+                style="@style/ListItemTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:padding="10dp"
+                android:text="@string/stop_collecting_all"
+                android:onClick="@{() -> dbHelper.stopCollectServiceAll()}" />
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/manageDB"
+            android:text="@string/management"
+            style="?android:attr/listSeparatorTextViewStyle" />
+
+        <Button
+            android:id="@+id/dbTest"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/ListItemTextView"
+            android:text="@string/test"
+            android:textAllCaps="false"
+            android:onClick="@{() -> dbHelper.test()}" />
+
+        <Button
+            android:id="@+id/dbBackupButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/ListItemTextView"
+            android:text="@string/backup_data"
+            android:textAllCaps="false"
+            android:onClick="@{() -> dbHelper.backupData()}" />
+
+        <Button
+            android:id="@+id/dbRestoreButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/ListItemTextView"
+            android:text="@string/restore_data"
+            android:textAllCaps="false"
+            android:onClick="@{() -> dbHelper.restoreData()}" />
+
+        <Button
+            android:id="@+id/dbClearButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/ListItemTextView"
+            android:textColor="@color/colorDanger"
+            android:text="@string/clear_all_existing_data"
+            android:textAllCaps="false"
+            android:onClick="@{() -> dbHelper.clearData()}" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="48dp"
+            style="@style/HorizontalDivider" />
+
+    </LinearLayout>
+    </ScrollView>
+</layout>
