@@ -3,6 +3,12 @@ package io.github.privacystreams.communication;
 import android.Manifest;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.util.Log;
+
+import com.easilydo.sift.model.gen.Deal;
+import com.easilydo.sift.model.gen.Order;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.json.JSONObject;
 
@@ -10,16 +16,14 @@ import java.io.BufferedInputStream;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Scanner;
 
 import io.github.privacystreams.core.PStreamProvider;
 import io.github.privacystreams.utils.Logging;
-
-import com.easilydo.sift.model.Sift;
-import com.easilydo.sift.model.Domain;
-import com.easilydo.sift.model.gen.*;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 
 public class SiftEmail extends PStreamProvider{
@@ -81,8 +85,8 @@ public class SiftEmail extends PStreamProvider{
                 Manifest.permission.ACCESS_NETWORK_STATE);
 
         Logging.error("start testself");
-        this.api_key = "feb6159c2f04b44cf03b6d58fe10177c";
-        this.api_secret = "82aea7a170e5eb9648f77ead8c28f81a85f84dc3";
+        this.api_key = "15b6a990b4599c7f6b3deb95cd05307b";
+        this.api_secret = "2bc65281868a4a2ce6c83931cd91497f5deabc80";
         signatory = new Signatory(api_secret);
         addUser("whatever","en_US");
         while(user_id == 0);
@@ -284,54 +288,61 @@ public class SiftEmail extends PStreamProvider{
                         siftinfo = responseJson.get("result").toString();
                         JsonNode root = objectMapper.readTree(responseString);
                         JsonNode result = root.get("result");
-                        JsonNode payload = result.has("@type") ? result : result.get("payload");
-                        String type = payload.get("@type").textValue();
-                        if(type.startsWith("x-")) {
-                            type = type.substring(2);
-                            Logging.error("type is:"+type);
-                        }
-                        else{
-                            Logging.error("type is:"+type);
-                        }
-                        if(type != null){
+                       for(JsonNode each: result){
+                            Log.e("---------","---------------");
+                            JsonNode payload = result.has("@type") ? each : each.get("payload");
+                            String type = payload.get("@type").textValue();
+                            if(type.startsWith("x-")) {
+                                type = type.substring(2);
+                                Logging.error("type is:"+type);
+                            }
+                            else{
+                                Logging.error("type is:"+type);
+                            }
                             switch(type){
+                                case "Contact":
+                                    com.easilydo.sift.model.gen.Contact contact = (com.easilydo.sift.model.gen.Contact) objectMapper.treeToValue(payload, Class.forName("com.easilydo.sift.model.gen." + type));
+                                    Log.e("contact",contact.getContacts().get(0).getEmail());
                                 case "Unknown":
                                     break;
                                 case "Order":
                                     Logging.error("cast to order");
                                     Order order = (Order) objectMapper.treeToValue(payload, Class.forName("com.easilydo.sift.model.gen." + type));
+                                    Log.e("order",order.getOrderNumber());
                                     break;
                                 case "Deal":
                                     Logging.error("cast to deal");
                                     Deal deal = (Deal) objectMapper.treeToValue(payload, Class.forName("com.easilydo.sift.model.gen." + type));
+                                    Log.e("deal",deal.toString());
                                     break;
                                 default:
                                     Logging.error("unknown type");
-                                    /*
-                                case "ParcelDelivery":
-                                    Order order = (Order) objectMapper.treeToValue(payload, Class.forName("com.easilydo.sift.model.gen." + type));
-                                    break;
-                                case "order":
-                                    Order order = (Order) objectMapper.treeToValue(payload, Class.forName("com.easilydo.sift.model.gen." + type));
-                                    break;
-                                case "order":
-                                    Order order = (Order) objectMapper.treeToValue(payload, Class.forName("com.easilydo.sift.model.gen." + type));
-                                    break;
-                                case "order":
-                                    Order order = (Order) objectMapper.treeToValue(payload, Class.forName("com.easilydo.sift.model.gen." + type));
-                                    break;
-                                case "order":
-                                    Order order = (Order) objectMapper.treeToValue(payload, Class.forName("com.easilydo.sift.model.gen." + type));
-                                    break;
-                                case "order":
-                                    Order order = (Order) objectMapper.treeToValue(payload, Class.forName("com.easilydo.sift.model.gen." + type));
-                                    break;
-                                case "order":
-                                    Order order = (Order) objectMapper.treeToValue(payload, Class.forName("com.easilydo.sift.model.gen." + type));
-                                    break;
-                                */
+                                /*
+                            case "ParcelDelivery":
+                                Order order = (Order) objectMapper.treeToValue(payload, Class.forName("com.easilydo.sift.model.gen." + type));
+                                break;
+                            case "order":
+                                Order order = (Order) objectMapper.treeToValue(payload, Class.forName("com.easilydo.sift.model.gen." + type));
+                                break;
+                            case "order":
+                                Order order = (Order) objectMapper.treeToValue(payload, Class.forName("com.easilydo.sift.model.gen." + type));
+                                break;
+                            case "order":
+                                Order order = (Order) objectMapper.treeToValue(payload, Class.forName("com.easilydo.sift.model.gen." + type));
+                                break;
+                            case "order":
+                                Order order = (Order) objectMapper.treeToValue(payload, Class.forName("com.easilydo.sift.model.gen." + type));
+                                break;
+                            case "order":
+                                Order order = (Order) objectMapper.treeToValue(payload, Class.forName("com.easilydo.sift.model.gen." + type));
+                                break;
+                            case "order":
+                                Order order = (Order) objectMapper.treeToValue(payload, Class.forName("com.easilydo.sift.model.gen." + type));
+                                break;
+                            */
                             }
                         }
+
                     } catch (Exception e) {
                         Logging.error("parse json failed for list sifts");
                         Logging.error("exception is" + e.getMessage());
