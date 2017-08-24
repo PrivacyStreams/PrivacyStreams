@@ -212,9 +212,9 @@ public class SiftEmail extends PStreamProvider{
 
 
     private String generateUrl(String path, HashMap<String,Object> params){
-        String base = new String(domain);
+        String base = domain;
         base += path + "?";
-        List<String> keys = new ArrayList<String>(params.keySet());
+        List<String> keys = new ArrayList<>(params.keySet());
         boolean notFirst = false;
         for(String key : keys){
             if(notFirst){
@@ -384,9 +384,9 @@ public class SiftEmail extends PStreamProvider{
         }
 
         @Override
-        protected  void onPostExecute(String lastProcess){
-            Logging.error("last step is: "+ lastProcess);
-            switch(lastProcess){
+        protected  void onPostExecute(String lastStatus){
+            Logging.error("last step is: "+ lastStatus);
+            switch(lastStatus){
                 case USERID:
                     getConnectToken(userName);
                     break;

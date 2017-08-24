@@ -75,6 +75,7 @@ dependencies {
     provided('com.google.apis:google-api-services-gmail:v1-rev29-1.20.0') {
         exclude group: 'org.apache.httpcomponents'
     }
+    provided 'org.glassfish:javax.annotation:10.0-b28'
     compile 'com.easilydo:sift-sdk:1.0.0'
     provided 'com.sun.mail:android-mail:1.5.5'
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
