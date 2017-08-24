@@ -319,7 +319,9 @@ public class SiftEmail extends PStreamProvider{
                                     break;
                                 case "Deal":
                                     Logging.error("cast to deal");
-                                    Deal deal = (Deal) objectMapper.treeToValue(payload, Class.forName("io.github.privacystreams.communication.emailinfo." + type));
+                                    Logging.error(each.toString() );
+                                    Deal deal = (Deal) objectMapper.treeToValue(payload,
+                                            Class.forName("io.github.privacystreams.communication.emailinfo." + type));
                                     Log.e("deal",deal.toString());
                                     break;
 
