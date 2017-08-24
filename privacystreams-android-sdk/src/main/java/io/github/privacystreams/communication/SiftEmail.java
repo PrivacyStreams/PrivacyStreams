@@ -308,7 +308,7 @@ public class SiftEmail extends PStreamProvider{
 
                             switch(type){
                                 case "Contact":
-                                    io.github.privacystreams.communication.emailinfo.Contact contact = (io.github.privacystreams.communication.emailinfo.Contact) objectMapper.treeToValue(payload, Class.forName("com.easilydo.sift.model.gen." + type));
+                                    io.github.privacystreams.communication.emailinfo.Contact contact = (io.github.privacystreams.communication.emailinfo.Contact) objectMapper.treeToValue(payload, Class.forName("io.github.privacystreams.communication.emailinfo." + type));
                                     Log.e("contact",contact.getContacts().get(0).getEmail());
                                 case "Unknown":
                                     break;
@@ -327,29 +327,7 @@ public class SiftEmail extends PStreamProvider{
 
                                 default:
                                     Logging.error("unknown type");
-                                /*
-                            case "ParcelDelivery":
-                                Order order = (Order) objectMapper.treeToValue(payload, Class.forName("com.easilydo.sift.model.gen." + type));
-                                break;
-                            case "order":
-                                Order order = (Order) objectMapper.treeToValue(payload, Class.forName("com.easilydo.sift.model.gen." + type));
-                                break;
-                            case "order":
-                                Order order = (Order) objectMapper.treeToValue(payload, Class.forName("com.easilydo.sift.model.gen." + type));
-                                break;
-                            case "order":
-                                Order order = (Order) objectMapper.treeToValue(payload, Class.forName("com.easilydo.sift.model.gen." + type));
-                                break;
-                            case "order":
-                                Order order = (Order) objectMapper.treeToValue(payload, Class.forName("com.easilydo.sift.model.gen." + type));
-                                break;
-                            case "order":
-                                Order order = (Order) objectMapper.treeToValue(payload, Class.forName("com.easilydo.sift.model.gen." + type));
-                                break;
-                            case "order":
-                                Order order = (Order) objectMapper.treeToValue(payload, Class.forName("com.easilydo.sift.model.gen." + type));
-                                break;
-                            */
+
                             }
                         }
 
