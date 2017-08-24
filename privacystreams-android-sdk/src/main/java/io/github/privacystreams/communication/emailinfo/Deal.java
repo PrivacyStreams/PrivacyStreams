@@ -1,8 +1,6 @@
 package io.github.privacystreams.communication.emailinfo;
 
 
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
-import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -11,17 +9,14 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
-
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Generated;
 
 
 /**
- * Contact
+ * Deal
  * <p>
  *
  *
@@ -29,37 +24,37 @@ import javax.annotation.Generated;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
-        "contacts"
+        "isDeal",
 })
-public class Contact extends Sift {
+public class Deal extends Sift {
 
-    @JsonProperty("contacts")
-    private List<Person> mContacts = new ArrayList<Person>();
+    @JsonProperty("isDeal")
+    private Boolean isDeal;
     @JsonIgnore
-    private Map<String, Object> mAdditionalProperties = new HashMap<String, Object>();
+    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     public Domain getDomain() {
-        return Domain.CONTACT;
+        return Domain.DEAL;
     }
 
     /**
      *
      * @return
-     *     The contacts
+     *     The isDeal
      */
-    @JsonProperty("contacts")
-    public List<Person> getContacts() {
-        return mContacts;
+    @JsonProperty("isDeal")
+    public Boolean getIsDeal() {
+        return isDeal;
     }
 
     /**
      *
-     * @param contacts
-     *     The contacts
+     * @param isDeal
+     *     The isDeal
      */
-    @JsonProperty("contacts")
-    public void setContacts(List<Person> contacts) {
-        this.mContacts = contacts;
+    @JsonProperty("isDeal")
+    public void setIsDeal(Boolean isDeal) {
+        this.isDeal = isDeal;
     }
 
     @Override
@@ -67,19 +62,19 @@ public class Contact extends Sift {
         return ToStringBuilder.reflectionToString(this);
     }
 
-    @JsonAnyGetter
+    @JsonIgnore
     public Map<String, Object> getAdditionalProperties() {
-        return this.mAdditionalProperties;
+        return this.additionalProperties;
     }
 
-    @JsonAnySetter
+    @JsonIgnore
     public void setAdditionalProperty(String name, Object value) {
-        this.mAdditionalProperties.put(name, value);
+        this.additionalProperties.put(name, value);
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(mContacts).append(mAdditionalProperties).toHashCode();
+        return new HashCodeBuilder().append(isDeal).append(additionalProperties).toHashCode();
     }
 
     @Override
@@ -87,11 +82,11 @@ public class Contact extends Sift {
         if (other == this) {
             return true;
         }
-        if ((other instanceof Contact) == false) {
+        if ((other instanceof Deal) == false) {
             return false;
         }
-        Contact rhs = ((Contact) other);
-        return new EqualsBuilder().append(mContacts, rhs.mContacts).append(mAdditionalProperties, rhs.mAdditionalProperties).isEquals();
+        Deal rhs = ((Deal) other);
+        return new EqualsBuilder().append(isDeal, rhs.isDeal).append(additionalProperties, rhs.additionalProperties).isEquals();
     }
 
 }
