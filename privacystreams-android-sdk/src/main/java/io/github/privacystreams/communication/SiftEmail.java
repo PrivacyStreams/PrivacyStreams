@@ -306,6 +306,7 @@ public class SiftEmail extends PStreamProvider{
                                 Logging.error("type is:"+type);
                             }
 
+                            Logging.error("payload:"+payload.toString());
                             switch(type){
                                 case "Contact":
                                     io.github.privacystreams.communication.emailinfo.Contact contact = (io.github.privacystreams.communication.emailinfo.Contact) objectMapper.treeToValue(payload, Class.forName("io.github.privacystreams.communication.emailinfo." + type));
@@ -319,7 +320,6 @@ public class SiftEmail extends PStreamProvider{
                                     break;
                                 case "Deal":
                                     Logging.error("cast to deal");
-                                    Logging.error(each.toString() );
                                     Deal deal = (Deal) objectMapper.treeToValue(payload,
                                             Class.forName("io.github.privacystreams.communication.emailinfo." + type));
                                     Log.e("deal",deal.toString());

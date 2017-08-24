@@ -24,7 +24,7 @@ import javax.annotation.Generated;
  *
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonIgnoreProperties
+@JsonIgnoreProperties(ignoreUnknown = true)
 @Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
         "isDeal",
