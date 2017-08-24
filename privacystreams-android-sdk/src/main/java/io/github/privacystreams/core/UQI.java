@@ -28,12 +28,17 @@ public class UQI {
     }
 
     private transient Context context;
+
     public Context getContext() {
         return this.context;
     }
-    public void setContext(Context context) { this.context = context; }
+
+    public void setContext(Context context) {
+        this.context = context;
+    }
 
     private transient PSException exception;
+
     public PSException getException() {
         return exception;
     }
@@ -48,9 +53,10 @@ public class UQI {
      * Get a PStream from a provider with a purpose.
      * For example, using `uqi.getData(Contact.getLogs(), Purpose.FEATURE("..."))`
      * will return a stream of contacts.
+     *
      * @param pStreamProvider the function to provide the personal data stream,
      *                        e.g. Geolocation.asUpdates().
-     * @param purpose the purpose of personal data use, e.g. Purpose.ADS("xxx").
+     * @param purpose         the purpose of personal data use, e.g. Purpose.ADS("xxx").
      * @return a multi-item stream
      */
     public PStream getData(PStreamProvider pStreamProvider, Purpose purpose) {
@@ -75,6 +81,7 @@ public class UQI {
 
     /**
      * Reuse a PStream.
+     *
      * @param stream the stream to reuse.
      */
     void reuse(PStream stream, int numOfReuses) {
@@ -120,13 +127,11 @@ public class UQI {
             boolean reused = this.tryReuse(query);
             if (!reused) query.apply(this, null);
             Logging.debug("Evaluated.");
-        }
-        else if (retry) {
+        } else if (retry) {
             // If retry is true, try to request permissions
             Logging.debug("Permission denied, retrying...");
             PermissionUtils.requestPermissionAndEvaluate(this, query);
-        }
-        else {
+        } else {
             // If retry is false, cancel all functions.
             Logging.debug("Permission denied, cancelling...");
             Set<String> deniedPermissions = PermissionUtils.getDeniedPermissions(this.context, query.getRequiredPermissions());

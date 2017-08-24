@@ -26,13 +26,13 @@ public class StepCounter extends Item {
 
     /**
      * Provide a live stream of sensor readings from the step counter.
+     *
      * @return the provider.
      */
-    public static PStreamProvider asUpdates(int sensorDelay){
+    public static PStreamProvider asUpdates(int sensorDelay) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             return new StepCounterUpdatesProvider(sensorDelay);
-        }
-        else {
+        } else {
             Logging.warn("Step counter requires SDK version above 19.");
             return null;
         }

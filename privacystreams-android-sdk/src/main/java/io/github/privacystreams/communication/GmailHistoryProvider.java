@@ -3,7 +3,8 @@ package io.github.privacystreams.communication;
 import com.google.api.services.gmail.Gmail;
 
 /**
- * This is the provider that can query the time from a certain time period, which is for one time using.
+ * This is the provider that can query the time from a certain time period,
+ * which is for one time using.
  */
 
 class GmailHistoryProvider extends BaseGmailProvider {
@@ -29,7 +30,7 @@ class GmailHistoryProvider extends BaseGmailProvider {
     @Override
     protected void provide() {
         super.provide();
-        if(authorized){
+        if (authorized) {
             new FetchEmailTask().execute(buildTimeQuery(mBegin, mEnd));
         }
     }

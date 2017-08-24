@@ -4,7 +4,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.service.notification.StatusBarNotification;
 import android.support.annotation.RequiresApi;
-import android.text.SpannableString;
 
 import io.github.privacystreams.core.Item;
 import io.github.privacystreams.core.PStreamProvider;
@@ -31,9 +30,13 @@ public class Notification extends Item {
     @PSItemField(type = String.class)
     public static final String ACTION = "action";
 
-    /** Notification removed action. */
+    /**
+     * Notification removed action.
+     */
     public static final String ACTION_REMOVED = "removed";
-    /** Notification posted action. */
+    /**
+     * Notification posted action.
+     */
     public static final String ACTION_POSTED = "posted";
 
     /**
@@ -77,6 +80,7 @@ public class Notification extends Item {
     public static final String EXTRA = "extra";
 
     private String contactName = null;
+
     Notification(long postTime, String packageName, String category, String title, String text, String action) {
         this.setFieldValue(POST_TIME, postTime);
         this.setFieldValue(PACKAGE_NAME, packageName);
@@ -99,19 +103,21 @@ public class Notification extends Item {
                 this.setFieldValue(CATEGORY, category);
             }
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
-                    String title = "" + mNotification.extras.getCharSequence(android.app.Notification.EXTRA_TITLE);
-                    this.setFieldValue(TITLE, title);
-                    String text = "" + mNotification.extras.getCharSequence(android.app.Notification.EXTRA_TEXT);
-                    this.setFieldValue(TEXT, text);
-                    String subText = "" + mNotification.extras.getCharSequence(android.app.Notification.EXTRA_SUB_TEXT);
-                    this.setFieldValue(SUB_TEXT, subText);
-                    this.setFieldValue(EXTRA,mNotification.extras);
+
+                String title = "" + mNotification.extras.getCharSequence(android.app.Notification.EXTRA_TITLE);
+                this.setFieldValue(TITLE, title);
+                String text = "" + mNotification.extras.getCharSequence(android.app.Notification.EXTRA_TEXT);
+                this.setFieldValue(TEXT, text);
+                String subText = "" + mNotification.extras.getCharSequence(android.app.Notification.EXTRA_SUB_TEXT);
+                this.setFieldValue(SUB_TEXT, subText);
+                this.setFieldValue(EXTRA,mNotification.extras);
             }
         }
     }
 
     /**
      * Provide a list of Notification items from Notification catch result.
+     *
      * @return the provider function.
      */
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)

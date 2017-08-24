@@ -28,7 +28,7 @@ public class BluetoothDevice extends Item {
     @PSItemField(type = Boolean.class)
     public static final String BONDED = "bonded";
 
-    BluetoothDevice(android.bluetooth.BluetoothDevice scannedDevice){
+    BluetoothDevice(android.bluetooth.BluetoothDevice scannedDevice) {
         this.setFieldValue(NAME, scannedDevice.getName());
         this.setFieldValue(MAC_ADDRESS, scannedDevice.getAddress());
         this.setFieldValue(BONDED, scannedDevice.getBondState());

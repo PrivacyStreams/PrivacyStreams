@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -56,7 +57,7 @@ public class PSPermissionActivity extends Activity {
             public void handleMessage(Message msg) {
                 int requestCode = msg.what;
                 Pair<UQI, Function<Void, Void>> uqiQuery = PermissionUtils.pendingUQIQueries.get(requestCode);
-                if(uqiQuery != null) {
+                if (uqiQuery != null) {
                     PSPermissionActivity.this.requestCode = requestCode;
                     PSPermissionActivity.this.requestedPermissions = new HashSet<>(uqiQuery.second.getRequiredPermissions());
                     PSPermissionActivity.this.requestPermissions();
@@ -78,8 +79,7 @@ public class PSPermissionActivity extends Activity {
                 if (curRequestCode == requestCode) {
                     try {
                         Thread.sleep(100);
-                    }
-                    catch (InterruptedException e) {
+                    } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
                     continue;
@@ -100,8 +100,7 @@ public class PSPermissionActivity extends Activity {
             int newRequestCode = (int) intent.getSerializableExtra(REQUEST_CODE);
             requestList.add(newRequestCode);
             Logging.debug("New permission request: " + newRequestCode);
-        }
-        else {
+        } else {
             // Shouldn't be here
             Logging.warn("PSPermissionActivity started without an intent.");
             Intent result = new Intent();
@@ -120,7 +119,9 @@ public class PSPermissionActivity extends Activity {
     }
 
     private void requestPermissions() {
-        if (requestedPermissions.contains(PermissionUtils.USE_ACCESSIBILITY_SERVICE)) {
+        // Starting API 5
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ECLAIR
+                && requestedPermissions.contains(PermissionUtils.USE_ACCESSIBILITY_SERVICE)) {
             requestedPermissions.remove(PermissionUtils.USE_ACCESSIBILITY_SERVICE);
             if (!PSAccessibilityService.enabled) {
                 boolean accessibilityEnabled = this.getResources().getBoolean(R.bool.ps_accessibility_enabled);
@@ -139,7 +140,10 @@ public class PSPermissionActivity extends Activity {
                 }
             }
         }
-        if (requestedPermissions.contains(PermissionUtils.USE_NOTIFICATION_SERVICE)) {
+
+        // Starting API 22
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1
+                && requestedPermissions.contains(PermissionUtils.USE_NOTIFICATION_SERVICE)) {
             requestedPermissions.remove(PermissionUtils.USE_NOTIFICATION_SERVICE);
             if (!PSNotificationListenerService.enabled) {
                 boolean notificationEnabled = this.getResources().getBoolean(R.bool.ps_notification_enabled);
@@ -157,12 +161,15 @@ public class PSPermissionActivity extends Activity {
                 }
             }
         }
-        if (!requestedPermissions.isEmpty()) {
-            ActivityCompat.requestPermissions(PSPermissionActivity.this,
-                    requestedPermissions.toArray(new String[requestedPermissions.size()]), requestCode);
-        }
-        else {
-            this.retry();
+
+        // Starting API 23
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (!requestedPermissions.isEmpty()) {
+                ActivityCompat.requestPermissions(PSPermissionActivity.this,
+                        requestedPermissions.toArray(new String[requestedPermissions.size()]), requestCode);
+            } else {
+                this.retry();
+            }
         }
     }
 

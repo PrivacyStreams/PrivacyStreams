@@ -21,6 +21,14 @@ public class Message extends Item {
     public static final String CONTENT = "content";
 
     /**
+     * The hour and minute of day when server achieved the message
+     */
+    @PSItemField(type = int.class)
+    public static final String LOG_TIME = "log_time";
+
+    public static final int LOG_TIME_NA = 9999;
+
+    /**
      * The package name of the app where message is captured.
      * For example, if it is a Facebook message, package_name will be "com.facebook.orca";
      * If it is an SMS message, package_name will be "system".
@@ -33,6 +41,7 @@ public class Message extends Item {
      */
     @PSItemField(type = String.class)
     public static final String CONTACT = "contact";
+
 
     /**
      * The timestamp of when the message is sent or received.
@@ -52,9 +61,19 @@ public class Message extends Item {
     public static final String TYPE_PENDING = "pending";
     public static final String TYPE_UNKNOWN = "unknown";
 
-    Message(String type, String content, String packageName, String contact, long timestamp){
+    Message(String type, String content, String packageName, String contact, long timestamp) {
         this.setFieldValue(TYPE, type);
         this.setFieldValue(CONTENT, content);
+        this.setFieldValue(LOG_TIME, LOG_TIME_NA);
+        this.setFieldValue(PACKAGE_NAME, packageName);
+        this.setFieldValue(CONTACT, contact);
+        this.setFieldValue(TIMESTAMP, timestamp);
+    }
+
+    Message(String type, String content, int logTime, String packageName, String contact, long timestamp) {
+        this.setFieldValue(TYPE, type);
+        this.setFieldValue(CONTENT, content);
+        this.setFieldValue(LOG_TIME, logTime);
         this.setFieldValue(PACKAGE_NAME, packageName);
         this.setFieldValue(CONTACT, contact);
         this.setFieldValue(TIMESTAMP, timestamp);
@@ -67,8 +86,8 @@ public class Message extends Item {
      * @return the provider function
      */
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
-    public static PStreamProvider asUpdatesInIM(){
-        return new IMUpdatesProvider();
+    public static PStreamProvider asUpdatesInIM() {
+        return new IMUIUpdatesProvider();
     }
 
     /**

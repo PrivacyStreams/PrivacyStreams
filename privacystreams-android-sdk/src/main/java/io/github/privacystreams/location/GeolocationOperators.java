@@ -24,9 +24,9 @@ public class GeolocationOperators {
      * Check if the coordinates specified by a LatLon field is a location in an given circular region.
      *
      * @param latLonField the LatLon field to check
-     * @param centerLat latitude of the center of the area
-     * @param centerLng longitude of the center of the area
-     * @param radius radius of the region, in meters
+     * @param centerLat   latitude of the center of the area
+     * @param centerLng   longitude of the center of the area
+     * @param radius      radius of the region, in meters
      * @return the function
      */
     public static Function<Item, Boolean> inCircle(String latLonField,
@@ -38,10 +38,10 @@ public class GeolocationOperators {
      * Check if the coordinates specified by a LatLon field is a location in an given square region.
      *
      * @param latLonField the LatLon field to check
-     * @param minLat the minimum latitude of the region
-     * @param minLng the minimum longitude of the region
-     * @param maxLat the maximum latitude of the region
-     * @param maxLng the maximum longitude of the region
+     * @param minLat      the minimum latitude of the region
+     * @param minLng      the minimum longitude of the region
+     * @param maxLat      the maximum latitude of the region
+     * @param maxLng      the maximum longitude of the region
      * @return the function
      */
     public static Function<Item, Boolean> inSquare(String latLonField,
@@ -54,7 +54,7 @@ public class GeolocationOperators {
      * The distorted coordinates is an instance of `LatLon` class.
      *
      * @param latLonField the coordinates field to distort
-     * @param radius the distance to distort, in meters
+     * @param radius      the distance to distort, in meters
      * @return the function
      */
     public static Function<Item, LatLon> distort(String latLonField, double radius) {

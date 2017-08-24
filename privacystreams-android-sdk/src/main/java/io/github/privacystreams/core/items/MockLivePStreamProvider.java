@@ -31,8 +31,7 @@ class MockLivePStreamProvider extends PStreamProvider {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-            }
-            else {
+            } else {
                 break;
             }
         }

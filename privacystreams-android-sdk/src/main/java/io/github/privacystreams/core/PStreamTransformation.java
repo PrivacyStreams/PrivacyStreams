@@ -19,8 +19,7 @@ public abstract class PStreamTransformation extends EventDrivenFunction<PStream,
         }
         if (this.output.isClosed()) {
             if (!this.isCancelled) this.cancel(this.getUQI());
-        }
-        else this.output.write(item, this);
+        } else this.output.write(item, this);
     }
 
     @Subscribe

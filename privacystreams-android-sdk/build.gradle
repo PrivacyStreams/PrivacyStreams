@@ -3,6 +3,7 @@ plugins {
     id "com.github.dcendents.android-maven" version "1.5"
 }
 
+apply plugin: 'maven-publish'
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 
@@ -33,7 +34,7 @@ ext {
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "25.0.3"
+    buildToolsVersion "26.0.0"
     defaultConfig {
         minSdkVersion 16
         targetSdkVersion 25
@@ -59,20 +60,22 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     testCompile 'junit:junit:4.12'
-
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'org.greenrobot:eventbus:3.0.0'
-
     // third-party packages
     provided 'com.dropbox.core:dropbox-core-sdk:2.1.1'
     provided 'com.google.android.gms:play-services:10.2.4'
-    provided ('com.google.api-client:google-api-client-android:1.20.0') {
+    provided('com.google.api-client:google-api-client-android:1.20.0') {
         exclude group: 'org.apache.httpcomponents'
     }
-    provided ('com.google.apis:google-api-services-gmail:v1-rev29-1.20.0') {
+    provided('com.google.apis:google-api-services-drive:v3-rev76-1.22.0') {
         exclude group: 'org.apache.httpcomponents'
     }
+    provided('com.google.apis:google-api-services-gmail:v1-rev29-1.20.0') {
+        exclude group: 'org.apache.httpcomponents'
+    }
+    compile 'com.easilydo:sift-sdk:1.0.0'
+    provided 'com.sun.mail:android-mail:1.5.5'
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
 }
 
@@ -186,6 +189,4 @@ bintray {
         }
     }
 }
-repositories {
-    mavenCentral()
-}
+

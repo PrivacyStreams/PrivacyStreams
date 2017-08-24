@@ -10,10 +10,10 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
-import android.util.Log;
 
-import io.github.privacystreams.core.UQI;
 import io.github.privacystreams.core.PStreamProvider;
+import io.github.privacystreams.core.UQI;
+import io.github.privacystreams.utils.Logging;
 
 
 /**
@@ -22,16 +22,20 @@ import io.github.privacystreams.core.PStreamProvider;
 @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
 class WifiApListProvider extends PStreamProvider {
 
-    class WifiReceiver extends BroadcastReceiver
-    {
+    class WifiReceiver extends BroadcastReceiver {
         @Override
-        public void onReceive(Context context, Intent intent)
-        {
-            WifiManager wifiMgr = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+        public void onReceive(Context context, Intent intent) {
+            WifiManager wifiMgr = (WifiManager) context.getApplicationContext()
+                    .getSystemService(Context.WIFI_SERVICE);
             WifiInfo wifiInfo = wifiMgr.getConnectionInfo();
-            String name = wifiInfo.getSSID();
-            for(ScanResult result: wifiMgr.getScanResults()){
-                WifiApListProvider.this.output(new WifiAp(result, name.equals(result.SSID)));
+            String name = wifiInfo.getBSSID();
+            for (ScanResult result : wifiMgr.getScanResults()) {
+
+                if (name.equals(result.BSSID)) {
+                    WifiApListProvider.this.output(new WifiAp(result, WifiAp.STATUS_CONNECTED));
+                } else {
+                    WifiApListProvider.this.output(new WifiAp(result, WifiAp.STATUS_SCANNED));
+                }
             }
             WifiApListProvider.this.finish();
         }
@@ -40,11 +44,14 @@ class WifiApListProvider extends PStreamProvider {
     @Override
     protected void onCancel(UQI uqi) {
         super.onCancel(uqi);
-        try {
-            getContext().unregisterReceiver(wifiReceiver);
+        if (wifiReceiver != null) {
+            try {
+                getContext().unregisterReceiver(wifiReceiver);
+            } catch (IllegalArgumentException exception) {
+                Logging.warn("The following exception has been thrown: " + exception.getMessage());
+            }
         }
-        catch (Exception ignored) {
-        }
+
     }
 
     private transient WifiReceiver wifiReceiver;
@@ -61,15 +68,14 @@ class WifiApListProvider extends PStreamProvider {
     @Override
     protected void provide() {
 
-        WifiManager wifiMgr = (WifiManager) this.getContext().getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+        WifiManager wifiMgr = (WifiManager) this.getContext().getApplicationContext()
+                .getSystemService(Context.WIFI_SERVICE);
 
-        if(wifiMgr.isWifiEnabled()) {
-            Log.e("wifi","enabled");
-            this.getContext().registerReceiver(this.wifiReceiver, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
+        if (wifiMgr.isWifiEnabled()) {
+            this.getContext().registerReceiver
+                    (this.wifiReceiver, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
             wifiMgr.startScan();
-        }
-        else{
-            Log.e("wifi","not enabled");
+        } else {
             this.finish();
         }
 

@@ -23,9 +23,10 @@ public class AirPressure extends Item {
 
     /**
      * Provide a live stream of sensor readings from air pressure sensor.
+     *
      * @return the provider.
      */
-    public static PStreamProvider asUpdates(int sensorDelay){
+    public static PStreamProvider asUpdates(int sensorDelay) {
         return new AirPressureUpdatesProvider(sensorDelay);
     }
 }

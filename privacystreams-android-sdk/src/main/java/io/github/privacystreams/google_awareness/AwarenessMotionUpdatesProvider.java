@@ -7,11 +7,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
-import android.util.Log;
 
-import io.github.privacystreams.core.BuildConfig;
-import io.github.privacystreams.core.UQI;
-import io.github.privacystreams.core.PStreamProvider;
 import com.google.android.gms.awareness.Awareness;
 import com.google.android.gms.awareness.fence.AwarenessFence;
 import com.google.android.gms.awareness.fence.DetectedActivityFence;
@@ -20,6 +16,11 @@ import com.google.android.gms.awareness.fence.FenceUpdateRequest;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
+
+import io.github.privacystreams.core.BuildConfig;
+import io.github.privacystreams.core.PStreamProvider;
+import io.github.privacystreams.core.UQI;
+import io.github.privacystreams.utils.Logging;
 
 
 /**
@@ -34,7 +35,8 @@ class AwarenessMotionUpdatesProvider extends PStreamProvider {
             mWrappedHandler = wrappedHandler;
         }
 
-        @Override public void uncaughtException(Thread t, Throwable e) {
+        @Override
+        public void uncaughtException(Thread t, Throwable e) {
 
             if (e instanceof SecurityException &&
                     e.getMessage().contains("Invalid API Key for package")) {
@@ -51,7 +53,7 @@ class AwarenessMotionUpdatesProvider extends PStreamProvider {
     private static final String TILTINGFENCE = "Tilting Fence";
     private static final String ONFOOTFENCE = "On Foot Fence";
     private static final String RUNNINGFENCE = "Running Fence";
-    private final String FENCE_RECEIVER_ACTION = BuildConfig.APPLICATION_ID+ "FENCE_RECEIVER_ACTION";
+    private final String FENCE_RECEIVER_ACTION = BuildConfig.APPLICATION_ID + "FENCE_RECEIVER_ACTION";
     private PendingIntent myPendingIntent;
     private GoogleApiClient client;                                                 //While using google awarenesss, a google api client is needed for connection
     private FenceReceiver myFenceReceiver;
@@ -75,24 +77,24 @@ class AwarenessMotionUpdatesProvider extends PStreamProvider {
 //            }
 //        });
 
-            client = new GoogleApiClient.Builder(getContext())                              //Establish Connection
-                    .addApi(Awareness.API)
-                    .build();
-            client.connect();
-            walkingFence = DetectedActivityFence.during(DetectedActivityFence.WALKING);     //Create Fence
-            tiltingFence = DetectedActivityFence.during(DetectedActivityFence.TILTING);
-            onFootFence = DetectedActivityFence.during(DetectedActivityFence.ON_FOOT);
-            runningFence = DetectedActivityFence.during(DetectedActivityFence.RUNNING);
+        client = new GoogleApiClient.Builder(getContext())                              //Establish Connection
+                .addApi(Awareness.API)
+                .build();
+        client.connect();
+        walkingFence = DetectedActivityFence.during(DetectedActivityFence.WALKING);     //Create Fence
+        tiltingFence = DetectedActivityFence.during(DetectedActivityFence.TILTING);
+        onFootFence = DetectedActivityFence.during(DetectedActivityFence.ON_FOOT);
+        runningFence = DetectedActivityFence.during(DetectedActivityFence.RUNNING);
 
-            intent = new Intent(FENCE_RECEIVER_ACTION);                                     //Set up the intent and intent filter
-            myFillter = new IntentFilter(FENCE_RECEIVER_ACTION);
-            myPendingIntent = PendingIntent.getBroadcast(getContext(), 0, intent, 0);           //Set up the pendingIntent
-            myFenceReceiver = new FenceReceiver();                                              //Set up the receiver
-            getContext().registerReceiver(myFenceReceiver, myFillter);
-            registerFence(WALKINGFENCE, walkingFence);                                       //register the fences
-            registerFence(TILTINGFENCE, tiltingFence);
-            registerFence(ONFOOTFENCE, onFootFence);
-            registerFence(RUNNINGFENCE, runningFence);
+        intent = new Intent(FENCE_RECEIVER_ACTION);                                     //Set up the intent and intent filter
+        myFillter = new IntentFilter(FENCE_RECEIVER_ACTION);
+        myPendingIntent = PendingIntent.getBroadcast(getContext(), 0, intent, 0);           //Set up the pendingIntent
+        myFenceReceiver = new FenceReceiver();                                              //Set up the receiver
+        getContext().registerReceiver(myFenceReceiver, myFillter);
+        registerFence(WALKINGFENCE, walkingFence);                                       //register the fences
+        registerFence(TILTINGFENCE, tiltingFence);
+        registerFence(ONFOOTFENCE, onFootFence);
+        registerFence(RUNNINGFENCE, runningFence);
     }
 
     // Register the fence and add it to the pending intent
@@ -105,10 +107,8 @@ class AwarenessMotionUpdatesProvider extends PStreamProvider {
                 .setResultCallback(new ResultCallback<Status>() {
                     @Override
                     public void onResult(@NonNull Status status) {
-                        if (status.isSuccess()) {
-                            Log.e(fenceKey, "Fence was successfully registered.");
-                        } else {
-                            Log.e(fenceKey, "Fence could not be registered: " + status);
+                        if (!status.isSuccess()) {
+                            Logging.error("Fence could not be registered: " + status);
                         }
                     }
                 });
@@ -118,12 +118,10 @@ class AwarenessMotionUpdatesProvider extends PStreamProvider {
         @Override
         public void onReceive(Context context, Intent intent) {
 
-            if(TextUtils.equals(FENCE_RECEIVER_ACTION,intent.getAction())){    //Check if is the desired action that we are looking for
+            if (TextUtils.equals(FENCE_RECEIVER_ACTION, intent.getAction())) {    //Check if is the desired action that we are looking for
                 FenceState fenceState = FenceState.extract(intent);
                 switch (fenceState.getCurrentState()) {                         //Check the state info incase some error happened
                     case FenceState.TRUE:
-                        Log.e(fenceState.getFenceKey(), "Active");
-
                         // When new motion has been detected, output a new physical activity
                         output(new AwarenessMotion(System.currentTimeMillis(), fenceState.getFenceKey()));
                         break;
@@ -131,6 +129,7 @@ class AwarenessMotionUpdatesProvider extends PStreamProvider {
             }
         }
     }
+
     //Method for unregister all of the fences added
     protected void unregisterFence(final String fenceKey) {
         Awareness.FenceApi.updateFences(
@@ -140,11 +139,9 @@ class AwarenessMotionUpdatesProvider extends PStreamProvider {
                         .build()).setResultCallback(new ResultCallback<Status>() {
             @Override
             public void onResult(@NonNull Status status) {
-                if (status.isSuccess()) {
-                    Log.e("Fence", "Fence " + fenceKey + " successfully removed.");
+                if (!status.isSuccess()) {
+                    Logging.error("Fence " + fenceKey + " can not be removed.");
 
-                } else {
-                    Log.e("Fence", "Fence " + fenceKey + " can not be removed.");
                 }
             }
         });

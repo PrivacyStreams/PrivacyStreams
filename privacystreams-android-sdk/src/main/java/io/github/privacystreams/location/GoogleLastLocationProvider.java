@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import io.github.privacystreams.core.PStreamProvider;
 import io.github.privacystreams.utils.Assertions;
 import io.github.privacystreams.utils.Logging;
+
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
@@ -30,8 +31,7 @@ class GoogleLastLocationProvider extends PStreamProvider implements
         this.addParameters(level);
         if (Geolocation.LEVEL_EXACT.equals(level)) {
             this.addRequiredPermissions(Manifest.permission.ACCESS_FINE_LOCATION);
-        }
-        else {
+        } else {
             this.addRequiredPermissions(Manifest.permission.ACCESS_COARSE_LOCATION);
         }
     }
@@ -56,8 +56,7 @@ class GoogleLastLocationProvider extends PStreamProvider implements
         Location mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
         if (mLastLocation != null) {
             this.output(new Geolocation(mLastLocation));
-        }
-        else {
+        } else {
             Logging.warn("Fail to get last known location. Can get current location instead.");
         }
         this.finish();

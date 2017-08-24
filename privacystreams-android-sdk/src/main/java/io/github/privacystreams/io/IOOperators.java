@@ -20,8 +20,8 @@ public class IOOperators {
      *
      * @param filePath the output file path
      * @param isPublic whether the file is public. If set to true, will require WRITE_EXTERNAL_STORAGE permission.
-     * @param append whether the object will be appended to the file
-     * @param <Tin> the type of input object
+     * @param append   whether the object will be appended to the file
+     * @param <Tin>    the type of input object
      * @return the function
      */
     // @RequiresPermission(value = Manifest.permission.WRITE_EXTERNAL_STORAGE, conditional = true)
@@ -43,9 +43,9 @@ public class IOOperators {
      * This provider requires `android.permission.WRITE_EXTERNAL_STORAGE` permission.
      *
      * @param filePathGenerator the function to generate the output file path each time
-     * @param isPublic whether the file is public. If set to true, will requires WRITE_EXTERNAL_STORAGE permission.
-     * @param append whether the object will be appended to the file
-     * @param <Tin> the type of input object
+     * @param isPublic          whether the file is public. If set to true, will requires WRITE_EXTERNAL_STORAGE permission.
+     * @param append            whether the object will be appended to the file
+     * @param <Tin>             the type of input object
      * @return the function
      */
     // @RequiresPermission(value = Manifest.permission.WRITE_EXTERNAL_STORAGE, conditional = true)
@@ -60,7 +60,7 @@ public class IOOperators {
      * This provider requires `android.permission.INTERNET` permission.
      *
      * @param filePath the output file path
-     * @param <Tin> the type of input object
+     * @param <Tin>    the type of input object
      * @return the function
      */
     // @RequiresPermission(value = Manifest.permission.INTERNET)
@@ -81,7 +81,7 @@ public class IOOperators {
      * This provider requires `android.permission.INTERNET` permission.
      *
      * @param filePathGenerator the function to generate the output file path each time
-     * @param <Tin> the type of input object
+     * @param <Tin>             the type of input object
      * @return the function
      */
     // @RequiresPermission(value = Manifest.permission.INTERNET)

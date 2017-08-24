@@ -3,21 +3,27 @@ package io.github.privacystreams.test;
 import android.content.Context;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
+import android.util.Log;
+
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 import io.github.privacystreams.accessibility.AccEvent;
 import io.github.privacystreams.accessibility.BrowserSearch;
 import io.github.privacystreams.accessibility.BrowserVisit;
 import io.github.privacystreams.audio.Audio;
 import io.github.privacystreams.audio.AudioOperators;
+import io.github.privacystreams.calendar.CalendarEvent;
 import io.github.privacystreams.commons.arithmetic.ArithmeticOperators;
 import io.github.privacystreams.commons.comparison.Comparators;
 import io.github.privacystreams.commons.item.ItemOperators;
-import io.github.privacystreams.commons.list.ListOperators;
 import io.github.privacystreams.commons.statistic.StatisticOperators;
 import io.github.privacystreams.commons.string.StringOperators;
 import io.github.privacystreams.commons.time.TimeOperators;
 import io.github.privacystreams.communication.Call;
 import io.github.privacystreams.communication.Contact;
+import io.github.privacystreams.communication.Email;
 import io.github.privacystreams.communication.Message;
 import io.github.privacystreams.core.Callback;
 import io.github.privacystreams.core.Function;
@@ -33,25 +39,21 @@ import io.github.privacystreams.device.BluetoothDevice;
 import io.github.privacystreams.device.DeviceEvent;
 import io.github.privacystreams.device.DeviceOperators;
 import io.github.privacystreams.device.WifiAp;
-import io.github.privacystreams.communication.Email;
+import io.github.privacystreams.document.DriveDocument;
 import io.github.privacystreams.image.Image;
 import io.github.privacystreams.image.ImageOperators;
+import io.github.privacystreams.io.IOOperators;
 import io.github.privacystreams.location.Geolocation;
 import io.github.privacystreams.location.GeolocationOperators;
 import io.github.privacystreams.location.LatLon;
 import io.github.privacystreams.notification.Notification;
-import io.github.privacystreams.io.IOOperators;
 import io.github.privacystreams.utils.Duration;
 import io.github.privacystreams.utils.Globals;
-import io.github.privacystreams.utils.IOUtils;
 import io.github.privacystreams.utils.TimeUtils;
-
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
 
 import static io.github.privacystreams.commons.statistic.StatisticOperators.count;
 import static io.github.privacystreams.commons.time.TimeOperators.recent;
+import static io.github.privacystreams.test.R.menu.main;
 
 /**
  * Some show cases of PrivacyStreams
@@ -68,6 +70,7 @@ public class TestCases {
     public void testBlueToothUpdatesProvider() {
         uqi.getData(BluetoothDevice.getScanResults(), Purpose.FEATURE("blueTooth device")).debug();
     }
+
 
     public void testImage() {
 //        uqi.getData(Image.getFromStorage(), Purpose.TEST("test"))
@@ -89,6 +92,10 @@ public class TestCases {
 //                        exception.printStackTrace();
 //                    }
 //                });
+    }
+
+    public void testWhatsContact() throws PSException {
+        Log.i("whatsapp", String.valueOf(uqi.getData(Contact.getWhatAppAll(), Purpose.UTILITY("test")).asList()));
     }
 
     public void testAudio() {
@@ -169,14 +176,24 @@ public class TestCases {
     }
 
 
-    public void testEmailUpdates(){
-        uqi.getData(Email.asGmailUpdates(15*60*1000), Purpose.TEST("test")).debug();
+    public void testEmailUpdates() {
+        uqi.getData(Email.asGmailUpdates(15 * 60 * 1000), Purpose.TEST("test")).debug();
     }
 
-    public void testEmailList(){
-        uqi.getData(Email.asGmailHistory(System.currentTimeMillis()-Duration.hours(100),
-                System.currentTimeMillis()-Duration.hours(50),
-                100),Purpose.TEST("test")).debug();
+    public void testsift(){
+        uqi.getData(Email.sift(),Purpose.TEST("test")).debug();
+    }
+
+    public void testEmailList() {
+        uqi.getData(Email.asGmailHistory(System.currentTimeMillis() - Duration.hours(100),
+                System.currentTimeMillis() - Duration.hours(50),
+                100), Purpose.TEST("test")).debug();
+    }
+
+    public void testDriveList() {
+        uqi.getData(DriveDocument.testDriveList(System.currentTimeMillis() - Duration.days(365),
+                System.currentTimeMillis(),
+                100, 10), Purpose.TEST("test")).debug();
     }
 
     // For testing
@@ -234,35 +251,48 @@ public class TestCases {
         uqi.getData(Notification.asUpdates(), Purpose.TEST("test")).debug();
     }
 
-    public void testWifiUpdates(){
+    public void testWifiUpdates() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
             uqi.getData(WifiAp.getScanResults(), Purpose.FEATURE("wifi updates")).debug();
         }
     }
 
-    public void testBrowserHistoryUpdates(){
+    public void newTestWifiTrueUpdates() {
+        uqi.getData(WifiAp.getUpdateStatus(), Purpose.FEATURE("check new new provider")).debug();
+    }
+
+    public void testWifiTrueUpdates() {
+        uqi.getData(WifiAp.getUpdateStatus(), Purpose.FEATURE("check new provider")).debug();
+    }
+
+    public void testBrowserHistoryUpdates() {
         uqi.getData(BrowserVisit.asUpdates(), Purpose.FEATURE("browser history")).debug();
     }
 
-    public void testBrowserSearchUpdates(){
+    public void testBrowserSearchUpdates() {
         uqi.getData(BrowserSearch.asUpdates(), Purpose.FEATURE("browser search")).debug();
     }
 
-    public void testAccEvents(){
+    public void testAccEvents() {
         uqi.getData(AccEvent.asUpdates(), Purpose.TEST("AccEvent"))
-                .inFixedInterval(1000)
-                .keepChanges()
-                .logAs("accEvent")
-                .idle();
+                .logOverSocket("accEvent")
+                .debug();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
-    public void testIMUpdates(){
-        uqi.getData(Message.asUpdatesInIM(),Purpose.FEATURE("im updates")).debug();
+    public void testIMUIUpdates() {
+        uqi.getData(Message.asUpdatesInIM(), Purpose.FEATURE("im updates")).debug();
+    }
+
+
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
+    public void testIMUpdates() {
+        uqi.getData(Message.asUpdatesInIM(), Purpose.FEATURE("im updates")).debug();
     }
 
     // get a count of the #contacts in contact list
     void testContacts() {
+
         try {
             int count = uqi
                     .getData(Contact.getAll(), Purpose.FEATURE("estimate how popular you are."))
@@ -289,7 +319,6 @@ public class TestCases {
                     });
 
         } catch (PSException e) {
-            System.out.println(e.getMessage());
             e.printStackTrace();
         }
     }
@@ -307,11 +336,10 @@ public class TestCases {
             System.out.println(recentCalledPhoneNumbers);
             List<String> recentCalledNames = uqi
                     .getData(Contact.getAll(), Purpose.FEATURE("getData names of recent called phone numbers"))
-                    .filter(ListOperators.intersects(Contact.PHONES, recentCalledPhoneNumbers.toArray()))
+//                    .filter(ListOperators.intersects(Contact.PHONES, recentCalledPhoneNumbers.toArray()))
                     .asList(Contact.NAME);
             System.out.println(recentCalledNames);
-        }
-        catch (PSException e) {
+        } catch (PSException e) {
             e.printStackTrace();
         }
     }
@@ -324,22 +352,42 @@ public class TestCases {
                 .count();
     }
 
-    void testDeviceStateChangeUpdates(){
+    void testDeviceStateChangeUpdates() {
         uqi.getData(DeviceEvent.asUpdates(), Purpose.FEATURE("device states")).debug();
     }
 
-    boolean isAtHome() throws PSException {
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-//            return uqi
-//                    .getData(WifiAp.getScanResults(), Purpose.FEATURE("know whether you are at home."))
-//                    .filter(Comparators.eq(WifiAp.CONNECTED, true))
-//                    .filter(WifiAPOperators.atHome(WifiAp.SSID))
-//                    .count()==1;
-//        }
-        return false;
+    // TODO Problem set: use this function for test case.
+    List<Item> isAtHome() {
+        try {
+            return uqi
+                    .getData(WifiAp.getScanResults(), Purpose.FEATURE("know whether you are at home."))
+                    .asList();
+        } catch (PSException e) {
+            Log.e("e", e.toString());
+            e.printStackTrace();
+            return null;
+        }
+
+////                .filter(Comparators.eq(WifiAp.CONNECTED, true))
+//                .filter(Comparators.eq(WifiAp.STATUS, WifiAp.STATUS_CONNECTED))
+//                .filter(WifiAPOperators.atHome(WifiAp.SSID))
+//                .count() == 1;
+
     }
 
-    void callbackWhenReceivesMessage(String appName, Callback<String> messageCallback){
+    public void testUpdatesContact() {
+        uqi.getData(Contact.asUpdates(), Purpose.FEATURE("For experiment")).debug();
+    }
+
+    public void testUpdatesCalendar() {
+        uqi.getData(CalendarEvent.getUpdates(), Purpose.FEATURE("For test")).debug();
+    }
+
+    public void testCalendarList() {
+        uqi.getData(CalendarEvent.getAll(), Purpose.FEATURE("for test")).debug();
+    }
+
+    void callbackWhenReceivesMessage(String appName, Callback<String> messageCallback) {
         uqi
                 .getData(Message.asIncomingSMS(), Purpose.FEATURE(""));
     }
@@ -430,7 +478,7 @@ public class TestCases {
 //                .getData(Geolocation.asHistory(), Purpose.FEATURE("get the place you spent the most time"))
 //                .setField("geo_tag", GeolocationOperators.asGeotag(Geolocation.COORDINATES))
 //                .localGroupBy("geo_tag")
-//                .setGroupField("time_spent", StatisticOperators.range(Geolocation.EVENT_TIME))
+//                .setGroupField("time_spent", StatisticOperators.range(Geolocation.TIMESTAMP))
 //                .sortBy("time_spent")
 //                .reverse()
 //                .getFirst()

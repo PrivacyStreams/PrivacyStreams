@@ -6,6 +6,8 @@ package io.github.privacystreams.image;
 
 interface CameraResultListener {
     void onSuccess();
+
     void onFail();
+
     String getFilePath();
 }

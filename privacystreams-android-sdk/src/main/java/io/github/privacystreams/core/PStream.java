@@ -24,10 +24,10 @@ import io.github.privacystreams.utils.annotations.PSTransformation;
  * The interface of PStream (privacy stream).
  * An PStream is a stream containing privacy sensitive items, and each item is an instance of `Item`.
  * An PStream is produced by `uqi.getData` method.
- *
+ * <p>
  * It can be transformed to another PStream using transformation functions,
  * such as `filter`, `groupBy`, `map`, etc.
- *
+ * <p>
  * Finally, it can be outputted using `asFieldList()`, `count`, etc.
  */
 public class PStream extends Stream {
@@ -45,6 +45,7 @@ public class PStream extends Stream {
 
     /**
      * Transform the current PStream to another PStream.
+     *
      * @param pStreamTransformation the function used to transform the stream
      * @return the transformed stream
      */
@@ -54,6 +55,7 @@ public class PStream extends Stream {
 
     /**
      * Output the current PStream.
+     *
      * @param pStreamAction the function used to output stream
      */
     public void output(PStreamAction pStreamAction) {
@@ -82,7 +84,7 @@ public class PStream extends Stream {
      * Specifically, keep the items in which the field equals the given value.
      * Eg. `filter("x", 100)` will keep the items whose x field is equal to 100.
      *
-     * @param fieldName the name of field to check
+     * @param fieldName  the name of field to check
      * @param fieldValue the value to compare with the field
      * @return The filtered stream.
      */
@@ -164,7 +166,7 @@ public class PStream extends Stream {
      * Specifically, stop the stream if the count of items exceeds the threshold.
      * Eg. `limit(10)` will limit the stream to at most 10 items
      *
-     * @param maxCount      the max number of items
+     * @param maxCount the max number of items
      * @return The limited stream.
      */
     @PSTransformation()
@@ -176,7 +178,7 @@ public class PStream extends Stream {
      * Limit the stream with a timeout, stop the stream after time out.
      * Eg. `timeout(Duration.seconds(10))` will limit the stream to at most 10 seconds
      *
-     * @param timeoutMilliseconds      the timeout milliseconds
+     * @param timeoutMilliseconds the timeout milliseconds
      * @return The limited stream.
      */
     @PSTransformation()
@@ -192,7 +194,7 @@ public class PStream extends Stream {
      * Convert each item in the stream with a function.
      * Eg. `map(ItemOperators.setField("x", 10))` will set the "x" field of each item to 10 in the stream.
      *
-     * @param itemConverter      the function to map each item to another item
+     * @param itemConverter the function to map each item to another item
      * @return The stream with items after mapping
      */
     @PSTransformation()
@@ -232,9 +234,9 @@ public class PStream extends Stream {
      * Eg. `setField("x", Comparators.gt("y", 10))` will set a new boolean field "x" to each item,
      * which indicates whether the "y" field is greater than 10.
      *
-     * @param fieldToSet the name of the field to set.
+     * @param fieldToSet         the name of the field to set.
      * @param fieldValueComputer the function to compute the value of the new field based on each item.
-     * @param <TValue> the type of the new field value
+     * @param <TValue>           the type of the new field value
      * @return the stream of items with the new field set
      */
     @PSTransformation()
@@ -249,9 +251,9 @@ public class PStream extends Stream {
      * Eg. `setGroupField("count", StatisticOperators.count())` will set a new field "count" to each item,
      * which represents the number of items in the grouped sub stream.
      *
-     * @param fieldToSet the name of the field to set.
+     * @param fieldToSet         the name of the field to set.
      * @param fieldValueComputer the function to compute the new field value, which takes the list of grouped items as input.
-     * @param <TValue> the type of the new field value
+     * @param <TValue>           the type of the new field value
      * @return the stream of items with the new field set
      */
     @PSTransformation()
@@ -266,9 +268,9 @@ public class PStream extends Stream {
      * Eg. `setIndependentField("time", TimeOperators.getCurrentTime())` will set the field "time" to a timestamp in each item;
      * `setIndependentField("wifiStatus", DeviceOperators.isWifiConnected())` will set the field "wifiStatus" to a boolean indicating whether wifi is connected in each item.
      *
-     * @param fieldToSet the name of the field to set.
+     * @param fieldToSet     the name of the field to set.
      * @param valueGenerator the function to compute the field value.
-     * @param <TValue> the type of the new field value.
+     * @param <TValue>       the type of the new field value.
      * @return the stream of items with the new field set
      */
     @PSTransformation()
@@ -284,7 +286,7 @@ public class PStream extends Stream {
      * Sort the items according to the value of a field, in ascending order.
      * Eg. `sortBy("timestamp")` will sort the items in the stream by timestamp field.
      *
-     * @param fieldName     the field used to sort the items in current stream, in ascending order
+     * @param fieldName the field used to sort the items in current stream, in ascending order
      * @return The stream with sorted items.
      */
     @PSTransformation(changeOrder = true)
@@ -358,7 +360,7 @@ public class PStream extends Stream {
      * in an item to several new items with a "email" field.
      *
      * @param unGroupField the field to un-group, whose value should be a list
-     * @param newField the new field name in the new stream
+     * @param newField     the new field name in the new stream
      * @return The un-grouped stream
      */
     @PSTransformation
@@ -377,8 +379,8 @@ public class PStream extends Stream {
      * will count the number of items and callback with the number.
      *
      * @param resultComputer the function used to compute result based on the items in current stream
-     * @param resultHandler the function to handle the result
-     * @param <Tout> the type of the result
+     * @param resultHandler  the function to handle the result
+     * @param <Tout>         the type of the result
      */
     @PSAction(blocking = false)
     public <Tout> void output(Function<List<Item>, Tout> resultComputer, Callback<Tout> resultHandler) {
@@ -391,7 +393,7 @@ public class PStream extends Stream {
      * Eg. `output(StatisticOperators.count())` will output the number of items.
      *
      * @param itemsCollector the function used to output current stream
-     * @param <Tout> the type of the result
+     * @param <Tout>         the type of the result
      * @return the result
      * @throws PSException if failed to the result.
      */
@@ -460,7 +462,7 @@ public class PStream extends Stream {
      * Get the N-th value of a given field. N is the index.
      *
      * @param fieldName the name of the field to select
-     * @param index the index of target item.
+     * @param index     the index of target item.
      * @return the item selected from the current PStream
      */
     @PSAction(blocking = true)
@@ -533,7 +535,7 @@ public class PStream extends Stream {
      * Select a field in each item and output the field values to a list.
      *
      * @param fieldToSelect the field to select
-     * @param <TValue> the type of field value
+     * @param <TValue>      the type of field value
      * @return a list of field values
      */
     @PSAction(blocking = true)
@@ -555,8 +557,8 @@ public class PStream extends Stream {
      * Callback with a certain field of each item.
      *
      * @param fieldToSelect the name of the field to callback with
-     * @param callback the callback to invoke for each item field
-     * @param <TValue> the type of the field
+     * @param callback      the callback to invoke for each item field
+     * @param <TValue>      the type of the field
      */
     @PSAction(blocking = false)
     public <TValue> void forEach(String fieldToSelect, Function<TValue, Void> callback) {
@@ -577,8 +579,8 @@ public class PStream extends Stream {
      * Callback with a field value of an item when the field value changes.
      *
      * @param fieldToSelect the name of the field to callback with
-     * @param callback the callback to invoke for the changed item field
-     * @param <TValue> the type of the field
+     * @param callback      the callback to invoke for the changed item field
+     * @param <TValue>      the type of the field
      */
     @PSAction(blocking = false)
     public <TValue> void onChange(String fieldToSelect, Function<TValue, Void> callback) {
@@ -599,8 +601,8 @@ public class PStream extends Stream {
      * Callback with a field value of an item once the field value is present.
      *
      * @param fieldToSelect the name of the field to callback with
-     * @param callback the callback to invoke once the field value is present
-     * @param <TValue> the type of the field
+     * @param callback      the callback to invoke once the field value is present
+     * @param <TValue>      the type of the field
      */
     @PSAction(blocking = false)
     public <TValue> void ifPresent(String fieldToSelect, Function<TValue, Void> callback) {

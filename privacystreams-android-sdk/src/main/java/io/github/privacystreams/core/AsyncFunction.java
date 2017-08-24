@@ -8,7 +8,7 @@ import org.greenrobot.eventbus.ThreadMode;
  * An AsyncFunction is will be applied in background.
  * When applying this function, the output will immediately return,
  * but the content in output will be generated in background.
- *
+ * <p>
  * Subclass must implement:
  * `init` method which initializes the output object and returns in current thread.
  * `applyInBackground` method which produces values to output in background.
@@ -43,5 +43,6 @@ public abstract class AsyncFunction<Tin, Tout> extends Function<Tin, Tout> {
     }
 
     protected abstract Tout init(UQI uqi, Tin input);
+
     protected abstract void applyInBackground(UQI uqi, Tin input);
 }

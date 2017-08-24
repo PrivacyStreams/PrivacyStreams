@@ -37,9 +37,10 @@ public class Gravity extends Item {
 
     /**
      * Provide a live stream of sensor readings from gravity sensor.
+     *
      * @return the provider.
      */
-    public static PStreamProvider asUpdates(int sensorDelay){
+    public static PStreamProvider asUpdates(int sensorDelay) {
         return new GravityUpdatesProvider(sensorDelay);
     }
 }

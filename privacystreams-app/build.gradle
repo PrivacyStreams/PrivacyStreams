@@ -4,15 +4,23 @@ apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "25.0.3"
-
+    buildToolsVersion "26.0.1"
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/license.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/notice.txt'
+        exclude 'META-INF/ASL2.0'
+    }
     defaultConfig {
         applicationId "io.github.privacystreams.app"
         minSdkVersion 16
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
-
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         vectorDrawables.useSupportLibrary = true
@@ -47,4 +55,5 @@ dependencies {
 }
 repositories {
     mavenCentral()
+    maven { url 'https://maven.google.com' }
 }

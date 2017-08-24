@@ -1,21 +1,22 @@
 package io.github.privacystreams.core;
 
-import io.github.privacystreams.core.EventDrivenFunction;
-import io.github.privacystreams.core.Item;
-import io.github.privacystreams.core.PStream;
-import io.github.privacystreams.core.Stream;
+import android.util.Log;
+
 import io.github.privacystreams.utils.Logging;
+
 
 /**
  * A PStreamProvider is a function that produces a stream.
  */
 public abstract class PStreamProvider extends EventDrivenFunction<Void, PStream> {
     protected void init() {
+
         this.output = new PStream(this.getUQI(), this);
         this.isCancelled = false;
         Thread providingThread = new Thread() {
             @Override
             public void run() {
+                Log.e("StreamProvider", "calling provide");
                 provide();
             }
         };
@@ -29,8 +30,7 @@ public abstract class PStreamProvider extends EventDrivenFunction<Void, PStream>
         }
         if (this.output.isClosed()) {
             if (!this.isCancelled) this.cancel(this.getUQI());
-        }
-        else this.output.write(item, this);
+        } else this.output.write(item, this);
     }
 
     /**

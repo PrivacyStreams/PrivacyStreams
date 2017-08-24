@@ -28,5 +28,7 @@ class BrowserSearchEventsProvider extends PStreamProvider {
                         output(new BrowserSearch(input.getValueByField(AccEvent.TEXT).toString()));
                     }
                 });
-    };
+    }
+
+    ;
 }

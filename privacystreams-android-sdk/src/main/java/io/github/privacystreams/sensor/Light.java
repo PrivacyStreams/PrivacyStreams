@@ -23,9 +23,10 @@ public class Light extends Item {
 
     /**
      * Provide a live stream of sensor readings from light sensor.
+     *
      * @return the provider.
      */
-    public static PStreamProvider asUpdates(int sensorDelay){
+    public static PStreamProvider asUpdates(int sensorDelay) {
         return new LightUpdatesProvider(sensorDelay);
     }
 }

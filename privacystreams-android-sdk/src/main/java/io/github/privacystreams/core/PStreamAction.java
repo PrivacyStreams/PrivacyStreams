@@ -1,11 +1,5 @@
 package io.github.privacystreams.core;
 
-import io.github.privacystreams.core.EventDrivenFunction;
-import io.github.privacystreams.core.Item;
-import io.github.privacystreams.core.PStream;
-import io.github.privacystreams.core.Stream;
-import io.github.privacystreams.core.UQI;
-
 import org.greenrobot.eventbus.Subscribe;
 
 /**

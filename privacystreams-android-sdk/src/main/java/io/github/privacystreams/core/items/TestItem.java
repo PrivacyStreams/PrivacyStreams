@@ -52,7 +52,7 @@ public class TestItem extends Item {
      * Provide a live stream of TestItem items, which are from a given list.
      *
      * @param testObjects the list of mock data
-     * @param interval the interval between each two items, in milliseconds
+     * @param interval    the interval between each two items, in milliseconds
      * @return the provider function
      */
     public static PStreamProvider asUpdatesFrom(List<TestObject> testObjects, long interval) {
@@ -62,9 +62,9 @@ public class TestItem extends Item {
     /**
      * Provide a live stream of TestItem items, which are randomly generated.
      *
-     * @param maxInt the max value of the int field of the random mock items
+     * @param maxInt    the max value of the int field of the random mock items
      * @param maxDouble the max value of the double field of the random mock items
-     * @param interval the interval between each two items, in milliseconds
+     * @param interval  the interval between each two items, in milliseconds
      * @return the provider function
      */
     public static PStreamProvider asUpdates(int maxInt, double maxDouble, long interval) {
@@ -84,9 +84,9 @@ public class TestItem extends Item {
     /**
      * Provide a list of TestItem items, which are randomly generated.
      *
-     * @param maxInt the max value of the int field of the random mock items
+     * @param maxInt    the max value of the int field of the random mock items
      * @param maxDouble the max value of the double field of the random mock items
-     * @param count the number of random items
+     * @param count     the number of random items
      * @return the provider function
      */
     public static PStreamProvider getAllRandom(int maxInt, double maxDouble, int count) {

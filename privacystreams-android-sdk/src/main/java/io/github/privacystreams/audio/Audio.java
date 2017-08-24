@@ -51,7 +51,7 @@ public class Audio extends Item {
      * This provider requires `android.permission.RECORD_AUDIO` permission.
      *
      * @param durationPerRecord the time duration of each audio record, in milliseconds.
-     * @param interval the time interval between each two records, in milliseconds.
+     * @param interval          the time interval between each two records, in milliseconds.
      * @return the provider
      */
     // @RequiresPermission(value = Manifest.permission.RECORD_AUDIO)

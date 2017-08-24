@@ -66,6 +66,7 @@ public class AccEvent extends Item {
 
     /**
      * Provide a live stream of all accessibility items.
+     *
      * @return the provider function.
      */
     // @RequiresPermission(value = Manifest.permission.BIND_ACCESSIBILITY_SERVICE)
@@ -75,6 +76,7 @@ public class AccEvent extends Item {
 
     /**
      * Provide a live stream of window changing accessibility items.
+     *
      * @return the provider function.
      */
     // @RequiresPermission(value = Manifest.permission.BIND_ACCESSIBILITY_SERVICE)
@@ -84,6 +86,7 @@ public class AccEvent extends Item {
 
     /**
      * Provide a live stream of UI action events.
+     *
      * @return the provider function.
      */
     // @RequiresPermission(value = Manifest.permission.BIND_ACCESSIBILITY_SERVICE)
@@ -93,6 +96,7 @@ public class AccEvent extends Item {
 
     /**
      * Provide a live stream of text entry events.
+     *
      * @return the provider function.
      */
     // @RequiresPermission(value = Manifest.permission.BIND_ACCESSIBILITY_SERVICE)

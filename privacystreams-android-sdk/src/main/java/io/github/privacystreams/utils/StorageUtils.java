@@ -82,7 +82,7 @@ public class StorageUtils {
     /**
      * Get a valid file of a given file path.
      *
-     * @param context a Context instance
+     * @param context  a Context instance
      * @param filePath the original file path
      * @param isPublic if true, the valid path will be in external storage (sdcard);
      *                 if false, the valid path will be in internal storage.
@@ -94,8 +94,7 @@ public class StorageUtils {
         if (lastPathSepIndex < 0) {
             dirPath = "";
             fileName = filePath;
-        }
-        else {
+        } else {
             dirPath = filePath.substring(0, lastPathSepIndex);
             fileName = filePath.substring(lastPathSepIndex + 1);
         }
@@ -103,8 +102,7 @@ public class StorageUtils {
         File dirFile;
         if (isPublic) {
             dirFile = getPublicDir(dirPath);
-        }
-        else {
+        } else {
             dirFile = getPrivateDir(context, dirPath);
         }
 
@@ -160,7 +158,7 @@ public class StorageUtils {
      * Get the Uri of a file.
      *
      * @param context a Context instance
-     * @param file the file
+     * @param file    the file
      * @return the Uri
      */
     private static Uri getUri(Context context, File file) {
@@ -177,7 +175,7 @@ public class StorageUtils {
      * Get the relative path from a file to a directory.
      * returns null if the file doesn't belong to the folder.
      *
-     * @param file the file to get relative path to.
+     * @param file   the file to get relative path to.
      * @param folder the directory to get relative path from.
      * @return the relative path, or null if the file doesn't belong to the folder.
      */
@@ -193,13 +191,13 @@ public class StorageUtils {
 
     /**
      * Delete a file without throw any exception.
+     *
      * @param file the file to delete.
      */
     public static void safeDelete(File file) {
         try {
             if (!file.delete()) file.deleteOnExit();
-        }
-        catch (Exception ignored) {
+        } catch (Exception ignored) {
             Logging.warn("Failed to delete file: " + file.getAbsolutePath());
         }
     }

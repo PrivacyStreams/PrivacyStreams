@@ -31,8 +31,8 @@ public abstract class Function<Tin, Tout> {
     protected void addParameters(Object... parameters) {
         for (Object parameter : parameters) {
             this.parameters.add(parameter);
-            if (parameter instanceof Function<?,?>) {
-                this.requiredPermissions.addAll(((Function<?,?>) parameter).getRequiredPermissions());
+            if (parameter instanceof Function<?, ?>) {
+                this.requiredPermissions.addAll(((Function<?, ?>) parameter).getRequiredPermissions());
             }
             if (parameter instanceof List<?>) {
                 for (Object listItem : (List<?>) parameter) {
@@ -58,7 +58,8 @@ public abstract class Function<Tin, Tout> {
 
     /**
      * Apply this function
-     * @param uqi the instance of UQI
+     *
+     * @param uqi   the instance of UQI
      * @param input the function input
      * @return the function output
      */
@@ -66,14 +67,15 @@ public abstract class Function<Tin, Tout> {
 
     /**
      * Cancel this function
+     *
      * @param uqi the instance of UQI
      */
     protected final void cancel(UQI uqi) {
 //        Logging.debug("Cancelling: " + this.getClass().getSimpleName());
         this.isCancelled = true;
         for (Object parameter : this.parameters) {
-            if (parameter instanceof Function<?,?>) {
-                ((Function<?,?>) parameter).cancel(uqi);
+            if (parameter instanceof Function<?, ?>) {
+                ((Function<?, ?>) parameter).cancel(uqi);
             }
         }
 //        Logging.debug("onCancel: " + this.getClass().getSimpleName());
@@ -82,6 +84,7 @@ public abstract class Function<Tin, Tout> {
 
     /**
      * Callback when this function is cancelled
+     *
      * @param uqi the instance of UQI
      */
     protected void onCancel(UQI uqi) {
@@ -90,8 +93,9 @@ public abstract class Function<Tin, Tout> {
 
     /**
      * Compound this function with another function
+     *
      * @param function another function
-     * @param <Ttemp> the intermediate variable type between two functions
+     * @param <Ttemp>  the intermediate variable type between two functions
      * @return the compound function
      */
     public <Ttemp> Function<Tin, Ttemp> compound(Function<Tout, Ttemp> function) {
@@ -105,8 +109,7 @@ public abstract class Function<Tin, Tout> {
     public Function<Tin, ?> getHead() {
         if (this instanceof CompoundFunction<?, ?, ?>) {
             return ((CompoundFunction<Tin, ?, Tout>) this).getFunction1().getHead();
-        }
-        else {
+        } else {
             return this;
         }
     }
@@ -114,8 +117,7 @@ public abstract class Function<Tin, Tout> {
     public Function<?, Tout> getTail() {
         if (this instanceof CompoundFunction<?, ?, ?>) {
             return ((CompoundFunction<Tin, ?, Tout>) this).getFunction2().getTail();
-        }
-        else {
+        } else {
             return this;
         }
     }
@@ -146,7 +148,7 @@ public abstract class Function<Tin, Tout> {
     boolean containsFunction(Function<?, ?> function) {
         if (this == function) return true;
         for (Object parameter : this.parameters) {
-            if (parameter instanceof Function<?,?> && ((Function<?, ?>) parameter).containsFunction(function)) {
+            if (parameter instanceof Function<?, ?> && ((Function<?, ?>) parameter).containsFunction(function)) {
                 return true;
             }
         }

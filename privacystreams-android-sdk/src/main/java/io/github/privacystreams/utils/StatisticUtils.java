@@ -17,6 +17,7 @@ public class StatisticUtils {
 
     /**
      * Get the mean of all numbers in the list.
+     *
      * @param numList a list of numbers
      * @return the mean, in Double
      */
@@ -30,6 +31,7 @@ public class StatisticUtils {
 
     /**
      * Get the median of all numbers in the list.
+     *
      * @param numList a list of numbers
      * @return the median
      */
@@ -58,6 +60,7 @@ public class StatisticUtils {
 
     /**
      * Get the mode of all numbers in the list.
+     *
      * @param numList a list of numbers
      * @return the mode
      */
@@ -72,8 +75,7 @@ public class StatisticUtils {
             if (hashcode2Count.indexOfKey(hashcode) < 0) {
                 hashcode2Count.put(hashcode, 1);
                 hashcode2Num.put(hashcode, num);
-            }
-            else {
+            } else {
                 int count = hashcode2Count.get(hashcode);
                 hashcode2Count.put(hashcode, count + 1);
             }
@@ -93,6 +95,7 @@ public class StatisticUtils {
 
     /**
      * Get the sum of all numbers in the list.
+     *
      * @param numList a list of numbers
      * @return the sum, in Double.
      */
@@ -108,6 +111,7 @@ public class StatisticUtils {
 
     /**
      * Get the max of all numbers in the list.
+     *
      * @param numList a list of numbers
      * @return the max number, in Number.
      */
@@ -124,6 +128,7 @@ public class StatisticUtils {
 
     /**
      * Get the min of all numbers in the list.
+     *
      * @param numList a list of numbers
      * @return the min number, in Number.
      */
@@ -140,6 +145,7 @@ public class StatisticUtils {
 
     /**
      * Get the range of all numbers in the list.
+     *
      * @param numList a list of numbers
      * @return the range of numbers
      */
@@ -153,6 +159,7 @@ public class StatisticUtils {
 
     /**
      * Get the RMS (root mean square) of all numbers in the list.
+     *
      * @param numList a list of numbers
      * @return the RMS of numbers
      */
@@ -169,6 +176,7 @@ public class StatisticUtils {
 
     /**
      * Get the variance of all numbers in the list.
+     *
      * @param numList a list of numbers
      * @return the variance of numbers
      */
@@ -188,6 +196,7 @@ public class StatisticUtils {
 
     /**
      * Get the length of valid numbers.
+     *
      * @param numList a list of numbers.
      * @return the length, in int.
      */

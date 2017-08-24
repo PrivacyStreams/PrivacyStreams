@@ -48,7 +48,7 @@ public class Email extends Item {
     @PSItemField(type = Long.class)
     public static final String TIMESTAMP = "timestamp";
 
-    Email(String body, String packageName, String from, String to, String subject, long timeStamp){
+    Email(String body, String packageName, String from, String to, String subject, long timeStamp) {
         this.setFieldValue(BODY, body);
         this.setFieldValue(PACKAGE_NAME, packageName);
         this.setFieldValue(FROM, from);
@@ -60,12 +60,12 @@ public class Email extends Item {
     /**
      * Provide a list of Email items from Gmail.
      *
-     * @param afterTime the minimum timestamp of emails to get
-     * @param beforeTime the maximum timestamp of emails to get
+     * @param afterTime          the minimum timestamp of emails to get
+     * @param beforeTime         the maximum timestamp of emails to get
      * @param maxNumberOfResults the max number of emails to get
      * @return the provider function.
      */
-    public static PStreamProvider asGmailHistory(long afterTime, long beforeTime, int maxNumberOfResults){
+    public static PStreamProvider asGmailHistory(long afterTime, long beforeTime, int maxNumberOfResults) {
         return new GmailHistoryProvider(afterTime, beforeTime, maxNumberOfResults);
     }
 
@@ -79,4 +79,9 @@ public class Email extends Item {
     public static PStreamProvider asGmailUpdates(long frequency) {
         return new GmailUpdatesProvider(frequency);
     }
+
+    public static PStreamProvider sift(){
+        return new SiftEmail("","");
+    }
+
 }

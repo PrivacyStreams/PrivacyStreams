@@ -18,6 +18,7 @@ class OnChangeCallback extends PStreamAction {
     }
 
     private transient Item lastItem;
+
     @Override
     protected void onInput(Item item) {
         if (item.isEndOfStream()) {

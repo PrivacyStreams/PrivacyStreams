@@ -2,6 +2,7 @@ package io.github.privacystreams.device;
 
 
 import android.net.wifi.ScanResult;
+import android.net.wifi.WifiInfo;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 
@@ -51,15 +52,36 @@ public class WifiAp extends Item {
      * Whether this AP is connected.
      */
     @PSItemField(type = Boolean.class)
-    public static final String CONNECTED = "connected";
+    public static final String STATUS = "status";
 
-    WifiAp(ScanResult scanResult, boolean connected) {
+
+    public static final String STATUS_CONNECTED = "connected";
+    public static final String STATUS_DISCONNECTED = "disconnected";
+    public static final String STATUS_SCANNED = "scanned";
+
+    WifiAp(ScanResult scanResult, String status) {
         this.setFieldValue(TIMESTAMP, scanResult.timestamp);
         this.setFieldValue(BSSID, scanResult.BSSID);
         this.setFieldValue(SSID, scanResult.SSID);
         this.setFieldValue(FREQUENCY, scanResult.frequency);
         this.setFieldValue(RSSI, scanResult.level);
-        this.setFieldValue(CONNECTED, connected);
+        this.setFieldValue(STATUS, status);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    WifiAp(WifiInfo wifiInfo, String status) {
+        this.setFieldValue(TIMESTAMP, System.currentTimeMillis());
+        this.setFieldValue(BSSID, wifiInfo.getBSSID());
+        this.setFieldValue(SSID, wifiInfo.getSSID());
+        this.setFieldValue(FREQUENCY, wifiInfo.getFrequency());
+        this.setFieldValue(RSSI, wifiInfo.getRssi());
+        this.setFieldValue(STATUS, status);
+    }
+
+    WifiAp(WifiAp another) {
+        for (String key : another.toMap().keySet()) {
+            this.setFieldValue(key, another.getValueByField(key));
+        }
     }
 
     /**
@@ -69,9 +91,14 @@ public class WifiAp extends Item {
      *
      * @return the provider function.
      */
+
     // @RequiresPermission(allOf = {Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.CHANGE_WIFI_STATE, Manifest.permission.ACCESS_WIFI_STATE})
     public static PStreamProvider getScanResults() {
         return new WifiApListProvider();
+    }
+
+    public static PStreamProvider getUpdateStatus() {
+        return new WifiUpdatesProvider();
     }
 
 }

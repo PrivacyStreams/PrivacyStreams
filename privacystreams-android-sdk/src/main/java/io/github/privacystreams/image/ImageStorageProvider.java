@@ -14,7 +14,7 @@ import java.io.File;
 
 class ImageStorageProvider extends PStreamProvider {
 
-    ImageStorageProvider(){
+    ImageStorageProvider() {
         this.addRequiredPermissions(Manifest.permission.READ_EXTERNAL_STORAGE);
     }
 
@@ -25,7 +25,7 @@ class ImageStorageProvider extends PStreamProvider {
 
     }
 
-    private void getImageInfo(){
+    private void getImageInfo() {
 
         Cursor c = this.getContext().getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
                 new String[]{
@@ -40,7 +40,7 @@ class ImageStorageProvider extends PStreamProvider {
                 null, null, null
         );
 
-        if (c!=null && c.moveToFirst()) {
+        if (c != null && c.moveToFirst()) {
             do {
                 // Get the field values
                 int bucketId = c.getInt(0);

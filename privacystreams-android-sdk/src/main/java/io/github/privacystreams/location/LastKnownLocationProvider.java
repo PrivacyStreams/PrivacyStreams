@@ -27,8 +27,7 @@ class LastKnownLocationProvider extends PStreamProvider {
         this.addParameters(level);
         if (Geolocation.LEVEL_EXACT.equals(level)) {
             this.addRequiredPermissions(Manifest.permission.ACCESS_FINE_LOCATION);
-        }
-        else {
+        } else {
             this.addRequiredPermissions(Manifest.permission.ACCESS_COARSE_LOCATION);
         }
     }
@@ -58,7 +57,7 @@ class LastKnownLocationProvider extends PStreamProvider {
     /**
      * Determines whether one Location reading is better
      *
-     * @param location1  The new Location that you want to evaluate
+     * @param location1 The new Location that you want to evaluate
      * @param location2 The last location fix, to which you want to compare the new one
      * @return better location
      */

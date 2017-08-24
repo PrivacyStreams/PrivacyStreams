@@ -50,8 +50,7 @@ class MStreamToItemListCollector extends Function<PStream, List<Item>> {
     protected void onInput(Item item) {
         if (item.isEndOfStream()) {
             this.isFinished = true;
-        }
-        else {
+        } else {
             this.items.add(item);
         }
     }

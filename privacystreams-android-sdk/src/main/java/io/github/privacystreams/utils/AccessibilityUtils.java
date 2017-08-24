@@ -19,6 +19,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import io.github.privacystreams.communication.InstantMessage;
+import io.github.privacystreams.communication.Message;
+
 
 /**
  * A list of Accessibility-related utilities.
@@ -27,11 +30,12 @@ import java.util.Set;
 public class AccessibilityUtils {
 
     private static String ANDROID_WEBVIEW_CLASSNAME = "android.webkit.WebView";
-    public static String ANDROID_VIEW_FIREFOXCLASSNAME="android.widget.TextView";
+    public static String ANDROID_VIEW_FIREFOXCLASSNAME = "android.widget.TextView";
 
 
     // WhatsApp Resource IDs
     private static String WHATSAPP_MESSAGE_TEXT = "message_text";
+    private static String WHATSAPP_MESSAGE_LOG_TIME = "date";
     private static String WHATSAPP_MESSAGE_CONTACT = "conversation_contact_name";
     private static String WHATSAPP_MESSAGE_ENTRY = "entry";
     private static String WHATSAPP_MAINPAGE_CONTACT_CONTAINER = "contact_row_container";
@@ -53,24 +57,25 @@ public class AccessibilityUtils {
     public static String FACEBOOK_MESSAGE_TEXT = "message_text";
     public static String FACEBOOK_MESSAGE_CONTACT = "thread_title_name";
     public static String FACEBOOK_MESSAGE_ENTRY = "edit_text";
-    private static String FACEBOOK_MESSENGE_MAINPAGE_SYMBOL ="orca_home_fab";
-    private static String FACEBOOK_MESSENGE_CHATPAGE_INPUT_BAR ="text_input_bar";
+    private static String FACEBOOK_MESSENGE_MAINPAGE_SYMBOL = "orca_home_fab";
+    private static String FACEBOOK_MESSENGE_CHATPAGE_INPUT_BAR = "text_input_bar";
 
 
     /**
      * traverse a tree from the root, and return all the notes in the tree
+     *
      * @param root the root node
      * @return a list of AccessibilityNodeInfo
      */
-    public static List<AccessibilityNodeInfo> preOrderTraverse(AccessibilityNodeInfo root){
-        if(root == null)
+    public static List<AccessibilityNodeInfo> preOrderTraverse(AccessibilityNodeInfo root) {
+        if (root == null)
             return null;
         List<AccessibilityNodeInfo> list = new ArrayList<>();
         list.add(root);
         int childCount = root.getChildCount();
-        for(int i = 0; i < childCount; i ++){
+        for (int i = 0; i < childCount; i++) {
             AccessibilityNodeInfo node = root.getChild(i);
-            if(node != null)
+            if (node != null)
                 list.addAll(preOrderTraverse(node));
         }
         return list;
@@ -79,8 +84,9 @@ public class AccessibilityUtils {
 
     /**
      * Get the complete resource id, to retrieve accessibility nodes.
+     *
      * @param packageName the package name of app
-     * @param id the in-app resource id for a specific widget
+     * @param id          the in-app resource id for a specific widget
      * @return the complete resource id
      */
 
@@ -90,26 +96,28 @@ public class AccessibilityUtils {
 
     /**
      * Get the complete resource id of a contact name in a given chat app.
+     *
      * @param appName the package name of the chat app
      * @return the complete resource id of contact name
      */
 
-    private static String getContactNameInChatResourceId(String appName){
+    private static String getContactNameInChatResourceId(String appName) {
         switch (appName) {
             case AppUtils.APP_PACKAGE_WHATSAPP:
                 return getFullResID(AppUtils.APP_PACKAGE_WHATSAPP, WHATSAPP_MESSAGE_CONTACT);
             case AppUtils.APP_PACKAGE_FACEBOOK_MESSENGER:
-                return getFullResID(AppUtils.APP_PACKAGE_FACEBOOK_MESSENGER,FACEBOOK_MESSAGE_CONTACT);
+                return getFullResID(AppUtils.APP_PACKAGE_FACEBOOK_MESSENGER, FACEBOOK_MESSAGE_CONTACT);
         }
         return null;
     }
 
     /**
      * Get the complete resource id of a message list in a given chat app.
+     *
      * @param appName the package name of the chat app
      * @return the complete resource id of a message list
      */
-    private static String getMessageListResourceId(String appName){
+    private static String getMessageListResourceId(String appName) {
 
         switch (appName) {
             case AppUtils.APP_PACKAGE_WHATSAPP:
@@ -123,11 +131,12 @@ public class AccessibilityUtils {
 
     /**
      * Get the text box resource id of a given app.
+     *
      * @param appName the complete resource id of a message list
      * @return the complete text box resource id
      */
 
-    private static String getTextBoxResourceId(String appName){
+    private static String getTextBoxResourceId(String appName) {
 
         switch (appName) {
             case AppUtils.APP_PACKAGE_WHATSAPP:
@@ -140,10 +149,11 @@ public class AccessibilityUtils {
 
     /**
      * Get the url resource id, to retrieve url related accessibility nodes.
+     *
      * @param appName the complete resource id of a message list
      * @return the complete url id
      */
-    private static String getUrlResourceId(String appName){
+    private static String getUrlResourceId(String appName) {
         switch (appName) {
             case AppUtils.APP_PACKAGE_CHROME:
                 return getFullResID(AppUtils.APP_PACKAGE_CHROME, CHROME_URL_BAR);
@@ -156,7 +166,6 @@ public class AccessibilityUtils {
     }
 
     /**
-     *
      * @param nodeInfo
      * @return
      */
@@ -169,27 +178,27 @@ public class AccessibilityUtils {
     }
 
     /**
-     *
      * @param root
      * @param packageName
      * @return
      */
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
-    public static AccessibilityNodeInfo getTextBox(AccessibilityNodeInfo root, String packageName){
-        try{
+    public static AccessibilityNodeInfo getTextBox(AccessibilityNodeInfo root, String packageName) {
+        try {
             return root.findAccessibilityNodeInfosByViewId(getTextBoxResourceId(packageName)).get(0);
-        }
-        catch (Exception exception){
+        } catch (Exception exception) {
             return null;
         }
     }
+
     /**
      * Get the main page symbol resource id, to check if the user is currently at the main page.
+     *
      * @param appName the complete resource id of an app
      * @return the complete url id
      */
-    private static String getMainPageSymbolResourceId(String appName){
+    private static String getMainPageSymbolResourceId(String appName) {
         switch (appName) {
             case AppUtils.APP_PACKAGE_WHATSAPP:
                 return getFullResID(AppUtils.APP_PACKAGE_WHATSAPP, WHATSAPP_MAINPAGE_SYMBOL);
@@ -198,24 +207,28 @@ public class AccessibilityUtils {
         }
         return null;
     }
+
     /**
      * Get the main page symbol resource id, to check if the page has a unread symbol
+     *
      * @param appName the complete resource id of an app
      * @return the complete url id
      */
-    private static String getUnreadResourceId(String appName){
+    private static String getUnreadResourceId(String appName) {
         switch (appName) {
             case AppUtils.APP_PACKAGE_WHATSAPP:
                 return getFullResID(AppUtils.APP_PACKAGE_WHATSAPP, WHATSAPP_UNREAD_SYMBOL);
         }
         return null;
     }
+
     /**
      * Get the chat page symbol resource id, to check if the page has a text bar
+     *
      * @param appName the complete resource id of an app
      * @return the complete url id
      */
-    private static String getInputBarResourceId(String appName){
+    private static String getInputBarResourceId(String appName) {
         switch (appName) {
             case AppUtils.APP_PACKAGE_FACEBOOK_MESSENGER:
                 return getFullResID(AppUtils.APP_PACKAGE_FACEBOOK_MESSENGER, FACEBOOK_MESSENGE_CHATPAGE_INPUT_BAR);
@@ -223,12 +236,14 @@ public class AccessibilityUtils {
         }
         return null;
     }
+
     /**
      * Get the main page container resource id
+     *
      * @param appName the complete resource id of an app
      * @return the complete url id
      */
-    private static String getMainPageContainerResourceId(String appName){
+    private static String getMainPageContainerResourceId(String appName) {
         switch (appName) {
             case AppUtils.APP_PACKAGE_WHATSAPP:
                 return getFullResID(AppUtils.APP_PACKAGE_WHATSAPP, WHATSAPP_MAINPAGE_CONTACT_CONTAINER);
@@ -238,10 +253,11 @@ public class AccessibilityUtils {
 
     /**
      * Get the main page contact name resource id
+     *
      * @param appName the complete resource id of an app
      * @return the complete url id
      */
-    private static String getMainPageContactNameResourceId(String appName){
+    private static String getMainPageContactNameResourceId(String appName) {
         switch (appName) {
             case AppUtils.APP_PACKAGE_WHATSAPP:
                 return getFullResID(AppUtils.APP_PACKAGE_WHATSAPP, WHATSAPP_MAINPAGE_CONTACT_NAME);
@@ -251,26 +267,27 @@ public class AccessibilityUtils {
 
     /**
      * Get the main page contact name resource id
+     *
      * @param appName the complete resource id of an app
      * @return the complete url id
      */
-    private static String getMainpageMessageCountResourceId(String appName){
+    private static String getMainpageMessageCountResourceId(String appName) {
         switch (appName) {
             case AppUtils.APP_PACKAGE_WHATSAPP:
                 return getFullResID(AppUtils.APP_PACKAGE_WHATSAPP, WHATSAPP_MAINPAGE_MESSAGE_COUNT);
         }
         return null;
     }
+
     /**
-     *
-     * @param root is the rootview of a given page.
+     * @param root        is the rootview of a given page.
      * @param packageName denotes the related app for this given page.
      * @return A list of accessibility node infos representing a list of messages in a given chat app
      */
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
-    public static List<AccessibilityNodeInfo> getMessageList(AccessibilityNodeInfo root, String packageName){
-        if(root!=null)
+    public static List<AccessibilityNodeInfo> getMessageList(AccessibilityNodeInfo root, String packageName) {
+        if (root != null)
             return root.findAccessibilityNodeInfosByViewId(getMessageListResourceId(packageName));
 
         else
@@ -278,30 +295,27 @@ public class AccessibilityUtils {
     }
 
     /**
-     *
-     * @param root is the rootview of a given page.
+     * @param root        is the rootview of a given page.
      * @param packageName denotes the related app for this given page.
      * @return
      */
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
-    public static String getContactNameInChat(AccessibilityNodeInfo root, String packageName){
-        try{
-            if(packageName.equals(APP_PACKAGE_WHATSAPP)) {
+    public static String getContactNameInChat(AccessibilityNodeInfo root, String packageName) {
+        try {
+            if (packageName.equals(APP_PACKAGE_WHATSAPP)) {
                 return root.findAccessibilityNodeInfosByViewId(getContactNameInChatResourceId(packageName)).get(0).getText().toString();
-            }else if(packageName.equals(APP_PACKAGE_FACEBOOK_MESSENGER)){
+            } else if (packageName.equals(APP_PACKAGE_FACEBOOK_MESSENGER)) {
                 return root.findAccessibilityNodeInfosByViewId(getContactNameInChatResourceId(packageName)).get(0).getContentDescription().toString();
-            }else{
+            } else {
                 return null;
             }
-        }
-        catch (Exception exception){
+        } catch (Exception exception) {
             return null;
         }
     }
 
     /**
-     *
      * @param nodeInfoList is the complete list of node infos in a page.
      * @return the first webview node.
      */
@@ -310,7 +324,7 @@ public class AccessibilityUtils {
             Logging.debug(nodeInfo.getClassName().toString());
             if (nodeInfo.getClassName().equals(ANDROID_WEBVIEW_CLASSNAME)) {
                 return nodeInfo.getContentDescription().toString();
-            }else if (nodeInfo.getClassName().equals(ANDROID_VIEW_FIREFOXCLASSNAME)) {
+            } else if (nodeInfo.getClassName().equals(ANDROID_VIEW_FIREFOXCLASSNAME)) {
                 return nodeInfo.getText().toString();
             }
         }
@@ -318,32 +332,30 @@ public class AccessibilityUtils {
     }
 
 
-
     /**
-     *
      * @param root
      * @param appName
      * @return
      */
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
-    public static String getBrowserCurrentUrl(AccessibilityNodeInfo root, String appName){
-        try{
+    public static String getBrowserCurrentUrl(AccessibilityNodeInfo root, String appName) {
+        try {
             AccessibilityNodeInfo bar = root.findAccessibilityNodeInfosByViewId(getUrlResourceId(appName)).get(0);
-            if(bar!=null){
+            if (bar != null) {
                 return bar.getText().toString();
             }
-        }
-        catch (Exception exception){
+        } catch (Exception exception) {
             return null;
         }
         return null;
     }
 
     public static class SerializedAccessibilityNodeInfo implements Serializable {
-        public SerializedAccessibilityNodeInfo(){
+        public SerializedAccessibilityNodeInfo() {
             children = new HashSet<>();
         }
+
         public String className;
         public String boundsInScreen;
         public String boundsInParent;
@@ -353,13 +365,13 @@ public class AccessibilityUtils {
         public Set<SerializedAccessibilityNodeInfo> children;
     }
 
-    public static SerializedAccessibilityNodeInfo serialize(AccessibilityNodeInfo node){
+    public static SerializedAccessibilityNodeInfo serialize(AccessibilityNodeInfo node) {
         SerializedAccessibilityNodeInfo serializedNode = new SerializedAccessibilityNodeInfo();
         Rect boundsInScreen = new Rect(), boundsInParent = new Rect();
-        if(node == null){
+        if (node == null) {
             return null;
         }
-        if(node.getClassName() != null)
+        if (node.getClassName() != null)
             serializedNode.className = node.getClassName().toString();
         node.getBoundsInScreen(boundsInScreen);
         node.getBoundsInParent(boundsInParent);
@@ -367,19 +379,19 @@ public class AccessibilityUtils {
         serializedNode.boundsInScreen = boundsInScreen.flattenToString();
         serializedNode.boundsInParent = boundsInParent.flattenToString();
 
-        if(node.getContentDescription() != null)
+        if (node.getContentDescription() != null)
             serializedNode.contentDescription = node.getContentDescription().toString();
 
-        if(node.getText() != null){
+        if (node.getText() != null) {
             serializedNode.text = node.getText().toString();
         }
 
-        if(node.getViewIdResourceName() != null)
+        if (node.getViewIdResourceName() != null)
             serializedNode.viewId = node.getViewIdResourceName();
 
         int childCount = node.getChildCount();
-        for(int i = 0; i < childCount; i ++){
-            if(node.getChild(i) != null){
+        for (int i = 0; i < childCount; i++) {
+            if (node.getChild(i) != null) {
                 serializedNode.children.add(serialize(node.getChild(i)));
             }
         }
@@ -389,18 +401,18 @@ public class AccessibilityUtils {
 
     /**
      * Find out whether you are at the main page of chatting
+     *
      * @param root
      * @param appName
      * @return boolean whether you are at the main page of a chatting application or not
      */
-    public static boolean getMainPageSymbol(AccessibilityNodeInfo root, String appName){
-        try{
+    public static boolean getMainPageSymbol(AccessibilityNodeInfo root, String appName) {
+        try {
             AccessibilityNodeInfo mainPage = root.findAccessibilityNodeInfosByViewId(getMainPageSymbolResourceId(appName)).get(0);
-            if(mainPage!=null){
+            if (mainPage != null) {
                 return true;
             }
-        }
-        catch (Exception exception){
+        } catch (Exception exception) {
             return false;
         }
         return false;
@@ -408,84 +420,109 @@ public class AccessibilityUtils {
 
     /**
      * Find out whether you have a unread message symbol or not
+     *
      * @param root
      * @param appName
      * @return boolean whether you are at the main page of a chatting application or not
      */
-    public static boolean getUnreadSymbol(AccessibilityNodeInfo root, String appName){
-        try{
+    public static boolean getUnreadSymbol(AccessibilityNodeInfo root, String appName) {
+        try {
             AccessibilityNodeInfo mainPage = root.findAccessibilityNodeInfosByViewId
                     (getUnreadResourceId(appName)).get(0);
-            if(mainPage!=null){
+            if (mainPage != null) {
                 return true;
             }
-        }
-        catch (Exception exception){
+        } catch (Exception exception) {
             return false;
         }
         return false;
     }
+
     /**
      * Find out whether you have a unread message symbol or not
+     *
      * @param root
      * @param appName
      * @return boolean whether you are at the main page of a chatting application or not
      */
-    public static int getInputBarInputSize(AccessibilityNodeInfo root, String appName){
-        try{
+    public static int getInputBarInputSize(AccessibilityNodeInfo root, String appName) {
+        try {
             AccessibilityNodeInfo input = root.findAccessibilityNodeInfosByViewId(getInputBarResourceId(appName)).get(0);
-            if(input!=null){
+            if (input != null) {
                 String a = input.getText().toString();
 
-                if(a != null){
-                    if(a.equals("Type a message…")) return 0;
-                    else if (a.equals("Aa"))return 0;
+                if (a != null) {
+                    if (a.equals("Type a message…")) return 0;
+                    else if (a.equals("Aa")) return 0;
                     else return a.length();
                 }
 
             }
 
-        }
-        catch (Exception exception){
+        } catch (Exception exception) {
             return 0;
         }
         return 0;
     }
+
     /**
      * Find out the unread message amount for each of the user
+     *
      * @param root
      * @param appName
      * @return A two dimensional array of name and unread message count
      */
-    public static Map<String,Integer> getUnreadMessageList(AccessibilityNodeInfo root, String appName){
-        try{
-            Map<String,Integer> unreadMessageList = new HashMap<>();
+    public static Map<String, Integer> getUnreadMessageList(AccessibilityNodeInfo root, String appName) {
+        try {
+            Map<String, Integer> unreadMessageList = new HashMap<>();
             List<AccessibilityNodeInfo> containers = root.findAccessibilityNodeInfosByViewId(
                     getMainPageContainerResourceId(appName));
-            for (AccessibilityNodeInfo container : containers){
+            for (AccessibilityNodeInfo container : containers) {
                 String name = String.valueOf(container.findAccessibilityNodeInfosByViewId(
                         getMainPageContactNameResourceId(appName)).get(0).getText());
 
                 List<AccessibilityNodeInfo> a = container.findAccessibilityNodeInfosByViewId(
                         getMainpageMessageCountResourceId(appName));
                 int messageCount = 0;
-                if(!a.isEmpty()){
+                if (!a.isEmpty()) {
                     AccessibilityNodeInfo messageCountNode = container.findAccessibilityNodeInfosByViewId(
                             getMainpageMessageCountResourceId(appName)).get(0);
-                    if(messageCountNode!=null) {
+                    if (messageCountNode != null) {
                         messageCount = Integer.parseInt(messageCountNode.getText().toString());
                     }
                 }
-                unreadMessageList.put(name,messageCount);
+                unreadMessageList.put(name, messageCount);
             }
-            if(!unreadMessageList.isEmpty()){
+            if (!unreadMessageList.isEmpty()) {
                 return unreadMessageList;
             }
-        }
-        catch (Exception exception){
+        } catch (Exception exception) {
             return null;
         }
         return null;
+    }
+
+    /**
+     * Get log time of the message if attainable
+     *
+     * @param root
+     * @param appName
+     * @return int representing time formatted in HHMM (e.g. 0840)
+     */
+    public static int getLogTimeByTextView(AccessibilityNodeInfo root, String appName) {
+        try {
+            switch (appName) {
+                case APP_PACKAGE_WHATSAPP:
+                    if (root.getText().toString().equals(WHATSAPP_MESSAGE_TEXT))
+                        return Integer.parseInt(root.getParent().findAccessibilityNodeInfosByViewId(WHATSAPP_MESSAGE_LOG_TIME)
+                                .get(0).toString().replace(":",""));
+                    return Message.LOG_TIME_NA;
+                default:
+                    return Message.LOG_TIME_NA;
+            }
+        } catch (Exception exception) {
+            return Message.LOG_TIME_NA;
+        }
     }
 
 }

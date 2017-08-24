@@ -40,13 +40,22 @@ class SMSMessageListProvider extends PStreamProvider {
                 Integer type = c.getInt(c.getColumnIndex("type"));
                 String typeStr;
                 switch (type) {
-                    case 1: typeStr = Message.TYPE_RECEIVED; break;
-                    case 2: typeStr = Message.TYPE_SENT; break;
-                    case 3: typeStr = Message.TYPE_DRAFT; break;
+                    case 1:
+                        typeStr = Message.TYPE_RECEIVED;
+                        break;
+                    case 2:
+                        typeStr = Message.TYPE_SENT;
+                        break;
+                    case 3:
+                        typeStr = Message.TYPE_DRAFT;
+                        break;
                     case 4:
                     case 5:
-                    case 6: typeStr = Message.TYPE_PENDING; break;
-                    default: typeStr = Message.TYPE_UNKNOWN;
+                    case 6:
+                        typeStr = Message.TYPE_PENDING;
+                        break;
+                    default:
+                        typeStr = Message.TYPE_UNKNOWN;
                 }
                 String content = c.getString(c.getColumnIndex("body"));
                 Integer seen = c.getInt(c.getColumnIndex("seen"));
@@ -55,8 +64,8 @@ class SMSMessageListProvider extends PStreamProvider {
                 Message message = new Message(typeStr, content, "system", address, date);
 //                message.setFieldValue("date_sent", dateSent);
                 message.setFieldValue("sms_id", smsId);
-                message.setFieldValue("seen", seen==1);
-                message.setFieldValue("read", read==1);
+                message.setFieldValue("seen", seen == 1);
+                message.setFieldValue("read", read == 1);
 
                 this.output(message);
 

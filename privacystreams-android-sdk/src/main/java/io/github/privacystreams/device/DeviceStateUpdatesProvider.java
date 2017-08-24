@@ -18,7 +18,7 @@ class DeviceStateUpdatesProvider extends PStreamProvider {
     private long frequency;
     private int mask;
 
-    DeviceStateUpdatesProvider(long frequency, int mask){
+    DeviceStateUpdatesProvider(long frequency, int mask) {
         this.frequency = frequency;
         this.mask = mask;
         this.addParameters(frequency, mask);
@@ -60,6 +60,7 @@ class DeviceStateUpdatesProvider extends PStreamProvider {
             }
         }
     }
+
 
     private void getBatteryInfo(Item deviceState){
         float level = DeviceUtils.getBatteryLevel(this.getContext());
