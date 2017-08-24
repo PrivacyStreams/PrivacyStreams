@@ -3,6 +3,12 @@ package io.github.privacystreams.communication;
 import android.Manifest;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.util.Log;
+
+import com.easilydo.sift.model.gen.Deal;
+import com.easilydo.sift.model.gen.Order;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.json.JSONObject;
 
@@ -10,16 +16,14 @@ import java.io.BufferedInputStream;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Scanner;
 
 import io.github.privacystreams.core.PStreamProvider;
 import io.github.privacystreams.utils.Logging;
-
-import com.easilydo.sift.model.Sift;
-import com.easilydo.sift.model.Domain;
-import com.easilydo.sift.model.gen.*;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 
 public class SiftEmail extends PStreamProvider{
@@ -288,62 +292,65 @@ public class SiftEmail extends PStreamProvider{
                         Logging.error("json is:" + responseJson);
                         siftinfo = responseJson.get("result").toString();
                         JsonNode root = objectMapper.readTree(responseString);
-                        Logging.error("root is:"+root);
-                        JsonNode result = root.get("result").get(0);
-                        Logging.error("result is:" + result);
-                        JsonNode payload = result.has("@type") ? result : result.get("payload");
-                        Logging.error("payload is"+payload);
-                        String type = payload.get("@type").textValue();
-                        if(type.startsWith("x-")) {
-                            type = type.substring(2);
-                            Logging.error("type is:"+type);
-                        }
-                        else{
-                            Logging.error("type is:"+type);
-                        }
-                        if(type != null){
+
+                        JsonNode result = root.get("result");
+                        for(JsonNode each: result){
+                            Log.e("---------","---------------");
+                            JsonNode payload = result.has("@type") ? each : each.get("payload");
+                            String type = payload.get("@type").textValue();
+                            if(type.startsWith("x-")) {
+                                type = type.substring(2);
+                                Logging.error("type is:"+type);
+                            }
+                            else{
+                                Logging.error("type is:"+type);
+                            }
+
                             switch(type){
+                                case "Contact":
+                                    com.easilydo.sift.model.gen.Contact contact = (com.easilydo.sift.model.gen.Contact) objectMapper.treeToValue(payload, Class.forName("com.easilydo.sift.model.gen." + type));
+                                    Log.e("contact",contact.getContacts().get(0).getEmail());
                                 case "Unknown":
                                     break;
                                 case "Order":
                                     Logging.error("cast to order");
                                     Order order = (Order) objectMapper.treeToValue(payload, Class.forName("com.easilydo.sift.model.gen." + type));
+                                    Log.e("order",order.getOrderNumber());
                                     break;
                                 case "Deal":
                                     Logging.error("cast to deal");
                                     Deal deal = (Deal) objectMapper.treeToValue(payload, Class.forName("com.easilydo.sift.model.gen." + type));
+                                    Log.e("deal",deal.toString());
                                     break;
-                                case "Contact":
-                                    Logging.error("cast to Contact");
-                                    Contact contact = (Contact) objectMapper.treeToValue(payload, Class.forName("com.easilydo.sift.model.gen." + type));
-                                    break;
+
                                 default:
                                     Logging.error("unknown type");
-                                    /*
-                                case "ParcelDelivery":
-                                    Order order = (Order) objectMapper.treeToValue(payload, Class.forName("com.easilydo.sift.model.gen." + type));
-                                    break;
-                                case "order":
-                                    Order order = (Order) objectMapper.treeToValue(payload, Class.forName("com.easilydo.sift.model.gen." + type));
-                                    break;
-                                case "order":
-                                    Order order = (Order) objectMapper.treeToValue(payload, Class.forName("com.easilydo.sift.model.gen." + type));
-                                    break;
-                                case "order":
-                                    Order order = (Order) objectMapper.treeToValue(payload, Class.forName("com.easilydo.sift.model.gen." + type));
-                                    break;
-                                case "order":
-                                    Order order = (Order) objectMapper.treeToValue(payload, Class.forName("com.easilydo.sift.model.gen." + type));
-                                    break;
-                                case "order":
-                                    Order order = (Order) objectMapper.treeToValue(payload, Class.forName("com.easilydo.sift.model.gen." + type));
-                                    break;
-                                case "order":
-                                    Order order = (Order) objectMapper.treeToValue(payload, Class.forName("com.easilydo.sift.model.gen." + type));
-                                    break;
-                                */
+                                /*
+                            case "ParcelDelivery":
+                                Order order = (Order) objectMapper.treeToValue(payload, Class.forName("com.easilydo.sift.model.gen." + type));
+                                break;
+                            case "order":
+                                Order order = (Order) objectMapper.treeToValue(payload, Class.forName("com.easilydo.sift.model.gen." + type));
+                                break;
+                            case "order":
+                                Order order = (Order) objectMapper.treeToValue(payload, Class.forName("com.easilydo.sift.model.gen." + type));
+                                break;
+                            case "order":
+                                Order order = (Order) objectMapper.treeToValue(payload, Class.forName("com.easilydo.sift.model.gen." + type));
+                                break;
+                            case "order":
+                                Order order = (Order) objectMapper.treeToValue(payload, Class.forName("com.easilydo.sift.model.gen." + type));
+                                break;
+                            case "order":
+                                Order order = (Order) objectMapper.treeToValue(payload, Class.forName("com.easilydo.sift.model.gen." + type));
+                                break;
+                            case "order":
+                                Order order = (Order) objectMapper.treeToValue(payload, Class.forName("com.easilydo.sift.model.gen." + type));
+                                break;
+                            */
                             }
                         }
+
                     } catch (Exception e) {
                         Logging.error("parse json failed for list sifts");
                         Logging.error("exception is" + e.getMessage());

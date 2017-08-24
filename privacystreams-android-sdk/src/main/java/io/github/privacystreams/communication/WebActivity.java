@@ -10,9 +10,6 @@ import android.widget.Button;
 import io.github.privacystreams.core.R;
 import io.github.privacystreams.utils.Logging;
 
-/**
- * Created by xiaobing1117 on 2017/8/21.
- */
 
 public class WebActivity extends Activity {
     //final TextView t = (TextView)findViewById(R.id.siftinfo);
@@ -31,9 +28,7 @@ public class WebActivity extends Activity {
             public void onClick(View v) {
                 SiftEmail sift = new SiftEmail(null,null);
                 Logging.error("list sifts");
-                for(int i=0;i<3;++i) {
-                    sift.listSifts(userName, i);
-                }
+                sift.listSifts("whatever");
             }
         });
         Uri uri = Uri.parse(url);
