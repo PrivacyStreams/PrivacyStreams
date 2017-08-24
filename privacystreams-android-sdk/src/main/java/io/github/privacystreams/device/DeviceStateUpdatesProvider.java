@@ -72,7 +72,7 @@ class DeviceStateUpdatesProvider extends PStreamProvider {
             List<Item> bluetoothList = this.getUQI()
                     .getData(BluetoothDevice.getScanResults(), Purpose.LIB_INTERNAL("DeviceStateUpdatesProvider"))
                     .asList();
-            deviceState.setFieldValue(DeviceState.BLUETOOTH_DEVICE_LIST, bluetoothList);
+            deviceState.setFieldValue(DeviceState.BT_DEVICE_LIST, bluetoothList);
         } catch (PSException e) {
             e.printStackTrace();
         }

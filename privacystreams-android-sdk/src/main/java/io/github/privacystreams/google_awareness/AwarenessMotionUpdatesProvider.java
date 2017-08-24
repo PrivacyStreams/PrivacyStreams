@@ -80,7 +80,6 @@ class AwarenessMotionUpdatesProvider extends PStreamProvider {
                     .build();
             client.connect();
             walkingFence = DetectedActivityFence.during(DetectedActivityFence.WALKING);     //Create Fence
-            tiltingFence = DetectedActivityFence.during(DetectedActivityFence.TILTING);
             onFootFence = DetectedActivityFence.during(DetectedActivityFence.ON_FOOT);
             runningFence = DetectedActivityFence.during(DetectedActivityFence.RUNNING);
 

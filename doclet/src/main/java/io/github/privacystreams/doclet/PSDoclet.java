@@ -55,7 +55,9 @@ public class PSDoclet extends HtmlDoclet {
             if (Utils.instanceOf(classDoc, Consts.TYPE_P_STREAM)) {
                 for (MethodDoc methodDoc : classDoc.methods()) {
                     PSPipelineDoc pipelineDoc = PSPipelineDoc.build(classDoc, methodDoc);
-                    if (pipelineDoc != null) this.psPipelines.add(pipelineDoc);
+                    if (pipelineDoc != null) {
+                        this.psPipelines.add(pipelineDoc);
+                    }
                 }
             }
         }

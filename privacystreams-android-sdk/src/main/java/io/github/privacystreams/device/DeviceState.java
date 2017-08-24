@@ -16,7 +16,7 @@ public class DeviceState extends Item {
      * The list of currently scanned bluetooth device.
      */
     @PSItemField(type = List.class)
-    public static final String BLUETOOTH_DEVICE_LIST = "bluetooth_device_list";
+    public static final String BT_DEVICE_LIST = "bt_device_list";
 
     /**
      * The list of currently scanned Wifi APs.
@@ -60,7 +60,7 @@ public class DeviceState extends Item {
      * Provide a live stream of device states, including bluetooth, wifi, battery level, and/or foreground apps etc.
      *
      * @param interval the interval between each two device state snapshots
-     * @param mask the mask of device state type, could be `DeviceState.Masks.BLUETOOTH_DEVICE_LIST`, `DeviceState.Masks.WIFI_AP_LIST`, etc.
+     * @param mask the mask of device state type, could be `DeviceState.Masks.BT_DEVICE_LIST`, `DeviceState.Masks.WIFI_AP_LIST`, etc.
      * @return the provider function
      */
     public static PStreamProvider asUpdates(long interval, int mask) {

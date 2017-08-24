@@ -21,7 +21,7 @@ public class PSItemFieldDoc {
 
     private PSItemFieldDoc(PSItemDoc psItemDoc, FieldDoc fieldDoc, AnnotationDesc annotation) {
         this.psItemDoc = psItemDoc;
-        this.reference = psItemDoc.name + "." + fieldDoc.name();
+        this.reference = fieldDoc.name();
         this.name = fieldDoc.constantValue().toString();
         this.description = fieldDoc.commentText().replace('\n', ' ');
 
@@ -45,7 +45,7 @@ public class PSItemFieldDoc {
     }
 
     public String toString() {
-        return "| `" + this.reference + "` | `\"" + this.name + "\"` | `" + Utils.getSimpleTypeName(this.type) + "` | " + this.description +  " |";
+        return "| `" + this.reference + "` | `" + Utils.getSimpleTypeName(this.type) + "` | " + this.description +  " |";
     }
 
 }

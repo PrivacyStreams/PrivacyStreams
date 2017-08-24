@@ -6,6 +6,8 @@ import com.sun.javadoc.Parameter;
 import com.sun.javadoc.Tag;
 import com.sun.javadoc.Type;
 
+import java.util.Objects;
+
 /**
  * Created by yuanchun on 11/03/2017.
  */
@@ -15,24 +17,25 @@ public class PSOperatorDoc {
     ClassDoc declaringClassDoc;
     MethodDoc methodDoc;
     String description;
+    String paramDesc;
 
     String shortSignature;
 //    String completeSignature;
 
     Type returnType;
-    Type inputType;
-    Type outputType;
 
     private PSOperatorDoc(ClassDoc classDoc, MethodDoc methodDoc) {
         this.declaringClassDoc = classDoc;
         this.methodDoc = methodDoc;
-        this.description = methodDoc.commentText().replace('\n', ' ');;
+        this.description = methodDoc.commentText().replace('\n', ' ');
+        this.paramDesc = "";
+
         Tag[] paramTags = methodDoc.tags("param");
         for (Tag paramTag : paramTags) {
             String paraStr = paramTag.text();
             String paraName = paraStr.substring(0, paraStr.indexOf(' ')).replace('\n', ' ');;
             String paraDesc = paraStr.substring(paraStr.indexOf(' ') + 1).replace('\n', ' ');;
-            this.description += "<br> - `" + paraName + "`: " + paraDesc;
+            this.paramDesc += "<br> - `" + paraName + "`: " + paraDesc;
         }
 
         this.returnType = methodDoc.returnType();
@@ -47,8 +50,7 @@ public class PSOperatorDoc {
             if (firstParameter) {
                 shortSignature += Utils.getSimpleTypeName(parameter.type()) + " " + parameter.name();
                 firstParameter = false;
-            }
-            else {
+            } else {
                 shortSignature += ", " + Utils.getSimpleTypeName(parameter.type()) + " " + parameter.name();
             }
         }
@@ -65,7 +67,7 @@ public class PSOperatorDoc {
     }
 
     public String toString() {
-        String operatorDocStr = "| `" + Utils.getSimpleTypeName(this.returnType) + "` | `" + this.shortSignature + "` <br> " + this.description + " |";
+        String operatorDocStr = "| `" + Utils.getSimpleTypeName(this.returnType) + "` | **`" + this.shortSignature + "`** <br> " + this.description + this.paramDesc + " |";
         return operatorDocStr;
     }
 

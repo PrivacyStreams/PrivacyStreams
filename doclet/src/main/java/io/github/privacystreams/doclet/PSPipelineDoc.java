@@ -64,14 +64,14 @@ public class PSPipelineDoc {
         this.type = type;
 
         if (type == TYPE_TRANSFORMATION) {
-//            this.tag = "Keep order";
-//            for (AnnotationDesc.ElementValuePair elementValuePair : annotation.elementValues()) {
-//                if ("changeOrder".equals(elementValuePair.element().name())) {
-//                    boolean typeValue = (boolean) elementValuePair.value().value();
-//                    if (typeValue) this.tag = "Change order";
-//                    else this.tag = "Keep order";
-//                }
-//            }
+            this.tag = "Keep order";
+            for (AnnotationDesc.ElementValuePair elementValuePair : annotation.elementValues()) {
+                if ("changeOrder".equals(elementValuePair.element().name())) {
+                    boolean typeValue = (boolean) elementValuePair.value().value();
+                    if (typeValue) this.description += "<br>This transformation will change the order of items.";
+                    else this.description += "<br>This transformation will NOT change the order of items.";
+                }
+            }
             this.tag = "";
         }
         else if (type == TYPE_ACTION) {
@@ -79,8 +79,8 @@ public class PSPipelineDoc {
             for (AnnotationDesc.ElementValuePair elementValuePair : annotation.elementValues()) {
                 if ("blocking".equals(elementValuePair.element().name())) {
                     boolean typeValue = (boolean) elementValuePair.value().value();
-                    if (typeValue) this.tag = "Blocking";
-                    else this.tag = "Non-blocking";
+                    if (typeValue) this.description += "<br>This action will block current thread.";
+                    else this.description += "<br>This action will NOT block current thread.";
                 }
             }
         }
@@ -102,11 +102,10 @@ public class PSPipelineDoc {
 
     public String toString() {
         String operatorDocStr = String.format(Locale.ENGLISH,
-                "| `%s->%s` | %s | `%s` <br> %s |",
+                "| `%s,%s` | **`%s`** <br> %s |",
 //                this.type == TYPE_TRANSFORMATION ? "transform" : "output",
                 Utils.getSimpleTypeName(this.declaringClassDoc),
                 Utils.getSimpleTypeName(this.returnType),
-                this.tag,
                 this.shortSignature,
                 this.description
                 );

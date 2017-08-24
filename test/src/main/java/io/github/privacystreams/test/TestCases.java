@@ -51,6 +51,8 @@ import java.util.Locale;
 import java.util.Map;
 
 import static io.github.privacystreams.commons.statistic.StatisticOperators.count;
+import static io.github.privacystreams.commons.statistic.StatisticOperators.sum;
+import static io.github.privacystreams.commons.string.StringOperators.sha1;
 import static io.github.privacystreams.commons.time.TimeOperators.recent;
 
 /**
@@ -445,9 +447,26 @@ public class TestCases {
                 .getData(Call.getLogs(), Purpose.FEATURE("get the tie relationship with people"))
                 .groupBy(Call.CONTACT)
                 .setGroupField("num_of_calls", StatisticOperators.count())
-                .setGroupField("length_of_calls", StatisticOperators.sum(Call.DURATION))
+                .setGroupField("length_of_calls", sum(Call.DURATION))
                 .project(Call.CONTACT, "num_of_calls", "length_of_calls")
                 .asList();
+        Callback<Item> callback = new Callback<Item>() {
+            @Override
+            protected void onInput(Item input) {
+            }
+        };
+
+
+        uqi.getData(Call.getLogs(), Purpose.SOCIAL("Infer social relationship"))
+                .filter(recent(Call.TIMESTAMP, 365*24*60*60*1000L))
+                .groupBy(Call.CONTACT)
+                .setGroupField("#calls", count())
+                .setGroupField("Dur.calls", sum(Call.DURATION))
+                .setField("hashed_phone", sha1(Call.CONTACT))
+                .project("hashed_phone", "#calls", "Dur.calls")
+                .forEach(callback);
+
+
     }
 
 
@@ -455,7 +474,7 @@ public class TestCases {
     List<String> getHashedPhoneNumbersInSMS() throws PSException {
         return uqi
                 .getData(Message.getAllSMS(), Purpose.FEATURE("get hashed phone numbers."))
-                .setField("hashed_phone_number", StringOperators.sha1(Message.CONTACT))
+                .setField("hashed_phone_number", sha1(Message.CONTACT))
                 .asList("hashed_phone_number");
     }
 

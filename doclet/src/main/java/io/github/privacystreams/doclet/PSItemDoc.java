@@ -75,7 +75,7 @@ public class PSItemDoc {
         itemDocStr += this.description + "\n\n";
 
         if (this.itemFieldDocs.size() > 0) {
-            itemDocStr += "### Fields\n\n";
+            itemDocStr += "#### Fields of *" + this.name + "*\n\n";
             itemDocStr += Consts.FIELDS_TABLE_HEADER;
 
             for (PSItemFieldDoc itemFieldDoc : this.itemFieldDocs) {
@@ -84,7 +84,7 @@ public class PSItemDoc {
         }
 
         if (this.providerDocs.size() > 0) {
-            itemDocStr += "\n### Providers\n\n";
+            itemDocStr += "\n#### Providers of *" + this.name + "*\n\n";
             itemDocStr += Consts.OPERATORS_TABLE_HEADER;
 
             for (PSOperatorDoc providerDoc : this.providerDocs) {
