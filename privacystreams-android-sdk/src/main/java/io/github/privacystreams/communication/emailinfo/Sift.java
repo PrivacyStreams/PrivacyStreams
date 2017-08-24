@@ -4,9 +4,10 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import io.github.privacystreams.core.Item;
 import io.github.privacystreams.utils.Logging;
 
-public class Sift {
+public class Sift extends Item {
 
     private long siftId;
     private String mimeId;
