@@ -1,17 +1,21 @@
 
 package io.github.privacystreams.communication.emailinfo;
 
-import com.github.privacystreams.communication.email.Domain;
-import com.github.privacystreams.communication.email.EmailInfoEntity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang.builder.ToStringBuilder;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.annotation.Generated;
 
 /**
  * Order
@@ -19,8 +23,17 @@ import java.util.Map;
  * 
  * 
  */
-public class Order extends EmailInfoEntity {
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@Generated("org.jsonschema2pojo")
+@JsonPropertyOrder({
+        "acceptedOffer",
+        "broker",
+        "orderNumber",
+        "seller"
+})
+public class Order extends Sift {
 
+    @JsonProperty("acceptedOffer")
     private List<Offer> acceptedOffer = new ArrayList<Offer>();
     /**
      * Organization
@@ -28,7 +41,9 @@ public class Order extends EmailInfoEntity {
      * 
      * 
      */
+    @JsonProperty("broker")
     private Organization broker;
+    @JsonProperty("orderNumber")
     private String orderNumber;
     /**
      * Organization
@@ -36,7 +51,9 @@ public class Order extends EmailInfoEntity {
      * 
      * 
      */
+    @JsonProperty("seller")
     private Organization seller;
+    @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     public Domain getDomain() {
@@ -48,6 +65,7 @@ public class Order extends EmailInfoEntity {
      * @return
      *     The acceptedOffer
      */
+    @JsonProperty("acceptedOffer")
     public List<Offer> getAcceptedOffer() {
         return acceptedOffer;
     }
@@ -57,6 +75,7 @@ public class Order extends EmailInfoEntity {
      * @param acceptedOffer
      *     The acceptedOffer
      */
+    @JsonProperty("acceptedOffer")
     public void setAcceptedOffer(List<Offer> acceptedOffer) {
         this.acceptedOffer = acceptedOffer;
     }
@@ -69,6 +88,7 @@ public class Order extends EmailInfoEntity {
      * @return
      *     The broker
      */
+    @JsonProperty("broker")
     public Organization getBroker() {
         return broker;
     }
@@ -81,6 +101,7 @@ public class Order extends EmailInfoEntity {
      * @param broker
      *     The broker
      */
+    @JsonProperty("broker")
     public void setBroker(Organization broker) {
         this.broker = broker;
     }
@@ -90,6 +111,7 @@ public class Order extends EmailInfoEntity {
      * @return
      *     The orderNumber
      */
+    @JsonProperty("orderNumber")
     public String getOrderNumber() {
         return orderNumber;
     }
@@ -99,6 +121,7 @@ public class Order extends EmailInfoEntity {
      * @param orderNumber
      *     The orderNumber
      */
+    @JsonProperty("orderNumber")
     public void setOrderNumber(String orderNumber) {
         this.orderNumber = orderNumber;
     }
@@ -111,6 +134,7 @@ public class Order extends EmailInfoEntity {
      * @return
      *     The seller
      */
+    @JsonProperty("seller")
     public Organization getSeller() {
         return seller;
     }
@@ -123,6 +147,7 @@ public class Order extends EmailInfoEntity {
      * @param seller
      *     The seller
      */
+    @JsonProperty("seller")
     public void setSeller(Organization seller) {
         this.seller = seller;
     }
@@ -132,10 +157,12 @@ public class Order extends EmailInfoEntity {
         return ToStringBuilder.reflectionToString(this);
     }
 
+    @JsonIgnore
     public Map<String, Object> getAdditionalProperties() {
         return this.additionalProperties;
     }
 
+    @JsonIgnore
     public void setAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
     }

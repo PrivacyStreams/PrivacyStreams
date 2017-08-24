@@ -1,15 +1,19 @@
 
 package io.github.privacystreams.communication.emailinfo;
 
-import com.github.privacystreams.communication.email.Domain;
-import com.github.privacystreams.communication.email.EmailInfoEntity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang.builder.ToStringBuilder;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.annotation.Generated;
 
 
 /**
@@ -18,9 +22,18 @@ import java.util.Map;
  * 
  * 
  */
-public class Invoice extends EmailInfoEntity {
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@Generated("org.jsonschema2pojo")
+@JsonPropertyOrder({
+        "confirmationNumber",
+        "paymentStatus",
+        "totalPaymentDue"
+})
+public class Invoice extends Sift {
 
+    @JsonProperty("confirmationNumber")
     private String confirmationNumber;
+    @JsonProperty("paymentStatus")
     private String paymentStatus;
     /**
      * PriceSpecification
@@ -28,7 +41,9 @@ public class Invoice extends EmailInfoEntity {
      * 
      * 
      */
+    @JsonProperty("totalPaymentDue")
     private PriceSpecification totalPaymentDue;
+    @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     public Domain getDomain() {
@@ -40,6 +55,7 @@ public class Invoice extends EmailInfoEntity {
      * @return
      *     The confirmationNumber
      */
+    @JsonProperty("confirmationNumber")
     public String getConfirmationNumber() {
         return confirmationNumber;
     }
@@ -49,6 +65,7 @@ public class Invoice extends EmailInfoEntity {
      * @param confirmationNumber
      *     The confirmationNumber
      */
+    @JsonProperty("confirmationNumber")
     public void setConfirmationNumber(String confirmationNumber) {
         this.confirmationNumber = confirmationNumber;
     }
@@ -58,6 +75,7 @@ public class Invoice extends EmailInfoEntity {
      * @return
      *     The paymentStatus
      */
+    @JsonProperty("paymentStatus")
     public String getPaymentStatus() {
         return paymentStatus;
     }
@@ -67,6 +85,7 @@ public class Invoice extends EmailInfoEntity {
      * @param paymentStatus
      *     The paymentStatus
      */
+    @JsonProperty("paymentStatus")
     public void setPaymentStatus(String paymentStatus) {
         this.paymentStatus = paymentStatus;
     }
@@ -79,6 +98,7 @@ public class Invoice extends EmailInfoEntity {
      * @return
      *     The totalPaymentDue
      */
+    @JsonProperty("totalPaymentDue")
     public PriceSpecification getTotalPaymentDue() {
         return totalPaymentDue;
     }
@@ -91,6 +111,7 @@ public class Invoice extends EmailInfoEntity {
      * @param totalPaymentDue
      *     The totalPaymentDue
      */
+    @JsonProperty("totalPaymentDue")
     public void setTotalPaymentDue(PriceSpecification totalPaymentDue) {
         this.totalPaymentDue = totalPaymentDue;
     }
@@ -100,10 +121,12 @@ public class Invoice extends EmailInfoEntity {
         return ToStringBuilder.reflectionToString(this);
     }
 
+    @JsonIgnore
     public Map<String, Object> getAdditionalProperties() {
         return this.additionalProperties;
     }
 
+    @JsonIgnore
     public void setAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
     }

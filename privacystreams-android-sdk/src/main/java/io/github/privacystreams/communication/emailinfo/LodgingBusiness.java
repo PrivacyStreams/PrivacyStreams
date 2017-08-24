@@ -1,12 +1,19 @@
 
 package io.github.privacystreams.communication.emailinfo;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.apache.commons.lang3.builder.ToStringBuilder;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang.builder.ToStringBuilder;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.annotation.Generated;
 
 
 /**
@@ -15,12 +22,25 @@ import java.util.Map;
  * 
  * 
  */
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@Generated("org.jsonschema2pojo")
+@JsonPropertyOrder({
+        "address",
+        "name",
+        "telephone",
+        "xDays"
+})
 public class LodgingBusiness {
 
+    @JsonProperty("address")
     private String address;
+    @JsonProperty("name")
     private String name;
+    @JsonProperty("telephone")
     private String telephone;
+    @JsonProperty("xDays")
     private Double xDays;
+    @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     /**
@@ -28,6 +48,7 @@ public class LodgingBusiness {
      * @return
      *     The address
      */
+    @JsonProperty("address")
     public String getAddress() {
         return address;
     }
@@ -37,6 +58,7 @@ public class LodgingBusiness {
      * @param address
      *     The address
      */
+    @JsonProperty("address")
     public void setAddress(String address) {
         this.address = address;
     }
@@ -46,6 +68,7 @@ public class LodgingBusiness {
      * @return
      *     The name
      */
+    @JsonProperty("name")
     public String getName() {
         return name;
     }
@@ -55,6 +78,7 @@ public class LodgingBusiness {
      * @param name
      *     The name
      */
+    @JsonProperty("name")
     public void setName(String name) {
         this.name = name;
     }
@@ -64,6 +88,7 @@ public class LodgingBusiness {
      * @return
      *     The telephone
      */
+    @JsonProperty("telephone")
     public String getTelephone() {
         return telephone;
     }
@@ -73,6 +98,7 @@ public class LodgingBusiness {
      * @param telephone
      *     The telephone
      */
+    @JsonProperty("telephone")
     public void setTelephone(String telephone) {
         this.telephone = telephone;
     }
@@ -82,6 +108,7 @@ public class LodgingBusiness {
      * @return
      *     The xDays
      */
+    @JsonProperty("xDays")
     public Double getXDays() {
         return xDays;
     }
@@ -91,6 +118,7 @@ public class LodgingBusiness {
      * @param xDays
      *     The x-days
      */
+    @JsonProperty("xDays")
     public void setXDays(Double xDays) {
         this.xDays = xDays;
     }
@@ -100,10 +128,12 @@ public class LodgingBusiness {
         return ToStringBuilder.reflectionToString(this);
     }
 
+    @JsonIgnore
     public Map<String, Object> getAdditionalProperties() {
         return this.additionalProperties;
     }
 
+    @JsonIgnore
     public void setAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
     }

@@ -1,16 +1,20 @@
 
 package io.github.privacystreams.communication.emailinfo;
 
-import com.github.privacystreams.communication.email.Domain;
-import com.github.privacystreams.communication.email.EmailInfoEntity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang.builder.ToStringBuilder;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.annotation.Generated;
 
 
 /**
@@ -19,7 +23,13 @@ import java.util.Map;
  * 
  * 
  */
-public class LodgingReservation extends EmailInfoEntity {
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@Generated("org.jsonschema2pojo")
+@JsonPropertyOrder({
+        "contacts"
+})
+
+public class LodgingReservation extends Sift {
 
     /**
      * Organization
@@ -27,8 +37,11 @@ public class LodgingReservation extends EmailInfoEntity {
      * 
      * 
      */
+    @JsonProperty("broker")
     private Organization broker;
+    @JsonProperty("checkinTime")
     private Date checkinTime;
+    @JsonProperty("checkoutTime")
     private Date checkoutTime;
     /**
      * LodgingBusiness
@@ -36,7 +49,9 @@ public class LodgingReservation extends EmailInfoEntity {
      * 
      * 
      */
+    @JsonProperty("reservationFor")
     private LodgingBusiness reservationFor;
+    @JsonProperty("reservationId")
     private String reservationId;
     /**
      * ReservationStatus
@@ -44,7 +59,9 @@ public class LodgingReservation extends EmailInfoEntity {
      * 
      * 
      */
+    @JsonProperty("reservationStatus")
     private ReservationStatus reservationStatus;
+    @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     public Domain getDomain() {
@@ -59,6 +76,7 @@ public class LodgingReservation extends EmailInfoEntity {
      * @return
      *     The broker
      */
+    @JsonProperty("broker")
     public Organization getBroker() {
         return broker;
     }
@@ -71,6 +89,7 @@ public class LodgingReservation extends EmailInfoEntity {
      * @param broker
      *     The broker
      */
+    @JsonProperty("broker")
     public void setBroker(Organization broker) {
         this.broker = broker;
     }
@@ -80,6 +99,7 @@ public class LodgingReservation extends EmailInfoEntity {
      * @return
      *     The checkinTime
      */
+    @JsonProperty("checkinTime")
     public Date getCheckinTime() {
         return checkinTime;
     }
@@ -89,6 +109,7 @@ public class LodgingReservation extends EmailInfoEntity {
      * @param checkinTime
      *     The checkinTime
      */
+    @JsonProperty("checkinTime")
     public void setCheckinTime(Date checkinTime) {
         this.checkinTime = checkinTime;
     }
@@ -98,6 +119,7 @@ public class LodgingReservation extends EmailInfoEntity {
      * @return
      *     The checkoutTime
      */
+    @JsonProperty("checkoutTime")
     public Date getCheckoutTime() {
         return checkoutTime;
     }
@@ -107,6 +129,7 @@ public class LodgingReservation extends EmailInfoEntity {
      * @param checkoutTime
      *     The checkoutTime
      */
+    @JsonProperty("checkoutTime")
     public void setCheckoutTime(Date checkoutTime) {
         this.checkoutTime = checkoutTime;
     }
@@ -119,6 +142,7 @@ public class LodgingReservation extends EmailInfoEntity {
      * @return
      *     The reservationFor
      */
+    @JsonProperty("reservationFor")
     public LodgingBusiness getReservationFor() {
         return reservationFor;
     }
@@ -131,6 +155,7 @@ public class LodgingReservation extends EmailInfoEntity {
      * @param reservationFor
      *     The reservationFor
      */
+    @JsonProperty("reservationFor")
     public void setReservationFor(LodgingBusiness reservationFor) {
         this.reservationFor = reservationFor;
     }
@@ -140,6 +165,7 @@ public class LodgingReservation extends EmailInfoEntity {
      * @return
      *     The reservationId
      */
+    @JsonProperty("reservationId")
     public String getReservationId() {
         return reservationId;
     }
@@ -149,6 +175,7 @@ public class LodgingReservation extends EmailInfoEntity {
      * @param reservationId
      *     The reservationId
      */
+    @JsonProperty("reservationId")
     public void setReservationId(String reservationId) {
         this.reservationId = reservationId;
     }
@@ -161,6 +188,7 @@ public class LodgingReservation extends EmailInfoEntity {
      * @return
      *     The reservationStatus
      */
+    @JsonProperty("reservationStatus")
     public ReservationStatus getReservationStatus() {
         return reservationStatus;
     }
@@ -173,6 +201,7 @@ public class LodgingReservation extends EmailInfoEntity {
      * @param reservationStatus
      *     The reservationStatus
      */
+    @JsonProperty("reservationStatus")
     public void setReservationStatus(ReservationStatus reservationStatus) {
         this.reservationStatus = reservationStatus;
     }
@@ -182,10 +211,12 @@ public class LodgingReservation extends EmailInfoEntity {
         return ToStringBuilder.reflectionToString(this);
     }
 
+    @JsonIgnore
     public Map<String, Object> getAdditionalProperties() {
         return this.additionalProperties;
     }
 
+    @JsonIgnore
     public void setAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
     }

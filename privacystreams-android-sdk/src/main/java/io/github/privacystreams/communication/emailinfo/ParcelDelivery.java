@@ -1,17 +1,21 @@
 
 package io.github.privacystreams.communication.emailinfo;
 
-import com.github.privacystreams.communication.email.Domain;
-import com.github.privacystreams.communication.email.EmailInfoEntity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang.builder.ToStringBuilder;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.annotation.Generated;
 
 
 /**
@@ -20,8 +24,18 @@ import java.util.Map;
  * 
  * 
  */
-public class ParcelDelivery extends EmailInfoEntity {
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@Generated("org.jsonschema2pojo")
+@JsonPropertyOrder({
+        "itemShipped",
+        "partOfOrder",
+        "provider",
+        "trackingNumber",
+        "trackingUrl"
+})
+public class ParcelDelivery extends Sift {
 
+    @JsonProperty("itemShipped")
     private List<Product> itemShipped = new ArrayList<Product>();
     /**
      * Order
@@ -29,6 +43,7 @@ public class ParcelDelivery extends EmailInfoEntity {
      * 
      * 
      */
+    @JsonProperty("partOfOrder")
     private Order partOfOrder;
     /**
      * Organization
@@ -36,9 +51,13 @@ public class ParcelDelivery extends EmailInfoEntity {
      * 
      * 
      */
+    @JsonProperty("provider")
     private Organization provider;
+    @JsonProperty("trackingNumber")
     private String trackingNumber;
+    @JsonProperty("trackingUrl")
     private String trackingUrl;
+    @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     public Domain getDomain() {
@@ -50,6 +69,7 @@ public class ParcelDelivery extends EmailInfoEntity {
      * @return
      *     The itemShipped
      */
+    @JsonProperty("itemShipped")
     public List<Product> getItemShipped() {
         return itemShipped;
     }
@@ -59,6 +79,7 @@ public class ParcelDelivery extends EmailInfoEntity {
      * @param itemShipped
      *     The itemShipped
      */
+    @JsonProperty("itemShipped")
     public void setItemShipped(List<Product> itemShipped) {
         this.itemShipped = itemShipped;
     }
@@ -71,6 +92,7 @@ public class ParcelDelivery extends EmailInfoEntity {
      * @return
      *     The partOfOrder
      */
+    @JsonProperty("partOfOrder")
     public Order getPartOfOrder() {
         return partOfOrder;
     }
@@ -83,6 +105,7 @@ public class ParcelDelivery extends EmailInfoEntity {
      * @param partOfOrder
      *     The partOfOrder
      */
+    @JsonProperty("partOfOrder")
     public void setPartOfOrder(Order partOfOrder) {
         this.partOfOrder = partOfOrder;
     }
@@ -95,6 +118,7 @@ public class ParcelDelivery extends EmailInfoEntity {
      * @return
      *     The provider
      */
+    @JsonProperty("provider")
     public Organization getProvider() {
         return provider;
     }
@@ -107,6 +131,7 @@ public class ParcelDelivery extends EmailInfoEntity {
      * @param provider
      *     The provider
      */
+    @JsonProperty("provider")
     public void setProvider(Organization provider) {
         this.provider = provider;
     }
@@ -116,6 +141,7 @@ public class ParcelDelivery extends EmailInfoEntity {
      * @return
      *     The trackingNumber
      */
+    @JsonProperty("trackingNumber")
     public String getTrackingNumber() {
         return trackingNumber;
     }
@@ -125,6 +151,7 @@ public class ParcelDelivery extends EmailInfoEntity {
      * @param trackingNumber
      *     The trackingNumber
      */
+    @JsonProperty("trackingNumber")
     public void setTrackingNumber(String trackingNumber) {
         this.trackingNumber = trackingNumber;
     }
@@ -134,6 +161,7 @@ public class ParcelDelivery extends EmailInfoEntity {
      * @return
      *     The trackingUrl
      */
+    @JsonProperty("trackingUrl")
     public String getTrackingUrl() {
         return trackingUrl;
     }
@@ -143,6 +171,7 @@ public class ParcelDelivery extends EmailInfoEntity {
      * @param trackingUrl
      *     The trackingUrl
      */
+    @JsonProperty("trackingUrl")
     public void setTrackingUrl(String trackingUrl) {
         this.trackingUrl = trackingUrl;
     }
@@ -152,10 +181,12 @@ public class ParcelDelivery extends EmailInfoEntity {
         return ToStringBuilder.reflectionToString(this);
     }
 
+    @JsonIgnore
     public Map<String, Object> getAdditionalProperties() {
         return this.additionalProperties;
     }
 
+    @JsonIgnore
     public void setAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
     }

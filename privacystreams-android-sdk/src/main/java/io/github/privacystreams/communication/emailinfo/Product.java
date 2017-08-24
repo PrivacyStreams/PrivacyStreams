@@ -1,12 +1,18 @@
-
 package io.github.privacystreams.communication.emailinfo;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.apache.commons.lang3.builder.ToStringBuilder;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang.builder.ToStringBuilder;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.annotation.Generated;
 
 
 /**
@@ -15,10 +21,19 @@ import java.util.Map;
  * 
  * 
  */
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@Generated("org.jsonschema2pojo")
+@JsonPropertyOrder({
+        "image",
+        "name"
+})
 public class Product {
 
+    @JsonProperty("image")
     private String image;
+    @JsonProperty("name")
     private String name;
+    @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     /**
@@ -26,6 +41,7 @@ public class Product {
      * @return
      *     The image
      */
+    @JsonProperty("image")
     public String getImage() {
         return image;
     }
@@ -35,6 +51,7 @@ public class Product {
      * @param image
      *     The image
      */
+    @JsonProperty("image")
     public void setImage(String image) {
         this.image = image;
     }
@@ -44,6 +61,7 @@ public class Product {
      * @return
      *     The name
      */
+    @JsonProperty("name")
     public String getName() {
         return name;
     }
@@ -53,6 +71,7 @@ public class Product {
      * @param name
      *     The name
      */
+    @JsonProperty("name")
     public void setName(String name) {
         this.name = name;
     }

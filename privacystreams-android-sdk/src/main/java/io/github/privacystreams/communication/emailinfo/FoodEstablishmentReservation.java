@@ -1,16 +1,20 @@
 
 package io.github.privacystreams.communication.emailinfo;
 
-import com.github.privacystreams.communication.email.Domain;
-import com.github.privacystreams.communication.email.EmailInfoEntity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang.builder.ToStringBuilder;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.annotation.Generated;
 
 /**
  * FoodEstablishmentReservation
@@ -18,8 +22,19 @@ import java.util.Map;
  * 
  * 
  */
-public class FoodEstablishmentReservation extends EmailInfoEntity {
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@Generated("org.jsonschema2pojo")
+@JsonPropertyOrder({
+        "partySize",
+        "provider",
+        "reservationFor",
+        "reservationId",
+        "reservationStatus",
+        "startTime"
+})
+public class FoodEstablishmentReservation extends Sift {
 
+    @JsonProperty("partySize")
     private Double partySize;
     /**
      * Organization
@@ -27,6 +42,7 @@ public class FoodEstablishmentReservation extends EmailInfoEntity {
      * 
      * 
      */
+    @JsonProperty("provider")
     private Organization provider;
     /**
      * FoodEstablishment
@@ -34,7 +50,9 @@ public class FoodEstablishmentReservation extends EmailInfoEntity {
      * 
      * 
      */
+    @JsonProperty("reservationFor")
     private FoodEstablishment reservationFor;
+    @JsonProperty("reservationId")
     private String reservationId;
     /**
      * ReservationStatus
@@ -42,8 +60,11 @@ public class FoodEstablishmentReservation extends EmailInfoEntity {
      * 
      * 
      */
+    @JsonProperty("reservationStatus")
     private ReservationStatus reservationStatus;
+    @JsonProperty("startTime")
     private Date startTime;
+    @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     public Domain getDomain() {
@@ -55,6 +76,7 @@ public class FoodEstablishmentReservation extends EmailInfoEntity {
      * @return
      *     The partySize
      */
+    @JsonProperty("partySize")
     public Double getPartySize() {
         return partySize;
     }
@@ -64,6 +86,7 @@ public class FoodEstablishmentReservation extends EmailInfoEntity {
      * @param partySize
      *     The partySize
      */
+    @JsonProperty("partySize")
     public void setPartySize(Double partySize) {
         this.partySize = partySize;
     }
@@ -76,6 +99,7 @@ public class FoodEstablishmentReservation extends EmailInfoEntity {
      * @return
      *     The provider
      */
+    @JsonProperty("provider")
     public Organization getProvider() {
         return provider;
     }
@@ -88,6 +112,7 @@ public class FoodEstablishmentReservation extends EmailInfoEntity {
      * @param provider
      *     The provider
      */
+    @JsonProperty("provider")
     public void setProvider(Organization provider) {
         this.provider = provider;
     }
@@ -100,6 +125,7 @@ public class FoodEstablishmentReservation extends EmailInfoEntity {
      * @return
      *     The reservationFor
      */
+    @JsonProperty("reservationFor")
     public FoodEstablishment getReservationFor() {
         return reservationFor;
     }
@@ -112,6 +138,7 @@ public class FoodEstablishmentReservation extends EmailInfoEntity {
      * @param reservationFor
      *     The reservationFor
      */
+    @JsonProperty("reservationFor")
     public void setReservationFor(FoodEstablishment reservationFor) {
         this.reservationFor = reservationFor;
     }
@@ -121,6 +148,7 @@ public class FoodEstablishmentReservation extends EmailInfoEntity {
      * @return
      *     The reservationId
      */
+    @JsonProperty("reservationId")
     public String getReservationId() {
         return reservationId;
     }
@@ -130,6 +158,7 @@ public class FoodEstablishmentReservation extends EmailInfoEntity {
      * @param reservationId
      *     The reservationId
      */
+    @JsonProperty("reservationId")
     public void setReservationId(String reservationId) {
         this.reservationId = reservationId;
     }
@@ -142,6 +171,7 @@ public class FoodEstablishmentReservation extends EmailInfoEntity {
      * @return
      *     The reservationStatus
      */
+    @JsonProperty("reservationStatus")
     public ReservationStatus getReservationStatus() {
         return reservationStatus;
     }
@@ -154,6 +184,7 @@ public class FoodEstablishmentReservation extends EmailInfoEntity {
      * @param reservationStatus
      *     The reservationStatus
      */
+    @JsonProperty("reservationStatus")
     public void setReservationStatus(ReservationStatus reservationStatus) {
         this.reservationStatus = reservationStatus;
     }
@@ -163,6 +194,7 @@ public class FoodEstablishmentReservation extends EmailInfoEntity {
      * @return
      *     The startTime
      */
+    @JsonProperty("startTime")
     public Date getStartTime() {
         return startTime;
     }
@@ -172,6 +204,7 @@ public class FoodEstablishmentReservation extends EmailInfoEntity {
      * @param startTime
      *     The startTime
      */
+    @JsonProperty("startTime")
     public void setStartTime(Date startTime) {
         this.startTime = startTime;
     }
@@ -181,10 +214,12 @@ public class FoodEstablishmentReservation extends EmailInfoEntity {
         return ToStringBuilder.reflectionToString(this);
     }
 
+    @JsonIgnore
     public Map<String, Object> getAdditionalProperties() {
         return this.additionalProperties;
     }
 
+    @JsonIgnore
     public void setAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
     }
