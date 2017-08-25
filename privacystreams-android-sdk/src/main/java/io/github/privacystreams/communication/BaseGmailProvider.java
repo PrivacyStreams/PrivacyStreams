@@ -52,10 +52,6 @@ abstract class BaseGmailProvider extends PStreamProvider implements GmailResultL
     boolean authorized = false;
     long mLastEmailTime = 0;
 
-    public static final String API_ENDPOINT = "https://api.easilydo.com";
-    private String API_KEY = "e6b0dc00388a72b4d39043fa447660f2";
-    private String API_SECRET = "8705f9438b3c1c59522afbc430189c57329418a3";
-
     private String userToken;
 
     BaseGmailProvider() {

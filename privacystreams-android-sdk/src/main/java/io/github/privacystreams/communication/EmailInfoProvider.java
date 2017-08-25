@@ -2,7 +2,10 @@ package io.github.privacystreams.communication;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -21,12 +24,14 @@ import java.util.List;
 import java.util.Scanner;
 
 import io.github.privacystreams.communication.emailinfo.Deal;
+import io.github.privacystreams.communication.emailinfo.Flight;
 import io.github.privacystreams.communication.emailinfo.Order;
 import io.github.privacystreams.core.PStreamProvider;
+import io.github.privacystreams.core.R;
 import io.github.privacystreams.utils.Logging;
 
 
-public class SiftEmail extends PStreamProvider{
+public class EmailInfoProvider extends PStreamProvider{
 
     /*for sifts info*/
     private static String api_key;
@@ -53,50 +58,78 @@ public class SiftEmail extends PStreamProvider{
     /*for list sifts*/
     private static String siftinfo = null;
 
-    private static String userName = null;
+    protected static String userName = null;
+
+    static final String GMAIL_PREF_ACCOUNT_NAME = "userName";
+    static final String CONNECT_TOKEN = "connectToken";
     /*
 
      */
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
+    private String domains = null;
     /*
     @params: api_key: the api_key generated on developer's sift account
     @params: api_secret: the api_secret generated on developer's sift account
      */
-    SiftEmail(String key, String secret){
+    public EmailInfoProvider(String key, String secret, String domain){
         if(key != null) {
             this.api_key = key;
             this.api_secret = secret;
             signatory = new Signatory(api_secret);
+            this.domains = domain;
         }
     }
 
+    protected EmailInfoProvider(){}
+
+
     @Override
-    public void provide() {
+    protected void provide() {
         testSelf();
 
     }
 
-    public static void setUserName(String name){
-        Logging.error("now userName is:"+name);
-        userName = name;
-    }
-
     /* just for test when debug*/
-    private void testSelf(){
+    protected void testSelf(){
 
         this.addRequiredPermissions(Manifest.permission.INTERNET,
                 Manifest.permission.GET_ACCOUNTS,
                 Manifest.permission.ACCESS_NETWORK_STATE);
-        Logging.error("signin");
-        signIn();
-        while(userName == null);
-        Logging.error("start testself");
-        this.api_key = "15b6a990b4599c7f6b3deb95cd05307b";
-        this.api_secret = "2bc65281868a4a2ce6c83931cd91497f5deabc80";
+        Logging.error("start");
+        this.api_key = getContext().getString(R.string.sift_api_key);
+        this.api_secret = getContext().getString(R.string.sift_api_secret);
         signatory = new Signatory(api_secret);
+
+        String token = PreferenceManager.getDefaultSharedPreferences(getContext())
+                .getString(CONNECT_TOKEN, null);
+        if(token != null) {
+            Logging.error("needn't get token");
+            return;
+        }
+        userName = PreferenceManager.getDefaultSharedPreferences(getContext())
+                .getString(GMAIL_PREF_ACCOUNT_NAME, null);
+        if(userName == null)
+            signIn();
+        else{
+            Logging.error("needn't sign in");
+            addUser(userName,"en_US");
+        }
+
+        /*
+        userName = "whatever";
+        addUser(userName,"en_US");
+        */
+    }
+
+    protected void onResume(String username){
+        userName = username;
+        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getContext()).edit();
+        editor.putString(GMAIL_PREF_ACCOUNT_NAME, username);
+        editor.apply();
         addUser(userName,"en_US");
     }
+
 
     /*
     Add a username to developer's sift account.
@@ -147,53 +180,25 @@ public class SiftEmail extends PStreamProvider{
         params.put("username", username);
         params.put("token", token);
         requestUrl = generateUrl(path,params);
-        Intent intent = new Intent(getContext(),WebActivity.class);
-        intent.putExtra("url",requestUrl);
-        intent.putExtra("userName",userName);
         try {
-            getContext().startActivity(intent);
+            Uri uri = Uri.parse(requestUrl);
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, uri);
+            browserIntent.addCategory(Intent.CATEGORY_BROWSABLE);
+            getContext().startActivity(browserIntent);
         }catch(Exception e){
-            Logging.error("activity error:"+e.getMessage());
+            Logging.error("webactivity exception: "+e.getMessage());
         }
     }
 
-
-    /*
-    List sift information
-    @params: username: The username specified by developer
-     */
-    public String listSifts(String username){
-        return listSifts(username,null,null);
-    }
-
-    /*
-    List sift information
-    @params: username: The username specified by developer
-    @params: lastUpdateTime: Specify the Date from which sifts information begins
-     */
-
-    public String listSifts(String username, Date lastUpdateTime){
-        return listSifts(username,null,lastUpdateTime);
-    }
-
-    /*
-    List sift information
-    @params: username: The username specified by developer
-    @params: offset: The number of sift information will be ignored from the beginning
-     */
-
-    protected String listSifts(String username, int offset){
-        return listSifts(username,offset,null);
-    }
-
     /*
     List sift information
     @params: username: The username specified by developer
     @params: offset: The number of sift information will be ignored from the beginning
     @params: lastUpdateTime: Specify the Date from which sifts information begins
+    @params: domain: Specify what kind of information you want to get
      */
 
-    protected String listSifts(String username, Integer offset, Date lastUpdateTime){
+    protected String listSifts(String username, Integer offset, Date lastUpdateTime, String domain){
         Logging.error("list sifts start");
         HashMap<String, Object> params = new HashMap<>();
         String path = "/v1/users/"+username+"/sifts";
@@ -204,6 +209,9 @@ public class SiftEmail extends PStreamProvider{
         if(lastUpdateTime != null){
             params.put("last_update_time", getEpochSecs(lastUpdateTime));
         }
+        if(domain!=null){
+            params.put("domains",domain);
+        }
         params = addCommonParams(method,path,params);
         requestUrl = generateUrl(path,params);
         new WebRequests().execute(requestUrl,method,LISTSIFTS);
@@ -211,7 +219,7 @@ public class SiftEmail extends PStreamProvider{
     }
 
 
-    private String generateUrl(String path, HashMap<String,Object> params){
+    private static String generateUrl(String path, HashMap<String,Object> params){
         String base = domain;
         base += path + "?";
         List<String> keys = new ArrayList<>(params.keySet());
@@ -228,14 +236,14 @@ public class SiftEmail extends PStreamProvider{
         return base;
     }
 
-    private HashMap<String,Object> addCommonParams(String method, String path, HashMap<String,Object> params){
+    private static HashMap<String,Object> addCommonParams(String method, String path, HashMap<String,Object> params){
         params.put("api_key", api_key);
         params.put("timestamp", getCurrentTime());
         params.put("signature", signatory.generateSignature(method, path, params));
         return params;
     }
 
-    private long getCurrentTime(){
+    private static long getCurrentTime(){
         return System.currentTimeMillis() / 1000L;
     }
 
@@ -324,7 +332,12 @@ public class SiftEmail extends PStreamProvider{
                                             Class.forName("io.github.privacystreams.communication.emailinfo." + type));
                                     Log.e("deal",deal.toString());
                                     break;
-
+                                case "Flight":
+                                    Logging.error("cast to flight");
+                                    Flight flight = (Flight) objectMapper.treeToValue(payload,
+                                            Class.forName("io.github.privacystreams.communication.emailinfo." + type));
+                                    Log.e("flight",flight.toString());
+                                    break;
                                 default:
                                     Logging.error("unknown type");
 
@@ -352,6 +365,9 @@ public class SiftEmail extends PStreamProvider{
                         responseJson = new JSONObject(responseString);
                         Logging.error("json is:" + responseJson);
                         connectToken = responseJson.getJSONObject("result").get("connect_token").toString();
+                        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getContext()).edit();
+                        editor.putString(CONNECT_TOKEN, connectToken);
+                        editor.apply();
                     } catch (Exception e) {
                         Logging.error("parse json failed for connect token");
                         Logging.error("exception is" + e.getMessage());

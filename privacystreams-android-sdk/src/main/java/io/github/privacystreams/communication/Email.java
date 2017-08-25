@@ -1,5 +1,6 @@
 package io.github.privacystreams.communication;
 
+import io.github.privacystreams.communication.emailinfo.EmailContactProvider;
 import io.github.privacystreams.core.Item;
 import io.github.privacystreams.core.PStreamProvider;
 import io.github.privacystreams.utils.annotations.PSItem;
@@ -81,7 +82,7 @@ public class Email extends Item {
     }
 
     public static PStreamProvider sift(){
-        return new SiftEmail("","");
+        return new EmailContactProvider("","");
     }
 
 }

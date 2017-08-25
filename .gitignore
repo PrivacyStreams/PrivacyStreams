@@ -59,3 +59,8 @@ keystores/
 .arc/
 out/
 gradle-app.setting
+
+
+
+#key file
+keys.xml
