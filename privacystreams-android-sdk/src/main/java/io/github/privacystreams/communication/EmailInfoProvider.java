@@ -27,7 +27,7 @@ import io.github.privacystreams.communication.emailinfo.Deal;
 import io.github.privacystreams.communication.emailinfo.Flight;
 import io.github.privacystreams.communication.emailinfo.Order;
 import io.github.privacystreams.core.PStreamProvider;
-import io.github.privacystreams.core.R;
+import io.github.privacystreams.utils.Globals;
 import io.github.privacystreams.utils.Logging;
 
 
@@ -36,25 +36,16 @@ public class EmailInfoProvider extends PStreamProvider implements EmailAccountNa
     /*for sifts info*/
     private String mApiKey;
     private String mApiSecret;
-    private final String REQUEST_DOMAIN = "https://api.edison.tech";
-
-    /*for signature generation*/
     private Signatory mSignatory;
 
-    /*for addUser*/
-    private final String STATUS_USER_ID = "USER_ID";
+    private final String REQUEST_DOMAIN = "https://api.edison.tech";
 
-    /* for listSifts*/
-    private final String STATUS_LIST_SIFTS = "LIST_SIFTS";
+    private final String STATUS_ADD_USER = "add_users";
+    private final String STATUS_LIST_SIFTS = "list_sifts";
+    private final String STATUS_CONNECT_TOKEN = "token";
+    private final String STATUS_CHECK_CONNECTION = "check_connection";
 
-    /*for connectToken*/
-    private final String STATUS_CONNECT_TOKEN = "TOKEN";
     private String mConnectToken = null;
-
-    /*for list email*/
-    private final String STATUS_IS_CONNECTED = "IS_CONNECTED";
-
-    /*for list sifts*/
     private String mUserName = null;
 
     private final String GMAIL_PREF_ACCOUNT_NAME = "userName";
@@ -71,11 +62,18 @@ public class EmailInfoProvider extends PStreamProvider implements EmailAccountNa
      */
     public EmailInfoProvider(String key, String secret, String domain){
         if(key != null) {
-            this.mApiKey = key;
-            this.mApiSecret = secret;
+            mApiKey = key;
+            mApiSecret = secret;
             mSignatory = new Signatory(mApiKey);
-            this.mDomain = domain;
+            mDomain = domain;
+            this.addRequiredPermissions(Manifest.permission.INTERNET,
+                    Manifest.permission.GET_ACCOUNTS,
+                    Manifest.permission.ACCESS_NETWORK_STATE);
         }
+    }
+
+    private void onSiftSetupSuccess(){
+        listSifts(mUserName,null,null,mDomain);
     }
 
     @Override
@@ -93,46 +91,78 @@ public class EmailInfoProvider extends PStreamProvider implements EmailAccountNa
 
     @Override
     protected void provide() {
-        onStart();
+        setupSiftApi();
     }
+    private boolean timeIsOut(long checkingStartedTime){
+        return System.currentTimeMillis() - checkingStartedTime > Globals.SiftConfig.checkSiftConnectionTimeout;
+    }
+
+    private String generateUrl(String path, HashMap<String,Object> params){
+        String base = REQUEST_DOMAIN;
+        base += path + "?";
+        List<String> keys = new ArrayList<>(params.keySet());
+        boolean notFirst = false;
+        for(String key : keys){
+            if(notFirst){
+                base += "&";
+            }
+            else{
+                notFirst = true;
+            }
+            base += key + "=" + params.get(key);
+        }
+        return base;
+    }
+
+    private HashMap<String,Object> addCommonParams(String method, String path, HashMap<String,Object> params){
+        params.put("api_key", mApiKey);
+        params.put("timestamp", System.currentTimeMillis() / 1000L);
+        params.put("signature", mSignatory.generateSignature(method, path, params));
+        return params;
+    }
+
 
     /* just for test when debug*/
     //TODO Change this function when debug ends
-    protected void onStart(){
-        this.addRequiredPermissions(Manifest.permission.INTERNET,
-                Manifest.permission.GET_ACCOUNTS,
-                Manifest.permission.ACCESS_NETWORK_STATE);
-        Logging.error("start");
-        this.mApiKey = getContext().getString(R.string.sift_api_key);
-        this.mApiSecret = getContext().getString(R.string.sift_api_secret);
-        mSignatory = new Signatory(mApiSecret);
+    protected void setupSiftApi(){
         GmailChooseAccountActivity.setListener(this);
         String token = PreferenceManager.getDefaultSharedPreferences(getContext())
                 .getString(CONNECT_TOKEN, null);
         if(token != null) {
-            Logging.error("needn't get token");
-            listSifts(mUserName,null,null,mDomain);
+            Logging.debug("already got token");
+            onSiftSetupSuccess();
             return;
         }
+
+
         mUserName = PreferenceManager.getDefaultSharedPreferences(getContext())
                 .getString(GMAIL_PREF_ACCOUNT_NAME, null);
-        if(mUserName == null)
-            chooseAccount();
+        if(mUserName == null){
+            Intent intent = new Intent(getContext(), GmailChooseAccountActivity.class);
+            getContext().startActivity(intent);
+        }
         else{
-            Logging.error("needn't sign in");
+            Logging.debug("already signed in");
             addUser(mUserName,"en_US");
         }
-        while(!mIsConnected){
-            try{
-                Thread.sleep(1000);
-            }catch (Exception e){
 
-            }finally{
-                isEmailConnected(mUserName);
+
+        long checkingStartedTime = System.currentTimeMillis();
+        while(!mIsConnected
+                && !timeIsOut(checkingStartedTime)){
+            try{
+                Thread.sleep(Globals.SiftConfig.checkSiftConnectionPollingInterval);
+            }
+            catch (Exception e){
+                Logging.error("Connection Exception");
+            }
+            finally{
+                checkEmailConnection(mUserName);
             }
         }
-        listSifts(mUserName,null,null,mDomain);
-
+        if(!mIsConnected){
+            Logging.error("Connection Error");
+        }
     }
 
     /*
@@ -150,7 +180,7 @@ public class EmailInfoProvider extends PStreamProvider implements EmailAccountNa
         params.put("locale", locale);
         params = addCommonParams(method,path,params);
         String requestUrl = generateUrl(path,params);
-        new WebRequests().execute(requestUrl,method,STATUS_USER_ID);
+        new WebRequests().execute(requestUrl,method,STATUS_ADD_USER);
     }
 
     /*
@@ -171,7 +201,7 @@ public class EmailInfoProvider extends PStreamProvider implements EmailAccountNa
 
     /*
     Let the user confirm to log in.
-    Will call the browser
+    Will pop up the browser to load the url
      @parameters: username: The username specified by developer
      @parameters: token: The token got from function getConnectToken(String)
     */
@@ -179,7 +209,6 @@ public class EmailInfoProvider extends PStreamProvider implements EmailAccountNa
         Logging.error("connectEmail starts");
         HashMap<String,Object> params = new HashMap<>();
         String path = "/v1/connect_email";
-        String method = "GET";
         params.put("api_key", mApiKey);
         params.put("username", userName);
         params.put("token", token);
@@ -223,53 +252,20 @@ public class EmailInfoProvider extends PStreamProvider implements EmailAccountNa
         return null;
     }
 
-
-    private void isEmailConnected(String username){
-        Logging.error("checkisEmailConneected");
+    /**
+     * Check whether the user's email is connected.
+     * @param username
+     */
+    private void checkEmailConnection(String username){
         HashMap<String,Object> params = new HashMap<>();
         String path = "/v1/users/"+username +"/email_connections";
         String method = "GET";
-      //  params.put("username", username);
         params = addCommonParams(method,path,params);
         String requestUrl = generateUrl(path,params);
-        new WebRequests().execute(requestUrl,method,STATUS_IS_CONNECTED);
+        new WebRequests().execute(requestUrl, method, STATUS_CHECK_CONNECTION);
     }
 
-
-    private String generateUrl(String path, HashMap<String,Object> params){
-        String base = REQUEST_DOMAIN;
-        base += path + "?";
-        List<String> keys = new ArrayList<>(params.keySet());
-        boolean notFirst = false;
-        for(String key : keys){
-            if(notFirst){
-                base += "&";
-            }
-            else{
-                notFirst = true;
-            }
-            base += key + "=" + params.get(key);
-        }
-        return base;
-    }
-
-    private HashMap<String,Object> addCommonParams(String method, String path, HashMap<String,Object> params){
-        params.put("api_key", mApiKey);
-        params.put("timestamp", System.currentTimeMillis() / 1000L);
-        params.put("signature", mSignatory.generateSignature(method, path, params));
-        return params;
-    }
-
-
-
-    private void chooseAccount(){
-        if(mUserName == null) {
-            Intent intent = new Intent(getContext(), GmailChooseAccountActivity.class);
-            getContext().startActivity(intent);
-        }
-    }
-
-    class WebRequests extends AsyncTask<String,Void,String> {
+    private class WebRequests extends AsyncTask<String,Void,String> {
 
         private String getResponseText(InputStream in) {
             return new Scanner(in).useDelimiter("\\A").next();
@@ -291,16 +287,18 @@ public class EmailInfoProvider extends PStreamProvider implements EmailAccountNa
                 urlconnection = (HttpURLConnection) urlToRequest.openConnection();
                 urlconnection.setRequestMethod(method);
                 int statusCode = urlconnection.getResponseCode();
-                if (statusCode==200) {
+                if (statusCode == 200) {
                     InputStream in = new BufferedInputStream(urlconnection.getInputStream());
                     responseString = getResponseText(in);
                     Logging.error("response String info is:" + responseString);
                 } else {
                     Logging.error("request error with code:" + statusCode);
                 }
-            } catch (Exception e) {
+            }
+            catch (Exception e) {
                 Logging.error("url conn error:" + e.getMessage());
-            } finally {
+            }
+            finally {
                 if (urlconnection!=null) {
                     urlconnection.disconnect();
                 }
@@ -352,12 +350,13 @@ public class EmailInfoProvider extends PStreamProvider implements EmailAccountNa
                             }
                         }
 
-                    } catch (Exception e) {
+                    }
+                    catch (Exception e) {
                         Logging.error("parse json failed for list sifts");
                         Logging.error("exception is" + e.getMessage());
                     }
                     break;
-                case STATUS_USER_ID:
+                case STATUS_ADD_USER:
                     try {
                         responseJson = new JSONObject(responseString);
                         Logging.error("json is:" + responseJson);
@@ -375,20 +374,23 @@ public class EmailInfoProvider extends PStreamProvider implements EmailAccountNa
                         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getContext()).edit();
                         editor.putString(CONNECT_TOKEN, mConnectToken);
                         editor.apply();
-                    } catch (Exception e) {
+                    }
+                    catch (Exception e) {
                         Logging.error("parse json failed for connect token");
                         Logging.error("exception is" + e.getMessage());
                     }
                     break;
-                case STATUS_IS_CONNECTED:
+                case STATUS_CHECK_CONNECTION:
                     try {
                         JsonNode root = mObjectMapper.readTree(responseString);
                         Logging.error("json is:" + root);
                         JsonNode temp = root.get("result").get(0);
                         if(temp != null){
                             mIsConnected = true;
+                            onSiftSetupSuccess();
                         }
-                    } catch (Exception e) {
+                    }
+                    catch (Exception e) {
                         Logging.error("parse json failed for user id");
                         Logging.error("exception is" + e.getMessage());
                     }
@@ -399,18 +401,17 @@ public class EmailInfoProvider extends PStreamProvider implements EmailAccountNa
         }
 
         @Override
-        protected  void onPostExecute(String lastStatus){
-            Logging.error("last step is: "+ lastStatus);
-            switch(lastStatus){
-                case STATUS_USER_ID:
+        protected  void onPostExecute(String finishedStep){
+            Logging.error("last step is: "+ finishedStep);
+            switch(finishedStep){
+                case STATUS_ADD_USER:
                     getConnectToken(mUserName);
                     break;
                 case STATUS_CONNECT_TOKEN:
                     connectEmail(mUserName,mConnectToken);
                     break;
                 case STATUS_LIST_SIFTS:
-                    break;
-                case STATUS_IS_CONNECTED:
+                case STATUS_CHECK_CONNECTION:
                     break;
                 default:
                     Logging.error("something strange happened");

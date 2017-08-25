@@ -15,12 +15,6 @@ import java.util.Arrays;
 import io.github.privacystreams.utils.DeviceUtils;
 import io.github.privacystreams.utils.Logging;
 
-
-
-/**
- * Created by xiaobing1117 on 2017/8/24.
- */
-
 public class GmailChooseAccountActivity extends Activity {
     private GoogleAccountCredential mCredential;
     static final int REQUEST_ACCOUNT_PICKER = 1000;
