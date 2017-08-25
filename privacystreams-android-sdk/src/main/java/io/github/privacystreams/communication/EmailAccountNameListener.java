@@ -1,4 +1,4 @@
-package io.github.privacystreams.communication.emailinfo;
+package io.github.privacystreams.communication;
 
 /**
  * Created by xiaobing1117 on 2017/8/25.

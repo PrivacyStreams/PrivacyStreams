@@ -4,41 +4,32 @@ import android.accounts.AccountManager;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.widget.Toast;
 
-import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
-import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.util.ExponentialBackOff;
-import com.google.api.services.gmail.Gmail;
 import com.google.api.services.gmail.GmailScopes;
 
 import java.util.Arrays;
 
-import io.github.privacystreams.communication.emailinfo.EmailAccountNameListener;
-import io.github.privacystreams.utils.AppUtils;
 import io.github.privacystreams.utils.DeviceUtils;
 import io.github.privacystreams.utils.Logging;
-import android.content.SharedPreferences;
+
 
 
 /**
  * Created by xiaobing1117 on 2017/8/24.
  */
 
-
-public class SignInActivity extends Activity {
+public class GmailChooseAccountActivity extends Activity {
     private GoogleAccountCredential mCredential;
     static final int REQUEST_ACCOUNT_PICKER = 1000;
     static final int REQUEST_AUTHORIZATION = 1001;
     static final String GMAIL_PREF_ACCOUNT_NAME = "userName";
     static final String[] SCOPES = {GmailScopes.GMAIL_LABELS, GmailScopes.GMAIL_READONLY};
-    private static EmailAccountNameListener mlistener;
+    private static EmailAccountNameListener mListener;
 
-    protected static void setListener(EmailAccountNameListener listener){ mlistener = listener;}
+    protected static void setListener(EmailAccountNameListener listener){ mListener = listener;}
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -58,7 +49,7 @@ public class SignInActivity extends Activity {
             chooseAccount();
         }else{
             userName = userName.split("@")[0];
-            mlistener.onSuccess(userName);
+            mListener.onSuccess(userName);
             finish();
         }
     }
@@ -77,7 +68,7 @@ public class SignInActivity extends Activity {
                     Logging.error("get accountName:"+accountName);
 
                     String userName = accountName.split("@")[0];
-                    mlistener.onSuccess(userName);
+                    mListener.onSuccess(userName);
                 }
 
                 break;
