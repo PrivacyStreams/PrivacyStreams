@@ -10,6 +10,7 @@ import android.util.Log;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.api.services.gmail.Gmail;
 
 import org.json.JSONObject;
 
@@ -24,6 +25,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import io.github.privacystreams.communication.emailinfo.Deal;
+import io.github.privacystreams.communication.emailinfo.EmailAccountNameListener;
 import io.github.privacystreams.communication.emailinfo.Flight;
 import io.github.privacystreams.communication.emailinfo.Order;
 import io.github.privacystreams.core.PStreamProvider;
@@ -31,7 +33,7 @@ import io.github.privacystreams.core.R;
 import io.github.privacystreams.utils.Logging;
 
 
-public class EmailInfoProvider extends PStreamProvider{
+public class EmailInfoProvider extends PStreamProvider implements EmailAccountNameListener{
 
     /*for sifts info*/
     private static String api_key;
@@ -65,13 +67,14 @@ public class EmailInfoProvider extends PStreamProvider{
 
     static final String GMAIL_PREF_ACCOUNT_NAME = "userName";
     static final String CONNECT_TOKEN = "connectToken";
+
     private boolean isConnected = false;
     /*
 
      */
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
-    private String domains = null;
+    private static String domains = null;
     /*
     @params: api_key: the api_key generated on developer's sift account
     @params: api_secret: the api_secret generated on developer's sift account
@@ -85,8 +88,19 @@ public class EmailInfoProvider extends PStreamProvider{
         }
     }
 
-    protected EmailInfoProvider(){}
+    @Override
+    public void onFail() {
 
+    }
+
+    @Override
+    public void onSuccess(String name) {
+        userName = name;
+        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getContext()).edit();
+        editor.putString(GMAIL_PREF_ACCOUNT_NAME, userName);
+        editor.apply();
+        addUser(userName,"en_US");
+    }
 
     @Override
     protected void provide() {
@@ -118,10 +132,12 @@ public class EmailInfoProvider extends PStreamProvider{
             signIn();
         else{
             Logging.error("needn't sign in");
+            addUser(userName,"en_US");
         }
-        addUser(userName,"en_US");
         while(!isConnected){
-            isEmailConnected(userName);
+            try{Thread.sleep(500);}catch (Exception e){}
+            finally{
+                isEmailConnected(userName);}
         }
         listSifts(userName,null,null,domains);
         /*
@@ -129,15 +145,6 @@ public class EmailInfoProvider extends PStreamProvider{
         addUser(userName,"en_US");
         */
     }
-
-    protected void onResume(String username){
-        userName = username;
-        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getContext()).edit();
-        editor.putString(GMAIL_PREF_ACCOUNT_NAME, username);
-        editor.apply();
-        addUser(userName,"en_US");
-    }
-
 
     /*
     Add a username to developer's sift account.
@@ -189,6 +196,7 @@ public class EmailInfoProvider extends PStreamProvider{
         params.put("token", token);
         requestUrl = generateUrl(path,params);
         try {
+            SignInActivity.setListener(this);
             Uri uri = Uri.parse(requestUrl);
             Intent browserIntent = new Intent(Intent.ACTION_VIEW, uri);
             browserIntent.addCategory(Intent.CATEGORY_BROWSABLE);
@@ -394,9 +402,9 @@ public class EmailInfoProvider extends PStreamProvider{
                     break;
                 case ISCONNECTED:
                     try {
-                        responseJson = new JSONObject(responseString);
-                        Logging.error("json is:" + responseJson);
-                        JSONObject temp = responseJson.getJSONObject("result");
+                        JsonNode root = objectMapper.readTree(responseString);
+                        Logging.error("json is:" + root);
+                        JsonNode temp = root.get("result").get(0);
                         if(temp != null){
                             isConnected = true;
                         }

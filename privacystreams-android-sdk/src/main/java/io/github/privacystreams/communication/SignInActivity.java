@@ -18,6 +18,7 @@ import com.google.api.services.gmail.GmailScopes;
 
 import java.util.Arrays;
 
+import io.github.privacystreams.communication.emailinfo.EmailAccountNameListener;
 import io.github.privacystreams.utils.AppUtils;
 import io.github.privacystreams.utils.DeviceUtils;
 import io.github.privacystreams.utils.Logging;
@@ -35,6 +36,10 @@ public class SignInActivity extends Activity {
     static final int REQUEST_AUTHORIZATION = 1001;
     static final String GMAIL_PREF_ACCOUNT_NAME = "userName";
     static final String[] SCOPES = {GmailScopes.GMAIL_LABELS, GmailScopes.GMAIL_READONLY};
+    private static EmailAccountNameListener mlistener;
+
+    protected static void setListener(EmailAccountNameListener listener){ mlistener = listener;}
+
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -53,7 +58,7 @@ public class SignInActivity extends Activity {
             chooseAccount();
         }else{
             userName = userName.split("@")[0];
-            new EmailInfoProvider().onResume(userName);
+            mlistener.onSuccess(userName);
             finish();
         }
     }
@@ -72,7 +77,7 @@ public class SignInActivity extends Activity {
                     Logging.error("get accountName:"+accountName);
 
                     String userName = accountName.split("@")[0];
-                    new EmailInfoProvider().onResume(userName);
+                    mlistener.onSuccess(userName);
                 }
 
                 break;
