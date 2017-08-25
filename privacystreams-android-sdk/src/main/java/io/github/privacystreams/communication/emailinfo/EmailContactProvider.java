@@ -17,6 +17,6 @@ public class EmailContactProvider extends EmailInfoProvider {
     protected void provide() {
         super.provide();
        // Logging.error("now list sifts");
-        listSifts(userName,null,null,domain);
+        //listSifts(userName,null,null,domain);
     }
 }
