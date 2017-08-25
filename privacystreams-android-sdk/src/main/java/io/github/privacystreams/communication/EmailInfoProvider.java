@@ -118,7 +118,7 @@ public class EmailInfoProvider extends PStreamProvider implements EmailAccountNa
         this.api_key = getContext().getString(R.string.sift_api_key);
         this.api_secret = getContext().getString(R.string.sift_api_secret);
         signatory = new Signatory(api_secret);
-
+        SignInActivity.setListener(this);
         String token = PreferenceManager.getDefaultSharedPreferences(getContext())
                 .getString(CONNECT_TOKEN, null);
         if(token != null) {
@@ -196,7 +196,7 @@ public class EmailInfoProvider extends PStreamProvider implements EmailAccountNa
         params.put("token", token);
         requestUrl = generateUrl(path,params);
         try {
-            SignInActivity.setListener(this);
+
             Uri uri = Uri.parse(requestUrl);
             Intent browserIntent = new Intent(Intent.ACTION_VIEW, uri);
             browserIntent.addCategory(Intent.CATEGORY_BROWSABLE);
