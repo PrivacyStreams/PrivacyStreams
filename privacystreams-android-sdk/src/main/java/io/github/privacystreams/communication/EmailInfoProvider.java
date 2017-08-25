@@ -55,6 +55,9 @@ public class EmailInfoProvider extends PStreamProvider{
     private final String TOKEN = "TOKEN";
     private static String connectToken = null;
 
+    /*for list email*/
+    private final String ISCONNECTED = "ISCONNECTED";
+
     /*for list sifts*/
     private static String siftinfo = null;
 
@@ -62,6 +65,7 @@ public class EmailInfoProvider extends PStreamProvider{
 
     static final String GMAIL_PREF_ACCOUNT_NAME = "userName";
     static final String CONNECT_TOKEN = "connectToken";
+    private boolean isConnected = false;
     /*
 
      */
@@ -72,12 +76,12 @@ public class EmailInfoProvider extends PStreamProvider{
     @params: api_key: the api_key generated on developer's sift account
     @params: api_secret: the api_secret generated on developer's sift account
      */
-    public EmailInfoProvider(String key, String secret, String domain){
+    public EmailInfoProvider(String key, String secret, String domains){
         if(key != null) {
             this.api_key = key;
             this.api_secret = secret;
             signatory = new Signatory(api_secret);
-            this.domains = domain;
+            this.domains = domains;
         }
     }
 
@@ -105,6 +109,7 @@ public class EmailInfoProvider extends PStreamProvider{
                 .getString(CONNECT_TOKEN, null);
         if(token != null) {
             Logging.error("needn't get token");
+            listSifts(userName,null,null,domains);
             return;
         }
         userName = PreferenceManager.getDefaultSharedPreferences(getContext())
@@ -113,9 +118,12 @@ public class EmailInfoProvider extends PStreamProvider{
             signIn();
         else{
             Logging.error("needn't sign in");
-            addUser(userName,"en_US");
         }
-
+        addUser(userName,"en_US");
+        while(!isConnected){
+            isEmailConnected(userName);
+        }
+        listSifts(userName,null,null,domains);
         /*
         userName = "whatever";
         addUser(userName,"en_US");
@@ -218,6 +226,17 @@ public class EmailInfoProvider extends PStreamProvider{
         return null;
     }
 
+    protected void isEmailConnected(String username){
+        Logging.error("checkisEmailConneected");
+        HashMap<String,Object> params = new HashMap<>();
+        String path = "/v1/users/"+username +"/email_connections";
+        String method = "GET";
+      //  params.put("username", username);
+        params = addCommonParams(method,path,params);
+        requestUrl = generateUrl(path,params);
+        new WebRequests().execute(requestUrl,method,ISCONNECTED);
+    }
+
 
     private static String generateUrl(String path, HashMap<String,Object> params){
         String base = domain;
@@ -259,6 +278,7 @@ public class EmailInfoProvider extends PStreamProvider{
     }
 
     class WebRequests extends AsyncTask<String,Void,String> {
+
         private String getResponseText(InputStream in) {
             return new Scanner(in).useDelimiter("\\A").next();
         }
@@ -373,6 +393,18 @@ public class EmailInfoProvider extends PStreamProvider{
                         Logging.error("exception is" + e.getMessage());
                     }
                     break;
+                case ISCONNECTED:
+                    try {
+                        responseJson = new JSONObject(responseString);
+                        Logging.error("json is:" + responseJson);
+                        JSONObject temp = responseJson.getJSONObject("result");
+                        if(temp != null){
+                            isConnected = true;
+                        }
+                    } catch (Exception e) {
+                        Logging.error("parse json failed for user id");
+                        Logging.error("exception is" + e.getMessage());
+                    }
                 default:
 
             }
@@ -390,6 +422,8 @@ public class EmailInfoProvider extends PStreamProvider{
                     connectEmail(userName,connectToken);
                     break;
                 case LISTSIFTS:
+                    break;
+                case ISCONNECTED:
                     break;
                 default:
                     Logging.error("something strange happened");
