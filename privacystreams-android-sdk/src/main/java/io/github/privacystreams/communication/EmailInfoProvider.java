@@ -27,7 +27,7 @@ import io.github.privacystreams.communication.emailinfo.Deal;
 import io.github.privacystreams.communication.emailinfo.Flight;
 import io.github.privacystreams.communication.emailinfo.Order;
 import io.github.privacystreams.core.PStreamProvider;
-import io.github.privacystreams.core.R;
+import io.github.privacystreams.utils.Globals;
 import io.github.privacystreams.utils.Logging;
 
 
@@ -49,12 +49,13 @@ public class EmailInfoProvider extends PStreamProvider implements EmailAccountNa
 
     /*for connectToken*/
     private final String mStatusConnectToken = "TOKEN";
-    private String mConnectToken = null;
 
     /*for list email*/
     private final String mStatusISConnected = "IS_CONNECTED";
 
     /*for list sifts*/
+
+    private String mConnectToken = null;
     private String mUserName = null;
 
     private final String mGmailPrefName = "userName";
@@ -65,17 +66,24 @@ public class EmailInfoProvider extends PStreamProvider implements EmailAccountNa
     private final ObjectMapper mObjectMapper = new ObjectMapper();
 
     private String mDomain = null;
-    /*
+    /**
     @params: api_key: the api_key generated on developer's sift account
     @params: api_secret: the api_secret generated on developer's sift account
      */
     public EmailInfoProvider(String key, String secret, String domain){
         if(key != null) {
-            this.mApiKey = key;
-            this.mApiSecret = secret;
+            mApiKey = key;
+            mApiSecret = secret;
             mSignatory = new Signatory(mApiKey);
-            this.mDomain = domain;
+            mDomain = domain;
+            this.addRequiredPermissions(Manifest.permission.INTERNET,
+                    Manifest.permission.GET_ACCOUNTS,
+                    Manifest.permission.ACCESS_NETWORK_STATE);
         }
+    }
+
+    private void onSiftSetupSuccess(){
+        listSifts(mUserName,null,null,mDomain);
     }
 
     @Override
@@ -93,46 +101,52 @@ public class EmailInfoProvider extends PStreamProvider implements EmailAccountNa
 
     @Override
     protected void provide() {
-        start();
+        setupSiftApi();
+    }
+    private boolean timeIsOut(long checkingStartedTime){
+        return System.currentTimeMillis() - checkingStartedTime > Globals.SiftConfig.checkSiftConnectionTimeout;
     }
 
     /* just for test when debug*/
     //TODO Change this function when debug ends
-    protected void start(){
-        this.addRequiredPermissions(Manifest.permission.INTERNET,
-                Manifest.permission.GET_ACCOUNTS,
-                Manifest.permission.ACCESS_NETWORK_STATE);
-        Logging.error("start");
-        this.mApiKey = getContext().getString(R.string.sift_api_key);
-        this.mApiSecret = getContext().getString(R.string.sift_api_secret);
-        mSignatory = new Signatory(mApiSecret);
+
+    protected void setupSiftApi(){
         GmailChooseAccountActivity.setListener(this);
         String token = PreferenceManager.getDefaultSharedPreferences(getContext())
                 .getString(mToken, null);
         if(token != null) {
-            Logging.error("needn't get token");
-            listSifts(mUserName,null,null,mDomain);
+            Logging.debug("already got token");
+            onSiftSetupSuccess();
             return;
         }
+
+
         mUserName = PreferenceManager.getDefaultSharedPreferences(getContext())
                 .getString(mGmailPrefName, null);
         if(mUserName == null)
             chooseAccount();
         else{
-            Logging.error("needn't sign in");
+            Logging.debug("already signed in");
             addUser(mUserName,"en_US");
         }
-        while(!mIsConnected){
-            try{
-                Thread.sleep(1000);
-            }catch (Exception e){
 
-            }finally{
-                isEmailConnected(mUserName);
+
+        long checkingStartedTime = System.currentTimeMillis();
+        while(!mIsConnected
+                && !timeIsOut(checkingStartedTime)){
+            try{
+                Thread.sleep(Globals.SiftConfig.checkSiftConnectionPollingInterval);
+            }
+            catch (Exception e){
+                Logging.error("Connection Exception");
+            }
+            finally{
+                checkEmailConnection(mUserName);
             }
         }
-        listSifts(mUserName,null,null,mDomain);
-
+        if(!mIsConnected){
+            Logging.error("Connection Error");
+        }
     }
 
     /*
@@ -171,7 +185,7 @@ public class EmailInfoProvider extends PStreamProvider implements EmailAccountNa
 
     /*
     Let the user confirm to log in.
-    Will call the browser
+    Will pop up the browser to load the url
      @parameters: username: The username specified by developer
      @parameters: token: The token got from function getConnectToken(String)
     */
@@ -179,7 +193,6 @@ public class EmailInfoProvider extends PStreamProvider implements EmailAccountNa
         Logging.error("connectEmail starts");
         HashMap<String,Object> params = new HashMap<>();
         String path = "/v1/connect_email";
-        String method = "GET";
         params.put("api_key", mApiKey);
         params.put("username", userName);
         params.put("token", token);
@@ -223,13 +236,14 @@ public class EmailInfoProvider extends PStreamProvider implements EmailAccountNa
         return null;
     }
 
-
-    private void isEmailConnected(String username){
-        Logging.error("checkisEmailConneected");
+    /**
+     * Check whether the user's email is connected.
+     * @param username
+     */
+    private void checkEmailConnection(String username){
         HashMap<String,Object> params = new HashMap<>();
         String path = "/v1/users/"+username +"/email_connections";
         String method = "GET";
-      //  params.put("username", username);
         params = addCommonParams(method,path,params);
         String requestUrl = generateUrl(path,params);
         new WebRequests().execute(requestUrl,method,mStatusISConnected);
@@ -269,7 +283,8 @@ public class EmailInfoProvider extends PStreamProvider implements EmailAccountNa
         }
     }
 
-    class WebRequests extends AsyncTask<String,Void,String> {
+
+    private class WebRequests extends AsyncTask<String,Void,String> {
 
         private String getResponseText(InputStream in) {
             return new Scanner(in).useDelimiter("\\A").next();
@@ -282,7 +297,7 @@ public class EmailInfoProvider extends PStreamProvider implements EmailAccountNa
                 Logging.error("url is:"+url);
             }
             String method = params[1];  // the method for http request
-            String returnValue = params[2];    // the called function
+            String status = params[2];    // the called function
             String responseString = "";
             HttpURLConnection urlConnection = null;
             JSONObject responseJson;
@@ -298,14 +313,15 @@ public class EmailInfoProvider extends PStreamProvider implements EmailAccountNa
                 } else {
                     Logging.error("request error with code:" + statusCode);
                 }
-            } catch (Exception e) {
+            }
+            catch (Exception e) {
                 Logging.error("url conn error:" + e.getMessage());
             } finally {
                 if (urlConnection!=null) {
                     urlConnection.disconnect();
                 }
             }
-            switch (returnValue) {
+            switch (status) {
                 case mStatusListSifts:
                     try {
                         JsonNode root = mObjectMapper.readTree(responseString);
@@ -323,24 +339,22 @@ public class EmailInfoProvider extends PStreamProvider implements EmailAccountNa
                             }
 
                             Logging.error("payload:"+payload.toString());
-                            switch(type){
-                                case "Contact":
+                            switch(type.toUpperCase()){
+                                case "CONTACT":
                                     io.github.privacystreams.communication.emailinfo.Contact contact = (io.github.privacystreams.communication.emailinfo.Contact) mObjectMapper.treeToValue(payload, Class.forName("io.github.privacystreams.communication.emailinfo." + type));
                                     Log.e("contact",contact.getContacts().get(0).getEmail());
-                                case "Unknown":
-                                    break;
-                                case "Order":
+                                case "ORDER":
                                     Logging.error("cast to order");
                                     Order order = (Order) mObjectMapper.treeToValue(payload, Class.forName("io.github.privacystreams.communication.emailinfo." + type));
                                     Log.e("order",order.getOrderNumber());
                                     break;
-                                case "Deal":
+                                case "DEAL":
                                     Logging.error("cast to deal");
                                     Deal deal = (Deal) mObjectMapper.treeToValue(payload,
                                             Class.forName("io.github.privacystreams.communication.emailinfo." + type));
                                     Log.e("deal",deal.toString());
                                     break;
-                                case "Flight":
+                                case "FLIGHT":
                                     Logging.error("cast to flight");
                                     Flight flight = (Flight) mObjectMapper.treeToValue(payload,
                                             Class.forName("io.github.privacystreams.communication.emailinfo." + type));
@@ -352,11 +366,13 @@ public class EmailInfoProvider extends PStreamProvider implements EmailAccountNa
                             }
                         }
 
-                    } catch (Exception e) {
+                    }
+                    catch (Exception e) {
                         Logging.error("parse json failed for list sifts");
                         Logging.error("exception is" + e.getMessage());
                     }
                     break;
+
                 case mStatusUserId:
                     try {
                         responseJson = new JSONObject(responseString);
@@ -375,11 +391,13 @@ public class EmailInfoProvider extends PStreamProvider implements EmailAccountNa
                         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getContext()).edit();
                         editor.putString(mToken, mConnectToken);
                         editor.apply();
-                    } catch (Exception e) {
+                    }
+                    catch (Exception e) {
                         Logging.error("parse json failed for connect token");
                         Logging.error("exception is" + e.getMessage());
                     }
                     break;
+
                 case mStatusISConnected:
                     try {
                         JsonNode root = mObjectMapper.readTree(responseString);
@@ -387,15 +405,17 @@ public class EmailInfoProvider extends PStreamProvider implements EmailAccountNa
                         JsonNode temp = root.get("result").get(0);
                         if(temp != null){
                             mIsConnected = true;
+                            onSiftSetupSuccess();
                         }
-                    } catch (Exception e) {
+                    }
+                    catch (Exception e) {
                         Logging.error("parse json failed for user id");
                         Logging.error("exception is" + e.getMessage());
                     }
                 default:
 
             }
-            return returnValue;
+            return status;
         }
 
         @Override
@@ -403,13 +423,13 @@ public class EmailInfoProvider extends PStreamProvider implements EmailAccountNa
             Logging.error("last step is: "+ lastStatus);
             switch(lastStatus){
                 case mStatusUserId:
+
                     getConnectToken(mUserName);
                     break;
                 case mStatusConnectToken:
                     connectEmail(mUserName,mConnectToken);
                     break;
                 case mStatusListSifts:
-                    break;
                 case mStatusISConnected:
                     break;
                 default:
