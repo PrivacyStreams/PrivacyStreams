@@ -5,11 +5,6 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 
-import io.github.privacystreams.core.exceptions.PSException;
-import io.github.privacystreams.core.PStreamProvider;
-import io.github.privacystreams.utils.AppUtils;
-import io.github.privacystreams.utils.DeviceUtils;
-import io.github.privacystreams.utils.Logging;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException;
@@ -37,6 +32,12 @@ import javax.mail.Part;
 import javax.mail.Session;
 import javax.mail.internet.MimeMessage;
 
+import io.github.privacystreams.core.PStreamProvider;
+import io.github.privacystreams.core.exceptions.PSException;
+import io.github.privacystreams.utils.AppUtils;
+import io.github.privacystreams.utils.DeviceUtils;
+import io.github.privacystreams.utils.Logging;
+
 /**
  * Base class for Gmail-related Providers.
  */
@@ -52,7 +53,7 @@ abstract class BaseGmailProvider extends PStreamProvider implements GmailResultL
     boolean authorized = false;
     long mLastEmailTime = 0;
 
-    private String userToken;
+    private String mUserToken;
 
     BaseGmailProvider() {
         this.addRequiredPermissions(Manifest.permission.INTERNET,
@@ -266,10 +267,10 @@ abstract class BaseGmailProvider extends PStreamProvider implements GmailResultL
                         .setApplicationName(AppUtils.getApplicationName(getContext()))
                         .build();
                 try {
-                    userToken = mCredential.getToken();
-                    Logging.error("Token is:" + userToken);
+                    mUserToken = mCredential.getToken();
+                    Logging.debug("Token is:" + mUserToken);
                 }catch(Exception e){
-                    Logging.error("get token failed:"+e.getMessage());
+                    Logging.debug("get token failed:"+e.getMessage());
                 }
 
                 authorized = true;

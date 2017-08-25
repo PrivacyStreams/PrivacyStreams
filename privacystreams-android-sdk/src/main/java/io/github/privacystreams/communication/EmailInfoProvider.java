@@ -23,8 +23,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
-import io.github.privacystreams.communication.emailinfo.*;
-import io.github.privacystreams.communication.emailinfo.Contact;
 import io.github.privacystreams.core.PStreamProvider;
 import io.github.privacystreams.core.R;
 import io.github.privacystreams.utils.Globals;
@@ -36,7 +34,7 @@ public class EmailInfoProvider extends PStreamProvider implements EmailAccountNa
     /*for sifts info*/
     private String mApiKey;
     private String mApiSecret;
-    private final String mRequestDomain = "https://api.edison.tech";
+    private static final String EDISON_API_BASE_URL = "https://api.edison.tech";
 
     /*for signature generation*/
     private Signatory mSignatory;
@@ -268,20 +266,19 @@ public class EmailInfoProvider extends PStreamProvider implements EmailAccountNa
 
 
     private String generateUrl(String path, HashMap<String,Object> params){
-        String base = mRequestDomain;
-        base += path + "?";
+        String url = EDISON_API_BASE_URL + path + "?";
         List<String> keys = new ArrayList<>(params.keySet());
         boolean notFirst = false;
         for(String key : keys){
             if(notFirst){
-                base += "&";
+                url += "&";
             }
             else{
                 notFirst = true;
             }
-            base += key + "=" + params.get(key);
+            url += key + "=" + params.get(key);
         }
-        return base;
+        return url;
     }
 
     private HashMap<String,Object> addCommonParams(String method, String path, HashMap<String,Object> params){
@@ -293,32 +290,9 @@ public class EmailInfoProvider extends PStreamProvider implements EmailAccountNa
 
 
 
-    private void chooseAccount(){
-        if(mUserName == null) {
-            Intent intent = new Intent(getContext(), GmailChooseAccountActivity.class);
-            getContext().startActivity(intent);
-        }
+    public void isSiftAvailable(JsonNode jsonNode){
+        jsonNode = jsonNode.get(mDomain);
     }
-
-    private void getContactInfo(io.github.privacystreams.communication.emailinfo.Contact contact, JsonNode info){
-        contact.setFieldValue(io.github.privacystreams.communication.emailinfo.Contact.NAME,info.get(0).get("name").toString());
-        contact.setFieldValue(Contact.FAMILY_NAME,info.get(0).get("familyName").toString());
-        contact.setFieldValue(Contact.FAMILY_NAME,info.get(0).get("familyName").toString());
-        contact.setFieldValue(Contact.GIVEN_NAME,info.get(0).get("givenName").toString());
-        contact.setFieldValue(Contact.JOB_TITLE,info.get(0).get("jobTitle").toString());
-        contact.setFieldValue(Contact.EMAIL,info.get(0).get("email").toString());
-        contact.setFieldValue(Contact.WORKS_FOR,info.get(0).get("worksFor"));
-        contact.setFieldValue(Contact.FAX_NUMBER,info.get(0).get("faxNumber").toString());
-        contact.setFieldValue(Contact.HOME_LOCATION,info.get(0).get("homeLocation"));
-        contact.setFieldValue(Contact.WORK_LOCATION,info.get(0).get("workLocation"));
-        contact.setFieldValue(Contact.TELEPHONE,info.get(0).get("telephone").toString());
-        contact.setFieldValue(Contact.TYPE,info.get(0).get("@type").toString());
-        
-
-        output(contact);
-    }
-
-
 
     private class WebRequests extends AsyncTask<String,Void,String> {
 
@@ -375,33 +349,7 @@ public class EmailInfoProvider extends PStreamProvider implements EmailAccountNa
                             }
 
                             Logging.error("payload:"+payload.toString());
-                            switch(type.toUpperCase()){
-                                case "CONTACT":
-                                    io.github.privacystreams.communication.emailinfo.Contact contact = (io.github.privacystreams.communication.emailinfo.Contact) mObjectMapper.treeToValue(payload, Class.forName("io.github.privacystreams.communication.emailinfo." + type));
-                                    Log.e("contact",contact.getContacts().get(0).getEmail());
-                                    JsonNode contactInfo = payload.get("contact");
-                                    getContactInfo(contact,contactInfo);
-                                case "ORDER":
-                                    Logging.error("cast to order");
-                                    Order order = (Order) mObjectMapper.treeToValue(payload, Class.forName("io.github.privacystreams.communication.emailinfo." + type));
-                                    Log.e("order",order.getOrderNumber());
-                                    break;
-                                case "DEAL":
-                                    Logging.error("cast to deal");
-                                    Deal deal = (Deal) mObjectMapper.treeToValue(payload,
-                                            Class.forName("io.github.privacystreams.communication.emailinfo." + type));
-                                    Log.e("deal",deal.toString());
-                                    break;
-                                case "FLIGHT":
-                                    Logging.error("cast to flight");
-                                    Flight flight = (Flight) mObjectMapper.treeToValue(payload,
-                                            Class.forName("io.github.privacystreams.communication.emailinfo." + type));
-                                    Log.e("flight",flight.toString());
-                                    break;
-                                default:
-                                    Logging.error("unknown type");
-
-                            }
+                            isSiftAvailable(payload);
                         }
 
                     }
