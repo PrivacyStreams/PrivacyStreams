@@ -64,3 +64,4 @@ gradle-app.setting
 
 #key file
 keys.xml
+*secrets.xml
