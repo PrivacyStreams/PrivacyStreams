@@ -227,7 +227,6 @@ public class EmailInfoProvider extends PStreamProvider{
     }
 
     protected void isEmailConnected(String username){
-        Logging.error("checkisEmailConneected");
         HashMap<String,Object> params = new HashMap<>();
         String path = "/v1/users/"+username +"/email_connections";
         String method = "GET";
