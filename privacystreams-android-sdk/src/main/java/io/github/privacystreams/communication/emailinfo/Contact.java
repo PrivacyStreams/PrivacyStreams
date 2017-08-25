@@ -1,5 +1,9 @@
 package io.github.privacystreams.communication.emailinfo;
 
+import io.github.privacystreams.core.Item;
+import io.github.privacystreams.core.PStreamProvider;
+import io.github.privacystreams.utils.annotations.PSItem;
+import io.github.privacystreams.utils.annotations.PSItemField;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
@@ -8,6 +12,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.util.JSONPObject;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -19,6 +25,9 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Generated;
+
+import io.github.privacystreams.communication.EmailInfoProvider;
+import io.github.privacystreams.core.PStreamProvider;
 
 
 /**
@@ -96,4 +105,43 @@ public class Contact extends Sift {
         return new EqualsBuilder().append(mContacts, rhs.mContacts).append(mAdditionalProperties, rhs.mAdditionalProperties).isEquals();
     }
 
+    public static PStreamProvider getContact(){return new EmailContactProvider("","");}
+
+
+    /**fields*/
+
+    @PSItemField(type = String.class)
+    public static final String NAME = "name";
+
+    @PSItemField(type = String.class)
+    public static final String FAMILY_NAME = "family_name";
+
+    @PSItemField(type = String.class)
+    public static final String GIVEN_NAME = "given_name";
+
+    @PSItemField(type = String.class)
+    public static final String JOB_TITLE = "job_title";
+
+    @PSItemField(type = String.class)
+    public static final String EMAIL = "email";
+
+    @PSItemField(type = JsonNode.class)
+    public static final String WORKS_FOR = "works_for";
+
+    @PSItemField(type = String.class)
+    public static final String FAX_NUMBER = "fax_number";
+
+    @PSItemField(type = JsonNode.class)
+    public static final String HOME_LOCATION = "home_location";
+
+    @PSItemField(type = JsonNode.class)
+    public static final String WORK_LOCATION = "work_location";
+
+    @PSItemField(type = String.class)
+    public static final String TELEPHONE = "telephone";
+
+    @PSItemField(type = String.class)
+    public static final String TYPE = "type";
+
+    Contact(){}
 }

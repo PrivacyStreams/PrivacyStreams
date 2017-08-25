@@ -33,8 +33,8 @@ public class MainActivity extends AppCompatActivity {
         protected Object doInBackground(Object[] objects) {
             TestCases testCases = new TestCases(MainActivity.this);
         //testCases.testEmailList();;
-         testCases.testsift();
-
+        // testCases.testsift();
+            testCases.testContact();
 
             return null;
         }

@@ -184,6 +184,7 @@ public class TestCases {
         uqi.getData(Email.sift(),Purpose.TEST("test")).debug();
     }
 
+    public void testContact(){uqi.getData(io.github.privacystreams.communication.emailinfo.Contact.getContact(),Purpose.FEATURE("4tef")).debug();}
     public void testEmailList() {
         uqi.getData(Email.asGmailHistory(System.currentTimeMillis() - Duration.hours(100),
                 System.currentTimeMillis() - Duration.hours(50),

@@ -23,10 +23,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
-import io.github.privacystreams.communication.emailinfo.Deal;
-import io.github.privacystreams.communication.emailinfo.Flight;
-import io.github.privacystreams.communication.emailinfo.Order;
+import io.github.privacystreams.communication.emailinfo.*;
+import io.github.privacystreams.communication.emailinfo.Contact;
 import io.github.privacystreams.core.PStreamProvider;
+import io.github.privacystreams.core.R;
 import io.github.privacystreams.utils.Globals;
 import io.github.privacystreams.utils.Logging;
 
@@ -71,18 +71,20 @@ public class EmailInfoProvider extends PStreamProvider implements EmailAccountNa
     @params: api_secret: the api_secret generated on developer's sift account
      */
     public EmailInfoProvider(String key, String secret, String domain){
-        if(key != null) {
-            mApiKey = key;
-            mApiSecret = secret;
-            mSignatory = new Signatory(mApiKey);
             mDomain = domain;
-            this.addRequiredPermissions(Manifest.permission.INTERNET,
-                    Manifest.permission.GET_ACCOUNTS,
-                    Manifest.permission.ACCESS_NETWORK_STATE);
-        }
+            if(key != null && !key.equals("")) {
+                mApiKey = key;
+                mApiSecret = secret;
+
+                this.addRequiredPermissions(Manifest.permission.INTERNET,
+                        Manifest.permission.GET_ACCOUNTS,
+                        Manifest.permission.ACCESS_NETWORK_STATE);
+            }
+
     }
 
     private void onSiftSetupSuccess(){
+
         listSifts(mUserName,null,null,mDomain);
     }
 
@@ -111,6 +113,7 @@ public class EmailInfoProvider extends PStreamProvider implements EmailAccountNa
     //TODO Change this function when debug ends
 
     protected void setupSiftApi(){
+        /*
         GmailChooseAccountActivity.setListener(this);
         String token = PreferenceManager.getDefaultSharedPreferences(getContext())
                 .getString(mToken, null);
@@ -130,7 +133,6 @@ public class EmailInfoProvider extends PStreamProvider implements EmailAccountNa
             addUser(mUserName,"en_US");
         }
 
-
         long checkingStartedTime = System.currentTimeMillis();
         while(!mIsConnected
                 && !timeIsOut(checkingStartedTime)){
@@ -146,6 +148,21 @@ public class EmailInfoProvider extends PStreamProvider implements EmailAccountNa
         }
         if(!mIsConnected){
             Logging.error("Connection Error");
+        }
+        */
+        mApiKey = getContext().getResources().getString(R.string.sift_api_key);
+        mApiSecret = getContext().getResources().getString(R.string.sift_api_secret);
+        mSignatory = new Signatory(mApiSecret);
+        mUserName = "whatever";
+        addUser(mUserName,"en_US");
+        while(!mIsConnected) {
+            try {
+                Thread.sleep(Globals.SiftConfig.checkSiftConnectionPollingInterval);
+            } catch (Exception e) {
+                Logging.error("Connection Exception");
+            } finally {
+                checkEmailConnection(mUserName);
+            }
         }
     }
 
@@ -283,6 +300,25 @@ public class EmailInfoProvider extends PStreamProvider implements EmailAccountNa
         }
     }
 
+    private void getContactInfo(io.github.privacystreams.communication.emailinfo.Contact contact, JsonNode info){
+        contact.setFieldValue(io.github.privacystreams.communication.emailinfo.Contact.NAME,info.get(0).get("name").toString());
+        contact.setFieldValue(Contact.FAMILY_NAME,info.get(0).get("familyName").toString());
+        contact.setFieldValue(Contact.FAMILY_NAME,info.get(0).get("familyName").toString());
+        contact.setFieldValue(Contact.GIVEN_NAME,info.get(0).get("givenName").toString());
+        contact.setFieldValue(Contact.JOB_TITLE,info.get(0).get("jobTitle").toString());
+        contact.setFieldValue(Contact.EMAIL,info.get(0).get("email").toString());
+        contact.setFieldValue(Contact.WORKS_FOR,info.get(0).get("worksFor"));
+        contact.setFieldValue(Contact.FAX_NUMBER,info.get(0).get("faxNumber").toString());
+        contact.setFieldValue(Contact.HOME_LOCATION,info.get(0).get("homeLocation"));
+        contact.setFieldValue(Contact.WORK_LOCATION,info.get(0).get("workLocation"));
+        contact.setFieldValue(Contact.TELEPHONE,info.get(0).get("telephone").toString());
+        contact.setFieldValue(Contact.TYPE,info.get(0).get("@type").toString());
+        
+
+        output(contact);
+    }
+
+
 
     private class WebRequests extends AsyncTask<String,Void,String> {
 
@@ -343,6 +379,8 @@ public class EmailInfoProvider extends PStreamProvider implements EmailAccountNa
                                 case "CONTACT":
                                     io.github.privacystreams.communication.emailinfo.Contact contact = (io.github.privacystreams.communication.emailinfo.Contact) mObjectMapper.treeToValue(payload, Class.forName("io.github.privacystreams.communication.emailinfo." + type));
                                     Log.e("contact",contact.getContacts().get(0).getEmail());
+                                    JsonNode contactInfo = payload.get("contact");
+                                    getContactInfo(contact,contactInfo);
                                 case "ORDER":
                                     Logging.error("cast to order");
                                     Order order = (Order) mObjectMapper.treeToValue(payload, Class.forName("io.github.privacystreams.communication.emailinfo." + type));
