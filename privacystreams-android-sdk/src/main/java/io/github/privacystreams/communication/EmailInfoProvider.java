@@ -44,14 +44,14 @@ public class EmailInfoProvider extends PStreamProvider implements EmailAccountNa
     private String mDomain;
 
     /*Statuses used to deal with SIFT API*/
-    private final String STATUS_ADD_USER = "add_user";
-    private final String STATUS_LIST_SIFTS = "list_sifts";
-    private final String STATUS_CONNECT_TOKEN = "connect_token";
-    private final String STATUS_CHECK_CONNECTION = "check_connection";
+    private static final String STATUS_ADD_USER = "add_user";
+    private static final String STATUS_LIST_SIFTS = "list_sifts";
+    private static final String STATUS_CONNECT_TOKEN = "connect_token";
+    private static final String STATUS_CHECK_CONNECTION = "check_connection";
 
 
-    private final String GMAIL_PREF_NAME = "USER_NAME";
-    private final String TOKEN = "CONNECT_TOKEN";
+    private static final String GMAIL_PREF_NAME = "USER_NAME";
+    private static final String TOKEN = "CONNECT_TOKEN";
 
     private boolean mIsConnected = false;
 
@@ -79,7 +79,7 @@ public class EmailInfoProvider extends PStreamProvider implements EmailAccountNa
      * Callback when get connect token
      */
     private void onSiftSetupSuccess(){
-        listSifts(mUserName,null,null,mDomain);
+        listSifts(mUserName,mDomain);
     }
 
     @Override
@@ -228,21 +228,14 @@ public class EmailInfoProvider extends PStreamProvider implements EmailAccountNa
     /**
      * List sift information
      * @param username The username specified by developer
-     * @param offset The number of sift information will be ignored from the beginning
-     * @param lastUpdateTime Specify the Date from which sifts information begins
      * @param domain Specify what kind of information you want to get
      */
-    private void listSifts(String username, Integer offset, Date lastUpdateTime, String domain){
+    private void listSifts(String username, String domain){
         Logging.error("list sifts start");
         HashMap<String, Object> params = new HashMap<>();
         String path = "/v1/users/"+username+"/sifts";
         String method = "GET";
         params.put("username",username);
-        if(offset!=null)
-            params.put("offset",offset);
-        if(lastUpdateTime != null){
-            params.put("last_update_time", lastUpdateTime.getTime() / 1000);
-        }
         if(domain!=null){
             params.put("domains",domain);
         }
