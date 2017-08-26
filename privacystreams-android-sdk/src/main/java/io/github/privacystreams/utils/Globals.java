@@ -29,7 +29,7 @@ public class Globals {
 
     public static class SiftConfig{
         public static long checkSiftConnectionPollingInterval = Duration.seconds(1);
-        public static long checkSiftConnectionTimeout = Duration.seconds(10);
+        public static long checkSiftConnectionTimeout = Duration.seconds(20);
     }
 
     public static class EmailConfig {

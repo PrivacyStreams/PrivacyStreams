@@ -32,8 +32,6 @@ import io.github.privacystreams.utils.Logging;
 public class EmailInfoProvider extends PStreamProvider implements EmailAccountNameListener{
 
     private static final String EDISON_API_BASE_URL = "https://api.edison.tech";
-    private final String GMAIL_PREF_NAME = "userName";
-    private final String TOKEN = "connectToken";
 
     /*Credentials*/
     private String mApiKey;
@@ -46,11 +44,14 @@ public class EmailInfoProvider extends PStreamProvider implements EmailAccountNa
     private String mDomain;
 
     /*Statuses used to deal with SIFT API*/
-    private final String STATUS_ADD_USER = "add_user";
-    private final String STATUS_LIST_SIFTS = "list_sifts";
-    private final String STATUS_CONNECT_TOKEN = "connect_token";
-    private final String STATUS_CHECK_CONNECTION = "check_connection";
+    private static final String STATUS_ADD_USER = "add_user";
+    private static final String STATUS_LIST_SIFTS = "list_sifts";
+    private static final String STATUS_CONNECT_TOKEN = "connect_token";
+    private static final String STATUS_CHECK_CONNECTION = "check_connection";
 
+
+    private static final String GMAIL_PREF_NAME = "USER_NAME";
+    private static final String TOKEN = "CONNECT_TOKEN";
 
     private boolean mIsConnected = false;
 
@@ -63,32 +64,44 @@ public class EmailInfoProvider extends PStreamProvider implements EmailAccountNa
      */
     public EmailInfoProvider(String key, String secret, String domain){
             mDomain = domain;
-            if(key!= null && key.isEmpty()) {
+
                 mApiKey = key;
                 mApiSecret = secret;
-
+                mSignatory = new Signatory(mApiSecret);
                 this.addRequiredPermissions(Manifest.permission.INTERNET,
                         Manifest.permission.GET_ACCOUNTS,
                         Manifest.permission.ACCESS_NETWORK_STATE);
-            }
+
 
     }
 
+    /**
+     * Callback when get connect token
+     */
     private void onSiftSetupSuccess(){
-
-        listSifts(mUserName,null,null,mDomain);
+        listSifts(mUserName,mDomain);
     }
 
     @Override
+    /**
+     * Callback when user choose account fail
+     */
     public void onFail() {
 
     }
 
+    /**
+     * Callback when email info has been got
+     * @param jsonNode Email info got
+     */
     public void isSiftAvailable(JsonNode jsonNode){
 
     }
 
     @Override
+    /**
+     * Callback when user choose account succeed
+     */
     public void onSuccess(String name) {
         mUserName = name;
         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getContext()).edit();
@@ -102,16 +115,19 @@ public class EmailInfoProvider extends PStreamProvider implements EmailAccountNa
         setupSiftApi();
     }
 
-
+    /**
+     * Check whether user has confirmed in a given time
+     * @param checkingStartedTime When starting to check
+     * @return Whether time is out
+     */
     private boolean timeIsOut(long checkingStartedTime){
         return System.currentTimeMillis() - checkingStartedTime > Globals.SiftConfig.checkSiftConnectionTimeout;
     }
 
-    /* just for test when debug*/
-    //TODO Change this function when debug ends
-
-    protected void setupSiftApi(){
-        /*
+    /**
+     * Setup EmailInfoProvider and start to make http request to sift.
+     */
+    protected void setupSiftApi() {
         GmailChooseAccountActivity.setListener(this);
         String token = PreferenceManager.getDefaultSharedPreferences(getContext())
                 .getString(TOKEN, null);
@@ -120,12 +136,12 @@ public class EmailInfoProvider extends PStreamProvider implements EmailAccountNa
             onSiftSetupSuccess();
             return;
         }
-
-
         mUserName = PreferenceManager.getDefaultSharedPreferences(getContext())
                 .getString(GMAIL_PREF_NAME, null);
-        if(mUserName == null)
-            chooseAccount();
+        if(mUserName == null){
+            Intent chooseAccountIntent = new Intent(getContext(),GmailChooseAccountActivity.class);
+            getContext().startActivity(chooseAccountIntent);
+        }
         else{
             Logging.debug("already signed in");
             addUser(mUserName,"en_US");
@@ -146,37 +162,22 @@ public class EmailInfoProvider extends PStreamProvider implements EmailAccountNa
         }
         if(!mIsConnected){
             Logging.error("Connection Error");
-        }
-        */
-        mApiKey = getContext().getString(R.string.sift_api_key);
-        mApiSecret = getContext().getString(R.string.sift_api_secret);
-        mSignatory = new Signatory(mApiSecret);
-        mUserName = "whatever";
-      //  addUser(mUserName,"en_US");
+       }
 
-        while(!mIsConnected) {
-            try {
-                Thread.sleep(Globals.SiftConfig.checkSiftConnectionPollingInterval);
-            } catch (Exception e) {
-                Logging.error("Connection Exception");
-            } finally {
-                checkEmailConnection(mUserName);
-            }
-        }
     }
 
     /**
-    Add a username to developer's sift account.
-    @params: username: A name specified by developer. It can be everything.
-    @params: locale: user's locale. e.g: "en_US"
+     * Add a username to developer's sift account.
+     * @param userName: A name specified by developer. It can be everything.
+     * @param locale: user's locale. e.g: "en_US"
      */
 
-    private void addUser(String username, String locale){
+    private void addUser(String userName, String locale){
         Logging.error("addUser starts");
         HashMap<String,Object> params = new HashMap<>();
         String path = "/v1/users";
         String method = "POST";
-        params.put("username", username);
+        params.put("username", userName);
         params.put("locale", locale);
         params = addCommonParams(method, path, params);
         String requestUrl = generateUrl(path, params);
@@ -184,26 +185,26 @@ public class EmailInfoProvider extends PStreamProvider implements EmailAccountNa
     }
 
     /**
-    Get a connect token of the username
-    @params: username: The username specified by developer
+     * Get a connect token of the username
+     * @param userName: The username specified by developer
      */
 
-    private void getConnectToken(String username){
+    private void getConnectToken(String userName){
         Logging.error("getConnectToken starts");
         HashMap<String,Object> params = new HashMap<>();
         String path = "/v1/connect_token";
         String method = "POST";
-        params.put("username", username);
+        params.put("username", userName);
         params = addCommonParams(method,path, params);
         String requestUrl = generateUrl(path, params);
         new WebRequests().execute(requestUrl,method,STATUS_CONNECT_TOKEN);
     }
 
-    /*
-    Let the user confirm to log in.
-    Will pop up the browser to load the url
-     @parameters: username: The username specified by developer
-     @parameters: token: The token got from function getConnectToken(String)
+    /**
+    * Let the user confirm to log in.
+    * Will pop up the browser to load the url
+    * @param userName The username specified by developer
+    * @param token The token got from function getConnectToken(String)
     */
     private void connectEmail(String userName, String token){
         Logging.error("connectEmail starts");
@@ -227,21 +228,14 @@ public class EmailInfoProvider extends PStreamProvider implements EmailAccountNa
     /**
      * List sift information
      * @param username The username specified by developer
-     * @param offset The number of sift information will be ignored from the beginning
-     * @param lastUpdateTime Specify the Date from which sifts information begins
      * @param domain Specify what kind of information you want to get
      */
-    private void listSifts(String username, Integer offset, Date lastUpdateTime, String domain){
+    private void listSifts(String username, String domain){
         Logging.error("list sifts start");
         HashMap<String, Object> params = new HashMap<>();
         String path = "/v1/users/"+username+"/sifts";
         String method = "GET";
         params.put("username",username);
-        if(offset!=null)
-            params.put("offset",offset);
-        if(lastUpdateTime != null){
-            params.put("last_update_time", lastUpdateTime.getTime() / 1000);
-        }
         if(domain!=null){
             params.put("domains",domain);
         }
@@ -252,18 +246,23 @@ public class EmailInfoProvider extends PStreamProvider implements EmailAccountNa
 
     /**
      * Check whether the user's email is connected.
-     * @param username
+     * @param userName
      */
-    private void checkEmailConnection(String username){
+    private void checkEmailConnection(String userName){
         HashMap<String,Object> params = new HashMap<>();
-        String path = "/v1/users/"+username +"/email_connections";
+        String path = "/v1/users/"+userName +"/email_connections";
         String method = "GET";
         params = addCommonParams(method,path,params);
         String requestUrl = generateUrl(path,params);
         new WebRequests().execute(requestUrl, method, STATUS_CHECK_CONNECTION);
     }
 
-
+    /**
+     * Generate url for http request
+     * @param path The endpoint of the request
+     * @param params The query strings of the request
+     * @return Request Url
+     */
     private String generateUrl(String path, HashMap<String,Object> params){
         String url = EDISON_API_BASE_URL + path + "?";
         List<String> keys = new ArrayList<>(params.keySet());
@@ -280,12 +279,24 @@ public class EmailInfoProvider extends PStreamProvider implements EmailAccountNa
         return url;
     }
 
+    /**
+     * Add mApikey,timestamp and signature to query string
+     * @param method The method to open a http connection. e.g "POST"
+     * @param path The endpoint of the request
+     * @param params The query strings of the point
+     * @return Complete query strings
+     */
+
     private HashMap<String,Object> addCommonParams(String method, String path, HashMap<String,Object> params){
         params.put("api_key", mApiKey);
         params.put("timestamp", System.currentTimeMillis() / 1000L);
         params.put("signature", mSignatory.generateSignature(method, path, params));
         return params;
     }
+
+    /**
+     * Do http requests in background
+     */
 
     private class WebRequests extends AsyncTask<String,Void,String> {
 
@@ -294,6 +305,9 @@ public class EmailInfoProvider extends PStreamProvider implements EmailAccountNa
         }
 
         @Override
+        /**
+         * Do http requests using given url and method
+         */
         protected String doInBackground(String... params) {
             String url = params[0]; //the url to request
             if(url!=null){
@@ -397,6 +411,9 @@ public class EmailInfoProvider extends PStreamProvider implements EmailAccountNa
         }
 
         @Override
+        /**
+         * Give a callback when a http request ends
+         */
         protected  void onPostExecute(String lastStatus){
             Logging.error("last step is: "+ lastStatus);
             switch(lastStatus){
