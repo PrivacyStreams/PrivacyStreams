@@ -180,10 +180,6 @@ public class TestCases {
         uqi.getData(Email.asGmailUpdates(15 * 60 * 1000), Purpose.TEST("test")).debug();
     }
 
-    public void testsift(){
-        uqi.getData(Email.sift(),Purpose.TEST("test")).debug();
-    }
-
     public void testContact(){uqi.getData(io.github.privacystreams.communication.emailinfo.Contact.getContact(null,null),Purpose.FEATURE("4tef")).debug();}
     public void testFlight(){uqi.getData(io.github.privacystreams.communication.emailinfo.FlightReservation.getFlightReservation(null,null),Purpose.FEATURE("4tef")).debug();}
     public void testInvoice(){uqi.getData(io.github.privacystreams.communication.emailinfo.Invoice.getInvoices(null,null),Purpose.FEATURE("4tef")).debug();}
@@ -198,7 +194,7 @@ public class TestCases {
     }
 
     public void testDriveList() {
-        uqi.getData(DriveDocument.testDriveList(System.currentTimeMillis() - Duration.days(365),
+        uqi.getData(DriveDocument.asDocumentList(System.currentTimeMillis() - Duration.days(365),
                 System.currentTimeMillis(),
                 100, 10), Purpose.TEST("test")).debug();
     }

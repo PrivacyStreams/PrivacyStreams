@@ -52,7 +52,7 @@ public class DriveDocument extends Item {
         this.setFieldValue(FILE_SIZE, file.getSize());
     }
 
-    public static DriveListProvider testDriveList
+    public static DriveListProvider asDocumentList
             (long beginTime, long endTime, int maxResultNum, int resultNum) {
         return new DriveListProvider(beginTime, endTime, maxResultNum, resultNum);
     }
