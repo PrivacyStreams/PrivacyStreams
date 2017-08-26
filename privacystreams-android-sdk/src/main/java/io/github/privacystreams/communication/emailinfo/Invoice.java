@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.databind.JsonNode;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -16,12 +17,15 @@ import java.util.Map;
 
 import javax.annotation.Generated;
 
+import io.github.privacystreams.core.PStreamProvider;
+import io.github.privacystreams.utils.annotations.PSItemField;
+
 
 /**
  * Invoice
  * <p>
- * 
- * 
+ *
+ *
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -40,8 +44,8 @@ public class Invoice extends Sift {
     /**
      * PriceSpecification
      * <p>
-     * 
-     * 
+     *
+     *
      */
     @JsonProperty("totalPaymentDue")
     private PriceSpecification totalPaymentDue;
@@ -53,7 +57,7 @@ public class Invoice extends Sift {
     }
 
     /**
-     * 
+     *
      * @return
      *     The confirmationNumber
      */
@@ -63,7 +67,7 @@ public class Invoice extends Sift {
     }
 
     /**
-     * 
+     *
      * @param confirmationNumber
      *     The confirmationNumber
      */
@@ -73,7 +77,7 @@ public class Invoice extends Sift {
     }
 
     /**
-     * 
+     *
      * @return
      *     The paymentStatus
      */
@@ -83,7 +87,7 @@ public class Invoice extends Sift {
     }
 
     /**
-     * 
+     *
      * @param paymentStatus
      *     The paymentStatus
      */
@@ -95,8 +99,8 @@ public class Invoice extends Sift {
     /**
      * PriceSpecification
      * <p>
-     * 
-     * 
+     *
+     *
      * @return
      *     The totalPaymentDue
      */
@@ -108,8 +112,8 @@ public class Invoice extends Sift {
     /**
      * PriceSpecification
      * <p>
-     * 
-     * 
+     *
+     *
      * @param totalPaymentDue
      *     The totalPaymentDue
      */
@@ -149,5 +153,31 @@ public class Invoice extends Sift {
         Invoice rhs = ((Invoice) other);
         return new EqualsBuilder().append(confirmationNumber, rhs.confirmationNumber).append(paymentStatus, rhs.paymentStatus).append(totalPaymentDue, rhs.totalPaymentDue).append(additionalProperties, rhs.additionalProperties).isEquals();
     }
+
+    public static PStreamProvider getInvoices(String api_key, String api_secret) {
+        return new InvoiceProvider(api_key, api_secret);
+    }
+
+    /*fields*/
+    @PSItemField(type = String.class)
+    public static final String TYPE = "@type";
+
+    @PSItemField(type = JsonNode.class)
+    public static final String TOTAL_PAYMENT_DUE = "total_payment_due";
+
+    @PSItemField(type = String.class)
+    public static final String URL = "url";
+
+    @PSItemField(type = String.class)
+    public static final String PAYMENT_DUE_DATE = "payment_due_date";
+
+    @PSItemField(type = String.class)
+    public static final String DESCRIPTION = "description";
+
+    @PSItemField(type = String.class)
+    public static final String ACCOUNT_ID = "account_id";
+
+    @PSItemField(type = String.class)
+    public static final String ACCOUNT_BALANCE = "account_balance";
 
 }

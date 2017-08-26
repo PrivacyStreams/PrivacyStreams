@@ -28,9 +28,9 @@ public abstract class PStreamProvider extends EventDrivenFunction<Void, PStream>
             Logging.warn(this.getClass().getSimpleName() + " is outputting to an empty stream.");
             return;
         }
-        Logging.error("test out put");
         if (this.output.isClosed()) {
             if (!this.isCancelled) this.cancel(this.getUQI());
+            Logging.error("is_closed");
         } else this.output.write(item, this);
     }
 

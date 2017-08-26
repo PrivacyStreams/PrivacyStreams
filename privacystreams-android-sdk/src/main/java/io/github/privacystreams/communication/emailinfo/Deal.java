@@ -92,4 +92,6 @@ public class Deal extends Sift {
         return new EqualsBuilder().append(isDeal, rhs.isDeal).append(additionalProperties, rhs.additionalProperties).isEquals();
     }
 
+
+
 }
