@@ -3,8 +3,6 @@ package io.github.privacystreams.communication.emailinfo;
 import com.fasterxml.jackson.databind.JsonNode;
 
 import io.github.privacystreams.communication.EmailInfoProvider;
-import io.github.privacystreams.core.PStreamProvider;
-import io.github.privacystreams.utils.Logging;
 
 public class EmailFlightReservationProvider extends EmailInfoProvider {
     private static final String REQUEST_DOMAIN = "flight";
@@ -24,7 +22,6 @@ public class EmailFlightReservationProvider extends EmailInfoProvider {
     }
 
     private void getFlightInfo(JsonNode jsonNode){
-        Logging.error("new flight");
         FlightReservation flight = new FlightReservation();
         flight.setFieldValue(FlightReservation.RESERVATION_ID,jsonNode.get("reservationId").toString());
         flight.setFieldValue(FlightReservation.RESERVATION_STATUS,jsonNode.get("reservationStatus").toString());

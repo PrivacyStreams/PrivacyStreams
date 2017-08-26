@@ -27,45 +27,36 @@ import io.github.privacystreams.core.PStreamProvider;
 import io.github.privacystreams.core.R;
 import io.github.privacystreams.utils.Globals;
 import io.github.privacystreams.utils.Logging;
-import io.github.privacystreams.communication.emailinfo.Contact;
-import io.github.privacystreams.communication.emailinfo.*;
 
 
 public class EmailInfoProvider extends PStreamProvider implements EmailAccountNameListener{
 
-    /*for sifts info*/
-    private String mApiKey;
-    private String mApiSecret;
     private static final String EDISON_API_BASE_URL = "https://api.edison.tech";
-
-    /*for signature generation*/
-    private Signatory mSignatory;
-
-    /*for addUser*/
-    private final String STATUS_USER_ID = "USER_ID";
-
-    /* for listSifts*/
-    private final String STATUS_LIST_SIFTS = "LIST_SIFTS";
-
-    /*for connectToken*/
-    private final String STATUS_CONNECT_TOKEN = "TOKEN";
-
-    /*for list email*/
-    private final String STATUS_IS_CONNECTED = "IS_CONNECTED";
-
-    /*for list sifts*/
-
-    private String mConnectToken = null;
-    private String mUserName = null;
-
     private final String GMAIL_PREF_NAME = "userName";
     private final String TOKEN = "connectToken";
+
+    /*Credentials*/
+    private String mApiKey;
+    private String mApiSecret;
+    private String mConnectToken;
+    private String mUserName;
+    private Signatory mSignatory;
+
+    /*Configs*/
+    private String mDomain;
+
+    /*Statuses used to deal with SIFT API*/
+    private final String STATUS_ADD_USER = "add_user";
+    private final String STATUS_LIST_SIFTS = "list_sifts";
+    private final String STATUS_CONNECT_TOKEN = "connect_token";
+    private final String STATUS_CHECK_CONNECTION = "check_connection";
+
 
     private boolean mIsConnected = false;
 
     private final ObjectMapper mObjectMapper = new ObjectMapper();
 
-    private String mDomain = null;
+
     /**
     @params: api_key: the api_key generated on developer's sift account
     @params: api_secret: the api_secret generated on developer's sift account
@@ -92,6 +83,11 @@ public class EmailInfoProvider extends PStreamProvider implements EmailAccountNa
     public void onFail() {
 
     }
+
+    public void isSiftAvailable(JsonNode jsonNode){
+
+    }
+
     @Override
     public void onSuccess(String name) {
         mUserName = name;
@@ -105,6 +101,8 @@ public class EmailInfoProvider extends PStreamProvider implements EmailAccountNa
     protected void provide() {
         setupSiftApi();
     }
+
+
     private boolean timeIsOut(long checkingStartedTime){
         return System.currentTimeMillis() - checkingStartedTime > Globals.SiftConfig.checkSiftConnectionTimeout;
     }
@@ -180,9 +178,9 @@ public class EmailInfoProvider extends PStreamProvider implements EmailAccountNa
         String method = "POST";
         params.put("username", username);
         params.put("locale", locale);
-        params = addCommonParams(method,path,params);
-        String requestUrl = generateUrl(path,params);
-        new WebRequests().execute(requestUrl,method,STATUS_USER_ID);
+        params = addCommonParams(method, path, params);
+        String requestUrl = generateUrl(path, params);
+        new WebRequests().execute(requestUrl, method, STATUS_ADD_USER);
     }
 
     /**
@@ -196,8 +194,8 @@ public class EmailInfoProvider extends PStreamProvider implements EmailAccountNa
         String path = "/v1/connect_token";
         String method = "POST";
         params.put("username", username);
-        params = addCommonParams(method,path,params);
-        String requestUrl = generateUrl(path,params);
+        params = addCommonParams(method,path, params);
+        String requestUrl = generateUrl(path, params);
         new WebRequests().execute(requestUrl,method,STATUS_CONNECT_TOKEN);
     }
 
@@ -227,14 +225,13 @@ public class EmailInfoProvider extends PStreamProvider implements EmailAccountNa
     }
 
     /**
-    List sift information
-    @params: username: The username specified by developer
-    @params: offset: The number of sift information will be ignored from the beginning
-    @params: lastUpdateTime: Specify the Date from which sifts information begins
-    @params: domain: Specify what kind of information you want to get
+     * List sift information
+     * @param username The username specified by developer
+     * @param offset The number of sift information will be ignored from the beginning
+     * @param lastUpdateTime Specify the Date from which sifts information begins
+     * @param domain Specify what kind of information you want to get
      */
-
-    private String listSifts(String username, Integer offset, Date lastUpdateTime, String domain){
+    private void listSifts(String username, Integer offset, Date lastUpdateTime, String domain){
         Logging.error("list sifts start");
         HashMap<String, Object> params = new HashMap<>();
         String path = "/v1/users/"+username+"/sifts";
@@ -251,7 +248,6 @@ public class EmailInfoProvider extends PStreamProvider implements EmailAccountNa
         params = addCommonParams(method,path,params);
         String requestUrl = generateUrl(path,params);
         new WebRequests().execute(requestUrl,method,STATUS_LIST_SIFTS);
-        return null;
     }
 
     /**
@@ -264,7 +260,7 @@ public class EmailInfoProvider extends PStreamProvider implements EmailAccountNa
         String method = "GET";
         params = addCommonParams(method,path,params);
         String requestUrl = generateUrl(path,params);
-        new WebRequests().execute(requestUrl,method,STATUS_IS_CONNECTED);
+        new WebRequests().execute(requestUrl, method, STATUS_CHECK_CONNECTION);
     }
 
 
@@ -289,20 +285,6 @@ public class EmailInfoProvider extends PStreamProvider implements EmailAccountNa
         params.put("timestamp", System.currentTimeMillis() / 1000L);
         params.put("signature", mSignatory.generateSignature(method, path, params));
         return params;
-    }
-
-
-
-
-    private void chooseAccount(){
-        if(mUserName == null) {
-            Intent intent = new Intent(getContext(), GmailChooseAccountActivity.class);
-            getContext().startActivity(intent);
-        }
-    }
-
-    public void isSiftAvailable(JsonNode jsonNode){
-
     }
 
     private class WebRequests extends AsyncTask<String,Void,String> {
@@ -369,7 +351,7 @@ public class EmailInfoProvider extends PStreamProvider implements EmailAccountNa
                     }
                     break;
 
-                case STATUS_USER_ID:
+                case STATUS_ADD_USER:
                     try {
                         responseJson = new JSONObject(responseString);
                         Logging.error("json is:" + responseJson);
@@ -394,7 +376,7 @@ public class EmailInfoProvider extends PStreamProvider implements EmailAccountNa
                     }
                     break;
 
-                case STATUS_IS_CONNECTED:
+                case STATUS_CHECK_CONNECTION:
                     try {
                         JsonNode root = mObjectMapper.readTree(responseString);
                         Logging.error("json is:" + root);
@@ -418,15 +400,16 @@ public class EmailInfoProvider extends PStreamProvider implements EmailAccountNa
         protected  void onPostExecute(String lastStatus){
             Logging.error("last step is: "+ lastStatus);
             switch(lastStatus){
-                case STATUS_USER_ID:
-
+                case STATUS_ADD_USER:
                     getConnectToken(mUserName);
                     break;
+
                 case STATUS_CONNECT_TOKEN:
                     connectEmail(mUserName,mConnectToken);
                     break;
+
                 case STATUS_LIST_SIFTS:
-                case STATUS_IS_CONNECTED:
+                case STATUS_CHECK_CONNECTION:
                     break;
                 default:
                     Logging.error("something strange happened");

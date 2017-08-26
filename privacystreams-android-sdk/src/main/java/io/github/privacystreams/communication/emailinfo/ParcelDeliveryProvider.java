@@ -2,12 +2,7 @@ package io.github.privacystreams.communication.emailinfo;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import io.github.privacystreams.communication.EmailInfoProvider;
-import io.github.privacystreams.core.PStreamProvider;
-import io.github.privacystreams.utils.Logging;
 
 public class ParcelDeliveryProvider extends EmailInfoProvider {
     private static final String REQUEST_DOMAIN = "shipment";
@@ -27,7 +22,6 @@ public class ParcelDeliveryProvider extends EmailInfoProvider {
     }
 
     private void getParcelDeliveryInfo(JsonNode jsonNode){
-        Logging.error("new parcel");
         ParcelDelivery parcel = new ParcelDelivery();
         parcel.setFieldValue(ParcelDelivery.TRACKING_URL,jsonNode.get("trackingUrl").toString());
         parcel.setFieldValue(ParcelDelivery.TRACKING_NUMBER,jsonNode.get("trackingNumber").toString());
