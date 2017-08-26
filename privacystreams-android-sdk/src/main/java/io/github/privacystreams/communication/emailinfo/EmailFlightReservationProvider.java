@@ -7,10 +7,10 @@ import io.github.privacystreams.core.PStreamProvider;
 import io.github.privacystreams.utils.Logging;
 
 public class EmailFlightReservationProvider extends EmailInfoProvider {
-    private static final String domain = "flight";
+    private static final String REQUEST_DOMAIN = "flight";
 
     public EmailFlightReservationProvider(String api_key, String api_secret){
-        super(api_key,api_secret,domain);
+        super(api_key,api_secret,REQUEST_DOMAIN);
     }
 
     @Override

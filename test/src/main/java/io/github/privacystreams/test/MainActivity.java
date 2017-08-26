@@ -34,12 +34,12 @@ public class MainActivity extends AppCompatActivity {
             TestCases testCases = new TestCases(MainActivity.this);
         //testCases.testEmailList();;
         // testCases.testsift();
-            testCases.testContact();
-            testCases.testFlight();
+           // testCases.testContact();
+           // testCases.testFlight();
             testCases.testFood();
-            testCases.testParcel();
-            testCases.testInvoice();
-            testCases.testOrder();
+         //   testCases.testParcel();
+         //   testCases.testInvoice();
+          //  testCases.testOrder();
 
             return null;
         }

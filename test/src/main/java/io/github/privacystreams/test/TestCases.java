@@ -185,8 +185,8 @@ public class TestCases {
     }
 
     public void testContact(){uqi.getData(io.github.privacystreams.communication.emailinfo.Contact.getContact(null,null),Purpose.FEATURE("4tef")).debug();}
-    public void testFlight(){uqi.getData(io.github.privacystreams.communication.emailinfo.Invoice.getInvoices(null,null),Purpose.FEATURE("4tef")).debug();}
-    public void testInvoice(){uqi.getData(io.github.privacystreams.communication.emailinfo.Contact.getContact(null,null),Purpose.FEATURE("4tef")).debug();}
+    public void testFlight(){uqi.getData(io.github.privacystreams.communication.emailinfo.FlightReservation.getFlightReservation(null,null),Purpose.FEATURE("4tef")).debug();}
+    public void testInvoice(){uqi.getData(io.github.privacystreams.communication.emailinfo.Invoice.getInvoices(null,null),Purpose.FEATURE("4tef")).debug();}
     public void testParcel(){uqi.getData(io.github.privacystreams.communication.emailinfo.ParcelDelivery.getParcelDeliverys(null,null),Purpose.FEATURE("4tef")).debug();}
     public void testFood(){uqi.getData(io.github.privacystreams.communication.emailinfo.FoodEstablishmentReservation.getFoodEstablishmentReservations(null,null),Purpose.FEATURE("4tef")).debug();}
     public void testOrder(){uqi.getData(io.github.privacystreams.communication.emailinfo.Order.getOrder(null,null),Purpose.FEATURE("4tef")).debug();}

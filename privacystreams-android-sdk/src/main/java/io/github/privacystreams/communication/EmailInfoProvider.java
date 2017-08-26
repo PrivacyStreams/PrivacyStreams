@@ -72,7 +72,7 @@ public class EmailInfoProvider extends PStreamProvider implements EmailAccountNa
      */
     public EmailInfoProvider(String key, String secret, String domain){
             mDomain = domain;
-            if(!key.isEmpty()) {
+            if(key!= null && key.isEmpty()) {
                 mApiKey = key;
                 mApiSecret = secret;
 

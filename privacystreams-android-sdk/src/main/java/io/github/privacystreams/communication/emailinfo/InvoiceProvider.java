@@ -8,7 +8,7 @@ import io.github.privacystreams.utils.Logging;
 
 
 public class InvoiceProvider extends EmailInfoProvider {
-    private static final String REQUEST_DOMAIN = "invoice";
+    private static final String REQUEST_DOMAIN = "bill";
 
     public InvoiceProvider(String api_key, String api_secret){
         super(api_key,api_secret,REQUEST_DOMAIN);
