@@ -184,12 +184,12 @@ public class TestCases {
         uqi.getData(Email.sift(),Purpose.TEST("test")).debug();
     }
 
-    public void testContact(){uqi.getData(io.github.privacystreams.communication.emailinfo.Contact.getContact(null,null),Purpose.FEATURE("4tef")).debug();}
-    public void testFlight(){uqi.getData(io.github.privacystreams.communication.emailinfo.FlightReservation.getFlightReservation(null,null),Purpose.FEATURE("4tef")).debug();}
-    public void testInvoice(){uqi.getData(io.github.privacystreams.communication.emailinfo.Invoice.getInvoices(null,null),Purpose.FEATURE("4tef")).debug();}
-    public void testParcel(){uqi.getData(io.github.privacystreams.communication.emailinfo.ParcelDelivery.getParcelDeliverys(null,null),Purpose.FEATURE("4tef")).debug();}
-    public void testFood(){uqi.getData(io.github.privacystreams.communication.emailinfo.FoodEstablishmentReservation.getFoodEstablishmentReservations(null,null),Purpose.FEATURE("4tef")).debug();}
-    public void testOrder(){uqi.getData(io.github.privacystreams.communication.emailinfo.Order.getOrder(null,null),Purpose.FEATURE("4tef")).debug();}
+    public void testContact(String api_key, String api_secret){uqi.getData(io.github.privacystreams.communication.emailinfo.Contact.getContact(api_key,api_secret),Purpose.FEATURE("4tef")).debug();}
+    public void testFlight(String api_key, String api_secret){uqi.getData(io.github.privacystreams.communication.emailinfo.FlightReservation.getFlightReservation(api_key,api_secret),Purpose.FEATURE("4tef")).debug();}
+    public void testInvoice(String api_key, String api_secret){uqi.getData(io.github.privacystreams.communication.emailinfo.Invoice.getInvoices(api_key,api_secret),Purpose.FEATURE("4tef")).debug();}
+    public void testParcel(String api_key, String api_secret){uqi.getData(io.github.privacystreams.communication.emailinfo.ParcelDelivery.getParcelDeliverys(api_key,api_secret),Purpose.FEATURE("4tef")).debug();}
+    public void testFood(String api_key, String api_secret){uqi.getData(io.github.privacystreams.communication.emailinfo.FoodEstablishmentReservation.getFoodEstablishmentReservations(api_key,api_secret),Purpose.FEATURE("4tef")).debug();}
+    public void testOrder(String api_key, String api_secret){uqi.getData(io.github.privacystreams.communication.emailinfo.Order.getOrder(api_key,api_secret),Purpose.FEATURE("4tef")).debug();}
 
     public void testEmailList() {
         uqi.getData(Email.asGmailHistory(System.currentTimeMillis() - Duration.hours(100),

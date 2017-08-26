@@ -3,8 +3,6 @@ package io.github.privacystreams.communication.emailinfo;
 import com.fasterxml.jackson.databind.JsonNode;
 
 import io.github.privacystreams.communication.EmailInfoProvider;
-import io.github.privacystreams.core.PStreamProvider;
-import io.github.privacystreams.utils.Logging;
 
 public class OnlineOrderProvider extends EmailInfoProvider {
     private static final String REQUEST_DOMAIN = "purchase";
@@ -24,7 +22,6 @@ public class OnlineOrderProvider extends EmailInfoProvider {
     }
 
     private void getOrder(JsonNode jsonNode){
-        Logging.error("a new order");
         Order order = new Order();
         order.setFieldValue(Order.ACCEPTED_OFFER,jsonNode.get("acceptedOffer"));
         order.setFieldValue(Order.DESCRIPTION,jsonNode.get("description").toString());

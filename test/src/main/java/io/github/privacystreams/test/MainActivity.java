@@ -1,5 +1,6 @@
 package io.github.privacystreams.test;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -34,12 +35,14 @@ public class MainActivity extends AppCompatActivity {
             TestCases testCases = new TestCases(MainActivity.this);
         //testCases.testEmailList();;
         // testCases.testsift();
-           // testCases.testContact();
-           // testCases.testFlight();
-            testCases.testFood();
-         //   testCases.testParcel();
-         //   testCases.testInvoice();
-          //  testCases.testOrder();
+            String api_key = "";
+            String api_secret = "";
+           // testCases.testContact(api_key,api_secret);
+           // testCases.testFlight(api_key,api_secret);
+            testCases.testFood(api_key,api_secret);
+         //   testCases.testParcel(api_key,api_secret);
+         //   testCases.testInvoice(api_key,api_secret);
+          //  testCases.testOrder(api_key,api_secret);
 
             return null;
         }
