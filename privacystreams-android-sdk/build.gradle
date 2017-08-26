@@ -198,7 +198,7 @@ bintray {
 // yiad.am jfrog repo
 def libraryGroupId = 'privacystreams'
 def libraryArtifactId = 'privacystreams-android-sdk'
-def libraryVersion = '0.1.5.4'
+def libraryVersion = '0.1.6.1'
 
 publishing {
     publications {
@@ -229,6 +229,9 @@ artifactory {
 
             // Do not put credentials here.
             // Put them in ~/.gradle/gradle.properties
+            username = yiadam_jfrog_username
+            password = yiadam_jfrog_password
+
 
         }
         defaults {

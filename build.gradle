@@ -17,7 +17,13 @@ buildscript {
 allprojects {
     repositories {
         jcenter()
-        maven { url 'https://jitpack.io' }
+        maven {
+            url "https://jfrog.yiad.am/artifactory/MessageOnTap-release"
+            credentials {
+                username = "${yiadam_jfrog_username}"
+                password = "${yiadam_jfrog_password}"
+            }
+        }
     }
 }
 task clean(type: Delete) {
