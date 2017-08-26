@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.databind.JsonNode;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -17,11 +18,14 @@ import java.util.Map;
 
 import javax.annotation.Generated;
 
+import io.github.privacystreams.core.PStreamProvider;
+import io.github.privacystreams.utils.annotations.PSItemField;
+
 /**
  * FoodEstablishmentReservation
  * <p>
- * 
- * 
+ *
+ *
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -41,16 +45,16 @@ public class FoodEstablishmentReservation extends Sift {
     /**
      * Organization
      * <p>
-     * 
-     * 
+     *
+     *
      */
     @JsonProperty("provider")
     private Organization provider;
     /**
      * FoodEstablishment
      * <p>
-     * 
-     * 
+     *
+     *
      */
     @JsonProperty("reservationFor")
     private FoodEstablishment reservationFor;
@@ -59,8 +63,8 @@ public class FoodEstablishmentReservation extends Sift {
     /**
      * ReservationStatus
      * <p>
-     * 
-     * 
+     *
+     *
      */
     @JsonProperty("reservationStatus")
     private ReservationStatus reservationStatus;
@@ -74,7 +78,7 @@ public class FoodEstablishmentReservation extends Sift {
     }
 
     /**
-     * 
+     *
      * @return
      *     The partySize
      */
@@ -84,7 +88,7 @@ public class FoodEstablishmentReservation extends Sift {
     }
 
     /**
-     * 
+     *
      * @param partySize
      *     The partySize
      */
@@ -96,8 +100,8 @@ public class FoodEstablishmentReservation extends Sift {
     /**
      * Organization
      * <p>
-     * 
-     * 
+     *
+     *
      * @return
      *     The provider
      */
@@ -109,8 +113,8 @@ public class FoodEstablishmentReservation extends Sift {
     /**
      * Organization
      * <p>
-     * 
-     * 
+     *
+     *
      * @param provider
      *     The provider
      */
@@ -122,8 +126,8 @@ public class FoodEstablishmentReservation extends Sift {
     /**
      * FoodEstablishment
      * <p>
-     * 
-     * 
+     *
+     *
      * @return
      *     The reservationFor
      */
@@ -135,8 +139,8 @@ public class FoodEstablishmentReservation extends Sift {
     /**
      * FoodEstablishment
      * <p>
-     * 
-     * 
+     *
+     *
      * @param reservationFor
      *     The reservationFor
      */
@@ -146,7 +150,7 @@ public class FoodEstablishmentReservation extends Sift {
     }
 
     /**
-     * 
+     *
      * @return
      *     The reservationId
      */
@@ -156,7 +160,7 @@ public class FoodEstablishmentReservation extends Sift {
     }
 
     /**
-     * 
+     *
      * @param reservationId
      *     The reservationId
      */
@@ -168,8 +172,8 @@ public class FoodEstablishmentReservation extends Sift {
     /**
      * ReservationStatus
      * <p>
-     * 
-     * 
+     *
+     *
      * @return
      *     The reservationStatus
      */
@@ -181,8 +185,8 @@ public class FoodEstablishmentReservation extends Sift {
     /**
      * ReservationStatus
      * <p>
-     * 
-     * 
+     *
+     *
      * @param reservationStatus
      *     The reservationStatus
      */
@@ -192,7 +196,7 @@ public class FoodEstablishmentReservation extends Sift {
     }
 
     /**
-     * 
+     *
      * @return
      *     The startTime
      */
@@ -202,7 +206,7 @@ public class FoodEstablishmentReservation extends Sift {
     }
 
     /**
-     * 
+     *
      * @param startTime
      *     The startTime
      */
@@ -243,4 +247,27 @@ public class FoodEstablishmentReservation extends Sift {
         return new EqualsBuilder().append(partySize, rhs.partySize).append(provider, rhs.provider).append(reservationFor, rhs.reservationFor).append(reservationId, rhs.reservationId).append(reservationStatus, rhs.reservationStatus).append(startTime, rhs.startTime).append(additionalProperties, rhs.additionalProperties).isEquals();
     }
 
+    /*Fields*/
+    @PSItemField(type = String.class)
+    public static final String RESERVATION_STATUS = "reservation_status";
+
+    @PSItemField(type = String.class)
+    public static final String RESERVATION_ID = "reservation_id";
+
+    @PSItemField(type = JsonNode.class)
+    public static final String RESERVATION_FOR = "reservation_for";
+
+
+    @PSItemField(type = String.class)
+    public static final String PARTY_SIZE = "party_size";
+
+    @PSItemField(type = String.class)
+    public static final String START_TIME = "start_time";
+
+    @PSItemField(type = JsonNode.class)
+    public static final String PROVIDER = "provider";
+
+    public PStreamProvider getFoodEstablishmentReservations(String api_key, String api_secret){
+        return new FoodEstablishmentReservationProvider(api_key, api_secret);
+    }
 }

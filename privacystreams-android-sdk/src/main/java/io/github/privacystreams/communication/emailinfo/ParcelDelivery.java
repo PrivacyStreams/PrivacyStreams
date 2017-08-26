@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.databind.JsonNode;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -17,6 +18,9 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Generated;
+
+import io.github.privacystreams.core.PStreamProvider;
+import io.github.privacystreams.utils.annotations.PSItemField;
 
 
 /**
@@ -210,4 +214,26 @@ public class ParcelDelivery extends Sift {
         return new EqualsBuilder().append(itemShipped, rhs.itemShipped).append(partOfOrder, rhs.partOfOrder).append(provider, rhs.provider).append(trackingNumber, rhs.trackingNumber).append(trackingUrl, rhs.trackingUrl).append(additionalProperties, rhs.additionalProperties).isEquals();
     }
 
+    /*Fields*/
+    @PSItemField(type = String.class)
+    public static final String TRACKING_URL = "tracking_url";
+
+    @PSItemField(type = String.class)
+    public static final String TRACKING_NUMBER = "tracking_number";
+
+    @PSItemField(type = String.class)
+    public static final String EXPECTED_ARRIVAL_UNTIL = "expected_arrival_until";
+
+    @PSItemField(type = List.class)
+    public static final String ITEM_SHIPPED = "item_shipped";
+
+    @PSItemField(type = JsonNode.class)
+    public static final String PROVIDER = "provider";
+
+    @PSItemField(type = JsonNode.class)
+    public static final String PART_OF_ORDER = "part_of_order";
+
+    public PStreamProvider getParcelDeliverys(String api_key, String api_secret){
+        return new ParcelDeliveryProvider(api_key,api_secret);
+    }
 }

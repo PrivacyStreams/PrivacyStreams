@@ -105,8 +105,9 @@ public class Contact extends Sift {
         return new EqualsBuilder().append(mContacts, rhs.mContacts).append(mAdditionalProperties, rhs.mAdditionalProperties).isEquals();
     }
 
-    public static PStreamProvider getContact(){return new EmailContactProvider("","");}
-
+    //TODO change these two functions when debug ends
+    public PStreamProvider getContact(){return new EmailContactProvider("","");}
+    Contact(){}
 
     /**fields*/
 
@@ -143,5 +144,7 @@ public class Contact extends Sift {
     @PSItemField(type = String.class)
     public static final String TYPE = "type";
 
-    Contact(){}
+
+
+
 }
