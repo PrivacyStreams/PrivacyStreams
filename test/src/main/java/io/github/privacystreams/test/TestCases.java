@@ -179,13 +179,47 @@ public class TestCases {
     public void testEmailUpdates() {
         uqi.getData(Email.asGmailUpdates(15 * 60 * 1000), Purpose.TEST("test")).debug();
     }
-    public void testContact(){uqi.getData(io.github.privacystreams.communication.emailinfo.Contact.getContact(null,null),Purpose.FEATURE("4tef")).debug();}
-    public void testFlight(){uqi.getData(io.github.privacystreams.communication.emailinfo.FlightReservation.getFlightReservation(null,null),Purpose.FEATURE("4tef")).debug();}
-    public void testInvoice(){uqi.getData(io.github.privacystreams.communication.emailinfo.Invoice.getInvoices(null,null),Purpose.FEATURE("4tef")).debug();}
-    public void testParcel(){uqi.getData(io.github.privacystreams.communication.emailinfo.ParcelDelivery.getParcelDeliverys(null,null),Purpose.FEATURE("4tef")).debug();}
-    public void testFood(){uqi.getData(io.github.privacystreams.communication.emailinfo.FoodEstablishmentReservation.getFoodEstablishmentReservations(null,null),Purpose.FEATURE("4tef")).debug();}
-    public void testOrder(){uqi.getData(io.github.privacystreams.communication.emailinfo.Order.getOrder(null,null),Purpose.FEATURE("4tef")).debug();}
+    public void testContact(){
+        String apiSecret = uqi.getContext().getString(R.string.sift_api_secret);
+        String apiKey = uqi.getContext().getString(R.string.sift_api_key);
+        uqi.getData(io.github.privacystreams.communication.emailinfo.Contact.getContact(apiKey,apiSecret),Purpose.FEATURE("4tef"))
+                .debug();
+    }
 
+    public void testFlight(){
+        String apiSecret = uqi.getContext().getString(R.string.sift_api_secret);
+        String apiKey = uqi.getContext().getString(R.string.sift_api_key);
+        uqi.getData(io.github.privacystreams.communication.emailinfo.FlightReservation.getFlightReservation(null,null),Purpose.FEATURE("test"))
+                .debug();
+    }
+
+    public void testInvoice(){
+        String apiSecret = uqi.getContext().getString(R.string.sift_api_secret);
+        String apiKey = uqi.getContext().getString(R.string.sift_api_key);
+        uqi.getData(io.github.privacystreams.communication.emailinfo.Invoice.getInvoices(apiKey,apiSecret),
+                Purpose.FEATURE("4tef")).debug();
+    }
+
+    public void testParcel(){
+        String apiSecret = uqi.getContext().getString(R.string.sift_api_secret);
+        String apiKey = uqi.getContext().getString(R.string.sift_api_key);
+        uqi.getData(io.github.privacystreams.communication.emailinfo.ParcelDelivery.getParcelDeliverys(apiKey,apiSecret),Purpose.FEATURE("test"))
+                .debug();
+    }
+
+    public void testFood(){
+        String apiSecret = uqi.getContext().getString(R.string.sift_api_secret);
+        String apiKey = uqi.getContext().getString(R.string.sift_api_key);
+        uqi.getData(io.github.privacystreams.communication.emailinfo.FoodEstablishmentReservation.getFoodEstablishmentReservations(apiKey,apiSecret),Purpose.FEATURE("test"))
+                .debug();
+    }
+
+    public void testOrder(){
+        String apiSecret = uqi.getContext().getString(R.string.sift_api_secret);
+        String apiKey = uqi.getContext().getString(R.string.sift_api_key);
+        uqi.getData(io.github.privacystreams.communication.emailinfo.Order.getOrder(apiKey,apiSecret),Purpose.FEATURE("test"))
+                .debug();
+    }
 
 
     public void testEmailList() {
