@@ -179,17 +179,40 @@ public class TestCases {
     public void testEmailUpdates() {
         uqi.getData(Email.asGmailUpdates(15 * 60 * 1000), Purpose.TEST("test")).debug();
     }
-
-    public void testsift(){
-        uqi.getData(Email.sift(),Purpose.TEST("test")).debug();
+    public void testContact(String apiKey, String apiSecret){
+        uqi.getData(io.github.privacystreams.communication.emailinfo.Contact.getContact(apiKey,apiSecret),
+                Purpose.FEATURE("test"))
+                .debug();
     }
 
-    public void testContact(String api_key, String api_secret){uqi.getData(io.github.privacystreams.communication.emailinfo.Contact.getContact(api_key,api_secret),Purpose.FEATURE("4tef")).debug();}
-    public void testFlight(String api_key, String api_secret){uqi.getData(io.github.privacystreams.communication.emailinfo.FlightReservation.getFlightReservation(api_key,api_secret),Purpose.FEATURE("4tef")).debug();}
-    public void testInvoice(String api_key, String api_secret){uqi.getData(io.github.privacystreams.communication.emailinfo.Invoice.getInvoices(api_key,api_secret),Purpose.FEATURE("4tef")).debug();}
-    public void testParcel(String api_key, String api_secret){uqi.getData(io.github.privacystreams.communication.emailinfo.ParcelDelivery.getParcelDeliverys(api_key,api_secret),Purpose.FEATURE("4tef")).debug();}
-    public void testFood(String api_key, String api_secret){uqi.getData(io.github.privacystreams.communication.emailinfo.FoodEstablishmentReservation.getFoodEstablishmentReservations(api_key,api_secret),Purpose.FEATURE("4tef")).debug();}
-    public void testOrder(String api_key, String api_secret){uqi.getData(io.github.privacystreams.communication.emailinfo.Order.getOrder(api_key,api_secret),Purpose.FEATURE("4tef")).debug();}
+    public void testFlight(String apiKey, String apiSecret){
+        uqi.getData(io.github.privacystreams.communication.emailinfo.FlightReservation.getFlightReservation(null,null),
+                Purpose.FEATURE("test"))
+                .debug();
+    }
+
+    public void testInvoice(String apiKey, String apiSecret){
+        uqi.getData(io.github.privacystreams.communication.emailinfo.Invoice.getInvoices(apiKey,apiSecret),
+                Purpose.FEATURE("test")).debug();
+    }
+
+    public void testParcel(String apiKey, String apiSecret){
+        uqi.getData(io.github.privacystreams.communication.emailinfo.ParcelDelivery.getParcelDeliverys(apiKey,apiSecret),
+                Purpose.FEATURE("test"))
+                .debug();
+    }
+
+    public void testFood(String apiKey, String apiSecret){
+        uqi.getData(io.github.privacystreams.communication.emailinfo.FoodEstablishmentReservation.getFoodEstablishmentReservations(apiKey,apiSecret),Purpose.FEATURE("test"))
+                .debug();
+    }
+
+    public void testOrder(String apiKey, String apiSecret){
+        uqi.getData(io.github.privacystreams.communication.emailinfo.Order.getOrder(apiKey,apiSecret),
+                Purpose.FEATURE("test"))
+                .debug();
+    }
+
 
     public void testEmailList() {
         uqi.getData(Email.asGmailHistory(System.currentTimeMillis() - Duration.hours(100),
@@ -198,7 +221,7 @@ public class TestCases {
     }
 
     public void testDriveList() {
-        uqi.getData(DriveDocument.testDriveList(System.currentTimeMillis() - Duration.days(365),
+        uqi.getData(DriveDocument.asDocumentList(System.currentTimeMillis() - Duration.days(365),
                 System.currentTimeMillis(),
                 100, 10), Purpose.TEST("test")).debug();
     }
