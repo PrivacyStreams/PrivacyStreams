@@ -58,8 +58,8 @@ public class EmailInfoProvider extends PStreamProvider implements EmailAccountNa
     private String mConnectToken = null;
     private String mUserName = null;
 
-    private final String GMAIL_PREF_NAME = "userName";
-    private final String TOKEN = "connectToken";
+    private final String GMAIL_PREF_NAME = "USER_NAME";
+    private final String TOKEN = "CONNECT_TOKEN";
 
     private boolean mIsConnected = false;
 
