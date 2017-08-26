@@ -154,7 +154,8 @@ public class EmailInfoProvider extends PStreamProvider implements EmailAccountNa
         mApiSecret = getContext().getResources().getString(R.string.sift_api_secret);
         mSignatory = new Signatory(mApiSecret);
         mUserName = "whatever";
-        addUser(mUserName,"en_US");
+      //  addUser(mUserName,"en_US");
+
         while(!mIsConnected) {
             try {
                 Thread.sleep(Globals.SiftConfig.checkSiftConnectionPollingInterval);
@@ -301,9 +302,10 @@ public class EmailInfoProvider extends PStreamProvider implements EmailAccountNa
     }
 
     private void getContactInfo(io.github.privacystreams.communication.emailinfo.Contact contact, JsonNode info){
+        Logging.error("add contct info");
         contact.setFieldValue(io.github.privacystreams.communication.emailinfo.Contact.NAME,info.get(0).get("name").toString());
         contact.setFieldValue(Contact.FAMILY_NAME,info.get(0).get("familyName").toString());
-        contact.setFieldValue(Contact.FAMILY_NAME,info.get(0).get("familyName").toString());
+       // contact.setFieldValue(Contact.FAMILY_NAME,info.get(0).get("familyName").toString());
         contact.setFieldValue(Contact.GIVEN_NAME,info.get(0).get("givenName").toString());
         contact.setFieldValue(Contact.JOB_TITLE,info.get(0).get("jobTitle").toString());
         contact.setFieldValue(Contact.EMAIL,info.get(0).get("email").toString());
@@ -313,8 +315,7 @@ public class EmailInfoProvider extends PStreamProvider implements EmailAccountNa
         contact.setFieldValue(Contact.WORK_LOCATION,info.get(0).get("workLocation"));
         contact.setFieldValue(Contact.TELEPHONE,info.get(0).get("telephone").toString());
         contact.setFieldValue(Contact.TYPE,info.get(0).get("@type").toString());
-        
-
+        Logging.error("add over");
         output(contact);
     }
 
@@ -379,8 +380,9 @@ public class EmailInfoProvider extends PStreamProvider implements EmailAccountNa
                                 case "CONTACT":
                                     io.github.privacystreams.communication.emailinfo.Contact contact = (io.github.privacystreams.communication.emailinfo.Contact) mObjectMapper.treeToValue(payload, Class.forName("io.github.privacystreams.communication.emailinfo." + type));
                                     Log.e("contact",contact.getContacts().get(0).getEmail());
-                                    JsonNode contactInfo = payload.get("contact");
+                                    JsonNode contactInfo = payload.get("contacts");
                                     getContactInfo(contact,contactInfo);
+                                    break;
                                 case "ORDER":
                                     Logging.error("cast to order");
                                     Order order = (Order) mObjectMapper.treeToValue(payload, Class.forName("io.github.privacystreams.communication.emailinfo." + type));
