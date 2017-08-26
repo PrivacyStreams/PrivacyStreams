@@ -163,6 +163,9 @@ public class Item {
      * @param <TValue>  the type of field value
      */
     public <TValue> void setFieldValue(String fieldName, TValue value) {
+        if(value == null){
+            Logging.error("meet null error: field name is: "+fieldName);
+        }
         this.itemMap.put(fieldName, value);
     }
 

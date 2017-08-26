@@ -106,7 +106,7 @@ public class Contact extends Sift {
     }
 
     //TODO change these two functions when debug ends
-    public PStreamProvider getContact(){return new EmailContactProvider("","");}
+    public static PStreamProvider getContact(String api_key, String api_secret){return new EmailContactProvider(api_key,api_secret);}
     Contact(){}
 
     /**fields*/

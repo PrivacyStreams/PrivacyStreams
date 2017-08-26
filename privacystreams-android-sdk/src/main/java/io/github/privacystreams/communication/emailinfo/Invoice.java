@@ -154,7 +154,7 @@ public class Invoice extends Sift {
         return new EqualsBuilder().append(confirmationNumber, rhs.confirmationNumber).append(paymentStatus, rhs.paymentStatus).append(totalPaymentDue, rhs.totalPaymentDue).append(additionalProperties, rhs.additionalProperties).isEquals();
     }
 
-    public PStreamProvider getInvoices(String api_key, String api_secret) {
+    public static PStreamProvider getInvoices(String api_key, String api_secret) {
         return new InvoiceProvider(api_key, api_secret);
     }
 

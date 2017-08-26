@@ -224,7 +224,7 @@ public class ParcelDelivery extends Sift {
     @PSItemField(type = String.class)
     public static final String EXPECTED_ARRIVAL_UNTIL = "expected_arrival_until";
 
-    @PSItemField(type = List.class)
+    @PSItemField(type = JsonNode.class)
     public static final String ITEM_SHIPPED = "item_shipped";
 
     @PSItemField(type = JsonNode.class)
@@ -233,7 +233,7 @@ public class ParcelDelivery extends Sift {
     @PSItemField(type = JsonNode.class)
     public static final String PART_OF_ORDER = "part_of_order";
 
-    public PStreamProvider getParcelDeliverys(String api_key, String api_secret){
+    public static PStreamProvider getParcelDeliverys(String api_key, String api_secret){
         return new ParcelDeliveryProvider(api_key,api_secret);
     }
 }

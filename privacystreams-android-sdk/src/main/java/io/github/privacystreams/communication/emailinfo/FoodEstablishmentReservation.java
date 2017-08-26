@@ -267,7 +267,7 @@ public class FoodEstablishmentReservation extends Sift {
     @PSItemField(type = JsonNode.class)
     public static final String PROVIDER = "provider";
 
-    public PStreamProvider getFoodEstablishmentReservations(String api_key, String api_secret){
+    public static PStreamProvider getFoodEstablishmentReservations(String api_key, String api_secret){
         return new FoodEstablishmentReservationProvider(api_key, api_secret);
     }
 }

@@ -42,24 +42,24 @@ public class EmailInfoProvider extends PStreamProvider implements EmailAccountNa
     private Signatory mSignatory;
 
     /*for addUser*/
-    private final String mStatusUserId = "USER_ID";
+    private final String STATUS_USER_ID = "USER_ID";
 
     /* for listSifts*/
-    private final String mStatusListSifts = "LIST_SIFTS";
+    private final String STATUS_LIST_SIFTS = "LIST_SIFTS";
 
     /*for connectToken*/
-    private final String mStatusConnectToken = "TOKEN";
+    private final String STATUS_CONNECT_TOKEN = "TOKEN";
 
     /*for list email*/
-    private final String mStatusISConnected = "IS_CONNECTED";
+    private final String STATUS_IS_CONNECTED = "IS_CONNECTED";
 
     /*for list sifts*/
 
     private String mConnectToken = null;
     private String mUserName = null;
 
-    private final String mGmailPrefName = "userName";
-    private final String mToken = "connectToken";
+    private final String GMAIL_PREF_NAME = "userName";
+    private final String TOKEN = "connectToken";
 
     private boolean mIsConnected = false;
 
@@ -72,7 +72,7 @@ public class EmailInfoProvider extends PStreamProvider implements EmailAccountNa
      */
     public EmailInfoProvider(String key, String secret, String domain){
             mDomain = domain;
-            if(key != null && !key.equals("")) {
+            if(!key.isEmpty()) {
                 mApiKey = key;
                 mApiSecret = secret;
 
@@ -96,7 +96,7 @@ public class EmailInfoProvider extends PStreamProvider implements EmailAccountNa
     public void onSuccess(String name) {
         mUserName = name;
         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getContext()).edit();
-        editor.putString(mGmailPrefName, name);
+        editor.putString(GMAIL_PREF_NAME, name);
         editor.apply();
         addUser(name,"en_US");
     }
@@ -116,7 +116,7 @@ public class EmailInfoProvider extends PStreamProvider implements EmailAccountNa
         /*
         GmailChooseAccountActivity.setListener(this);
         String token = PreferenceManager.getDefaultSharedPreferences(getContext())
-                .getString(mToken, null);
+                .getString(TOKEN, null);
         if(token != null) {
             Logging.debug("already got token");
             onSiftSetupSuccess();
@@ -125,7 +125,7 @@ public class EmailInfoProvider extends PStreamProvider implements EmailAccountNa
 
 
         mUserName = PreferenceManager.getDefaultSharedPreferences(getContext())
-                .getString(mGmailPrefName, null);
+                .getString(GMAIL_PREF_NAME, null);
         if(mUserName == null)
             chooseAccount();
         else{
@@ -150,8 +150,8 @@ public class EmailInfoProvider extends PStreamProvider implements EmailAccountNa
             Logging.error("Connection Error");
         }
         */
-        mApiKey = getContext().getResources().getString(R.string.sift_api_key);
-        mApiSecret = getContext().getResources().getString(R.string.sift_api_secret);
+        mApiKey = getContext().getString(R.string.sift_api_key);
+        mApiSecret = getContext().getString(R.string.sift_api_secret);
         mSignatory = new Signatory(mApiSecret);
         mUserName = "whatever";
       //  addUser(mUserName,"en_US");
@@ -182,7 +182,7 @@ public class EmailInfoProvider extends PStreamProvider implements EmailAccountNa
         params.put("locale", locale);
         params = addCommonParams(method,path,params);
         String requestUrl = generateUrl(path,params);
-        new WebRequests().execute(requestUrl,method,mStatusUserId);
+        new WebRequests().execute(requestUrl,method,STATUS_USER_ID);
     }
 
     /**
@@ -198,7 +198,7 @@ public class EmailInfoProvider extends PStreamProvider implements EmailAccountNa
         params.put("username", username);
         params = addCommonParams(method,path,params);
         String requestUrl = generateUrl(path,params);
-        new WebRequests().execute(requestUrl,method,mStatusConnectToken);
+        new WebRequests().execute(requestUrl,method,STATUS_CONNECT_TOKEN);
     }
 
     /*
@@ -250,7 +250,7 @@ public class EmailInfoProvider extends PStreamProvider implements EmailAccountNa
         }
         params = addCommonParams(method,path,params);
         String requestUrl = generateUrl(path,params);
-        new WebRequests().execute(requestUrl,method,mStatusListSifts);
+        new WebRequests().execute(requestUrl,method,STATUS_LIST_SIFTS);
         return null;
     }
 
@@ -264,7 +264,7 @@ public class EmailInfoProvider extends PStreamProvider implements EmailAccountNa
         String method = "GET";
         params = addCommonParams(method,path,params);
         String requestUrl = generateUrl(path,params);
-        new WebRequests().execute(requestUrl,method,mStatusISConnected);
+        new WebRequests().execute(requestUrl,method,STATUS_IS_CONNECTED);
     }
 
 
@@ -330,7 +330,6 @@ public class EmailInfoProvider extends PStreamProvider implements EmailAccountNa
                 if (statusCode==200) {
                     InputStream in = new BufferedInputStream(urlConnection.getInputStream());
                     responseString = getResponseText(in);
-                    Logging.error("response String info is:" + responseString);
                 } else {
                     Logging.error("request error with code:" + statusCode);
                 }
@@ -343,7 +342,7 @@ public class EmailInfoProvider extends PStreamProvider implements EmailAccountNa
                 }
             }
             switch (status) {
-                case mStatusListSifts:
+                case STATUS_LIST_SIFTS:
                     try {
                         JsonNode root = mObjectMapper.readTree(responseString);
                         JsonNode result = root.get("result");
@@ -370,7 +369,7 @@ public class EmailInfoProvider extends PStreamProvider implements EmailAccountNa
                     }
                     break;
 
-                case mStatusUserId:
+                case STATUS_USER_ID:
                     try {
                         responseJson = new JSONObject(responseString);
                         Logging.error("json is:" + responseJson);
@@ -380,13 +379,13 @@ public class EmailInfoProvider extends PStreamProvider implements EmailAccountNa
 
                     }
                     break;
-                case mStatusConnectToken:
+                case STATUS_CONNECT_TOKEN:
                     try {
                         responseJson = new JSONObject(responseString);
                         Logging.error("json is:" + responseJson);
                         mConnectToken = responseJson.getJSONObject("result").get("connect_token").toString();
                         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getContext()).edit();
-                        editor.putString(mToken, mConnectToken);
+                        editor.putString(TOKEN, mConnectToken);
                         editor.apply();
                     }
                     catch (Exception e) {
@@ -395,7 +394,7 @@ public class EmailInfoProvider extends PStreamProvider implements EmailAccountNa
                     }
                     break;
 
-                case mStatusISConnected:
+                case STATUS_IS_CONNECTED:
                     try {
                         JsonNode root = mObjectMapper.readTree(responseString);
                         Logging.error("json is:" + root);
@@ -419,15 +418,15 @@ public class EmailInfoProvider extends PStreamProvider implements EmailAccountNa
         protected  void onPostExecute(String lastStatus){
             Logging.error("last step is: "+ lastStatus);
             switch(lastStatus){
-                case mStatusUserId:
+                case STATUS_USER_ID:
 
                     getConnectToken(mUserName);
                     break;
-                case mStatusConnectToken:
+                case STATUS_CONNECT_TOKEN:
                     connectEmail(mUserName,mConnectToken);
                     break;
-                case mStatusListSifts:
-                case mStatusISConnected:
+                case STATUS_LIST_SIFTS:
+                case STATUS_IS_CONNECTED:
                     break;
                 default:
                     Logging.error("something strange happened");

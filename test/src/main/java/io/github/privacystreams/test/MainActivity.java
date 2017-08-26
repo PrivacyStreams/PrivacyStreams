@@ -35,6 +35,11 @@ public class MainActivity extends AppCompatActivity {
         //testCases.testEmailList();;
         // testCases.testsift();
             testCases.testContact();
+            testCases.testFlight();
+            testCases.testFood();
+            testCases.testParcel();
+            testCases.testInvoice();
+            testCases.testOrder();
 
             return null;
         }

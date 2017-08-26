@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.databind.JsonNode;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -17,6 +18,9 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Generated;
+
+import io.github.privacystreams.core.PStreamProvider;
+import io.github.privacystreams.utils.annotations.PSItemField;
 
 
 /**
@@ -232,4 +236,26 @@ public class FlightReservation extends Sift {
         return new EqualsBuilder().append(broker, rhs.broker).append(programMembershipUsed, rhs.programMembershipUsed).append(reservationFor, rhs.reservationFor).append(reservationId, rhs.reservationId).append(reservationStatus, rhs.reservationStatus).append(reservedTicket, rhs.reservedTicket).append(additionalProperties, rhs.additionalProperties).isEquals();
     }
 
+    /*Fields*/
+    @PSItemField(type = String.class)
+    public static final String RESERVATION_ID = "reservation_id";
+
+    @PSItemField(type = String.class)
+    public static final String RESERVATION_STATUS = "reservation_status";
+
+    @PSItemField(type = JsonNode.class)
+    public static final String RESERVATION_FOR = "reservation_for";
+
+    @PSItemField(type = JsonNode.class)
+    public static final String RESERVED_TICKET = "reserved_ticket";
+
+    @PSItemField(type = JsonNode.class)
+    public static final String PROGRAM_MEMBERSHIP_USED = "program_membership_used";
+
+    @PSItemField(type = JsonNode.class)
+    public static final String BROKER = "broker";
+
+    public static PStreamProvider getFlightReservation(String api_key, String api_secret){
+        return new EmailFlightReservationProvider(api_key,api_secret);
+    }
 }

@@ -164,4 +164,5 @@ public class EventReservation extends Sift {
         return new EqualsBuilder().append(provider, rhs.provider).append(reservationFor, rhs.reservationFor).append(reservedTicket, rhs.reservedTicket).append(additionalProperties, rhs.additionalProperties).isEquals();
     }
 
+
 }

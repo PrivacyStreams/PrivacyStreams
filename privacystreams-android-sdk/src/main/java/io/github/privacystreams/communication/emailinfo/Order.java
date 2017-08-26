@@ -6,6 +6,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.google.api.client.json.Json;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -17,6 +19,9 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Generated;
+
+import io.github.privacystreams.core.PStreamProvider;
+import io.github.privacystreams.utils.annotations.PSItemField;
 
 /**
  * Order
@@ -184,6 +189,41 @@ public class Order extends Sift {
         }
         Order rhs = ((Order) other);
         return new EqualsBuilder().append(acceptedOffer, rhs.acceptedOffer).append(broker, rhs.broker).append(orderNumber, rhs.orderNumber).append(seller, rhs.seller).append(additionalProperties, rhs.additionalProperties).isEquals();
+    }
+
+    /*Fields*/
+    @PSItemField(type = JsonNode.class)
+    public static final String ACCEPTED_OFFER = "accepted_offer";
+
+    @PSItemField(type = String.class)
+    public static final String ORDER_NUMBER = "order_number";
+
+    @PSItemField(type = String.class)
+    public static final String DESCRIPTION = "description";
+
+    @PSItemField(type = JsonNode.class)
+    public static final String PART_OF_INVOICE = "part_of_invoice";
+
+    @PSItemField(type = JsonNode.class)
+    public static final String SELLER = "seller";
+
+    @PSItemField(type = JsonNode.class)
+    public static final String BROKER = "broker";
+
+    @PSItemField(type = String.class)
+    public static final String PAYMENT_SCHEDULED = "payment-scheduled";
+
+    @PSItemField(type = String.class)
+    public static final String PRICE = "price";
+
+    @PSItemField(type = String.class)
+    public static final String SUBTOTAL = "sub_total";
+
+    @PSItemField(type = String.class)
+    public static final String REFUND = "refund";
+
+    public static PStreamProvider getOrder(String api_key, String api_secret){
+        return new OnlineOrderProvider(api_key,api_secret);
     }
 
 }

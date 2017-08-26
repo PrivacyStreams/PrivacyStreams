@@ -7,6 +7,7 @@ import java.util.List;
 
 import io.github.privacystreams.communication.EmailInfoProvider;
 import io.github.privacystreams.core.PStreamProvider;
+import io.github.privacystreams.utils.Logging;
 
 public class ParcelDeliveryProvider extends EmailInfoProvider {
     private static final String REQUEST_DOMAIN = "parceldelivery";
@@ -26,16 +27,12 @@ public class ParcelDeliveryProvider extends EmailInfoProvider {
     }
 
     private void getParcelDeliveryInfo(JsonNode jsonNode){
+        Logging.error("new parcel");
         ParcelDelivery parcel = new ParcelDelivery();
         parcel.setFieldValue(ParcelDelivery.TRACKING_URL,jsonNode.get("trackingUrl").toString());
         parcel.setFieldValue(ParcelDelivery.TRACKING_NUMBER,jsonNode.get("trackingNumber").toString());
         parcel.setFieldValue(ParcelDelivery.EXPECTED_ARRIVAL_UNTIL,jsonNode.get("expectedArrivalUntil").toString());
-        List<JsonNode> itemList = new ArrayList<>();
-        JsonNode itemsShipped = jsonNode.get("itemShipped");
-        for(JsonNode item : itemsShipped){
-            itemList.add(item);
-        }
-        parcel.setFieldValue(ParcelDelivery.ITEM_SHIPPED,itemList);
+        parcel.setFieldValue(ParcelDelivery.ITEM_SHIPPED,jsonNode.get("itemShipped"));
         parcel.setFieldValue(ParcelDelivery.PROVIDER,jsonNode.get("provider"));
         parcel.setFieldValue(ParcelDelivery.PART_OF_ORDER,jsonNode.get("partOfOrder"));
         output(parcel);
