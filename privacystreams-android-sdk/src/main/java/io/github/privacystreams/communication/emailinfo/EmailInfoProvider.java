@@ -1,4 +1,4 @@
-package io.github.privacystreams.communication;
+package io.github.privacystreams.communication.emailinfo;
 
 import android.Manifest;
 import android.content.Intent;
@@ -18,18 +18,16 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
 import io.github.privacystreams.core.PStreamProvider;
-import io.github.privacystreams.core.R;
 import io.github.privacystreams.utils.Globals;
 import io.github.privacystreams.utils.Logging;
 
 
-public class EmailInfoProvider extends PStreamProvider implements EmailAccountNameListener{
+public class EmailInfoProvider extends PStreamProvider implements EmailAccountNameListener {
 
     private static final String EDISON_API_BASE_URL = "https://api.edison.tech";
 

@@ -2,9 +2,6 @@ package io.github.privacystreams.communication.emailinfo;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
-import io.github.privacystreams.communication.EmailInfoProvider;
-import io.github.privacystreams.utils.Logging;
-
 
 public class FoodEstablishmentReservationProvider extends EmailInfoProvider {
     private static final String REQUEST_DOMAIN = "restaurant";

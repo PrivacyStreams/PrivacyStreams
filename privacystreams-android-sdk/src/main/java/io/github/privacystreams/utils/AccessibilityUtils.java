@@ -1,14 +1,9 @@
 package io.github.privacystreams.utils;
 
 import android.content.Context;
-import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
-import android.util.DisplayMetrics;
-import android.util.Log;
-import android.view.Display;
-import android.view.WindowManager;
 import android.view.accessibility.AccessibilityNodeInfo;
 
 import java.io.Serializable;
@@ -19,8 +14,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import io.github.privacystreams.communication.InstantMessage;
-import io.github.privacystreams.communication.Message;
+import io.github.privacystreams.communication.message.Message;
 
 
 /**
