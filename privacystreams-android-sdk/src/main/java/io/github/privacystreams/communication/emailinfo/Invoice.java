@@ -14,6 +14,11 @@ public class Invoice extends Item {
         return new InvoiceProvider(api_key, api_secret);
     }
 
+    //TODO delete this method when debug ends
+    public static PStreamProvider getInvoices(String api_key, String api_secret, String userName) {
+        return new InvoiceProvider(api_key, api_secret, userName);
+    }
+
     /*fields*/
     @PSItemField(type = String.class)
     public static final String TYPE = "@type";

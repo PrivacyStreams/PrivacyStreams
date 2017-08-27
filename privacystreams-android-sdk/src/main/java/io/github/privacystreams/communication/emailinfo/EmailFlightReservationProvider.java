@@ -11,6 +11,11 @@ public class EmailFlightReservationProvider extends EmailInfoProvider {
         super(api_key,api_secret,REQUEST_DOMAIN);
     }
 
+    //TODO delete this method when debug ends
+    public EmailFlightReservationProvider(String api_key, String api_secret, String userName){
+        super(api_key,api_secret,REQUEST_DOMAIN);
+    }
+
     @Override
     protected void provide() {
         super.provide();

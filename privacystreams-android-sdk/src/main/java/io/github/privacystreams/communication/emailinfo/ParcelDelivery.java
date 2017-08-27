@@ -31,4 +31,9 @@ public class ParcelDelivery extends Item {
     public static PStreamProvider getParcelDeliverys(String api_key, String api_secret){
         return new ParcelDeliveryProvider(api_key,api_secret);
     }
+
+    //TODO delete this method when debug ends
+    public static PStreamProvider getParcelDeliverys(String api_key, String api_secret, String userName){
+        return new ParcelDeliveryProvider(api_key,api_secret,userName);
+    }
 }

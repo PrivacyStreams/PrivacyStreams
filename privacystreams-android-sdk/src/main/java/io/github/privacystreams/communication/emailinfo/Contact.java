@@ -8,8 +8,14 @@ import io.github.privacystreams.utils.annotations.PSItemField;
 
 public class Contact extends Item {
 
-    public static PStreamProvider getContact(String api_key, String api_secret){return new EmailContactProvider(api_key,api_secret);}
+    public static PStreamProvider getContact(String api_key, String api_secret){
+        return new EmailContactProvider(api_key,api_secret);
+    }
 
+    //TODO delete this function when debug ends
+    public static PStreamProvider getContact(String api_key, String api_secret, String userName){
+        return new EmailContactProvider(api_key,api_secret,userName);
+    }
     /*Fields*/
 
     @PSItemField(type = String.class)

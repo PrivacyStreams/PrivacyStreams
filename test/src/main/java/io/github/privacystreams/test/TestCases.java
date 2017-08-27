@@ -223,7 +223,7 @@ public class TestCases {
     public void testDriveList() {
         uqi.getData(DriveDocument.asDocumentList(System.currentTimeMillis() - Duration.days(365),
                 System.currentTimeMillis(),
-                100, 10), Purpose.TEST("test")).debug();
+                100, 10), Purpose.TEST("666")).debug();
     }
 
     // For testing

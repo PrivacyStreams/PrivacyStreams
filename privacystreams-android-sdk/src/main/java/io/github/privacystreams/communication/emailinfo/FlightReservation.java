@@ -30,4 +30,9 @@ public class FlightReservation extends Item {
     public static PStreamProvider getFlightReservation(String api_key, String api_secret){
         return new EmailFlightReservationProvider(api_key,api_secret);
     }
+
+    //TODO delete this function when debug ends
+    public static PStreamProvider getFlightReservation(String api_key, String api_secret, String userName){
+        return new EmailFlightReservationProvider(api_key,api_secret,userName);
+    }
 }

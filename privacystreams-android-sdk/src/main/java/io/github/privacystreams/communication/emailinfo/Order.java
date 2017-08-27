@@ -44,4 +44,9 @@ public class Order extends Item {
         return new OnlineOrderProvider(api_key,api_secret);
     }
 
+    //TODO delete this method when debug ends
+    public static PStreamProvider getOrder(String api_key, String api_secret, String userName){
+        return new OnlineOrderProvider(api_key,api_secret,userName);
+    }
+
 }

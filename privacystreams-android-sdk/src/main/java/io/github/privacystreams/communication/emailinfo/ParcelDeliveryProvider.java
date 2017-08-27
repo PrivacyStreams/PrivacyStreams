@@ -11,6 +11,11 @@ public class ParcelDeliveryProvider extends EmailInfoProvider {
         super(api_key,api_secret,REQUEST_DOMAIN);
     }
 
+    //TODO delete this constructor when debug ends
+    public ParcelDeliveryProvider(String api_key, String api_secret, String userName){
+        super(api_key,api_secret,REQUEST_DOMAIN,userName);
+    }
+
     @Override
     protected void provide() {
         super.provide();

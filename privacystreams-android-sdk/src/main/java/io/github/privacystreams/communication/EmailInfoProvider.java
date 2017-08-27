@@ -63,17 +63,28 @@ public class EmailInfoProvider extends PStreamProvider implements EmailAccountNa
     @params: api_secret: the api_secret generated on developer's sift account
      */
     public EmailInfoProvider(String key, String secret, String domain){
-            mDomain = domain;
-
-                mApiKey = key;
-                mApiSecret = secret;
-                mSignatory = new Signatory(mApiSecret);
-                this.addRequiredPermissions(Manifest.permission.INTERNET,
+        mDomain = domain;
+        mApiKey = key;
+        mApiSecret = secret;
+        mSignatory = new Signatory(mApiSecret);
+        this.addRequiredPermissions(Manifest.permission.INTERNET,
                         Manifest.permission.GET_ACCOUNTS,
                         Manifest.permission.ACCESS_NETWORK_STATE);
-
-
     }
+
+    //TODO delete this function when debug ends
+    public EmailInfoProvider(String key, String secret, String domain, String userName){
+        mDomain = domain;
+        mApiKey = key;
+        mApiSecret = secret;
+        mSignatory = new Signatory(mApiSecret);
+        mUserName = userName;
+        this.addRequiredPermissions(Manifest.permission.INTERNET,
+                Manifest.permission.GET_ACCOUNTS,
+                Manifest.permission.ACCESS_NETWORK_STATE);
+    }
+
+
 
     /**
      * Callback when get connect token
@@ -136,11 +147,14 @@ public class EmailInfoProvider extends PStreamProvider implements EmailAccountNa
             onSiftSetupSuccess();
             return;
         }
-        mUserName = PreferenceManager.getDefaultSharedPreferences(getContext())
-                .getString(GMAIL_PREF_NAME, null);
+
         if(mUserName == null){
-            Intent chooseAccountIntent = new Intent(getContext(),GmailChooseAccountActivity.class);
-            getContext().startActivity(chooseAccountIntent);
+            mUserName = PreferenceManager.getDefaultSharedPreferences(getContext())
+                    .getString(GMAIL_PREF_NAME, null);
+            if(mUserName == null) {
+                Intent chooseAccountIntent = new Intent(getContext(), GmailChooseAccountActivity.class);
+                getContext().startActivity(chooseAccountIntent);
+            }
         }
         else{
             Logging.debug("already signed in");
