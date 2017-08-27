@@ -11,14 +11,14 @@ import java.util.List;
 import io.github.privacystreams.core.PStreamProvider;
 
 
-public class WhatsAppListProvider extends PStreamProvider {
+public class WhatsAppContactListProvider extends PStreamProvider {
     @Override
     protected void provide() {
         this.getWhatsAppContactList();
 
     }
 
-    WhatsAppListProvider() {
+    WhatsAppContactListProvider() {
         this.addRequiredPermissions(Manifest.permission.READ_CONTACTS);
     }
 

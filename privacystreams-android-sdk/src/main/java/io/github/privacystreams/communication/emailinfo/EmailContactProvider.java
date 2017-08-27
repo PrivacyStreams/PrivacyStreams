@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 
 import io.github.privacystreams.communication.EmailInfoProvider;
 import io.github.privacystreams.utils.Logging;
-
+import io.github.privacystreams.communication.Contact;
 
 public class EmailContactProvider extends EmailInfoProvider {
 

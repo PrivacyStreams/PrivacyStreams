@@ -95,7 +95,7 @@ public class TestCases {
     }
 
     public void testWhatsContact() throws PSException {
-        Log.i("whatsapp", String.valueOf(uqi.getData(Contact.getWhatAppAll(), Purpose.UTILITY("test")).asList()));
+        Log.i("whatsapp", String.valueOf(uqi.getData(Contact.FromWhatsApp(), Purpose.UTILITY("test")).asList()));
     }
 
     public void testAudio() {
@@ -180,7 +180,7 @@ public class TestCases {
         uqi.getData(Email.asGmailUpdates(15 * 60 * 1000), Purpose.TEST("test")).debug();
     }
     public void testContact(String apiKey, String apiSecret){
-        uqi.getData(io.github.privacystreams.communication.emailinfo.Contact.getContact(apiKey,apiSecret),
+        uqi.getData(io.github.privacystreams.communication.Contact.fromEmail(apiKey,apiSecret),
                 Purpose.FEATURE("test"))
                 .debug();
     }

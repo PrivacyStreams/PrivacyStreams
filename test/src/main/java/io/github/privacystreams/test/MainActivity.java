@@ -34,15 +34,15 @@ public class MainActivity extends AppCompatActivity {
             TestCases testCases = new TestCases(MainActivity.this);
         //testCases.testEmailList();;
         // testCases.testsift();
-         //   String apiSecret = MainActivity.this.getString(R.string.sift_api_secret);
-          //  String apiKey = MainActivity.this.getString(R.string.sift_api_key);
-           // testCases.testContact(api_key,api_secret);
+           String apiSecret = MainActivity.this.getString(R.string.sift_api_secret);
+            String apiKey = MainActivity.this.getString(R.string.sift_api_key);
+            testCases.testContact(apiKey,apiSecret);
            // testCases.testFlight(api_key,api_secret);
           //  testCases.testFood(apiKey,apiSecret);
          //   testCases.testParcel(api_key,api_secret);
          //   testCases.testInvoice(api_key,api_secret);
           //  testCases.testOrder(api_key,api_secret);
-            testCases.testDriveList();
+         //   testCases.testDriveList();
             return null;
         }
     }
