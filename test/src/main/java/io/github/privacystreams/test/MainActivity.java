@@ -33,9 +33,16 @@ public class MainActivity extends AppCompatActivity {
         protected Object doInBackground(Object[] objects) {
             TestCases testCases = new TestCases(MainActivity.this);
         //testCases.testEmailList();;
-         testCases.testsift();
-
-
+        // testCases.testsift();
+           String apiSecret = MainActivity.this.getString(R.string.sift_api_secret);
+            String apiKey = MainActivity.this.getString(R.string.sift_api_key);
+            testCases.testContact(apiKey,apiSecret);
+           // testCases.testFlight(api_key,api_secret);
+          //  testCases.testFood(apiKey,apiSecret);
+         //   testCases.testParcel(api_key,api_secret);
+         //   testCases.testInvoice(api_key,api_secret);
+          //  testCases.testOrder(api_key,api_secret);
+         //   testCases.testDriveList();
             return null;
         }
     }

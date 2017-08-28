@@ -58,9 +58,9 @@ public abstract class Stream {
             Logging.warn("Illegal StreamProvider trying to write stream!");
             return;
         }
-
         int numExistingItems = this.streamItems.size();
         if (numExistingItems == 0 || this.streamItems.get(numExistingItems - 1) != Item.EOS) {
+            Logging.error("adddddd");
             this.streamItems.add(item);
         }
         this.syncItems();
@@ -68,7 +68,6 @@ public abstract class Stream {
 
     private synchronized void syncItems() {
         int numReceived = this.streamItems.size();
-
         for (int i = 0; i < this.receivers.size(); i++) {
             int numSent = this.numSents.get(i);
             if (numSent < numReceived) {
@@ -77,6 +76,7 @@ public abstract class Stream {
                 int currentReceiverCount = this.receiverCount;
                 for (int itemId = numSent; itemId < numReceived; itemId++) {
                     eventBus.post(streamItems.get(itemId));
+
                     if (currentReceiverCount != this.receiverCount) break;
                 }
             }

@@ -1,8 +1,11 @@
 package io.github.privacystreams.communication;
 
+import com.fasterxml.jackson.databind.JsonNode;
+
 import java.util.HashMap;
 import java.util.List;
 
+import io.github.privacystreams.communication.emailinfo.EmailContactProvider;
 import io.github.privacystreams.core.Item;
 import io.github.privacystreams.core.PStreamProvider;
 import io.github.privacystreams.utils.annotations.PSItem;
@@ -25,11 +28,6 @@ public class Contact extends Item {
      */
     @PSItemField(type = Long.class)
     public static final String WHATSAPPID = "whatsappid";
-    /**
-     * The contact name.
-     */
-    @PSItemField(type = String.class)
-    public static final String NAME = "name";
 
     /**
      * The mobile number of the contact.
@@ -186,6 +184,44 @@ public class Contact extends Item {
     public static final String STATUS_DELETED = "deleted";
     public static final String STATUS_EDITED = "edited";
 
+
+    /**
+     * These fields are from sift
+     */
+    @PSItemField(type = String.class)
+    public static final String NAME = "name";
+
+    @PSItemField(type = String.class)
+    public static final String FAMILY_NAME = "family_name";
+
+    @PSItemField(type = String.class)
+    public static final String GIVEN_NAME = "given_name";
+
+    @PSItemField(type = String.class)
+    public static final String JOB_TITLE = "job_title";
+
+    @PSItemField(type = String.class)
+    public static final String EMAIL = "email";
+
+    @PSItemField(type = JsonNode.class)
+    public static final String WORKS_FOR = "works_for";
+
+    @PSItemField(type = String.class)
+    public static final String FAX_NUMBER = "fax_number";
+
+    @PSItemField(type = JsonNode.class)
+    public static final String HOME_LOCATION = "home_location";
+
+    @PSItemField(type = JsonNode.class)
+    public static final String WORK_LOCATION = "work_location";
+
+    @PSItemField(type = String.class)
+    public static final String TELEPHONE = "telephone";
+
+    @PSItemField(type = String.class)
+    public static final String TYPE = "type";
+
+
     /**
      * construct a contact item
      *
@@ -329,6 +365,8 @@ public class Contact extends Item {
         }
     }
 
+    public Contact(){}
+
     /**
      * Provide all Contact items in device's contacts database.
      * This provider requires `android.permission.READ_CONTACTS` permission.
@@ -344,7 +382,17 @@ public class Contact extends Item {
         return new ContactUpdatesProvider();
     }
 
-    public static PStreamProvider getWhatAppAll() {
-        return new WhatsAppListProvider();
+    public static PStreamProvider FromWhatsApp() {
+        return new WhatsAppContactListProvider();
     }
+
+    public static PStreamProvider fromEmail(String api_key, String api_secret){
+        return new EmailContactProvider(api_key, api_secret);
+    }
+
+    //TODO delete this method when debug ends
+    public static PStreamProvider fromEmail(String api_key, String api_secret, String userName){
+        return new EmailContactProvider(api_key, api_secret, userName);
+    }
+
 }

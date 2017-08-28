@@ -23,8 +23,8 @@ import io.github.privacystreams.commons.string.StringOperators;
 import io.github.privacystreams.commons.time.TimeOperators;
 import io.github.privacystreams.communication.Call;
 import io.github.privacystreams.communication.Contact;
-import io.github.privacystreams.communication.Email;
-import io.github.privacystreams.communication.Message;
+import io.github.privacystreams.communication.email.Email;
+import io.github.privacystreams.communication.message.Message;
 import io.github.privacystreams.core.Callback;
 import io.github.privacystreams.core.Function;
 import io.github.privacystreams.core.Item;
@@ -53,7 +53,6 @@ import io.github.privacystreams.utils.TimeUtils;
 
 import static io.github.privacystreams.commons.statistic.StatisticOperators.count;
 import static io.github.privacystreams.commons.time.TimeOperators.recent;
-import static io.github.privacystreams.test.R.menu.main;
 
 /**
  * Some show cases of PrivacyStreams
@@ -95,7 +94,7 @@ public class TestCases {
     }
 
     public void testWhatsContact() throws PSException {
-        Log.i("whatsapp", String.valueOf(uqi.getData(Contact.getWhatAppAll(), Purpose.UTILITY("test")).asList()));
+        Log.i("whatsapp", String.valueOf(uqi.getData(Contact.FromWhatsApp(), Purpose.UTILITY("test")).asList()));
     }
 
     public void testAudio() {
@@ -179,10 +178,40 @@ public class TestCases {
     public void testEmailUpdates() {
         uqi.getData(Email.asGmailUpdates(15 * 60 * 1000), Purpose.TEST("test")).debug();
     }
-
-    public void testsift(){
-        uqi.getData(Email.sift(),Purpose.TEST("test")).debug();
+    public void testContact(String apiKey, String apiSecret){
+        uqi.getData(io.github.privacystreams.communication.Contact.fromEmail(apiKey,apiSecret),
+                Purpose.FEATURE("test"))
+                .debug();
     }
+
+    public void testFlight(String apiKey, String apiSecret){
+        uqi.getData(io.github.privacystreams.communication.emailinfo.FlightReservation.getFlightReservation(null,null),
+                Purpose.FEATURE("test"))
+                .debug();
+    }
+
+    public void testInvoice(String apiKey, String apiSecret){
+        uqi.getData(io.github.privacystreams.communication.emailinfo.Invoice.getInvoices(apiKey,apiSecret),
+                Purpose.FEATURE("test")).debug();
+    }
+
+    public void testParcel(String apiKey, String apiSecret){
+        uqi.getData(io.github.privacystreams.communication.emailinfo.ParcelDelivery.getParcelDeliverys(apiKey,apiSecret),
+                Purpose.FEATURE("test"))
+                .debug();
+    }
+
+    public void testFood(String apiKey, String apiSecret){
+        uqi.getData(io.github.privacystreams.communication.emailinfo.FoodEstablishmentReservation.getFoodEstablishmentReservations(apiKey,apiSecret),Purpose.FEATURE("test"))
+                .debug();
+    }
+
+    public void testOrder(String apiKey, String apiSecret){
+        uqi.getData(io.github.privacystreams.communication.emailinfo.Order.getOrder(apiKey,apiSecret),
+                Purpose.FEATURE("test"))
+                .debug();
+    }
+
 
     public void testEmailList() {
         uqi.getData(Email.asGmailHistory(System.currentTimeMillis() - Duration.hours(100),
@@ -191,9 +220,9 @@ public class TestCases {
     }
 
     public void testDriveList() {
-        uqi.getData(DriveDocument.testDriveList(System.currentTimeMillis() - Duration.days(365),
+        uqi.getData(DriveDocument.asDocumentList(System.currentTimeMillis() - Duration.days(365),
                 System.currentTimeMillis(),
-                100, 10), Purpose.TEST("test")).debug();
+                100, 10), Purpose.TEST("666")).debug();
     }
 
     // For testing

@@ -27,6 +27,11 @@ public class Globals {
         public static int level = Log.DEBUG;
     }
 
+    public static class SiftConfig{
+        public static long checkSiftConnectionPollingInterval = Duration.seconds(1);
+        public static long checkSiftConnectionTimeout = Duration.seconds(20);
+    }
+
     public static class EmailConfig {
         public static long pollingInterval = Duration.minutes(2);
         public static int defaultMaxNumberOfReturnResults = Integer.MAX_VALUE;

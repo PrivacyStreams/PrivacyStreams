@@ -50,7 +50,6 @@ class AwarenessMotionUpdatesProvider extends PStreamProvider {
     }
 
     private static final String WALKINGFENCE = "Walking Fence";                     //Set up the fence key for the four fences we need
-    private static final String TILTINGFENCE = "Tilting Fence";
     private static final String ONFOOTFENCE = "On Foot Fence";
     private static final String RUNNINGFENCE = "Running Fence";
     private final String FENCE_RECEIVER_ACTION = BuildConfig.APPLICATION_ID + "FENCE_RECEIVER_ACTION";
@@ -59,7 +58,7 @@ class AwarenessMotionUpdatesProvider extends PStreamProvider {
     private FenceReceiver myFenceReceiver;
     private Intent intent;
     private IntentFilter myFillter;
-    AwarenessFence walkingFence, tiltingFence, onFootFence, runningFence;  //Objects for detecting the physical motion
+    AwarenessFence walkingFence, onFootFence, runningFence;  //Objects for detecting the physical motion
 
     @Override
     protected void provide() {
@@ -82,7 +81,6 @@ class AwarenessMotionUpdatesProvider extends PStreamProvider {
                 .build();
         client.connect();
         walkingFence = DetectedActivityFence.during(DetectedActivityFence.WALKING);     //Create Fence
-        tiltingFence = DetectedActivityFence.during(DetectedActivityFence.TILTING);
         onFootFence = DetectedActivityFence.during(DetectedActivityFence.ON_FOOT);
         runningFence = DetectedActivityFence.during(DetectedActivityFence.RUNNING);
 
@@ -91,8 +89,7 @@ class AwarenessMotionUpdatesProvider extends PStreamProvider {
         myPendingIntent = PendingIntent.getBroadcast(getContext(), 0, intent, 0);           //Set up the pendingIntent
         myFenceReceiver = new FenceReceiver();                                              //Set up the receiver
         getContext().registerReceiver(myFenceReceiver, myFillter);
-        registerFence(WALKINGFENCE, walkingFence);                                       //register the fences
-        registerFence(TILTINGFENCE, tiltingFence);
+        registerFence(WALKINGFENCE, walkingFence);
         registerFence(ONFOOTFENCE, onFootFence);
         registerFence(RUNNINGFENCE, runningFence);
     }
@@ -151,7 +148,6 @@ class AwarenessMotionUpdatesProvider extends PStreamProvider {
     protected void onCancel(UQI uqi) {
         super.onCancel(uqi);
         unregisterFence(WALKINGFENCE);                              //Unregister the fences
-        unregisterFence(TILTINGFENCE);
         unregisterFence(ONFOOTFENCE);
         unregisterFence(RUNNINGFENCE);
         getContext().unregisterReceiver(myFenceReceiver);           // unregister the Receiver

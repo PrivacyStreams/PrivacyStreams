@@ -1,4 +1,4 @@
-package io.github.privacystreams.communication;
+package io.github.privacystreams.communication.email;
 
 import io.github.privacystreams.core.Item;
 import io.github.privacystreams.core.PStreamProvider;
@@ -80,8 +80,5 @@ public class Email extends Item {
         return new GmailUpdatesProvider(frequency);
     }
 
-    public static PStreamProvider sift(){
-        return new SiftEmail("","");
-    }
 
 }

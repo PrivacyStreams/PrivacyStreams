@@ -1,15 +1,10 @@
-package io.github.privacystreams.communication;
+package io.github.privacystreams.communication.email;
 
 import android.Manifest;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 
-import io.github.privacystreams.core.exceptions.PSException;
-import io.github.privacystreams.core.PStreamProvider;
-import io.github.privacystreams.utils.AppUtils;
-import io.github.privacystreams.utils.DeviceUtils;
-import io.github.privacystreams.utils.Logging;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException;
@@ -37,6 +32,12 @@ import javax.mail.Part;
 import javax.mail.Session;
 import javax.mail.internet.MimeMessage;
 
+import io.github.privacystreams.core.PStreamProvider;
+import io.github.privacystreams.core.exceptions.PSException;
+import io.github.privacystreams.utils.AppUtils;
+import io.github.privacystreams.utils.DeviceUtils;
+import io.github.privacystreams.utils.Logging;
+
 /**
  * Base class for Gmail-related Providers.
  */
@@ -52,11 +53,7 @@ abstract class BaseGmailProvider extends PStreamProvider implements GmailResultL
     boolean authorized = false;
     long mLastEmailTime = 0;
 
-    public static final String API_ENDPOINT = "https://api.easilydo.com";
-    private String API_KEY = "e6b0dc00388a72b4d39043fa447660f2";
-    private String API_SECRET = "8705f9438b3c1c59522afbc430189c57329418a3";
-
-    private String userToken;
+    private String mUserToken;
 
     BaseGmailProvider() {
         this.addRequiredPermissions(Manifest.permission.INTERNET,
@@ -270,10 +267,10 @@ abstract class BaseGmailProvider extends PStreamProvider implements GmailResultL
                         .setApplicationName(AppUtils.getApplicationName(getContext()))
                         .build();
                 try {
-                    userToken = mCredential.getToken();
-                    Logging.error("Token is:" + userToken);
+                    mUserToken = mCredential.getToken();
+                    Logging.debug("Token is:" + mUserToken);
                 }catch(Exception e){
-                    Logging.error("get token failed:"+e.getMessage());
+                    Logging.debug("get token failed:"+e.getMessage());
                 }
 
                 authorized = true;

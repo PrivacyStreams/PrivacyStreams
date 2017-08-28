@@ -1,4 +1,4 @@
-package io.github.privacystreams.communication;
+package io.github.privacystreams.communication.email;
 
 import android.accounts.AccountManager;
 import android.app.Activity;
@@ -8,19 +8,20 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 
-import io.github.privacystreams.utils.AppUtils;
-import io.github.privacystreams.utils.DeviceUtils;
-import io.github.privacystreams.utils.Logging;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.util.ExponentialBackOff;
 import com.google.api.services.gmail.Gmail;
+
 import java.util.Arrays;
 
+import io.github.privacystreams.utils.AppUtils;
+import io.github.privacystreams.utils.DeviceUtils;
+import io.github.privacystreams.utils.Logging;
 
-import static io.github.privacystreams.communication.BaseGmailProvider.GMAIL_PREF_ACCOUNT_NAME;
-import static io.github.privacystreams.communication.BaseGmailProvider.SCOPES;
+import static io.github.privacystreams.communication.email.BaseGmailProvider.GMAIL_PREF_ACCOUNT_NAME;
+import static io.github.privacystreams.communication.email.BaseGmailProvider.SCOPES;
 
 /**
  * This is the related activity for Gmail providers, used for authorization and permission granting.
@@ -95,10 +96,6 @@ public class GmailAuthorizationActivity extends Activity  {
                                 AndroidHttp.newCompatibleTransport(), JacksonFactory.getDefaultInstance(), mCredential)
                                 .setApplicationName(AppUtils.getApplicationName(this))
                                 .build();
-                        //ApiManager apiMan = new ApiManager(API_KEY, API_SECRET);
-                        //long userId = apiMan.addUser(accountName, "en_US");
-                        //Logging.error("userId1:"+userId);
-                        // ConnectToken.init(accountName);
                         gmailResultListener.onSuccess(mService);
                     }
 
@@ -119,6 +116,7 @@ public class GmailAuthorizationActivity extends Activity  {
      * function will be rerun automatically whenever the GET_ACCOUNTS permission
      * is granted.
      */
+
     private void chooseAccount() {
         String accountName = getPreferences(Context.MODE_PRIVATE)
                 .getString(GMAIL_PREF_ACCOUNT_NAME, null);

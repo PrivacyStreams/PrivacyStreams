@@ -30,6 +30,7 @@ public abstract class PStreamProvider extends EventDrivenFunction<Void, PStream>
         }
         if (this.output.isClosed()) {
             if (!this.isCancelled) this.cancel(this.getUQI());
+            Logging.error("is_closed");
         } else this.output.write(item, this);
     }
 

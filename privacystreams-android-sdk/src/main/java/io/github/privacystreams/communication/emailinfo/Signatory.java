@@ -1,4 +1,4 @@
-package io.github.privacystreams.communication;
+package io.github.privacystreams.communication.emailinfo;
 
 import java.nio.charset.Charset;
 import java.util.ArrayList;
