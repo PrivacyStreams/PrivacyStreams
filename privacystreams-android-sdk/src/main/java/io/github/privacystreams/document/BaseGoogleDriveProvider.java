@@ -79,21 +79,25 @@ public class BaseGoogleDriveProvider extends PStreamProvider implements GoogleDr
     private java.util.List<String> getDataFromApi() throws IOException {
         DateTime mBeginTime = new DateTime(mBegin);
         DateTime mEndTime = new DateTime(mEnd);
+        Logging.error("files:"+mDrive.files().toString());
         FileList fileList = mDrive.files().list()
                 .setQ("modifiedTime>'" + mBeginTime + "' and modifiedTime<'" + mEndTime + "'")
                 .setPageSize(mResultNum)
-                .setFields("nextPageToken, " +
-                        "files(id, name, createdTime, modifiedTime, size, description)")
+        //        .setFields("nextPageToken, " +
+        //                "files(id, name, createdTime, modifiedTime, size, description)")
                 .execute();
+        Logging.error("here7");
         List<File> files = fileList.getFiles();
+        Logging.error("here8");
         if (files != null) {
+            Logging.error("here9");
             for (File f :
                     files) {
                 Log.e("f",new DriveDocument(f).toJson().toString());
                 this.output(new DriveDocument(f));
             }
         }
-
+        Logging.error("here10");
         mBegin = 0;
         mEnd = 0;
         return null;
@@ -105,7 +109,7 @@ public class BaseGoogleDriveProvider extends PStreamProvider implements GoogleDr
      */
     class FetchDriveTask extends AsyncTask<Void, Void, List<String>> {
         @Override
-        protected List<String> doInBackground(Void... voids) {
+        protected List<String> doInBackground(Void... voides) {
             try {
                 if (mDrive != null) {
                     getDataFromApi();
@@ -136,8 +140,9 @@ public class BaseGoogleDriveProvider extends PStreamProvider implements GoogleDr
     private void checkDriveApiRequirements() {
         String accountName = PreferenceManager.getDefaultSharedPreferences(getContext())
                 .getString(DRIVE_PREF_ACCOUNT_NAME, null);
-
+        Logging.error("here");
         if (accountName != null) {
+            Logging.error("here2");
             GoogleDriveAuthorizationActivity.setListener(this);
             GoogleAccountCredential mCredential = GoogleAccountCredential.usingOAuth2(
                     getContext().getApplicationContext(), Arrays.asList(SCOPES))
@@ -145,8 +150,10 @@ public class BaseGoogleDriveProvider extends PStreamProvider implements GoogleDr
             mCredential.setSelectedAccountName(accountName);
 
             if (!DeviceUtils.isGooglePlayServicesAvailable(getContext())) {
+                Logging.error("here3");
                 DeviceUtils.acquireGooglePlayServices(getContext());
             } else {
+                Logging.error("here4");
                 mDrive = new Drive.Builder(
                         AndroidHttp.newCompatibleTransport(),
                         JacksonFactory.getDefaultInstance(), mCredential)
@@ -155,6 +162,7 @@ public class BaseGoogleDriveProvider extends PStreamProvider implements GoogleDr
                 authorized = true;
             }
         } else {
+            Logging.error("here5");
             GoogleDriveAuthorizationActivity.setListener(this);
             getContext()
                     .startActivity(new Intent(getContext(), GoogleDriveAuthorizationActivity.class));

@@ -19,6 +19,7 @@ public class OnlineOrderProvider extends EmailInfoProvider {
     @Override
     protected void provide() {
         super.provide();
+        finish();
     }
 
     @Override

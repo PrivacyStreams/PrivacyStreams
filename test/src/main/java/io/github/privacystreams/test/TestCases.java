@@ -73,10 +73,10 @@ public class TestCases {
 
 
     public void testImage() {
-//        uqi.getData(Image.getFromStorage(), Purpose.TEST("test"))
+        uqi.getData(Image.getFromStorage(), Purpose.TEST("test"))
 //                .setField("lat_lon", ImageOperators.getLatLon(Image.IMAGE_DATA))
 //                .debug();
-        uqi.getData(Image.takeFromCamera(), Purpose.UTILITY("taking picture."))
+        //uqi.getData(Image.takeFromCamera(), Purpose.UTILITY("taking picture."))
                 .setField("imagePath", ImageOperators.getFilepath(Image.IMAGE_DATA))
                 .setField("faceCount", ImageOperators.countFaces(Image.IMAGE_DATA))
                 .setField("text", ImageOperators.extractText(Image.IMAGE_DATA))
@@ -191,8 +191,8 @@ public class TestCases {
                 .debug();
     }
 
-    public void testInvoice(String apiKey, String apiSecret){
-        uqi.getData(io.github.privacystreams.communication.emailinfo.Invoice.getInvoices(apiKey,apiSecret),
+    public void testInvoice(String apiKey, String apiSecret,String userName){
+        uqi.getData(io.github.privacystreams.communication.emailinfo.Invoice.getInvoices(apiKey,apiSecret,userName),
                 Purpose.FEATURE("test")).debug();
     }
 

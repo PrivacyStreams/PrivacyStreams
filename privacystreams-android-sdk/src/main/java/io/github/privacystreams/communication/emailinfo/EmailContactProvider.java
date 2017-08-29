@@ -42,6 +42,7 @@ public class EmailContactProvider extends EmailInfoProvider {
     @Override
     protected void provide() {
         super.provide();
+        finish();
     }
 
     @Override

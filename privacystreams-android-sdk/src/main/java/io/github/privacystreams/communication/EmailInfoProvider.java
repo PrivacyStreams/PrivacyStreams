@@ -124,6 +124,7 @@ public class EmailInfoProvider extends PStreamProvider implements EmailAccountNa
     @Override
     protected void provide() {
         setupSiftApi();
+        finish();
     }
 
     /**

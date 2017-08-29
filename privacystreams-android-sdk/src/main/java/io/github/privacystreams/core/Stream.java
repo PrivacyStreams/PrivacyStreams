@@ -68,6 +68,7 @@ public abstract class Stream {
 
     private synchronized void syncItems() {
         int numReceived = this.streamItems.size();
+        Logging.error("size is:"+numReceived);
         for (int i = 0; i < this.receivers.size(); i++) {
             int numSent = this.numSents.get(i);
             if (numSent < numReceived) {
@@ -75,6 +76,7 @@ public abstract class Stream {
                 EventBus eventBus = this.eventBuses.get(i);
                 int currentReceiverCount = this.receiverCount;
                 for (int itemId = numSent; itemId < numReceived; itemId++) {
+                    Logging.error("item is: "+streamItems.get(itemId).toString());
                     eventBus.post(streamItems.get(itemId));
 
                     if (currentReceiverCount != this.receiverCount) break;
