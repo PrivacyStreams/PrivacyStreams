@@ -9,6 +9,7 @@ public class FoodEstablishmentReservationProvider extends EmailInfoProvider {
     @Override
     protected void provide() {
         super.provide();
+        finish();
     }
 
     public FoodEstablishmentReservationProvider(String api_key, String api_secret){

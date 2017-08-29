@@ -17,6 +17,7 @@ public class ParcelDeliveryProvider extends EmailInfoProvider {
     @Override
     protected void provide() {
         super.provide();
+        finish();
     }
 
     @Override

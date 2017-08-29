@@ -3,6 +3,7 @@ package io.github.privacystreams.document;
 import com.google.api.services.drive.model.File;
 
 import io.github.privacystreams.core.Item;
+import io.github.privacystreams.utils.Logging;
 import io.github.privacystreams.utils.annotations.PSItem;
 import io.github.privacystreams.utils.annotations.PSItemField;
 
@@ -44,10 +45,15 @@ public class DriveDocument extends Item {
     public static final String FILE_SIZE = "file size";
 
     DriveDocument(File file) {
+        if(file == null){
+            Logging.error("file is null");
+        }
         this.setFieldValue(ID, file.getId());
         this.setFieldValue(TITLE, file.getName());
-        this.setFieldValue(CREATED_DATE, file.getCreatedTime().getValue());
-        this.setFieldValue(MODIFIED_DATE, file.getModifiedTime().getValue());
+        if(file.getCreatedTime()!=null)
+            this.setFieldValue(CREATED_DATE, file.getCreatedTime().getValue());
+        if(file.getModifiedTime()!=null)
+            this.setFieldValue(MODIFIED_DATE, file.getModifiedTime().getValue());
         this.setFieldValue(DESCRIPTION, file.getDescription());
         this.setFieldValue(FILE_SIZE, file.getSize());
     }
