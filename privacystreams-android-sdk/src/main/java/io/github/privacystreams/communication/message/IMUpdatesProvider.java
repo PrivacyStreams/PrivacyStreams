@@ -1,4 +1,4 @@
-package io.github.privacystreams.communication;
+package io.github.privacystreams.communication.message;
 
 import android.os.Bundle;
 import android.view.accessibility.AccessibilityEvent;
@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.Map;
 
 import io.github.privacystreams.accessibility.AccEvent;
-import io.github.privacystreams.commons.item.ItemOperators;
 import io.github.privacystreams.core.Callback;
 import io.github.privacystreams.core.Item;
 import io.github.privacystreams.core.PStreamProvider;

@@ -23,8 +23,8 @@ import io.github.privacystreams.commons.string.StringOperators;
 import io.github.privacystreams.commons.time.TimeOperators;
 import io.github.privacystreams.communication.Call;
 import io.github.privacystreams.communication.Contact;
-import io.github.privacystreams.communication.Email;
-import io.github.privacystreams.communication.Message;
+import io.github.privacystreams.communication.email.Email;
+import io.github.privacystreams.communication.message.Message;
 import io.github.privacystreams.core.Callback;
 import io.github.privacystreams.core.Function;
 import io.github.privacystreams.core.Item;
@@ -53,7 +53,6 @@ import io.github.privacystreams.utils.TimeUtils;
 
 import static io.github.privacystreams.commons.statistic.StatisticOperators.count;
 import static io.github.privacystreams.commons.time.TimeOperators.recent;
-import static io.github.privacystreams.test.R.menu.main;
 
 /**
  * Some show cases of PrivacyStreams

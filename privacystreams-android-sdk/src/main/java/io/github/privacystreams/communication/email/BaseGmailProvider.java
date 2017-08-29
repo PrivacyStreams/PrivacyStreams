@@ -1,4 +1,4 @@
-package io.github.privacystreams.communication;
+package io.github.privacystreams.communication.email;
 
 import android.Manifest;
 import android.content.Intent;

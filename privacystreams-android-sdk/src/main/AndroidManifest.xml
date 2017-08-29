@@ -16,13 +16,7 @@
             android:exported="true" />
 
         <activity
-            android:name="io.github.privacystreams.communication.GmailAuthorizationActivity"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:exported="true" />
-
-        <activity
-            android:name="io.github.privacystreams.communication.GmailChooseAccountActivity"
+            android:name="io.github.privacystreams.communication.emailinfo.GmailChooseAccountActivity"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true" />

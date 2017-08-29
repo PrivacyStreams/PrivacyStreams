@@ -1,15 +1,15 @@
-package io.github.privacystreams.communication;
+package io.github.privacystreams.communication.email;
 
 import android.os.Handler;
 import android.os.Looper;
-
-import io.github.privacystreams.utils.DeviceUtils;
-import io.github.privacystreams.utils.Logging;
 
 import com.google.api.services.gmail.Gmail;
 
 import java.util.Timer;
 import java.util.TimerTask;
+
+import io.github.privacystreams.utils.DeviceUtils;
+import io.github.privacystreams.utils.Logging;
 
 
 /**

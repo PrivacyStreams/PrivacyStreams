@@ -1,4 +1,4 @@
-package io.github.privacystreams.communication;
+package io.github.privacystreams.communication.message;
 
 import android.Manifest;
 import android.content.BroadcastReceiver;
@@ -10,8 +10,8 @@ import android.os.Bundle;
 import android.telephony.SmsManager;
 import android.telephony.SmsMessage;
 
-import io.github.privacystreams.core.UQI;
 import io.github.privacystreams.core.PStreamProvider;
+import io.github.privacystreams.core.UQI;
 import io.github.privacystreams.utils.CommunicationUtils;
 
 /**

@@ -1,4 +1,4 @@
-package io.github.privacystreams.communication;
+package io.github.privacystreams.communication.emailinfo;
 
 import android.accounts.AccountManager;
 import android.app.Activity;

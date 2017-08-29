@@ -1,4 +1,4 @@
-package io.github.privacystreams.communication;
+package io.github.privacystreams.communication.message;
 
 import android.graphics.Rect;
 import android.os.Bundle;

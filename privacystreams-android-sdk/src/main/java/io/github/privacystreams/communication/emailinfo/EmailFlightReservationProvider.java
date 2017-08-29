@@ -2,8 +2,6 @@ package io.github.privacystreams.communication.emailinfo;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
-import io.github.privacystreams.communication.EmailInfoProvider;
-
 public class EmailFlightReservationProvider extends EmailInfoProvider {
     private static final String REQUEST_DOMAIN = "flight";
 

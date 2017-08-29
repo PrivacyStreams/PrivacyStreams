@@ -1,4 +1,4 @@
-package io.github.privacystreams.communication;
+package io.github.privacystreams.communication.email;
 
 import android.accounts.AccountManager;
 import android.app.Activity;
@@ -20,8 +20,8 @@ import io.github.privacystreams.utils.AppUtils;
 import io.github.privacystreams.utils.DeviceUtils;
 import io.github.privacystreams.utils.Logging;
 
-import static io.github.privacystreams.communication.BaseGmailProvider.GMAIL_PREF_ACCOUNT_NAME;
-import static io.github.privacystreams.communication.BaseGmailProvider.SCOPES;
+import static io.github.privacystreams.communication.email.BaseGmailProvider.GMAIL_PREF_ACCOUNT_NAME;
+import static io.github.privacystreams.communication.email.BaseGmailProvider.SCOPES;
 
 /**
  * This is the related activity for Gmail providers, used for authorization and permission granting.
