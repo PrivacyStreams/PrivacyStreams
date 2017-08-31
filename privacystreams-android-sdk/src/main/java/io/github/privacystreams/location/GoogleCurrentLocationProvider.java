@@ -31,7 +31,9 @@ class GoogleCurrentLocationProvider extends PStreamProvider implements
     private final String level;
 
     protected GoogleCurrentLocationProvider(String level) {
+        Logging.error("google location here");
         this.level = Assertions.notNull("level", level);
+        Logging.error("google location start");
         this.addParameters(level);
         if (Geolocation.LEVEL_EXACT.equals(level)) {
             this.addRequiredPermissions(Manifest.permission.ACCESS_FINE_LOCATION);

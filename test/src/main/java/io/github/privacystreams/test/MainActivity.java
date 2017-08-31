@@ -44,8 +44,12 @@ public class MainActivity extends AppCompatActivity {
             //testCases.testInvoice(api_key,api_secret,"whatever");
 
           //  testCases.testOrder(api_key,api_secret);
-            testCases.testDriveList();
+         //   testCases.testDriveList();
          //   testCases.testEmailList();
+          //  testCases.testCurrentLocation();
+           // testCases.testLocation();
+            String key = MainActivity.this.getString(R.string.google_api_key);
+            testCases.testLocationCluster(key);
             return null;
         }
     }

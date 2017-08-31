@@ -46,9 +46,11 @@ import io.github.privacystreams.io.IOOperators;
 import io.github.privacystreams.location.Geolocation;
 import io.github.privacystreams.location.GeolocationOperators;
 import io.github.privacystreams.location.LatLon;
+import io.github.privacystreams.location.LocationStay;
 import io.github.privacystreams.notification.Notification;
 import io.github.privacystreams.utils.Duration;
 import io.github.privacystreams.utils.Globals;
+import io.github.privacystreams.utils.Logging;
 import io.github.privacystreams.utils.TimeUtils;
 
 import static io.github.privacystreams.commons.statistic.StatisticOperators.count;
@@ -127,9 +129,14 @@ public class TestCases {
 
     }
 
+    public void testLocationCluster(String api_key){
+        Globals.LocationConfig.useGoogleService = true;
+        uqi.getData(LocationStay.getLocationStays(20000, Geolocation.LEVEL_EXACT,api_key), Purpose.TEST("test")).debug();
+    }
+
     public void testLocation() {
         Globals.LocationConfig.useGoogleService = true;
-        PStream locationStream = uqi.getData(Geolocation.asUpdates(1000, Geolocation.LEVEL_CITY), Purpose.TEST("test"))
+        PStream locationStream = uqi.getData(Geolocation.asUpdates(1000, Geolocation.LEVEL_EXACT), Purpose.TEST("test"))
                 .setField("distorted_lat_lon", GeolocationOperators.distort(Geolocation.LAT_LON, 1000))
                 .setField("distortion", GeolocationOperators.distanceBetween(Geolocation.LAT_LON, "distorted_lat_lon"))
                 .reuse(2);

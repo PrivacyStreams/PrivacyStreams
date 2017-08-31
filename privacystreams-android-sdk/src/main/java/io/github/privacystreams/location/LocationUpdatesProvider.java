@@ -11,6 +11,7 @@ import android.os.Looper;
 import io.github.privacystreams.core.UQI;
 import io.github.privacystreams.core.PStreamProvider;
 import io.github.privacystreams.utils.Assertions;
+import io.github.privacystreams.utils.Logging;
 
 /**
  * Provide location updates with Android standard APIs.
@@ -23,8 +24,9 @@ final class LocationUpdatesProvider extends PStreamProvider {
 
     LocationUpdatesProvider(long interval, String level) {
         this.interval = interval;
+        Logging.error("normal location");
         this.level = Assertions.notNull("level", level);
-
+        Logging.error("normal location start");
         this.addParameters(interval, level);
         if (Geolocation.LEVEL_EXACT.equals(level)) {
             this.addRequiredPermissions(Manifest.permission.ACCESS_FINE_LOCATION);

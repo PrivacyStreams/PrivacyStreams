@@ -11,6 +11,7 @@ import android.os.Looper;
 import io.github.privacystreams.core.UQI;
 import io.github.privacystreams.core.PStreamProvider;
 import io.github.privacystreams.utils.Assertions;
+import io.github.privacystreams.utils.Logging;
 
 /**
  * Provide current location with Android standard APIs.
@@ -49,6 +50,8 @@ final class CurrentLocationProvider extends PStreamProvider {
             provider = LocationManager.NETWORK_PROVIDER;
         }
         locationManager.requestLocationUpdates(provider, minTime, minDistance, locationListener);
+        Logging.error("location now: "+locationManager.toString());
+
         Looper.loop();
     }
 

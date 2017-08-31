@@ -5,6 +5,7 @@ import android.location.Location;
 import io.github.privacystreams.core.Item;
 import io.github.privacystreams.core.PStreamProvider;
 import io.github.privacystreams.utils.Globals;
+import io.github.privacystreams.utils.Logging;
 import io.github.privacystreams.utils.annotations.PSItem;
 import io.github.privacystreams.utils.annotations.PSItemField;
 
@@ -100,6 +101,7 @@ public class Geolocation extends Item {
         this.setFieldValue(ACCURACY, location.getAccuracy());
         this.setFieldValue(SPEED, location.getSpeed());
         this.setFieldValue(BEARING, location.getBearing());
+        Logging.error("locatin is:" + "time:"+location.getTime());
     }
 
     /**
@@ -115,6 +117,7 @@ public class Geolocation extends Item {
      * @return the provider
      */
     // @RequiresPermission(anyOf = {Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, conditional = true)
+
     public static PStreamProvider asUpdates(long interval, String level) {
         if (Globals.LocationConfig.useGoogleService)
             return new GoogleLocationUpdatesProvider(interval, level);
