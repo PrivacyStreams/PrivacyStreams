@@ -50,13 +50,10 @@ class GoogleLocationUpdatesProvider extends PStreamProvider implements
     private boolean isCluster = false;
     private LocationStay mLocationStay;
     private String mApiKey;
-    private ObjectMapper mObjectMapper = new ObjectMapper();
 
     protected GoogleLocationUpdatesProvider(long interval, String level) {
         this.interval = interval;
-        Logging.error("google location updates");
         this.level = Assertions.notNull("level", level);
-        Logging.error("google location updates start");
         this.addParameters(interval, level);
         if (Geolocation.LEVEL_EXACT.equals(level)) {
             this.addRequiredPermissions(Manifest.permission.ACCESS_FINE_LOCATION);

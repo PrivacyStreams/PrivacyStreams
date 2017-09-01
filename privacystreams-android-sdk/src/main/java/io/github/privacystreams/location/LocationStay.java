@@ -1,14 +1,8 @@
 package io.github.privacystreams.location;
 
-import java.util.List;
-
 import io.github.privacystreams.core.Item;
 import io.github.privacystreams.core.PStreamProvider;
 import io.github.privacystreams.utils.annotations.PSItemField;
-
-/**
- * Created by xiaobing1117 on 2017/8/30.
- */
 
 public class LocationStay extends Item{
 

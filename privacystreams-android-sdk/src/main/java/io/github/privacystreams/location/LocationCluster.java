@@ -1,17 +1,7 @@
 package io.github.privacystreams.location;
 
-import android.app.IntentService;
-import android.content.Intent;
-
 import java.util.ArrayList;
 import java.util.List;
-
-import io.github.privacystreams.utils.Logging;
-
-import static java.lang.Math.acos;
-import static java.lang.Math.cos;
-import static java.lang.Math.getExponent;
-import static java.lang.Math.sin;
 
 
 public class LocationCluster {
@@ -28,11 +18,11 @@ public class LocationCluster {
 
 
     private static boolean isClose(GeoPoint a, GeoPoint b){
-        return distanceBetween(a,b)<RADIUS;
+        return distanceBetween(a,b) < RADIUS;
     }
 
     private static double distanceBetween(GeoPoint a, GeoPoint b){
-        return (a.x-b.x)*(a.x-b.x) + (a.y-b.y)*(a.y-b.y);
+        return (a.x - b.x)*(a.x - b.x) + (a.y - b.y)*(a.y - b.y);
     }
 
     protected static void addLocation(GeoPoint geoPoint){
@@ -65,7 +55,6 @@ public class LocationCluster {
     }
 
     private static void updateLocationStay(){
-        int size = mGeoPoints.size();
         if(isClose(averageLocation,mLastPoint)){
             averageLocation.x = (averageLocation.x*minutes + mLastPoint.x)/(minutes+1);
             averageLocation.y = (averageLocation.y*minutes + mLastPoint.y)/(minutes+1);
@@ -78,13 +67,13 @@ public class LocationCluster {
             }else{
                 if(minutes >= 5){
                     isLocationStayOver = true;
-                    endTime = mGeoPoints.size()-2;
-                    mLocationStay.setFieldValue(LocationStay.X,averageLocation.x);
-                    mLocationStay.setFieldValue(LocationStay.Y,averageLocation.x);
-                    mLocationStay.setFieldValue(LocationStay.START_TIMESTAMP,startTime);
-                    mLocationStay.setFieldValue(LocationStay.END_TIMESTAMP,endTime);
-                    Logging.error("a new localstay: from"+startTime+"to"+endTime);
+                    endTime = mGeoPoints.size() - 2;
+                    mLocationStay.setFieldValue(LocationStay.X, averageLocation.x);
+                    mLocationStay.setFieldValue(LocationStay.Y, averageLocation.x);
+                    mLocationStay.setFieldValue(LocationStay.START_TIMESTAMP, startTime);
+                    mLocationStay.setFieldValue(LocationStay.END_TIMESTAMP, endTime);
                 }
+
                 averageLocation = new GeoPoint(mThisPoint);
                 startTime = mGeoPoints.size()-2;
                 initLocationStay();
