@@ -22,7 +22,7 @@ public class LocationStayUpdatesProvider extends GoogleLocationUpdatesProvider {
     private LocationStay mLocationStay = null;
     private String mApiKey;
     public LocationStayUpdatesProvider(int interval, String level, String apiKey){
-        super(interval,level,apiKey);
+        super(interval,level,true);
         mApiKey = apiKey;
     }
 

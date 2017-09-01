@@ -60,10 +60,9 @@ class GoogleLocationUpdatesProvider extends PStreamProvider implements
         }
     }
 
-    protected GoogleLocationUpdatesProvider(long interval, String level, String api_key) {
+    protected GoogleLocationUpdatesProvider(long interval, String level, boolean isCluster) {
         this.interval = interval;
-        this.isCluster = true;
-        mApiKey = api_key;
+        this.isCluster = isCluster;
         Logging.error("google location updates");
         this.level = Assertions.notNull("level", level);
         this.addParameters(interval, level);
