@@ -22,7 +22,7 @@ public class LocationStay extends Item{
     public static final String ADDRESS = "address";
 
     public static PStreamProvider getLocationStays(int milliTime, String level, String api_key){
-        return new GoogleLocationUpdatesProvider(milliTime,level,api_key);
+        return new LocationStayUpdatesProvider(milliTime,level,api_key);
     }
 
 }

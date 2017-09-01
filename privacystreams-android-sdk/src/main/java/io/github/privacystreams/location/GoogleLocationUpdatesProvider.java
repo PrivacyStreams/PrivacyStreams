@@ -92,20 +92,7 @@ class GoogleLocationUpdatesProvider extends PStreamProvider implements
     }
 
     public void addGeoPoint(Location location) {
-        double x = location.getLatitude();
-        double y = location.getLongitude();
-        long timestamp = location.getTime();
-        GeoPoint point = new GeoPoint(x,y,timestamp);
-        LocationCluster.addLocation(point);
-        if(LocationCluster.isLocationStayOver){
-            mLocationStay = LocationCluster.getLocationStay();
-            LocationCluster.initLocationStay();
-            double stayX = mLocationStay.getValueByField(LocationStay.X);
-            double stayY = mLocationStay.getValueByField(LocationStay.Y);
-            String url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="
-                    + stayX + "," + stayY + "&radius=20&key="+mApiKey;
-            new MyTask().execute(url);
-        }
+
     }
 
 
@@ -175,34 +162,5 @@ class GoogleLocationUpdatesProvider extends PStreamProvider implements
         this.finish();
     }
 
-    protected class MyTask extends AsyncTask<String,Void,String>{
 
-        @Override
-        protected String doInBackground(String...params){
-            String url = params[0];
-            String json = "";
-            try {
-                URL mUrl = new URL(url);
-                HttpURLConnection urlConnection = (HttpURLConnection)mUrl.openConnection();
-                urlConnection.setDoInput(true);
-                InputStream in = urlConnection.getInputStream();
-                BufferedReader br = new BufferedReader(new InputStreamReader(in));
-                String line = "";
-                while ((line = br.readLine()) != null) {
-                    json+=line+"\n";
-                }
-                Logging.error("json is:"+json);
-            }catch(Exception e){
-                Logging.error("request error!:"+e.getMessage());
-            }
-
-            return json;
-        }
-
-        @Override
-        protected void onPostExecute(String address){
-            mLocationStay.setFieldValue(LocationStay.ADDRESS,address);
-            output(mLocationStay);
-        }
-    }
 }
