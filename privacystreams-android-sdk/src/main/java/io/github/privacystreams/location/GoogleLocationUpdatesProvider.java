@@ -48,8 +48,6 @@ class GoogleLocationUpdatesProvider extends PStreamProvider implements
     private final long interval;
     private final String level;
     private boolean isCluster = false;
-    private LocationStay mLocationStay;
-    private String mApiKey;
 
     protected GoogleLocationUpdatesProvider(long interval, String level) {
         this.interval = interval;
