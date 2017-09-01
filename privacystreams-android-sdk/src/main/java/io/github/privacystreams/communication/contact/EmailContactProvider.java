@@ -1,21 +1,20 @@
-package io.github.privacystreams.communication.emailinfo;
+package io.github.privacystreams.communication.contact;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
+import io.github.privacystreams.communication.emailinfo.EmailInfoProvider;
 import io.github.privacystreams.utils.Logging;
-import io.github.privacystreams.communication.Contact;
 
-public class EmailContactProvider extends EmailInfoProvider {
+class EmailContactProvider extends EmailInfoProvider {
 
     private static final String REQUEST_DOMAIN = "contact";
     private static final String GET_DOMAIN = "contacts";
 
-    public EmailContactProvider(String api_key, String api_secret){
+    EmailContactProvider(String api_key, String api_secret){
         super(api_key,api_secret,REQUEST_DOMAIN);
     }
 
-    //TODO delete this function when debug ends
-    public EmailContactProvider(String api_key, String api_secret, String userName){
+    EmailContactProvider(String api_key, String api_secret, String userName){
         super(api_key,api_secret,REQUEST_DOMAIN, userName);
     }
 

@@ -8,21 +8,20 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.Random;
-import java.util.concurrent.ThreadLocalRandom;
 
-import io.github.privacystreams.location.GoogleLocationUpdatesProvider;
+import io.github.privacystreams.utils.Globals;
 import io.github.privacystreams.utils.Logging;
 
-/**
- * Created by xiaobing1117 on 2017/9/1.
- */
 
 public class LocationStayUpdatesProvider extends GoogleLocationUpdatesProvider {
-    private LocationStay mLocationStay = null;
+    private static final String GOOGLE_PLACE_NEARBY_API_BASE_URL = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=";
+    private LocationStay mLocationStay;
+
+    // The api key is used to fetch nearby place addresses.
     private String mApiKey;
+
     public LocationStayUpdatesProvider(int interval, String level, String apiKey){
-        super(interval,level,true);
+        super(interval,level);
         mApiKey = apiKey;
     }
 
@@ -32,42 +31,41 @@ public class LocationStayUpdatesProvider extends GoogleLocationUpdatesProvider {
     }
 
     @Override
-    public void addGeoPoint(Location location){
-        double x = location.getLatitude();
-        double y = location.getLongitude();
-        long timestamp = location.getTime();
-        GeoPoint point = new GeoPoint(x,y,timestamp);
+    public void onLocationChanged(Location location){
+        LocationCluster.addNewGeoPoint(new GeoPoint(location.getLatitude(),
+                location.getLongitude(), location.getTime()));
 
-        LocationCluster.addLocation(point);
-        if(LocationCluster.isLocationStayOver){
+        if(LocationCluster.hasLeft){
             mLocationStay = LocationCluster.getLocationStay();
-            LocationCluster.initLocationStay();
-            double stayX = mLocationStay.getValueByField(LocationStay.X);
-            double stayY = mLocationStay.getValueByField(LocationStay.Y);
-            String url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="
-                    + stayX + "," + stayY + "&radius=20&key="+mApiKey;
-            new MyTask().execute(url);
+            LocationCluster.startLookingForLocationStay();
+
+            String url = GOOGLE_PLACE_NEARBY_API_BASE_URL
+                    + mLocationStay.getValueByField(LocationStay.LATITUDE_AVERAGE) + "," +mLocationStay.getValueByField(LocationStay.LONGITUDE_AVERAGE)
+                    + "&radius=" + Globals.LocationConfig.nearbyPoiRadius
+                    + "&key="+ mApiKey;
+
+            new FetchNearbyAddressTask().execute(url);
         }
     }
 
-    protected class MyTask extends AsyncTask<String,Void,String> {
+    private class FetchNearbyAddressTask extends AsyncTask<String,Void,String> {
 
         @Override
         protected String doInBackground(String...params){
-            String url = params[0];
             String json = "";
             try {
-                URL mUrl = new URL(url);
-                HttpURLConnection urlConnection = (HttpURLConnection)mUrl.openConnection();
+                URL url = new URL(params[0]);
+                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
                 urlConnection.setDoInput(true);
                 InputStream in = urlConnection.getInputStream();
                 BufferedReader br = new BufferedReader(new InputStreamReader(in));
-                String line = "";
+                String line;
                 while ((line = br.readLine()) != null) {
-                    json+=line+"\n";
+                    json += line + "\n";
                 }
-                Logging.error("json is:"+json);
-            }catch(Exception e){
+
+            }
+            catch(Exception e){
                 Logging.error("request error!:"+e.getMessage());
             }
 
@@ -76,7 +74,7 @@ public class LocationStayUpdatesProvider extends GoogleLocationUpdatesProvider {
 
         @Override
         protected void onPostExecute(String address){
-            mLocationStay.setFieldValue(LocationStay.ADDRESS,address);
+            mLocationStay.setFieldValue(LocationStay.ADDRESS, address);
             output(mLocationStay);
         }
     }

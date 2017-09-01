@@ -1,4 +1,4 @@
-package io.github.privacystreams.communication;
+package io.github.privacystreams.communication.call;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

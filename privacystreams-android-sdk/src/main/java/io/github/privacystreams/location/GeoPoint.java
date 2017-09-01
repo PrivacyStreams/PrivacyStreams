@@ -1,49 +1,45 @@
 package io.github.privacystreams.location;
 
-/**
- * Created by xiaobing1117 on 2017/8/30.
- */
 
-public class GeoPoint {
+class GeoPoint {
 
-    public double x;
-    public double y;
-    public long timestamp;
+    private double lat;
+    private double lon;
+    private long timestamp;
 
-    public double index;
-    public double start_index;
-    public double end_index;
 
-    public GeoPoint(double xx, double yy){
-        x = xx;
-        y = yy;
-
-    }
-
-    public GeoPoint(double xx, double yy, long timestamp){
-        x=xx;
-        y=yy;
+    GeoPoint(double lat, double lon, long timestamp){
+        this.lat = lat;
+        this.lon = lon;
         this.timestamp = timestamp;
     }
 
-    public GeoPoint(GeoPoint p){
-        x = p.x;
-        y = p.y;
+    GeoPoint(GeoPoint p){
+        lat = p.getLat();
+        lon = p.getLon();
         timestamp = p.timestamp;
     }
 
-    public GeoPoint(String str){
-        int index = str.indexOf(",");
-        x = Double.parseDouble(str.substring(0,index-1));
-        y = Double.parseDouble(str.substring(index+1));
+    void setLat(double lat){
+        this.lat = lat;
     }
 
-    public double getX(){
-        return x;
+    double getLat(){
+        return lat;
     }
 
-    public double getY(){
-        return y;
+    void setLon(double lon){
+        this.lon = lon;
+    }
+
+
+
+    double getLon(){
+        return lon;
+    }
+
+    void setTimestamp(long timestamp){
+        this.timestamp = timestamp;
     }
 
     public long getTimestamp(){
@@ -51,6 +47,6 @@ public class GeoPoint {
     }
 
     public String toString() {
-        return "("+x+","+y+","+timestamp+");";
+        return "("+lat + "," + lon + "," + timestamp+");";
     }
 }

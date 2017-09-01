@@ -34,7 +34,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 
-
 /**
  * Provide location updates with Google API.
  */
@@ -47,23 +46,9 @@ class GoogleLocationUpdatesProvider extends PStreamProvider implements
 
     private final long interval;
     private final String level;
-    private boolean isCluster = false;
 
     protected GoogleLocationUpdatesProvider(long interval, String level) {
         this.interval = interval;
-        this.level = Assertions.notNull("level", level);
-        this.addParameters(interval, level);
-        if (Geolocation.LEVEL_EXACT.equals(level)) {
-            this.addRequiredPermissions(Manifest.permission.ACCESS_FINE_LOCATION);
-        } else {
-            this.addRequiredPermissions(Manifest.permission.ACCESS_COARSE_LOCATION);
-        }
-    }
-
-    protected GoogleLocationUpdatesProvider(long interval, String level, boolean isCluster) {
-        this.interval = interval;
-        this.isCluster = isCluster;
-        Logging.error("google location updates");
         this.level = Assertions.notNull("level", level);
         this.addParameters(interval, level);
         if (Geolocation.LEVEL_EXACT.equals(level)) {
@@ -88,25 +73,12 @@ class GoogleLocationUpdatesProvider extends PStreamProvider implements
         }
     }
 
-    public void addGeoPoint(Location location) {
-
-    }
-
-
-
     //to get the location change
     @Override
     public void onLocationChanged(Location location) {
-        if(isCluster) {
-            if(location == null)
-                return;
-            addGeoPoint(location);
-        }
-        else {
-            if (location==null)
-                return;
-            this.output(new Geolocation(location));
-        }
+        if(location == null)
+            return;
+        this.output(new Geolocation(location));
     }
 
     @Override

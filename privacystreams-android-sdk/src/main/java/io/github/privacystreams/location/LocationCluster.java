@@ -3,85 +3,90 @@ package io.github.privacystreams.location;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.github.privacystreams.utils.Globals;
+
 
 public class LocationCluster {
     protected static List<GeoPoint> mGeoPoints = new ArrayList<>();
     private static GeoPoint mLastPoint;
     private static GeoPoint mThisPoint;
-    private static final double RADIUS = 0.0000005;//around 5 meters
     private static LocationStay mLocationStay;
     private static int minutes = 0;
     private static long startTime = 0;
     private static long endTime = 0;
-    private static GeoPoint averageLocation = null;
-    public static boolean isLocationStayOver = false;
+    private static GeoPoint averageGeoPoint = null;
+    static boolean hasLeft = false;
 
 
     private static boolean isClose(GeoPoint a, GeoPoint b){
-        return distanceBetween(a,b) < RADIUS;
+        return distanceBetween(a,b) < Globals.LocationConfig.isCloseThreshold;
     }
 
     private static double distanceBetween(GeoPoint a, GeoPoint b){
-        return (a.x - b.x)*(a.x - b.x) + (a.y - b.y)*(a.y - b.y);
+        return (a.getLat() - b.getLat()) * (a.getLat() - b.getLat())
+                + (a.getLon() - b.getLon()) * (a.getLon() - b.getLon());
     }
 
-    protected static void addLocation(GeoPoint geoPoint){
+    static void addNewGeoPoint(GeoPoint geoPoint){
         mGeoPoints.add(geoPoint);
-        updateGeoPoints();
-    }
-
-    private static void updateGeoPoints(){
-
-        int size = mGeoPoints.size();
-        switch (size){
-            case 1:
-                mThisPoint = mGeoPoints.get(0);
-                averageLocation  = mThisPoint;
-                initLocationStay();
-                break;
-            default:
-                mLastPoint = new GeoPoint(mThisPoint);
-                mThisPoint = new GeoPoint(mGeoPoints.get(size-1));
-                updateLocationStay();
-
+        if(mGeoPoints.size() == 1){
+            mThisPoint = mGeoPoints.get(0);
+            averageGeoPoint  = mThisPoint;
+            startLookingForLocationStay();
+        }
+        else {
+            mLastPoint = new GeoPoint(mThisPoint);
+            mThisPoint = geoPoint;
+            updateLocationStay();
         }
     }
 
-    protected static void initLocationStay(){
-
-        isLocationStayOver = false;
+    static void startLookingForLocationStay(){
+        //?
+        hasLeft = false;
         mLocationStay = new LocationStay();
         minutes = 1;
     }
 
     private static void updateLocationStay(){
-        if(isClose(averageLocation,mLastPoint)){
-            averageLocation.x = (averageLocation.x*minutes + mLastPoint.x)/(minutes+1);
-            averageLocation.y = (averageLocation.y*minutes + mLastPoint.y)/(minutes+1);
-            minutes++;
-        }else{
-            if(isClose(averageLocation,mThisPoint)){
-                averageLocation.timestamp = mLastPoint.timestamp;
-                mLastPoint = new GeoPoint(averageLocation);
-                minutes++;
-            }else{
+        // The user stays at the location at least one minute ago.
+        if(isClose(averageGeoPoint, mLastPoint)){
+            averageGeoPoint.setLat((averageGeoPoint.getLat() * minutes + mLastPoint.getLat())/ (minutes + 1) );
+            averageGeoPoint.setLon((averageGeoPoint.getLon() * minutes + mLastPoint.getLon())/(minutes + 1) );
+            minutes ++;
+        }
+        // The user starts leaving from the previous location one minute ago.
+        else{
+            // But the user is back now at this minute,
+            // we then consider the user did not leave the previous stay at all
+            // because there was probably an error fetching the last location.
+
+            if(isClose(averageGeoPoint, mThisPoint)){
+                averageGeoPoint.setTimestamp(mLastPoint.getTimestamp());
+                mLastPoint = new GeoPoint(averageGeoPoint);
+                minutes ++;
+            }
+            else{
+                // The user has left the previous location more than two minutes
                 if(minutes >= 5){
-                    isLocationStayOver = true;
+                    hasLeft = true;
+                    //?????
                     endTime = mGeoPoints.size() - 2;
-                    mLocationStay.setFieldValue(LocationStay.X, averageLocation.x);
-                    mLocationStay.setFieldValue(LocationStay.Y, averageLocation.x);
+                    mLocationStay.setFieldValue(LocationStay.LATITUDE_AVERAGE, averageGeoPoint.getLat());
+                    mLocationStay.setFieldValue(LocationStay.LONGITUDE_AVERAGE, averageGeoPoint.getLon());
                     mLocationStay.setFieldValue(LocationStay.START_TIMESTAMP, startTime);
                     mLocationStay.setFieldValue(LocationStay.END_TIMESTAMP, endTime);
                 }
 
-                averageLocation = new GeoPoint(mThisPoint);
-                startTime = mGeoPoints.size()-2;
-                initLocationStay();
+                averageGeoPoint = new GeoPoint(mThisPoint);
+                //?????
+                startTime = mGeoPoints.size() - 2;
+                startLookingForLocationStay();
             }
         }
     }
 
-    public static LocationStay getLocationStay(){
+    static LocationStay getLocationStay(){
         return mLocationStay;
     }
 }

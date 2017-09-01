@@ -1,11 +1,10 @@
-package io.github.privacystreams.communication;
+package io.github.privacystreams.communication.contact;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
 import java.util.HashMap;
 import java.util.List;
 
-import io.github.privacystreams.communication.emailinfo.EmailContactProvider;
 import io.github.privacystreams.core.Item;
 import io.github.privacystreams.core.PStreamProvider;
 import io.github.privacystreams.utils.annotations.PSItem;

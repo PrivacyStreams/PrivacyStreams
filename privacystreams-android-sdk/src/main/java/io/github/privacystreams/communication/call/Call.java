@@ -1,4 +1,4 @@
-package io.github.privacystreams.communication;
+package io.github.privacystreams.communication.call;
 
 
 import io.github.privacystreams.core.Item;

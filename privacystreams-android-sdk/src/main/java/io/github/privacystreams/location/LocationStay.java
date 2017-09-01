@@ -7,10 +7,10 @@ import io.github.privacystreams.utils.annotations.PSItemField;
 public class LocationStay extends Item{
 
     @PSItemField(type = double.class)
-    public static final String X = "x";
+    public static final String LATITUDE_AVERAGE = "latitude_average";
 
     @PSItemField(type = double.class)
-    public static final String Y = "y";
+    public static final String LONGITUDE_AVERAGE = "longitude_average";
 
     @PSItemField(type = long.class)
     public static final String START_TIMESTAMP = "start_timestamp";

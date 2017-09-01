@@ -1,4 +1,4 @@
-package io.github.privacystreams.communication;
+package io.github.privacystreams.communication.call;
 
 import android.Manifest;
 import android.database.Cursor;

@@ -21,8 +21,8 @@ import io.github.privacystreams.commons.item.ItemOperators;
 import io.github.privacystreams.commons.statistic.StatisticOperators;
 import io.github.privacystreams.commons.string.StringOperators;
 import io.github.privacystreams.commons.time.TimeOperators;
-import io.github.privacystreams.communication.Call;
-import io.github.privacystreams.communication.Contact;
+import io.github.privacystreams.communication.call.Call;
+import io.github.privacystreams.communication.contact.Contact;
 import io.github.privacystreams.communication.email.Email;
 import io.github.privacystreams.communication.message.Message;
 import io.github.privacystreams.core.Callback;
@@ -50,7 +50,6 @@ import io.github.privacystreams.location.LocationStay;
 import io.github.privacystreams.notification.Notification;
 import io.github.privacystreams.utils.Duration;
 import io.github.privacystreams.utils.Globals;
-import io.github.privacystreams.utils.Logging;
 import io.github.privacystreams.utils.TimeUtils;
 
 import static io.github.privacystreams.commons.statistic.StatisticOperators.count;
@@ -186,7 +185,7 @@ public class TestCases {
         uqi.getData(Email.asGmailUpdates(15 * 60 * 1000), Purpose.TEST("test")).debug();
     }
     public void testContact(String apiKey, String apiSecret){
-        uqi.getData(io.github.privacystreams.communication.Contact.fromEmail(apiKey,apiSecret),
+        uqi.getData(Contact.fromEmail(apiKey,apiSecret),
                 Purpose.FEATURE("test"))
                 .debug();
     }

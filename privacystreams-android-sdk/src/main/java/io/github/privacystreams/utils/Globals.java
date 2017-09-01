@@ -10,6 +10,8 @@ import android.util.Log;
 public class Globals {
     public static class LocationConfig {
         public static boolean useGoogleService = true;
+        public static int nearbyPoiRadius = 20;
+        public static double isCloseThreshold = 0.0000005;//around 5 meters
     }
 
     public static class AudioConfig {
