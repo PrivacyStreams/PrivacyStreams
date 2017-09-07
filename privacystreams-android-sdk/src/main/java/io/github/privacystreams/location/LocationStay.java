@@ -4,7 +4,7 @@ import io.github.privacystreams.core.Item;
 import io.github.privacystreams.core.PStreamProvider;
 import io.github.privacystreams.utils.annotations.PSItemField;
 
-public class LocationStay extends Item{
+public class LocationStay extends Item {
 
     @PSItemField(type = double.class)
     public static final String LATITUDE_AVERAGE = "latitude_average";
@@ -21,8 +21,8 @@ public class LocationStay extends Item{
     @PSItemField(type = String.class)
     public static final String ADDRESS = "address";
 
-    public static PStreamProvider getLocationStays(int milliTime, String level, String api_key){
-        return new LocationStayUpdatesProvider(milliTime,level,api_key);
+    public static PStreamProvider getLocationStays(int milliTime, String level, String api_key) {
+        return new LocationStayUpdatesProvider(milliTime, level, api_key);
     }
 
 }

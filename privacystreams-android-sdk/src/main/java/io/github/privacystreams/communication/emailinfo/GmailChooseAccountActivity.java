@@ -23,16 +23,18 @@ public class GmailChooseAccountActivity extends Activity {
     static final String[] SCOPES = {GmailScopes.GMAIL_LABELS, GmailScopes.GMAIL_READONLY};
     private static EmailAccountNameListener mListener;
 
-    protected static void setListener(EmailAccountNameListener listener){ mListener = listener;}
+    protected static void setListener(EmailAccountNameListener listener) {
+        mListener = listener;
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState){
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (! DeviceUtils.isDeviceOnline(this)) {
+        if (!DeviceUtils.isDeviceOnline(this)) {
             Logging.warn("No network connection available.");
             finish();
         }
-        if (! DeviceUtils.isGooglePlayServicesAvailable(this)) {
+        if (!DeviceUtils.isGooglePlayServicesAvailable(this)) {
             DeviceUtils.acquireGooglePlayServices(this);
         }
         mCredential = GoogleAccountCredential.usingOAuth2(
@@ -41,7 +43,7 @@ public class GmailChooseAccountActivity extends Activity {
         String userName;
         if ((userName = mCredential.getSelectedAccountName()) == null) {
             chooseAccount();
-        }else{
+        } else {
             userName = userName.split("@")[0];
             mListener.onSuccess(userName);
             finish();
@@ -59,7 +61,7 @@ public class GmailChooseAccountActivity extends Activity {
                 if (resultCode == RESULT_OK && data != null &&
                         data.getExtras() != null) {
                     String accountName = data.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
-                    Logging.error("get accountName:"+accountName);
+                    Logging.error("get accountName:" + accountName);
 
                     String userName = accountName.split("@")[0];
                     mListener.onSuccess(userName);

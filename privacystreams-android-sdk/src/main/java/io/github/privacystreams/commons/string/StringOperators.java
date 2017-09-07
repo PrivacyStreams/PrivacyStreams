@@ -14,7 +14,7 @@ public class StringOperators {
     /**
      * Check whether the string value of a field contains a certain substring.
      *
-     * @param stringField the name of the string field
+     * @param stringField  the name of the string field
      * @param searchString the substring to search
      * @return the function.
      */
@@ -55,7 +55,7 @@ public class StringOperators {
     /**
      * Get the index of a substring in the string value of a field.
      *
-     * @param stringField the name of the string field
+     * @param stringField  the name of the string field
      * @param searchString the substring to search
      * @return the function
      */
@@ -76,8 +76,8 @@ public class StringOperators {
     /**
      * Replace a substring to a new string in the string value of a field.
      *
-     * @param stringField the name of the string field
-     * @param searchString the substring to search
+     * @param stringField   the name of the string field
+     * @param searchString  the substring to search
      * @param replaceString the string used to replace the searchString
      * @return the function
      */
@@ -89,10 +89,10 @@ public class StringOperators {
      * Get a substring of the string value of a field.
      *
      * @param stringField the name of the string field to calculate length
-     * @param start the position to start from, negative means
-     *  count back from the end of the String by this many characters
-     * @param end the position to end at (exclusive), negative means
-     *  count back from the end of the String by this many characters
+     * @param start       the position to start from, negative means
+     *                    count back from the end of the String by this many characters
+     * @param end         the position to end at (exclusive), negative means
+     *                    count back from the end of the String by this many characters
      * @return the function
      */
     public static Function<Item, String> subString(String stringField, int start, int end) {
@@ -103,10 +103,10 @@ public class StringOperators {
      * Elide a substring in the string value of a field.
      *
      * @param stringField the name of the string field to calculate length
-     * @param start the position to start from, negative means
-     *  count back from the end of the String by this many characters
-     * @param end the position to end at (exclusive), negative means
-     *  count back from the end of the String by this many characters
+     * @param start       the position to start from, negative means
+     *                    count back from the end of the String by this many characters
+     * @param end         the position to end at (exclusive), negative means
+     *                    count back from the end of the String by this many characters
      * @return the function
      */
     public static Function<Item, String> elide(String stringField, int start, int end) {

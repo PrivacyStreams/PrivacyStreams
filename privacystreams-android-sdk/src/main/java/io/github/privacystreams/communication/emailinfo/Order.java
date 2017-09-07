@@ -40,13 +40,13 @@ public class Order extends Item {
     @PSItemField(type = String.class)
     public static final String REFUND = "refund";
 
-    public static PStreamProvider getOrder(String api_key, String api_secret){
-        return new OnlineOrderProvider(api_key,api_secret);
+    public static PStreamProvider getOrder(String api_key, String api_secret) {
+        return new OnlineOrderProvider(api_key, api_secret);
     }
 
     //TODO delete this method when debug ends
-    public static PStreamProvider getOrder(String api_key, String api_secret, String userName){
-        return new OnlineOrderProvider(api_key,api_secret,userName);
+    public static PStreamProvider getOrder(String api_key, String api_secret, String userName) {
+        return new OnlineOrderProvider(api_key, api_secret, userName);
     }
 
 }

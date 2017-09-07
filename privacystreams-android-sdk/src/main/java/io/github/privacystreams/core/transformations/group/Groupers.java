@@ -47,7 +47,7 @@ public class Groupers {
      * in an item to several new items with a "email" field.
      *
      * @param unGroupField the field to un-group, whose value should be a list
-     * @param newField the new field name in the new stream
+     * @param newField     the new field name in the new stream
      * @return The un-group function
      */
     public static PStreamTransformation unGroup(String unGroupField, String newField) {

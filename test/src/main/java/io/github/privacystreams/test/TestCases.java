@@ -76,7 +76,7 @@ public class TestCases {
         uqi.getData(Image.getFromStorage(), Purpose.TEST("test"))
 //                .setField("lat_lon", ImageOperators.getLatLon(Image.IMAGE_DATA))
 //                .debug();
-        //uqi.getData(Image.takeFromCamera(), Purpose.UTILITY("taking picture."))
+                //uqi.getData(Image.takeFromCamera(), Purpose.UTILITY("taking picture."))
                 .setField("imagePath", ImageOperators.getFilepath(Image.IMAGE_DATA))
                 .setField("faceCount", ImageOperators.countFaces(Image.IMAGE_DATA))
                 .setField("text", ImageOperators.extractText(Image.IMAGE_DATA))
@@ -128,9 +128,9 @@ public class TestCases {
 
     }
 
-    public void testLocationCluster(String api_key){
+    public void testLocationCluster(String api_key) {
         Globals.LocationConfig.useGoogleService = true;
-        uqi.getData(LocationStay.getLocationStays(20000, Geolocation.LEVEL_EXACT,api_key), Purpose.TEST("test")).debug();
+        uqi.getData(LocationStay.getLocationStays(20000, Geolocation.LEVEL_EXACT, api_key), Purpose.TEST("test")).debug();
     }
 
     public void testLocation() {
@@ -184,36 +184,37 @@ public class TestCases {
     public void testEmailUpdates() {
         uqi.getData(Email.asGmailUpdates(15 * 60 * 1000), Purpose.TEST("test")).debug();
     }
-    public void testContact(String apiKey, String apiSecret){
-        uqi.getData(Contact.fromEmail(apiKey,apiSecret),
+
+    public void testContact(String apiKey, String apiSecret) {
+        uqi.getData(Contact.fromEmail(apiKey, apiSecret),
                 Purpose.FEATURE("test"))
                 .debug();
     }
 
-    public void testFlight(String apiKey, String apiSecret){
-        uqi.getData(io.github.privacystreams.communication.emailinfo.FlightReservation.getFlightReservation(null,null),
+    public void testFlight(String apiKey, String apiSecret) {
+        uqi.getData(io.github.privacystreams.communication.emailinfo.FlightReservation.getFlightReservation(null, null),
                 Purpose.FEATURE("test"))
                 .debug();
     }
 
-    public void testInvoice(String apiKey, String apiSecret,String userName){
-        uqi.getData(io.github.privacystreams.communication.emailinfo.Invoice.getInvoices(apiKey,apiSecret,userName),
+    public void testInvoice(String apiKey, String apiSecret, String userName) {
+        uqi.getData(io.github.privacystreams.communication.emailinfo.Invoice.getInvoices(apiKey, apiSecret, userName),
                 Purpose.FEATURE("test")).debug();
     }
 
-    public void testParcel(String apiKey, String apiSecret){
-        uqi.getData(io.github.privacystreams.communication.emailinfo.ParcelDelivery.getParcelDeliverys(apiKey,apiSecret),
+    public void testParcel(String apiKey, String apiSecret) {
+        uqi.getData(io.github.privacystreams.communication.emailinfo.ParcelDelivery.getParcelDeliverys(apiKey, apiSecret),
                 Purpose.FEATURE("test"))
                 .debug();
     }
 
-    public void testFood(String apiKey, String apiSecret){
-        uqi.getData(io.github.privacystreams.communication.emailinfo.FoodEstablishmentReservation.getFoodEstablishmentReservations(apiKey,apiSecret),Purpose.FEATURE("test"))
+    public void testFood(String apiKey, String apiSecret) {
+        uqi.getData(io.github.privacystreams.communication.emailinfo.FoodEstablishmentReservation.getFoodEstablishmentReservations(apiKey, apiSecret), Purpose.FEATURE("test"))
                 .debug();
     }
 
-    public void testOrder(String apiKey, String apiSecret){
-        uqi.getData(io.github.privacystreams.communication.emailinfo.Order.getOrder(apiKey,apiSecret),
+    public void testOrder(String apiKey, String apiSecret) {
+        uqi.getData(io.github.privacystreams.communication.emailinfo.Order.getOrder(apiKey, apiSecret),
                 Purpose.FEATURE("test"))
                 .debug();
     }

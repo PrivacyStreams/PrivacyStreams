@@ -10,15 +10,15 @@ class EmailContactProvider extends EmailInfoProvider {
     private static final String REQUEST_DOMAIN = "contact";
     private static final String GET_DOMAIN = "contacts";
 
-    EmailContactProvider(String api_key, String api_secret){
-        super(api_key,api_secret,REQUEST_DOMAIN);
+    EmailContactProvider(String api_key, String api_secret) {
+        super(api_key, api_secret, REQUEST_DOMAIN);
     }
 
-    EmailContactProvider(String api_key, String api_secret, String userName){
-        super(api_key,api_secret,REQUEST_DOMAIN, userName);
+    EmailContactProvider(String api_key, String api_secret, String userName) {
+        super(api_key, api_secret, REQUEST_DOMAIN, userName);
     }
 
-    private void getContactInfo(JsonNode jsonNode){
+    private void getContactInfo(JsonNode jsonNode) {
         Logging.error("new contact");
         Contact contact = new Contact();
         contact.setFieldValue(Contact.NAME,
@@ -44,9 +44,9 @@ class EmailContactProvider extends EmailInfoProvider {
     }
 
     @Override
-    public void isSiftAvailable(JsonNode jsonNode){
+    public void isSiftAvailable(JsonNode jsonNode) {
         JsonNode contacts = jsonNode.get(GET_DOMAIN);
-        for(JsonNode contact : contacts){
+        for (JsonNode contact : contacts) {
             getContactInfo(contact);
         }
     }

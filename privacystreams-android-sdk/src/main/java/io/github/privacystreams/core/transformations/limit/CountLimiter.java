@@ -27,8 +27,7 @@ final class CountLimiter extends StreamLimiter {
         else if (this.count == this.maxCount) {
             this.output(item);
             this.cancel(this.getUQI());
-        }
-        else {
+        } else {
             Logging.warn("CountLimiter: shouldn't be here!");
         }
     }

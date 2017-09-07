@@ -20,38 +20,38 @@ public class LocationStayUpdatesProvider extends GoogleLocationUpdatesProvider {
     // The api key is used to fetch nearby place addresses.
     private String mApiKey;
 
-    public LocationStayUpdatesProvider(int interval, String level, String apiKey){
-        super(interval,level);
+    public LocationStayUpdatesProvider(int interval, String level, String apiKey) {
+        super(interval, level);
         mApiKey = apiKey;
     }
 
     @Override
-    public void provide(){
+    public void provide() {
         super.provide();
     }
 
     @Override
-    public void onLocationChanged(Location location){
+    public void onLocationChanged(Location location) {
         LocationCluster.addNewGeoPoint(new GeoPoint(location.getLatitude(),
                 location.getLongitude(), location.getTime()));
 
-        if(LocationCluster.hasLeft){
+        if (LocationCluster.hasLeft) {
             mLocationStay = LocationCluster.getLocationStay();
             LocationCluster.startLookingForLocationStay();
 
             String url = GOOGLE_PLACE_NEARBY_API_BASE_URL
-                    + mLocationStay.getValueByField(LocationStay.LATITUDE_AVERAGE) + "," +mLocationStay.getValueByField(LocationStay.LONGITUDE_AVERAGE)
+                    + mLocationStay.getValueByField(LocationStay.LATITUDE_AVERAGE) + "," + mLocationStay.getValueByField(LocationStay.LONGITUDE_AVERAGE)
                     + "&radius=" + Globals.LocationConfig.nearbyPoiRadius
-                    + "&key="+ mApiKey;
+                    + "&key=" + mApiKey;
 
             new FetchNearbyAddressTask().execute(url);
         }
     }
 
-    private class FetchNearbyAddressTask extends AsyncTask<String,Void,String> {
+    private class FetchNearbyAddressTask extends AsyncTask<String, Void, String> {
 
         @Override
-        protected String doInBackground(String...params){
+        protected String doInBackground(String... params) {
             String json = "";
             try {
                 URL url = new URL(params[0]);
@@ -64,16 +64,15 @@ public class LocationStayUpdatesProvider extends GoogleLocationUpdatesProvider {
                     json += line + "\n";
                 }
 
-            }
-            catch(Exception e){
-                Logging.error("request error!:"+e.getMessage());
+            } catch (Exception e) {
+                Logging.error("request error!:" + e.getMessage());
             }
 
             return json;
         }
 
         @Override
-        protected void onPostExecute(String address){
+        protected void onPostExecute(String address) {
             mLocationStay.setFieldValue(LocationStay.ADDRESS, address);
             output(mLocationStay);
         }

@@ -29,7 +29,7 @@ public class Globals {
         public static int level = Log.DEBUG;
     }
 
-    public static class SiftConfig{
+    public static class SiftConfig {
         public static long checkSiftConnectionPollingInterval = Duration.seconds(1);
         public static long checkSiftConnectionTimeout = Duration.seconds(20);
     }

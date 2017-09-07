@@ -27,8 +27,7 @@ class MinFieldSelector extends ByFieldItemSelector {
             if (selectedItem == null) {
                 selectedItem = item;
                 selectedFieldValue = curFieldValue;
-            }
-            else if (curFieldValue < selectedFieldValue) {
+            } else if (curFieldValue < selectedFieldValue) {
                 selectedItem = item;
                 selectedFieldValue = curFieldValue;
             }

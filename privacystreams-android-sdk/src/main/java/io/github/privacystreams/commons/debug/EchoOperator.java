@@ -32,8 +32,7 @@ final class EchoOperator<T> extends Function<T, T> {
         if (sendToSocket) {
             String message = String.format(Locale.getDefault(), "%s >>> %s", this.logTag, logMsg);
             PSDebugSocketServer.v().send(message);
-        }
-        else {
+        } else {
             Log.d(this.logTag, logMsg);
         }
         return input;

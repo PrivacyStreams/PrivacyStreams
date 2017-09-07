@@ -17,7 +17,7 @@ class RoundDownOperator extends ArithmeticOperator<Double> {
 
     @Override
     protected Double processNum(Number number) {
-        return Math.floor(number.doubleValue()/valueToRound.doubleValue()) * valueToRound.doubleValue();
+        return Math.floor(number.doubleValue() / valueToRound.doubleValue()) * valueToRound.doubleValue();
     }
 
 }

@@ -28,12 +28,12 @@ public class ParcelDelivery extends Item {
     @PSItemField(type = JsonNode.class)
     public static final String PART_OF_ORDER = "part_of_order";
 
-    public static PStreamProvider getParcelDeliverys(String api_key, String api_secret){
-        return new ParcelDeliveryProvider(api_key,api_secret);
+    public static PStreamProvider getParcelDeliverys(String api_key, String api_secret) {
+        return new ParcelDeliveryProvider(api_key, api_secret);
     }
 
     //TODO delete this method when debug ends
-    public static PStreamProvider getParcelDeliverys(String api_key, String api_secret, String userName){
-        return new ParcelDeliveryProvider(api_key,api_secret,userName);
+    public static PStreamProvider getParcelDeliverys(String api_key, String api_secret, String userName) {
+        return new ParcelDeliveryProvider(api_key, api_secret, userName);
     }
 }

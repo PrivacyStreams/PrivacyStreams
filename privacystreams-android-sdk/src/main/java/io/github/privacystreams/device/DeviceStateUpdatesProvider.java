@@ -28,7 +28,7 @@ class DeviceStateUpdatesProvider extends PStreamProvider {
     @Override
     protected void provide() {
 
-        while (!isCancelled){
+        while (!isCancelled) {
             Item deviceState = new Item();
             if ((mask & DeviceState.Masks.BLUETOOTH_DEVICE_LIST) != 0) {
                 getBluetoothDeviceList(deviceState);
@@ -38,7 +38,7 @@ class DeviceStateUpdatesProvider extends PStreamProvider {
                 getWifiList(deviceState);
             }
 
-            if ((mask & DeviceState.Masks.BATTERY_LEVEL) !=0) {
+            if ((mask & DeviceState.Masks.BATTERY_LEVEL) != 0) {
                 getBatteryInfo(deviceState);
             }
 
@@ -62,7 +62,7 @@ class DeviceStateUpdatesProvider extends PStreamProvider {
     }
 
 
-    private void getBatteryInfo(Item deviceState){
+    private void getBatteryInfo(Item deviceState) {
         float level = DeviceUtils.getBatteryLevel(this.getContext());
         if (level >= 0)
             deviceState.setFieldValue(DeviceState.BATTERY_LEVEL, level);

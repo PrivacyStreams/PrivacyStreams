@@ -50,7 +50,7 @@ final class CurrentLocationProvider extends PStreamProvider {
             provider = LocationManager.NETWORK_PROVIDER;
         }
         locationManager.requestLocationUpdates(provider, minTime, minDistance, locationListener);
-        Logging.error("location now: "+locationManager.toString());
+        Logging.error("location now: " + locationManager.toString());
 
         Looper.loop();
     }

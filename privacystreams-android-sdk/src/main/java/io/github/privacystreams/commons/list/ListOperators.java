@@ -15,7 +15,7 @@ public class ListOperators {
      * Check whether the list specified by a field contains a given value.
      *
      * @param listField the name of the list field
-     * @param value the value to check if is in the list
+     * @param value     the value to check if is in the list
      * @return the predicate
      */
     public static Function<Item, Boolean> contains(final String listField, final Object value) {
@@ -25,7 +25,7 @@ public class ListOperators {
     /**
      * Check whether the list specified by a field intersects with a given list.
      *
-     * @param listField the name of the list field
+     * @param listField     the name of the list field
      * @param listToCompare the list to compare
      * @return the predicate
      */

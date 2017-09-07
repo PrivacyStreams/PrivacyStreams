@@ -26,6 +26,7 @@ public class PSDoclet extends HtmlDoclet {
 
     private String outputDir;
     private String docTitle;
+
     private void readOptions(String[][] options) {
         for (int i = 0; i < options.length; i++) {
             String[] opt = options[i];

@@ -16,6 +16,7 @@ class NavActivity : AppCompatActivity() {
         val DEFAULT_NAV_ID = R.id.nav_data
         val LOG_TAG = "NavActivity"
     }
+
     var navId = DEFAULT_NAV_ID
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->

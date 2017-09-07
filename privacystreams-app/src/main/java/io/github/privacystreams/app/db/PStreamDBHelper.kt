@@ -19,8 +19,7 @@ class PStreamDBHelper private constructor(var context: Context)
         fun getInstance(context: Context): PStreamDBHelper {
             if (instance == null) {
                 instance = PStreamDBHelper(context.applicationContext)
-            }
-            else {
+            } else {
                 instance!!.context = context.applicationContext
             }
             return instance!!
@@ -40,13 +39,13 @@ class PStreamDBHelper private constructor(var context: Context)
     }
 
     override fun onCreate(db: SQLiteDatabase) {
-        tables.map { it.sqlCreateEntries.map{db.execSQL(it)} }
+        tables.map { it.sqlCreateEntries.map { db.execSQL(it) } }
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
         // This database is only a cache for online data, so its upgrade policy is
         // to simply to discard the data and start over
-        tables.map { it.sqlDeleteEntries.map{db.execSQL(it)} }
+        tables.map { it.sqlDeleteEntries.map { db.execSQL(it) } }
         onCreate(db)
     }
 
