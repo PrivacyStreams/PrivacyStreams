@@ -34,8 +34,6 @@ public class MainActivity extends AppCompatActivity {
             TestCases testCases = new TestCases(MainActivity.this);
             //testCases.testEmailList();;
             // testCases.testsift();
-            String api_secret = MainActivity.this.getString(R.string.sift_api_secret);
-            String api_key = MainActivity.this.getString(R.string.sift_api_key);
             //  testCases.testContact(apiKey,apiSecret);
             // testCases.testFlight(api_key,api_secret);
             //  testCases.testFood(apiKey,apiSecret);
@@ -48,8 +46,8 @@ public class MainActivity extends AppCompatActivity {
             //   testCases.testEmailList();
             //  testCases.testCurrentLocation();
             // testCases.testLocation();
-            String key = MainActivity.this.getString(R.string.google_api_key);
-            testCases.testLocationCluster(key);
+            testCases.testImageUpdate();
+           //testCases.testImage();
             return null;
         }
     }

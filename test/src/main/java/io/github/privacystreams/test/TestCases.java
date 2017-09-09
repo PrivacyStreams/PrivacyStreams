@@ -73,10 +73,10 @@ public class TestCases {
 
 
     public void testImage() {
-        uqi.getData(Image.getFromStorage(), Purpose.TEST("test"))
+        //uqi.getData(Image.getFromStorage(), Purpose.TEST("test"))
 //                .setField("lat_lon", ImageOperators.getLatLon(Image.IMAGE_DATA))
 //                .debug();
-                //uqi.getData(Image.takeFromCamera(), Purpose.UTILITY("taking picture."))
+                uqi.getData(Image.takeFromCamera(), Purpose.UTILITY("taking picture."))
                 .setField("imagePath", ImageOperators.getFilepath(Image.IMAGE_DATA))
                 .setField("faceCount", ImageOperators.countFaces(Image.IMAGE_DATA))
                 .setField("text", ImageOperators.extractText(Image.IMAGE_DATA))
@@ -94,6 +94,8 @@ public class TestCases {
 //                });
     }
 
+
+
     public void testWhatsContact() throws PSException {
         Log.i("whatsapp", String.valueOf(uqi.getData(Contact.FromWhatsApp(), Purpose.UTILITY("test")).asList()));
     }
@@ -108,6 +110,10 @@ public class TestCases {
                     }
                 });
 
+    }
+
+    public void testImageUpdate(){
+        uqi.getData(Image.asUpdates(),Purpose.TEST("test")).debug();
     }
 
     public void testReuse() {
