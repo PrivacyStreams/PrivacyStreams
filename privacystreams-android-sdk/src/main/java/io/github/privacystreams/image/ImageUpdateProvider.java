@@ -1,31 +1,30 @@
 package io.github.privacystreams.image;
 
-import android.graphics.BitmapFactory;
 import android.os.Environment;
 import android.os.FileObserver;
 
 import java.io.File;
-import java.util.List;
 
 import io.github.privacystreams.core.PStreamProvider;
+import io.github.privacystreams.core.UQI;
 import io.github.privacystreams.utils.Logging;
 
-/**
- * Created by Weiheng Lian on 2017/9/8.
- */
 
-public class ImageUpdateProvider extends PStreamProvider {
+class ImageUpdateProvider extends PStreamProvider {
 
     private final String ROOT = Environment.getExternalStorageDirectory().getAbsolutePath();
-    private final String[] IS_IMAGE = {"bmp","dib","gif","jfif","jpe","jpeg","jpg","png","tif","tiff","ico"};
+
+    private final String[] IMG_EXTENSION = {"bmp","dib","gif","jfif","jpe","jpeg",
+            "jpg","png","tif","tiff","ico"};
+
     private RecursiveFileObserver mFileObserver;
+
     @Override
     public void provide(){
-        Logging.error("start");
         setupFileObserver();
     }
 
-    public void setupFileObserver(){
+    private void setupFileObserver(){
         Logging.error("path is: "+ROOT);
         mFileObserver = new RecursiveFileObserver(ROOT,FileObserver.CREATE) {
             @Override
@@ -34,8 +33,8 @@ public class ImageUpdateProvider extends PStreamProvider {
                 boolean isImage = false;
                 int dot = path.lastIndexOf(".");
                 String suffix = path.substring(dot+1);
-                for(int i=0;i<IS_IMAGE.length;++i){
-                    if(suffix.equals(IS_IMAGE[i])){
+                for(String extension : IMG_EXTENSION){
+                    if(suffix.equals(extension)){
                         isImage = true;
                         break;
                     }
@@ -56,7 +55,13 @@ public class ImageUpdateProvider extends PStreamProvider {
         mFileObserver.startWatching();
     }
 
-    public void stopWatching(){
+    @Override
+    protected void onCancel(UQI uqi) {
+        super.onCancel(uqi);
+        stopWatching();
+    }
+
+    private void stopWatching(){
         if(mFileObserver!=null){
             mFileObserver.stopWatching();
         }
