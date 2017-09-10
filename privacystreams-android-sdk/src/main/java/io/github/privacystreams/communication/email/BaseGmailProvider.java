@@ -158,7 +158,7 @@ abstract class BaseGmailProvider extends PStreamProvider implements GmailResultL
     }
 
 
-    private List<String> getDataFromApi(String query)  throws IOException{
+    private List<String> getDataFromApi(String query) throws IOException {
         Logging.error("start get data");
 
         Gmail.Users.Messages.List request = mService.users().messages().list("me")
@@ -174,11 +174,10 @@ abstract class BaseGmailProvider extends PStreamProvider implements GmailResultL
             Logging.error("after execute");
             list.addAll(response.getMessages());
             request.setPageToken(response.getNextPageToken());
-            Logging.error("messageinfo:"+list.get(0).toString());
+            Logging.error("messageinfo:" + list.get(0).toString());
         } while (request.getPageToken() != null && request.getPageToken().length() > 0);
         return null;
     }
-
 
 
     /**
@@ -250,7 +249,7 @@ abstract class BaseGmailProvider extends PStreamProvider implements GmailResultL
                 .getString(GMAIL_PREF_ACCOUNT_NAME, null);
 
         if (accountName != null) {
-            Logging.error("accountName is : "+accountName);
+            Logging.error("accountName is : " + accountName);
 
             GoogleAccountCredential mCredential = GoogleAccountCredential.usingOAuth2(
                     getContext().getApplicationContext(), Arrays.asList(SCOPES))
@@ -260,8 +259,7 @@ abstract class BaseGmailProvider extends PStreamProvider implements GmailResultL
 
             if (!DeviceUtils.isGooglePlayServicesAvailable(getContext())) {
                 DeviceUtils.acquireGooglePlayServices(getContext());
-            }
-            else{
+            } else {
                 mService = new Gmail.Builder(
                         AndroidHttp.newCompatibleTransport(), JacksonFactory.getDefaultInstance(), mCredential)
                         .setApplicationName(AppUtils.getApplicationName(getContext()))
@@ -269,8 +267,8 @@ abstract class BaseGmailProvider extends PStreamProvider implements GmailResultL
                 try {
                     mUserToken = mCredential.getToken();
                     Logging.debug("Token is:" + mUserToken);
-                }catch(Exception e){
-                    Logging.debug("get token failed:"+e.getMessage());
+                } catch (Exception e) {
+                    Logging.debug("get token failed:" + e.getMessage());
                 }
 
                 authorized = true;

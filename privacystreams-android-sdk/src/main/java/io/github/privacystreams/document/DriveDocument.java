@@ -45,14 +45,14 @@ public class DriveDocument extends Item {
     public static final String FILE_SIZE = "file size";
 
     DriveDocument(File file) {
-        if(file == null){
+        if (file == null) {
             Logging.error("file is null");
         }
         this.setFieldValue(ID, file.getId());
         this.setFieldValue(TITLE, file.getName());
-        if(file.getCreatedTime()!=null)
+        if (file.getCreatedTime() != null)
             this.setFieldValue(CREATED_DATE, file.getCreatedTime().getValue());
-        if(file.getModifiedTime()!=null)
+        if (file.getModifiedTime() != null)
             this.setFieldValue(MODIFIED_DATE, file.getModifiedTime().getValue());
         this.setFieldValue(DESCRIPTION, file.getDescription());
         this.setFieldValue(FILE_SIZE, file.getSize());

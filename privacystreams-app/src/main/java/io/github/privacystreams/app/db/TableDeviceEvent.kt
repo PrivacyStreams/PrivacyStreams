@@ -26,10 +26,10 @@ class TableDeviceEvent(dbHelper: PStreamDBHelper) : PStreamTable(dbHelper) {
 
     override val sqlCreateEntries = listOf<String>(
             "CREATE TABLE $TABLE_NAME (" +
-                "$_ID INTEGER PRIMARY KEY," +
-                "$TIME_CREATED INTEGER," +
-                "$TYPE TEXT," +
-                "$EVENT TEXT)",
+                    "$_ID INTEGER PRIMARY KEY," +
+                    "$TIME_CREATED INTEGER," +
+                    "$TYPE TEXT," +
+                    "$EVENT TEXT)",
             "CREATE INDEX ${TABLE_NAME}_${TIME_CREATED}_index on $TABLE_NAME ($TIME_CREATED)",
             "CREATE INDEX ${TABLE_NAME}_${TYPE}_index on $TABLE_NAME ($TYPE)"
     )
@@ -61,13 +61,13 @@ class TableDeviceEvent(dbHelper: PStreamDBHelper) : PStreamTable(dbHelper) {
                 })
     }
 
-    class PROVIDER(): PStreamTableProvider() {
+    class PROVIDER() : PStreamTableProvider() {
         override fun provide() {
             val dbHelper = PStreamDBHelper.getInstance(context)
             val db = dbHelper.readableDatabase
             val cur = db.query(TABLE_NAME, null, null, null, null, null, null)
             while (cur.moveToNext()) {
-                val item : Item = Item()
+                val item: Item = Item()
                 item.setFieldValue(TIME_CREATED, cur.getLong(cur.getColumnIndex(TIME_CREATED)))
                 item.setFieldValue(TYPE, cur.getString(cur.getColumnIndex(TYPE)))
                 item.setFieldValue(EVENT, cur.getString(cur.getColumnIndex(EVENT)))

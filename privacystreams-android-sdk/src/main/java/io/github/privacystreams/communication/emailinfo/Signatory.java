@@ -26,7 +26,7 @@ public class Signatory {
         List<String> keys = new ArrayList<String>(params.keySet());
         Collections.sort(keys);
 
-        for(String key: keys) {
+        for (String key : keys) {
             baseString.append("&").append(key).append("=").append(params.get(key));
         }
 
@@ -36,16 +36,14 @@ public class Signatory {
 
     /**
      * Converts a byte array to a hex string.
-     * @param bytes
-     * The byte array to be converted.
-     * @return
-     * The converted hex string.
+     *
+     * @param bytes The byte array to be converted.
+     * @return The converted hex string.
      */
     private static String bytesToHex(byte[] bytes) {
         char[] hexChars = new char[bytes.length * 2];
 
-        for (int j = 0; j < bytes.length; j++)
-        {
+        for (int j = 0; j < bytes.length; j++) {
             int v = bytes[j] & 0xFF;
             hexChars[j * 2] = hexArray[v >>> 4];
             hexChars[j * 2 + 1] = hexArray[v & 0x0F];

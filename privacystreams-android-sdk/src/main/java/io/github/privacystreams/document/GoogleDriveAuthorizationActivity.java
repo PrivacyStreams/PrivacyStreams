@@ -84,7 +84,7 @@ public class GoogleDriveAuthorizationActivity extends Activity {
                         data.getExtras() != null) {
                     String accountName =
                             data.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
-                    Logging.error("accountName is: "+accountName);
+                    Logging.error("accountName is: " + accountName);
                     if (accountName != null) {
                         SharedPreferences.Editor editor = PreferenceManager
                                 .getDefaultSharedPreferences(this).edit();

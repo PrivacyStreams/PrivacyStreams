@@ -33,15 +33,15 @@ class TableGeolocation(dbHelper: PStreamDBHelper) : PStreamTable(dbHelper) {
 
     override val sqlCreateEntries = listOf<String>(
             "CREATE TABLE $TABLE_NAME (" +
-                "$_ID INTEGER PRIMARY KEY, " +
-                "$TIME_CREATED INTEGER," +
-                "$TIMESTAMP INTEGER," +
-                "$LATITUDE REAL," +
-                "$LONGITUDE REAL, " +
-                "$PROVIDER TEXT," +
-                "$ACCURACY REAL," +
-                "$BEARING REAL," +
-                "$SPEED REAL)",
+                    "$_ID INTEGER PRIMARY KEY, " +
+                    "$TIME_CREATED INTEGER," +
+                    "$TIMESTAMP INTEGER," +
+                    "$LATITUDE REAL," +
+                    "$LONGITUDE REAL, " +
+                    "$PROVIDER TEXT," +
+                    "$ACCURACY REAL," +
+                    "$BEARING REAL," +
+                    "$SPEED REAL)",
             "CREATE INDEX ${TABLE_NAME}_${TIME_CREATED}_index on $TABLE_NAME ($TIME_CREATED)"
     )
 
@@ -78,13 +78,13 @@ class TableGeolocation(dbHelper: PStreamDBHelper) : PStreamTable(dbHelper) {
                 })
     }
 
-    class PROVIDER(): PStreamTableProvider() {
+    class PROVIDER() : PStreamTableProvider() {
         override fun provide() {
             val dbHelper = PStreamDBHelper.getInstance(context)
             val db = dbHelper.readableDatabase
             val cur = db.query(TABLE_NAME, null, null, null, null, null, null)
             while (cur.moveToNext()) {
-                val item : Item = Item()
+                val item: Item = Item()
                 item.setFieldValue(TIME_CREATED, cur.getLong(cur.getColumnIndex(TIME_CREATED)))
                 item.setFieldValue(TIMESTAMP, cur.getLong(cur.getColumnIndex(TIMESTAMP)))
                 item.setFieldValue(PROVIDER, cur.getString(cur.getColumnIndex(PROVIDER)))

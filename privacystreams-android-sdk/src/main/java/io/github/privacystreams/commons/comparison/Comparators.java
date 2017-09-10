@@ -12,9 +12,9 @@ public class Comparators {
     /**
      * Check if the value of a field equals to a given value.
      *
-     * @param field the name of the field to compare
+     * @param field          the name of the field to compare
      * @param valueToCompare the value to compare with
-     * @param <TValue> the type of value
+     * @param <TValue>       the type of value
      * @return the function
      */
     public static <TValue> Function<Item, Boolean> eq(final String field, final TValue valueToCompare) {
@@ -24,9 +24,9 @@ public class Comparators {
     /**
      * Check if the value of a field is not equal to a given value.
      *
-     * @param field the name of the field to compare
+     * @param field          the name of the field to compare
      * @param valueToCompare the value to compare with
-     * @param <TValue> the type of value
+     * @param <TValue>       the type of value
      * @return the function
      */
     public static <TValue> Function<Item, Boolean> ne(final String field, final TValue valueToCompare) {
@@ -36,7 +36,7 @@ public class Comparators {
     /**
      * Check if the value of a field is greater than a given value.
      *
-     * @param field the name of the field to compare
+     * @param field          the name of the field to compare
      * @param valueToCompare the value to compare with
      * @return the function
      */
@@ -47,7 +47,7 @@ public class Comparators {
     /**
      * Check if the value of a field is less than a given value.
      *
-     * @param field the name of the field to compare
+     * @param field          the name of the field to compare
      * @param valueToCompare the value to compare with
      * @return the function
      */
@@ -58,7 +58,7 @@ public class Comparators {
     /**
      * Check if the value of a field is greater than or equal to a given value.
      *
-     * @param field the name of the field to compare
+     * @param field          the name of the field to compare
      * @param valueToCompare the value to compare with
      * @return the function
      */
@@ -69,7 +69,7 @@ public class Comparators {
     /**
      * Check if the value of a field is less than or equal to a given value.
      *
-     * @param field the name of the field to compare
+     * @param field          the name of the field to compare
      * @param valueToCompare the value to compare with
      * @return the function
      */

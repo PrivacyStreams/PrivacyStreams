@@ -17,7 +17,7 @@ class RoundUpOperator extends ArithmeticOperator<Double> {
 
     @Override
     protected Double processNum(Number number) {
-        return Math.ceil(number.doubleValue()/valueToRound.doubleValue()) * valueToRound.doubleValue();
+        return Math.ceil(number.doubleValue() / valueToRound.doubleValue()) * valueToRound.doubleValue();
     }
 
 }

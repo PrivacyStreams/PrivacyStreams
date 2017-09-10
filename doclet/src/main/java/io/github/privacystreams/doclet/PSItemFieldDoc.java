@@ -45,7 +45,7 @@ public class PSItemFieldDoc {
     }
 
     public String toString() {
-        return "| `" + this.reference + "` | `\"" + this.name + "\"` | `" + Utils.getSimpleTypeName(this.type) + "` | " + this.description +  " |";
+        return "| `" + this.reference + "` | `\"" + this.name + "\"` | `" + Utils.getSimpleTypeName(this.type) + "` | " + this.description + " |";
     }
 
 }

@@ -76,7 +76,7 @@ class GoogleLocationUpdatesProvider extends PStreamProvider implements
     //to get the location change
     @Override
     public void onLocationChanged(Location location) {
-        if(location == null)
+        if (location == null)
             return;
         this.output(new Geolocation(location));
     }

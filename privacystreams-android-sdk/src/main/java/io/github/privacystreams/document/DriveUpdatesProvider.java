@@ -7,11 +7,13 @@ import com.google.android.gms.drive.events.ChangeListener;
 public class DriveUpdatesProvider {
     GoogleApiClient mGoogleApiClient;
     ChangeListener changeListener;
-    public DriveUpdatesProvider(){
+
+    public DriveUpdatesProvider() {
 
     }
-//@Override
-    public void provide(){
+
+    //@Override
+    public void provide() {
 //    super.provide();
 //    mGoogleApiClient = new GoogleApiClient.Builder(getContext())
 //            .enableAutoManage(this, )

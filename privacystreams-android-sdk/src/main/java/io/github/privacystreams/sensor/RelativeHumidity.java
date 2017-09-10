@@ -23,9 +23,10 @@ public class RelativeHumidity extends Item {
 
     /**
      * Provide a live stream of sensor readings from ambient relative humidity sensor.
+     *
      * @return the provider.
      */
-    public static PStreamProvider asUpdates(int sensorDelay){
+    public static PStreamProvider asUpdates(int sensorDelay) {
         return new RelativeHumidityUpdatesProvider(sensorDelay);
     }
 }

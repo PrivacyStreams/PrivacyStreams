@@ -27,12 +27,12 @@ public class FlightReservation extends Item {
     @PSItemField(type = JsonNode.class)
     public static final String BROKER = "broker";
 
-    public static PStreamProvider getFlightReservation(String api_key, String api_secret){
-        return new EmailFlightReservationProvider(api_key,api_secret);
+    public static PStreamProvider getFlightReservation(String api_key, String api_secret) {
+        return new EmailFlightReservationProvider(api_key, api_secret);
     }
 
     //TODO delete this function when debug ends
-    public static PStreamProvider getFlightReservation(String api_key, String api_secret, String userName){
-        return new EmailFlightReservationProvider(api_key,api_secret,userName);
+    public static PStreamProvider getFlightReservation(String api_key, String api_secret, String userName) {
+        return new EmailFlightReservationProvider(api_key, api_secret, userName);
     }
 }

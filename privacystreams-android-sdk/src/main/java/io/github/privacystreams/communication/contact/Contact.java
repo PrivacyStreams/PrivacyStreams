@@ -364,7 +364,8 @@ public class Contact extends Item {
         }
     }
 
-    public Contact(){}
+    public Contact() {
+    }
 
     /**
      * Provide all Contact items in device's contacts database.
@@ -385,12 +386,12 @@ public class Contact extends Item {
         return new WhatsAppContactListProvider();
     }
 
-    public static PStreamProvider fromEmail(String api_key, String api_secret){
+    public static PStreamProvider fromEmail(String api_key, String api_secret) {
         return new EmailContactProvider(api_key, api_secret);
     }
 
     //TODO delete this method when debug ends
-    public static PStreamProvider fromEmail(String api_key, String api_secret, String userName){
+    public static PStreamProvider fromEmail(String api_key, String api_secret, String userName) {
         return new EmailContactProvider(api_key, api_secret, userName);
     }
 

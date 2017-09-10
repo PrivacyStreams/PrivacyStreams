@@ -32,13 +32,13 @@ class TableUIEvent(dbHelper: PStreamDBHelper) : PStreamTable(dbHelper) {
 
     override val sqlCreateEntries = listOf<String>(
             "CREATE TABLE $TABLE_NAME (" +
-                "$_ID INTEGER PRIMARY KEY," +
-                "$TIME_CREATED INTEGER," +
-                "$EVENT_TYPE INTEGER," +
-                "$EVENT_TIME INTEGER," +
-                "$PACKAGE_NAME TEXT," +
-                "$ROOT_NODE_JSON TEXT," +
-                "$EVENT_JSON TEXT)",
+                    "$_ID INTEGER PRIMARY KEY," +
+                    "$TIME_CREATED INTEGER," +
+                    "$EVENT_TYPE INTEGER," +
+                    "$EVENT_TIME INTEGER," +
+                    "$PACKAGE_NAME TEXT," +
+                    "$ROOT_NODE_JSON TEXT," +
+                    "$EVENT_JSON TEXT)",
             "CREATE INDEX ${TABLE_NAME}_time_created_index on $TABLE_NAME ($TIME_CREATED)",
             "CREATE INDEX ${TABLE_NAME}_event_time_index on $TABLE_NAME ($EVENT_TIME)",
             "CREATE INDEX ${TABLE_NAME}_package_name_index on $TABLE_NAME ($PACKAGE_NAME)"
@@ -78,13 +78,13 @@ class TableUIEvent(dbHelper: PStreamDBHelper) : PStreamTable(dbHelper) {
                 })
     }
 
-    class PROVIDER(): PStreamTableProvider() {
+    class PROVIDER() : PStreamTableProvider() {
         override fun provide() {
             val dbHelper = PStreamDBHelper.getInstance(context)
             val db = dbHelper.readableDatabase
             val cur = db.query(TABLE_NAME, null, null, null, null, null, null)
             while (cur.moveToNext()) {
-                val item : Item = Item()
+                val item: Item = Item()
                 item.setFieldValue(TIME_CREATED, cur.getLong(cur.getColumnIndex(TIME_CREATED)))
                 item.setFieldValue(EVENT_TIME, cur.getLong(cur.getColumnIndex(EVENT_TIME)))
                 item.setFieldValue(EVENT_TYPE, cur.getInt(cur.getColumnIndex(EVENT_TYPE)))
