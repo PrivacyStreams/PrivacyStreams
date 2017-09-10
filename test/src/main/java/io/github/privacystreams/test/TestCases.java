@@ -5,6 +5,9 @@ import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.util.Log;
 
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.plus.model.people.Person;
+
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -333,6 +336,8 @@ public class TestCases {
                     .getData(Contact.getAll(), Purpose.FEATURE("estimate how popular you are."))
                     .count();
             System.out.println(count);
+
+
 
             uqi
                     .getData(Call.getLogs(), Purpose.SOCIAL("finding your closest contact."))
