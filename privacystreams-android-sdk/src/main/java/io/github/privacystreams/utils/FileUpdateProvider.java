@@ -5,12 +5,7 @@ import io.github.privacystreams.core.UQI;
 
 public class FileUpdateProvider extends PStreamProvider
 {
-    private final String[] IMG_EXTENSION = {"bmp","dib","gif","jfif","jpe","jpeg",
-            "jpg","png","tif","tiff","ico"};
-
-    private final String[] DOC_EXTENSION = {"txt","doc","hlp","wps","rtf","html","pdf"};
-
-    private String type;
+    private String[] mExtensions;
 
     private RecursiveFileObserver mFileObserver;
 
@@ -19,8 +14,8 @@ public class FileUpdateProvider extends PStreamProvider
         setupFileObserver();
     }
 
-    public FileUpdateProvider(String type){
-        this.type = type;
+    public FileUpdateProvider(String[] extension){
+        mExtensions = extension;
     }
 
     public void onFileCreate(String path){
@@ -30,24 +25,11 @@ public class FileUpdateProvider extends PStreamProvider
     private void judgeType(String path){
         int dot = path.lastIndexOf(".");
         String suffix = path.substring(dot+1);
-        switch(type){
-            case "image":
-                for(String extension : IMG_EXTENSION){
-                    if(extension.equals(suffix)){
-                        onFileCreate(path);
-                        break;
-                    }
-                }
+        for(String extension : mExtensions) {
+            if (extension.equals(suffix)) {
+                onFileCreate(path);
                 break;
-            case "doc":
-                for(String extension : DOC_EXTENSION){
-                    if(extension.equals(suffix)){
-                        onFileCreate(path);
-                        break;
-                    }
-                }
-                break;
-            default:
+            }
         }
     }
 

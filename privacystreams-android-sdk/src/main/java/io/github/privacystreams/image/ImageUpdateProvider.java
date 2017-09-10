@@ -13,13 +13,16 @@ import io.github.privacystreams.utils.FileUpdateProvider;
 
 class ImageUpdateProvider extends FileUpdateProvider {
 
+    private static final String[] IMG_EXTENSION = {"bmp","dib","gif","jfif","jpe","jpeg",
+            "jpg","png","tif","tiff","ico"};
+
     @Override
     public void provide(){
         super.provide();
     }
 
     public ImageUpdateProvider(){
-        super("image");
+        super(IMG_EXTENSION);
     }
 
     @Override

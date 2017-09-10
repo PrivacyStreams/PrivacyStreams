@@ -16,13 +16,15 @@ import io.github.privacystreams.utils.Logging;
 
 public class LocalDocumentUpdateProvider extends FileUpdateProvider {
 
+    private static final String[] DOC_EXTENSION = {"txt","doc","hlp","wps","rtf","html","pdf"};
+    
     @Override
     public void provide(){
         super.provide();
     }
 
     public LocalDocumentUpdateProvider(){
-        super("doc");
+        super(DOC_EXTENSION);
     }
 
     @Override
