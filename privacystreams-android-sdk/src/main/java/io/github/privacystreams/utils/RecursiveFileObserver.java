@@ -1,5 +1,6 @@
-package io.github.privacystreams.image;
+package io.github.privacystreams.utils;
 
+import android.os.Environment;
 import android.os.FileObserver;
 import android.util.ArrayMap;
 
@@ -17,19 +18,15 @@ import io.github.privacystreams.utils.Logging;
 
 public class RecursiveFileObserver extends FileObserver
 {
-    Map<String, SingleFileObserver> mObservers;
-    String mPath;
-    int mMask;
-    public RecursiveFileObserver(String path)
-    {
-        this(path, ALL_EVENTS);
-    }
+    private static Map<String, SingleFileObserver> mObservers;
+    private String mPath;
+    private int mMask;
 
-    public RecursiveFileObserver(String path, int mask)
+    public RecursiveFileObserver()
     {
-        super(path, mask);
-        mPath = path;
-        mMask = mask;
+        super(Environment.getExternalStorageDirectory().getAbsolutePath(), ALL_EVENTS);
+        mPath = Environment.getExternalStorageDirectory().getAbsolutePath();
+        mMask = ALL_EVENTS;
     }
 
     @Override public void startWatching()
@@ -50,7 +47,6 @@ public class RecursiveFileObserver extends FileObserver
                 continue;
             for (File f: files)
             {
-                // 递归监听目录
                 if (f.isDirectory() && !f.getName().equals(".") && !f.getName()
                         .equals(".."))
                 {
@@ -58,11 +54,13 @@ public class RecursiveFileObserver extends FileObserver
                 }
             }
         }
+
         Iterator<String> iterator = mObservers.keySet().iterator();
         while (iterator.hasNext()) {
             String key = iterator.next();
             mObservers.get(key).startWatching();
         }
+        Logging.error("observers setting end");
     }
 
     @Override public void stopWatching()
@@ -87,37 +85,35 @@ public class RecursiveFileObserver extends FileObserver
     {
         int el = event & FileObserver.ALL_EVENTS;
         if(el == FileObserver.CREATE){
-            Logging.error("new file created:"+path);
             File file = new File(path);
             onFileCreate(path);
             if(file.isDirectory()) {
-                    Stack stack = new Stack();
-                    stack.push(path);
-                    while (!stack.isEmpty())
+                Stack stack = new Stack();
+                stack.push(path);
+                while (!stack.isEmpty())
+                {
+                    String temp = (String) stack.pop();
+                    if(mObservers.containsKey(temp)) {
+                        continue;
+                    } else {
+                        SingleFileObserver sfo = new SingleFileObserver(temp, mMask);
+                        sfo.startWatching();
+                        mObservers.put(temp, sfo);
+                    }
+                    File tempPath = new File(temp);
+                    File[] files = tempPath.listFiles();
+                    if (null == files)
+                        continue;
+                    for (File f: files)
                     {
-                        String temp = (String) stack.pop();
-                        if(mObservers.containsKey(temp)) {
-                            continue;
-                        } else {
-                            SingleFileObserver sfo = new SingleFileObserver(temp, mMask);
-                            sfo.startWatching();
-                            mObservers.put(temp, sfo);
-                        }
-                        File tempPath = new File(temp);
-                        File[] files = tempPath.listFiles();
-                        if (null == files)
-                            continue;
-                        for (File f: files)
+                        if (f.isDirectory() && !f.getName().equals(".") && !f.getName()
+                                .equals(".."))
                         {
-                            // 递归监听目录
-                            if (f.isDirectory() && !f.getName().equals(".") && !f.getName()
-                                    .equals(".."))
-                            {
-                                stack.push(f.getAbsolutePath());
-                            }
+                            stack.push(f.getAbsolutePath());
                         }
                     }
                 }
+            }
         }
 
     }

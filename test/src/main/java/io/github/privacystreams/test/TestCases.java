@@ -5,8 +5,7 @@ import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.util.Log;
 
-import com.google.android.gms.location.places.Place;
-import com.google.android.gms.plus.model.people.Person;
+
 
 import java.util.List;
 import java.util.Locale;
@@ -42,6 +41,7 @@ import io.github.privacystreams.device.BluetoothDevice;
 import io.github.privacystreams.device.DeviceEvent;
 import io.github.privacystreams.device.DeviceOperators;
 import io.github.privacystreams.device.WifiAp;
+import io.github.privacystreams.document.Document;
 import io.github.privacystreams.document.DriveDocument;
 import io.github.privacystreams.image.Image;
 import io.github.privacystreams.image.ImageOperators;
@@ -308,6 +308,10 @@ public class TestCases {
 
     public void testWifiTrueUpdates() {
         uqi.getData(WifiAp.getUpdateStatus(), Purpose.FEATURE("check new provider")).debug();
+    }
+
+    public void testLocalFileUpdate(){
+        uqi.getData(Document.asUpdates(),Purpose.FEATURE("check local file update")).debug();
     }
 
     public void testBrowserHistoryUpdates() {

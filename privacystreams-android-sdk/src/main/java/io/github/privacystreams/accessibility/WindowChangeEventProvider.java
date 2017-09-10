@@ -12,7 +12,7 @@ class WindowChangeEventProvider extends AccEventProvider {
                 || eventType == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED
                 || eventType == AccessibilityEvent.TYPE_WINDOWS_CHANGED
                 || eventType == AccessibilityEvent.TYPE_VIEW_TEXT_SELECTION_CHANGED) {
-            this.output(new AccEvent(event, rootNode));
+           // this.output(new AccEvent(event, rootNode));
         }
 
     }
