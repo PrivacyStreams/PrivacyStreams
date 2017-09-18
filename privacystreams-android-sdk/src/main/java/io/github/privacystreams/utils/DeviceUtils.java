@@ -14,6 +14,7 @@ import android.os.PowerManager;
 import android.util.Log;
 
 import io.github.privacystreams.core.UQI;
+
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 
@@ -25,6 +26,7 @@ import com.google.android.gms.common.GoogleApiAvailability;
 public class DeviceUtils {
     /**
      * Check whether WiFi is connected
+     *
      * @param context a Context instance
      * @return true if Wifi is connected
      */
@@ -39,6 +41,7 @@ public class DeviceUtils {
 
     /**
      * Get the BSSID of the currently-connected WiFi AP
+     *
      * @param context a Context instance
      * @return the BSSID of WiFi, or null if the device is not connected
      */
@@ -53,6 +56,7 @@ public class DeviceUtils {
 
     /**
      * Checks whether the device currently has a network connection.
+     *
      * @return true if the device has a network connection, false otherwise.
      */
     public static boolean isDeviceOnline(Context context) {
@@ -63,6 +67,7 @@ public class DeviceUtils {
 
     /**
      * Check that Google Play services APK is installed and up to date.
+     *
      * @return true if Google Play Services is available and up to date on this device, false otherwise.
      */
     public static boolean isGooglePlayServicesAvailable(Context context) {
@@ -84,12 +89,13 @@ public class DeviceUtils {
         final int connectionStatusCode =
                 apiAvailability.isGooglePlayServicesAvailable(context);
         if (apiAvailability.isUserResolvableError(connectionStatusCode)) {
-           Log.e("Error","Connection Status Code"+connectionStatusCode);
+            Log.e("Error", "Connection Status Code" + connectionStatusCode);
         }
     }
 
     /**
      * Get current battery level
+     *
      * @param context a Context instance
      * @return the battery level in percents
      */
@@ -98,11 +104,12 @@ public class DeviceUtils {
         if (batteryIntent == null) return -1;
         int level = batteryIntent.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
         int scale = batteryIntent.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
-        return ((float)level / (float)scale) * 100.0f;
+        return ((float) level / (float) scale) * 100.0f;
     }
 
     /**
      * Get whether the device is interactive currently
+     *
      * @param context a Context instance
      * @return true if the device is interactive, otherwise false
      */

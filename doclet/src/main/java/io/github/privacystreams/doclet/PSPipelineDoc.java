@@ -26,7 +26,7 @@ public class PSPipelineDoc {
     String description;
 
     String shortSignature;
-//    String completeSignature;
+    //    String completeSignature;
     String tag;
 
     Type returnType;
@@ -36,12 +36,15 @@ public class PSPipelineDoc {
     private PSPipelineDoc(ClassDoc classDoc, MethodDoc methodDoc, AnnotationDesc annotation, int type) {
         this.declaringClassDoc = classDoc;
         this.methodDoc = methodDoc;
-        this.description = methodDoc.commentText().replace('\n', ' ');;
+        this.description = methodDoc.commentText().replace('\n', ' ');
+        ;
         Tag[] paramTags = methodDoc.tags("param");
         for (Tag paramTag : paramTags) {
             String paraStr = paramTag.text();
-            String paraName = paraStr.substring(0, paraStr.indexOf(' ')).replace('\n', ' ');;
-            String paraDesc = paraStr.substring(paraStr.indexOf(' ') + 1).replace('\n', ' ');;
+            String paraName = paraStr.substring(0, paraStr.indexOf(' ')).replace('\n', ' ');
+            ;
+            String paraDesc = paraStr.substring(paraStr.indexOf(' ') + 1).replace('\n', ' ');
+            ;
             this.description += "<br> - `" + paraName + "`: " + paraDesc;
         }
 
@@ -53,8 +56,7 @@ public class PSPipelineDoc {
             if (firstParameter) {
                 shortSignature += Utils.getSimpleTypeName(parameter.type()) + " " + parameter.name();
                 firstParameter = false;
-            }
-            else {
+            } else {
                 shortSignature += ", " + Utils.getSimpleTypeName(parameter.type()) + " " + parameter.name();
             }
         }
@@ -73,8 +75,7 @@ public class PSPipelineDoc {
 //                }
 //            }
             this.tag = "";
-        }
-        else if (type == TYPE_ACTION) {
+        } else if (type == TYPE_ACTION) {
             this.tag = "Blocking";
             for (AnnotationDesc.ElementValuePair elementValuePair : annotation.elementValues()) {
                 if ("blocking".equals(elementValuePair.element().name())) {
@@ -92,8 +93,7 @@ public class PSPipelineDoc {
             AnnotationTypeDoc annotationType = annotation.annotationType();
             if (Consts.TRANSFORMATION_ANNOTATION.equals(annotationType.toString())) {
                 return new PSPipelineDoc(classDoc, methodDoc, annotation, TYPE_TRANSFORMATION);
-            }
-            else if (Consts.ACTION_ANNOTATION.equals(annotationType.toString())) {
+            } else if (Consts.ACTION_ANNOTATION.equals(annotationType.toString())) {
                 return new PSPipelineDoc(classDoc, methodDoc, annotation, TYPE_ACTION);
             }
         }
@@ -109,7 +109,7 @@ public class PSPipelineDoc {
                 this.tag,
                 this.shortSignature,
                 this.description
-                );
+        );
         return operatorDocStr;
     }
 

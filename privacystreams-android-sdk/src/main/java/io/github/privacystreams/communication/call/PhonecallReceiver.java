@@ -1,4 +1,4 @@
-package io.github.privacystreams.communication;
+package io.github.privacystreams.communication.call;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -26,8 +26,7 @@ abstract class PhonecallReceiver extends BroadcastReceiver {
         if (intent.getAction().equals("android.intent.action.NEW_OUTGOING_CALL")) {
             savedNumber = intent.getExtras().getString("android.intent.extra.PHONE_NUMBER");
 
-        }
-        else{
+        } else {
             String stateStr = intent.getStringExtra(TelephonyManager.EXTRA_STATE);
             String number = intent.getStringExtra(TelephonyManager.EXTRA_INCOMING_NUMBER);
             int state = 0;

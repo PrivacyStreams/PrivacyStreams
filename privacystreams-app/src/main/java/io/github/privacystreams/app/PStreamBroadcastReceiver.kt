@@ -9,7 +9,7 @@ import io.github.privacystreams.app.db.PStreamCollectService
 /**
  * Receive broadcasts and react
  */
-class PStreamBroadcastReceiver(): BroadcastReceiver() {
+class PStreamBroadcastReceiver() : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         Log.d(Config.APP_NAME, "Broadcast received!")
         if (intent.action == Intent.ACTION_BOOT_COMPLETED) {

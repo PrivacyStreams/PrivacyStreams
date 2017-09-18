@@ -87,4 +87,12 @@ public class Image extends Item {
         return new ImageStorageProvider();
     }
 
+
+    /**
+     * Provider a stream of images updated
+     * @return the provider function
+     */
+    public static PStreamProvider asUpdates(){
+        return new ImageUpdateProvider();
+    }
 }

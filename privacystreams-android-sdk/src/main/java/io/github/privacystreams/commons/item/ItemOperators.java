@@ -15,9 +15,9 @@ public class ItemOperators {
     /**
      * Check whether the value of a field is in a given list.
      *
-     * @param field the field name
+     * @param field         the field name
      * @param listToCompare the list to check whether the field is in
-     * @param <TValue> the type of list elements
+     * @param <TValue>      the type of list elements
      * @return the predicate
      */
     public static <TValue> Function<Item, Boolean> isFieldIn(final String field, final TValue[] listToCompare) {
@@ -37,7 +37,7 @@ public class ItemOperators {
     /**
      * Get the value of a given field in the item.
      *
-     * @param field the name of the field to get.
+     * @param field    the name of the field to get.
      * @param <TValue> the type of field value
      * @return the function
      */
@@ -50,7 +50,7 @@ public class ItemOperators {
      * This function must be applied to a group item, i.e. must be used after `groupBy` or `localGroupBy`.
      *
      * @param subStreamFunction the function to output sub stream.
-     * @param <Tout> the type of sub stream collection result.
+     * @param <Tout>            the type of sub stream collection result.
      * @return the function
      */
     public static <Tout> Function<Item, Tout> wrapSubStreamFunction(Function<List<Item>, Tout> subStreamFunction) {
@@ -61,7 +61,7 @@ public class ItemOperators {
      * Wrap a valueGenerator that takes Void as input type to a function that takes Item as input type.
      *
      * @param valueGenerator the function that takes Void as input.
-     * @param <Tout> the type of value generator result.
+     * @param <Tout>         the type of value generator result.
      * @return the function
      */
     public static <Tout> Function<Item, Tout> wrapValueGenerator(Function<Void, Tout> valueGenerator) {
@@ -75,9 +75,9 @@ public class ItemOperators {
      * Eg. `setGroupField("count", StatisticOperators.count())` will set a new field "count" to each item,
      * which represents the number of items in the grouped sub stream.
      *
-     * @param fieldToSet the new field name
+     * @param fieldToSet         the new field name
      * @param fieldValueComputer the function to compute the new field value, which takes the list of grouped items as input.
-     * @param <TValue> the type of the new field value
+     * @param <TValue>           the type of the new field value
      * @return the stream of items with the new field set
      */
     public static <TValue> Function<Item, Item> setGroupField(String fieldToSet, Function<List<Item>, TValue> fieldValueComputer) {
@@ -88,13 +88,13 @@ public class ItemOperators {
      * Set the value of a new field with a value generator function.
      * The value generator function is independent from current item, which does not need a input (Void).
      * The value generator will be evaluated on demand at runtime.
-     *
+     * <p>
      * For example, `setIndependentField("time", TimeOperators.getCurrentTime())` will set the field "time" to a timestamp in each item;
      * `setIndependentField("wifiStatus", DeviceOperators.isWifiConnected())` will set the field "wifiStatus" to a boolean indicating whether wifi is connected in each item.
      *
-     * @param fieldToSet the name of the field to set, it can be a new name or an existing name.
+     * @param fieldToSet     the name of the field to set, it can be a new name or an existing name.
      * @param valueGenerator the function to compute the field value.
-     * @param <TValue> the type of the new field value.
+     * @param <TValue>       the type of the new field value.
      * @return the item mapper function.
      */
     public static <TValue> Function<Item, Item> setIndependentField(String fieldToSet, Function<Void, TValue> valueGenerator) {
@@ -104,9 +104,9 @@ public class ItemOperators {
     /**
      * Set the value of a new field with a function.
      *
-     * @param fieldToSet the name of the field to set, it can be a new name.
+     * @param fieldToSet         the name of the field to set, it can be a new name.
      * @param fieldValueComputer the function to compute the value of the field based on the item.
-     * @param <TValue> the type of the new field value.
+     * @param <TValue>           the type of the new field value.
      * @return the item mapper function.
      */
     public static <TValue> Function<Item, Item> setField(String fieldToSet, Function<Item, TValue> fieldValueComputer) {
@@ -118,7 +118,7 @@ public class ItemOperators {
      *
      * @param fieldToSet the name of the field to set, it can be a new name.
      * @param fieldValue the value of the field.
-     * @param <TValue> the type of the new field value.
+     * @param <TValue>   the type of the new field value.
      * @return the item mapper function.
      */
     public static <TValue> Function<Item, Item> setField(String fieldToSet, TValue fieldValue) {

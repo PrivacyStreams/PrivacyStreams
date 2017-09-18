@@ -1,14 +1,15 @@
-package io.github.privacystreams.communication;
+package io.github.privacystreams.communication.call;
 
 import android.Manifest;
 import android.content.Context;
-import android.content.Intent;
+
 import android.content.IntentFilter;
 
-import io.github.privacystreams.core.UQI;
-import io.github.privacystreams.core.PStreamProvider;
-
 import java.util.Date;
+
+import io.github.privacystreams.core.PStreamProvider;
+import io.github.privacystreams.core.UQI;
+
 
 import static io.github.privacystreams.utils.CommunicationUtils.normalizePhoneNumber;
 
@@ -79,4 +80,6 @@ class CallUpdatesProvider extends PStreamProvider {
             CallUpdatesProvider.this.output(call);
         }
     }
+
 }
+

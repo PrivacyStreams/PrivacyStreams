@@ -110,7 +110,7 @@ public class Notification extends Item {
                 this.setFieldValue(TEXT, text);
                 String subText = "" + mNotification.extras.getCharSequence(android.app.Notification.EXTRA_SUB_TEXT);
                 this.setFieldValue(SUB_TEXT, subText);
-                this.setFieldValue(EXTRA,mNotification.extras);
+                this.setFieldValue(EXTRA, mNotification.extras);
             }
         }
     }

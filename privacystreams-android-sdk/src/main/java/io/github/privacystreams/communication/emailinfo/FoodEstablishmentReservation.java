@@ -29,12 +29,12 @@ public class FoodEstablishmentReservation extends Item {
     @PSItemField(type = JsonNode.class)
     public static final String PROVIDER = "provider";
 
-    public static PStreamProvider getFoodEstablishmentReservations(String api_key, String api_secret){
+    public static PStreamProvider getFoodEstablishmentReservations(String api_key, String api_secret) {
         return new FoodEstablishmentReservationProvider(api_key, api_secret);
     }
 
     //TODO delete this method when debug ends
-    public static PStreamProvider getFoodEstablishmentReservations(String api_key, String api_secret, String userName){
+    public static PStreamProvider getFoodEstablishmentReservations(String api_key, String api_secret, String userName) {
         return new FoodEstablishmentReservationProvider(api_key, api_secret, userName);
     }
 }

@@ -65,7 +65,7 @@ class GmailUpdatesProvider extends BaseGmailProvider {
                     @Override
                     public void run() {
                         try {
-                            if(DeviceUtils.isDeviceOnline(getContext())){
+                            if (DeviceUtils.isDeviceOnline(getContext())) {
                                 if (mLastEmailTime != 0) {
                                     new FetchEmailTask().execute(buildTimeQuery(mLastEmailTime));
                                 } else {

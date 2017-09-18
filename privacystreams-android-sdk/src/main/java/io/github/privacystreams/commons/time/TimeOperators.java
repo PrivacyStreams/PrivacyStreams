@@ -13,7 +13,7 @@ public class TimeOperators {
     /**
      * Check whether the timestamp value of a field is after a given timestamp.
      *
-     * @param timestampField the name of the timestamp field
+     * @param timestampField     the name of the timestamp field
      * @param timestampToCompare the timestamp to compare
      * @return the predicate
      */
@@ -25,7 +25,7 @@ public class TimeOperators {
      * Check whether the timestamp field value of a field is recent from now (less than a given duration).
      *
      * @param timestampField the name of the timestamp field
-     * @param duration the millisecond duration from now
+     * @param duration       the millisecond duration from now
      * @return the predicate
      */
     public static Function<Item, Boolean> recent(final String timestampField, final Long duration) {
@@ -34,6 +34,7 @@ public class TimeOperators {
 
     /**
      * Get current timestamp.
+     *
      * @return the function.
      */
     public static Function<Void, Long> getCurrentTime() {
@@ -44,7 +45,7 @@ public class TimeOperators {
      * Convert the timestamp value of a field to a string based a given format.
      *
      * @param timestampField the name of timestamp field
-     * @param timeFormat the format of time string
+     * @param timeFormat     the format of time string
      * @return the function
      */
     public static Function<Item, String> formatTime(String timestampField, String timeFormat) {

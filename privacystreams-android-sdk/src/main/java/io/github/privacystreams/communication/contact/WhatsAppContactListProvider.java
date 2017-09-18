@@ -1,4 +1,4 @@
-package io.github.privacystreams.communication;
+package io.github.privacystreams.communication.contact;
 
 import android.Manifest;
 import android.database.Cursor;
@@ -11,18 +11,16 @@ import java.util.List;
 import io.github.privacystreams.core.PStreamProvider;
 
 
-public class WhatsAppContactListProvider extends PStreamProvider {
+class WhatsAppContactListProvider extends PStreamProvider {
     @Override
     protected void provide() {
-        this.getWhatsAppContactList();
+        getWhatsAppContactList();
 
     }
 
     WhatsAppContactListProvider() {
-        this.addRequiredPermissions(Manifest.permission.READ_CONTACTS);
+        addRequiredPermissions(Manifest.permission.READ_CONTACTS);
     }
-
-    ;
 
     private void getWhatsAppContactList() {
         String[] projection = new String[]{
@@ -34,7 +32,7 @@ public class WhatsAppContactListProvider extends PStreamProvider {
         int indexNumber = people.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
         int indexUid = people.getColumnIndex(ContactsContract.CommonDataKinds.Phone.CONTACT_ID);
 
-        if (people != null && people.moveToFirst()) {
+        if (people.moveToFirst()) {
             people.moveToFirst();
 
             while (!people.isAfterLast()) {
@@ -50,8 +48,7 @@ public class WhatsAppContactListProvider extends PStreamProvider {
                 people.moveToNext();
             }
         }
-        if (people != null)
-            people.close();
+        people.close();
         this.finish();
     }
 }

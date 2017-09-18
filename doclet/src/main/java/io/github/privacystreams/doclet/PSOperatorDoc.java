@@ -26,12 +26,15 @@ public class PSOperatorDoc {
     private PSOperatorDoc(ClassDoc classDoc, MethodDoc methodDoc) {
         this.declaringClassDoc = classDoc;
         this.methodDoc = methodDoc;
-        this.description = methodDoc.commentText().replace('\n', ' ');;
+        this.description = methodDoc.commentText().replace('\n', ' ');
+        ;
         Tag[] paramTags = methodDoc.tags("param");
         for (Tag paramTag : paramTags) {
             String paraStr = paramTag.text();
-            String paraName = paraStr.substring(0, paraStr.indexOf(' ')).replace('\n', ' ');;
-            String paraDesc = paraStr.substring(paraStr.indexOf(' ') + 1).replace('\n', ' ');;
+            String paraName = paraStr.substring(0, paraStr.indexOf(' ')).replace('\n', ' ');
+            ;
+            String paraDesc = paraStr.substring(paraStr.indexOf(' ') + 1).replace('\n', ' ');
+            ;
             this.description += "<br> - `" + paraName + "`: " + paraDesc;
         }
 
@@ -47,8 +50,7 @@ public class PSOperatorDoc {
             if (firstParameter) {
                 shortSignature += Utils.getSimpleTypeName(parameter.type()) + " " + parameter.name();
                 firstParameter = false;
-            }
-            else {
+            } else {
                 shortSignature += ", " + Utils.getSimpleTypeName(parameter.type()) + " " + parameter.name();
             }
         }

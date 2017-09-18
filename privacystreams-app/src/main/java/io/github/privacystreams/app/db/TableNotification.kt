@@ -32,15 +32,15 @@ class TableNotification(dbHelper: PStreamDBHelper) : PStreamTable(dbHelper) {
 
     override val sqlCreateEntries = listOf<String>(
             "CREATE TABLE $TABLE_NAME (" +
-                "$_ID INTEGER PRIMARY KEY," +
-                "$TIME_CREATED INTEGER," +
-                "$POST_TIME INTEGER," +
-                "$ACTION TEXT," +
-                "$CATEGORY TEXT, " +
-                "$PACKAGE_NAME TEXT," +
-                "$TITLE TEXT," +
-                "$TEXT TEXT," +
-                "$SUB_TEXT TEXT)",
+                    "$_ID INTEGER PRIMARY KEY," +
+                    "$TIME_CREATED INTEGER," +
+                    "$POST_TIME INTEGER," +
+                    "$ACTION TEXT," +
+                    "$CATEGORY TEXT, " +
+                    "$PACKAGE_NAME TEXT," +
+                    "$TITLE TEXT," +
+                    "$TEXT TEXT," +
+                    "$SUB_TEXT TEXT)",
             "CREATE INDEX ${TABLE_NAME}_${TIME_CREATED}_index on $TABLE_NAME ($TIME_CREATED)",
             "CREATE INDEX ${TABLE_NAME}_${POST_TIME}_index on $TABLE_NAME ($POST_TIME)",
             "CREATE INDEX ${TABLE_NAME}_${PACKAGE_NAME}_index on $TABLE_NAME ($PACKAGE_NAME)"
@@ -80,13 +80,13 @@ class TableNotification(dbHelper: PStreamDBHelper) : PStreamTable(dbHelper) {
         }
     }
 
-    class PROVIDER(): PStreamTableProvider() {
+    class PROVIDER() : PStreamTableProvider() {
         override fun provide() {
             val dbHelper = PStreamDBHelper.getInstance(context)
             val db = dbHelper.readableDatabase
             val cur = db.query(TABLE_NAME, null, null, null, null, null, null)
             while (cur.moveToNext()) {
-                val item : Item = Item()
+                val item: Item = Item()
                 item.setFieldValue(TIME_CREATED, cur.getLong(cur.getColumnIndex(TIME_CREATED)))
                 item.setFieldValue(POST_TIME, cur.getLong(cur.getColumnIndex(POST_TIME)))
                 item.setFieldValue(ACTION, cur.getString(cur.getColumnIndex(ACTION)))

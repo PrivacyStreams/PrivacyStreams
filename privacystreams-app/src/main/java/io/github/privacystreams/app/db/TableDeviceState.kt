@@ -29,12 +29,12 @@ class TableDeviceState(dbHelper: PStreamDBHelper) : PStreamTable(dbHelper) {
 
     override val sqlCreateEntries = listOf<String>(
             "CREATE TABLE $TABLE_NAME (" +
-                "$_ID INTEGER PRIMARY KEY," +
-                "$TIME_CREATED INTEGER," +
-                "$BATTERY_LEVEL REAL," +
-                "$IS_CONNECTED INTEGER," +
-                "$WIFI_BSSID TEXT," +
-                "$IS_SCREEN_ON INTEGER)",
+                    "$_ID INTEGER PRIMARY KEY," +
+                    "$TIME_CREATED INTEGER," +
+                    "$BATTERY_LEVEL REAL," +
+                    "$IS_CONNECTED INTEGER," +
+                    "$WIFI_BSSID TEXT," +
+                    "$IS_SCREEN_ON INTEGER)",
             "CREATE INDEX ${TABLE_NAME}_${TIME_CREATED}_index on $TABLE_NAME ($TIME_CREATED)"
     )
 
@@ -67,13 +67,13 @@ class TableDeviceState(dbHelper: PStreamDBHelper) : PStreamTable(dbHelper) {
                 })
     }
 
-    class PROVIDER(): PStreamTableProvider() {
+    class PROVIDER() : PStreamTableProvider() {
         override fun provide() {
             val dbHelper = PStreamDBHelper.getInstance(context)
             val db = dbHelper.readableDatabase
             val cur = db.query(TABLE_NAME, null, null, null, null, null, null)
             while (cur.moveToNext()) {
-                val item : Item = Item()
+                val item: Item = Item()
                 item.setFieldValue(TIME_CREATED, cur.getLong(cur.getColumnIndex(TIME_CREATED)))
                 item.setFieldValue(BATTERY_LEVEL, cur.getFloat(cur.getColumnIndex(BATTERY_LEVEL)))
                 item.setFieldValue(IS_CONNECTED, cur.getInt(cur.getColumnIndex(IS_CONNECTED)) > 0)

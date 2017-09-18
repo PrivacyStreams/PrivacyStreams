@@ -2,21 +2,37 @@ package io.github.privacystreams.location;
 
 import android.Manifest;
 import android.location.Location;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import io.github.privacystreams.core.R;
 import io.github.privacystreams.core.UQI;
 import io.github.privacystreams.core.PStreamProvider;
 import io.github.privacystreams.utils.Assertions;
 import io.github.privacystreams.utils.Logging;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLConnection;
 
 /**
  * Provide location updates with Google API.
@@ -34,7 +50,6 @@ class GoogleLocationUpdatesProvider extends PStreamProvider implements
     protected GoogleLocationUpdatesProvider(long interval, String level) {
         this.interval = interval;
         this.level = Assertions.notNull("level", level);
-
         this.addParameters(interval, level);
         if (Geolocation.LEVEL_EXACT.equals(level)) {
             this.addRequiredPermissions(Manifest.permission.ACCESS_FINE_LOCATION);
@@ -61,7 +76,8 @@ class GoogleLocationUpdatesProvider extends PStreamProvider implements
     //to get the location change
     @Override
     public void onLocationChanged(Location location) {
-        if (location == null) return;
+        if (location == null)
+            return;
         this.output(new Geolocation(location));
     }
 
@@ -114,4 +130,6 @@ class GoogleLocationUpdatesProvider extends PStreamProvider implements
             LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
         this.finish();
     }
+
+
 }

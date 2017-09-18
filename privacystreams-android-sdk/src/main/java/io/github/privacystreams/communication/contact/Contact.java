@@ -1,11 +1,10 @@
-package io.github.privacystreams.communication;
+package io.github.privacystreams.communication.contact;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
 import java.util.HashMap;
 import java.util.List;
 
-import io.github.privacystreams.communication.emailinfo.EmailContactProvider;
 import io.github.privacystreams.core.Item;
 import io.github.privacystreams.core.PStreamProvider;
 import io.github.privacystreams.utils.annotations.PSItem;
@@ -365,7 +364,8 @@ public class Contact extends Item {
         }
     }
 
-    public Contact(){}
+    public Contact() {
+    }
 
     /**
      * Provide all Contact items in device's contacts database.
@@ -386,12 +386,12 @@ public class Contact extends Item {
         return new WhatsAppContactListProvider();
     }
 
-    public static PStreamProvider fromEmail(String api_key, String api_secret){
+    public static PStreamProvider fromEmail(String api_key, String api_secret) {
         return new EmailContactProvider(api_key, api_secret);
     }
 
     //TODO delete this method when debug ends
-    public static PStreamProvider fromEmail(String api_key, String api_secret, String userName){
+    public static PStreamProvider fromEmail(String api_key, String api_secret, String userName) {
         return new EmailContactProvider(api_key, api_secret, userName);
     }
 

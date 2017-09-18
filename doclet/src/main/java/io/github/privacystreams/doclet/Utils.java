@@ -13,8 +13,7 @@ public class Utils {
                 if (firstParameter) {
                     typeName += getSimpleTypeName(parameter);
                     firstParameter = false;
-                }
-                else {
+                } else {
                     typeName += "," + getSimpleTypeName(parameter);
                 }
             }

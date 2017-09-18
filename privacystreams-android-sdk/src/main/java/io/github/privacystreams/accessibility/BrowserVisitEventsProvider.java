@@ -13,6 +13,7 @@ import io.github.privacystreams.core.PStreamProvider;
 import io.github.privacystreams.core.purposes.Purpose;
 import io.github.privacystreams.utils.AccessibilityUtils;
 import io.github.privacystreams.utils.AppUtils;
+import io.github.privacystreams.utils.Logging;
 
 import java.util.List;
 
@@ -27,12 +28,14 @@ class BrowserVisitEventsProvider extends PStreamProvider {
 
     @Override
     protected void provide() {
+        Logging.error("start123");
         getUQI().getData(AccEvent.asWindowChanges(), Purpose.LIB_INTERNAL("Event Triggers"))
-                .filter(ItemOperators.isFieldIn(AccEvent.PACKAGE_NAME, new String[]{AppUtils.APP_PACKAGE_FIREFOX, AppUtils.APP_PACKAGE_OPERA, AppUtils.APP_PACKAGE_CHROME}))
-                .filter(Comparators.eq(AccEvent.EVENT_TYPE, AccessibilityEvent.TYPE_VIEW_TEXT_SELECTION_CHANGED))
+                //.filter(ItemOperators.isFieldIn(AccEvent.PACKAGE_NAME, new String[]{AppUtils.APP_PACKAGE_FIREFOX, AppUtils.APP_PACKAGE_OPERA, AppUtils.APP_PACKAGE_CHROME}))
+                //.filter(Comparators.eq(AccEvent.EVENT_TYPE, AccessibilityEvent.TYPE_VIEW_TEXT_SELECTION_CHANGED))
                 .forEach(new Callback<Item>() {
                     @Override
                     protected void onInput(Item input) {
+                        Logging.error("input is:"+input.toString());
                         AccessibilityNodeInfo rootNode = input.getValueByField(AccEvent.ROOT_NODE);
                         List<AccessibilityNodeInfo> nodeInfos = AccessibilityUtils.preOrderTraverse(rootNode);
                         String packageName = input.getValueByField(AccEvent.PACKAGE_NAME);
@@ -43,6 +46,8 @@ class BrowserVisitEventsProvider extends PStreamProvider {
                                 && !title.equals(lastSavedUrlTitle)) {
                             lastSavedUrl = url;
                             lastSavedUrlTitle = title;
+                            Logging.error("title:"+title);
+                            Logging.error("url:"+lastSavedUrl);
                             output(new BrowserVisit(title, packageName, url));
                         }
 

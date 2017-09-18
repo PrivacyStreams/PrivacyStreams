@@ -1,4 +1,4 @@
-package io.github.privacystreams.communication;
+package io.github.privacystreams.communication.contact;
 
 
 import android.Manifest;
@@ -22,13 +22,13 @@ import static android.provider.ContactsContract.Contacts;
  * This contact has three status: add, delete and edit to show user's operation on the contact
  */
 
-public class ContactUpdatesProvider extends PStreamProvider {
+class ContactUpdatesProvider extends PStreamProvider {
     private Contact lastUpdatedContact = null;
     private ContactStateObserver contactStateObserver;
     private List contactList = null;
     private long lastUpdateTime = 0;
 
-    public ContactUpdatesProvider() {
+    ContactUpdatesProvider() {
         this.addRequiredPermissions(Manifest.permission.READ_CONTACTS);
     }
 

@@ -79,12 +79,12 @@ public class BaseGoogleDriveProvider extends PStreamProvider implements GoogleDr
     private java.util.List<String> getDataFromApi() throws IOException {
         DateTime mBeginTime = new DateTime(mBegin);
         DateTime mEndTime = new DateTime(mEnd);
-        Logging.error("files:"+mDrive.files().toString());
+        Logging.error("files:" + mDrive.files().toString());
         FileList fileList = mDrive.files().list()
                 .setQ("modifiedTime>'" + mBeginTime + "' and modifiedTime<'" + mEndTime + "'")
                 .setPageSize(mResultNum)
-        //        .setFields("nextPageToken, " +
-        //                "files(id, name, createdTime, modifiedTime, size, description)")
+                //        .setFields("nextPageToken, " +
+                //                "files(id, name, createdTime, modifiedTime, size, description)")
                 .execute();
         Logging.error("here7");
         List<File> files = fileList.getFiles();
@@ -93,7 +93,7 @@ public class BaseGoogleDriveProvider extends PStreamProvider implements GoogleDr
             Logging.error("here9");
             for (File f :
                     files) {
-                Log.e("f",new DriveDocument(f).toJson().toString());
+                Log.e("f", new DriveDocument(f).toJson().toString());
                 this.output(new DriveDocument(f));
             }
         }

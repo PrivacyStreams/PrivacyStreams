@@ -27,8 +27,7 @@ class MostFieldSelector extends ByFieldItemSelector {
             if (selectedItem == null) {
                 selectedItem = item;
                 selectedFieldValue = curFieldValue;
-            }
-            else if (curFieldValue.size() > selectedFieldValue.size()) {
+            } else if (curFieldValue.size() > selectedFieldValue.size()) {
                 selectedItem = item;
                 selectedFieldValue = curFieldValue;
             }

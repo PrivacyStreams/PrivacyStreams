@@ -26,7 +26,7 @@ final class FixedIntervalMapper extends PStreamTransformation {
     private transient Timer timer;
     private transient Item lastItem;
 
-    /*
+    /**
      * Start the timer when the function starts evaluating
      */
     protected void init() {
