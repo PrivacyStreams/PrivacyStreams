@@ -6,6 +6,7 @@ import java.net.Socket;
 import java.nio.ByteBuffer;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.concurrent.CopyOnWriteArraySet;
 
 /**
  * Socket server
@@ -66,11 +67,11 @@ public class PSDebugSocketServer {
 
     private ServerSocket serverSocket;
     private AcceptingThread acceptingThread;
-    private HashSet<Socket> sockets;
+    private CopyOnWriteArraySet<Socket> sockets;
 
     private PSDebugSocketServer() {
         serverSocket = null;
-        sockets = new HashSet<>();
+        sockets = new CopyOnWriteArraySet<>();
         acceptingThread = new AcceptingThread();
     }
 
