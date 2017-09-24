@@ -1,15 +1,9 @@
 package io.github.privacystreams.image;
 
-import android.os.Environment;
-import android.os.FileObserver;
-
 import java.io.File;
 
-import io.github.privacystreams.core.PStreamProvider;
-import io.github.privacystreams.core.UQI;
-import io.github.privacystreams.utils.Logging;
 import io.github.privacystreams.utils.FileUpdateProvider;
-
+import io.github.privacystreams.utils.Logging;
 
 class ImageUpdateProvider extends FileUpdateProvider {
 
@@ -21,7 +15,7 @@ class ImageUpdateProvider extends FileUpdateProvider {
         super.provide();
     }
 
-    public ImageUpdateProvider(){
+    ImageUpdateProvider(){
         super(IMG_EXTENSION);
     }
 
