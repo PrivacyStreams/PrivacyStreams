@@ -4,6 +4,7 @@ import io.github.privacystreams.core.Function;
 import io.github.privacystreams.core.Item;
 import io.github.privacystreams.core.PStreamAction;
 import io.github.privacystreams.utils.Assertions;
+import io.github.privacystreams.utils.Logging;
 
 /**
  * Callback with each item in the stream.

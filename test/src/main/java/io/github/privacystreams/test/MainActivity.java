@@ -48,9 +48,9 @@ public class MainActivity extends AppCompatActivity {
             // testCases.testLocation();
            // testCases.testImageUpdate();
            //testCases.testImage();
-           // testCases.testBrowserSearchUpdates();
-           // testCases.testBrowserHistoryUpdates();
-            testCases.testLocalFileUpdate();
+            //testCases.testBrowserSearchUpdates();
+            testCases.testBrowserHistoryUpdates();
+           // testCases.testLocalFileUpdate();
             return null;
         }
     }
