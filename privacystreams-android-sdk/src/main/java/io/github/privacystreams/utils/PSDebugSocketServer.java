@@ -111,24 +111,27 @@ public class PSDebugSocketServer {
 
                 Set<Socket> socketsToRemove = new HashSet<>();
 
-                for (Socket socket : sockets) {
-                    try {
-                        socket.getOutputStream().write(header);
-                        socket.getOutputStream().write(message.getBytes());
-                        socket.getOutputStream().flush();
-                    } catch (IOException e) {
-                        socketsToRemove.add(socket);
-                        e.printStackTrace();
+                synchronized (sockets) {
+                    for (Socket socket : sockets) {
+                        try {
+                            socket.getOutputStream().write(header);
+                            socket.getOutputStream().flush();
+                            socket.getOutputStream().write(bytes);
+                            socket.getOutputStream().flush();
+                        } catch (IOException e) {
+                            socketsToRemove.add(socket);
+                            e.printStackTrace();
+                        }
                     }
-                }
 
-                for (Socket socket : socketsToRemove) {
-                    try {
-                        if (!socket.isClosed())
-                            socket.close();
-                        sockets.remove(socket);
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                    for (Socket socket : socketsToRemove) {
+                        try {
+                            if (!socket.isClosed())
+                                socket.close();
+                            sockets.remove(socket);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
             }
