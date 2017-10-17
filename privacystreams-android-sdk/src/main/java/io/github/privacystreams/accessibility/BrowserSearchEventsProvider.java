@@ -6,6 +6,7 @@ import io.github.privacystreams.core.Item;
 import io.github.privacystreams.core.PStreamProvider;
 import io.github.privacystreams.core.purposes.Purpose;
 import io.github.privacystreams.utils.AppUtils;
+import io.github.privacystreams.utils.Logging;
 
 /**
  * Provide a live stream of browser search events.

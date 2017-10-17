@@ -17,6 +17,7 @@ import io.github.privacystreams.core.transformations.group.Groupers;
 import io.github.privacystreams.core.transformations.limit.Limiters;
 import io.github.privacystreams.core.transformations.map.Mappers;
 import io.github.privacystreams.core.transformations.reorder.Reorders;
+import io.github.privacystreams.utils.Logging;
 import io.github.privacystreams.utils.annotations.PSAction;
 import io.github.privacystreams.utils.annotations.PSTransformation;
 
@@ -550,7 +551,9 @@ public class PStream extends Stream {
      */
     @PSAction(blocking = false)
     public void forEach(Function<Item, Void> callback) {
+
         this.output(Callbacks.forEach(callback));
+
     }
 
     /**

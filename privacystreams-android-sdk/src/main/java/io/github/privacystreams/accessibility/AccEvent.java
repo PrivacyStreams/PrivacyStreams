@@ -58,10 +58,6 @@ public class AccEvent extends Item {
     AccEvent(AccessibilityEvent accessibilityEvent, AccessibilityNodeInfo rootNode) {
         this.setFieldValue(EVENT, accessibilityEvent);
         this.setFieldValue(EVENT_TIME, accessibilityEvent.getEventTime());
-       // Logging.error("root node is:"+rootNode);
-        if(rootNode == null){
-            Logging.error("root is null");
-        }
         this.setFieldValue(ROOT_NODE, rootNode);
         this.setFieldValue(EVENT_TYPE, accessibilityEvent.getEventType());
         CharSequence charSequence = accessibilityEvent.getPackageName();

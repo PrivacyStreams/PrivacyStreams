@@ -1,6 +1,7 @@
 package io.github.privacystreams.core;
 
 import io.github.privacystreams.core.exceptions.PSException;
+import io.github.privacystreams.utils.Logging;
 
 /**
  * This function is mainly used to handle a result as a callback.
