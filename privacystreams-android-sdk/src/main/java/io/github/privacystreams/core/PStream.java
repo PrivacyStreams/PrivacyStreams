@@ -16,6 +16,7 @@ import io.github.privacystreams.core.transformations.filter.Filters;
 import io.github.privacystreams.core.transformations.group.Groupers;
 import io.github.privacystreams.core.transformations.limit.Limiters;
 import io.github.privacystreams.core.transformations.map.Mappers;
+import io.github.privacystreams.core.transformations.merge.Mergers;
 import io.github.privacystreams.core.transformations.reorder.Reorders;
 import io.github.privacystreams.utils.annotations.PSAction;
 import io.github.privacystreams.utils.annotations.PSTransformation;
@@ -275,6 +276,22 @@ public class PStream extends Stream {
     public <TValue> PStream setIndependentField(String fieldToSet, Function<Void, TValue> valueGenerator) {
         return this.map(ItemOperators.setIndependentField(fieldToSet, valueGenerator));
     }
+
+    // *****************************
+    // Mergers
+    // Mergers are used to merge the items in the stream and the items in another stream
+
+    /**
+     * Union the items in current stream with another stream.
+     *
+     * @param anotherStreamProvider     the provider of another stream
+     * @return The merged stream.
+     */
+    @PSTransformation()
+    public PStream union(PStreamProvider anotherStreamProvider) {
+        return this.transform(Mergers.union(anotherStreamProvider));
+    }
+
 
     // *****************************
     // Reorders
