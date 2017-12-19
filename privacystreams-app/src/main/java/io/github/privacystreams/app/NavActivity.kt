@@ -27,12 +27,12 @@ class NavActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_nav)
 
-        val toolbar = findViewById(R.id.toolbar) as Toolbar
+        val toolbar : Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
 
         PStreamCollectService.start(this)
 
-        val navigation = findViewById(R.id.navigation) as BottomNavigationView
+        val navigation : BottomNavigationView = findViewById(R.id.navigation)
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
         onNewIntent(intent)
     }
@@ -68,7 +68,7 @@ class NavActivity : AppCompatActivity() {
             }
         }
         fragmentTransaction.commit()
-        val navigation = findViewById(R.id.navigation) as BottomNavigationView
+        val navigation : BottomNavigationView = findViewById(R.id.navigation)
         navigation.menu.findItem(navId).isChecked = true
         this.navId = navId
     }

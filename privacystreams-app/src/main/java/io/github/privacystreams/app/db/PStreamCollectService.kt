@@ -7,10 +7,17 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.IBinder
+import android.support.v4.app.NotificationCompat
 import android.util.Log
 import io.github.privacystreams.app.Config
 import io.github.privacystreams.app.NavActivity
 import io.github.privacystreams.app.R
+import android.app.NotificationManager
+import android.app.NotificationChannel
+import android.graphics.Color
+import android.os.Build
+
+
 
 /**
  * The PrivacyStreams always-on service for collecting historic data.
@@ -52,7 +59,15 @@ class PStreamCollectService : Service() {
         notificationIntent.putExtras(bundle)
         val pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT)
 
-        val notification = Notification.Builder(this)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val notificationManager : NotificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            val notificationChannel = NotificationChannel(Config.APP_NAME, "PrivacyStreams Notifications", NotificationManager.IMPORTANCE_DEFAULT)
+            // Configure the notification channel.
+            notificationChannel.description = "Status of PrivacyStreams app."
+            notificationManager.createNotificationChannel(notificationChannel)
+        }
+
+        val notification = NotificationCompat.Builder(this, Config.APP_NAME)
                 .setContentTitle(getText(R.string.collect_notification_title))
                 .setContentText(getText(R.string.collect_notification_text))
                 .setSmallIcon(R.mipmap.ic_launcher)

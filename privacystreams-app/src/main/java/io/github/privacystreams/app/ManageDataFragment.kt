@@ -13,7 +13,7 @@ import io.github.privacystreams.app.db.PStreamDBHelper
 
 class ManageDataFragment : Fragment() {
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val dbHelper = PStreamDBHelper.getInstance(this.activity)
         val binding: DataManageBinding = DataBindingUtil.inflate(inflater, R.layout.data_manage, container, false)
         binding.dbHelper = dbHelper

@@ -3,13 +3,13 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.3"
+    compileSdkVersion 27
+    buildToolsVersion "27.0.2"
 
     defaultConfig {
         applicationId "io.github.privacystreams.app"
         minSdkVersion 16
-        targetSdkVersion 25
+        targetSdkVersion 27
         versionCode 1
         versionName "1.0"
 
@@ -37,13 +37,13 @@ dependencies {
 
     compile project(':privacystreams-android-sdk')
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
-    compile 'com.android.support:appcompat-v7:25.3.1'
+    compile 'com.android.support:appcompat-v7:27.0.2'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile 'com.google.android.gms:play-services-location:11.0.4'
-    compile 'com.android.support:design:25.3.1'
-    compile 'com.android.support:support-vector-drawable:25.3.1'
+    compile 'com.google.android.gms:play-services-location:11.6.2'
+    compile 'com.android.support:design:27.0.2'
+    compile 'com.android.support:support-vector-drawable:27.0.2'
     testCompile 'junit:junit:4.12'
-    kapt 'com.android.databinding:compiler:2.3.2'
+    kapt 'com.android.databinding:compiler:3.0.1'
 }
 repositories {
     mavenCentral()
