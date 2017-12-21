@@ -67,6 +67,12 @@ public class TestCases {
         this.uqi = new UQI(context);
     }
 
+    public void testMerge() {
+        uqi.getData(TestItem.asUpdates(10, 1.0, 1000), Purpose.TEST("Test merge"))
+                .union(TestItem.asUpdates(50, 50.0, 5000))
+                .debug();
+    }
+
     public void testBlueToothUpdatesProvider() {
         uqi.getData(BluetoothDevice.getScanResults(), Purpose.FEATURE("blueTooth device")).debug();
     }
