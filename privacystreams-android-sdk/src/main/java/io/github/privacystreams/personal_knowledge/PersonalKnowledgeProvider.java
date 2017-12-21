@@ -28,7 +28,7 @@ class PersonalKnowledgeProvider extends PStreamProvider {
 
     @Override
     protected void provide() {
-        Purpose myPurpose = Purpose.LIB_INTERNAL("Extract personal knowledge");
+        Purpose myPurpose = Purpose.LIB_INTERNAL("Extract personal knowledge.");
 
         this.getUQI().getData(AccEvent.asUIActions(), myPurpose)
                 .sampleByInterval(INTERVAL)
