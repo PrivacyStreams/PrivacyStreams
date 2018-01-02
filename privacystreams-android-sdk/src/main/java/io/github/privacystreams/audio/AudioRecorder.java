@@ -33,8 +33,7 @@ class AudioRecorder extends PStreamProvider {
         Audio audioItem = null;
         try {
             audioItem = recordAudio(this.getUQI(), this.duration);
-            if (audioItem != null)
-                this.output(audioItem);
+            this.output(audioItem);
         } catch (IOException e) {
             e.printStackTrace();
             this.raiseException(this.getUQI(), PSException.INTERRUPTED("AudioRecorder failed."));

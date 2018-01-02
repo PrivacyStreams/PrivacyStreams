@@ -111,7 +111,7 @@
 //            @Override
 //            public void invoke(Object input) {
 //                Thread.sleep(10*1000);
-//                UQI.getData(Image.takeFromCamera(), purpose);
+//                UQI.getData(Image.takePhoto(), purpose);
 //                UQI.getData(Audio.record(), purpose);
 //            }
 //        };

@@ -26,35 +26,35 @@ public class Image extends Item {
 
     /**
      * The id of the bucket (folder) that the image belongs to.
-     * This field is only available with `getFromStorage` provider.
+     * This field is only available with `readStorage` provider.
      */
     @PSItemField(type = Integer.class)
     public static final String BUCKET_ID = "bucket_id";
 
     /**
      * The name of the bucket (folder) that the image belongs to.
-     * This field is only available with `getFromStorage` provider.
+     * This field is only available with `readStorage` provider.
      */
     @PSItemField(type = String.class)
     public static final String BUCKET_NAME = "bucket_name";
 
     /**
      * The id of the image in Android media database.
-     * This field is only available with `getFromStorage` provider.
+     * This field is only available with `readStorage` provider.
      */
     @PSItemField(type = Integer.class)
     public static final String IMAGE_ID = "image_id";
 
     /**
      * The name of the image.
-     * This field is only available with `getFromStorage` provider.
+     * This field is only available with `readStorage` provider.
      */
     @PSItemField(type = String.class)
     public static final String IMAGE_NAME = "image_name";
 
     /**
      * The file path of the image.
-     * This field is only available with `getFromStorage` provider.
+     * This field is only available with `readStorage` provider.
      */
     @PSItemField(type = String.class)
     public static final String IMAGE_PATH = "image_path";
@@ -65,15 +65,28 @@ public class Image extends Item {
     }
 
     /**
-     * Provide an PStream with an Image item, which represents a photo taken from camera.
+     * Provide an PStream with an Image item, which represents a photo taken using camera.
+     * The user will be redirected to the camera app to take a photo.
      * This provider requires `android.permission.CAMERA` permission
      * and `android.permission.WRITE_EXTERNAL_STORAGE` permission.
      *
      * @return the provider function.
      */
 //    @RequiresPermission(allOf = {Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE})
-    public static PStreamProvider takeFromCamera() {
+    public static PStreamProvider takePhoto() {
         return new ImageCameraProvider();
+    }
+
+    /**
+     * Provide an PStream with an Image item, which represents a photo taken using camera in background.
+     * This provider requires `android.permission.CAMERA`, `android.permission.SYSTEM_ALERT_WINDOW`,
+     * and overlay permission.
+     *
+     * @return the provider function.
+     */
+//    @RequiresPermission(allOf = {Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE})
+    public static PStreamProvider takePhotoBg(boolean useFrontCamera) {
+        return new BackgroundPhotoProvider(useFrontCamera);
     }
 
     /**
@@ -83,7 +96,7 @@ public class Image extends Item {
      * @return the provider function.
      */
     // @RequiresPermission(value = Manifest.permission.READ_EXTERNAL_STORAGE)
-    public static PStreamProvider getFromStorage() {
+    public static PStreamProvider readStorage() {
         return new ImageStorageProvider();
     }
 

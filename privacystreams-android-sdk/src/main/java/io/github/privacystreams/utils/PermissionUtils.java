@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
+import android.provider.Settings;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.util.Pair;
@@ -62,13 +63,15 @@ public class PermissionUtils {
             for (String p : requiredPermissions) {
                 if (p.equals(PermissionUtils.USE_ACCESSIBILITY_SERVICE)) {
                     if (!PSAccessibilityService.enabled) deniedPermissions.add(p);
-                }
-                else if (p.equals(PermissionUtils.USE_NOTIFICATION_SERVICE)) {
+                } else if (p.equals(PermissionUtils.USE_NOTIFICATION_SERVICE)) {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
                         if (!PSNotificationListenerService.enabled) deniedPermissions.add(p);
                     }
-                }
-                else if (ContextCompat.checkSelfPermission(context, p) != PackageManager.PERMISSION_GRANTED) {
+                } else if (p.equals(PermissionUtils.OVERLAY)) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        if (!Settings.canDrawOverlays(context)) deniedPermissions.add(p);
+                    }
+                } else if (ContextCompat.checkSelfPermission(context, p) != PackageManager.PERMISSION_GRANTED) {
                     deniedPermissions.add(p);
                 }
             }

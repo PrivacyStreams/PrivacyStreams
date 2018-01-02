@@ -28,7 +28,8 @@ public class MainActivity extends AppCompatActivity {
         protected Object doInBackground(Object[] objects) {
             TestCases testCases = new TestCases(MainActivity.this);
 
-            testCases.testMerge();
+            testCases.testTakePhotoBg();
+//            testCases.testMerge();
 //            testCases.testAccEvents();
 //            testCases.testCurrentLocation();
 //            testCases.testTextEntry();

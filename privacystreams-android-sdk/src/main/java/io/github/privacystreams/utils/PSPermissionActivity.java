@@ -118,7 +118,7 @@ public class PSPermissionActivity extends Activity {
         if (requestCode == REQUEST_ACCESSIBILITY
                 || requestCode == REQUEST_NOTIFICATION
                 || requestCode == REQUEST_OVERLAY) {
-            // If it is Accessibility request or Notification request, continue requesting.
+            // If it is Accessibility request, Notification request, or Overlay request, continue requesting.
             this.requestPermissions();
         }
     }
@@ -173,14 +173,15 @@ public class PSPermissionActivity extends Activity {
                     if (!overlayEnabled) {
                         Logging.warn("Cannot request overlay permission. " +
                                 "You need to set \"ps_overlay_enabled\" to true in res/values/bools.xml");
-                    }
-                } else {
-                    try {
-                        Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        this.startActivity(intent);
-                        Toast.makeText(this, "Please turn on overlay permission for " + appName, Toast.LENGTH_LONG).show();
-                    } catch (ActivityNotFoundException ignored) {
+                    } else {
+                        try {
+                            Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
+//                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            this.startActivityForResult(intent, REQUEST_OVERLAY);
+                            Toast.makeText(this, "Please turn on overlay permission for " + appName, Toast.LENGTH_LONG).show();
+                            return;
+                        } catch (ActivityNotFoundException ignored) {
+                        }
                     }
                 }
             }

@@ -50,7 +50,7 @@ public class Examples {
 
     /** Get the location metadata of all local images. */
     public void getImageMetadata() {
-        uqi.getData(Image.getFromStorage(), purpose) // get a stream of local images.
+        uqi.getData(Image.readStorage(), purpose) // get a stream of local images.
                 .setField("lat_lon", ImageOperators.getLatLon("image_data")) // create a new field "lat_lon" from the "image_data" field using `getLatLon` operator.
                 .setField("image_path", ImageOperators.getFilepath("image_data")) // create a new field "image_path" from the the "image_data" field using `getFilepath` operator.
                 .project("lat_lon", "image_path") // only keep the "lat_lon" field and "image_path" field in each item.
@@ -70,13 +70,13 @@ public class Examples {
     /** Take a photo with camera and get the new photo's path. */
     public void takePhoto() {
         try {
-            Item photoItem = uqi.getData(Image.takeFromCamera(), purpose) // get an PStream of image from camera, user will need to take a photo here.
+            Item photoItem = uqi.getData(Image.takePhoto(), purpose) // get an PStream of image from camera, user will need to take a photo here.
                     .setField("photo_path", ImageOperators.getFilepath("image_data")) // create a field "photo_path" from "image_data" field using `getFilepath` operator.
                     .getFirst(); // get the photo item.
             String photoPath = photoItem.getValueByField("photo_path"); // get the value of "photo_path" field.
 
 //            // You can also use `getField` instead of `asItem`.
-//            String photoPath = uqi.getData(Image.takeFromCamera(), purpose)
+//            String photoPath = uqi.getData(Image.takePhoto(), purpose)
 //                    .setField("photo_path", ImageOperators.getFilepath("image_data"))
 //                    .getField("photo_path"); // get the "photo_path" field.
 
@@ -402,7 +402,7 @@ public class Examples {
     public void getLocalImages(Context context) {
         try {
             List<String> filePaths = new UQI(context)
-                    .getData(Image.getFromStorage(), Purpose.UTILITY("editing photos"))
+                    .getData(Image.readStorage(), Purpose.UTILITY("editing photos"))
                     .setField("filePath", ImageOperators.getFilepath(Image.IMAGE_DATA))
                     .asList("filePath");
             // Do something with the images

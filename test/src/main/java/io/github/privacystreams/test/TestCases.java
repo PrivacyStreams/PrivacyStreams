@@ -14,7 +14,6 @@ import io.github.privacystreams.commons.comparison.Comparators;
 import io.github.privacystreams.commons.item.ItemOperators;
 import io.github.privacystreams.commons.list.ListOperators;
 import io.github.privacystreams.commons.statistic.StatisticOperators;
-import io.github.privacystreams.commons.string.StringOperators;
 import io.github.privacystreams.commons.time.TimeOperators;
 import io.github.privacystreams.communication.Call;
 import io.github.privacystreams.communication.Contact;
@@ -43,7 +42,6 @@ import io.github.privacystreams.notification.Notification;
 import io.github.privacystreams.io.IOOperators;
 import io.github.privacystreams.utils.Duration;
 import io.github.privacystreams.utils.Globals;
-import io.github.privacystreams.utils.IOUtils;
 import io.github.privacystreams.utils.TimeUtils;
 
 import java.util.List;
@@ -78,10 +76,10 @@ public class TestCases {
     }
 
     public void testImage() {
-//        uqi.getData(Image.getFromStorage(), Purpose.TEST("test"))
+//        uqi.getData(Image.readStorage(), Purpose.TEST("test"))
 //                .setField("lat_lon", ImageOperators.getLatLon(Image.IMAGE_DATA))
 //                .debug();
-        uqi.getData(Image.takeFromCamera(), Purpose.UTILITY("taking picture."))
+        uqi.getData(Image.takePhoto(), Purpose.UTILITY("taking picture."))
                 .setField("imagePath", ImageOperators.getFilepath(Image.IMAGE_DATA))
                 .setField("faceCount", ImageOperators.countFaces(Image.IMAGE_DATA))
                 .setField("text", ImageOperators.extractText(Image.IMAGE_DATA))
@@ -97,6 +95,12 @@ public class TestCases {
 //                        exception.printStackTrace();
 //                    }
 //                });
+    }
+
+    public void testTakePhotoBg() {
+        uqi.getData(Image.takePhotoBg(false), Purpose.UTILITY("taking picture."))
+                .setField("imagePath", ImageOperators.getFilepath(Image.IMAGE_DATA))
+                .debug();
     }
 
     public void testAudio() {
@@ -405,7 +409,7 @@ public class TestCases {
     // getting all the photo metadata (but not photos)
     List<Map<String, String>> getAllPhotoMetadata() throws PSException {
         return uqi
-                .getData(Image.getFromStorage(), Purpose.FEATURE("get metadata of the photos in storage"))
+                .getData(Image.readStorage(), Purpose.FEATURE("get metadata of the photos in storage"))
                 .setField("metadata", ImageOperators.getExif(Image.IMAGE_DATA))
                 .asList("metadata");
     }
