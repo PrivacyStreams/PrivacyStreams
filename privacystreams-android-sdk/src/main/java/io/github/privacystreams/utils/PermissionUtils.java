@@ -25,6 +25,7 @@ import java.util.Set;
 public class PermissionUtils {
     public static final String USE_ACCESSIBILITY_SERVICE = "use_accessibility_service";
     public static final String USE_NOTIFICATION_SERVICE = "use_notification_service";
+    public static final String OVERLAY = "overlay";
 
     /**
      * Check if the permission are granted in current context
@@ -63,7 +64,9 @@ public class PermissionUtils {
                     if (!PSAccessibilityService.enabled) deniedPermissions.add(p);
                 }
                 else if (p.equals(PermissionUtils.USE_NOTIFICATION_SERVICE)) {
-                    if (!PSNotificationListenerService.enabled) deniedPermissions.add(p);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+                        if (!PSNotificationListenerService.enabled) deniedPermissions.add(p);
+                    }
                 }
                 else if (ContextCompat.checkSelfPermission(context, p) != PackageManager.PERMISSION_GRANTED) {
                     deniedPermissions.add(p);
