@@ -35,38 +35,24 @@ public class PSCameraBgService extends Service {
     private Timer mTimer;
 
     private static final String CAMERA_ID = "cameraId";
-    private static final String INTERVAL = "interval";
     private static final int CAMERA_DELAY = 1000;
 
     private static Callback mCallback;
 
     public abstract static class Callback {
         abstract void onImageTaken(Bitmap bitmap);
-        abstract void onFail(String errorMessage);
+        abstract void onFail(boolean isFatal, String errorMessage);
     }
 
     public static void takePhoto(Context ctx, int cameraId, Callback callback) {
         if (mCallback != null) {
-            callback.onFail("camera service is busy.");
+            callback.onFail(true, "camera service is busy.");
             return;
         }
         mCallback = callback;
 
         Intent intent = new Intent(ctx, PSCameraBgService.class);
         intent.putExtra(CAMERA_ID, cameraId);
-        ctx.startService(intent);
-    }
-
-    public static void takePhotoPeriodic(Context ctx, int cameraId, int interval, Callback callback) {
-        if (mCallback != null) {
-            callback.onFail("camera service is busy.");
-            return;
-        }
-        mCallback = callback;
-
-        Intent intent = new Intent(ctx, PSCameraBgService.class);
-        intent.putExtra(CAMERA_ID, cameraId);
-        intent.putExtra(INTERVAL, interval);
         ctx.startService(intent);
     }
 
@@ -98,7 +84,6 @@ public class PSCameraBgService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         int cameraId = intent.getIntExtra(CAMERA_ID, 0);
-        int interval = intent.getIntExtra(INTERVAL, -1);
 
         mWindowManager = (WindowManager) this.getSystemService(Context.WINDOW_SERVICE);
         mCamera = getCameraInstance(cameraId);
@@ -123,19 +108,16 @@ public class PSCameraBgService extends Service {
                     try {
                         mCamera.takePicture(null, null, mPictureCallback);
                     } catch (RuntimeException e) {
-                        mCallback.onFail(e.getMessage());
+                        e.printStackTrace();
+                        mCallback.onFail(false, e.getMessage());
                     }
                 }
             };
 
-            if (interval == -1) {
-                mTimer.schedule(takePhotoTask, CAMERA_DELAY);
-            } else {
-                mTimer.scheduleAtFixedRate(takePhotoTask, CAMERA_DELAY, interval);
-            }
+            mTimer.schedule(takePhotoTask, CAMERA_DELAY);
         } else {
             if (mCallback != null) {
-                mCallback.onFail("unable to open camera.");
+                mCallback.onFail(true, "unable to open camera.");
             }
             stopSelf();
         }
@@ -153,11 +135,6 @@ public class PSCameraBgService extends Service {
         if (mWindowManager != null) {
             mWindowManager.removeView(mPreview);
         }
-    }
-
-    private boolean isFrontCameraAvailable(@NonNull Context context) {
-        int numCameras = Camera.getNumberOfCameras();
-        return numCameras > 0 && context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_FRONT);
     }
 
     /** A safe way to get an instance of the Camera object. */

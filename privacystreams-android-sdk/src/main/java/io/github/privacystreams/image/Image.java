@@ -78,15 +78,30 @@ public class Image extends Item {
     }
 
     /**
-     * Provide an PStream with an Image item, which represents a photo taken using camera in background.
+     * Provide an PStream with an Image item, which is a photo taken using camera in background.
      * This provider requires `android.permission.CAMERA`, `android.permission.SYSTEM_ALERT_WINDOW`,
      * and overlay permission.
      *
+     * @param cameraId the camera id. Usually 0 is the rear camera and 1 is the front.
      * @return the provider function.
      */
 //    @RequiresPermission(allOf = {Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE})
     public static PStreamProvider takePhotoBg(int cameraId) {
         return new BackgroundPhotoProvider(cameraId);
+    }
+
+    /**
+     * Provide an PStream with Image items, which are photos taken using camera in background.
+     * This provider requires `android.permission.CAMERA`, `android.permission.SYSTEM_ALERT_WINDOW`,
+     * and overlay permission.
+     *
+     * @param cameraId the camera id. Usually 0 is the rear camera and 1 is the front.
+     * @param interval the interval between each two photos (in milliseconds).
+     * @return the provider function.
+     */
+//    @RequiresPermission(allOf = {Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE})
+    public static PStreamProvider takePhotoBgPeriodic(int cameraId, int interval) {
+        return new BackgroundPhotoPeriodicProvider(cameraId, interval);
     }
 
     /**
