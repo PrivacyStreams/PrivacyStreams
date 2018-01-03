@@ -1,5 +1,6 @@
 package io.github.privacystreams.app.db
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.database.sqlite.SQLiteDatabase
@@ -12,9 +13,10 @@ class PStreamDBHelper private constructor(var context: Context)
     : SQLiteOpenHelper(context, DB_NAME, null, DB_VERSION) {
 
     companion object {
-        val DB_VERSION = 1
+        val DB_VERSION = 2
         val DB_NAME = "privacystreams.db"
 
+        @SuppressLint("StaticFieldLeak")
         private var instance: PStreamDBHelper? = null
         fun getInstance(context: Context): PStreamDBHelper {
             if (instance == null) {
@@ -36,6 +38,7 @@ class PStreamDBHelper private constructor(var context: Context)
         tables.add(TableUIEvent(this))
         tables.add(TableDeviceEvent(this))
         tables.add(TableDeviceState(this))
+        tables.add(TableBgPhoto(this))
         return tables
     }
 

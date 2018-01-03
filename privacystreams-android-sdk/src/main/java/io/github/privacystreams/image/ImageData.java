@@ -189,11 +189,11 @@ public class ImageData {
     }
 
     String detectText(UQI uqi) {
-        String text = "";
+        StringBuilder text = new StringBuilder();
         for (TextBlock textBlock : this.detectTextBlocks(uqi)) {
-            text += textBlock.getValue() + "\n";
+            text.append(textBlock.getValue()).append("\n");
         }
-        return text;
+        return text.toString();
     }
 
     Boolean hasCharacter(UQI uqi) {

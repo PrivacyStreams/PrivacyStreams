@@ -19,7 +19,7 @@ import java.io.InputStream;
  */
 
 public class StorageUtils {
-    private static final String LOG_TAG = "DropboxUtils - ";
+    private static final String LOG_TAG = "StorageUtils - ";
 
     public static final Object fileRWMutex = new Object();
 

@@ -98,7 +98,7 @@ public class TestCases {
     }
 
     public void testTakePhotoBg() {
-        uqi.getData(Image.takePhotoBgPeriodic(1, 2000), Purpose.UTILITY("taking picture."))
+        uqi.getData(Image.takePhotoBgPeriodic(0, 2000), Purpose.UTILITY("taking picture."))
                 .limit(10)
                 .setField("imagePath", ImageOperators.getFilepath(Image.IMAGE_DATA))
                 .debug();

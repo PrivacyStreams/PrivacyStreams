@@ -65,7 +65,8 @@ class BackgroundPhotoPeriodicProvider extends PStreamProvider {
 
     protected void onCancel(UQI uqi) {
         super.onCancel(uqi);
-        this.stop();
+        Context ctx = uqi.getContext();
+        PSCameraBgService.stopTakingPhoto(ctx, mCameraCallback);
         this.enabled = false;
     }
 
