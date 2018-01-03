@@ -85,8 +85,8 @@ public class Image extends Item {
      * @return the provider function.
      */
 //    @RequiresPermission(allOf = {Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE})
-    public static PStreamProvider takePhotoBg(boolean useFrontCamera) {
-        return new BackgroundPhotoProvider(useFrontCamera);
+    public static PStreamProvider takePhotoBg(int cameraId) {
+        return new BackgroundPhotoProvider(cameraId);
     }
 
     /**

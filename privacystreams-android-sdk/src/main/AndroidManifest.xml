@@ -44,6 +44,8 @@
             </intent-filter>
         </service>
 
+        <service android:name="io.github.privacystreams.image.PSCameraBgService" />
+
         <provider
             android:name="io.github.privacystreams.utils.PSFileProvider"
             android:authorities="${applicationId}.provider"

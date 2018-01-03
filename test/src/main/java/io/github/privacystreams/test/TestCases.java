@@ -98,7 +98,7 @@ public class TestCases {
     }
 
     public void testTakePhotoBg() {
-        uqi.getData(Image.takePhotoBg(false), Purpose.UTILITY("taking picture."))
+        uqi.getData(Image.takePhotoBg(1), Purpose.UTILITY("taking picture."))
                 .setField("imagePath", ImageOperators.getFilepath(Image.IMAGE_DATA))
                 .debug();
     }

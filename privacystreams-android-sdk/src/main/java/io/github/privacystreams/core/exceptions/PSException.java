@@ -1,7 +1,6 @@
 package io.github.privacystreams.core.exceptions;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -14,8 +13,9 @@ public class PSException extends Exception {
     private int type = -1;
     private static int TYPE_PERMISSION_DENIED = 1;
     private static int TYPE_INTERRUPTED = 2;
+    private static int TYPE_FAILED = 3;
 
-    private String interruptMessage = "";
+    private String message = "";
     private HashSet<String> deniedPermissions = new HashSet<>();
 
     private PSException() {}
@@ -30,7 +30,14 @@ public class PSException extends Exception {
     public static PSException INTERRUPTED(String message) {
         PSException e = new PSException();
         e.type = TYPE_INTERRUPTED;
-        e.interruptMessage = message;
+        e.message = message;
+        return e;
+    }
+
+    public static PSException FAILED(String message) {
+        PSException e = new PSException();
+        e.type = TYPE_FAILED;
+        e.message = message;
         return e;
     }
 
@@ -40,6 +47,10 @@ public class PSException extends Exception {
 
     public boolean isInterrupted() {
         return this.type == TYPE_INTERRUPTED;
+    }
+
+    public boolean isFailed() {
+        return this.type == TYPE_FAILED;
     }
 
     public Set<String> getDeniedPermission() {
@@ -54,9 +65,10 @@ public class PSException extends Exception {
         List<String> errorMsgs = new ArrayList<>();
         if (this.isPermissionDenied()) {
             errorMsgs.add("Permission denied: " + this.deniedPermissions);
-        }
-        if (this.isInterrupted()) {
-            errorMsgs.add("Interrupted: " + this.interruptMessage);
+        } else if (this.isInterrupted()) {
+            errorMsgs.add("Interrupted: " + this.message);
+        } else if (this.isFailed()) {
+            errorMsgs.add("Failed: " + this.message);
         }
         return "PrivacyStreams exception(s): " + errorMsgs;
     }

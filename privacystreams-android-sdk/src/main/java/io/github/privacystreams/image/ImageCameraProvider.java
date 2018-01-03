@@ -26,7 +26,6 @@ class ImageCameraProvider extends PStreamProvider implements CameraResultListene
     @Override
     protected void provide() {
         this.takePhoto();
-
     }
 
     transient String imagePath;
