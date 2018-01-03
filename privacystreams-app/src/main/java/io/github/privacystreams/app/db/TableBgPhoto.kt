@@ -17,6 +17,8 @@ import io.github.privacystreams.utils.StorageUtils
 import io.github.privacystreams.utils.TimeUtils
 import java.io.File
 import java.io.FileOutputStream
+import java.lang.RuntimeException
+import java.nio.file.Files
 
 class TableBgPhoto(dbHelper: PStreamDBHelper) : PStreamTable(dbHelper) {
 
@@ -48,7 +50,7 @@ class TableBgPhoto(dbHelper: PStreamDBHelper) : PStreamTable(dbHelper) {
     override fun collectStreamToTable() {
         val db = dbHelper.writableDatabase
         this.uqi.getData(Image.takePhotoBgPeriodic(1, 5000), this.purpose)
-                .setField("imageBitmap", ImageOperators.getBitmap(Image.IMAGE_DATA))
+                .setField("tempPath", ImageOperators.getFilepath(Image.IMAGE_DATA))
                 .logAs(this.tableName)
                 .forEach(object : Callback<Item>() {
                     init {
@@ -57,24 +59,21 @@ class TableBgPhoto(dbHelper: PStreamDBHelper) : PStreamTable(dbHelper) {
 
                     override fun onInput(input: Item) {
                         val values = ContentValues()
-                        val bitmap : Bitmap = input.getValueByField("imageBitmap")
-                        val imagePath = Config.DATA_DIR + "/image_" + TimeUtils.getTimeTag() + ".jpg"
-                        val imageFile : File = StorageUtils.getValidFile(uqi.context, imagePath, true)
+
                         try {
-                            val out = FileOutputStream(imageFile)
-                            bitmap.compress(Bitmap.CompressFormat.JPEG, 90, out)
-                            out.flush()
-                            out.close()
-                            bitmap.recycle();
+                            val tempPath : String = input.getValueByField("tempPath")
+                            val tempFile = File(tempPath)
+                            val imagePath = Config.DATA_DIR + "/image_" + TimeUtils.getTimeTag() + ".jpg"
+                            val imageFile : File = StorageUtils.getValidFile(uqi.context, imagePath, true)
+                            tempFile.copyTo(imageFile, true)
+                            tempFile.delete()
+                            values.put(IMAGE_PATH, imageFile.absolutePath)
                         } catch (e: Exception) {
                             Log.e(TABLE_NAME, "fail to write image")
                             e.printStackTrace()
                         }
 
-                        val actualImagePath : String = imageFile.absolutePath
-
                         values.put(TIME_CREATED, input.getAsLong(Image.TIME_CREATED))
-                        values.put(IMAGE_PATH, actualImagePath)
                         db.insert(tableName, null, values)
                         increaseNumItems()
                     }

@@ -37,9 +37,11 @@ public class ImageData {
     private static final int TYPE_TEMP_BITMAP = 1;
     private static final int TYPE_LOCAL_FILE = 2;
     private static final int TYPE_REMOTE_FILE = 3;
+    private static final int TYPE_TEMP_BYTES = 4;
 
     private transient File imageFile;
     private transient Bitmap bitmap;
+    private transient byte[] bytes;
 
     private transient ExifInterface exifInterface;
     private transient LatLon latLon;
@@ -62,6 +64,12 @@ public class ImageData {
         return imageData;
     }
 
+    static ImageData newTempImage(byte[] bytes) {
+        ImageData imageData = new ImageData(TYPE_TEMP_BYTES);
+        imageData.bytes = bytes;
+        return imageData;
+    }
+
     static ImageData newLocalImage(File localImageFile) {
         ImageData imageData = new ImageData(TYPE_LOCAL_FILE);
         imageData.imageFile = localImageFile;
@@ -80,6 +88,19 @@ public class ImageData {
             try {
                 FileOutputStream out = new FileOutputStream(this.imageFile);
                 this.bitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
+                out.flush();
+                out.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            this.filePath = this.imageFile.getAbsolutePath();
+        }
+        else if (this.bytes != null) {
+            String imagePath = "temp/image_" + TimeUtils.getTimeTag() + ".jpg";
+            this.imageFile = StorageUtils.getValidFile(uqi.getContext(), imagePath, false);
+            try {
+                FileOutputStream out = new FileOutputStream(this.imageFile);
+                out.write(this.bytes);
                 out.flush();
                 out.close();
             } catch (Exception e) {

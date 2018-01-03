@@ -72,8 +72,8 @@ class BackgroundPhotoPeriodicProvider extends PStreamProvider {
 
     private PSCameraBgService.Callback mCameraCallback = new PSCameraBgService.Callback() {
         @Override
-        void onImageTaken(Bitmap bitmap) {
-            ImageData imageData = ImageData.newTempImage(bitmap);
+        void onImageTaken(byte[] imageBytes) {
+            ImageData imageData = ImageData.newTempImage(imageBytes);
             Image imageItem = new Image(TimeUtils.now(), imageData);
             output(imageItem);
 

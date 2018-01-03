@@ -40,7 +40,7 @@ public class PSCameraBgService extends Service {
     private static Callback mCallback;
 
     public abstract static class Callback {
-        abstract void onImageTaken(Bitmap bitmap);
+        abstract void onImageTaken(byte[] imageBytes);
         abstract void onFail(boolean isFatal, String errorMessage);
     }
 
@@ -65,10 +65,9 @@ public class PSCameraBgService extends Service {
     private Camera.PictureCallback mPictureCallback = new Camera.PictureCallback() {
         @Override
         public void onPictureTaken(byte[] data, Camera camera) {
-            Log.d(TAG, "picture taken " + data.length);
+//            Log.d(TAG, "picture taken " + data.length);
             if (mCallback != null) {
-                Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
-                mCallback.onImageTaken(bitmap);
+                mCallback.onImageTaken(data);
             } else {
                 stopSelf();
             }
