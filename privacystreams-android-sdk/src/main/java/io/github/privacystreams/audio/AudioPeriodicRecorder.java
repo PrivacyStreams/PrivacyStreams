@@ -4,6 +4,7 @@ import android.Manifest;
 
 import io.github.privacystreams.core.exceptions.PSException;
 import io.github.privacystreams.core.PStreamProvider;
+import io.github.privacystreams.utils.Globals;
 
 import java.io.IOException;
 
@@ -24,24 +25,28 @@ class AudioPeriodicRecorder extends PStreamProvider {
 
     @Override
     protected void provide() {
-        while (!this.isCancelled) {
-            Audio audioItem = null;
-            try {
-                audioItem = AudioRecorder.recordAudio(this.getUQI(), this.durationPerRecord);
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (RuntimeException e) {
-                e.printStackTrace();
-                this.raiseException(this.getUQI(), PSException.INTERRUPTED("AudioPeriodicRecorder failed. Perhaps the audio duration is too short."));
+        if (Globals.AudioConfig.useAlarmScheduler) {
+
+        } else {
+            while (!this.isCancelled) {
+                Audio audioItem = null;
+                try {
+                    audioItem = AudioRecorder.recordAudio(this.getUQI(), this.durationPerRecord);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (RuntimeException e) {
+                    e.printStackTrace();
+                    this.raiseException(this.getUQI(), PSException.INTERRUPTED("AudioPeriodicRecorder failed. Perhaps the audio duration is too short."));
+                }
+                if (audioItem != null) this.output(audioItem);
+                try {
+                    Thread.sleep(this.interval);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
-            if (audioItem != null) this.output(audioItem);
-            try {
-                Thread.sleep(this.interval);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            this.finish();
         }
-        this.finish();
     }
 
 }

@@ -18,6 +18,8 @@ public class Globals {
         public static int outputFormat = MediaRecorder.OutputFormat.AMR_NB;
         public static int audioEncoder = MediaRecorder.AudioEncoder.AMR_NB;
         public static int audioSource = MediaRecorder.AudioSource.MIC;
+
+        public static boolean useAlarmScheduler = true; // whether to use alarm manager to record periodic audio
     }
 
     public static class DebugConfig {

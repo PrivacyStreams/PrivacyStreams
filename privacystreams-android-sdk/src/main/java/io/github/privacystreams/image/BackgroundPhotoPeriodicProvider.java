@@ -15,6 +15,7 @@ import java.util.TimerTask;
 import io.github.privacystreams.core.PStreamProvider;
 import io.github.privacystreams.core.UQI;
 import io.github.privacystreams.core.exceptions.PSException;
+import io.github.privacystreams.utils.AlarmScheduler;
 import io.github.privacystreams.utils.Globals;
 import io.github.privacystreams.utils.Logging;
 import io.github.privacystreams.utils.PermissionUtils;
@@ -41,25 +42,19 @@ class BackgroundPhotoPeriodicProvider extends PStreamProvider {
 
     private transient boolean enabled = true;
 
-    private transient PendingIntent mAlarmIntent;
-    private transient AlarmManager am;
-    private transient BroadcastReceiver mReceiver;
+    private transient AlarmScheduler alarmScheduler;
 
     @Override
     protected void provide() {
         final Context ctx = getContext().getApplicationContext();
 
         if (Globals.ImageConfig.bgUseAlarmScheduler) {
-            String action = this.getClass().getName();
-            am = (AlarmManager) ctx.getSystemService(Context.ALARM_SERVICE);
-            mAlarmIntent = PendingIntent.getBroadcast(getContext(), 0, new Intent(action), 0);
-            mReceiver = new BroadcastReceiver() {
+            alarmScheduler = new AlarmScheduler(ctx, this.getClass().getName()) {
                 @Override
-                public void onReceive(Context context, Intent intent) {
+                protected void run() {
                     start(ctx);
                 }
             };
-            ctx.registerReceiver(mReceiver, new IntentFilter(action));
         }
         this.start(ctx);
     }
@@ -76,7 +71,7 @@ class BackgroundPhotoPeriodicProvider extends PStreamProvider {
         this.stop(ctx);
         if (enabled) {
             if (Globals.ImageConfig.bgUseAlarmScheduler) {
-                am.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() + interval, mAlarmIntent);
+                alarmScheduler.schedule(interval);
             } else {
                 new Timer().schedule(new TimerTask() {
                     @Override
@@ -93,8 +88,7 @@ class BackgroundPhotoPeriodicProvider extends PStreamProvider {
         this.enabled = false;
         if (Globals.ImageConfig.bgUseAlarmScheduler) {
             try {
-                am.cancel(mAlarmIntent);
-                ctx.unregisterReceiver(mReceiver);
+                alarmScheduler.destroy();
             } catch (Exception e) {
                 Logging.error(e.getMessage());
             }
