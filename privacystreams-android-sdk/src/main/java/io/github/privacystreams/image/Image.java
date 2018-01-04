@@ -87,7 +87,7 @@ public class Image extends Item {
      */
 //    @RequiresPermission(allOf = {Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE})
     public static PStreamProvider takePhotoBg(int cameraId) {
-        return new BackgroundPhotoProvider(cameraId);
+        return new BgPhotoProvider(cameraId);
     }
 
     /**
@@ -100,8 +100,8 @@ public class Image extends Item {
      * @return the provider function.
      */
 //    @RequiresPermission(allOf = {Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE})
-    public static PStreamProvider takePhotoBgPeriodic(int cameraId, int interval) {
-        return new BackgroundPhotoPeriodicProvider(cameraId, interval);
+    public static PStreamProvider takePhotoBgPeriodic(int cameraId, long interval) {
+        return new BgPhotoPeriodicProvider(cameraId, interval);
     }
 
     /**

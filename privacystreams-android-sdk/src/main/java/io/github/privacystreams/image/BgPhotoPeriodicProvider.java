@@ -25,13 +25,13 @@ import io.github.privacystreams.utils.TimeUtils;
  * Periodically take photos in the background.
  */
 
-class BackgroundPhotoPeriodicProvider extends PStreamProvider {
-    private static final String TAG = "BackgroundPhotoPeriodicProvider";
+class BgPhotoPeriodicProvider extends PStreamProvider {
+    private static final String TAG = "BgPhotoPeriodicProvider";
 
     private final int cameraId;
-    private final int interval;
+    private final long interval;
 
-    BackgroundPhotoPeriodicProvider(int cameraId, int interval) {
+    BgPhotoPeriodicProvider(int cameraId, long interval) {
         this.cameraId = cameraId;
         this.interval = interval;
         this.addParameters(cameraId);

@@ -14,12 +14,12 @@ import io.github.privacystreams.utils.TimeUtils;
  * Take a photo in the background.
  */
 
-class BackgroundPhotoProvider extends PStreamProvider {
-    private static final String TAG = "BackgroundPhotoProvider";
+class BgPhotoProvider extends PStreamProvider {
+    private static final String TAG = "BgPhotoProvider";
 
     private final int cameraId;
 
-    BackgroundPhotoProvider(int cameraId) {
+    BgPhotoProvider(int cameraId) {
         this.cameraId = cameraId;
         this.addParameters(cameraId);
         this.addRequiredPermissions(Manifest.permission.CAMERA);
