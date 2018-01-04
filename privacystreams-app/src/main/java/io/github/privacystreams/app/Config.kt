@@ -7,6 +7,8 @@ object Config {
     val APP_NAME = "PStream"
     val DATA_DIR = APP_NAME + "/data"
 
+    val USE_WAKELOCK = false
+
     var COLLECT_LOCATION_INTERVAL = (1000 * 10).toLong()
     var COLLECT_LOCATION_LEVEL = Geolocation.LEVEL_EXACT
     var COLLECT_DEVICE_STATE_INTERVAL = (1000 * 10).toLong()

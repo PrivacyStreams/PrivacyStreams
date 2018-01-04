@@ -86,9 +86,11 @@ class PStreamCollectService : Service() {
         activeTables = pref.getStringSet(LAST_TABLES, HashSet<String>())
         Log.d(Config.APP_NAME, "Loaded last active tables: " + activeTables)
 
-        val powerManager : PowerManager = getSystemService(Context.POWER_SERVICE) as PowerManager
-        wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "MyWakelockTag")
-        wakeLock.acquire();
+        if (Config.USE_WAKELOCK) {
+            val powerManager: PowerManager = getSystemService(Context.POWER_SERVICE) as PowerManager
+            wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "PStreamCollectService wakelock")
+            wakeLock.acquire();
+        }
     }
 
     override fun onDestroy() {
@@ -96,7 +98,9 @@ class PStreamCollectService : Service() {
         stopForeground(true)
         dbHelper.close()
 
-        wakeLock.release()
+        if (Config.USE_WAKELOCK) {
+            wakeLock.release()
+        }
     }
 
     override fun onBind(intent: Intent): IBinder? {
