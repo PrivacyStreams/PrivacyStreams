@@ -95,18 +95,6 @@ public class PSCameraBgService extends Service {
         mTimer = new Timer();
 
         if (mWindowManager != null && mCamera != null) {
-            mPreview = new HiddenCameraPreview(this, mCamera);
-
-            mPreview.setLayoutParams(new ViewGroup.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-            WindowManager.LayoutParams params = new WindowManager.LayoutParams(1, 1,
-                    Build.VERSION.SDK_INT < Build.VERSION_CODES.O ?
-                            WindowManager.LayoutParams.TYPE_SYSTEM_OVERLAY :
-                            WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,
-                    WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH,
-                    PixelFormat.TRANSLUCENT);
-            mWindowManager.addView(mPreview, params);
-
             // set picture size
             Camera.Parameters parameters = mCamera.getParameters();
             List<Camera.Size> supportedSizes = parameters.getSupportedPictureSizes();
@@ -127,6 +115,19 @@ public class PSCameraBgService extends Service {
                 mCamera.setParameters(parameters);
             }
 
+            // create fake preview
+            mPreview = new HiddenCameraPreview(this, mCamera);
+            mPreview.setLayoutParams(new ViewGroup.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+            WindowManager.LayoutParams params = new WindowManager.LayoutParams(1, 1,
+                    Build.VERSION.SDK_INT < Build.VERSION_CODES.O ?
+                            WindowManager.LayoutParams.TYPE_SYSTEM_OVERLAY :
+                            WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,
+                    WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH,
+                    PixelFormat.TRANSLUCENT);
+            mWindowManager.addView(mPreview, params);
+
+            // take photo
             TimerTask takePhotoTask = new TimerTask() {
                 @Override
                 public void run() {
@@ -138,7 +139,6 @@ public class PSCameraBgService extends Service {
                     }
                 }
             };
-
             mTimer.schedule(takePhotoTask, CAMERA_DELAY);
         } else {
             if (mCallback != null) {
