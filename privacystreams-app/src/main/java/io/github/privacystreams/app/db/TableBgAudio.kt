@@ -2,34 +2,28 @@ package io.github.privacystreams.app.db
 
 import android.Manifest
 import android.content.ContentValues
-import android.graphics.Bitmap
 import android.util.Log
 import io.github.privacystreams.app.Config
 import io.github.privacystreams.app.R
+import io.github.privacystreams.audio.Audio
+import io.github.privacystreams.audio.AudioOperators
 import io.github.privacystreams.core.Callback
-import io.github.privacystreams.core.Function
 import io.github.privacystreams.core.Item
-import io.github.privacystreams.core.UQI
 import io.github.privacystreams.core.exceptions.PSException
-import io.github.privacystreams.image.Image
-import io.github.privacystreams.image.ImageOperators
 import io.github.privacystreams.utils.StorageUtils
 import io.github.privacystreams.utils.TimeUtils
 import java.io.File
-import java.io.FileOutputStream
-import java.lang.RuntimeException
-import java.nio.file.Files
 
-class TableBgPhoto(dbHelper: PStreamDBHelper) : PStreamTable(dbHelper) {
+class TableBgAudio(dbHelper: PStreamDBHelper) : PStreamTable(dbHelper) {
 
     companion object {
-        val TABLE_NAME = "BgPhoto"
-        val ICON_RES_ID = R.drawable.camera;
+        val TABLE_NAME = "BgAudio"
+        val ICON_RES_ID = R.drawable.microphone;
 
         /* Fields */
         val _ID = "_id"                                 // Long
-        val TIME_CREATED = Image.TIME_CREATED           // Long
-        val IMAGE_PATH = "image_path"                   // Long
+        val TIME_CREATED = Audio.TIME_CREATED           // Long
+        val AUDIO_PATH = "audio_path"                   // Long
     }
 
     override val tableName: String = TABLE_NAME
@@ -39,7 +33,7 @@ class TableBgPhoto(dbHelper: PStreamDBHelper) : PStreamTable(dbHelper) {
             "CREATE TABLE $TABLE_NAME (" +
                 "$_ID INTEGER PRIMARY KEY," +
                 "$TIME_CREATED INTEGER," +
-                "$IMAGE_PATH TEXT)",
+                "$AUDIO_PATH TEXT)",
             "CREATE INDEX ${TABLE_NAME}_time_created_index on $TABLE_NAME ($TIME_CREATED)"
     )
 
@@ -49,8 +43,8 @@ class TableBgPhoto(dbHelper: PStreamDBHelper) : PStreamTable(dbHelper) {
 
     override fun collectStreamToTable() {
         val db = dbHelper.writableDatabase
-        this.uqi.getData(Image.takePhotoBgPeriodic(0, 5*60*1000), this.purpose)
-                .setField("tempPath", ImageOperators.getFilepath(Image.IMAGE_DATA))
+        this.uqi.getData(Audio.recordPeriodic(10*1000, 5*60*1000), this.purpose)
+                .setField("tempPath", AudioOperators.getFilepath(Audio.AUDIO_DATA))
                 .logAs(this.tableName)
                 .forEach(object : Callback<Item>() {
                     init {
@@ -63,17 +57,17 @@ class TableBgPhoto(dbHelper: PStreamDBHelper) : PStreamTable(dbHelper) {
                         try {
                             val tempPath : String = input.getValueByField("tempPath")
                             val tempFile = File(tempPath)
-                            val imagePath = Config.DATA_DIR + "/image_" + TimeUtils.getTimeTag() + ".jpg"
-                            val imageFile : File = StorageUtils.getValidFile(uqi.context, imagePath, true)
-                            tempFile.copyTo(imageFile, true)
+                            val audioPath = Config.DATA_DIR + "/audio_" + TimeUtils.getTimeTag() + ".3gp"
+                            val audioFile : File = StorageUtils.getValidFile(uqi.context, audioPath, true)
+                            tempFile.copyTo(audioFile, true)
                             tempFile.delete()
-                            values.put(IMAGE_PATH, imageFile.absolutePath)
+                            values.put(AUDIO_PATH, audioFile.absolutePath)
                         } catch (e: Exception) {
-                            Log.e(TABLE_NAME, "fail to write image")
+                            Log.e(TABLE_NAME, "fail to write audio")
                             e.printStackTrace()
                         }
 
-                        values.put(TIME_CREATED, input.getAsLong(Image.TIME_CREATED))
+                        values.put(TIME_CREATED, input.getAsLong(Audio.TIME_CREATED))
                         db.insert(tableName, null, values)
                         increaseNumItems()
                     }
@@ -95,7 +89,7 @@ class TableBgPhoto(dbHelper: PStreamDBHelper) : PStreamTable(dbHelper) {
             while (cur.moveToNext()) {
                 val item = Item()
                 item.setFieldValue(TIME_CREATED, cur.getLong(cur.getColumnIndex(TIME_CREATED)))
-                item.setFieldValue(IMAGE_PATH, cur.getString(cur.getColumnIndex(IMAGE_PATH)))
+                item.setFieldValue(AUDIO_PATH, cur.getString(cur.getColumnIndex(AUDIO_PATH)))
                 output(item)
             }
             cur.close()
