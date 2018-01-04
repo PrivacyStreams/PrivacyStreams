@@ -2,9 +2,12 @@ package io.github.privacystreams.audio;
 
 import android.Manifest;
 
+import io.github.privacystreams.core.UQI;
 import io.github.privacystreams.core.exceptions.PSException;
 import io.github.privacystreams.core.PStreamProvider;
+import io.github.privacystreams.utils.AlarmScheduler;
 import io.github.privacystreams.utils.Globals;
+import io.github.privacystreams.utils.Logging;
 
 import java.io.IOException;
 
@@ -23,22 +26,26 @@ class AudioPeriodicRecorder extends PStreamProvider {
         this.addRequiredPermissions(Manifest.permission.RECORD_AUDIO);
     }
 
+    private transient AlarmScheduler alarmScheduler;
+
     @Override
     protected void provide() {
         if (Globals.AudioConfig.useAlarmScheduler) {
-
+            recordOnce();
+            alarmScheduler = new AlarmScheduler(getContext(), this.getClass().getName()) {
+                @Override
+                protected void run() {
+                    if (!isCancelled) {
+                        recordOnce();
+                        alarmScheduler.schedule(interval);
+                    } else {
+                        finish();
+                    }
+                }
+            };
         } else {
             while (!this.isCancelled) {
-                Audio audioItem = null;
-                try {
-                    audioItem = AudioRecorder.recordAudio(this.getUQI(), this.durationPerRecord);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (RuntimeException e) {
-                    e.printStackTrace();
-                    this.raiseException(this.getUQI(), PSException.INTERRUPTED("AudioPeriodicRecorder failed. Perhaps the audio duration is too short."));
-                }
-                if (audioItem != null) this.output(audioItem);
+                recordOnce();
                 try {
                     Thread.sleep(this.interval);
                 } catch (InterruptedException e) {
@@ -49,4 +56,28 @@ class AudioPeriodicRecorder extends PStreamProvider {
         }
     }
 
+    private void recordOnce() {
+        Audio audioItem = null;
+        try {
+            audioItem = AudioRecorder.recordAudio(this.getUQI(), this.durationPerRecord);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+            this.raiseException(this.getUQI(), PSException.INTERRUPTED("AudioPeriodicRecorder failed. Perhaps the audio duration is too short."));
+        }
+        if (audioItem != null) this.output(audioItem);
+    }
+
+    @Override
+    protected void onCancel(UQI uqi) {
+        if (Globals.AudioConfig.useAlarmScheduler) {
+            try {
+                alarmScheduler.destroy();
+            } catch (Exception e) {
+                Logging.error(e.getMessage());
+            }
+        }
+        super.onCancel(uqi);
+    }
 }
