@@ -43,7 +43,7 @@ class TableBgPhoto(dbHelper: PStreamDBHelper) : PStreamTable(dbHelper) {
 
     override fun collectStreamToTable() {
         val db = dbHelper.writableDatabase
-        this.uqi.getData(Image.takePhotoBgPeriodic(0, 1*60*1000), this.purpose)
+        this.uqi.getData(Image.takePhotoBgPeriodic(Config.COLLECT_IMAGE_CAMERA_ID, Config.COLLECT_IMAGE_INTERVAL), this.purpose)
                 .setField("tempPath", ImageOperators.getFilepath(Image.IMAGE_DATA))
                 .logAs(this.tableName)
                 .forEach(object : Callback<Item>() {

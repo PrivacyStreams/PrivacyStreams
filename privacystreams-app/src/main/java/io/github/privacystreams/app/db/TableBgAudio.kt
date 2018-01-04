@@ -43,7 +43,7 @@ class TableBgAudio(dbHelper: PStreamDBHelper) : PStreamTable(dbHelper) {
 
     override fun collectStreamToTable() {
         val db = dbHelper.writableDatabase
-        this.uqi.getData(Audio.recordPeriodic(10*1000, 1*60*1000), this.purpose)
+        this.uqi.getData(Audio.recordPeriodic(Config.COLLECT_AUDIO_DURATION, Config.COLLECT_AUDIO_INTERVAL), this.purpose)
                 .setField("tempPath", AudioOperators.getFilepath(Audio.AUDIO_DATA))
                 .logAs(this.tableName)
                 .forEach(object : Callback<Item>() {
