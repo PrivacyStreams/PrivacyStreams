@@ -40,6 +40,7 @@ class BackgroundPhotoPeriodicProvider extends PStreamProvider {
     }
 
     private transient boolean enabled = true;
+
     private transient PendingIntent mAlarmIntent;
     private transient AlarmManager am;
     private transient BroadcastReceiver mReceiver;

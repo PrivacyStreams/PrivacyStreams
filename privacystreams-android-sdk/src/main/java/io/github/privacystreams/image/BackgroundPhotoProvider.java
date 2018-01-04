@@ -33,8 +33,7 @@ class BackgroundPhotoProvider extends PStreamProvider {
         PSCameraBgService.takePhoto(ctx, cameraId, mCameraCallback);
     }
 
-    private void stop() {
-        Context ctx = this.getUQI().getContext();
+    private void stop(Context ctx) {
         PSCameraBgService.stopTakingPhoto(ctx, mCameraCallback);
     }
 
@@ -44,14 +43,14 @@ class BackgroundPhotoProvider extends PStreamProvider {
             ImageData imageData = ImageData.newTempImage(imageBytes);
             Image imageItem = new Image(TimeUtils.now(), imageData);
             output(imageItem);
-            stop();
+            stop(getContext());
             finish();
         }
 
         @Override
         void onFail(boolean isFatal, String errorMessage) {
             Logging.error(TAG + ": " + (isFatal? "FATAL" : "") + errorMessage);
-            stop();
+            stop(getContext());
             raiseException(getUQI(), PSException.FAILED(errorMessage));
         }
     };
