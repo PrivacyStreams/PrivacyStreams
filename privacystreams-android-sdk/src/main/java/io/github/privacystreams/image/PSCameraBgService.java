@@ -15,12 +15,18 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
+import android.util.Size;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Toast;
 
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import io.github.privacystreams.utils.Globals;
 
 /**
  * A background service for taking pictures.
@@ -100,6 +106,26 @@ public class PSCameraBgService extends Service {
                     WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH,
                     PixelFormat.TRANSLUCENT);
             mWindowManager.addView(mPreview, params);
+
+            // set picture size
+            Camera.Parameters parameters = mCamera.getParameters();
+            List<Camera.Size> supportedSizes = parameters.getSupportedPictureSizes();
+            Collections.sort(supportedSizes, new Comparator<Camera.Size>() {
+                @Override
+                public int compare(Camera.Size o1, Camera.Size o2) {
+                    return o1.width * o2.height - o2.width * o2.height;
+                }
+            });
+            if (supportedSizes.size() > 1) {
+                Camera.Size selectedSize = supportedSizes.get(0);
+                if (Globals.ImageConfig.bgImageSizeLevel == 2) {
+                    selectedSize = supportedSizes.get(supportedSizes.size() - 1);
+                } else if (Globals.ImageConfig.bgImageSizeLevel == 1) {
+                    selectedSize = supportedSizes.get(supportedSizes.size() / 2);
+                }
+                parameters.setPictureSize(selectedSize.width, selectedSize.height);
+                mCamera.setParameters(parameters);
+            }
 
             TimerTask takePhotoTask = new TimerTask() {
                 @Override

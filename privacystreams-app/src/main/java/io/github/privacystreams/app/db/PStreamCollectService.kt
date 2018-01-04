@@ -16,6 +16,9 @@ import android.app.NotificationManager
 import android.app.NotificationChannel
 import android.graphics.Color
 import android.os.Build
+import android.os.PowerManager
+import android.os.PowerManager.WakeLock
+
 
 
 
@@ -49,6 +52,8 @@ class PStreamCollectService : Service() {
     internal lateinit var dbTables: List<PStreamTable>
     internal lateinit var activeTables: Set<String>
 
+    internal lateinit var wakeLock: WakeLock
+
     override fun onCreate() {
         dbHelper = PStreamDBHelper.getInstance(this)
         dbTables = dbHelper.tables
@@ -80,12 +85,18 @@ class PStreamCollectService : Service() {
         val pref = applicationContext.getSharedPreferences(Config.APP_NAME, Context.MODE_PRIVATE)
         activeTables = pref.getStringSet(LAST_TABLES, HashSet<String>())
         Log.d(Config.APP_NAME, "Loaded last active tables: " + activeTables)
+
+        val powerManager : PowerManager = getSystemService(Context.POWER_SERVICE) as PowerManager
+        wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "MyWakelockTag")
+        wakeLock.acquire();
     }
 
     override fun onDestroy() {
         dbTables.forEach { it.stopCollecting() }
         stopForeground(true)
         dbHelper.close()
+
+        wakeLock.release()
     }
 
     override fun onBind(intent: Intent): IBinder? {
