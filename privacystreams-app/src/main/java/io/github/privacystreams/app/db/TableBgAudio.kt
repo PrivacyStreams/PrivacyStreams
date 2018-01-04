@@ -43,7 +43,7 @@ class TableBgAudio(dbHelper: PStreamDBHelper) : PStreamTable(dbHelper) {
 
     override fun collectStreamToTable() {
         val db = dbHelper.writableDatabase
-        this.uqi.getData(Audio.recordPeriodic(10*1000, 5*60*1000), this.purpose)
+        this.uqi.getData(Audio.recordPeriodic(10*1000, 1*60*1000), this.purpose)
                 .setField("tempPath", AudioOperators.getFilepath(Audio.AUDIO_DATA))
                 .logAs(this.tableName)
                 .forEach(object : Callback<Item>() {
@@ -57,7 +57,7 @@ class TableBgAudio(dbHelper: PStreamDBHelper) : PStreamTable(dbHelper) {
                         try {
                             val tempPath : String = input.getValueByField("tempPath")
                             val tempFile = File(tempPath)
-                            val audioPath = Config.DATA_DIR + "/audio_" + TimeUtils.getTimeTag() + ".3gp"
+                            val audioPath = Config.DATA_DIR + "/audio_" + TimeUtils.getTimeTag() + ".amr"
                             val audioFile : File = StorageUtils.getValidFile(uqi.context, audioPath, true)
                             tempFile.copyTo(audioFile, true)
                             tempFile.delete()

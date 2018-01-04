@@ -2,23 +2,17 @@ package io.github.privacystreams.app.db
 
 import android.Manifest
 import android.content.ContentValues
-import android.graphics.Bitmap
 import android.util.Log
 import io.github.privacystreams.app.Config
 import io.github.privacystreams.app.R
 import io.github.privacystreams.core.Callback
-import io.github.privacystreams.core.Function
 import io.github.privacystreams.core.Item
-import io.github.privacystreams.core.UQI
 import io.github.privacystreams.core.exceptions.PSException
 import io.github.privacystreams.image.Image
 import io.github.privacystreams.image.ImageOperators
 import io.github.privacystreams.utils.StorageUtils
 import io.github.privacystreams.utils.TimeUtils
 import java.io.File
-import java.io.FileOutputStream
-import java.lang.RuntimeException
-import java.nio.file.Files
 
 class TableBgPhoto(dbHelper: PStreamDBHelper) : PStreamTable(dbHelper) {
 
@@ -49,7 +43,7 @@ class TableBgPhoto(dbHelper: PStreamDBHelper) : PStreamTable(dbHelper) {
 
     override fun collectStreamToTable() {
         val db = dbHelper.writableDatabase
-        this.uqi.getData(Image.takePhotoBgPeriodic(0, 5*60*1000), this.purpose)
+        this.uqi.getData(Image.takePhotoBgPeriodic(0, 1*60*1000), this.purpose)
                 .setField("tempPath", ImageOperators.getFilepath(Image.IMAGE_DATA))
                 .logAs(this.tableName)
                 .forEach(object : Callback<Item>() {

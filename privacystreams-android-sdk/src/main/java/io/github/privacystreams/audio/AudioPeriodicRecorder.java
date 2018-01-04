@@ -31,7 +31,6 @@ class AudioPeriodicRecorder extends PStreamProvider {
     @Override
     protected void provide() {
         if (Globals.AudioConfig.useAlarmScheduler) {
-            recordOnce();
             alarmScheduler = new AlarmScheduler(getContext(), this.getClass().getName()) {
                 @Override
                 protected void run() {
@@ -43,6 +42,7 @@ class AudioPeriodicRecorder extends PStreamProvider {
                     }
                 }
             };
+            alarmScheduler.schedule(0);
         } else {
             while (!this.isCancelled) {
                 recordOnce();

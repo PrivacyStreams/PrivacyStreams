@@ -52,7 +52,7 @@ class AudioRecorder extends PStreamProvider {
         recorder.setOutputFormat(Globals.AudioConfig.outputFormat);
         recorder.setAudioEncoder(Globals.AudioConfig.audioEncoder);
 
-        String audioPath = "temp/audio_" + TimeUtils.getTimeTag();
+        String audioPath = "temp/audio_" + TimeUtils.getTimeTag() + ".amr";
         File tempAudioFile = StorageUtils.getValidFile(uqi.getContext(), audioPath, false);
         recorder.setOutputFile(tempAudioFile.getAbsolutePath());
 
