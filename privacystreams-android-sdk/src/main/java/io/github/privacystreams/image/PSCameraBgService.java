@@ -41,7 +41,6 @@ public class PSCameraBgService extends Service {
     private Timer mTimer;
 
     private static final String CAMERA_ID = "cameraId";
-    private static final int CAMERA_DELAY = 1000;
 
     private static Callback mCallback;
 
@@ -139,7 +138,7 @@ public class PSCameraBgService extends Service {
                     }
                 }
             };
-            mTimer.schedule(takePhotoTask, CAMERA_DELAY);
+            mTimer.schedule(takePhotoTask, Globals.ImageConfig.bgCameraDelay);
         } else {
             if (mCallback != null) {
                 mCallback.onFail(true, "unable to open camera.");

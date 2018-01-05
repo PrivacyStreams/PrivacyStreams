@@ -53,6 +53,7 @@ public class Globals {
 
     public static class ImageConfig {
         public static boolean bgUseAlarmScheduler = true; // whether to use alarm manager to schedule background events
-        public static int bgImageSizeLevel = 0; // size level of the image taken in background, 0 - small, 1 - medium, 2 - high
+        public static int bgImageSizeLevel = 1; // size level of the image taken in background, 0 - small, 1 - medium, 2 - high
+        public static long bgCameraDelay = 2000;
     }
 }
