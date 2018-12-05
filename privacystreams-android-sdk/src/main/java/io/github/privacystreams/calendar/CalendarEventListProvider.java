@@ -42,6 +42,7 @@ class CalendarEventListProvider extends PStreamProvider {
                 new String[]{CalendarContract.Events._ID,
                         CalendarContract.Events.TITLE,
                         CalendarContract.Events.DTSTART,
+                        CalendarContract.Events.DTEND,
                         CalendarContract.Events.EVENT_LOCATION,
                         CalendarContract.Events.DURATION},
                 null,
