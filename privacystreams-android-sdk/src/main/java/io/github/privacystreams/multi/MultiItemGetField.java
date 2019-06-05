@@ -20,7 +20,7 @@ class MultiItemGetField extends MultiProcessor<Object> {
     protected Object processMulti(UQI uqi, Item item) {
         List<Object> items = item.getValueByField("items");
         Item i = (Item)items.get(itemIndex);
-        //how to deal with logs of items
+        Assertions.notNull("i", i);
         return i.getValueByField(itemField);
     }
 }

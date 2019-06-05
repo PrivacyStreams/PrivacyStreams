@@ -136,11 +136,11 @@ public class MLOperators {
         }
     }
 
-    public static Function<Item, Object> textRecognitionText(String inputField){
-        return new MLKitTextRecognition(inputField, true);
+/*    public static Function<Item, Object> MLKitTextRecognitionBitmap(String inputField, boolean onlyText){
+        return new MLKitTextRecognition(inputField, onlyText, true);
     }
 
-    public static Function<Item, Object> textRecognitionAll(String inputField){
-        return new MLKitTextRecognition(inputField, false);
-    }
+    public static Function<Item, Object> MLKitTextRecognitionFilepath(String inputField, boolean onlyText){
+        return new MLKitTextRecognition(inputField, onlyText, false);
+    }*/
 }

@@ -38,6 +38,9 @@ import io.github.privacystreams.image.ImageOperators;
 import io.github.privacystreams.location.Geolocation;
 import io.github.privacystreams.location.GeolocationOperators;
 import io.github.privacystreams.location.LatLon;
+import io.github.privacystreams.machine_learning.MLOperators;
+import io.github.privacystreams.multi.MultiItem;
+import io.github.privacystreams.multi.MultiOperators;
 import io.github.privacystreams.notification.Notification;
 import io.github.privacystreams.io.IOOperators;
 import io.github.privacystreams.utils.Duration;
@@ -47,6 +50,7 @@ import io.github.privacystreams.utils.TimeUtils;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Vector;
 
 import static io.github.privacystreams.commons.statistic.StatisticOperators.count;
 import static io.github.privacystreams.commons.statistic.StatisticOperators.sum;
@@ -64,6 +68,79 @@ public class TestCases {
         this.context = context;
         this.uqi = new UQI(context);
     }
+
+    /*public void testMLKitTextRecognition(){
+        Vector<String> tf = new Vector<>();
+        tf.add("bitmap_text");
+        tf.add("filepath_text");
+        uqi.getData(Image.takePhoto(), Purpose.TEST("testing ML Kit Text Recognition (NOTE: privacy streams has preexisting text recognition"))
+                .setField("bitmap", ImageOperators.getBitmap("image_data"))
+                .setField("filepath", ImageOperators.getFilepath("image_data"))
+                .setField("bitmap_text", MLOperators.MLKitTextRecognitionBitmap("bitmap", true))
+                .setField("filepath_text", MLOperators.MLKitTextRecognitionFilepath("filepath", true))
+                .setField("text_res", MLOperators.tuple(tf))
+                .forEach("text_res", new Callback<List<Object>>() {
+                    protected void onInput(List<Object> input){
+                        System.out.println("TEXT RECOGNITION");
+                        System.out.println("BITMAP: " + input.get(0));
+                        System.out.println("FILEPATH: " + input.get(1));
+                    }
+                });
+    }*/
+    public void testMultiItem(){
+        Vector<MultiItem.ItemType> item_types = new Vector<>();
+        item_types.add(MultiItem.ItemType.AUDIO);
+        item_types.add(MultiItem.ItemType.CALL);
+        item_types.add(MultiItem.ItemType.LIGHT);
+        item_types.add(MultiItem.ItemType.ROTATION_VECTOR);
+
+        Vector<String> tupleFields = new Vector<>();
+        tupleFields.add("loudness");
+        tupleFields.add("brightness");
+        tupleFields.add("call_log");
+        tupleFields.add("rot_vec");
+
+
+        Vector<String> rot_vec = new Vector<>();
+        rot_vec.add("rot_vec_x");
+        rot_vec.add("rot_vec_y");
+        rot_vec.add("rot_vec_z");
+        rot_vec.add("rot_vec_s");
+
+        Vector<Purpose> purposes = new Vector<>();
+        for(int i = 0; i < item_types.size(); i++) {
+            purposes.add(Purpose.TEST("TESTING MULTI"));
+        }
+
+        uqi.getData(MultiItem.oneshot(item_types, purposes, 1000, 5), Purpose.TEST("Texting multiItem"))
+                .setField("audio_data", MultiOperators.getItemField(0, "audio_data"))
+                .setField("loudness", AudioOperators.calcLoudness("audio_data"))
+                .setField("brightness", MultiOperators.getItemField(2, "illuminance"))
+                .setField("call_log", MultiOperators.getLogItemField(1, "contact"))
+                .setField("rot_vec_x", MultiOperators.getItemField(3, "x"))
+                .setField("rot_vec_y", MultiOperators.getItemField(3, "y"))
+                .setField("rot_vec_z", MultiOperators.getItemField(3, "z"))
+                .setField("rot_vec_s", MultiOperators.getItemField(3, "scalar"))
+                .setField("rot_vec", MLOperators.tuple(rot_vec))
+                .setField("tuple", MLOperators.tuple(tupleFields))
+                .forEach("tuple", new Callback<List<Object>>(){
+                    @Override
+                    protected void onInput(List<Object> input){
+                        System.out.println("Tuple: " + input);
+                    }
+                });
+                /*.forEach("loudness", new Callback<Object>() {
+                    protected void onInput(Object input){
+                        System.out.println(input);
+                    }
+                });*/
+
+    }
+
+    public void testTFLite(){
+
+    }
+
 
     public void testMerge() {
         uqi.getData(TestItem.asUpdates(10, 1.0, 1000), Purpose.TEST("Test merge"))

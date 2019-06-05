@@ -26,33 +26,13 @@ import io.github.privacystreams.sensor.StepCounter;
 
 
 class MultiItemOnce extends PStreamProvider{
-    private long duration = 0;
+    private long duration = 1000;
     private List<MultiItem.ItemType> item_types;
     private List<Object> items = new ArrayList<>();
     private List<Purpose> purposes;
-    private int limitForList = -1;
+    private int limit = -1;
     private final int asUpdatesDelay = 1000;
 
-    MultiItemOnce(List<MultiItem.ItemType> item_types){
-        this.item_types = item_types;
-        this.addParameters(item_types);
-    }
-
-    MultiItemOnce(List<MultiItem.ItemType> item_types, long duration){
-        this.item_types = item_types;
-        this.addParameters(item_types);
-        this.duration = duration;
-        this.addParameters(duration);
-    }
-
-    MultiItemOnce(List<MultiItem.ItemType> item_types, List<Purpose> purposes, long duration){
-        this.item_types = item_types;
-        this.addParameters(item_types);
-        this.purposes = purposes;
-        this.addParameters(purposes);
-        this.duration = duration;
-        this.addParameters(duration);
-    }
 
     MultiItemOnce(List<MultiItem.ItemType> item_types, List<Purpose> purposes, long duration, int limit){
         this.item_types = item_types;
@@ -61,8 +41,10 @@ class MultiItemOnce extends PStreamProvider{
         this.addParameters(purposes);
         this.duration = duration;
         this.addParameters(duration);
-        this.limitForList = limit;
-        this.addParameters(limit);
+        if(limit > 0) {
+            this.limit = limit;
+            this.addParameters(limit);
+        }
     }
 /*WHAT TO DO
     PURPOSES
@@ -93,12 +75,11 @@ class MultiItemOnce extends PStreamProvider{
                         items.add(getUQI().getData(Audio.record(this.duration), Purpose.TEST("testing"))
                                 .getFirst());
                         break;
-                    case BLUETOOTH_DEVICE :
-                        if(limitForList > 0) {
+                    case BLUETOOTH_DEVICE:
+                        if (limit > 0) {
                             items.add(getUQI().getData(BluetoothDevice.getScanResults(), purposes.get(i))
-                                    .limit(limitForList).asList());
-                        }
-                        else{
+                                    .limit(limit).asList());
+                        } else {
                             items.add(getUQI().getData(BluetoothDevice.getScanResults(), purposes.get(i))
                                     .asList());
                         }
@@ -113,29 +94,29 @@ class MultiItemOnce extends PStreamProvider{
                         break;
                 */
                     case CALENDAR_EVENT:
-                        if(limitForList > 0) {
+                        if (limit > 0) {
                             items.add(getUQI().getData(CalendarEvent.getAll(), purposes.get(i))
-                                    .limit(limitForList).asList());
-                        }
-                        else{
+                                    .limit(limit).asList());
+                        } else {
                             items.add(getUQI().getData(CalendarEvent.getAll(), purposes.get(i))
                                     .asList());
                         }
                         break;
                     case CALL: //asUpdates excluded
-                        if(limitForList > 0) {
+                        if (limit > 0) {
                             items.add(getUQI().getData(Call.getLogs(), purposes.get(i))
-                                    .limit(limitForList).asList());
-                        }
-                        else{
+                                    .limit(limit).asList());
+
+                        } else {
                             items.add(getUQI().getData(Call.getLogs(), purposes.get(i))
                                     .asList());
                         }
+
                         break;
                     case CONTACT:
-                        if(limitForList > 0) {
+                        if(limit > 0) {
                             items.add(getUQI().getData(Contact.getAll(), purposes.get(i))
-                                    .limit(limitForList).asList());
+                                    .limit(limit).asList());
                         }
                         else{
                             items.add(getUQI().getData(Contact.getAll(), purposes.get(i))
@@ -191,9 +172,9 @@ class MultiItemOnce extends PStreamProvider{
                             .getFirst());
                         break;
                     case MESSAGE:
-                        if(limitForList > 0) {
+                        if(limit > 0) {
                             items.add(getUQI().getData(Message.getAllSMS(), purposes.get(i))
-                                    .limit(limitForList)
+                                    .limit(limit)
                                     .asList());
                         }
                         else{
@@ -219,9 +200,9 @@ class MultiItemOnce extends PStreamProvider{
                         break;
                    // case TEST_ITEM:
                     case WIFI_AP: //needs higher api level
-                        if(limitForList > 0){
+                        if(limit > 0){
                       //      items.add(getUQI().getData(WifiAp.getScanResults(), purposes.get(i))
-                      //              .limit(limitForList)
+                      //              .limit(limit)
                       //              .asList());
                         }
                         else{

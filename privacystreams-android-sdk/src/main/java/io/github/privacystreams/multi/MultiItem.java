@@ -26,16 +26,8 @@ public class MultiItem extends Item{
         this.setFieldValue(ITEMS, items);
     }
 
-    public static PStreamProvider oneshot(List<ItemType> item_types) {
-        return new MultiItemOnce(item_types);
-    }
-
-    public static PStreamProvider oneshot(List<ItemType> item_types, long duration) {
-        return new MultiItemOnce(item_types, duration);
-    }
-
-    public static PStreamProvider oneshot(List<ItemType> item_types, List<Purpose> purposes, long duration) {
-        return new MultiItemOnce(item_types, purposes, duration);
+    public static PStreamProvider oneshot(List<ItemType> item_types, List<Purpose> purposes, long duration, int limit) {
+        return new MultiItemOnce(item_types, purposes, duration, limit);
     }
 
 /*    public static PStreamProvider periodic(List<ItemType> item_types, long interval) {

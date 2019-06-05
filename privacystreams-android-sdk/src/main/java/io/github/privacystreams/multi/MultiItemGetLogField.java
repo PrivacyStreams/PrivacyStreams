@@ -21,11 +21,15 @@ class MultiItemGetLogField extends MultiProcessor<Object> {
     @Override
     protected List<Object> processMulti(UQI uqi, Item item) {
         List<Object> items = item.getValueByField("items");
-        List<Item> ilist = (List<Item>)items.get(itemIndex);
+        Assertions.notNull("", items);
+        List<Item> ilist = (List<Item>)(items.get(itemIndex));
+
         List<Object> fieldList = new ArrayList<>();
-        for(int i = 0; i < ilist.size(); i++){
+        Assertions.notNull("ilist", ilist);
+        for (int i = 0; i < ilist.size(); i++) {
             fieldList.add(ilist.get(i).getValueByField(itemField));
         }
+
         return fieldList;
     }
 }
