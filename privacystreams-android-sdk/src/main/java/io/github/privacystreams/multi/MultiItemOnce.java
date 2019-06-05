@@ -7,12 +7,17 @@ import io.github.privacystreams.audio.Audio;
 import io.github.privacystreams.calendar.CalendarEvent;
 import io.github.privacystreams.communication.Call;
 import io.github.privacystreams.communication.Contact;
+import io.github.privacystreams.communication.Email;
 import io.github.privacystreams.communication.Message;
 import io.github.privacystreams.core.PStreamProvider;
 import io.github.privacystreams.core.exceptions.PSException;
 import io.github.privacystreams.core.items.EmptyItem;
 import io.github.privacystreams.core.purposes.Purpose;
 import io.github.privacystreams.device.BluetoothDevice;
+import io.github.privacystreams.device.DeviceEvent;
+import io.github.privacystreams.device.DeviceState;
+import io.github.privacystreams.image.Image;
+import io.github.privacystreams.location.Geolocation;
 import io.github.privacystreams.sensor.Acceleration;
 import io.github.privacystreams.sensor.AirPressure;
 import io.github.privacystreams.sensor.AmbientTemperature;
@@ -32,13 +37,28 @@ class MultiItemOnce extends PStreamProvider{
     private List<Purpose> purposes;
     private int limit = -1;
     private final int asUpdatesDelay = 1000;
+    private int cameraId = 0;
+    private int mask = 0;
+    private long afterTime = 0;
+    private long beforeTime = 0;
+    private String level = Geolocation.LEVEL_EXACT;
 
+    MultiItemOnce(List<MultiItem.ItemType> item_types, List<Purpose> purposes){
+        this.item_types = item_types;
+        this.addParameters(item_types);
+        this.purposes = purposes;
+        this.addParameters(purposes);
+    }
 
     MultiItemOnce(List<MultiItem.ItemType> item_types, List<Purpose> purposes, long duration, int limit){
         this.item_types = item_types;
         this.addParameters(item_types);
         this.purposes = purposes;
         this.addParameters(purposes);
+        if(duration > 0) {
+            this.duration = duration;
+            this.addParameters(duration);
+        }
         this.duration = duration;
         this.addParameters(duration);
         if(limit > 0) {
@@ -46,35 +66,71 @@ class MultiItemOnce extends PStreamProvider{
             this.addParameters(limit);
         }
     }
+    MultiItemOnce(List<MultiItem.ItemType> item_types, List<Purpose> purposes, long duration, int limit,
+                  int cameraId, int mask, String level, long afterTime, long beforeTime){
+        this.item_types = item_types;
+        this.addParameters(item_types);
+        this.purposes = purposes;
+        this.addParameters(purposes);
+        this.duration = duration;
+        this.addParameters(duration);
+        this.duration = duration;
+        this.addParameters(duration);
+        this.limit = limit;
+        this.addParameters(limit);
+        this.cameraId = cameraId;
+        this.addParameters(cameraId);
+        this.mask = mask;
+        this.addParameters(mask);
+        this.level = level;
+        this.addParameters(level);
+        this.afterTime = afterTime;
+        this.addParameters(afterTime);
+        this.beforeTime = beforeTime;
+        this.addParameters(beforeTime);
+    }
 /*WHAT TO DO
     PURPOSES
     asUpdates: as updates option where updates whenever any of them update?
     logs: optional limit --> as list, default limit?
-    multiple types of getting stuff
     different durations
-    get things from storage
+    drop some data types??
+    reverse log option?
  */
     @Override
     protected void provide(){
         for(int i = 0; i < this.item_types.size(); i++) {
             try{
                 switch(this.item_types.get(i)) {
-                    case ACCELERATION: //asUpdates
+                    case ACCELERATION:
                         items.add(getUQI().getData(Acceleration.asUpdates(asUpdatesDelay), purposes.get(i))
                                 .getFirst());
                         break;
-                    case AIR_PRESSURE: //asUpdates
+                    case AIR_PRESSURE:
                         items.add(getUQI().getData(AirPressure.asUpdates(asUpdatesDelay), purposes.get(i))
                                 .getFirst());
                         break;
-                    case AMBIENT_TEMPERATURE: //asUpdates
+                    case AMBIENT_TEMPERATURE:
                         items.add(getUQI().getData(AmbientTemperature.asUpdates(asUpdatesDelay), purposes.get(i))
                                 .getFirst());
                         break;
-                    case AUDIO: //from storage
+                    case AUDIO:
                         items.add(getUQI().getData(Audio.record(this.duration), Purpose.TEST("testing"))
                                 .getFirst());
                         break;
+                    case AUDIO_FROMSTORAGE:
+                        if (limit > 0) {
+                            items.add(getUQI().getData(Audio.getFromStorage(), Purpose.TEST("testing"))
+                                    .reverse()
+                                    .limit(limit)
+                                    .asList());
+                        } else {
+                            items.add(getUQI().getData(BluetoothDevice.getScanResults(), purposes.get(i))
+                                    .reverse()
+                                    .asList());
+                        }
+                        break;
+
                     case BLUETOOTH_DEVICE:
                         if (limit > 0) {
                             items.add(getUQI().getData(BluetoothDevice.getScanResults(), purposes.get(i))
@@ -93,7 +149,7 @@ class MultiItemOnce extends PStreamProvider{
                                 .getFirst());
                         break;
                 */
-                    case CALENDAR_EVENT:
+                    case CALENDAR:
                         if (limit > 0) {
                             items.add(getUQI().getData(CalendarEvent.getAll(), purposes.get(i))
                                     .limit(limit).asList());
@@ -102,7 +158,7 @@ class MultiItemOnce extends PStreamProvider{
                                     .asList());
                         }
                         break;
-                    case CALL: //asUpdates excluded
+                    case CALL:
                         if (limit > 0) {
                             items.add(getUQI().getData(Call.getLogs(), purposes.get(i))
                                     .limit(limit).asList());
@@ -123,33 +179,36 @@ class MultiItemOnce extends PStreamProvider{
                                     .asList());
                         }
                         break;
-                 /*   case DEVICE_EVENT: //asUpdates
+                    case DEVICE_EVENT:
                         items.add(getUQI().getData(DeviceEvent.asUpdates(), purposes.get(i))
                                 .getFirst());
                         break;
-                 */
-                    case DEVICE_STATE: //additional parameters, asUpdates
-                    //    items.add(getUQI().getData(DeviceState.asUpdates(asUpdatesDelay, mask), purposes.get(i))
-                    //            .getFirst());
+
+                    case DEVICE_STATE:
+                        items.add(getUQI().getData(DeviceState.asUpdates(asUpdatesDelay, mask), purposes.get(i))
+                                .getFirst());
                         break;
-                    /*case EMAIL: //asUpdates, additional parameters
-                        if(limitForList > 0 ) {
-                            items.add(getUQI().getData(Email.asGmailHistory(afterTime, beforeTime, limitForList), purposes.get(i))
+                    case EMAIL:
+                        if(limit > 0 ) {
+                            items.add(getUQI().getData(Email.asGmailHistory(afterTime, beforeTime, limit), purposes.get(i))
                                 .asList());
                         }
                         else{
-                            items.add(getUQI().getData(Email.asGmailHistory(afterTime, beforeTime, 10), purpose.get(i))
+                            items.add(getUQI().getData(Email.asGmailHistory(afterTime, beforeTime, 10), purposes.get(i))
                                 .asList());
                         }
                         break;
-                        */
                     case EMPTY_ITEM:
                         items.add(getUQI().getData(EmptyItem.asUpdates(asUpdatesDelay), purposes.get(i))
                             .getFirst());
                         break;
-                    case GEOLOCATION: //asLastKnown or asCurrent
-                    //    items.add(getUQI().getData(Geolocation.asCurrent(level), purposes.get(i))
-                    //        .getFirst());
+                    case GEOLOCATION_LASTKNOWN:
+                       items.add(getUQI().getData(Geolocation.asLastKnown(level), purposes.get(i))
+                            .getFirst());
+                       break;
+                    case GEOLOCATION_CURRENT:
+                        items.add(getUQI().getData(Geolocation.asCurrent(level), purposes.get(i))
+                                .getFirst());
                         break;
                     case GRAVITY:
                         items.add(getUQI().getData(Gravity.asUpdates(asUpdatesDelay), purposes.get(i))
@@ -159,9 +218,25 @@ class MultiItemOnce extends PStreamProvider{
                         items.add(getUQI().getData(Gyroscope.asUpdates(asUpdatesDelay), purposes.get(i))
                             .getFirst());
                         break;
-                    case IMAGE:
-                    //    items.add(getUQI().getData(Image.takePhotoBgPeriodic(cameraId, asUpdatesDelay), purposes.get(i))
-                    //        .getFirst());
+                    case IMAGE_TAKE:
+                        items.add(getUQI().getData(Image.takePhoto(), purposes.get(i))
+                            .getFirst());
+                        break;
+                    case IMAGE_BG:
+                        items.add(getUQI().getData(Image.takePhotoBg(cameraId), purposes.get(i))
+                            .getFirst());
+                        break;
+                    case IMAGE_FROMSTORAGE:
+                        if (limit > 0) {
+                            items.add(getUQI().getData(Image.readStorage(), purposes.get(i))
+                                    .reverse()
+                                    .limit(limit)
+                                    .asList());
+                        } else {
+                            items.add(getUQI().getData(Image.readStorage(), purposes.get(i))
+                                    .reverse()
+                                    .asList());
+                        }
                         break;
                     case LIGHT:
                         items.add(getUQI().getData(Light.asUpdates(asUpdatesDelay), Purpose.TEST("testing"))

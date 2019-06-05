@@ -87,18 +87,34 @@ public class TestCases {
                     }
                 });
     }*/
-    public void testMultiItem(){
+    public void testEmptyMultiItem() {
+        System.out.println("TESTING EMPTY MULTIITEM");
         Vector<MultiItem.ItemType> item_types = new Vector<>();
-        item_types.add(MultiItem.ItemType.AUDIO);
-        item_types.add(MultiItem.ItemType.CALL);
-        item_types.add(MultiItem.ItemType.LIGHT);
+        Vector<Purpose> purposes = new Vector<>();
+        uqi.getData(MultiItem.oneshot(item_types, purposes), Purpose.TEST("Test empty multiItem"))
+                .forEach("items", new Callback<List<Object>>() {
+                    protected void onInput(List<Object> input){
+                        System.out.println(input);
+                    }
+                });
+    }
+    public void testMultiItem(){
+        System.out.println("TESTING MULTIITEM");
+        Vector<MultiItem.ItemType> item_types = new Vector<>();
+        item_types.add(MultiItem.ItemType.AUDIO);   //audio
+        item_types.add(MultiItem.ItemType.CALL);    //log
+        item_types.add(MultiItem.ItemType.LIGHT);   //sensor
         item_types.add(MultiItem.ItemType.ROTATION_VECTOR);
+        item_types.add(MultiItem.ItemType.IMAGE_TAKE); //images
+        item_types.add(MultiItem.ItemType.IMAGE_FROMSTORAGE);
 
         Vector<String> tupleFields = new Vector<>();
         tupleFields.add("loudness");
         tupleFields.add("brightness");
         tupleFields.add("call_log");
         tupleFields.add("rot_vec");
+        tupleFields.add("take_image_text");
+        tupleFields.add("storage_image_text");
 
 
         Vector<String> rot_vec = new Vector<>();
@@ -112,7 +128,7 @@ public class TestCases {
             purposes.add(Purpose.TEST("TESTING MULTI"));
         }
 
-        uqi.getData(MultiItem.oneshot(item_types, purposes, 1000, 5), Purpose.TEST("Texting multiItem"))
+        uqi.getData(MultiItem.oneshot(item_types, purposes, 1000, 1), Purpose.TEST("Texting multiItem"))
                 .setField("audio_data", MultiOperators.getItemField(0, "audio_data"))
                 .setField("loudness", AudioOperators.calcLoudness("audio_data"))
                 .setField("brightness", MultiOperators.getItemField(2, "illuminance"))
@@ -121,6 +137,10 @@ public class TestCases {
                 .setField("rot_vec_y", MultiOperators.getItemField(3, "y"))
                 .setField("rot_vec_z", MultiOperators.getItemField(3, "z"))
                 .setField("rot_vec_s", MultiOperators.getItemField(3, "scalar"))
+                .setField("image_take", MultiOperators.getItemField(4, "image_data"))
+                .setField("image_storage", MultiOperators.getLogFirstItemField(5, "image_data"))
+                .setField("take_image_text", ImageOperators.extractText("image_take"))
+                .setField("storage_image_text", ImageOperators.extractText("image_storage"))
                 .setField("rot_vec", MLOperators.tuple(rot_vec))
                 .setField("tuple", MLOperators.tuple(tupleFields))
                 .forEach("tuple", new Callback<List<Object>>(){

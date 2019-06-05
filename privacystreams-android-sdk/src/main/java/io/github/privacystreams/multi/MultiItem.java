@@ -10,10 +10,12 @@ import io.github.privacystreams.utils.annotations.PSItemField;
 
 @PSItem
 public class MultiItem extends Item{
-    public enum ItemType  {ACCELERATION, AIR_PRESSURE, AMBIENT_TEMPERATURE, AUDIO, BLUETOOTH_DEVICE, BROWSER_SEARCH,
-            BROWSER_VISIT, CALENDAR_EVENT, CALL, CONTACT, DEVICE_EVENT, DEVICE_STATE, EMAIL, EMPTY_ITEM,
-        GEOLOCATION, GRAVITY, GYROSCOPE, IMAGE, LIGHT, LINEAR_ACCELERATION, MESSAGE,
-        NOTIFICATION, RELATIVE_HUMIDITY, ROTATION_VECTOR, STEP_COUNTER, TEST_ITEM, WIFI_AP }
+    public enum ItemType  {ACCELERATION, AIR_PRESSURE, AMBIENT_TEMPERATURE, AUDIO_FROMSTORAGE,
+        AUDIO, BLUETOOTH_DEVICE, CALENDAR, CALL, CONTACT, DEVICE_EVENT, DEVICE_STATE, EMAIL,
+        EMPTY_ITEM, GEOLOCATION_CURRENT, GEOLOCATION_LASTKNOWN, GRAVITY, GYROSCOPE, IMAGE_BG,
+        IMAGE_FROMSTORAGE, IMAGE_TAKE, LIGHT, LINEAR_ACCELERATION, MESSAGE, RELATIVE_HUMIDITY,
+        ROTATION_VECTOR, STEP_COUNTER, TEST_ITEM, WIFI_AP }
+
     @PSItemField(type = List.class)
     public static final String ITEM_TYPES = "item_types";
 
@@ -26,10 +28,17 @@ public class MultiItem extends Item{
         this.setFieldValue(ITEMS, items);
     }
 
+    public static PStreamProvider oneshot(List<ItemType> item_types, List<Purpose> purposes) {
+        return new MultiItemOnce(item_types, purposes);
+    }
+
     public static PStreamProvider oneshot(List<ItemType> item_types, List<Purpose> purposes, long duration, int limit) {
         return new MultiItemOnce(item_types, purposes, duration, limit);
     }
-
+    public static PStreamProvider oneshot(List<ItemType> item_types, List<Purpose> purposes, long duration, int limit,
+                                          int cameraId, int mask, String level, long afterTime, long beforeTime) {
+        return new MultiItemOnce(item_types, purposes, duration, limit, cameraId, mask, level, afterTime, beforeTime);
+    }
 /*    public static PStreamProvider periodic(List<ItemType> item_types, long interval) {
         return new MultiItemPeriodic(item_types, interval);
     }

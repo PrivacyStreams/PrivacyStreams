@@ -1,5 +1,7 @@
 package io.github.privacystreams.multi;
 
+import java.util.List;
+
 import io.github.privacystreams.core.Function;
 import io.github.privacystreams.core.Item;
 import io.github.privacystreams.utils.annotations.PSOperatorWrapper;
@@ -10,8 +12,20 @@ public class MultiOperators {
         return new MultiItemGetField(itemIndex, itemField);
     }
 
-    public static Function<Item, Object> getLogItemField(int itemIndex, String itemField) {
+    public static Function<Item, List<Object>> getLogItemField(int itemIndex, String itemField) {
         return new MultiItemGetLogField(itemIndex, itemField);
+    }
+
+    public static Function<Item, Object> getLogIndexItemField(int itemIndex, int indexInLog, String itemField){
+        return new MultiItemGetLogIndexField(itemIndex, indexInLog, itemField);
+    }
+
+    public static Function<Item, Object> getLogFirstItemField(int itemIndex, String itemField){
+        return new MultiItemGetLogIndexField(itemIndex, 0, itemField);
+    }
+
+    public static Function<Item, Object> getLogLastItemField(int itemIndex, String itemField){
+        return new MultiItemGetLogIndexField(itemIndex, -1, itemField);
     }
 }
 

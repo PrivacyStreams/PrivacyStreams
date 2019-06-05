@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
             TestCases testCases = new TestCases(MainActivity.this);
 
 //            testCases.testMLKitTextRecognition();
+            testCases.testEmptyMultiItem();
             testCases.testMultiItem();
 //            testCases.testTakePhotoBg();
 //            testCases.testMerge();
