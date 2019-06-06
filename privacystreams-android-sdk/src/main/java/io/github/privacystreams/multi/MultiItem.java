@@ -39,11 +39,12 @@ public class MultiItem extends Item{
                                           int cameraId, int mask, String level, long afterTime, long beforeTime) {
         return new MultiItemOnce(item_types, purposes, duration, limit, cameraId, mask, level, afterTime, beforeTime);
     }
-/*    public static PStreamProvider periodic(List<ItemType> item_types, long interval) {
-        return new MultiItemPeriodic(item_types, interval);
+    public static PStreamProvider periodic(List<ItemType> item_types, List<Purpose> purposes, long interval, long duration, int limit) {
+        return new MultiItemPeriodic(item_types, purposes, interval, duration, limit);
     }
 
-    public static PStreamProvider periodic(List<ItemType> item_types, long duration, long interval) {
-        return new MultiItemPeriodic(item_types, duration, interval);
-    }*/
+    public static PStreamProvider periodic(List<ItemType> item_types, List<Purpose> purposes, long interval, long duration, int limit,
+                                           int cameraId, int mask, String level, long afterTime, long beforeTime) {
+        return new MultiItemPeriodic(item_types, purposes, interval, duration, limit, cameraId, mask, level, afterTime, beforeTime);
+    }
 }

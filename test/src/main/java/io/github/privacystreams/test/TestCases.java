@@ -83,7 +83,7 @@ public class TestCases {
         this.context = context;
         this.uqi = new UQI(context);
     }
-
+    // will finish MLKit stuff later because MLKit is not designed to be put into libraries??
     /*public void testMLKitTextRecognition(){
         Vector<String> tf = new Vector<>();
         tf.add("bitmap_text");
@@ -110,6 +110,50 @@ public class TestCases {
                 .forEach("items", new Callback<List<Object>>() {
                     protected void onInput(List<Object> input){
                         System.out.println(input);
+                    }
+                });
+    }
+    public void testMultiItemPeriodic(){ // has issues
+        System.out.println("TESTING MULTIITEM PERIODIC");
+        Vector<MultiItem.ItemType> item_types = new Vector<>();
+        item_types.add(MultiItem.ItemType.AUDIO);   //audio
+        item_types.add(MultiItem.ItemType.CALL);    //log
+        item_types.add(MultiItem.ItemType.LIGHT);   //sensor
+        item_types.add(MultiItem.ItemType.ROTATION_VECTOR);
+
+        Vector<String> tupleFields = new Vector<>();
+        tupleFields.add("loudness");
+        tupleFields.add("brightness");
+        tupleFields.add("call_log");
+        tupleFields.add("rot_vec");
+
+
+        Vector<String> rot_vec = new Vector<>();
+        rot_vec.add("rot_vec_x");
+        rot_vec.add("rot_vec_y");
+        rot_vec.add("rot_vec_z");
+        rot_vec.add("rot_vec_s");
+
+        Vector<Purpose> purposes = new Vector<>();
+        for(int i = 0; i < item_types.size(); i++) {
+            purposes.add(Purpose.TEST("TESTING MULTI"));
+        }
+
+        uqi.getData(MultiItem.periodic(item_types, purposes, 10000, 1000, 1), Purpose.TEST("Texting multiItem"))
+                .setField("audio_data", MultiOperators.getItemField(0, "audio_data"))
+                .setField("loudness", AudioOperators.calcLoudness("audio_data"))
+                .setField("brightness", MultiOperators.getItemField(2, "illuminance"))
+                .setField("call_log", MultiOperators.getLogItemField(1, "contact"))
+                .setField("rot_vec_x", MultiOperators.getItemField(3, "x"))
+                .setField("rot_vec_y", MultiOperators.getItemField(3, "y"))
+                .setField("rot_vec_z", MultiOperators.getItemField(3, "z"))
+                .setField("rot_vec_s", MultiOperators.getItemField(3, "scalar"))
+                .setField("rot_vec", MLOperators.tuple(rot_vec))
+                .setField("tuple", MLOperators.tuple(tupleFields))
+                .forEach("tuple", new Callback<List<Object>>(){
+                    @Override
+                    protected void onInput(List<Object> input){
+                        System.out.println("Tuple: " + input);
                     }
                 });
     }
