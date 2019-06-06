@@ -23,7 +23,17 @@ android {
         abortOnError false
     }
 
+    aaptOptions {
+        noCompress "tflite"
+    }
+    compileOptions {
+        sourceCompatibility = '1.8'
+        targetCompatibility = '1.8'
+    }
+
 }
+
+
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
@@ -38,6 +48,10 @@ dependencies {
     compile 'com.google.android.gms:play-services-location:11.6.2'
     compile 'com.google.android.gms:play-services-vision:11.6.2'
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+
+    implementation 'org.tensorflow:tensorflow-lite:0.0.0-nightly'
+
+
 
 }
 repositories {

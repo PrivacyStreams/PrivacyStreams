@@ -74,13 +74,13 @@ public class MLOperators {
      * Takes a TF Lite Model Interpreter
      * User can customize the interpreter themselves and supply to function
      * Multiple inputs, Multiple output version
-     * @param inputFields input tensors
+     * @param inputField input tensors
      * @param outputs map of order of outputs
      * @param tflite Interpreter
      * @return
      */
-    public static Function<Item, Object> tfLiteInferInterpreter(List<String> inputFields, Map<Integer, Object> outputs, Interpreter tflite){
-        return new TFLiteInterpreterOutputs(inputFields, outputs, tflite);
+    public static Function<Item, Object> tfLiteInferInterpreter(String inputField, Map<Integer, Object> outputs, Interpreter tflite){
+        return new TFLiteInterpreterOutputs(inputField, outputs, tflite);
     }
 
     /**
@@ -113,10 +113,10 @@ public class MLOperators {
             return null;
         }
     }
-    public static Function<Item, Object> tfLiteInferModel(List<String> inputFields, Map<Integer, Object> outputs, File model){
+    public static Function<Item, Object> tfLiteInferModel(String inputField, Map<Integer, Object> outputs, File model){
         try {
             Interpreter tflite = new Interpreter(model);
-            return tfLiteInferInterpreter(inputFields, outputs, tflite);
+            return tfLiteInferInterpreter(inputField, outputs, tflite);
         }
         catch(IllegalArgumentException e){
             e.printStackTrace();
@@ -124,16 +124,21 @@ public class MLOperators {
             return null;
         }
     }
-    public static Function<Item, Object> tfLiteInferModel(List<String> inputFields, Map<Integer, Object> outputs, MappedByteBuffer model){
+    public static Function<Item, Object> tfLiteInferModel(String inputField, Map<Integer, Object> outputs, MappedByteBuffer model){
         try {
             Interpreter tflite = new Interpreter(model);
-            return tfLiteInferInterpreter(inputFields, outputs, tflite);
+            return tfLiteInferInterpreter(inputField, outputs, tflite);
         }
         catch(IllegalArgumentException e){
             e.printStackTrace();
             System.out.println("Wrong model argument");
             return null;
         }
+    }
+
+    public static Function<Item, Object[]> objectDetectionProcessor(String inputField, int inputSize, boolean isQuantized){
+        //inputfield for bitmap
+        return new TFLiteObjectDetectionProcessor(inputField, inputSize, isQuantized);
     }
 
 /*    public static Function<Item, Object> MLKitTextRecognitionBitmap(String inputField, boolean onlyText){

@@ -28,9 +28,9 @@ public class MainActivity extends AppCompatActivity {
         protected Object doInBackground(Object[] objects) {
             TestCases testCases = new TestCases(MainActivity.this);
 
-//            testCases.testMLKitTextRecognition();
-            testCases.testEmptyMultiItem();
-            testCases.testMultiItem();
+            testCases.testTFLiteInterpreter(getAssets());
+            //testCases.testEmptyMultiItem();
+            //testCases.testMultiItem();
 //            testCases.testTakePhotoBg();
 //            testCases.testMerge();
 //            testCases.testAccEvents();

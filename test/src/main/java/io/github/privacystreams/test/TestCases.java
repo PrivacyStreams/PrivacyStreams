@@ -1,8 +1,13 @@
 package io.github.privacystreams.test;
 
 import android.content.Context;
+import android.content.res.AssetFileDescriptor;
+import android.content.res.AssetManager;
+import android.graphics.RectF;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
+
+import org.tensorflow.lite.Interpreter;
 
 import io.github.privacystreams.accessibility.AccEvent;
 import io.github.privacystreams.accessibility.BrowserSearch;
@@ -47,6 +52,16 @@ import io.github.privacystreams.utils.Duration;
 import io.github.privacystreams.utils.Globals;
 import io.github.privacystreams.utils.TimeUtils;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.MappedByteBuffer;
+import java.nio.channels.FileChannel;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -157,8 +172,83 @@ public class TestCases {
 
     }
 
-    public void testTFLite(){
+    public void testTFLiteInterpreter(AssetManager assets){
+        final int NUM_DETECTIONS = 10;
+        // outputLocations: array of shape [Batchsize, NUM_DETECTIONS,4]
+        // contains the location of detected boxes
+        float[][][] outputLocations = new float[1][NUM_DETECTIONS][4];
+        // outputClasses: array of shape [Batchsize, NUM_DETECTIONS]
+        // contains the classes of detected boxes
+        float[][] outputClasses = new float[1][NUM_DETECTIONS];
+        // outputScores: array of shape [Batchsize, NUM_DETECTIONS]
+        // contains the scores of detected boxes
+        float[][] outputScores = new float[1][NUM_DETECTIONS];
+        // numDetections: array of shape [Batchsize]
+        // contains the number of detected boxes
+        float[] numDetections = new float[1];
 
+        int inputSize = 300;
+
+        Map<Integer, Object> outputMap = new HashMap<>();
+        outputMap.put(0, outputLocations);
+        outputMap.put(1, outputClasses);
+        outputMap.put(2, outputScores);
+        outputMap.put(3, numDetections);
+        Interpreter tflite;
+        try {
+            tflite = new Interpreter(loadModelFile(assets, "detect.tflite"));
+            //tflite = new Interpreter(loadModelFile(assets, "object_detection.tflite"));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+
+        uqi.getData(Image.takePhoto(), Purpose.TEST("Text TF Lite Object Detection"))
+                .setField("bitmap", ImageOperators.getBitmap("image_data"))
+                .setField("input", MLOperators.objectDetectionProcessor("bitmap", inputSize, true))
+                .setField("output", MLOperators.tfLiteInferInterpreter("input", outputMap, tflite))
+                .forEach("output", new Callback<Map<Integer, java.lang.Object>>() {
+                    protected void onInput(Map<Integer, java.lang.Object> input){
+                        Vector<String> labels = new Vector<String>();
+                        InputStream labelsInput = null;
+                        String labelFilename = "file:///android_asset/labelmap.txt";
+                        //String labelFilename = "file:///android_asset/object_detection_labelmap.txt";
+                        String actualFilename = labelFilename.split("file:///android_asset/")[1];
+                        try {
+                            labelsInput = assets.open(actualFilename);
+                            BufferedReader br = null;
+                            br = new BufferedReader(new InputStreamReader(labelsInput));
+                            String line;
+                            while ((line = br.readLine()) != null) {
+                                labels.add(line);
+                            }
+                            br.close();
+                        } catch (Exception e) {
+                            throw new RuntimeException(e);
+                        }
+                        ArrayList<String> classes = new ArrayList();
+                        ArrayList<Float> scores = new ArrayList();
+                        for (int i = 0; i < NUM_DETECTIONS; ++i) {
+                            int labelOffset = 1;
+                            classes.add(labels.get((int) outputClasses[0][i] + labelOffset));
+                            scores.add(outputScores[0][i]);
+                        }
+                        System.out.println(classes);
+                        System.out.println(scores);
+                    }
+                });
+
+
+    }
+
+    private static MappedByteBuffer loadModelFile(AssetManager assets, String modelFilename)
+            throws IOException {
+        AssetFileDescriptor fileDescriptor = assets.openFd(modelFilename);
+        FileInputStream inputStream = new FileInputStream(fileDescriptor.getFileDescriptor());
+        FileChannel fileChannel = inputStream.getChannel();
+        long startOffset = fileDescriptor.getStartOffset();
+        long declaredLength = fileDescriptor.getDeclaredLength();
+        return fileChannel.map(FileChannel.MapMode.READ_ONLY, startOffset, declaredLength);
     }
 
 
