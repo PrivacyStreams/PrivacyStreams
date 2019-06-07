@@ -3,6 +3,7 @@ package io.github.privacystreams.test;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Surface;
 import android.view.View;
 import android.widget.Button;
 
@@ -28,8 +29,23 @@ public class MainActivity extends AppCompatActivity {
         protected Object doInBackground(Object[] objects) {
             TestCases testCases = new TestCases(MainActivity.this);
 
-            //testCases.testTFLiteInterpreter(getAssets());
-            testCases.testMultiItemPeriodic();
+
+            Integer screenOrientation;
+            switch (getWindowManager().getDefaultDisplay().getRotation()) {
+                case Surface.ROTATION_270:
+                    screenOrientation = 270;
+                case Surface.ROTATION_180:
+                    screenOrientation = 180;
+                case Surface.ROTATION_90:
+                    screenOrientation = 90;
+                default:
+                    screenOrientation = 0;
+            }
+            Integer sensorOrientation = 270 - screenOrientation;
+            testCases.testTFLiteInterpreter(getAssets(), sensorOrientation);
+
+
+            //testCases.testMultiItemPeriodic();
             //testCases.testEmptyMultiItem();
             //testCases.testMultiItem();
 //            testCases.testTakePhotoBg();

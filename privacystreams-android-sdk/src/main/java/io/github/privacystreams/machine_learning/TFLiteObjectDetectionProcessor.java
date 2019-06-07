@@ -11,7 +11,6 @@ import java.util.Arrays;
 
 import io.github.privacystreams.core.Item;
 import io.github.privacystreams.core.UQI;
-import io.github.privacystreams.utils.ImageUtils;
 
 class TFLiteObjectDetectionProcessor extends MLProcessor<Object[]>{
     Bitmap bitmap;
@@ -22,12 +21,15 @@ class TFLiteObjectDetectionProcessor extends MLProcessor<Object[]>{
     boolean isModelQuantized;
     private static final float IMAGE_MEAN = 128.0f;
     private static final float IMAGE_STD = 128.0f;
+    Integer sensorOrientation;
 
 
-    TFLiteObjectDetectionProcessor(String inputField, int inputSize, boolean isQuantized){
+    TFLiteObjectDetectionProcessor(String inputField, int inputSize, boolean isQuantized, Integer sensorOrientation){
         super(Arrays.asList(new String[]{inputField}));
         this.inputField = inputField;
         this.addParameters(inputField);
+        this.sensorOrientation = sensorOrientation;
+        this.addParameters(sensorOrientation);
         this.inputSize = inputSize;
         this.addParameters(inputSize);
         this.isModelQuantized = isQuantized;
@@ -56,9 +58,20 @@ class TFLiteObjectDetectionProcessor extends MLProcessor<Object[]>{
 
         bitmap = item.getValueByField(inputField);
 
-        bitmap = Bitmap.createBitmap(bitmap, 0, 0, inputSize, inputSize);
 
-        bitmap.getPixels(intValues, 0, bitmap.getWidth(), 0, 0, bitmap.getWidth(), bitmap.getHeight());
+        Matrix frameToCropTransform =
+                getTransformationMatrix(
+                        bitmap.getWidth(), bitmap.getHeight(),
+                        inputSize, inputSize,
+                        sensorOrientation, false);
+        Bitmap croppedBitmap =  Bitmap.createBitmap(inputSize, inputSize, Bitmap.Config.ARGB_8888);
+
+        final Canvas canvas = new Canvas(croppedBitmap);
+        canvas.drawBitmap(bitmap, frameToCropTransform, null);
+
+
+        croppedBitmap.getPixels(intValues, 0, croppedBitmap.getWidth(), 0, 0,
+                croppedBitmap.getWidth(), croppedBitmap.getHeight());
 
         imgData.rewind();
         for (int i = 0; i < inputSize; ++i) {
@@ -80,5 +93,55 @@ class TFLiteObjectDetectionProcessor extends MLProcessor<Object[]>{
 ;       Object[] inputArray = {imgData};
 
         return inputArray;
+    }
+    public static Matrix getTransformationMatrix(
+            final int srcWidth,
+            final int srcHeight,
+            final int dstWidth,
+            final int dstHeight,
+            final int applyRotation,
+            final boolean maintainAspectRatio) {
+        final Matrix matrix = new Matrix();
+
+        if (applyRotation != 0) {
+            if (applyRotation % 90 != 0) {
+
+            }
+
+            // Translate so center of image is at origin.
+            matrix.postTranslate(-srcWidth / 2.0f, -srcHeight / 2.0f);
+
+            // Rotate around origin.
+            matrix.postRotate(applyRotation);
+        }
+        // Account for the already applied rotation, if any, and then determine how
+        // much scaling is needed for each axis.
+        final boolean transpose = (Math.abs(applyRotation) + 90) % 180 == 0;
+
+        final int inWidth = transpose ? srcHeight : srcWidth;
+        final int inHeight = transpose ? srcWidth : srcHeight;
+
+        // Apply scaling if necessary.
+        if (inWidth != dstWidth || inHeight != dstHeight) {
+            final float scaleFactorX = dstWidth / (float) inWidth;
+            final float scaleFactorY = dstHeight / (float) inHeight;
+
+            if (maintainAspectRatio) {
+                // Scale by minimum factor so that dst is filled completely while
+                // maintaining the aspect ratio. Some image may fall off the edge.
+                final float scaleFactor = Math.max(scaleFactorX, scaleFactorY);
+                matrix.postScale(scaleFactor, scaleFactor);
+            } else {
+                // Scale exactly to fill dst from src.
+                matrix.postScale(scaleFactorX, scaleFactorY);
+            }
+        }
+
+        if (applyRotation != 0) {
+            // Translate back from origin centered reference to destination frame.
+            matrix.postTranslate(dstWidth / 2.0f, dstHeight / 2.0f);
+        }
+
+        return matrix;
     }
 }

@@ -136,9 +136,9 @@ public class MLOperators {
         }
     }
 
-    public static Function<Item, Object[]> objectDetectionProcessor(String inputField, int inputSize, boolean isQuantized){
+    public static Function<Item, Object[]> objectDetectionProcessor(String inputField, int inputSize, boolean isQuantized, Integer sensorOrientation){
         //inputfield for bitmap
-        return new TFLiteObjectDetectionProcessor(inputField, inputSize, isQuantized);
+        return new TFLiteObjectDetectionProcessor(inputField, inputSize, isQuantized, sensorOrientation);
     }
 
 /*    public static Function<Item, Object> MLKitTextRecognitionBitmap(String inputField, boolean onlyText){

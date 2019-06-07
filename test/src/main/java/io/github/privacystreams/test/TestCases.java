@@ -216,7 +216,7 @@ public class TestCases {
 
     }
 
-    public void testTFLiteInterpreter(AssetManager assets){
+    public void testTFLiteInterpreter(AssetManager assets, Integer sensorOrientation){
         final int NUM_DETECTIONS = 10;
         // outputLocations: array of shape [Batchsize, NUM_DETECTIONS,4]
         // contains the location of detected boxes
@@ -249,7 +249,7 @@ public class TestCases {
 
         uqi.getData(Image.takePhoto(), Purpose.TEST("Text TF Lite Object Detection"))
                 .setField("bitmap", ImageOperators.getBitmap("image_data"))
-                .setField("input", MLOperators.objectDetectionProcessor("bitmap", inputSize, true))
+                .setField("input", MLOperators.objectDetectionProcessor("bitmap", inputSize, true, sensorOrientation))
                 .setField("output", MLOperators.tfLiteInferInterpreter("input", outputMap, tflite))
                 .forEach("output", new Callback<Map<Integer, java.lang.Object>>() {
                     protected void onInput(Map<Integer, java.lang.Object> input){
