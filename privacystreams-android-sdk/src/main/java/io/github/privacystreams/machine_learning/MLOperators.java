@@ -46,6 +46,9 @@ public class MLOperators {
         return new Tuple(inputFields);
     }
 
+    public static Function<Item, Object> field(Object object){
+        return new Field(object);
+    }
     /**
      * Java-ML Library stores things as Instances and Datasets,
      * create an instance with the specified fields
@@ -80,6 +83,11 @@ public class MLOperators {
      * @return
      */
     public static Function<Item, Object> tfLiteInferInterpreter(String inputField, Map<Integer, Object> outputs, Interpreter tflite){
+        return new TFLiteInterpreterOutputs(inputField, outputs, tflite);
+    }
+
+    // Assumes output arrays already present in item fields
+    public static Function<Item, Object> tfLiteInferInterpreter(String inputField, List<String> outputs, Interpreter tflite){
         return new TFLiteInterpreterOutputs(inputField, outputs, tflite);
     }
 
@@ -141,11 +149,7 @@ public class MLOperators {
         return new TFLiteObjectDetectionProcessor(inputField, inputSize, isQuantized, sensorOrientation);
     }
 
-/*    public static Function<Item, Object> MLKitTextRecognitionBitmap(String inputField, boolean onlyText){
-        return new MLKitTextRecognition(inputField, onlyText, true);
+    public static Function<Item, List<Recognition>> objectDetectionRecognizer(List<String> inputFields, String labelField, int numDetections){
+        return new TFLiteObjectDetectionPrettyOutput(inputFields, labelField, numDetections);
     }
-
-    public static Function<Item, Object> MLKitTextRecognitionFilepath(String inputField, boolean onlyText){
-        return new MLKitTextRecognition(inputField, onlyText, false);
-    }*/
 }

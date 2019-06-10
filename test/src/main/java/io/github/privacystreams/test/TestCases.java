@@ -44,6 +44,7 @@ import io.github.privacystreams.location.Geolocation;
 import io.github.privacystreams.location.GeolocationOperators;
 import io.github.privacystreams.location.LatLon;
 import io.github.privacystreams.machine_learning.MLOperators;
+import io.github.privacystreams.machine_learning.Recognition;
 import io.github.privacystreams.multi.MultiItem;
 import io.github.privacystreams.multi.MultiOperators;
 import io.github.privacystreams.notification.Notification;
@@ -83,25 +84,7 @@ public class TestCases {
         this.context = context;
         this.uqi = new UQI(context);
     }
-    // will finish MLKit stuff later because MLKit is not designed to be put into libraries??
-    /*public void testMLKitTextRecognition(){
-        Vector<String> tf = new Vector<>();
-        tf.add("bitmap_text");
-        tf.add("filepath_text");
-        uqi.getData(Image.takePhoto(), Purpose.TEST("testing ML Kit Text Recognition (NOTE: privacy streams has preexisting text recognition"))
-                .setField("bitmap", ImageOperators.getBitmap("image_data"))
-                .setField("filepath", ImageOperators.getFilepath("image_data"))
-                .setField("bitmap_text", MLOperators.MLKitTextRecognitionBitmap("bitmap", true))
-                .setField("filepath_text", MLOperators.MLKitTextRecognitionFilepath("filepath", true))
-                .setField("text_res", MLOperators.tuple(tf))
-                .forEach("text_res", new Callback<List<Object>>() {
-                    protected void onInput(List<Object> input){
-                        System.out.println("TEXT RECOGNITION");
-                        System.out.println("BITMAP: " + input.get(0));
-                        System.out.println("FILEPATH: " + input.get(1));
-                    }
-                });
-    }*/
+
     public void testEmptyMultiItem() {
         System.out.println("TESTING EMPTY MULTIITEM");
         Vector<MultiItem.ItemType> item_types = new Vector<>();
@@ -205,14 +188,16 @@ public class TestCases {
                 .forEach("tuple", new Callback<List<Object>>(){
                     @Override
                     protected void onInput(List<Object> input){
-                        System.out.println("Tuple: " + input);
+                        System.out.println("TUPLE: " + input);
+
+                        System.out.println("LOUDNESS: " + input.get(0));
+                        System.out.println("BRIGHTNESS: " + input.get(1));
+                        System.out.println("CALL LOG: " + input.get(2));
+                        System.out.println("ROTATION VECTOR: " + input.get(3));
+                        System.out.println("IMAGE TEXT FROM CAMERA: " + input.get(4));
+                        System.out.println("IMAGE TEXT FROM STORAGE: " + input.get(5));
                     }
                 });
-                /*.forEach("loudness", new Callback<Object>() {
-                    protected void onInput(Object input){
-                        System.out.println(input);
-                    }
-                });*/
 
     }
 
@@ -285,6 +270,8 @@ public class TestCases {
 
     }
 
+
+
     private static MappedByteBuffer loadModelFile(AssetManager assets, String modelFilename)
             throws IOException {
         AssetFileDescriptor fileDescriptor = assets.openFd(modelFilename);
@@ -295,6 +282,71 @@ public class TestCases {
         return fileChannel.map(FileChannel.MapMode.READ_ONLY, startOffset, declaredLength);
     }
 
+    public void testTFLiteInterpreter2(AssetManager assets, Integer sensorOrientation){
+        final int NUM_DETECTIONS = 10;
+        // outputLocations: array of shape [Batchsize, NUM_DETECTIONS,4]
+        // contains the location of detected boxes
+        float[][][] outputLocations = new float[1][NUM_DETECTIONS][4];
+        // outputClasses: array of shape [Batchsize, NUM_DETECTIONS]
+        // contains the classes of detected boxes
+        float[][] outputClasses = new float[1][NUM_DETECTIONS];
+        // outputScores: array of shape [Batchsize, NUM_DETECTIONS]
+        // contains the scores of detected boxes
+        float[][] outputScores = new float[1][NUM_DETECTIONS];
+        // numDetections: array of shape [Batchsize]
+        // contains the number of detected boxes
+        float[] numDetections = new float[1];
+
+        int inputSize = 300;
+
+        Interpreter tflite;
+        try {
+            tflite = new Interpreter(loadModelFile(assets, "detect.tflite"));
+            //tflite = new Interpreter(loadModelFile(assets, "object_detection.tflite"));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        Vector<String> labels = new Vector<String>();
+        InputStream labelsInput = null;
+        String labelFilename = "file:///android_asset/labelmap.txt";
+        //String labelFilename = "file:///android_asset/object_detection_labelmap.txt";
+        String actualFilename = labelFilename.split("file:///android_asset/")[1];
+        try {
+            labelsInput = assets.open(actualFilename);
+            BufferedReader br = null;
+            br = new BufferedReader(new InputStreamReader(labelsInput));
+            String line;
+            while ((line = br.readLine()) != null) {
+                labels.add(line);
+            }
+            br.close();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        List<String> outputArrs = Arrays.asList(new String[]{"outputLocations", "outputClasses",
+                        "outputScores", "numDetections"});
+        uqi.getData(Image.takePhoto(), Purpose.TEST("Text TF Lite Object Detection"))
+                .setField("bitmap", ImageOperators.getBitmap("image_data"))
+                .setField("input", MLOperators.objectDetectionProcessor("bitmap", inputSize, true, sensorOrientation))
+                .setField("outputLocations", MLOperators.field(outputLocations))
+                .setField("outputClasses", MLOperators.field(outputClasses))
+                .setField("outputScores", MLOperators.field(outputScores))
+                .setField("numDetections", MLOperators.field(numDetections))
+                .setField("output", MLOperators.tfLiteInferInterpreter("input",
+                       outputArrs, tflite))
+                .setField("labels", MLOperators.field(labels))
+                .setField("recognized", MLOperators.objectDetectionRecognizer(outputArrs,
+                        "labels", NUM_DETECTIONS))
+                .forEach("recognized", new Callback<List<Recognition>>() {
+                    protected void onInput(List<Recognition> input){
+                        System.out.println(input);
+                    }
+                });
+
+
+    }
 
     public void testMerge() {
         uqi.getData(TestItem.asUpdates(10, 1.0, 1000), Purpose.TEST("Test merge"))

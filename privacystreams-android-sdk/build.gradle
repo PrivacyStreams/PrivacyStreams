@@ -58,14 +58,14 @@ android {
 }
 
 dependencies {
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    testCompile 'junit:junit:4.12'
+    testImplementation 'junit:junit:4.12'
 
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    compile 'org.greenrobot:eventbus:3.0.0'
+    implementation 'org.greenrobot:eventbus:3.0.0'
 
     // third-party packages
     provided 'com.dropbox.core:dropbox-core-sdk:2.1.1'
@@ -78,16 +78,11 @@ dependencies {
     provided ('com.google.apis:google-api-services-gmail:v1-rev29-1.20.0') {
         exclude group: 'org.apache.httpcomponents'
     }
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
 
     /*TENSORFLOW LITE*/
-    //implementation 'org.tensorflow:tensorflow-lite:0.0.0-nightly'
-    compile 'org.tensorflow:tensorflow-lite:+'
-
-    /*FIREBASE MLKIT*/
-    //implementation 'com.google.firebase:firebase-core:16.0.9'
-    //implementation 'com.google.firebase:firebase-ml-vision:20.0.0'
-
+    implementation 'org.tensorflow:tensorflow-lite:0.0.0-nightly'
+    //implementation 'org.tensorflow:tensorflow-lite:+'
 }
 
 group = publishedGroupId                               // Maven Group ID for the artifact
@@ -207,5 +202,3 @@ repositories {
         url 'https://google.bintray.com/tensorflow'
     }
 }
-
-//apply plugin: 'com.google.gms.google-services'

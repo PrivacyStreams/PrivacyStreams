@@ -29,7 +29,6 @@ public class MainActivity extends AppCompatActivity {
         protected Object doInBackground(Object[] objects) {
             TestCases testCases = new TestCases(MainActivity.this);
 
-
             Integer screenOrientation;
             switch (getWindowManager().getDefaultDisplay().getRotation()) {
                 case Surface.ROTATION_270:
@@ -42,12 +41,15 @@ public class MainActivity extends AppCompatActivity {
                     screenOrientation = 0;
             }
             Integer sensorOrientation = 270 - screenOrientation;
-            testCases.testTFLiteInterpreter(getAssets(), sensorOrientation);
+            testCases.testTFLiteInterpreter2(getAssets(), sensorOrientation);
+            //testCases.testTFLiteInterpreter(getAssets(), sensorOrientation);
+            //testCases.testMultiItem();
+
 
 
             //testCases.testMultiItemPeriodic();
             //testCases.testEmptyMultiItem();
-            //testCases.testMultiItem();
+
 //            testCases.testTakePhotoBg();
 //            testCases.testMerge();
 //            testCases.testAccEvents();
