@@ -22,7 +22,8 @@ Cite:
   year={2017},
   publisher={ACM}
 
-}``` 
+}
+``` 
 
 In PrivacyStreams, all types of personal data can be accessed and processed with a uniform query interface (UQI):
 
