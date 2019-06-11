@@ -10,7 +10,8 @@
 PrivacyStreams is an Android library for easy and privacy-friendly personal data access and processing. It offers a functional programming model for various types of personal data, including locations, photos, audios, sensors, contacts, messages, and more.
 
 Cite:
-`
+
+```
 @article{li)_imwut17_privacystreams,
   title={PrivacyStreams: Enabling transparency in personal data processing for mobile apps},
   author={Li, Yuanchun and Chen, Fanglin and Li, Toby Jia-Jun and Guo, Yao and Huang, Gang and Fredrikson, Matthew and Agarwal, Yuvraj and Hong, Jason I},
@@ -21,7 +22,7 @@ Cite:
   year={2017},
   publisher={ACM}
 
-}` 
+}``` 
 
 In PrivacyStreams, all types of personal data can be accessed and processed with a uniform query interface (UQI):
 
