@@ -10,18 +10,21 @@ import io.github.privacystreams.utils.Assertions;
 
 class TFLiteInterpreter extends MLProcessor<Object> {
     Interpreter tflite;
-    Object output;
+    String outputField;
+    String inputField;
 
-    TFLiteInterpreter(String inputField, Object output, Interpreter tflite){
-        super(Arrays.asList(new String[]{inputField}));
+    TFLiteInterpreter(String inputField, String outputField, Interpreter tflite){
+        super(Arrays.asList(inputField));
         this.tflite = Assertions.notNull("tflite", tflite);
         this.addParameters(tflite);
-        this.output = Assertions.notNull("output", output);
-        this.addParameters(output);
+        this.inputField = inputField;
+        this.outputField = outputField;
     }
 
     protected Object infer(UQI uqi, Item item){
-        tflite.run(item.getValueByField(this.inputFields.get(0)), this.output);
-        return this.output;
+        System.out.println(item.getValueByField(this.inputFields.get(0)));
+        System.out.println(item.getValueByField(this.outputField));
+        tflite.run(item.getValueByField(this.inputFields.get(0)), item.getValueByField(this.outputField));
+        return outputField;
     }
 }

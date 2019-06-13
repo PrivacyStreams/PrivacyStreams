@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
                     screenOrientation = 0;
             }
             Integer sensorOrientation = 270 - screenOrientation;
-            testCases.testTFLiteInterpreter2(getAssets(), sensorOrientation);
+            testCases.testTFLiteImageRecognition(getAssets(), sensorOrientation);
             //testCases.testTFLiteInterpreter(getAssets(), sensorOrientation);
             //testCases.testMultiItem();
 

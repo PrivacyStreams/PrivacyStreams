@@ -281,7 +281,50 @@ public class TestCases {
         long declaredLength = fileDescriptor.getDeclaredLength();
         return fileChannel.map(FileChannel.MapMode.READ_ONLY, startOffset, declaredLength);
     }
+    public void testTFLiteImageRecognition(AssetManager assets, Integer sensorOrientation){
+        int inputSize = 224;
+        Vector<String> labels = new Vector<String>();
+        InputStream labelsInput = null;
+        String labelFilename = "file:///android_asset/labels.txt";
+        String actualFilename = labelFilename.split("file:///android_asset/")[1];
+        try {
+            labelsInput = assets.open(actualFilename);
+            BufferedReader br = new BufferedReader(new InputStreamReader(labelsInput));
+            String line;
+            while ((line = br.readLine()) != null) {
+                labels.add(line);
+            }
+            br.close();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        byte[][] labelProbArray = new byte[1][labels.size()];
 
+        Interpreter tflite;
+        try {
+            tflite = new Interpreter(loadModelFile(assets, "mobilenet_v1_1.0_224_quant.tflite"));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        List<Recognition> detectedObjects = new Vector<>();
+        HashMap<Integer, Object> hashMap = new HashMap<>();
+        hashMap.put(0, labelProbArray);
+        try {
+            detectedObjects = uqi.getData(Image.takePhoto(), Purpose.TEST(""))
+                    .setField("bitmap", ImageOperators.getBitmap("image_data"))
+                    .setField("input", MLOperators.objectDetectionProcessor("bitmap", inputSize,
+                            true, sensorOrientation))
+                    .setField("labelProbArray", MLOperators.field(labelProbArray))
+                    .setField("output", MLOperators.tfLiteInferInterpreter("input", hashMap, tflite))
+                    .setField("labels", MLOperators.field(labels))
+                    .setField("recognized", MLOperators.imageRecognitionOutput("labelProbArray", "labels", 5))
+                    .getFirst("recognized");
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+        System.out.println(detectedObjects);
+    }
     public void testTFLiteInterpreter2(AssetManager assets, Integer sensorOrientation){
         final int NUM_DETECTIONS = 10;
         // outputLocations: array of shape [Batchsize, NUM_DETECTIONS,4]
@@ -327,9 +370,12 @@ public class TestCases {
 
         List<String> outputArrs = Arrays.asList(new String[]{"outputLocations", "outputClasses",
                         "outputScores", "numDetections"});
+
+
         uqi.getData(Image.takePhoto(), Purpose.TEST("Text TF Lite Object Detection"))
                 .setField("bitmap", ImageOperators.getBitmap("image_data"))
-                .setField("input", MLOperators.objectDetectionProcessor("bitmap", inputSize, true, sensorOrientation))
+                .setField("input", MLOperators.objectDetectionProcessor("bitmap", inputSize,
+                        true, sensorOrientation))
                 .setField("outputLocations", MLOperators.field(outputLocations))
                 .setField("outputClasses", MLOperators.field(outputClasses))
                 .setField("outputScores", MLOperators.field(outputScores))
@@ -338,7 +384,7 @@ public class TestCases {
                        outputArrs, tflite))
                 .setField("labels", MLOperators.field(labels))
                 .setField("recognized", MLOperators.objectDetectionRecognizer(outputArrs,
-                        "labels", NUM_DETECTIONS))
+                        "labels", NUM_DETECTIONS, inputSize))
                 .forEach("recognized", new Callback<List<Recognition>>() {
                     protected void onInput(List<Recognition> input){
                         System.out.println(input);

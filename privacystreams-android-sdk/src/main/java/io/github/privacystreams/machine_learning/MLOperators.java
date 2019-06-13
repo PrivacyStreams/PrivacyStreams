@@ -69,8 +69,8 @@ public class MLOperators {
      * @return
      * OUTPUT SIZE??
      */
-    public static Function<Item, Object> tfLiteInferInterpreter(String inputField, Object output, Interpreter tflite){
-        return new TFLiteInterpreter(inputField, output, tflite);
+    public static Function<Item, Object> tfLiteInferInterpreter(String inputField, String outputField, Interpreter tflite){
+        return new TFLiteInterpreter(inputField, outputField, tflite);
     }
 
     /**
@@ -98,10 +98,10 @@ public class MLOperators {
      * @param model
      * @return
      */
-    public static Function<Item, Object> tfLiteInferModel(String inputField, Object output, File model){
+    public static Function<Item, Object> tfLiteInferModel(String inputField, String outputField, File model){
         try {
             Interpreter tflite = new Interpreter(model);
-            return tfLiteInferInterpreter(inputField, output, tflite);
+            return tfLiteInferInterpreter(inputField, outputField, tflite);
         }
         catch(IllegalArgumentException e){
             e.printStackTrace();
@@ -110,10 +110,10 @@ public class MLOperators {
         }
     }
 
-    public static Function<Item, Object> tfLiteInferModel(String inputField, Object output, MappedByteBuffer model){
+    public static Function<Item, Object> tfLiteInferModel(String inputField, String outputField, MappedByteBuffer model){
         try {
             Interpreter tflite = new Interpreter(model);
-            return tfLiteInferInterpreter(inputField, output, tflite);
+            return tfLiteInferInterpreter(inputField, outputField, tflite);
         }
         catch(IllegalArgumentException e){
             e.printStackTrace();
@@ -149,7 +149,11 @@ public class MLOperators {
         return new TFLiteObjectDetectionProcessor(inputField, inputSize, isQuantized, sensorOrientation);
     }
 
-    public static Function<Item, List<Recognition>> objectDetectionRecognizer(List<String> inputFields, String labelField, int numDetections){
-        return new TFLiteObjectDetectionPrettyOutput(inputFields, labelField, numDetections);
+    public static Function<Item, List<Recognition>> objectDetectionRecognizer(List<String> inputFields, String labelField, int numDetections, int inputSize){
+        return new TFLiteObjectDetectionPrettyOutput(inputFields, labelField, numDetections, inputSize);
+    }
+
+    public static Function<Item, List<Recognition>> imageRecognitionOutput(String labelProbArrayFields, String labelFields, int maxResults){
+        return new TFLiteImageRecognitionPrettyOutput(labelProbArrayFields, labelFields, maxResults);
     }
 }
