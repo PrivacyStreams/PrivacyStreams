@@ -8,6 +8,10 @@ import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
 import io.github.privacystreams.app.db.PStreamCollectService
+import io.github.privacystreams.communication.Message
+import io.github.privacystreams.communication.SentimentOperators
+import io.github.privacystreams.core.UQI
+import io.github.privacystreams.core.purposes.Purpose
 
 class NavActivity : AppCompatActivity() {
 
@@ -35,6 +39,15 @@ class NavActivity : AppCompatActivity() {
         val navigation : BottomNavigationView = findViewById(R.id.navigation)
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
         onNewIntent(intent)
+
+        try {
+
+            val emotion = UQI(this).getData(Message.getAllSMS(), Purpose.ADS("")).setField("emotion", SentimentOperators.getEmotion(Message.CONTENT)).getFirst<String>("emotion")
+            println(emotion)
+        } catch (e: Exception) {
+
+        }
+
     }
 
     override fun onNewIntent(intent: Intent) {
