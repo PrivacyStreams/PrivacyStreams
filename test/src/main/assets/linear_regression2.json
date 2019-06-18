@@ -1,0 +1,5 @@
+{
+	"algorithm":"linear regression",
+	"inputFields":["brightness", "loudness"],
+	"weights":[3.0, 1.0]
+}

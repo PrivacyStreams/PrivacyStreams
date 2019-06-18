@@ -29,7 +29,10 @@ public class MainActivity extends AppCompatActivity {
         protected Object doInBackground(Object[] objects) {
             TestCases testCases = new TestCases(MainActivity.this);
 
-            testCases.testMLSVM(getAssets());
+            //testCases.testMLSVM(getAssets());
+            testCases.testMLLinearRegression(getAssets());
+
+
             /*Integer screenOrientation;
             switch (getWindowManager().getDefaultDisplay().getRotation()) {
                 case Surface.ROTATION_270:

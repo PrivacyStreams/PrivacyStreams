@@ -85,9 +85,10 @@ dependencies {
     //implementation 'org.tensorflow:tensorflow-lite:+'
 
     /*JSON Parsing*/
-    implementation('com.googlecode.json-simple:json-simple:1.1.1') {
+    /*implementation('com.googlecode.json-simple:json-simple:1.1.1') {
         exclude group: 'junit', module: 'junit'
-    }
+    }*/
+    implementation 'com.google.code.gson:gson:2.8.5'
 }
 
 group = publishedGroupId                               // Maven Group ID for the artifact

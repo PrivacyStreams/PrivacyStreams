@@ -9,35 +9,36 @@ import io.github.privacystreams.core.UQI;
 import io.github.privacystreams.utils.Assertions;
 
 class LinearRegression extends MLProcessor<Object>{
-    List<Double> weights = new ArrayList<>(0);
-    Function<Item, Double> fun;
+    List<Float> weights = new ArrayList<>(0);
+    Function<Item, Float> fun;
 
-    LinearRegression(List<String> inputFields, List<Double> weights){
+    LinearRegression(List<String> inputFields, List<Float> weights){
         super(inputFields);
         this.weights = Assertions.notNull("weights", weights);
         this.addParameters(weights);
     }
 
-    LinearRegression(Function<Item, Double> fun) {
+    LinearRegression(Function<Item, Float> fun) {
         super(new ArrayList<String>(0));
         this.fun = Assertions.notNull("fun", fun);
         this.addParameters(fun);
     }
 
-    private Double inferFun(UQI uqi, Item item) {
+    private Float inferFun(UQI uqi, Item item) {
         return fun.apply(uqi, item);
     }
-    private Double inferWeights(UQI uqi, Item item) {
-        Double res = 0.0;
+    private Float inferWeights(UQI uqi, Item item) {
+        Float res = Float.valueOf(0);
         for (int i = 0; i < this.weights.size(); i++) {
-            Double ival = (Double) item.getValueByField(this.inputFields.get(i));
+            Number v = item.getValueByField(this.inputFields.get(i));
+            Float ival = v.floatValue();
             res += ival * this.weights.get(i);
         }
         return res;
     }
 
     @Override
-    protected Double infer(UQI uqi, Item item){
+    protected Float infer(UQI uqi, Item item){
         if(this.weights.size() == 0) {
             return inferFun(uqi, item);
         }

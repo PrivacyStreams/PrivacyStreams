@@ -2,9 +2,8 @@ package io.github.privacystreams.machine_learning;
 
 import android.content.res.AssetManager;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.*;
+import com.google.gson.Gson;
+
 import org.tensorflow.lite.Interpreter;
 
 import java.io.File;
@@ -39,60 +38,23 @@ public class MLOperators {
         }
         return json;
     }
-    public static Function<Item, Object> machineLearning(String jsonFilePath){
-        //Parse JSON File for machine learning algorithm
-        try {
-            Object obj = new JSONParser().parse(new FileReader(jsonFilePath));
-            JSONObject jo = (JSONObject) obj;
-            String algorithm = (String) jo.get("algorithm");
-            System.out.println("Performing: " + algorithm);
-            switch (algorithm) {
-                case "linear regression": {
-                    JSONArray parameters = (JSONArray) jo.get("parameters");
-                    List<String> inputFields = new ArrayList<>();
-                    List<Double> weights = new ArrayList<>();
-
-                    Iterator<JSONObject> piter = parameters.iterator();
-                    while (piter.hasNext()) {
-                        JSONObject p = piter.next();
-                        inputFields.add((String) p.get("field"));
-                        weights.add((Double) p.get("weight"));
-                    }
-                    return new LinearRegression(inputFields, weights);
-                }
-                case "SVM": {
-                    List<String> inputFields = new ArrayList<>();
-                    List<Double> normalVector = new ArrayList<>();
-                    List<Double> pointOnPlane = new ArrayList<>();
-
-                    JSONArray iFields = (JSONArray) jo.get("input fields");
-                    JSONArray nVec = (JSONArray) jo.get("normal vector");
-                    JSONArray point = (JSONArray) jo.get("point");
-                    Iterator<String> iter1 = iFields.iterator();
-                    Iterator<Double> iter2 = nVec.iterator();
-                    Iterator<Double> iter3 = point.iterator();
-                    while (iter1.hasNext()) {
-                        inputFields.add(iter1.next());
-                        normalVector.add(iter2.next());
-                        pointOnPlane.add(iter3.next());
-                    }
-
-                    return new SVM(inputFields, normalVector, pointOnPlane);
-                }
-                default:
-                    System.out.println("Unsupported algorithm");
-                    return null;
+    public static Function<Item, Object> machineLearning(String json){
+        Gson gson = new Gson();
+        System.out.println("Performing: " + gson.fromJson(json, JSONMachineLearning.class));
+        switch (gson.fromJson(json, JSONMachineLearning.class).getAlgorithm()) {
+            case "linear regression": {
+                JSONLinearRegression jlr = gson.fromJson(json, JSONLinearRegression.class);
+                return new LinearRegression(jlr.getInputFields(), jlr.getWeights());
             }
-        } catch(FileNotFoundException e){
-            System.out.println("Invalid Filename");
-            e.printStackTrace();
-        } catch(ParseException e) {
-            System.out.println("Unable to parse");
-            e.printStackTrace();
-        } catch(Exception e){
-            e.printStackTrace();
+            case "SVM": {
+                JSONSVM jsvm = gson.fromJson(json, JSONSVM.class);
+                return new SVM(jsvm.getInputFields(), jsvm.getNormalVector(), jsvm.getPointOnPlane());
+            }
+            default: {
+                System.out.println("Unsupported algorithm");
+                return null;
+            }
         }
-        return null;
     }
     /**
      * Linear Regression
@@ -101,7 +63,7 @@ public class MLOperators {
      * @param weights associated with the fields
      * @return the model result.
      */
-    public static Function<Item, Object> linearRegression(List<String> inputFields, List<Double> weights) {
+    public static Function<Item, Object> linearRegression(List<String> inputFields, List<Float> weights) {
         return new LinearRegression(inputFields, weights);
     }
 
@@ -112,7 +74,7 @@ public class MLOperators {
      * @param outputs Arraylist of size 2 which denote what to print depending on what side of the line
      * @return result of SVM and output result
      */
-    public static Function<Item, Object> SVM(List<String> inputFields, List<Double> normalVector, List<Double> pointOnPlane){
+    public static Function<Item, Object> SVM(List<String> inputFields, List<Float> normalVector, List<Float> pointOnPlane){
         return new SVM(inputFields, normalVector, pointOnPlane);
     }
 

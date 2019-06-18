@@ -1,6 +1,6 @@
 {
 	"algorithm":"linear regression",
-	"parameters":[
+	"fieldWeightPairs":[
 		{
 		"field":"brightness",
 		"weight":3.0

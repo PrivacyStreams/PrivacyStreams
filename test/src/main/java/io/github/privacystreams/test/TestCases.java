@@ -86,18 +86,15 @@ public class TestCases {
     public void testMLLinearRegression(AssetManager assets){
         System.out.println("TESTING LINEAR REGRESSION");
 
-    }
-    public void testMLSVM(AssetManager assets){
         System.out.println("TESTING SVM");
         Vector<MultiItem.ItemType> item_types = new Vector<>();
         item_types.add(MultiItem.ItemType.AUDIO);   //audio
         item_types.add(MultiItem.ItemType.LIGHT);   //sensor
 
         Vector<String> tupleFields = new Vector<>();
-        tupleFields.add("loudness");
         tupleFields.add("brightness");
+        tupleFields.add("loudness");
         tupleFields.add("output");
-
 
         Vector<Purpose> purposes = new Vector<>();
         for(int i = 0; i < item_types.size(); i++) {
@@ -107,8 +104,8 @@ public class TestCases {
         uqi.getData(MultiItem.oneshot(item_types, purposes, 1000, 1), Purpose.TEST("Testing multiItem"))
                 .setField("audio_data", MultiOperators.getItemField(0, "audio_data"))
                 .setField("loudness", AudioOperators.calcLoudness("audio_data"))
-                .setField("brightness", MultiOperators.getItemField(2, "illuminance"))
-                .setField("output", MLOperators.machineLearning(""))
+                .setField("brightness", MultiOperators.getItemField(1, "illuminance"))
+                .setField("output", MLOperators.machineLearning(loadJSONFromAsset(assets, "linear_regression2.json")))
                 .setField("tuple", MLOperators.tuple(tupleFields))
                 .forEach("tuple", new Callback<List<Object>>(){
                     @Override
@@ -117,6 +114,62 @@ public class TestCases {
                     }
                 });
 
+
+
+    }
+    public void testMLSVM(AssetManager assets){
+        System.out.println("TESTING SVM");
+        Vector<MultiItem.ItemType> item_types = new Vector<>();
+        item_types.add(MultiItem.ItemType.AUDIO);   //audio
+        item_types.add(MultiItem.ItemType.LIGHT);   //sensor
+
+        Vector<String> tupleFields = new Vector<>();
+        tupleFields.add("brightness");
+        tupleFields.add("loudness");
+        tupleFields.add("output");
+
+        Vector<Purpose> purposes = new Vector<>();
+        for(int i = 0; i < item_types.size(); i++) {
+            purposes.add(Purpose.TEST("TESTING MULTI"));
+        }
+
+        uqi.getData(MultiItem.oneshot(item_types, purposes, 1000, 1), Purpose.TEST("Testing multiItem"))
+                .setField("audio_data", MultiOperators.getItemField(0, "audio_data"))
+                .setField("loudness", AudioOperators.calcLoudness("audio_data"))
+                .setField("brightness", MultiOperators.getItemField(1, "illuminance"))
+                .setField("output", MLOperators.machineLearning(loadJSONFromAsset(assets, "svm.json")))
+                .setField("tuple", MLOperators.tuple(tupleFields))
+                .forEach("tuple", new Callback<List<Object>>(){
+                    @Override
+                    protected void onInput(List<Object> input){
+                        System.out.println("TUPLE: " + input);
+                    }
+                });
+
+
+    }
+
+    public String loadJSONFromAsset(AssetManager assets, String filename) {
+        String json = null;
+        try {
+            InputStream is = assets.open(filename);
+
+            int size = is.available();
+
+            byte[] buffer = new byte[size];
+
+            is.read(buffer);
+
+            is.close();
+
+            json = new String(buffer, "UTF-8");
+
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+        return json;
 
     }
     public void testEmptyMultiItem() {
