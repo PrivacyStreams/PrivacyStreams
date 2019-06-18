@@ -3,7 +3,6 @@ package io.github.privacystreams.test;
 import android.content.Context;
 import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
-import android.graphics.RectF;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 
@@ -84,7 +83,42 @@ public class TestCases {
         this.context = context;
         this.uqi = new UQI(context);
     }
+    public void testMLLinearRegression(AssetManager assets){
+        System.out.println("TESTING LINEAR REGRESSION");
 
+    }
+    public void testMLSVM(AssetManager assets){
+        System.out.println("TESTING SVM");
+        Vector<MultiItem.ItemType> item_types = new Vector<>();
+        item_types.add(MultiItem.ItemType.AUDIO);   //audio
+        item_types.add(MultiItem.ItemType.LIGHT);   //sensor
+
+        Vector<String> tupleFields = new Vector<>();
+        tupleFields.add("loudness");
+        tupleFields.add("brightness");
+        tupleFields.add("output");
+
+
+        Vector<Purpose> purposes = new Vector<>();
+        for(int i = 0; i < item_types.size(); i++) {
+            purposes.add(Purpose.TEST("TESTING MULTI"));
+        }
+
+        uqi.getData(MultiItem.oneshot(item_types, purposes, 1000, 1), Purpose.TEST("Testing multiItem"))
+                .setField("audio_data", MultiOperators.getItemField(0, "audio_data"))
+                .setField("loudness", AudioOperators.calcLoudness("audio_data"))
+                .setField("brightness", MultiOperators.getItemField(2, "illuminance"))
+                .setField("output", MLOperators.machineLearning(""))
+                .setField("tuple", MLOperators.tuple(tupleFields))
+                .forEach("tuple", new Callback<List<Object>>(){
+                    @Override
+                    protected void onInput(List<Object> input){
+                        System.out.println("TUPLE: " + input);
+                    }
+                });
+
+
+    }
     public void testEmptyMultiItem() {
         System.out.println("TESTING EMPTY MULTIITEM");
         Vector<MultiItem.ItemType> item_types = new Vector<>();

@@ -2,10 +2,10 @@ package io.github.privacystreams.machine_learning;
 
 import android.graphics.RectF;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Vector;
 
 import io.github.privacystreams.core.Item;
 import io.github.privacystreams.core.UQI;
@@ -33,8 +33,8 @@ class TFLiteObjectDetectionPrettyOutput extends MLProcessor<List<Recognition>>{
         outputClasses = item.getValueByField(inputFields.get(1));
         outputScores = item.getValueByField(inputFields.get(2));
 
-        Vector<Recognition> recognitions = new Vector<>();
-        Vector<String> labels = item.getValueByField(labelField);
+        ArrayList<Recognition> recognitions = new ArrayList<>();
+        ArrayList<String> labels = item.getValueByField(labelField);
         for (int i = 0; i < numDetections; i++) {
             final RectF detection =
                     new RectF(

@@ -1,6 +1,6 @@
 package io.github.privacystreams.machine_learning;
 
-import java.util.Vector;
+import java.util.ArrayList;
 
 import io.github.privacystreams.core.Item;
 import io.github.privacystreams.core.UQI;
@@ -8,7 +8,7 @@ import io.github.privacystreams.core.UQI;
 class Field extends MLProcessor<Object>{
     Object object;
     Field(Object object){
-        super(new Vector<String>());
+        super(new ArrayList<String>());
         this.object = object;
         this.addParameters(object);
     }

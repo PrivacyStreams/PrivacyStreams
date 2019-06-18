@@ -1,0 +1,12 @@
+{
+	"algorithm":"linear regression",
+	"parameters":[
+		{
+		"field":"brightness",
+		"weight":3.0
+		},
+		{"field":"loudness",
+		"weight":1.0
+		}
+		]
+}

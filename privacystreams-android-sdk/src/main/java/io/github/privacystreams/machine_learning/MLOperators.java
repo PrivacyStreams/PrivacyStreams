@@ -1,12 +1,22 @@
 package io.github.privacystreams.machine_learning;
 
+import android.content.res.AssetManager;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.*;
 import org.tensorflow.lite.Interpreter;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
 import java.nio.MappedByteBuffer;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Vector;
 
 import io.github.privacystreams.core.Function;
 import io.github.privacystreams.core.Item;
@@ -14,6 +24,76 @@ import io.github.privacystreams.utils.annotations.PSOperatorWrapper;
 
 @PSOperatorWrapper
 public class MLOperators {
+    public String loadJSONFromAsset(AssetManager assets, String jsonFileName) {
+        String json = null;
+        try {
+            InputStream is = assets.open(jsonFileName);
+            int size = is.available();
+            byte[] buffer = new byte[size];
+            is.read(buffer);
+            is.close();
+            json = new String(buffer, "UTF-8");
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+        return json;
+    }
+    public static Function<Item, Object> machineLearning(String jsonFilePath){
+        //Parse JSON File for machine learning algorithm
+        try {
+            Object obj = new JSONParser().parse(new FileReader(jsonFilePath));
+            JSONObject jo = (JSONObject) obj;
+            String algorithm = (String) jo.get("algorithm");
+            System.out.println("Performing: " + algorithm);
+            switch (algorithm) {
+                case "linear regression": {
+                    JSONArray parameters = (JSONArray) jo.get("parameters");
+                    List<String> inputFields = new ArrayList<>();
+                    List<Double> weights = new ArrayList<>();
+
+                    Iterator<JSONObject> piter = parameters.iterator();
+                    while (piter.hasNext()) {
+                        JSONObject p = piter.next();
+                        inputFields.add((String) p.get("field"));
+                        weights.add((Double) p.get("weight"));
+                    }
+                    return new LinearRegression(inputFields, weights);
+                }
+                case "SVM": {
+                    List<String> inputFields = new ArrayList<>();
+                    List<Double> normalVector = new ArrayList<>();
+                    List<Double> pointOnPlane = new ArrayList<>();
+
+                    JSONArray iFields = (JSONArray) jo.get("input fields");
+                    JSONArray nVec = (JSONArray) jo.get("normal vector");
+                    JSONArray point = (JSONArray) jo.get("point");
+                    Iterator<String> iter1 = iFields.iterator();
+                    Iterator<Double> iter2 = nVec.iterator();
+                    Iterator<Double> iter3 = point.iterator();
+                    while (iter1.hasNext()) {
+                        inputFields.add(iter1.next());
+                        normalVector.add(iter2.next());
+                        pointOnPlane.add(iter3.next());
+                    }
+
+                    return new SVM(inputFields, normalVector, pointOnPlane);
+                }
+                default:
+                    System.out.println("Unsupported algorithm");
+                    return null;
+            }
+        } catch(FileNotFoundException e){
+            System.out.println("Invalid Filename");
+            e.printStackTrace();
+        } catch(ParseException e) {
+            System.out.println("Unable to parse");
+            e.printStackTrace();
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
     /**
      * Linear Regression
      *
@@ -21,28 +101,28 @@ public class MLOperators {
      * @param weights associated with the fields
      * @return the model result.
      */
-    public static Function<Item, Double> linearRegression(List<String> inputFields, List<Double> weights) {
+    public static Function<Item, Object> linearRegression(List<String> inputFields, List<Double> weights) {
         return new LinearRegression(inputFields, weights);
     }
 
     /**
      * Simple 2D SVM Classifier, distinguishes between 2 cases
      * @param inputFields
-     * @param func maps the inputField values into a 2D vector
-     * @param outputs Vector of size 2 which denote what to print depending on what side of the line
+     * @param func maps the inputField values into a 2D Arraylist
+     * @param outputs Arraylist of size 2 which denote what to print depending on what side of the line
      * @return result of SVM and output result
      */
-    /*public static Function<Item, String> simpleSVM(Vector<String> inputFields, Function<Vector<Object>>, Vector<String> outputs){
-        return new classifier
-    }*/
+    public static Function<Item, Object> SVM(List<String> inputFields, List<Double> normalVector, List<Double> pointOnPlane){
+        return new SVM(inputFields, normalVector, pointOnPlane);
+    }
 
     /**
      * Used for grouping together several fields into a tuple,
      * easier to view multiple outputs at once
      * @param inputFields
-     * @return the values of the fields specified as a vector (in order)
+     * @return the values of the fields specified as a ArrayList (in order)
      */
-    public static Function<Item, Vector<Object>> tuple(List<String> inputFields){
+    public static Function<Item, ArrayList<Object>> tuple(List<String> inputFields){
         return new Tuple(inputFields);
     }
 
@@ -55,7 +135,7 @@ public class MLOperators {
      * @param inputFields fields to include
      * @return instance created from the fields
      */
-    /*public static Function<Item, Instance> createInstance(Vector<String> inputFields){
+    /*public static Function<Item, Instance> createInstance(ArrayList<String> inputFields){
         return new Instance;
     }*/
 

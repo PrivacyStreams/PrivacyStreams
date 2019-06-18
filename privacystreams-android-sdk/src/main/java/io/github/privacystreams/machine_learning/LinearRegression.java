@@ -1,15 +1,15 @@
 package io.github.privacystreams.machine_learning;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
 import io.github.privacystreams.core.Function;
 import io.github.privacystreams.core.Item;
 import io.github.privacystreams.core.UQI;
 import io.github.privacystreams.utils.Assertions;
 
-class LinearRegression extends MLProcessor<Double>{
-    List<Double> weights = new Vector<>(0);
+class LinearRegression extends MLProcessor<Object>{
+    List<Double> weights = new ArrayList<>(0);
     Function<Item, Double> fun;
 
     LinearRegression(List<String> inputFields, List<Double> weights){
@@ -19,7 +19,7 @@ class LinearRegression extends MLProcessor<Double>{
     }
 
     LinearRegression(Function<Item, Double> fun) {
-        super(new Vector<String>(0));
+        super(new ArrayList<String>(0));
         this.fun = Assertions.notNull("fun", fun);
         this.addParameters(fun);
     }

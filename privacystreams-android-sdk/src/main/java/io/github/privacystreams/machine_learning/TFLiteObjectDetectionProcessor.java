@@ -1,6 +1,5 @@
 package io.github.privacystreams.machine_learning;
 
-import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
