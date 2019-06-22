@@ -11,11 +11,13 @@ import io.github.privacystreams.utils.Assertions;
 class LinearRegression extends MLProcessor<Object>{
     List<Float> weights = new ArrayList<>(0);
     Function<Item, Float> fun;
+    float intercept;
 
-    LinearRegression(List<String> inputFields, List<Float> weights){
+    LinearRegression(List<String> inputFields, List<Float> weights, float intercept){
         super(inputFields);
         this.weights = Assertions.notNull("weights", weights);
         this.addParameters(weights);
+        this.intercept = intercept;
     }
 
     LinearRegression(Function<Item, Float> fun) {
@@ -45,6 +47,6 @@ class LinearRegression extends MLProcessor<Object>{
         if(this.weights.size() != this.inputFields.size()) {
             //oops
         }
-        return inferWeights(uqi, item);
+        return inferWeights(uqi, item)+intercept;
     }
 }

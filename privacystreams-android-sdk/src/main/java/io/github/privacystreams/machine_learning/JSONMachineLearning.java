@@ -1,8 +1,9 @@
 package io.github.privacystreams.machine_learning;
 
+import java.util.List;
+
 class JSONMachineLearning {
     private String algorithm;
-
     JSONMachineLearning(){
 
     }
@@ -13,6 +14,7 @@ class JSONMachineLearning {
     public String getAlgorithm(){
         return this.algorithm;
     }
+
     class FieldWeightPair{
         private String field;
         private float weight;

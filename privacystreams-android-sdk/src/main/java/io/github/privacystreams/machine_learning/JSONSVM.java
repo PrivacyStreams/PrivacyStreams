@@ -3,30 +3,44 @@ package io.github.privacystreams.machine_learning;
 import java.util.List;
 
 class JSONSVM extends JSONMachineLearning{
+    private class Model{
+        private List<Float> weights;
+        private float intercept;
+
+        Model(){
+
+        }
+
+        Model(List<Float> weights, float intercept){
+            this.weights = weights;
+            this.intercept = intercept;
+        }
+    }
+    private Model model;
     private List<String> inputFields;
-    private List<Float> plane;
-    private List<Float> normalVector;
-    private List<Float> pointOnPlane;
 
     JSONSVM(){
 
     }
-    JSONSVM(String algorithm, List<String> inputFields, List<Float> normalVector, List<Float> pointOnPlane){
+    JSONSVM(String algorithm, List<String> inputFields, Model model){
         super(algorithm);
         this.inputFields = inputFields;
-        this.normalVector = normalVector;
-        this.pointOnPlane = pointOnPlane;
+        this.model = model;
     }
 
     public List<String> getInputFields(){
         return this.inputFields;
     }
 
-    public List<Float> getNormalVector(){
-        return this.normalVector;
+    public Model getModel(){
+        return this.model;
     }
 
-    public List<Float> getPointOnPlane(){
-        return this.pointOnPlane;
+    public List<Float> getWeights(){
+        return this.model.weights;
+    }
+
+    public float getIntercept(){
+        return this.model.intercept;
     }
 }

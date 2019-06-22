@@ -40,15 +40,17 @@ public class MLOperators {
     }
     public static Function<Item, Object> machineLearning(String json){
         Gson gson = new Gson();
+
         System.out.println("Performing: " + gson.fromJson(json, JSONMachineLearning.class));
+
         switch (gson.fromJson(json, JSONMachineLearning.class).getAlgorithm()) {
             case "linear regression": {
                 JSONLinearRegression jlr = gson.fromJson(json, JSONLinearRegression.class);
-                return new LinearRegression(jlr.getInputFields(), jlr.getWeights());
+                return new LinearRegression(jlr.getInputFields(), jlr.getWeights(), jlr.getIntercept());
             }
             case "SVM": {
                 JSONSVM jsvm = gson.fromJson(json, JSONSVM.class);
-                return new SVM(jsvm.getInputFields(), jsvm.getNormalVector(), jsvm.getPointOnPlane());
+                return new SVM(jsvm.getInputFields(), jsvm.getWeights(), jsvm.getIntercept());
             }
             default: {
                 System.out.println("Unsupported algorithm");
@@ -63,19 +65,12 @@ public class MLOperators {
      * @param weights associated with the fields
      * @return the model result.
      */
-    public static Function<Item, Object> linearRegression(List<String> inputFields, List<Float> weights) {
-        return new LinearRegression(inputFields, weights);
+    public static Function<Item, Object> linearRegression(List<String> inputFields, List<Float> weights, float intercept) {
+        return new LinearRegression(inputFields, weights, intercept);
     }
 
-    /**
-     * Simple 2D SVM Classifier, distinguishes between 2 cases
-     * @param inputFields
-     * @param func maps the inputField values into a 2D Arraylist
-     * @param outputs Arraylist of size 2 which denote what to print depending on what side of the line
-     * @return result of SVM and output result
-     */
-    public static Function<Item, Object> SVM(List<String> inputFields, List<Float> normalVector, List<Float> pointOnPlane){
-        return new SVM(inputFields, normalVector, pointOnPlane);
+    public static Function<Item, Object> SVM(List<String> inputFields, List<Float> weights, float intercept){
+        return new SVM(inputFields, weights, intercept);
     }
 
     /**
@@ -107,7 +102,7 @@ public class MLOperators {
      * One input, One output version
      * @param inputField field from Item containing tensor (array)
      * @param tflite Interpreter
-     * @param output An object which has the size of the desired output tensor
+     * @param outputField An object which has the size of the desired output tensor
      * @return
      * OUTPUT SIZE??
      */
@@ -133,13 +128,7 @@ public class MLOperators {
         return new TFLiteInterpreterOutputs(inputField, outputs, tflite);
     }
 
-    /**
-     *
-     * @param inputField
-     * @param output
-     * @param model
-     * @return
-     */
+
     public static Function<Item, Object> tfLiteInferModel(String inputField, String outputField, File model){
         try {
             Interpreter tflite = new Interpreter(model);

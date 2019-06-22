@@ -8,15 +8,15 @@ import io.github.privacystreams.core.UQI;
 
 class SVM extends MLProcessor<Object>{
 
-    List<Float> normalVector;
-    List<Float> pointOnPlane;
+    List<Float> weights;
+    float intercept;
 
-    SVM(List<String> inputFields, List<Float> normalVector, List<Float> pointOnPlane){
+    SVM(List<String> inputFields, List<Float> weights, float intercept){
         super(inputFields);
-        this.normalVector = normalVector;
-        this.addParameters(normalVector);
-        this.pointOnPlane = pointOnPlane;
-        this.addParameters(pointOnPlane);
+        this.weights = weights;
+        this.addParameters(weights);
+        this.intercept = intercept;
+        this.addParameters(intercept);
     }
 
     protected Integer infer(UQI uqi, Item item){
@@ -28,8 +28,15 @@ class SVM extends MLProcessor<Object>{
         float normal = Float.valueOf(0);
         //Obtains vector from point on plane to point from collected data
         // and performs dot product against normal vector
-        for(int i = 0; i < normalVector.size(); i++){
-            normal += normalVector.get(i) * (point.get(i) - pointOnPlane.get(i));
+        for(int i = 0; i < weights.size(); i++){
+            float pointOnPlane;
+            if(i < weights.size()-1){
+                pointOnPlane = 0;
+            }
+            else{
+                pointOnPlane = intercept;
+            }
+            normal += weights.get(i) * (point.get(i) - pointOnPlane);
         }
 
         //Returns 1: same direction as normal vector, 0: on the plane, -1: opposite of normal

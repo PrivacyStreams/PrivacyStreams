@@ -1,45 +1,45 @@
 package io.github.privacystreams.machine_learning;
 
-import java.util.ArrayList;
 import java.util.List;
 
 class JSONLinearRegression extends JSONMachineLearning{
+    private class Model{
+        private List<Float> weights;
+        private float intercept;
+        Model(){
+
+        }
+        Model(List<Float> weights, float intercept){
+            this.weights = weights;
+            this.intercept = intercept;
+        }
+    }
+    private Model model;
     private List<String> inputFields;
-    private List<Float> weights;
-    private List<FieldWeightPair> fieldWeightPairs;
 
     JSONLinearRegression(){
 
     }
 
-    JSONLinearRegression(String algorithm, List<FieldWeightPair> fieldWeightPairs){
+    JSONLinearRegression(String algorithm, List<String> inputFields, Model model){
         super(algorithm);
-        this.fieldWeightPairs = fieldWeightPairs;
-    }
-
-    JSONLinearRegression(String algorithm, List<String> inputFields, List<Float> weights){
-        super(algorithm);
+        this.model = model;
         this.inputFields = inputFields;
-        this.weights = weights;
     }
 
     public List<String> getInputFields(){
-        if(inputFields == null){
-            inputFields = new ArrayList<>();
-            for(FieldWeightPair fwp : fieldWeightPairs){
-                inputFields.add(fwp.getField());
-            }
-        }
         return inputFields;
     }
 
+    public Model getModel(){
+        return model;
+    }
+
     public List<Float> getWeights(){
-        if(weights == null){
-            weights = new ArrayList<>();
-            for(FieldWeightPair fwp : fieldWeightPairs){
-                weights.add(fwp.getWeight());
-            }
-        }
-        return weights;
+        return model.weights;
+    }
+
+    public float getIntercept(){
+        return model.intercept;
     }
 }

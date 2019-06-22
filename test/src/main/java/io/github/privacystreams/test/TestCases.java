@@ -86,7 +86,6 @@ public class TestCases {
     public void testMLLinearRegression(AssetManager assets){
         System.out.println("TESTING LINEAR REGRESSION");
 
-        System.out.println("TESTING SVM");
         Vector<MultiItem.ItemType> item_types = new Vector<>();
         item_types.add(MultiItem.ItemType.AUDIO);   //audio
         item_types.add(MultiItem.ItemType.LIGHT);   //sensor
@@ -106,11 +105,16 @@ public class TestCases {
                 .setField("loudness", AudioOperators.calcLoudness("audio_data"))
                 .setField("brightness", MultiOperators.getItemField(1, "illuminance"))
                 .setField("output", MLOperators.machineLearning(loadJSONFromAsset(assets, "linear_regression2.json")))
+                //linear_regression.json : field weight pair format
+                //linear_regression2.json : inputFields and weights format
                 .setField("tuple", MLOperators.tuple(tupleFields))
                 .forEach("tuple", new Callback<List<Object>>(){
                     @Override
                     protected void onInput(List<Object> input){
                         System.out.println("TUPLE: " + input);
+                        System.out.println("BRIGHTNESS: " + input.get(0));
+                        System.out.println("LOUDNESS: " + input.get(1));
+                        System.out.println("ML INFERENCE RESULT: " + input.get(2));
                     }
                 });
 
@@ -143,6 +147,9 @@ public class TestCases {
                     @Override
                     protected void onInput(List<Object> input){
                         System.out.println("TUPLE: " + input);
+                        System.out.println("BRIGHTNESS: " + input.get(0));
+                        System.out.println("LOUDNESS: " + input.get(1));
+                        System.out.println("ML INFERENCE RESULT: " + input.get(2));
                     }
                 });
 
