@@ -1,5 +1,8 @@
 {
 	"algorithm":"linear regression",
 	"inputFields":["brightness", "loudness"],
-	"weights":[3.0, 1.0]
+	"model":{
+		"weights":[3.0, 1.0],
+		"intercept":0
+	}
 }
