@@ -1,0 +1,7 @@
+{
+  "algorithm":"K-Means",
+  "inputFields":["brightness", "loudness"],
+  "model":{
+    "clusterCenters":[[0, 0], [100, 100]]
+  }
+}

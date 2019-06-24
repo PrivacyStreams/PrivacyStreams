@@ -1,5 +1,5 @@
 {
-	"algorithm":"linear regression",
+	"algorithm":"Linear Regression",
 	"fieldWeightPairs":[
 		{
 		"field":"brightness",

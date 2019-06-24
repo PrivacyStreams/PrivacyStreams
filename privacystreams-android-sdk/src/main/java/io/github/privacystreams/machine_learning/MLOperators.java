@@ -44,13 +44,17 @@ public class MLOperators {
         System.out.println("Performing: " + gson.fromJson(json, JSONMachineLearning.class));
 
         switch (gson.fromJson(json, JSONMachineLearning.class).getAlgorithm()) {
-            case "linear regression": {
+            case "Linear Regression": {
                 JSONLinearRegression jlr = gson.fromJson(json, JSONLinearRegression.class);
                 return new LinearRegression(jlr.getInputFields(), jlr.getWeights(), jlr.getIntercept());
             }
             case "SVM": {
                 JSONSVM jsvm = gson.fromJson(json, JSONSVM.class);
                 return new SVM(jsvm.getInputFields(), jsvm.getWeights(), jsvm.getIntercept());
+            }
+            case "K-Means": {
+                JSONKMeans jk = gson.fromJson(json, JSONKMeans.class);
+                return new KMeans(jk.getInputFields(), jk.getClusterCenters());
             }
             default: {
                 System.out.println("Unsupported algorithm");

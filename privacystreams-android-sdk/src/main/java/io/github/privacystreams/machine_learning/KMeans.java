@@ -55,7 +55,7 @@ class KMeans extends MLProcessor<Object>{
         Collections.sort(kDistances, new Comparator<KDistance>() {
             @Override
             public int compare(KDistance o1, KDistance o2) {
-                return Float.compare(o2.getDistance(), o1.getDistance());
+                return Float.compare(o1.getDistance(), o2.getDistance());
             }
         });
 

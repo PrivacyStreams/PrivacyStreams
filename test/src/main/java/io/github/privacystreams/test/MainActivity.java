@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
             TestCases testCases = new TestCases(MainActivity.this);
 
             //testCases.testMLSVM(getAssets());
-            testCases.testMLLinearRegression(getAssets());
+            testCases.testML(getAssets(), "kmeans.json");
 
 
             /*Integer screenOrientation;
