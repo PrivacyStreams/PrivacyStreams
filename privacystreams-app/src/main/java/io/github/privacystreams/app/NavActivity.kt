@@ -42,8 +42,11 @@ class NavActivity : AppCompatActivity() {
 
         try {
 
-            val emotion = UQI(this).getData(Message.getAllSMS(), Purpose.ADS("")).setField("emotion", SentimentOperators.getEmotion(Message.CONTENT)).getFirst<String>("emotion")
+            val emotion = UQI(this).getData(Message.getAllSMS(), Purpose.ADS(""))
+                                           .setField("emotion", SentimentOperators.getEmotion(Message.CONTENT))
+                                           .asList<String>("emotion")
             println(emotion)
+
         } catch (e: Exception) {
 
         }

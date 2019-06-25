@@ -1,11 +1,12 @@
 package io.github.privacystreams.communication;
 
+import android.util.Log;
+
 import net.nunoachenriques.vader.SentimentAnalysis;
 import net.nunoachenriques.vader.lexicon.English;
 import net.nunoachenriques.vader.text.TokenizerEnglish;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.Map;
 
 import io.github.privacystreams.core.UQI;
 
@@ -17,40 +18,71 @@ public class SentimentAnalyzer extends SentimentProcessor<String> {
 
     @Override
     protected String getSentiment(UQI uqi, String messageData) {
-        //sentiment analyze code
-        List<String> sentences = new LinkedList<String>();
-        sentences.add("VADER is smart, handsome, and funny.");
-        sentences.add("VADER is smart, handsome, and funny!");
-        sentences.add("VADER is very smart, handsome, and funny.");
-        sentences.add("VADER is VERY SMART, handsome, and FUNNY.");
-        sentences.add("VADER is VERY SMART, handsome, and FUNNY!!!");
-        sentences.add("VADER is VERY SMART, really handsome, and INCREDIBLY FUNNY!!!");
-        sentences.add("The book was good.");
-        sentences.add("The book was kind of good.");
-        sentences.add("The plot was good, but the characters are uncompelling and the dialog is not great.");
-        sentences.add("A really bad, horrible book.");
-        sentences.add("At least it isn't a horrible book.");
-        sentences.add(":) and :D");
-        sentences.add("");
-        sentences.add("Today sux");
-        sentences.add("Today sux!");
-        sentences.add("Today SUX!");
-        sentences.add("Today kinda sux! But I'll get by, lol");
-
-        System.out.println("hello world");
 
         SentimentAnalysis sa = new SentimentAnalysis(new English(), new TokenizerEnglish());
 
-        System.out.println("hello world");
+        Map<String, Float> res = sa.getSentimentAnalysis(messageData);
 
-        for (String sentence : sentences) {
-            System.out.println(sentence);
-            System.out.println(sa.getSentimentAnalysis(sentence).toString());
+        Float max = 0.0f;
+
+        String emotion = "";
+
+
+        Log.d("CindyDebug", messageData);
+
+        for (Map.Entry<String, Float> entry: res.entrySet()) {
+
+            if(entry.getValue() >= max && entry.getKey() != "compound") {
+                max = entry.getValue();
+                emotion = entry.getKey();
+            }
         }
 
-        System.out.println("hello world");
+        Float compound = res.get("compound");
+        String result = "";
 
-        return "";
+        if(emotion == "positive"){
+            if(compound >= 0.5f){
+                result = "Very Positive";
+            }
+            else{
+                result = "Positive";
+            }
+        }
+        else if(emotion == "neutral"){
+            if(res.get("neutral") < 0.7f){
+                if(compound >= 0.35f){
+                    result = "Positive";
+
+
+                        
+                else if(compound <= -0.35f) {
+                    result = "Negative";
+                }
+                else{
+                    result = "Neutral";
+                }
+            }
+            else{
+                result = "Neutral";
+            }
+
+        }
+        else{
+            if(compound <= -0.5f){
+                result = "Very Negative";
+            }
+            else{
+                result = "Negative";
+            }
+        }
+
+        Log.d("CindyDebug", res.toString());
+        Log.d("CindyDebug", result);
+        Log.d("CindyDebug", "-------------------");
+
+        return result;
+
     }
 
 }
