@@ -162,8 +162,6 @@ public class TestCases {
                 .setField("loudness", AudioOperators.calcLoudness("audio_data"))
                 .setField("brightness", MultiOperators.getItemField(1, "illuminance"))
                 .setField("output", MLOperators.machineLearning(loadJSONFromAsset(assets, "kmeans.json")))
-                //linear_regression.json : field weight pair format
-                //linear_regression2.json : inputFields and weights format
                 .setField("tuple", MLOperators.tuple(tupleFields))
                 .forEach("tuple", new Callback<List<Object>>(){
                     @Override
@@ -199,8 +197,6 @@ public class TestCases {
                 .setField("loudness", AudioOperators.calcLoudness("audio_data"))
                 .setField("brightness", MultiOperators.getItemField(1, "illuminance"))
                 .setField("output", MLOperators.machineLearning(loadJSONFromAsset(assets, "linear_regression2.json")))
-                //linear_regression.json : field weight pair format
-                //linear_regression2.json : inputFields and weights format
                 .setField("tuple", MLOperators.tuple(tupleFields))
                 .forEach("tuple", new Callback<List<Object>>(){
                     @Override
