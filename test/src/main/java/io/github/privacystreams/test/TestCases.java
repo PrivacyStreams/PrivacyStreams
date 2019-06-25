@@ -44,8 +44,10 @@ import io.github.privacystreams.location.GeolocationOperators;
 import io.github.privacystreams.location.LatLon;
 import io.github.privacystreams.machine_learning.MLOperators;
 import io.github.privacystreams.machine_learning.Recognition;
+import io.github.privacystreams.multi.ItemType;
 import io.github.privacystreams.multi.MultiItem;
 import io.github.privacystreams.multi.MultiOperators;
+import io.github.privacystreams.multi.NewMultiItem;
 import io.github.privacystreams.notification.Notification;
 import io.github.privacystreams.io.IOOperators;
 import io.github.privacystreams.utils.Duration;
@@ -57,6 +59,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.Array;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
 import java.util.ArrayList;
@@ -84,6 +87,27 @@ public class TestCases {
         this.uqi = new UQI(context);
     }
 
+    public void testNewMultiItem(){
+        List<ItemType> itemTypes = new ArrayList<>();
+        itemTypes.add(ItemType.AUDIO(1000, 5000, 3, Purpose.TEST("")));
+        itemTypes.add(ItemType.LIGHT(1000, 3, Purpose.TEST("")));
+
+        List<String> tuple = new ArrayList<>();
+        tuple.add("loudness_log");
+        tuple.add("brightness_log");
+
+        uqi.getData(NewMultiItem.oneshot(itemTypes), Purpose.TEST("new multi item"))
+                .setField("loudness_log", MultiOperators.transformList(0, AudioOperators.calcLoudness("audio_data")))
+                .setField("brightness_log", MultiOperators.getLogItemField(1, "illuminance"))
+                .setField("tuple", MLOperators.tuple(tuple))
+                .forEach("tuple", new Callback<List<Object>>() {
+                    protected void onInput(List<Object> input){
+                        System.out.println("TUPLE");
+                        System.out.println("Loudness log: " + input.get(0));
+                        System.out.println("Brightness log: " + input.get(1));
+                    }
+                });
+    }
     public void testML(AssetManager assets, String jsonFile){
         System.out.println("TESTING LINEAR REGRESSION");
 

@@ -27,6 +27,10 @@ public class MultiOperators {
     public static Function<Item, Object> getLogLastItemField(int itemIndex, String itemField){
         return new MultiItemGetLogIndexField(itemIndex, -1, itemField);
     }
+
+    public static Function<Item, List<Object>> transformList(int logItemIndex, Function operator){
+        return new MultiItemTransformList(logItemIndex, operator);
+    }
 }
 
 
