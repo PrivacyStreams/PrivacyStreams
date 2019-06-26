@@ -28,9 +28,17 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected Object doInBackground(Object[] objects) {
             TestCases testCases = new TestCases(MainActivity.this);
+
+            //testCases.testNewMultiItemSameType();
+
             //testCases.testNewMultiItem();
+
+            //ISSUES with multi-item periodic
+            testCases.testNewMultiItemPeriodic();
+
             //testCases.testMLSVM(getAssets());
-            testCases.testML(getAssets(), "svm.json");
+
+            //testCases.testML(getAssets(), "svm.json");
 
 
             /*Integer screenOrientation;

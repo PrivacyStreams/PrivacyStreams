@@ -87,7 +87,31 @@ public class TestCases {
         this.uqi = new UQI(context);
     }
 
+    public void testNewMultiItemSameType(){
+        System.out.println("TESTING NEW MULTI-ITEM");
+        List<ItemType> itemTypes = new ArrayList<>();
+        itemTypes.add(ItemType.AUDIO(1000, 2000, 3, Purpose.TEST("")));
+        itemTypes.add(ItemType.AUDIO(1000, 2000, 2, Purpose.TEST("")));
+
+        List<String> tuple = new ArrayList<>();
+        tuple.add("loudness_log1");
+        tuple.add("loudness_log2");
+
+        uqi.getData(NewMultiItem.oneshot(itemTypes), Purpose.TEST("new multi item"))
+                .setField("loudness_log1", MultiOperators.transformList(0, AudioOperators.calcLoudness("audio_data")))
+                .setField("loudness_log2", MultiOperators.transformList(1, AudioOperators.calcLoudness("audio_data")))
+                .setField("tuple", MLOperators.tuple(tuple))
+                .forEach("tuple", new Callback<List<Object>>() {
+                    protected void onInput(List<Object> input){
+                        System.out.println("TUPLE");
+                        System.out.println("Loudness log 1: " + input.get(0));
+                        System.out.println("Loudness log 2: " + input.get(1));
+                    }
+                });
+    }
+
     public void testNewMultiItem(){
+        System.out.println("TESTING NEW MULTI-ITEM");
         List<ItemType> itemTypes = new ArrayList<>();
         itemTypes.add(ItemType.AUDIO(1000, 5000, 3, Purpose.TEST("")));
         itemTypes.add(ItemType.LIGHT(1000, 3, Purpose.TEST("")));
@@ -108,6 +132,30 @@ public class TestCases {
                     }
                 });
     }
+
+    public void testNewMultiItemPeriodic(){
+        System.out.println("TESTING NEW MULTI-ITEM PERIODIC");
+        List<ItemType> itemTypes = new ArrayList<>();
+        itemTypes.add(ItemType.AUDIO(1000, 2000, 3, Purpose.TEST("")));
+        itemTypes.add(ItemType.LIGHT(1000, 3, Purpose.TEST("")));
+
+        List<String> tuple = new ArrayList<>();
+        tuple.add("loudness_log");
+        tuple.add("brightness_log");
+
+        uqi.getData(NewMultiItem.periodic(itemTypes, 20000), Purpose.TEST("new multi item"))
+                .setField("loudness_log", MultiOperators.transformList(0, AudioOperators.calcLoudness("audio_data")))
+                .setField("brightness_log", MultiOperators.getLogItemField(1, "illuminance"))
+                .setField("tuple", MLOperators.tuple(tuple))
+                .forEach("tuple", new Callback<List<Object>>() {
+                    protected void onInput(List<Object> input){
+                        System.out.println("TUPLE");
+                        System.out.println("Loudness log: " + input.get(0));
+                        System.out.println("Brightness log: " + input.get(1));
+                    }
+                });
+    }
+
     public void testML(AssetManager assets, String jsonFile){
         System.out.println("TESTING LINEAR REGRESSION");
 
