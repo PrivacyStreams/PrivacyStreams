@@ -33,6 +33,8 @@ public class MainActivity extends AppCompatActivity {
 
             //testCases.testNewMultiItem();
 
+            //testCases.testPeriodic();
+
             //ISSUES with multi-item periodic
             testCases.testNewMultiItemPeriodic();
 

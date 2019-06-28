@@ -132,7 +132,24 @@ public class TestCases {
                     }
                 });
     }
-
+    public void testPeriodic(){
+        ArrayList<String> t = new ArrayList<>();
+        t.add("bitmap");
+        t.add("text");
+        t.add("lat lon");
+        uqi.getData(Image.takePhotoBgPeriodic(0, 1000), Purpose.TEST("test to see cache issue"))
+                .setField("bitmap", ImageOperators.getBitmap("image_data"))
+                .setField("text", ImageOperators.extractText("image_data"))
+                .setField("lat lon", ImageOperators.getLatLon("image_data"))
+                .setField("tuple", MLOperators.tuple(t))
+                .forEach("tuple", new Callback<List<Object>>(){
+                    protected void onInput(List<Object> input){
+                        System.out.println("bitmap: "+input.get(0));
+                        System.out.println("text: "+input.get(1));
+                        System.out.println("lat lon: "+input.get(2));
+                    }
+                });
+    }
     public void testNewMultiItemPeriodic(){
         System.out.println("TESTING NEW MULTI-ITEM PERIODIC");
         List<ItemType> itemTypes = new ArrayList<>();
@@ -240,11 +257,21 @@ public class TestCases {
             purposes.add(Purpose.TEST("TESTING MULTI"));
         }
 
+        List<String> inputFields = new ArrayList<>();
+        inputFields.add("brightness");
+        inputFields.add("loudness");
+
+        List<Float> weights = new ArrayList<>();
+        weights.add((float)3.0);
+        weights.add((float)1.0);
+
+        float intercept = 0;
+
         uqi.getData(MultiItem.oneshot(item_types, purposes, 1000, 1), Purpose.TEST("Testing multiItem"))
                 .setField("audio_data", MultiOperators.getItemField(0, "audio_data"))
                 .setField("loudness", AudioOperators.calcLoudness("audio_data"))
                 .setField("brightness", MultiOperators.getItemField(1, "illuminance"))
-                .setField("output", MLOperators.machineLearning(loadJSONFromAsset(assets, "linear_regression2.json")))
+                .setField("output", MLOperators.linearRegression(inputFields, weights, intercept))
                 .setField("tuple", MLOperators.tuple(tupleFields))
                 .forEach("tuple", new Callback<List<Object>>(){
                     @Override
@@ -252,7 +279,7 @@ public class TestCases {
                         System.out.println("TUPLE: " + input);
                         System.out.println("BRIGHTNESS: " + input.get(0));
                         System.out.println("LOUDNESS: " + input.get(1));
-                        System.out.println("ML INFERENCE RESULT: " + input.get(2));
+                        System.out.println("LINEAR REGRESSION RESULT: " + input.get(2));
                     }
                 });
 

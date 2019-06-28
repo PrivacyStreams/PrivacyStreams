@@ -2,57 +2,30 @@ package io.github.privacystreams.multi;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Timer;
 
 import io.github.privacystreams.core.Item;
 import io.github.privacystreams.core.PStreamProvider;
 import io.github.privacystreams.core.UQI;
 import io.github.privacystreams.core.exceptions.PSException;
-import io.github.privacystreams.utils.AlarmScheduler;
-import io.github.privacystreams.utils.Globals;
-import io.github.privacystreams.utils.Logging;
-
-import static io.github.privacystreams.utils.Globals.AudioConfig.useAlarmScheduler;
 
 class NewMultiItemPeriodic extends PStreamProvider {
     private Long interval;
     private List<ItemType> itemTypes;
+    private Timer timer;
     NewMultiItemPeriodic(List<ItemType> itemTypes, long interval) {
         this.interval = interval;
         this.itemTypes = itemTypes;
+        this.timer = new Timer();
     }
-
-    private transient AlarmScheduler alarmScheduler;
 
     @Override
     protected void provide() {
-        if (Globals.AudioConfig.useAlarmScheduler || Globals.ImageConfig.bgUseAlarmScheduler) {
-            alarmScheduler = new AlarmScheduler(getContext(), this.getClass().getName()) {
-                @Override
-                protected void run() {
-                    if (!isCancelled) {
-                        recordOnce();
-                        alarmScheduler.schedule(interval);
-                    } else {
-                        finish();
-                    }
-                }
-            };
-            alarmScheduler.schedule(0);
-        } else {
-            while (!this.isCancelled) {
-                recordOnce();
-                try {
-                    Thread.sleep(this.interval);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-            this.finish();
-        }
+        timer.scheduleAtFixedRate(new NewMultiItemTimerTask(this), 0, interval);
     }
 
 
-    private void recordOnce() {
+    void recordOnce() {
         NewMultiItem multiItem = null;
         try {
             multiItem = NewMultiItemOnce.recordOnce(this.getUQI(), this.itemTypes);
@@ -65,13 +38,7 @@ class NewMultiItemPeriodic extends PStreamProvider {
 
     @Override
     protected void onCancel(UQI uqi) {
-        if (useAlarmScheduler) {
-            try {
-                alarmScheduler.destroy();
-            } catch (Exception e) {
-                Logging.error(e.getMessage());
-            }
-        }
+        timer.cancel();
         super.onCancel(uqi);
     }
 }

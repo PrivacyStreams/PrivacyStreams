@@ -77,6 +77,10 @@ public class MLOperators {
         return new SVM(inputFields, weights, intercept);
     }
 
+    public static Function<Item, Object> kMeans(List<String> inputFields, List<List<Float>> clusterCenters){
+        return new KMeans(inputFields, clusterCenters);
+    }
+
     /**
      * Used for grouping together several fields into a tuple,
      * easier to view multiple outputs at once
