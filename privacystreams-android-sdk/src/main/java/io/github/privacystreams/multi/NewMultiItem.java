@@ -4,7 +4,6 @@ import java.util.List;
 
 import io.github.privacystreams.core.Item;
 import io.github.privacystreams.core.PStreamProvider;
-import io.github.privacystreams.core.purposes.Purpose;
 import io.github.privacystreams.utils.annotations.PSItemField;
 
 public class NewMultiItem extends Item {
@@ -16,7 +15,7 @@ public class NewMultiItem extends Item {
     public static final String ITEMS = "items";
 
 
-    NewMultiItem(List<ItemType> item_types, List<Object> items) {
+    NewMultiItem(List<ItemType> item_types, List<ItemWrapper> items) {
         this.setFieldValue(ITEM_TYPES, item_types);
         this.setFieldValue(ITEMS, items);
     }

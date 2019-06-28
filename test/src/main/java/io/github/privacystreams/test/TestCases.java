@@ -45,7 +45,6 @@ import io.github.privacystreams.location.LatLon;
 import io.github.privacystreams.machine_learning.MLOperators;
 import io.github.privacystreams.machine_learning.Recognition;
 import io.github.privacystreams.multi.ItemType;
-import io.github.privacystreams.multi.MultiItem;
 import io.github.privacystreams.multi.MultiOperators;
 import io.github.privacystreams.multi.NewMultiItem;
 import io.github.privacystreams.notification.Notification;
@@ -59,7 +58,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.lang.reflect.Array;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
 import java.util.ArrayList;
@@ -87,28 +85,6 @@ public class TestCases {
         this.uqi = new UQI(context);
     }
 
-    public void testNewMultiItemSameType(){
-        System.out.println("TESTING NEW MULTI-ITEM");
-        List<ItemType> itemTypes = new ArrayList<>();
-        itemTypes.add(ItemType.AUDIO(1000, 2000, 3, Purpose.TEST("")));
-        itemTypes.add(ItemType.AUDIO(1000, 2000, 2, Purpose.TEST("")));
-
-        List<String> tuple = new ArrayList<>();
-        tuple.add("loudness_log1");
-        tuple.add("loudness_log2");
-
-        uqi.getData(NewMultiItem.oneshot(itemTypes), Purpose.TEST("new multi item"))
-                .setField("loudness_log1", MultiOperators.transformList(0, AudioOperators.calcLoudness("audio_data")))
-                .setField("loudness_log2", MultiOperators.transformList(1, AudioOperators.calcLoudness("audio_data")))
-                .setField("tuple", MLOperators.tuple(tuple))
-                .forEach("tuple", new Callback<List<Object>>() {
-                    protected void onInput(List<Object> input){
-                        System.out.println("TUPLE");
-                        System.out.println("Loudness log 1: " + input.get(0));
-                        System.out.println("Loudness log 2: " + input.get(1));
-                    }
-                });
-    }
 
     public void testNewMultiItem(){
         System.out.println("TESTING NEW MULTI-ITEM");
@@ -121,8 +97,8 @@ public class TestCases {
         tuple.add("brightness_log");
 
         uqi.getData(NewMultiItem.oneshot(itemTypes), Purpose.TEST("new multi item"))
-                .setField("loudness_log", MultiOperators.transformList(0, AudioOperators.calcLoudness("audio_data")))
-                .setField("brightness_log", MultiOperators.getLogItemField(1, "illuminance"))
+                .setField("loudness_log", MultiOperators.transformList(ItemType.iType.AUDIO, AudioOperators.calcLoudness("audio_data")))
+                .setField("brightness_log", MultiOperators.getField(ItemType.iType.LIGHT, "illuminance"))
                 .setField("tuple", MLOperators.tuple(tuple))
                 .forEach("tuple", new Callback<List<Object>>() {
                     protected void onInput(List<Object> input){
@@ -161,8 +137,8 @@ public class TestCases {
         tuple.add("brightness_log");
 
         uqi.getData(NewMultiItem.periodic(itemTypes, 20000), Purpose.TEST("new multi item"))
-                .setField("loudness_log", MultiOperators.transformList(0, AudioOperators.calcLoudness("audio_data")))
-                .setField("brightness_log", MultiOperators.getLogItemField(1, "illuminance"))
+                .setField("loudness_log", MultiOperators.transformList(ItemType.iType.AUDIO, AudioOperators.calcLoudness("audio_data")))
+                .setField("brightness_log", MultiOperators.getField(ItemType.iType.LIGHT, "illuminance"))
                 .setField("tuple", MLOperators.tuple(tuple))
                 .forEach("tuple", new Callback<List<Object>>() {
                     protected void onInput(List<Object> input){
@@ -176,23 +152,22 @@ public class TestCases {
     public void testML(AssetManager assets, String jsonFile){
         System.out.println("TESTING LINEAR REGRESSION");
 
-        Vector<MultiItem.ItemType> item_types = new Vector<>();
-        item_types.add(MultiItem.ItemType.AUDIO);   //audio
-        item_types.add(MultiItem.ItemType.LIGHT);   //sensor
+        List<ItemType> item_types = new ArrayList<>();
+        item_types.add(ItemType.AUDIO(1000, 1000, 1, Purpose.TEST("")));   //audio
+        item_types.add(ItemType.LIGHT(5, 1, Purpose.TEST("")));   //sensor
 
-        Vector<String> tupleFields = new Vector<>();
+        ArrayList<String> tupleFields = new ArrayList<>();
         tupleFields.add("brightness");
         tupleFields.add("loudness");
         tupleFields.add("output");
 
-        Vector<Purpose> purposes = new Vector<>();
-        for(int i = 0; i < item_types.size(); i++) {
-            purposes.add(Purpose.TEST("TESTING MULTI"));
-        }
-        uqi.getData(MultiItem.oneshot(item_types, purposes, 1000, 1), Purpose.TEST("Testing multiItem"))
-                .setField("audio_data", MultiOperators.getItemField(0, "audio_data"))
+
+        uqi.getData(NewMultiItem.oneshot(item_types), Purpose.TEST(""))
+                .setField("audio_data_log", MultiOperators.getField(ItemType.iType.AUDIO, "audio_data"))
+                .setField("audio_data", MultiOperators.getIndexFromList("audio_data_log", 0))
                 .setField("loudness", AudioOperators.calcLoudness("audio_data"))
-                .setField("brightness", MultiOperators.getItemField(1, "illuminance"))
+                .setField("brightness_log", MultiOperators.getField(ItemType.iType.LIGHT, "illuminance"))
+                .setField("brightness", MultiOperators.getIndexFromList("brightness_log", 0))
                 .setField("output", MLOperators.machineLearning(loadJSONFromAsset(assets, jsonFile)))
                 .setField("tuple", MLOperators.tuple(tupleFields))
                 .forEach("tuple", new Callback<List<Object>>(){
@@ -206,120 +181,7 @@ public class TestCases {
                 });
 
     }
-    public void testMLKMeans(AssetManager assets){
-        System.out.println("TESTING LINEAR REGRESSION");
 
-        Vector<MultiItem.ItemType> item_types = new Vector<>();
-        item_types.add(MultiItem.ItemType.AUDIO);   //audio
-        item_types.add(MultiItem.ItemType.LIGHT);   //sensor
-
-        Vector<String> tupleFields = new Vector<>();
-        tupleFields.add("brightness");
-        tupleFields.add("loudness");
-        tupleFields.add("output");
-
-        Vector<Purpose> purposes = new Vector<>();
-        for(int i = 0; i < item_types.size(); i++) {
-            purposes.add(Purpose.TEST("TESTING MULTI"));
-        }
-        uqi.getData(MultiItem.oneshot(item_types, purposes, 1000, 1), Purpose.TEST("Testing multiItem"))
-                .setField("audio_data", MultiOperators.getItemField(0, "audio_data"))
-                .setField("loudness", AudioOperators.calcLoudness("audio_data"))
-                .setField("brightness", MultiOperators.getItemField(1, "illuminance"))
-                .setField("output", MLOperators.machineLearning(loadJSONFromAsset(assets, "kmeans.json")))
-                .setField("tuple", MLOperators.tuple(tupleFields))
-                .forEach("tuple", new Callback<List<Object>>(){
-                    @Override
-                    protected void onInput(List<Object> input){
-                        System.out.println("TUPLE: " + input);
-                        System.out.println("BRIGHTNESS: " + input.get(0));
-                        System.out.println("LOUDNESS: " + input.get(1));
-                        System.out.println("ML INFERENCE RESULT: " + input.get(2));
-                    }
-                });
-
-    }
-
-    public void testMLLinearRegression(AssetManager assets){
-        System.out.println("TESTING LINEAR REGRESSION");
-
-        Vector<MultiItem.ItemType> item_types = new Vector<>();
-        item_types.add(MultiItem.ItemType.AUDIO);   //audio
-        item_types.add(MultiItem.ItemType.LIGHT);   //sensor
-
-        Vector<String> tupleFields = new Vector<>();
-        tupleFields.add("brightness");
-        tupleFields.add("loudness");
-        tupleFields.add("output");
-
-        Vector<Purpose> purposes = new Vector<>();
-        for(int i = 0; i < item_types.size(); i++) {
-            purposes.add(Purpose.TEST("TESTING MULTI"));
-        }
-
-        List<String> inputFields = new ArrayList<>();
-        inputFields.add("brightness");
-        inputFields.add("loudness");
-
-        List<Float> weights = new ArrayList<>();
-        weights.add((float)3.0);
-        weights.add((float)1.0);
-
-        float intercept = 0;
-
-        uqi.getData(MultiItem.oneshot(item_types, purposes, 1000, 1), Purpose.TEST("Testing multiItem"))
-                .setField("audio_data", MultiOperators.getItemField(0, "audio_data"))
-                .setField("loudness", AudioOperators.calcLoudness("audio_data"))
-                .setField("brightness", MultiOperators.getItemField(1, "illuminance"))
-                .setField("output", MLOperators.linearRegression(inputFields, weights, intercept))
-                .setField("tuple", MLOperators.tuple(tupleFields))
-                .forEach("tuple", new Callback<List<Object>>(){
-                    @Override
-                    protected void onInput(List<Object> input){
-                        System.out.println("TUPLE: " + input);
-                        System.out.println("BRIGHTNESS: " + input.get(0));
-                        System.out.println("LOUDNESS: " + input.get(1));
-                        System.out.println("LINEAR REGRESSION RESULT: " + input.get(2));
-                    }
-                });
-
-
-
-    }
-    public void testMLSVM(AssetManager assets){
-        System.out.println("TESTING SVM");
-        Vector<MultiItem.ItemType> item_types = new Vector<>();
-        item_types.add(MultiItem.ItemType.AUDIO);   //audio
-        item_types.add(MultiItem.ItemType.LIGHT);   //sensor
-
-        Vector<String> tupleFields = new Vector<>();
-        tupleFields.add("brightness");
-        tupleFields.add("loudness");
-        tupleFields.add("output");
-
-        Vector<Purpose> purposes = new Vector<>();
-        for(int i = 0; i < item_types.size(); i++) {
-            purposes.add(Purpose.TEST("TESTING MULTI"));
-        }
-
-        uqi.getData(MultiItem.oneshot(item_types, purposes, 1000, 1), Purpose.TEST("Testing multiItem"))
-                .setField("audio_data", MultiOperators.getItemField(0, "audio_data"))
-                .setField("loudness", AudioOperators.calcLoudness("audio_data"))
-                .setField("brightness", MultiOperators.getItemField(1, "illuminance"))
-                .setField("output", MLOperators.machineLearning(loadJSONFromAsset(assets, "svm.json")))
-                .setField("tuple", MLOperators.tuple(tupleFields))
-                .forEach("tuple", new Callback<List<Object>>(){
-                    @Override
-                    protected void onInput(List<Object> input){
-                        System.out.println("TUPLE: " + input);
-                        System.out.println("BRIGHTNESS: " + input.get(0));
-                        System.out.println("LOUDNESS: " + input.get(1));
-                        System.out.println("ML INFERENCE RESULT: " + input.get(2));
-                    }
-                });
-
-
-    }
 
     public String loadJSONFromAsset(AssetManager assets, String filename) {
         String json = null;
@@ -344,121 +206,7 @@ public class TestCases {
         return json;
 
     }
-    public void testEmptyMultiItem() {
-        System.out.println("TESTING EMPTY MULTIITEM");
-        Vector<MultiItem.ItemType> item_types = new Vector<>();
-        Vector<Purpose> purposes = new Vector<>();
-        uqi.getData(MultiItem.oneshot(item_types, purposes), Purpose.TEST("Test empty multiItem"))
-                .forEach("items", new Callback<List<Object>>() {
-                    protected void onInput(List<Object> input){
-                        System.out.println(input);
-                    }
-                });
-    }
-    public void testMultiItemPeriodic(){ // has issues
-        System.out.println("TESTING MULTIITEM PERIODIC");
-        Vector<MultiItem.ItemType> item_types = new Vector<>();
-        item_types.add(MultiItem.ItemType.AUDIO);   //audio
-        item_types.add(MultiItem.ItemType.CALL);    //log
-        item_types.add(MultiItem.ItemType.LIGHT);   //sensor
-        item_types.add(MultiItem.ItemType.ROTATION_VECTOR);
 
-        Vector<String> tupleFields = new Vector<>();
-        tupleFields.add("loudness");
-        tupleFields.add("brightness");
-        tupleFields.add("call_log");
-        tupleFields.add("rot_vec");
-
-
-        Vector<String> rot_vec = new Vector<>();
-        rot_vec.add("rot_vec_x");
-        rot_vec.add("rot_vec_y");
-        rot_vec.add("rot_vec_z");
-        rot_vec.add("rot_vec_s");
-
-        Vector<Purpose> purposes = new Vector<>();
-        for(int i = 0; i < item_types.size(); i++) {
-            purposes.add(Purpose.TEST("TESTING MULTI"));
-        }
-
-        uqi.getData(MultiItem.periodic(item_types, purposes, 10000, 1000, 1), Purpose.TEST("Texting multiItem"))
-                .setField("audio_data", MultiOperators.getItemField(0, "audio_data"))
-                .setField("loudness", AudioOperators.calcLoudness("audio_data"))
-                .setField("brightness", MultiOperators.getItemField(2, "illuminance"))
-                .setField("call_log", MultiOperators.getLogItemField(1, "contact"))
-                .setField("rot_vec_x", MultiOperators.getItemField(3, "x"))
-                .setField("rot_vec_y", MultiOperators.getItemField(3, "y"))
-                .setField("rot_vec_z", MultiOperators.getItemField(3, "z"))
-                .setField("rot_vec_s", MultiOperators.getItemField(3, "scalar"))
-                .setField("rot_vec", MLOperators.tuple(rot_vec))
-                .setField("tuple", MLOperators.tuple(tupleFields))
-                .forEach("tuple", new Callback<List<Object>>(){
-                    @Override
-                    protected void onInput(List<Object> input){
-                        System.out.println("Tuple: " + input);
-                    }
-                });
-    }
-    public void testMultiItem(){
-        System.out.println("TESTING MULTIITEM");
-        Vector<MultiItem.ItemType> item_types = new Vector<>();
-        item_types.add(MultiItem.ItemType.AUDIO);   //audio
-        item_types.add(MultiItem.ItemType.CALL);    //log
-        item_types.add(MultiItem.ItemType.LIGHT);   //sensor
-        item_types.add(MultiItem.ItemType.ROTATION_VECTOR);
-        item_types.add(MultiItem.ItemType.IMAGE_TAKE); //images
-        item_types.add(MultiItem.ItemType.IMAGE_FROMSTORAGE);
-
-        Vector<String> tupleFields = new Vector<>();
-        tupleFields.add("loudness");
-        tupleFields.add("brightness");
-        tupleFields.add("call_log");
-        tupleFields.add("rot_vec");
-        tupleFields.add("take_image_text");
-        tupleFields.add("storage_image_text");
-
-
-        Vector<String> rot_vec = new Vector<>();
-        rot_vec.add("rot_vec_x");
-        rot_vec.add("rot_vec_y");
-        rot_vec.add("rot_vec_z");
-        rot_vec.add("rot_vec_s");
-
-        Vector<Purpose> purposes = new Vector<>();
-        for(int i = 0; i < item_types.size(); i++) {
-            purposes.add(Purpose.TEST("TESTING MULTI"));
-        }
-
-        uqi.getData(MultiItem.oneshot(item_types, purposes, 1000, 1), Purpose.TEST("Texting multiItem"))
-                .setField("audio_data", MultiOperators.getItemField(0, "audio_data"))
-                .setField("loudness", AudioOperators.calcLoudness("audio_data"))
-                .setField("brightness", MultiOperators.getItemField(2, "illuminance"))
-                .setField("call_log", MultiOperators.getLogItemField(1, "contact"))
-                .setField("rot_vec_x", MultiOperators.getItemField(3, "x"))
-                .setField("rot_vec_y", MultiOperators.getItemField(3, "y"))
-                .setField("rot_vec_z", MultiOperators.getItemField(3, "z"))
-                .setField("rot_vec_s", MultiOperators.getItemField(3, "scalar"))
-                .setField("image_take", MultiOperators.getItemField(4, "image_data"))
-                .setField("image_storage", MultiOperators.getLogFirstItemField(5, "image_data"))
-                .setField("take_image_text", ImageOperators.extractText("image_take"))
-                .setField("storage_image_text", ImageOperators.extractText("image_storage"))
-                .setField("rot_vec", MLOperators.tuple(rot_vec))
-                .setField("tuple", MLOperators.tuple(tupleFields))
-                .forEach("tuple", new Callback<List<Object>>(){
-                    @Override
-                    protected void onInput(List<Object> input){
-                        System.out.println("TUPLE: " + input);
-
-                        System.out.println("LOUDNESS: " + input.get(0));
-                        System.out.println("BRIGHTNESS: " + input.get(1));
-                        System.out.println("CALL LOG: " + input.get(2));
-                        System.out.println("ROTATION VECTOR: " + input.get(3));
-                        System.out.println("IMAGE TEXT FROM CAMERA: " + input.get(4));
-                        System.out.println("IMAGE TEXT FROM STORAGE: " + input.get(5));
-                    }
-                });
-
-    }
 
     public void testTFLiteInterpreter(AssetManager assets, Integer sensorOrientation){
         final int NUM_DETECTIONS = 10;
@@ -528,8 +276,6 @@ public class TestCases {
 
 
     }
-
-
 
     private static MappedByteBuffer loadModelFile(AssetManager assets, String modelFilename)
             throws IOException {

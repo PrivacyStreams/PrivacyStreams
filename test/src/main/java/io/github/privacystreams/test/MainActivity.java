@@ -29,19 +29,14 @@ public class MainActivity extends AppCompatActivity {
         protected Object doInBackground(Object[] objects) {
             TestCases testCases = new TestCases(MainActivity.this);
 
-            //testCases.testNewMultiItemSameType();
+            testCases.testNewMultiItem();
 
-            //testCases.testNewMultiItem();
+            //testCases.testNewMultiItemPeriodic();
 
-            //testCases.testPeriodic();
-
-            //ISSUES with multi-item periodic
-            testCases.testNewMultiItemPeriodic();
-
-            //testCases.testMLSVM(getAssets());
-
-            //testCases.testML(getAssets(), "svm.json");
-
+            //testCases.testML(getAssets(), "linear_regression2.json");
+            //svm.json
+            //kmeans.json
+            //linear_regression2.json
 
             /*Integer screenOrientation;
             switch (getWindowManager().getDefaultDisplay().getRotation()) {
