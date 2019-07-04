@@ -5,9 +5,10 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
+
+import androidx.annotation.NonNull;
 
 import io.github.privacystreams.core.BuildConfig;
 import io.github.privacystreams.core.UQI;

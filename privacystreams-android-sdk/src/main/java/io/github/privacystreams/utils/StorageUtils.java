@@ -4,7 +4,8 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
-import android.support.v4.content.FileProvider;
+
+import androidx.core.content.FileProvider;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;

@@ -1,7 +1,8 @@
 package io.github.privacystreams.communication;
 
 import android.os.Build;
-import android.support.annotation.RequiresApi;
+
+import androidx.annotation.RequiresApi;
 
 import io.github.privacystreams.core.Item;
 import io.github.privacystreams.core.PStreamProvider;

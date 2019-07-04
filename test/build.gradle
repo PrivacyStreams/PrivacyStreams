@@ -3,7 +3,10 @@ apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion 27
+
     buildToolsVersion "27.0.2"
+    //buildToolsVersion '27.0.3'
+
     defaultConfig {
         applicationId "io.github.privacystreams.test"
         minSdkVersion 16
@@ -37,7 +40,10 @@ dependencies {
     compile 'com.dropbox.core:dropbox-core-sdk:2.1.1'
     compile 'com.google.android.gms:play-services-location:11.6.2'
     compile 'com.google.android.gms:play-services-vision:11.6.2'
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+
+    //compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    //implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 
 }
 repositories {

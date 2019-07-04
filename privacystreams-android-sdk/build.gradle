@@ -34,8 +34,9 @@ ext {
 android {
     compileSdkVersion 27
     buildToolsVersion '27.0.2'
+    //buildToolsVersion '27.0.3'
     defaultConfig {
-        minSdkVersion 16
+        minSdkVersion 18
         targetSdkVersion 27
         versionCode 17
         versionName "0.1.7"
@@ -70,7 +71,12 @@ dependencies {
     provided('com.google.apis:google-api-services-gmail:v1-rev29-1.20.0') {
         exclude group: 'org.apache.httpcomponents'
     }
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+
+    //compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    //implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+
     implementation files('libs/tinylog-1.2.jar')
     implementation files('libs/vader-sentiment-analysis-2.0.1.jar')
 }

@@ -3,7 +3,8 @@ package io.github.privacystreams.device;
 
 import android.net.wifi.ScanResult;
 import android.os.Build;
-import android.support.annotation.RequiresApi;
+
+import androidx.annotation.RequiresApi;
 
 import io.github.privacystreams.core.Item;
 import io.github.privacystreams.core.PStreamProvider;

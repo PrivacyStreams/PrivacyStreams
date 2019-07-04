@@ -3,13 +3,13 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 
 android {
-    compileSdkVersion 27
+    compileSdkVersion 28
     buildToolsVersion "27.0.3"
 
     defaultConfig {
         applicationId "io.github.privacystreams.app"
-        minSdkVersion 16
-        targetSdkVersion 27
+        minSdkVersion 18
+        targetSdkVersion 28
         versionCode 1
         versionName "1.0"
 
@@ -36,14 +36,17 @@ dependencies {
     })
 
     compile project(':privacystreams-android-sdk')
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
-    compile 'com.android.support:appcompat-v7:27.0.2'
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+
+    //compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    compile 'androidx.appcompat:appcompat:1.0.0'
+    implementation 'com.google.android.material:material:1.0.0-rc01'
+    compile 'androidx.constraintlayout:constraintlayout:1.1.2'
     compile 'com.google.android.gms:play-services-location:11.8.0'
-    compile 'com.android.support:design:27.0.2'
-    compile 'com.android.support:support-vector-drawable:27.0.2'
     testCompile 'junit:junit:4.12'
-    kapt 'com.android.databinding:compiler:3.0.1'
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.0.0-alpha1"
 }
 repositories {
     mavenCentral()

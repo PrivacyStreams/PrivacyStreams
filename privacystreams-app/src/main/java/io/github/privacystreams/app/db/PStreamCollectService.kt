@@ -7,7 +7,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.IBinder
-import android.support.v4.app.NotificationCompat
 import android.util.Log
 import io.github.privacystreams.app.Config
 import io.github.privacystreams.app.NavActivity
@@ -18,8 +17,7 @@ import android.graphics.Color
 import android.os.Build
 import android.os.PowerManager
 import android.os.PowerManager.WakeLock
-
-
+import androidx.core.app.NotificationCompat
 
 
 /**

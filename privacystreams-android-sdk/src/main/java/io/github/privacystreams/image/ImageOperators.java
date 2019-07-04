@@ -3,7 +3,8 @@ package io.github.privacystreams.image;
 import android.graphics.Bitmap;
 import android.media.ExifInterface;
 import android.os.Build;
-import android.support.annotation.RequiresApi;
+
+import androidx.annotation.RequiresApi;
 
 import io.github.privacystreams.core.Function;
 import io.github.privacystreams.core.Item;

@@ -51,11 +51,11 @@ public class SentimentAnalyzer extends SentimentProcessor<String> {
         }
         else if(emotion == "neutral"){
             if(res.get("neutral") < 0.7f){
-                if(compound >= 0.35f){
+                if(compound >= 0.35f) {
                     result = "Positive";
 
 
-                        
+                }
                 else if(compound <= -0.35f) {
                     result = "Negative";
                 }

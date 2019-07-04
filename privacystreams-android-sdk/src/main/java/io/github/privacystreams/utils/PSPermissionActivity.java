@@ -9,10 +9,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.Settings;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
 import android.util.Pair;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
 
 import io.github.privacystreams.accessibility.PSAccessibilityService;
 import io.github.privacystreams.core.Function;
