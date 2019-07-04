@@ -8,21 +8,30 @@ import io.github.privacystreams.utils.Assertions;
 /**
  * Process the text field in an item.
  */
-abstract class SentimentProcessor<Tout> extends ItemOperator<Tout> {
+abstract class TFIDFProcessor<Tout> extends ItemOperator<Tout> {
 
     private final String messageDataField;
+    //private final String term;
 
-    SentimentProcessor(String messageDataField) {
+    TFIDFProcessor(String messageDataField) {
         this.messageDataField = Assertions.notNull("messageDataField", messageDataField);
         this.addParameters(messageDataField);
+
+        //this.term = Assertions.notNull("term", term);
+        //this.addParameters(term);
+
     }
 
     @Override
     public final Tout apply(UQI uqi, Item input) {
         String message = input.getValueByField(this.messageDataField);
-        return this.getSentiment(uqi, message);
+
+        //String term = input.getValueByField(this.term);
+
+        return this.getTFIDFScore(uqi, message);
     }
 
-    protected abstract Tout getSentiment(UQI uqi, String message);
+    protected abstract Tout getTFIDFScore(UQI uqi, String message);
 
 }
+
