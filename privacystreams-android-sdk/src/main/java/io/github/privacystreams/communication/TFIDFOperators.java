@@ -5,7 +5,7 @@ import io.github.privacystreams.core.Item;
 
 public class TFIDFOperators {
 
-    public static Function<Item, String> getEmotion(String messageDataField){
-        return new SentimentAnalyzer(messageDataField);
+    public static Function<Item, String> getTFIDF(String messageDataField){
+        return new TFIDFAnalyzer(messageDataField);
     }
 }

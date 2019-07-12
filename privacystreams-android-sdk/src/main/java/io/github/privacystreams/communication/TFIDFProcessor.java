@@ -11,22 +11,16 @@ import io.github.privacystreams.utils.Assertions;
 abstract class TFIDFProcessor<Tout> extends ItemOperator<Tout> {
 
     private final String messageDataField;
-    //private final String term;
 
     TFIDFProcessor(String messageDataField) {
         this.messageDataField = Assertions.notNull("messageDataField", messageDataField);
         this.addParameters(messageDataField);
-
-        //this.term = Assertions.notNull("term", term);
-        //this.addParameters(term);
 
     }
 
     @Override
     public final Tout apply(UQI uqi, Item input) {
         String message = input.getValueByField(this.messageDataField);
-
-        //String term = input.getValueByField(this.term);
 
         return this.getTFIDFScore(uqi, message);
     }

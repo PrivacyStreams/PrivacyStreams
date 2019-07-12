@@ -32,7 +32,7 @@ public class SentimentAnalyzer extends SentimentProcessor<String> {
 
         for (Map.Entry<String, Float> entry: res.entrySet()) {
 
-            if(entry.getValue() >= max && entry.getKey() != "compound") {
+            if(entry.getValue() >= max && !entry.getKey().equalsIgnoreCase("compound")) {
                 max = entry.getValue();
                 emotion = entry.getKey();
             }
@@ -41,7 +41,7 @@ public class SentimentAnalyzer extends SentimentProcessor<String> {
         Float compound = res.get("compound");
         String result = "";
 
-        if(emotion == "positive"){
+        if(emotion.equalsIgnoreCase("positive")){
             if(compound >= 0.5f){
                 result = "Very Positive";
             }
@@ -49,7 +49,7 @@ public class SentimentAnalyzer extends SentimentProcessor<String> {
                 result = "Positive";
             }
         }
-        else if(emotion == "neutral"){
+        else if(emotion.equalsIgnoreCase("neutral")){
             if(res.get("neutral") < 0.7f){
                 if(compound >= 0.35f) {
                     result = "Positive";
@@ -79,7 +79,7 @@ public class SentimentAnalyzer extends SentimentProcessor<String> {
 
         Log.d("CindyDebug", res.toString());
         Log.d("CindyDebug", result);
-        Log.d("CindyDebug", "-------------------");
+        Log.d("CindyDebug", "-----------------------------------------");
 
         return result;
 

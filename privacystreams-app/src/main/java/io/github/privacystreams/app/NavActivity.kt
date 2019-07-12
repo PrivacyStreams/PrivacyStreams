@@ -10,8 +10,10 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import io.github.privacystreams.app.db.PStreamCollectService
 import io.github.privacystreams.communication.Message
 import io.github.privacystreams.communication.SentimentOperators
+import io.github.privacystreams.communication.TFIDFOperators
 import io.github.privacystreams.core.UQI
 import io.github.privacystreams.core.purposes.Purpose
+import java.util.*
 
 class NavActivity : AppCompatActivity() {
 
@@ -45,12 +47,16 @@ class NavActivity : AppCompatActivity() {
             val emotion = UQI(this).getData(Message.getAllSMS(), Purpose.ADS(""))
                                            .setField("emotion", SentimentOperators.getEmotion(Message.CONTENT))
                                            .asList<String>("emotion")
-            println(emotion)
+
+
+            val tfidf = UQI(this).getData(Message.getAllSMS(), Purpose.ADS(""))
+                    .setField("TFIDF", TFIDFOperators.getTFIDF(Message.CONTENT))
+                    .asList<String>("TFIDF")
+
 
         } catch (e: Exception) {
 
         }
-
 
     }
 
