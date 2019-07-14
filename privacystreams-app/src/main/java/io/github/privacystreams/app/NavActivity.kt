@@ -43,12 +43,12 @@ class NavActivity : AppCompatActivity() {
         onNewIntent(intent)
 
         try {
-
+            //sentiment analysis
             val emotion = UQI(this).getData(Message.getAllSMS(), Purpose.ADS(""))
                                            .setField("emotion", SentimentOperators.getEmotion(Message.CONTENT))
                                            .asList<String>("emotion")
 
-
+            //TFIDF score implementation
             val tfidf = UQI(this).getData(Message.getAllSMS(), Purpose.ADS(""))
                     .setField("TFIDF", TFIDFOperators.getTFIDF(Message.CONTENT))
                     .asList<String>("TFIDF")

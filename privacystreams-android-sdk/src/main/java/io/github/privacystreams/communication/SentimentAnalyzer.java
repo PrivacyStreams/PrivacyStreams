@@ -28,7 +28,7 @@ public class SentimentAnalyzer extends SentimentProcessor<String> {
         String emotion = "";
 
 
-        Log.d("CindyDebug", messageData);
+        Log.d("Sentiment", messageData);
 
         for (Map.Entry<String, Float> entry: res.entrySet()) {
 
@@ -77,9 +77,9 @@ public class SentimentAnalyzer extends SentimentProcessor<String> {
             }
         }
 
-        Log.d("CindyDebug", res.toString());
-        Log.d("CindyDebug", result);
-        Log.d("CindyDebug", "-----------------------------------------");
+        Log.d("Sentiment", res.toString());
+        Log.d("Sentiment", result);
+        Log.d("Sentiment", "-----------------------------------------");
 
         return result;
 
