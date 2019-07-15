@@ -29,10 +29,11 @@ public class MainActivity extends AppCompatActivity {
         protected Object doInBackground(Object[] objects) {
             TestCases testCases = new TestCases(MainActivity.this);
 
-            testCases.testNewMultiItem();
+            //testCases.testComfort();
+            //testCases.testNewMultiItem();
 
-            //testCases.testNewMultiItemPeriodic();
-
+            testCases.testNewMultiItemPeriodic();
+            //testCases.testJSONBuilder();
             //testCases.testML(getAssets(), "linear_regression2.json");
             //svm.json
             //kmeans.json

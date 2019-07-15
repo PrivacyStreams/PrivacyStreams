@@ -3,7 +3,7 @@ package io.github.privacystreams.machine_learning;
 import java.util.List;
 
 class JSONLinearRegression extends JSONMachineLearning{
-    private class Model{
+    public class Model{
         private List<Float> weights;
         private float intercept;
         Model(){
@@ -21,9 +21,15 @@ class JSONLinearRegression extends JSONMachineLearning{
 
     }
 
-    JSONLinearRegression(String algorithm, List<String> inputFields, Model model){
-        super(algorithm);
+    JSONLinearRegression(List<String> inputFields, Model model){
+        super("Linear Regression");
         this.model = model;
+        this.inputFields = inputFields;
+    }
+
+    JSONLinearRegression(List<String> inputFields, List<Float> weights, float intercept){
+        super("Linear Regression");
+        this.model = new Model(weights, intercept);
         this.inputFields = inputFields;
     }
 

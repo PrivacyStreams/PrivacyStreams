@@ -3,7 +3,7 @@ package io.github.privacystreams.machine_learning;
 import java.util.List;
 
 class JSONKMeans extends JSONMachineLearning{
-    private class Model{
+    public class Model{
         private List<List<Float>> clusterCenters;
         Model(){
 
@@ -19,9 +19,15 @@ class JSONKMeans extends JSONMachineLearning{
 
     }
 
-    JSONKMeans(String algorithm, List<String> inputFields, Model model){
-        super(algorithm);
+    JSONKMeans(List<String> inputFields, Model model){
+        super("K-Means");
         this.model = model;
+        this.inputFields = inputFields;
+    }
+
+    JSONKMeans(List<String> inputFields, List<List<Float>> clusterCenters){
+        super("K-Means");
+        this.model = new Model(clusterCenters);
         this.inputFields = inputFields;
     }
 

@@ -3,7 +3,7 @@ package io.github.privacystreams.machine_learning;
 import java.util.List;
 
 class JSONSVM extends JSONMachineLearning{
-    private class Model{
+    public class Model{
         private List<Float> weights;
         private float intercept;
 
@@ -22,10 +22,16 @@ class JSONSVM extends JSONMachineLearning{
     JSONSVM(){
 
     }
-    JSONSVM(String algorithm, List<String> inputFields, Model model){
-        super(algorithm);
+    JSONSVM(List<String> inputFields, Model model){
+        super("SVM");
         this.inputFields = inputFields;
         this.model = model;
+    }
+
+    JSONSVM(List<String> inputFields, List<Float> weights, float intercept){
+        super("SVM");
+        this.inputFields = inputFields;
+        this.model = new Model(weights, intercept);
     }
 
     public List<String> getInputFields(){
