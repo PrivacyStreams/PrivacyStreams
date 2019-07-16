@@ -11,8 +11,10 @@ import io.github.privacystreams.app.db.PStreamCollectService
 import io.github.privacystreams.communication.Message
 import io.github.privacystreams.communication.SentimentOperators
 import io.github.privacystreams.communication.TFIDFOperators
+import io.github.privacystreams.communication.TopicModelOperators
 import io.github.privacystreams.core.UQI
 import io.github.privacystreams.core.purposes.Purpose
+import java.io.InputStream
 import java.util.*
 
 class NavActivity : AppCompatActivity() {
@@ -52,6 +54,12 @@ class NavActivity : AppCompatActivity() {
             val tfidf = UQI(this).getData(Message.getAllSMS(), Purpose.ADS(""))
                     .setField("TFIDF", TFIDFOperators.getTFIDF(Message.CONTENT))
                     .asList<String>("TFIDF")
+            //getApplicationContext().getResources().openRawResource(io.github.privacystreams.core.R.raw.liwc2001);
+
+            val categories = UQI(this).getData(Message.getAllSMS(), Purpose.ADS(""))
+                    .setField("categories", TopicModelOperators.getCategories(Message.CONTENT))
+                    .asList<String>("categories")
+
 
 
         } catch (e: Exception) {
