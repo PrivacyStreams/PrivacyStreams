@@ -6,7 +6,7 @@ android {
     buildToolsVersion "27.0.2"
     defaultConfig {
         applicationId "io.github.privacystreams.test"
-        minSdkVersion 16
+        minSdkVersion 23
         targetSdkVersion 27
         versionCode 1
         versionName "1.0"

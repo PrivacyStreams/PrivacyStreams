@@ -22,6 +22,15 @@ public class AudioOperators {
         return new AudioLoudnessCalculator(audioDataField);
     }
 
+    /**calculate the MFCC of the audio specifies by an AudioData field.
+     * The MFCC is an array of doubles
+     *
+     * @param audioDataField the name of the AudioData field
+     * @return the function
+     */
+    public static Function<Item, List<Double[]>> calcMFCC(String audioDataField) {
+        return new MFCC(audioDataField);
+    }
     /**
      * Get the max amplitude of the audio specified by an AudioData field.
      * The amplitude is an Integer from 0 to 32767.

@@ -18,6 +18,7 @@ public class AudioData {
     private static final int TYPE_TEMP_RECORD = 0;
     private static final int TYPE_LOCAL_FILE = 1;
     private static final int TYPE_REMOTE_FILE = 1;
+    private static List<Byte> dataInBytes;
 
     private File audioFile;
     private List<Integer> amplitudeSamples;
@@ -28,10 +29,10 @@ public class AudioData {
         this.type = type;
     }
 
-    static AudioData newTempRecord(File tempRecordFile, List<Integer> amplitudeSamples) {
+
+    static AudioData newTempRecord(List<Byte> bytebuffer) {
         AudioData audioData = new AudioData(TYPE_TEMP_RECORD);
-        audioData.audioFile = tempRecordFile;
-        audioData.amplitudeSamples = amplitudeSamples;
+        dataInBytes = bytebuffer;
         return audioData;
     }
 
@@ -46,6 +47,19 @@ public class AudioData {
         // TODO get amplitude samples from local file.
         return new ArrayList<>();
     }
+
+    List<Double[]> getMFCC(UQI uqi) {
+        MFCCCalculator newMFCC = new MFCCCalculator(dataInBytes);
+        newMFCC.Process();
+        return newMFCC.result;
+    }
+
+    List<Double[]> getMFCC(UQI uqi, int framSize){
+        MFCCCalculator newMFCC = new MFCCCalculator(dataInBytes, framSize);
+        newMFCC.Process();
+        return newMFCC.result;
+    }
+
 
     String getFilepath(UQI uqi) {
         if (this.audioFile != null) return this.audioFile.getAbsolutePath();

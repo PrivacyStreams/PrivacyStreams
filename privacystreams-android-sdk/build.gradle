@@ -35,7 +35,7 @@ android {
     compileSdkVersion 27
     buildToolsVersion '27.0.2'
     defaultConfig {
-        minSdkVersion 16
+        minSdkVersion 23
         targetSdkVersion 27
         versionCode 17
         versionName "0.1.7"
@@ -59,21 +59,19 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     testCompile 'junit:junit:4.12'
-
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'org.greenrobot:eventbus:3.0.0'
-
     // third-party packages
     provided 'com.dropbox.core:dropbox-core-sdk:2.1.1'
     provided 'com.google.android.gms:play-services:11.6.2'
-    provided ('com.google.api-client:google-api-client-android:1.20.0') {
+    provided('com.google.api-client:google-api-client-android:1.20.0') {
         exclude group: 'org.apache.httpcomponents'
     }
-    provided ('com.google.apis:google-api-services-gmail:v1-rev29-1.20.0') {
+    provided('com.google.apis:google-api-services-gmail:v1-rev29-1.20.0') {
         exclude group: 'org.apache.httpcomponents'
     }
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    implementation files('libs/commons-math3-3.6.1.jar')
 }
 
 group = publishedGroupId                               // Maven Group ID for the artifact
