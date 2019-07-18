@@ -5,6 +5,7 @@ import org.apache.commons.math3.transform.FastFourierTransformer;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.apache.commons.math3.transform.DftNormalization.STANDARD;
@@ -20,7 +21,7 @@ public class MFCCCalculator {
     final int sampleRate = 44100;
     int[] centerFrequencies;
     List<Byte> bytebuffer;
-    List<Double[]> result;
+    List<Double[]> result = new ArrayList<>();
 
     String filePath;
 

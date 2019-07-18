@@ -60,6 +60,18 @@ public class AudioData {
         return newMFCC.result;
     }
 
+    List<Double> getFrequency(UQI uqi){
+        Pitch_YIN newFre = new Pitch_YIN(dataInBytes);
+        newFre.Process();
+        return newFre.result;
+    }
+
+    List<Double> getFrequency(UQI uqi, int framSize){
+        Pitch_YIN newFre = new Pitch_YIN(dataInBytes, framSize);
+        newFre.Process();
+        return newFre.result;
+    }
+
 
     String getFilepath(UQI uqi) {
         if (this.audioFile != null) return this.audioFile.getAbsolutePath();
