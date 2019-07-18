@@ -31,6 +31,29 @@ public class AudioOperators {
     public static Function<Item, List<Double[]>> calcMFCC(String audioDataField) {
         return new MFCC(audioDataField);
     }
+
+    /**calculate the frequency of the audio specifies by an AudioData field.
+     * The frequency is an array of doubles
+     *
+     * @param audioDataField the name of the AudioData field
+     * @return the function
+     */
+
+    public static Function<Item, List<Double>> calcFrequency(String audioDataField){
+        return new Frequency(audioDataField);
+    }
+
+    /**calculate the zero-crossing-rate of the audio specifies by an AudioData field.
+     * The frequency is an array of doubles
+     *
+     * @param audioDataField the name of the AudioData field
+     * @return the function
+     */
+
+    public static Function<Item, List<Double>> calcZCR(String audioDataField){
+        return new ZeroCrossingRate(audioDataField);
+    }
+
     /**
      * Get the max amplitude of the audio specified by an AudioData field.
      * The amplitude is an Integer from 0 to 32767.

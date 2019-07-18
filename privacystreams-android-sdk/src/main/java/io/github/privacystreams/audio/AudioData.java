@@ -60,6 +60,18 @@ public class AudioData {
         return newMFCC.result;
     }
 
+    List<Double> getZCR(UQI uqi){
+        ZCRCalculator newZCR = new ZCRCalculator(dataInBytes);
+        newZCR.Process();
+        return newZCR.result;
+    }
+
+    List<Double> getZCR(UQI uqi, int frameSize){
+        ZCRCalculator newZCR = new ZCRCalculator(dataInBytes, frameSize);
+        newZCR.Process();
+        return newZCR.result;
+    }
+
     List<Double> getFrequency(UQI uqi){
         Pitch_YIN newFre = new Pitch_YIN(dataInBytes);
         newFre.Process();

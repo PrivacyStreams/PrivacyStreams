@@ -45,51 +45,17 @@ public class MFCCCalculator {
     }
 
     public MFCCCalculator(List<Byte> bytebuffer, int framsize) {
-       this(bytebuffer, framsize, 30, 30);
+        this(bytebuffer, framsize, 30, 30);
     }
 
-    public double[] computeFloatBuffer(byte[] byteBuffer) {
-        double[] floatbuffer = new double[samplesPerFrame];
-        int c = 0;
-        while (c < samplesPerFrame) {
-            int index = c * 4;
-            int first = byteBuffer[index];
-            int second = byteBuffer[index + 1];
-            int third = byteBuffer[index + 2];
-            int fourth = byteBuffer[index + 3];
-            float number = first + second * 256 + third * 256 * 256 + fourth * 256 * 256 * 256;
-            double pcmfloat = (number / (256 * 256 * 256 * 128));
-            floatbuffer[c] = pcmfloat;
-            c = c + 1;
-        }
 
-        return floatbuffer;
-    }
-
-    public double[] computeFloatBuffer(List<Byte> byteBuffer) {
-        double[] floatbuffer = new double[samplesPerFrame];
-        int c = 0;
-        while (c < samplesPerFrame) {
-            int index = c * 4;
-            int first = byteBuffer.get(index);
-            int second = byteBuffer.get(index + 1);
-            int third = byteBuffer.get(index + 2);
-            int fourth = byteBuffer.get(index + 3);
-            float number = first + second * 256 + third * 256 * 256 + fourth * 256 * 256 * 256;
-            double pcmfloat = (number / (256 * 256 * 256 * 128));
-            floatbuffer[c] = pcmfloat;
-            c = c + 1;
-        }
-
-        return floatbuffer;
-    }
 
     public void Process() {
         if (filePath != null) {
             try {
                 File newFile = new File(filePath);
 
-                byte[] bytebuffer = new byte[samplesPerFrame * 4];
+                byte[] buffer = new byte[samplesPerFrame * 4];
                 byte[] fileheader = new byte[44];
 
                 FileInputStream inStream = new FileInputStream(newFile);
@@ -99,9 +65,11 @@ public class MFCCCalculator {
 
                 inStream.read(fileheader);
 
-                while ((nRead = inStream.read(bytebuffer)) != -1) {
-                    floatBuffer = computeFloatBuffer(bytebuffer);
+                while ((nRead = inStream.read(buffer)) != -1) {
+                    floatBuffer = (new FloatBufferConverter(buffer)).result;
                     Double[] mfcc = getMFCC(floatBuffer);
+                    for (double e:mfcc){
+                    }
                     result.add(mfcc);
                 }
 
@@ -113,7 +81,7 @@ public class MFCCCalculator {
             while (temp.size() > 0) {
                 List<Byte> singleframe = temp.subList(0, samplesPerFrame * 4);
                 temp = temp.subList(samplesPerFrame * 4, temp.size());
-                double[] floatbuffer = computeFloatBuffer(singleframe);
+                double[] floatbuffer = (new FloatBufferConverter(singleframe)).result;
                 Double[] mfcc = getMFCC(floatbuffer);
                 result.add(mfcc);
             }
@@ -143,9 +111,6 @@ public class MFCCCalculator {
 
         // get Mel Filterbank
         float fbank[] = melFilter(bin);
-        for (float e : centerFrequencies) {
-            System.out.println(e);
-        }
         // Non-linear transformation
         float f[] = nonLinearTransformation(fbank);
         // Cepstral coefficients
@@ -243,8 +208,9 @@ public class MFCCCalculator {
         Double cepc[] = new Double[amountOfCepstrumCoef];
 
         for (int i = 0; i < amountOfCepstrumCoef; i++) {
-            for (int j = 0; j < f.length; j++) {
-                cepc[i] += f[j] * Math.cos(Math.PI * i / length * (j + 0.5));
+            cepc[i] = 0.0;
+            for (int j = 0; j < length; j++) {
+                cepc[i] += f[j] * Math.cos(Math.PI * i / length * (j+ 0.5));
             }
         }
 

@@ -7,38 +7,40 @@ import java.util.List;
 
 public class Pitch_YIN {
 
-    float[] difference_list = new float[512];
     double threshold = 0.20;
     final List<Byte> bytebuffer;
     final String FilePath;
-    int framSize;
+    final int frameSize;
     List<Double> result = new ArrayList<>();
+    float[] difference_list;
 
     public Pitch_YIN(String Path){
         FilePath = Path;
         bytebuffer = null;
-        framSize = 1024;
+        frameSize = 1024;
+        difference_list = new float[frameSize/2];
     }
 
     public Pitch_YIN(List<Byte> ByteBuffer) {
         FilePath = null;
         bytebuffer = ByteBuffer;
-        framSize = 1024;
+        frameSize = 1024; difference_list = new float[frameSize/2];
     }
 
     public Pitch_YIN(List<Byte> ByteBuffer, int bytesInFrame) {
         FilePath = null;
         bytebuffer = ByteBuffer;
-        framSize = bytesInFrame;
+        frameSize = bytesInFrame;
+        difference_list = new float[frameSize/2];
     }
 
     public void Process(){
         if (bytebuffer != null){
             List<Byte> temp = bytebuffer;
             while (temp.size() > 0) {
-                List<Byte> singleframe = temp.subList(0, framSize*4);
-                temp = temp.subList(framSize*4, temp.size());
-                double[] floatbuffer = computeFloatBuffer(singleframe);
+                List<Byte> singleframe = temp.subList(0, frameSize*4);
+                temp = temp.subList(frameSize*4, temp.size());
+                double[] floatbuffer = (new FloatBufferConverter(singleframe)).result;
                 double pitch = getPitch(floatbuffer);
                 result.add(pitch);
             }
@@ -52,7 +54,7 @@ public class Pitch_YIN {
         try{
             File newFile = new File(FilePath);
 
-            byte[] bytebuffer = new byte[4096];
+            byte[] buffer = new byte[frameSize*4];
             byte[] fileheader = new byte[44];
 
             FileInputStream inStream = new FileInputStream(newFile);
@@ -62,8 +64,8 @@ public class Pitch_YIN {
 
             inStream.read(fileheader);
 
-            while ((nRead = inStream.read(bytebuffer)) != -1) {
-                floatbuffer = computeFloatBuffer(bytebuffer);
+            while ((nRead = inStream.read(buffer)) != -1) {
+                floatbuffer = (new FloatBufferConverter(buffer)).result;
                 double pitch = getPitch(floatbuffer);
                 result.add(pitch);
             }
@@ -71,41 +73,6 @@ public class Pitch_YIN {
         }catch(Exception e){e.printStackTrace();}
     }
 
-    public static double[] computeFloatBuffer(byte[] byteBuffer){
-        double[] floatbuffer = new double[1024];
-        int c = 0;
-        while (c < 1024){
-            int index = c*4;
-            int first = byteBuffer[index];
-            int second = byteBuffer[index+1];
-            int third = byteBuffer[index+2];
-            int fourth = byteBuffer[index+3];
-            float number = first + second*256 + third*256*256+ fourth*256*256*256;
-            double pcmfloat = (number / (256*256*256*128));
-            floatbuffer[c] = pcmfloat;
-            c = c+1;
-        }
-
-        return floatbuffer;
-    }
-
-    public static double[] computeFloatBuffer(List<Byte> byteBuffer) {
-        double[] floatbuffer = new double[1024];
-        int c = 0;
-        while (c < 1024) {
-            int index = c * 4;
-            int first = byteBuffer.get(index);
-            int second = byteBuffer.get(index + 1);
-            int third = byteBuffer.get(index + 2);
-            int fourth = byteBuffer.get(index + 3);
-            float number = first + second * 256 + third * 256 * 256 + fourth * 256 * 256 * 256;
-            double pcmfloat = (number / (256 * 256 * 256 * 128));
-            floatbuffer[c] = pcmfloat;
-            c = c + 1;
-        }
-
-        return floatbuffer;
-    }
 
     public double getPitch(double[] audioData) {
 
