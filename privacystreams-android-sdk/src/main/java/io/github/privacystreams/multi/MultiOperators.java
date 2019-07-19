@@ -12,6 +12,10 @@ public class MultiOperators {
         return new NewMultiItemGetField(type, itemField);
     }
 
+    public static Function<Item, Object> getField(String itemField) {
+        return new GetField(itemField);
+    }
+
     public static Function<Item, List<Object>> transformList(ItemType.iType type, Function operator){
         return new NewTransformList(type, operator);
     }

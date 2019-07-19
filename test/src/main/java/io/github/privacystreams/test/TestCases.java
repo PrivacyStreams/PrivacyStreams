@@ -45,11 +45,16 @@ import io.github.privacystreams.location.LatLon;
 import io.github.privacystreams.machine_learning.JSONBuilder;
 import io.github.privacystreams.machine_learning.MLOperators;
 import io.github.privacystreams.machine_learning.Recognition;
+import io.github.privacystreams.multi.Feature;
+import io.github.privacystreams.multi.FeatureProvider;
 import io.github.privacystreams.multi.ItemType;
 import io.github.privacystreams.multi.MultiOperators;
 import io.github.privacystreams.multi.NewMultiItem;
+import io.github.privacystreams.multi.VarMultiItem;
 import io.github.privacystreams.notification.Notification;
 import io.github.privacystreams.io.IOOperators;
+import io.github.privacystreams.sensor.Gyroscope;
+import io.github.privacystreams.sensor.Light;
 import io.github.privacystreams.utils.Duration;
 import io.github.privacystreams.utils.Globals;
 import io.github.privacystreams.utils.TimeUtils;
@@ -86,6 +91,53 @@ public class TestCases {
         this.uqi = new UQI(context);
     }
 
+    public void testVarMultiItemOnce(){
+        uqi.getData(VarMultiItem.oneshot(
+                new FeatureProvider(Audio.record(1000),
+                        new Feature(AudioOperators.calcLoudness("audio_data"), "loudness")),
+                new FeatureProvider(Light.asUpdates(1000),
+                        new Feature(MultiOperators.getField("illuminance"), "brightness")),
+                new FeatureProvider(Gyroscope.asUpdates(1000),
+                        new Feature(MultiOperators.getField("x"), "gyro-x"),
+                        new Feature(MultiOperators.getField("y"), "gyro-y"),
+                        new Feature(MultiOperators.getField("z"), "gyro-z"))),
+                                                                        Purpose.TEST("Testing VarMultiItem"))
+                .setField("tuple", MLOperators.tuple("loudness", "brightness",
+                                                                    "gyro-x", "gyro-y", "gyro-z"))
+                .forEach("tuple", new Callback<List<Object>>() {
+                    protected void onInput(List<Object> input){
+                        System.out.println("Output of VarMultiItem");
+
+                        System.out.println("Loudness: " + input.get(0) + "\n"
+                                + "Brightness: " + input.get(1) + "\n"
+                                + "Gyroscope: " + input.subList(2, 5));
+                    }
+                });
+    }
+    public void testNewMultiItemPeriodic(){
+        System.out.println("TESTING NEW MULTI-ITEM PERIODIC");
+
+        uqi.getData(NewMultiItem.periodic(20000,
+                ItemType.AUDIO(1000, 2000, 3, Purpose.TEST("")),
+                ItemType.LIGHT(1000, 3, Purpose.TEST(""))),
+                                                                        Purpose.TEST("new multi item"))
+                .setField("loudness_log", MultiOperators.transformList(ItemType.iType.AUDIO,
+                        AudioOperators.calcLoudness("audio_data")))
+                .setField("brightness_log", MultiOperators.getField(ItemType.iType.LIGHT, "illuminance"))
+                .setField("avgloud", ListOperators.mean("loudness_log"))
+                .setField("avgbrig", ListOperators.mean("brightness_log"))
+                .setField("lr", MLOperators.linearRegression(new Float[]{Float.valueOf(3), Float.valueOf(1)}, 0, "avgbrig", "avgloud"))
+                .setField("tuple", MLOperators.tuple("loudness_log", "brightness_log", "lr"))
+                .forEach("tuple", new Callback<List<Object>>() {
+                    protected void onInput(List<Object> input){
+                        System.out.println("TUPLE");
+                        System.out.println("Loudness log: " + input.get(0));
+                        System.out.println("Brightness log: " + input.get(1));
+                        System.out.println("LinReg: " + input.get(2));
+                    }
+                });
+    }
+
     public void testComfort(){
         List<ItemType> itemTypes = new ArrayList<>();
         itemTypes.add(ItemType.AUDIO(1000, 2000, 3, Purpose.TEST("average loudness over 9 sec")));
@@ -110,7 +162,7 @@ public class TestCases {
                 .setField("loudness", ListOperators.mean("loudness_log"))
                 .setField("brightness", ListOperators.mean("brightness_log"))
                 .setField("temp", ListOperators.mean("temp_log"))
-                .setField("output", MLOperators.SVM(inputFields, weights, -30))
+                .setField("output", MLOperators.SVM(weights, -30, inputFields))
                 .forEach("output", new Callback<Integer>() {
                     protected void onInput(Integer input) {
                         System.out.println();
@@ -165,29 +217,7 @@ public class TestCases {
                     }
                 });
     }
-    public void testNewMultiItemPeriodic(){
-        System.out.println("TESTING NEW MULTI-ITEM PERIODIC");
-        List<ItemType> itemTypes = new ArrayList<>();
-        itemTypes.add(ItemType.AUDIO(1000, 2000, 3, Purpose.TEST("")));
-        itemTypes.add(ItemType.LIGHT(1000, 3, Purpose.TEST("")));
 
-        List<String> tuple = new ArrayList<>();
-        tuple.add("loudness_log");
-        tuple.add("brightness_log");
-
-        uqi.getData(NewMultiItem.periodic(itemTypes, 20000), Purpose.TEST("new multi item"))
-                .setField("loudness_log", MultiOperators.transformList(ItemType.iType.AUDIO,
-                                                        AudioOperators.calcLoudness("audio_data")))
-                .setField("brightness_log", MultiOperators.getField(ItemType.iType.LIGHT, "illuminance"))
-                .setField("tuple", MLOperators.tuple(tuple))
-                .forEach("tuple", new Callback<List<Object>>() {
-                    protected void onInput(List<Object> input){
-                        System.out.println("TUPLE");
-                        System.out.println("Loudness log: " + input.get(0));
-                        System.out.println("Brightness log: " + input.get(1));
-                    }
-                });
-    }
 
     public void testML(AssetManager assets, String jsonFile){
         System.out.println("TESTING MACHINE LEARNING FROM JSON");

@@ -54,9 +54,8 @@ class NewMultiItemOnce extends PStreamProvider {
     static NewMultiItem recordOnce(UQI uqi, List<ItemType> itemTypes){
         List<ItemWrapper> items = new ArrayList<>();
 
-        for(int i = 0; i < itemTypes.size(); i++) {
+        for(ItemType item : itemTypes) {
             try{
-                ItemType item = itemTypes.get(i);
                 switch(item.getType()) {
                     case ACCELERATION:
                         items.add(new ItemWrapper(ItemType.iType.ACCELERATION, uqi.getData(Acceleration.asUpdates(item.getSensorDelay()), item.getPurpose())

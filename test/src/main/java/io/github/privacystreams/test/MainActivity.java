@@ -31,8 +31,8 @@ public class MainActivity extends AppCompatActivity {
 
             //testCases.testComfort();
             //testCases.testNewMultiItem();
-
-            testCases.testNewMultiItemPeriodic();
+            testCases.testVarMultiItemOnce();
+            //testCases.testNewMultiItemPeriodic();
             //testCases.testJSONBuilder();
             //testCases.testML(getAssets(), "linear_regression2.json");
             //svm.json

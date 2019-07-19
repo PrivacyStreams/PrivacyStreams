@@ -1,5 +1,6 @@
 package io.github.privacystreams.multi;
 
+import java.util.Arrays;
 import java.util.List;
 
 import io.github.privacystreams.core.Item;
@@ -24,7 +25,15 @@ public class NewMultiItem extends Item {
         return new NewMultiItemOnce(item_types);
     }
 
-    public static PStreamProvider periodic(List<ItemType> item_types, long interval) {
+    public static PStreamProvider oneshot(ItemType ... item_types) {
+        return new NewMultiItemOnce(Arrays.asList(item_types));
+    }
+
+    public static PStreamProvider periodic(long interval, List<ItemType> item_types) {
         return new NewMultiItemPeriodic(item_types, interval);
+    }
+
+    public static PStreamProvider periodic(long interval, ItemType ... item_types) {
+        return new NewMultiItemPeriodic(Arrays.asList(item_types), interval);
     }
 }
