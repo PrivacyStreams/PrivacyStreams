@@ -74,20 +74,21 @@ public class MLOperators {
         return new LinearRegression(featureFields, weights, intercept);
     }
 
-    public static Function<Item, Object> linearRegression(Float[] weights, float intercept, String ... featureFields) {
-        return new LinearRegression(Arrays.asList(featureFields), Arrays.asList(weights), intercept);
-    }
-
     public static Function<Item, Object> SVM(List<Float> weights, float intercept, List<String> featureFields){
         return new SVM(featureFields, weights, intercept);
     }
 
-    public static Function<Item, Object> SVM(Float[] weights, float intercept, String ... featureFields){
-        return new SVM(Arrays.asList(featureFields), Arrays.asList(weights), intercept);
-    }
-
     public static Function<Item, Object> kMeans(List<List<Float>> clusterCenters, List<String> featureFields){
         return new KMeans(featureFields, clusterCenters);
+    }
+
+    public static Function<Item, Object> linearRegression(Float[] weights, float intercept,
+                                                          String ... featureFields) {
+        return new LinearRegression(Arrays.asList(featureFields), Arrays.asList(weights), intercept);
+    }
+
+    public static Function<Item, Object> SVM(Float[] weights, float intercept, String ... featureFields){
+        return new SVM(Arrays.asList(featureFields), Arrays.asList(weights), intercept);
     }
 
     public static Function<Item, Object> kMeans(Float[][] clusterCenters, String ... featureFields){

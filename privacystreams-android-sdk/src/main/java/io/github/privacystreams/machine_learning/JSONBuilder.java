@@ -5,7 +5,8 @@ import com.google.gson.Gson;
 import java.util.List;
 
 public class JSONBuilder {
-    public static String LINEAR_REGRESSION(List<String> inputFields, List<Float> weights, float intercept){
+    public static String LINEAR_REGRESSION(List<String> inputFields, List<Float> weights,
+                                                                    float intercept){
         JSONLinearRegression j = new JSONLinearRegression(inputFields, weights, intercept);
         return new Gson().toJson(j);
     }

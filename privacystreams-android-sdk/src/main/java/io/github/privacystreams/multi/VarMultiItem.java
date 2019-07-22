@@ -17,8 +17,8 @@ public class VarMultiItem extends Item {
         return new VarMultiItemOnce(featureProviders);
     }
 
- /*   public static PStreamProvider periodic(long interval, FeatureProvider ... fp) {
-        return new NewMultiItemPeriodic(interval, fp);
+    public static PStreamProvider periodic(long interval, FeatureProvider ... fp) {
+        return new VarMultiItemPeriodic(interval, fp);
     }
- */
+
 }

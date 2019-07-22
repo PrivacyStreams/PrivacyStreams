@@ -91,6 +91,30 @@ public class TestCases {
         this.uqi = new UQI(context);
     }
 
+    public void testVarMultiItemPeriodic(){
+        uqi.getData(VarMultiItem.periodic(2000,
+                new FeatureProvider(Audio.record(1000),
+                        new Feature(AudioOperators.calcLoudness("audio_data"), "loudness")),
+                new FeatureProvider(Light.asUpdates(1000),
+                        new Feature(MultiOperators.getField("illuminance"), "brightness")),
+                new FeatureProvider(Gyroscope.asUpdates(1000),
+                        new Feature(MultiOperators.getField("x"), "gyro-x"),
+                        new Feature(MultiOperators.getField("y"), "gyro-y"),
+                        new Feature(MultiOperators.getField("z"), "gyro-z"))),
+                Purpose.TEST("Testing VarMultiItem"))
+                .setField("tuple", MLOperators.tuple("loudness", "brightness",
+                        "gyro-x", "gyro-y", "gyro-z"))
+                .forEach("tuple", new Callback<List<Object>>() {
+                    protected void onInput(List<Object> input){
+                        System.out.println("Output of VarMultiItem");
+
+                        System.out.println("Loudness: " + input.get(0) + "\n"
+                                + "Brightness: " + input.get(1) + "\n"
+                                + "Gyroscope: " + input.subList(2, 5));
+                    }
+                });
+    }
+
     public void testVarMultiItemOnce(){
         uqi.getData(VarMultiItem.oneshot(
                 new FeatureProvider(Audio.record(1000),
@@ -126,7 +150,8 @@ public class TestCases {
                 .setField("brightness_log", MultiOperators.getField(ItemType.iType.LIGHT, "illuminance"))
                 .setField("avgloud", ListOperators.mean("loudness_log"))
                 .setField("avgbrig", ListOperators.mean("brightness_log"))
-                .setField("lr", MLOperators.linearRegression(new Float[]{Float.valueOf(3), Float.valueOf(1)}, 0, "avgbrig", "avgloud"))
+                .setField("lr", MLOperators.linearRegression(new Float[]{Float.valueOf(3), Float.valueOf(1)}, 0,
+                        "avgbrig", "avgloud"))
                 .setField("tuple", MLOperators.tuple("loudness_log", "brightness_log", "lr"))
                 .forEach("tuple", new Callback<List<Object>>() {
                     protected void onInput(List<Object> input){
@@ -188,7 +213,8 @@ public class TestCases {
         tuple.add("brightness_log");
 
         uqi.getData(NewMultiItem.oneshot(itemTypes), Purpose.TEST("new multi item"))
-                .setField("loudness_log", MultiOperators.transformList(ItemType.iType.AUDIO, AudioOperators.calcLoudness("audio_data")))
+                .setField("loudness_log", MultiOperators.transformList(ItemType.iType.AUDIO,
+                                            AudioOperators.calcLoudness("audio_data")))
                 .setField("brightness_log", MultiOperators.getField(ItemType.iType.LIGHT, "illuminance"))
                 .setField("tuple", MLOperators.tuple(tuple))
                 .forEach("tuple", new Callback<List<Object>>() {
