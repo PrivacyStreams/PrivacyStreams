@@ -116,7 +116,7 @@ public class TestCases {
     }
 
     public void testVarMultiItemOnce(){
-        uqi.getData(VarMultiItem.oneshot(
+        uqi.getData(VarMultiItem.once(
                 new FeatureProvider(Audio.record(1000),
                         new Feature(AudioOperators.calcLoudness("audio_data"), "loudness")),
                 new FeatureProvider(Light.asUpdates(1000),

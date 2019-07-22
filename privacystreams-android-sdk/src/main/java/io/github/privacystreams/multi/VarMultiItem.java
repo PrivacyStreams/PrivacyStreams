@@ -13,7 +13,7 @@ public class VarMultiItem extends Item {
         this.items = items;
     }
 
-    public static PStreamProvider oneshot(FeatureProvider ... featureProviders) {
+    public static PStreamProvider once(FeatureProvider ... featureProviders) {
         return new VarMultiItemOnce(featureProviders);
     }
 
