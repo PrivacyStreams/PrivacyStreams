@@ -91,6 +91,21 @@ public class TestCases {
         this.uqi = new UQI(context);
     }
 
+    public void testVarMultiItemJSON(AssetManager assets, String jsonFile){
+        System.out.println("TESTING VAR-MULTI WITH JSON");
+        uqi.getData(VarMultiItem.fromJSON(loadJSONFromAsset(assets, jsonFile)), Purpose.TEST("TESTING VAR-MULTI WITH JSON"))
+                .setField("tuple", MLOperators.tuple("loudness", "illuminance",
+                        "x", "y", "z"))
+                .forEach("tuple", new Callback<List<Object>>() {
+                    protected void onInput(List<Object> input){
+                        System.out.println("Output of VarMultiItem");
+
+                        System.out.println("Loudness: " + input.get(0) + "\n"
+                                + "Brightness: " + input.get(1) + "\n"
+                                + "Gyroscope: " + input.subList(2, 5));
+                    }
+                });
+    }
     public void testVarMultiItemPeriodic(){
         uqi.getData(VarMultiItem.periodic(2000,
                 new FeatureProvider(Audio.record(1000),
@@ -126,9 +141,9 @@ public class TestCases {
                         new Feature(MultiOperators.getField("y"), "gyro-y"),
                         new Feature(MultiOperators.getField("z"), "gyro-z"))),
                                                                         Purpose.TEST("Testing VarMultiItem"))
-                .setField("tuple", MLOperators.tuple("loudness", "brightness",
-                                                                    "gyro-x", "gyro-y", "gyro-z"))
-                .forEach("tuple", new Callback<List<Object>>() {
+                .setField("output", MLOperators.SVM(new float[]{1, 2, 3, 4, 5}, 2,
+                            "loudness", "brightness", "gyro-x", "gyro-y", "gyro-z"))
+                .forEach("output", new Callback<List<Object>>() {
                     protected void onInput(List<Object> input){
                         System.out.println("Output of VarMultiItem");
 
@@ -150,7 +165,7 @@ public class TestCases {
                 .setField("brightness_log", MultiOperators.getField(ItemType.iType.LIGHT, "illuminance"))
                 .setField("avgloud", ListOperators.mean("loudness_log"))
                 .setField("avgbrig", ListOperators.mean("brightness_log"))
-                .setField("lr", MLOperators.linearRegression(new Float[]{Float.valueOf(3), Float.valueOf(1)}, 0,
+                .setField("lr", MLOperators.linearRegression(new float[]{3, 1}, 0,
                         "avgbrig", "avgloud"))
                 .setField("tuple", MLOperators.tuple("loudness_log", "brightness_log", "lr"))
                 .forEach("tuple", new Callback<List<Object>>() {

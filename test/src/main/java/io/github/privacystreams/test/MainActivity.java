@@ -29,9 +29,10 @@ public class MainActivity extends AppCompatActivity {
         protected Object doInBackground(Object[] objects) {
             TestCases testCases = new TestCases(MainActivity.this);
 
+            testCases.testVarMultiItemJSON(getAssets(), "multi.json");
             //testCases.testComfort();
             //testCases.testNewMultiItem();
-            testCases.testVarMultiItemPeriodic();
+            //testCases.testVarMultiItemPeriodic();
             //testCases.testVarMultiItemOnce();
             //testCases.testNewMultiItemPeriodic();
             //testCases.testJSONBuilder();

@@ -82,19 +82,31 @@ public class MLOperators {
         return new KMeans(featureFields, clusterCenters);
     }
 
-    public static Function<Item, Object> linearRegression(Float[] weights, float intercept,
+    public static Function<Item, Object> linearRegression(float[] weights, float intercept,
                                                           String ... featureFields) {
-        return new LinearRegression(Arrays.asList(featureFields), Arrays.asList(weights), intercept);
+        List<Float> w = new ArrayList<>();
+        for(float f : weights){
+            w.add(Float.valueOf(f));
+        }
+        return new LinearRegression(Arrays.asList(featureFields), w, intercept);
     }
 
-    public static Function<Item, Object> SVM(Float[] weights, float intercept, String ... featureFields){
-        return new SVM(Arrays.asList(featureFields), Arrays.asList(weights), intercept);
+    public static Function<Item, Object> SVM(float[] weights, float intercept, String ... featureFields){
+        List<Float> w = new ArrayList<>();
+        for(float f : weights){
+            w.add(Float.valueOf(f));
+        }
+        return new SVM(Arrays.asList(featureFields), w, intercept);
     }
 
-    public static Function<Item, Object> kMeans(Float[][] clusterCenters, String ... featureFields){
+    public static Function<Item, Object> kMeans(float[][] clusterCenters, String ... featureFields){
         List<List<Float>> cc = new ArrayList<>();
-        for(Float[] center : clusterCenters){
-            cc.add(Arrays.asList(center));
+        for(float[] center : clusterCenters){
+            List<Float> temp = new ArrayList<>();
+            for(float f : center){
+                temp.add(Float.valueOf(f));
+            }
+            cc.add(temp);
         }
         return new KMeans(Arrays.asList(featureFields), cc);
     }

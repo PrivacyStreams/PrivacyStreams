@@ -1,0 +1,27 @@
+{
+  "interval": 1000,
+  "Audio": {"duration" : 1000,
+            "features": [
+              {"operatorName": "calcLoudness",
+                "operatorParams": ["audio_data"],
+               "featureName": "loudness"}
+            ]},
+  "Light": {"sensorDelay" : 1000,
+            "features":[
+              {"operatorName": "field",
+                "operatorParams":["illuminance"],
+               "featureName": "illuminance"}
+            ]},
+  "Gyroscope": {"sensorDelay" : 1000,
+                "features":[
+                  {"operatorName":"field",
+                    "operatorParams":["x"],
+                    "featureName":"x"},
+                  {"operatorName":"field",
+                    "operatorParams":["y"],
+                  "featureName":"y"},
+                  {"operatorName":"field",
+                    "operatorParams":["z"],
+                  "featureName":"z"}
+                ]}
+}
