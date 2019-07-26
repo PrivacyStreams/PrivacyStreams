@@ -15,8 +15,4 @@ public class ZeroCrossingRate extends AudioProcessor<List<Double>>  {
         return audioData.getZCR(uqi);
     }
 
-    protected List<Double> processAudio(UQI uqi, AudioData audioData, int frameSize) {
-        //return audioData.getLoudness(uqi);
-        return audioData.getZCR(uqi, frameSize);
-    }
 }

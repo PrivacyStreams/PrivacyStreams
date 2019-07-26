@@ -28,7 +28,7 @@ class AudioRecorder extends PStreamProvider {
     private final Long duration;
     private static final int HW_SUPPORTED_SAMPLE_RATE = 44100;
     public static boolean isFinished = false;
-    public static List<Byte> databuffer = new ArrayList<>();
+    public static List<Short> databuffer = new ArrayList<>();
 
     AudioRecorder(long duration) {
         this.duration = duration;
@@ -151,18 +151,18 @@ class AudioRecorder extends PStreamProvider {
     }
     private static void readWhileRecording(final AudioRecord recordingDevice,
                                     final int bufferSize,
-                                    final List<Byte> audioData) {
+                                    final List<Short> audioData) {
         (new Thread() {
             public void run() {
 
                 while(recordingDevice.getRecordingState() == AudioRecord.RECORDSTATE_RECORDING) {
-                    byte[] buffer = new byte[bufferSize];
+                    short[] buffer = new short[bufferSize];
 
                     int bytesRead = recordingDevice.read(buffer, 0, bufferSize, AudioRecord.READ_BLOCKING);
 
                     if(bytesRead > 0) {
                         Log.d("Debug", "Read in " + bytesRead + " bytes");
-                        for(final Byte elem : buffer) {
+                        for(final Short elem : buffer) {
                             audioData.add(elem); }
                     }
                     else {

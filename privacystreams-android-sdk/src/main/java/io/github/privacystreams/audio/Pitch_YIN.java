@@ -1,14 +1,18 @@
 package io.github.privacystreams.audio;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-public class Pitch_YIN {
+/*
+ *The implementation of YIN algorithm is in reference to "YIN, a fundamental frequency estimator for speech and music"
+ *http://audition.ens.fr/adc/pdf/2002_JASA_YIN.pdf
+ */
 
+public class Pitch_YIN {
     double threshold = 0.20;
-    final List<Byte> bytebuffer;
+    final List<Short> audioData;
     final String FilePath;
     final int frameSize;
     List<Double> result = new ArrayList<>();
@@ -16,30 +20,32 @@ public class Pitch_YIN {
 
     public Pitch_YIN(String Path){
         FilePath = Path;
-        bytebuffer = null;
+        audioData = null;
         frameSize = 1024;
         difference_list = new float[frameSize/2];
     }
 
-    public Pitch_YIN(List<Byte> ByteBuffer) {
-        FilePath = null;
-        bytebuffer = ByteBuffer;
-        frameSize = 1024; difference_list = new float[frameSize/2];
+    public Pitch_YIN(List<Short> Data) {
+        this(Data, 1024);
+
     }
 
-    public Pitch_YIN(List<Byte> ByteBuffer, int bytesInFrame) {
+    public Pitch_YIN(List<Short> Data, int samplesPerFrame) {
         FilePath = null;
-        bytebuffer = ByteBuffer;
-        frameSize = bytesInFrame;
+        audioData = Data;
+        frameSize = samplesPerFrame;
         difference_list = new float[frameSize/2];
     }
 
     public void Process(){
-        if (bytebuffer != null){
-            List<Byte> temp = bytebuffer;
+        if (audioData != null){
+            List<Short> temp = audioData;
             while (temp.size() > 0) {
-                List<Byte> singleframe = temp.subList(0, frameSize*4);
-                temp = temp.subList(frameSize*4, temp.size());
+                if (temp.size() < frameSize){
+                    break;
+                }
+                List<Short> singleframe = temp.subList(0, frameSize);
+                temp = temp.subList(frameSize, temp.size());
                 double[] floatbuffer = (new FloatBufferConverter(singleframe)).result;
                 double pitch = getPitch(floatbuffer);
                 result.add(pitch);
@@ -202,4 +208,5 @@ public class Pitch_YIN {
         }
         return betterTau;
     }
+
 }

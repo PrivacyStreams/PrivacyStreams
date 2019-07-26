@@ -17,8 +17,4 @@ public class MFCC extends AudioProcessor<List<Double[]>> {
         return audioData.getMFCC(uqi);
     }
 
-    protected List<Double[]> processAudio(UQI uqi, AudioData audioData, int frameSize) {
-        //return audioData.getLoudness(uqi);
-        return audioData.getMFCC(uqi, frameSize);
-    }
 }

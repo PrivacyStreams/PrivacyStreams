@@ -5,27 +5,32 @@ import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.util.ArrayList;
+import java.util.List;
 import static java.lang.StrictMath.abs;
+import static java.lang.StrictMath.sin;
 
 public class ZCRCalculator {
     int frameSize;
-    final List<Byte> bytebuffer;
+    final List<Short> audioData;
     String FilePath;
     List<Double> result = new ArrayList<>();
 
     public ZCRCalculator(String File){
         frameSize=1024;
         FilePath = File;
-        bytebuffer = null;
+        audioData = null;
 
     }
-    public ZCRCalculator(List<Byte> byteBuffer){
-        this(byteBuffer, 1024);
+    public ZCRCalculator(List<Short> data){
+        this(data, 1024);
     }
 
-    public ZCRCalculator(List<Byte> byteBuffer, int samplesPerFrame){
+    public ZCRCalculator(List<Short> data, int samplesPerFrame){
         FilePath = null;
-        bytebuffer = byteBuffer;
+        audioData = data;
         frameSize = samplesPerFrame;
 
     }
@@ -52,10 +57,10 @@ public class ZCRCalculator {
                 }
             } catch (Exception e) {e.printStackTrace(); }
         } else{
-            List<Byte> temp = bytebuffer;
+            List<Short> temp = audioData;
             while (temp.size() > 0) {
-                List<Byte> singleframe = temp.subList(0, frameSize * 4);
-                temp = temp.subList(frameSize * 4, temp.size());
+                List<Short> singleframe = temp.subList(0, frameSize);
+                temp = temp.subList(frameSize, temp.size());
                 double[] floatbuffer = (new FloatBufferConverter(singleframe)).result;
                 double ZCR = getZCR(floatbuffer);
                 result.add(ZCR);

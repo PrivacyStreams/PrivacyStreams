@@ -1,52 +1,57 @@
 package io.github.privacystreams.audio;
 
-import org.apache.commons.math3.complex.Complex;
-import org.apache.commons.math3.transform.FastFourierTransformer;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.math3.complex.Complex;
+import org.apache.commons.math3.transform.FastFourierTransformer;
+
+
 import static org.apache.commons.math3.transform.DftNormalization.STANDARD;
+import static org.apache.commons.math3.transform.DftNormalization.UNITARY;
 import static org.apache.commons.math3.transform.TransformType.FORWARD;
 
 public class MFCCCalculator {
-
-    int samplesPerFrame;
+    int frameSize;
     int amountOfCepstrumCoef;
     int amountOfMelFilters;
     final float lowerFilterFreq = 133.3334f;
     final float upperFilterFreq = 44100 / 2f;
     final int sampleRate = 44100;
     int[] centerFrequencies;
-    List<Byte> bytebuffer;
+    List<Short> audioData;
     List<Double[]> result = new ArrayList<>();
 
     String filePath;
 
     public MFCCCalculator(String File) {
         filePath = File;
-        samplesPerFrame = 1024;
+        audioData = null;
+        frameSize = 1024;
         amountOfCepstrumCoef = 30;
         amountOfMelFilters = 30;
     }
 
-    public MFCCCalculator(List<Byte> byteBuffer) {
-        this(byteBuffer, 1024, 30, 30);
-        bytebuffer = byteBuffer;
+    public MFCCCalculator(List<Short> Data) {
+        this(Data, 1024, 30, 30);
 
     }
 
-    public MFCCCalculator(List<Byte> bytebuffer, int framsize, int MelFilters, int CepstrumCoef) {
+    public MFCCCalculator(List<Short> Data, int samplesPerFrame) {
+        this(Data, samplesPerFrame, 30, 30);
+    }
+
+
+    public MFCCCalculator(List<Short> Data, int samplesPerFrame, int MelFilters, int CepstrumCoef) {
+        audioData = Data;
+        filePath = null;
         amountOfCepstrumCoef = CepstrumCoef;
         amountOfMelFilters = MelFilters;
-        samplesPerFrame = framsize;
+        frameSize = samplesPerFrame;
     }
 
-    public MFCCCalculator(List<Byte> bytebuffer, int framsize) {
-        this(bytebuffer, framsize, 30, 30);
-    }
 
 
 
@@ -55,7 +60,7 @@ public class MFCCCalculator {
             try {
                 File newFile = new File(filePath);
 
-                byte[] buffer = new byte[samplesPerFrame * 4];
+                byte[] buffer = new byte[frameSize * 4];
                 byte[] fileheader = new byte[44];
 
                 FileInputStream inStream = new FileInputStream(newFile);
@@ -77,10 +82,13 @@ public class MFCCCalculator {
                 e.printStackTrace();
             }
         } else {
-            List<Byte> temp = bytebuffer;
+            List<Short> temp = audioData;
             while (temp.size() > 0) {
-                List<Byte> singleframe = temp.subList(0, samplesPerFrame * 4);
-                temp = temp.subList(samplesPerFrame * 4, temp.size());
+                if (temp.size() < frameSize){
+                    break;
+                }
+                List<Short> singleframe = temp.subList(0, frameSize);
+                temp = temp.subList(frameSize, temp.size());
                 double[] floatbuffer = (new FloatBufferConverter(singleframe)).result;
                 Double[] mfcc = getMFCC(floatbuffer);
                 result.add(mfcc);
@@ -123,8 +131,8 @@ public class MFCCCalculator {
         int points = amountOfMelFilters + 2;
         centerFrequencies = new int[points];
 
-        centerFrequencies[0] = Math.round(lowerFilterFreq / sampleRate * samplesPerFrame);
-        centerFrequencies[points - 1] = Math.round(upperFilterFreq / sampleRate * samplesPerFrame);
+        centerFrequencies[0] = Math.round(lowerFilterFreq / sampleRate * frameSize);
+        centerFrequencies[points - 1] = Math.round(upperFilterFreq / sampleRate * frameSize);
 
         double lowerMel = freqToMel(lowerFilterFreq);
         double higherMel = freqToMel(upperFilterFreq);
@@ -132,7 +140,7 @@ public class MFCCCalculator {
 
         float interval = (float) ((higherMel - lowerMel) / (amountOfMelFilters + 1));
         for (int i = 1; i <= amountOfMelFilters; i++) {
-            float freq = (inverseMel(lowerMel + interval * i) / sampleRate) * samplesPerFrame;
+            float freq = (inverseMel(lowerMel + interval * i) / sampleRate) * frameSize;
             centerFrequencies[i - 1] = Math.round(freq);
         }
 
@@ -217,3 +225,10 @@ public class MFCCCalculator {
         return cepc;
     }
 }
+
+
+
+
+
+
+
