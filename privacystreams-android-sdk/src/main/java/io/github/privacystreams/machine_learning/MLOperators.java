@@ -78,7 +78,7 @@ public class MLOperators {
         return new SVM(featureFields, weights, intercept);
     }
 
-    public static Function<Item, Object> kMeans(List<List<Float>> clusterCenters, List<String> featureFields){
+    public static Function<Item, Object> kMeans(List<List<Double>> clusterCenters, List<String> featureFields){
         return new KMeans(featureFields, clusterCenters);
     }
 
@@ -99,12 +99,12 @@ public class MLOperators {
         return new SVM(Arrays.asList(featureFields), w, intercept);
     }
 
-    public static Function<Item, Object> kMeans(float[][] clusterCenters, String ... featureFields){
-        List<List<Float>> cc = new ArrayList<>();
-        for(float[] center : clusterCenters){
-            List<Float> temp = new ArrayList<>();
-            for(float f : center){
-                temp.add(Float.valueOf(f));
+    public static Function<Item, Object> kMeans(double[][] clusterCenters, String ... featureFields){
+        List<List<Double>> cc = new ArrayList<>();
+        for(double[] center : clusterCenters){
+            List<Double> temp = new ArrayList<>();
+            for(double f : center){
+                temp.add(Double.valueOf(f));
             }
             cc.add(temp);
         }

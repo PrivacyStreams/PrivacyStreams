@@ -52,6 +52,7 @@ public class VarMultiItemOnce extends PStreamProvider {
             Assertions.notNull("Item from multi-item", item);
             for(Feature f : fp.getFeatures()){
                 multiItem.setFieldValue(f.getFeatureName(), f.getOperator().apply(uqi, item));
+                item.setFieldValue(f.getFeatureName(), f.getOperator().apply(uqi, item));
             }
         }
         return multiItem;

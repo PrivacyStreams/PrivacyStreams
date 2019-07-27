@@ -10,9 +10,9 @@ import io.github.privacystreams.core.UQI;
 
 class KMeans extends MLProcessor<Object>{
 
-    List<List<Float>> clusterCenters;
+    List<List<Double>> clusterCenters;
 
-    KMeans(List<String> inputFields, List<List<Float>> clusterCenters){
+    KMeans(List<String> inputFields, List<List<Double>> clusterCenters){
         super(inputFields);
         this.clusterCenters = clusterCenters;
         this.addParameters(clusterCenters);
@@ -20,42 +20,41 @@ class KMeans extends MLProcessor<Object>{
 
     private class KDistance{
         int label;
-        float distance;
-        KDistance(int label, float distance){
+        double distance;
+        KDistance(int label, double distance){
             this.label = label;
             this.distance = distance;
         }
         public int getLabel(){
             return this.label;
         }
-        public float getDistance(){
+        public double getDistance(){
             return this.distance;
         }
     }
     protected Integer infer(UQI uqi, Item item){
-        List<Float> point = new ArrayList<>();
+        List<Double> point = new ArrayList<>();
         for(int i = 0; i < inputFields.size(); i++){
             Number n = item.getValueByField(inputFields.get(i));
-            point.add(n.floatValue());
+            point.add(n.doubleValue());
         }
 
         List<KDistance> kDistances = new ArrayList<>();
         for(int i = 0; i < clusterCenters.size(); i++){
-            float distance = 0;
-            List<Float> clusterCenter = clusterCenters.get(i);
+            double distance = 0;
+            List<Double> clusterCenter = clusterCenters.get(i);
             for(int j = 0; j < point.size(); j++){
                 distance+=(point.get(j) - clusterCenter.get(j)) * (point.get(j) - clusterCenter.get(j));
             }
-            double dd = Float.valueOf(distance).doubleValue();
-            double sqrtdd = Math.sqrt(dd);
-            distance = Double.valueOf(sqrtdd).floatValue();
-            kDistances.add(new KDistance(i, distance));
+            double sqrtdd = Math.sqrt(distance);
+            distance = sqrtdd;
+            kDistances.add(new KDistance(i, sqrtdd));
         }
 
         Collections.sort(kDistances, new Comparator<KDistance>() {
             @Override
             public int compare(KDistance o1, KDistance o2) {
-                return Float.compare(o1.getDistance(), o2.getDistance());
+                return Double.compare(o1.getDistance(), o2.getDistance());
             }
         });
 

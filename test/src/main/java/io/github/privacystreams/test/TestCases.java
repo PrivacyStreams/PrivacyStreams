@@ -53,8 +53,11 @@ import io.github.privacystreams.multi.NewMultiItem;
 import io.github.privacystreams.multi.VarMultiItem;
 import io.github.privacystreams.notification.Notification;
 import io.github.privacystreams.io.IOOperators;
+import io.github.privacystreams.sensor.Gravity;
 import io.github.privacystreams.sensor.Gyroscope;
 import io.github.privacystreams.sensor.Light;
+import io.github.privacystreams.sensor.LinearAcceleration;
+import io.github.privacystreams.sensor.RotationVector;
 import io.github.privacystreams.utils.Duration;
 import io.github.privacystreams.utils.Globals;
 import io.github.privacystreams.utils.TimeUtils;
@@ -91,6 +94,89 @@ public class TestCases {
         this.uqi = new UQI(context);
     }
 
+    public void testDemo(){
+        uqi.getData(VarMultiItem.periodic(2000,
+                new FeatureProvider(Gravity.asUpdates(1000),
+                        new Feature(MultiOperators.getField("x"), "gr-x"),
+                        new Feature(MultiOperators.getField("y"), "gr-y"),
+                        new Feature(MultiOperators.getField("z"), "gr-z"),
+                        new Feature(ArithmeticOperators.magnitude("gr-x"), "grav-x"),
+                        new Feature(ArithmeticOperators.magnitude("gr-y"), "grav-y"),
+                        new Feature(ArithmeticOperators.magnitude("gr-z"), "grav-z")),
+                new FeatureProvider(LinearAcceleration.asUpdates(1000),
+                        new Feature(MultiOperators.getField("x"), "ac-x"),
+                        new Feature(MultiOperators.getField("y"), "ac-y"),
+                        new Feature(MultiOperators.getField("z"), "ac-z"),
+                        new Feature(ArithmeticOperators.magnitude("x", "y", "z"), "acc-mag"),
+                        new Feature(ArithmeticOperators.magnitude("ac-x"), "acc-x"),
+                        new Feature(ArithmeticOperators.magnitude("ac-y"), "acc-y"),
+                        new Feature(ArithmeticOperators.magnitude("ac-z"), "acc-z")),
+                new FeatureProvider(Gyroscope.asUpdates(1000),
+                        new Feature(MultiOperators.getField("x"), "gy-x"),
+                        new Feature(MultiOperators.getField("y"), "gy-y"),
+                        new Feature(MultiOperators.getField("z"), "gy-z"),
+                        new Feature(ArithmeticOperators.magnitude("x", "y", "z"), "gyro-mag"),
+                        new Feature(ArithmeticOperators.magnitude("gy-x"), "gyro-x"),
+                        new Feature(ArithmeticOperators.magnitude("gy-y"), "gyro-y"),
+                        new Feature(ArithmeticOperators.magnitude("gy-z"), "gyro-z")),
+                new FeatureProvider(RotationVector.asUpdates(1000),
+                        new Feature(MultiOperators.getField("x"), "ro-x"),
+                        new Feature(MultiOperators.getField("y"), "ro-y"),
+                        new Feature(MultiOperators.getField("z"), "ro-z"),
+                        new Feature(MultiOperators.getField("scalar"), "rot-scal"),
+                        new Feature(ArithmeticOperators.magnitude("ro-x"), "rot-x"),
+                        new Feature(ArithmeticOperators.magnitude("ro-y"), "rot-y"),
+                        new Feature(ArithmeticOperators.magnitude("ro-z"), "rot-z"))),
+                Purpose.TEST("Testing VarMultiItem with machine learning"))
+                /*.setField("kmeans", MLOperators.kMeans(
+                        new double[][]{{0.27404101, -0.02003721, -0.11143524,  0.9080322,  -0.21349752, -0.07814307,
+                -0.04457538, -0.06618363,  0.07938894, -0.06510605, -0.06510605, -0.20441074},
+                                {0.27574914, -0.01418649, -0.10589153,  0.91380203, -0.05700866,  0.05963553,
+                                        -0.0319567,  -0.07306614,  0.08034314, -0.95318701, -0.95318701, -0.94307433},
+                                { 0.27350253, -0.01713947, -0.10997526, -0.35506058,  0.65636277,  0.53955542,
+                                        -0.02073769, -0.09200244,  0.12214295, -0.94755562, -0.94755562, -0.94202482}},
+                        "acc-x", "acc-y", "acc-z",
+                                    "grav-x", "grav-y", "grav-z",
+                                    "gyro-x", "gyro-y", "gyro-z",
+                                    "acc-mag", "grav-mag", "gyro-mag"))*/
+                .setField("kmeans", MLOperators.kMeans(
+                        new double[][]{
+                                {0.45471999,  1.04448164,  1.04090225,  2.61713678,  9.23112872,  0.7837394,
+                                0.36713625,  0.50426427,  0.30196964,  0.5280388,   0.47068397,  0.32142937,
+                                1.85730299,  0.79573277,  0.61576487
+                                },
+                                {4.06515604, 13.9749835,   2.16966325,  2.37990332,  9.32534567,  1.16835537,
+                                        0.64130556,  0.78660903,  0.75012374,  0.48046058,  0.46830624,  0.32439547,
+                                        15.14152523,  1.36411487,  0.62154035
+                                },
+                                {0.72011546,  0.82753984,  0.34509707,  7.0277247,   2.18473627,  6.01806478,
+                                        0.22414147,  0.16951266,  0.29964697,  0.23122469,  0.78190289,  0.06460487,
+                                        1.32389057,  0.4555022,   0.50051182
+
+                                }},
+                        "acc-x", "acc-y", "acc-z",
+                        "grav-x", "grav-y", "grav-z",
+                        "gyro-x", "gyro-y", "gyro-z",
+                        "rot-x", "rot-y", "rot-z",
+                        "acc-mag", "gyro-mag", "rot-scal"))
+                .forEach("kmeans", new Callback<Integer>() {
+                    protected void onInput(Integer input){
+                        switch(input.intValue()){
+                            case 0:
+                                System.out.println("STANDING/WALKING");
+                                break;
+                            case 1:
+                                System.out.println("JUMPING");
+                                break;
+                            case 2:
+                                System.out.println("SITTING");
+                                break;
+                            default:
+                                System.out.println("Should not be here");
+                        }
+                    }
+                });
+    }
     public void testVarMultiItemJSON(AssetManager assets, String jsonFile){
         System.out.println("TESTING VAR-MULTI WITH JSON");
         uqi.getData(VarMultiItem.fromJSON(loadJSONFromAsset(assets, jsonFile)), Purpose.TEST("TESTING VAR-MULTI WITH JSON"))
@@ -133,16 +219,14 @@ public class TestCases {
     public void testVarMultiItemOnce(){
         uqi.getData(VarMultiItem.once(
                 new FeatureProvider(Audio.record(1000),
-                        new Feature(AudioOperators.calcLoudness("audio_data"), "loudness")),
+                        new Feature(AudioOperators.calcLoudness("audio_data"),
+                                                            "loudness")),
                 new FeatureProvider(Light.asUpdates(1000),
-                        new Feature(MultiOperators.getField("illuminance"), "brightness")),
-                new FeatureProvider(Gyroscope.asUpdates(1000),
-                        new Feature(MultiOperators.getField("x"), "gyro-x"),
-                        new Feature(MultiOperators.getField("y"), "gyro-y"),
-                        new Feature(MultiOperators.getField("z"), "gyro-z"))),
-                                                                        Purpose.TEST("Testing VarMultiItem"))
-                .setField("output", MLOperators.SVM(new float[]{1, 2, 3, 4, 5}, 2,
-                            "loudness", "brightness", "gyro-x", "gyro-y", "gyro-z"))
+                        new Feature(MultiOperators.getField("illuminance"),
+                                                            "brightness"))),
+                Purpose.TEST("Testing VarMultiItem"))
+                .setField("output", MLOperators.SVM(new float[]{1, 2}, 2,
+                            "loudness", "brightness"))
                 .forEach("output", new Callback<List<Object>>() {
                     protected void onInput(List<Object> input){
                         System.out.println("Output of VarMultiItem");

@@ -107,4 +107,8 @@ public class ArithmeticOperators {
     public static Function<Item, Number> mode(final String numField1, final String numField2) {
         return new ModeOperator(numField1, numField2);
     }
+
+    public static Function<Item, Number> magnitude(final String ... numFields){
+        return new MagnitudeOperator(numFields);
+    }
 }

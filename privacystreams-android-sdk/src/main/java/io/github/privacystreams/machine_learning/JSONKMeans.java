@@ -4,11 +4,11 @@ import java.util.List;
 
 class JSONKMeans extends JSONMachineLearning{
     public class Model{
-        private List<List<Float>> clusterCenters;
+        private List<List<Double>> clusterCenters;
         Model(){
 
         }
-        Model(List<List<Float>> clusterCenters){
+        Model(List<List<Double>> clusterCenters){
             this.clusterCenters = clusterCenters;
         }
     }
@@ -25,7 +25,7 @@ class JSONKMeans extends JSONMachineLearning{
         this.inputFields = inputFields;
     }
 
-    JSONKMeans(List<String> inputFields, List<List<Float>> clusterCenters){
+    JSONKMeans(List<String> inputFields, List<List<Double>> clusterCenters){
         super("K-Means");
         this.model = new Model(clusterCenters);
         this.inputFields = inputFields;
@@ -39,7 +39,7 @@ class JSONKMeans extends JSONMachineLearning{
         return model;
     }
 
-    public List<List<Float>> getClusterCenters(){
+    public List<List<Double>> getClusterCenters(){
         return model.clusterCenters;
     }
 

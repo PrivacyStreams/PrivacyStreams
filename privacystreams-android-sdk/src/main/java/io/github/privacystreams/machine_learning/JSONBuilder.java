@@ -11,7 +11,7 @@ public class JSONBuilder {
         return new Gson().toJson(j);
     }
 
-    public static String KMEANS(List<String> inputFields, List<List<Float>> clusterCenters){
+    public static String KMEANS(List<String> inputFields, List<List<Double>> clusterCenters){
         JSONKMeans j = new JSONKMeans(inputFields, clusterCenters);
         return new Gson().toJson(j);
     }
