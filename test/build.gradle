@@ -9,11 +9,11 @@ android {
 
     defaultConfig {
         applicationId "io.github.privacystreams.test"
-        minSdkVersion 16
+        minSdkVersion 18
         targetSdkVersion 27
         versionCode 1
         versionName "1.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
        // multiDexEnabled true
     }
     buildTypes {
@@ -30,10 +30,8 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
-    compile 'com.android.support:appcompat-v7:27.0.2'
+    androidTestCompile 'androidx.test.espresso:espresso-core:3.1.0'
+    compile 'androidx.appcompat:appcompat:1.0.0'
     testCompile 'junit:junit:4.12'
 
     compile project(':privacystreams-android-sdk')
@@ -44,6 +42,8 @@ dependencies {
     //compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     //implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+
+    androidTestImplementation 'androidx.test:rules:1.1.0'
 
 }
 repositories {

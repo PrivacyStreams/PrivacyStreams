@@ -53,8 +53,6 @@ public class SentimentAnalyzer extends SentimentProcessor<String> {
             if(res.get("neutral") < 0.7f){
                 if(compound >= 0.35f) {
                     result = "Positive";
-
-
                 }
                 else if(compound <= -0.35f) {
                     result = "Negative";
@@ -79,10 +77,9 @@ public class SentimentAnalyzer extends SentimentProcessor<String> {
 
         Log.d("Sentiment", res.toString());
         Log.d("Sentiment", result);
-        Log.d("Sentiment", "-----------------------------------------");
+        Log.d("Sentiment", "----------------------------------------");
 
         return result;
 
     }
-
 }

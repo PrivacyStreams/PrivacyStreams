@@ -51,14 +51,14 @@ class NavActivity : AppCompatActivity() {
                                            .asList<String>("emotion")
 
             //TFIDF score implementation
-            val tfidf = UQI(this).getData(Message.getAllSMS(), Purpose.ADS(""))
-                    .setField("TFIDF", TFIDFOperators.getTFIDF(Message.CONTENT))
-                    .asList<String>("TFIDF")
-            //getApplicationContext().getResources().openRawResource(io.github.privacystreams.core.R.raw.liwc2001);
+//            val tfidf = UQI(this).getData(Message.getAllSMS(), Purpose.ADS(""))
+//                    .setField("TFIDF", TFIDFOperators.getTFIDF(Message.CONTENT))
+//                    .asList<String>("TFIDF")
 
-            val categories = UQI(this).getData(Message.getAllSMS(), Purpose.ADS(""))
-                    .setField("categories", TopicModelOperators.getCategories(Message.CONTENT))
-                    .asList<String>("categories")
+            //Categorization implementation
+//            val categories = UQI(this).getData(Message.getAllSMS(), Purpose.ADS(""))
+//                    .setField("categories", TopicModelOperators.getCategories(Message.CONTENT))
+//                    .asList<String>("categories")
 
 
 

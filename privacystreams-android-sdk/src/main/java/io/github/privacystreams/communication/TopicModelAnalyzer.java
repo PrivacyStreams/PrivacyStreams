@@ -1,5 +1,7 @@
 package io.github.privacystreams.communication;
 
+import android.util.Log;
+
 import net.nunoachenriques.vader.text.TokenizerEnglish;
 
 import java.io.BufferedReader;
@@ -32,32 +34,24 @@ public class TopicModelAnalyzer extends TopicModelProcessor<String> {
             private Dictionary() {
                 categoryMap = new HashMap<Integer, String>();
                 wordCategories = new HashMap<String, List<Integer>>();
-
-                //parseCategories(uqi);
-                //mapCategoriesToWords("");
-            }
-
-            public Dictionary fromDicFile(final String fileContents) {
-                Dictionary dictionary = new Dictionary();
-                //dictionary.parseCategories(fileContents);
-                //dictionary.mapCategoriesToWords(fileContents);
-
-                return dictionary;
             }
 
             public String toString() {
                 String asString = "";
                 if(categoryMap != null) {
+                    asString+= "FIRST====\n";
                     for(final Integer categoryIndex : categoryMap.keySet()) {
                         asString += String.valueOf(categoryIndex) + " : " + categoryMap.get(categoryIndex) + "\n";
                     }
                 }
 
                 if(wordCategories != null) {
+                    asString += "SECOND====\n";
                     for(final String word : wordCategories.keySet()) {
                         asString += word + " : " + wordCategories.get(word) + "\n";
                     }
                 }
+                asString+="END======";
 
                 return asString;
             }
@@ -66,9 +60,6 @@ public class TopicModelAnalyzer extends TopicModelProcessor<String> {
                 InputStream fileStream = null;
                 try {
                     fileStream = uqi.getContext().getResources().openRawResource(R.raw.liwc2001);
-                    //fileStream = getApplicationContext().getResources().openRawResource(R.raw.liwc2001);
-
-
 
                     BufferedReader reader = new BufferedReader(new InputStreamReader(fileStream));
 
@@ -97,7 +88,7 @@ public class TopicModelAnalyzer extends TopicModelProcessor<String> {
                                 categoryMap.put(index, value);
                             }
                         }
-                    } while (categoriesAreBeingParsed || line != null);
+                    } while (categoriesAreBeingParsed && line != null);
                 }
                 catch(Exception e){
 
@@ -139,7 +130,13 @@ public class TopicModelAnalyzer extends TopicModelProcessor<String> {
                             }
                             else if(categorySymbolCount >= 2){
                                 String[] entry = line.split("\t");
+
                                 String term = entry[0];
+
+
+                                term = term.replace("*","");
+
+
                                 List<String> value = Arrays.asList(entry).subList(1, entry.length);
 
                                 List<Integer> categories = new ArrayList<>();
@@ -173,33 +170,43 @@ public class TopicModelAnalyzer extends TopicModelProcessor<String> {
         Dictionary dic = new Dictionary();
         dic.parseCategories(uqi);
         dic.mapCategoriesToWords(uqi);
-        //System.out.println(dic);
+
+        Log.d("TopicModel", messageData);
 
         TokenizerEnglish tokenizer = new TokenizerEnglish();
         List<String> sent = tokenizer.cleanPunctuationAndSplitWhitespace(messageData, "");
         Map<String, Integer> info = new HashMap<String, Integer>();
 
+
         for(int i = 0; i < sent.size(); i++){
 
-            if (dic.wordCategories.get(sent.get(i)) != null) {
+            String word = sent.get(i).toLowerCase();
 
-                for (int j = 0; j < dic.wordCategories.get(sent.get(i)).size(); j++) {
+            while(dic.wordCategories.get(word) == null){
+                word = word.substring(0, word.length()-1);
+            }
 
-                    int cur = dic.wordCategories.get(sent.get(i)).get(j);
+            if (dic.wordCategories.get(word) != null) {
 
-                    if (info.get(dic.categoryMap.get(cur)) == null) {
-                        info.put(dic.categoryMap.get(cur), 1);
+                for (int j = 0; j < dic.wordCategories.get(word).size(); j++) {
+
+                    int cur = dic.wordCategories.get(word).get(j);
+
+                    String category = dic.categoryMap.get(cur);
+
+                    if (info.get(category) == null) {
+                        info.put(category, 1);
                     } else {
-                        info.put(dic.categoryMap.get(cur), (info.get(dic.categoryMap.get(cur)) + 1));
+                        info.put(category, (info.get(category) + 1));
                     }
                 }
             }
         }
 
-        System.out.println(info);
-        System.out.println("---------------------------------");
+        Log.d("TopicModel", info.toString());
+        Log.d("TopicModel", "----------------------------------------");
 
-        return "";
+        return info.toString();
 
     }
 

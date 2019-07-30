@@ -15,7 +15,6 @@ abstract class TFIDFProcessor<Tout> extends ItemOperator<Tout> {
     TFIDFProcessor(String messageDataField) {
         this.messageDataField = Assertions.notNull("messageDataField", messageDataField);
         this.addParameters(messageDataField);
-
     }
 
     @Override
