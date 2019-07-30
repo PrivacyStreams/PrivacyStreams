@@ -128,17 +128,6 @@ public class TestCases {
                         new Feature(ArithmeticOperators.magnitude("ro-y"), "rot-y"),
                         new Feature(ArithmeticOperators.magnitude("ro-z"), "rot-z"))),
                 Purpose.TEST("Testing VarMultiItem with machine learning"))
-                /*.setField("kmeans", MLOperators.kMeans(
-                        new double[][]{{0.27404101, -0.02003721, -0.11143524,  0.9080322,  -0.21349752, -0.07814307,
-                -0.04457538, -0.06618363,  0.07938894, -0.06510605, -0.06510605, -0.20441074},
-                                {0.27574914, -0.01418649, -0.10589153,  0.91380203, -0.05700866,  0.05963553,
-                                        -0.0319567,  -0.07306614,  0.08034314, -0.95318701, -0.95318701, -0.94307433},
-                                { 0.27350253, -0.01713947, -0.10997526, -0.35506058,  0.65636277,  0.53955542,
-                                        -0.02073769, -0.09200244,  0.12214295, -0.94755562, -0.94755562, -0.94202482}},
-                        "acc-x", "acc-y", "acc-z",
-                                    "grav-x", "grav-y", "grav-z",
-                                    "gyro-x", "gyro-y", "gyro-z",
-                                    "acc-mag", "grav-mag", "gyro-mag"))*/
                 .setField("kmeans", MLOperators.kMeans(
                         new double[][]{
                                 {0.45471999,  1.04448164,  1.04090225,  2.61713678,  9.23112872,  0.7837394,
@@ -169,7 +158,7 @@ public class TestCases {
                                 System.out.println("JUMPING");
                                 break;
                             case 2:
-                                System.out.println("SITTING");
+                                System.out.println("SITTING/LAYING");
                                 break;
                             default:
                                 System.out.println("Should not be here");

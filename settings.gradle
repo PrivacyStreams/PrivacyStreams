@@ -1,1 +1,1 @@
-include ':test', ':privacystreams-android-sdk', ':doclet', ':privacystreams-app'
+include ':test', ':privacystreams-android-sdk', ':doclet', ':privacystreams-app', ':mldemoapp'
