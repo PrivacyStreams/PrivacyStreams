@@ -1,7 +1,7 @@
 package com.example.mldemoapp;
 
+import android.app.Activity;
 import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -23,7 +23,7 @@ import io.github.privacystreams.sensor.Gyroscope;
 import io.github.privacystreams.sensor.LinearAcceleration;
 import io.github.privacystreams.sensor.RotationVector;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends Activity {
     UQI uqi = new UQI(this);
     TextView inference;
     TextView acc_readings;
