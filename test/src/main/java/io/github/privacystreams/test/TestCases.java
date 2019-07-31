@@ -47,8 +47,8 @@ import io.github.privacystreams.machine_learning.MLOperators;
 import io.github.privacystreams.machine_learning.Recognition;
 import io.github.privacystreams.multi.Feature;
 import io.github.privacystreams.multi.FeatureProvider;
+import io.github.privacystreams.multi.MultiItem;
 import io.github.privacystreams.multi.MultiOperators;
-import io.github.privacystreams.multi.VarMultiItem;
 import io.github.privacystreams.notification.Notification;
 import io.github.privacystreams.io.IOOperators;
 import io.github.privacystreams.sensor.Gravity;
@@ -94,7 +94,7 @@ public class TestCases {
 
 
     public void testMLMultiDemo(){
-        uqi.getData(VarMultiItem.periodic(2000,
+        uqi.getData(MultiItem.periodic(2000,
                 new FeatureProvider(Gravity.asUpdates(1000),
                         new Feature(MultiOperators.getField("x"), "gr-x"),
                         new Feature(MultiOperators.getField("y"), "gr-y"),
@@ -126,7 +126,7 @@ public class TestCases {
                         new Feature(ArithmeticOperators.magnitude("ro-x"), "rot-x"),
                         new Feature(ArithmeticOperators.magnitude("ro-y"), "rot-y"),
                         new Feature(ArithmeticOperators.magnitude("ro-z"), "rot-z"))),
-                Purpose.TEST("Testing VarMultiItem with machine learning"))
+                Purpose.TEST("Testing MultiItem with machine learning"))
                 .setField("kmeans", MLOperators.kMeans(
                         new double[][]{
                                 {0.45471999,  1.04448164,  1.04090225,  2.61713678,  9.23112872,  0.7837394,
@@ -168,7 +168,7 @@ public class TestCases {
 
     public void testML_Linear_Regression(){
         System.out.println("TESTING ML JSON");
-        uqi.getData(VarMultiItem.periodic(2000,
+        uqi.getData(MultiItem.periodic(2000,
                 new FeatureProvider(Audio.record(1000),
                         new Feature(AudioOperators.calcLoudness("audio_data"), "loudness")),
                 new FeatureProvider(Light.asUpdates(1000),
@@ -189,7 +189,7 @@ public class TestCases {
 
     public void testMLJSON(AssetManager assets){
         System.out.println("TESTING ML JSON");
-        uqi.getData(VarMultiItem.periodic(2000,
+        uqi.getData(MultiItem.periodic(2000,
                 new FeatureProvider(Audio.record(1000),
                     new Feature(AudioOperators.calcLoudness("audio_data"), "loudness")),
                 new FeatureProvider(Light.asUpdates(1000),
@@ -215,7 +215,7 @@ public class TestCases {
         weights.add(Float.valueOf((float)3));
         weights.add(Float.valueOf((float)1));
 
-        uqi.getData(VarMultiItem.periodic(2000,
+        uqi.getData(MultiItem.periodic(2000,
                 new FeatureProvider(Audio.record(1000),
                         new Feature(AudioOperators.calcLoudness("audio_data"), "loudness")),
                 new FeatureProvider(Light.asUpdates(1000),
@@ -233,12 +233,12 @@ public class TestCases {
     }
     public void testVarMultiItemJSON(AssetManager assets, String jsonFile){
         System.out.println("TESTING VAR-MULTI WITH JSON");
-        uqi.getData(VarMultiItem.fromJSON(loadJSONFromAsset(assets, jsonFile)), Purpose.TEST("TESTING VAR-MULTI WITH JSON"))
+        uqi.getData(MultiItem.fromJSON(loadJSONFromAsset(assets, jsonFile)), Purpose.TEST("TESTING VAR-MULTI WITH JSON"))
                 .setField("tuple", MLOperators.tuple("loudness", "doubleLoudness", "illuminance",
                         "x", "y", "z"))
                 .forEach("tuple", new Callback<List<Object>>() {
                     protected void onInput(List<Object> input){
-                        System.out.println("Output of VarMultiItem");
+                        System.out.println("Output of MultiItem");
 
                         System.out.println("Loudness: " + input.get(0) + "\n"
                                 + "Double Loudness: " + input.get(1) + "\n"
@@ -252,7 +252,7 @@ public class TestCases {
 
     }
     public void testVarMultiItemPeriodic(){
-        uqi.getData(VarMultiItem.periodic(2000,
+        uqi.getData(MultiItem.periodic(2000,
                 new FeatureProvider(Audio.record(1000),
                         new Feature(AudioOperators.calcLoudness("audio_data"), "loudness")),
                 new FeatureProvider(Light.asUpdates(1000),
@@ -261,12 +261,12 @@ public class TestCases {
                         new Feature(MultiOperators.getField("x"), "gyro-x"),
                         new Feature(MultiOperators.getField("y"), "gyro-y"),
                         new Feature(MultiOperators.getField("z"), "gyro-z"))),
-                Purpose.TEST("Testing VarMultiItem"))
+                Purpose.TEST("Testing MultiItem"))
                 .setField("tuple", MLOperators.tuple("loudness", "brightness",
                         "gyro-x", "gyro-y", "gyro-z"))
                 .forEach("tuple", new Callback<List<Object>>() {
                     protected void onInput(List<Object> input){
-                        System.out.println("Output of VarMultiItem");
+                        System.out.println("Output of MultiItem");
 
                         System.out.println("Loudness: " + input.get(0) + "\n"
                                 + "Brightness: " + input.get(1) + "\n"
@@ -276,18 +276,18 @@ public class TestCases {
     }
 
     public void testVarMultiItemOnce(){
-        uqi.getData(VarMultiItem.once(
+        uqi.getData(MultiItem.once(
                 new FeatureProvider(Audio.record(1000),
                         new Feature(AudioOperators.calcLoudness("audio_data"),
                                                             "loudness")),
                 new FeatureProvider(Light.asUpdates(1000),
                         new Feature(MultiOperators.getField("illuminance"),
                                                             "brightness"))),
-                Purpose.TEST("Testing VarMultiItem"))
+                Purpose.TEST("Testing MultiItem"))
                 .setField("tuple", MLOperators.tuple("loudness", "brightness"))
                 .forEach("tuple", new Callback<List<Object>>() {
                     protected void onInput(List<Object> input){
-                        System.out.println("Output of VarMultiItem");
+                        System.out.println("Output of MultiItem");
 
                         System.out.println("Loudness: " + input.get(0) + "\n"
                                 + "Brightness: " + input.get(1));

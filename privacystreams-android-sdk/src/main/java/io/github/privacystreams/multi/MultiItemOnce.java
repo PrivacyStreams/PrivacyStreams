@@ -1,21 +1,19 @@
 package io.github.privacystreams.multi;
 
-import java.security.Provider;
 import java.util.ArrayList;
 import java.util.List;
 
 import io.github.privacystreams.core.Item;
-import io.github.privacystreams.core.PStream;
 import io.github.privacystreams.core.PStreamProvider;
 import io.github.privacystreams.core.UQI;
 import io.github.privacystreams.core.exceptions.PSException;
 import io.github.privacystreams.core.purposes.Purpose;
 import io.github.privacystreams.utils.Assertions;
 
-public class VarMultiItemOnce extends PStreamProvider {
+public class MultiItemOnce extends PStreamProvider {
     private FeatureProvider[] features;
 
-    VarMultiItemOnce(FeatureProvider[] features){
+    MultiItemOnce(FeatureProvider[] features){
         this.features = features;
     }
 
@@ -24,7 +22,7 @@ public class VarMultiItemOnce extends PStreamProvider {
     }
 
     protected void provide(){
-        VarMultiItem multiItem = null;
+        MultiItem multiItem = null;
         try {
             multiItem = recordOnce(this.getUQI(), this.features);
             this.output(multiItem);
@@ -36,9 +34,9 @@ public class VarMultiItemOnce extends PStreamProvider {
     }
 
     // ASSUMPTION: PROVIDERS PROVIDE ONE ITEM
-    static VarMultiItem recordOnce(UQI uqi, FeatureProvider[] features){
+    static MultiItem recordOnce(UQI uqi, FeatureProvider[] features){
         List<Item> items = new ArrayList<>();
-        VarMultiItem multiItem = new VarMultiItem(features, items);
+        MultiItem multiItem = new MultiItem(features, items);
 
         for(FeatureProvider fp : features){
             Item item = null;

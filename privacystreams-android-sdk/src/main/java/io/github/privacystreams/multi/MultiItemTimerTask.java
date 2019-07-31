@@ -3,10 +3,10 @@ package io.github.privacystreams.multi;
 import java.util.TimerTask;
 
 
-class VarMultiItemTimerTask extends TimerTask {
-    private VarMultiItemPeriodic nmip;
+class MultiItemTimerTask extends TimerTask {
+    private MultiItemPeriodic nmip;
 
-    VarMultiItemTimerTask(VarMultiItemPeriodic nmip){
+    MultiItemTimerTask(MultiItemPeriodic nmip){
         this.nmip = nmip;
     }
     public void run(){

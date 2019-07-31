@@ -3,37 +3,25 @@ package com.example.mldemoapp;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.ArrayMap;
-import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
-import java.util.Calendar;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Timer;
 
 import io.github.privacystreams.commons.arithmetic.ArithmeticOperators;
 import io.github.privacystreams.core.Callback;
 import io.github.privacystreams.core.UQI;
-import io.github.privacystreams.core.exceptions.PSException;
 import io.github.privacystreams.core.purposes.Purpose;
 import io.github.privacystreams.machine_learning.MLOperators;
 import io.github.privacystreams.multi.Feature;
 import io.github.privacystreams.multi.FeatureProvider;
 import io.github.privacystreams.multi.MultiOperators;
-import io.github.privacystreams.multi.VarMultiItem;
+import io.github.privacystreams.multi.MultiItem;
 import io.github.privacystreams.sensor.Gravity;
 import io.github.privacystreams.sensor.Gyroscope;
-import io.github.privacystreams.sensor.Light;
 import io.github.privacystreams.sensor.LinearAcceleration;
 import io.github.privacystreams.sensor.RotationVector;
-import io.github.privacystreams.utils.Assertions;
 
 public class MainActivity extends AppCompatActivity {
     UQI uqi = new UQI(this);
@@ -75,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
 
         h.postDelayed(new Runnable(){
             public void run(){
-                uqi.getData(VarMultiItem.once(
+                uqi.getData(MultiItem.once(
                         new FeatureProvider(Gravity.asUpdates(1000),
                                 new Feature(MultiOperators.getField("x"), "gr-x"),
                                 new Feature(MultiOperators.getField("y"), "gr-y"),
@@ -107,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
                                 new Feature(ArithmeticOperators.magnitude("ro-x"), "rot-x"),
                                 new Feature(ArithmeticOperators.magnitude("ro-y"), "rot-y"),
                                 new Feature(ArithmeticOperators.magnitude("ro-z"), "rot-z"))),
-                        Purpose.TEST("Testing VarMultiItem with machine learning"))
+                        Purpose.TEST("Testing MultiItem with machine learning"))
                         .setField("accel-info", MLOperators.tuple("ac-x", "ac-y", "ac-z"))
                         .setField("grav-info", MLOperators.tuple("gr-x", "gr-y", "gr-z"))
                         .setField("gyro-info", MLOperators.tuple("gy-x", "gy-y", "gy-z"))
