@@ -10,7 +10,7 @@
 
     <style name="ProgressBar" parent = "@style/Widget.AppCompat.ProgressBar.Horizontal">
         <item name="android:progressBackgroundTint">@color/green</item>
-        <item name="android:progressTint">@color/pinkRed</item>
+        <item name="android:progressTint">@color/colorAccent</item>
         <item name="android:secondaryProgressTint">@color/yellow</item>
 
     </style>

@@ -20,11 +20,12 @@ import java.util.Map;
 
 import io.github.privacystreams.core.Function;
 import io.github.privacystreams.core.Item;
+import io.github.privacystreams.utils.Assertions;
 import io.github.privacystreams.utils.annotations.PSOperatorWrapper;
 
 @PSOperatorWrapper
 public class MLOperators {
-    public String loadJSONFromAsset(AssetManager assets, String jsonFileName) {
+    public static String loadJSONFromAsset(AssetManager assets, String jsonFileName) {
         String json = null;
         try {
             InputStream is = assets.open(jsonFileName);
@@ -39,6 +40,11 @@ public class MLOperators {
         }
         return json;
     }
+
+    public static Function<Item, Object> machineLearning(AssetManager assetManager, String jsonFileName){
+        return machineLearning(loadJSONFromAsset(assetManager, jsonFileName));
+    }
+
     public static Function<Item, Object> machineLearning(String json){
         Gson gson = new Gson();
 
@@ -71,19 +77,23 @@ public class MLOperators {
      * @return the model result.
      */
     public static Function<Item, Object> linearRegression(List<Float> weights, float intercept, List<String> featureFields) {
+        Assertions.isTrue("Length of weights and feature fields vectors match.", weights.size() == featureFields.size());
         return new LinearRegression(featureFields, weights, intercept);
     }
 
     public static Function<Item, Object> SVM(List<Float> weights, float intercept, List<String> featureFields){
+        Assertions.isTrue("Length of weights and feature fields vectors match.", weights.size() == featureFields.size());
         return new SVM(featureFields, weights, intercept);
     }
 
     public static Function<Item, Object> kMeans(List<List<Double>> clusterCenters, List<String> featureFields){
+        Assertions.isTrue("Length of a clusterCenter and feature fields vectors match.", clusterCenters.get(0).size() == featureFields.size());
         return new KMeans(featureFields, clusterCenters);
     }
 
     public static Function<Item, Object> linearRegression(float[] weights, float intercept,
                                                           String ... featureFields) {
+        Assertions.isTrue("Length of weights and feature fields vectors match.", weights.length == featureFields.length);
         List<Float> w = new ArrayList<>();
         for(float f : weights){
             w.add(Float.valueOf(f));
@@ -92,14 +102,16 @@ public class MLOperators {
     }
 
     public static Function<Item, Object> SVM(float[] weights, float intercept, String ... featureFields){
-        List<Float> w = new ArrayList<>();
-        for(float f : weights){
-            w.add(Float.valueOf(f));
+        Assertions.isTrue("Length of weights and feature fields vectors match.", weights.length == featureFields.length);
+            List<Float> w = new ArrayList<>();
+            for(float f : weights){
+                w.add(Float.valueOf(f));
         }
         return new SVM(Arrays.asList(featureFields), w, intercept);
     }
 
     public static Function<Item, Object> kMeans(double[][] clusterCenters, String ... featureFields){
+        Assertions.isTrue("Length of a clusterCenter and feature fields vectors match.", clusterCenters[0].length == featureFields.length);
         List<List<Double>> cc = new ArrayList<>();
         for(double[] center : clusterCenters){
             List<Double> temp = new ArrayList<>();

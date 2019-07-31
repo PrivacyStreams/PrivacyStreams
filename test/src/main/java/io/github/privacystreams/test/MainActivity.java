@@ -29,18 +29,15 @@ public class MainActivity extends AppCompatActivity {
         protected Object doInBackground(Object[] objects) {
             TestCases testCases = new TestCases(MainActivity.this);
 
-            testCases.testDemo();
-            //testCases.testVarMultiItemJSON(getAssets(), "multi.json");
-            //testCases.testComfort();
-            //testCases.testNewMultiItem();
-            //testCases.testVarMultiItemPeriodic();
-            //testCases.testVarMultiItemOnce();
-            //testCases.testNewMultiItemPeriodic();
-            //testCases.testJSONBuilder();
-            //testCases.testML(getAssets(), "linear_regression2.json");
-            //svm.json
-            //kmeans.json
-            //linear_regression2.json
+            testCases.testMLMultiDemo();
+//            testCases.testML_Linear_Regression();
+//            testCases.testMLJSON(getAssets());
+//            testCases.testMLJSONBuilder();
+//            testCases.testMultiJSONBuilder(); //NOT IMPLEMENTED
+//            testCases.testVarMultiItemJSON(getAssets(), "multi.json");
+//            testCases.testVarMultiItemPeriodic();
+//            testCases.testVarMultiItemOnce();
+
 
             /*Integer screenOrientation;
             switch (getWindowManager().getDefaultDisplay().getRotation()) {
@@ -58,10 +55,6 @@ public class MainActivity extends AppCompatActivity {
             //testCases.testTFLiteInterpreter(getAssets(), sensorOrientation);
             //testCases.testMultiItem();
 
-
-
-            //testCases.testMultiItemPeriodic();
-            //testCases.testEmptyMultiItem();
 
 //            testCases.testTakePhotoBg();
 //            testCases.testMerge();

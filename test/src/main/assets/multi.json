@@ -5,9 +5,9 @@
               {"operatorName": "calcLoudness",
                 "operatorParams": ["audio_data"],
                "featureName": "loudness"},
-              {"operatorName": "doubleLoudness",
+              {"operatorName": "add",
                 "operatorParams": ["loudness", "loudness"],
-                "featureName": "add"}
+                "featureName": "doubleLoudness"}
             ]},
   "Light": {"sensorDelay" : 1000,
             "features":[

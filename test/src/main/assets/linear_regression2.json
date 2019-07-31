@@ -3,6 +3,6 @@
 	"inputFields":["brightness", "loudness"],
 	"model":{
 		"weights":[3.0, 1.0],
-		"intercept":0
+		"intercept":2
 	}
 }

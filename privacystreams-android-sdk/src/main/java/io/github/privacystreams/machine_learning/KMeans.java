@@ -47,7 +47,6 @@ class KMeans extends MLProcessor<Object>{
                 distance+=(point.get(j) - clusterCenter.get(j)) * (point.get(j) - clusterCenter.get(j));
             }
             double sqrtdd = Math.sqrt(distance);
-            distance = sqrtdd;
             kDistances.add(new KDistance(i, sqrtdd));
         }
 
