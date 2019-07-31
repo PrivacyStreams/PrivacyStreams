@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 
 android {
-    compileSdkVersion 27
+    compileSdkVersion 28
 
     buildToolsVersion "27.0.2"
     //buildToolsVersion '27.0.3'
@@ -10,7 +10,7 @@ android {
     defaultConfig {
         applicationId "io.github.privacystreams.test"
         minSdkVersion 18
-        targetSdkVersion 27
+        targetSdkVersion 28
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -50,6 +50,7 @@ dependencies {
 
     implementation 'org.tensorflow:tensorflow-lite:0.0.0-nightly'
 
+    implementation 'androidx.appcompat:appcompat:1.0.0'
     compile project(':privacystreams-android-sdk')
     compile 'com.dropbox.core:dropbox-core-sdk:2.1.1'
     compile 'com.google.android.gms:play-services-location:11.6.2'
