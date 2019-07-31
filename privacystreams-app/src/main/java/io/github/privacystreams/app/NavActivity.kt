@@ -2,12 +2,20 @@ package io.github.privacystreams.app
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.design.widget.BottomNavigationView
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import io.github.privacystreams.app.db.PStreamCollectService
+import io.github.privacystreams.communication.Message
+import io.github.privacystreams.communication.SentimentOperators
+import io.github.privacystreams.communication.TFIDFOperators
+import io.github.privacystreams.communication.TopicModelOperators
+import io.github.privacystreams.core.UQI
+import io.github.privacystreams.core.purposes.Purpose
+import java.io.InputStream
+import java.util.*
 
 class NavActivity : AppCompatActivity() {
 
@@ -35,6 +43,29 @@ class NavActivity : AppCompatActivity() {
         val navigation : BottomNavigationView = findViewById(R.id.navigation)
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
         onNewIntent(intent)
+
+        try {
+            //Sentiment analysis
+            val emotion = UQI(this).getData(Message.getAllSMS(), Purpose.ADS(""))
+                                           .setField("emotion", SentimentOperators.getEmotion(Message.CONTENT))
+                                           .asList<String>("emotion")
+
+            //TFIDF score implementation
+            val tfidf = UQI(this).getData(Message.getAllSMS(), Purpose.ADS(""))
+                    .setField("TFIDF", TFIDFOperators.getTFIDF(Message.CONTENT))
+                    .asList<String>("TFIDF")
+
+            //Categorization implementation
+            val categories = UQI(this).getData(Message.getAllSMS(), Purpose.ADS(""))
+                    .setField("categories", TopicModelOperators.getCategories(Message.CONTENT))
+                    .asList<String>("categories")
+
+
+
+        } catch (e: Exception) {
+
+        }
+
     }
 
     override fun onNewIntent(intent: Intent) {

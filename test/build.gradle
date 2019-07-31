@@ -3,14 +3,17 @@ apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion 27
+
     buildToolsVersion "27.0.2"
+    //buildToolsVersion '27.0.3'
+
     defaultConfig {
         applicationId "io.github.privacystreams.test"
-        minSdkVersion 16
+        minSdkVersion 18
         targetSdkVersion 27
         versionCode 1
         versionName "1.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
        // multiDexEnabled true
     }
     buildTypes {
@@ -35,21 +38,29 @@ android {
 
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
-    implementation 'com.android.support:appcompat-v7:27.0.2'
-    testImplementation 'junit:junit:4.12'
 
-    implementation (project(':privacystreams-android-sdk'))
 
-    implementation 'com.dropbox.core:dropbox-core-sdk:2.1.1'
-    implementation 'com.google.android.gms:play-services-location:11.6.2'
-    implementation 'com.google.android.gms:play-services-vision:11.6.2'
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestCompile 'androidx.test.espresso:espresso-core:3.1.0'
+    compile 'androidx.appcompat:appcompat:1.0.0'
+    testCompile 'junit:junit:4.12'
+
+    //implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
 
     implementation 'org.tensorflow:tensorflow-lite:0.0.0-nightly'
+
+    compile project(':privacystreams-android-sdk')
+    compile 'com.dropbox.core:dropbox-core-sdk:2.1.1'
+    compile 'com.google.android.gms:play-services-location:11.6.2'
+    compile 'com.google.android.gms:play-services-vision:11.6.2'
+
+    //compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    //implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+
+    androidTestImplementation 'androidx.test:rules:1.1.0'
+
 
 }
 repositories {

@@ -5,9 +5,10 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.provider.Settings;
-import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.util.Pair;
+
+import androidx.core.content.ContextCompat;
 
 import io.github.privacystreams.accessibility.PSAccessibilityService;
 import io.github.privacystreams.core.Function;

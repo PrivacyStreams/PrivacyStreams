@@ -9,8 +9,9 @@ import android.net.wifi.ScanResult;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Build;
-import android.support.annotation.RequiresApi;
 import android.util.Log;
+
+import androidx.annotation.RequiresApi;
 
 import io.github.privacystreams.core.UQI;
 import io.github.privacystreams.core.PStreamProvider;

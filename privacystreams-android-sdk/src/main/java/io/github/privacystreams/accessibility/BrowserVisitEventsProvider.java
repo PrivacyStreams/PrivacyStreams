@@ -1,9 +1,10 @@
 package io.github.privacystreams.accessibility;
 
 import android.os.Build;
-import android.support.annotation.RequiresApi;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
+
+import androidx.annotation.RequiresApi;
 
 import io.github.privacystreams.commons.comparison.Comparators;
 import io.github.privacystreams.commons.item.ItemOperators;

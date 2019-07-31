@@ -1,11 +1,11 @@
 package io.github.privacystreams.app
 
 import android.app.Fragment
-import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
 import io.github.privacystreams.app.databinding.DataManageBinding
 import io.github.privacystreams.app.databinding.TableItemBinding
 import io.github.privacystreams.app.db.PStreamDBHelper

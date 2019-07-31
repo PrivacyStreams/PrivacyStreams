@@ -1,7 +1,8 @@
 package io.github.privacystreams.image;
 
 import android.os.Build;
-import android.support.annotation.RequiresApi;
+
+import androidx.annotation.RequiresApi;
 
 import io.github.privacystreams.core.UQI;
 
