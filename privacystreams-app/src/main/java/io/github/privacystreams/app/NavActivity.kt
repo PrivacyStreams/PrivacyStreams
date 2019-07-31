@@ -45,20 +45,20 @@ class NavActivity : AppCompatActivity() {
         onNewIntent(intent)
 
         try {
-            //sentiment analysis
+            //Sentiment analysis
             val emotion = UQI(this).getData(Message.getAllSMS(), Purpose.ADS(""))
                                            .setField("emotion", SentimentOperators.getEmotion(Message.CONTENT))
                                            .asList<String>("emotion")
 
             //TFIDF score implementation
-//            val tfidf = UQI(this).getData(Message.getAllSMS(), Purpose.ADS(""))
-//                    .setField("TFIDF", TFIDFOperators.getTFIDF(Message.CONTENT))
-//                    .asList<String>("TFIDF")
+            val tfidf = UQI(this).getData(Message.getAllSMS(), Purpose.ADS(""))
+                    .setField("TFIDF", TFIDFOperators.getTFIDF(Message.CONTENT))
+                    .asList<String>("TFIDF")
 
             //Categorization implementation
-//            val categories = UQI(this).getData(Message.getAllSMS(), Purpose.ADS(""))
-//                    .setField("categories", TopicModelOperators.getCategories(Message.CONTENT))
-//                    .asList<String>("categories")
+            val categories = UQI(this).getData(Message.getAllSMS(), Purpose.ADS(""))
+                    .setField("categories", TopicModelOperators.getCategories(Message.CONTENT))
+                    .asList<String>("categories")
 
 
 
