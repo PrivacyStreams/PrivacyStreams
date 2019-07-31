@@ -37,7 +37,8 @@ android {
 
     //buildToolsVersion '27.0.3'
     defaultConfig {
-        minSdkVersion 18
+
+        minSdkVersion 23
         targetSdkVersion 27
         versionCode 17
         versionName "0.1.7"
@@ -66,17 +67,12 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 
-    testImplementation 'junit:junit:4.12'
-
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-
-    implementation 'org.greenrobot:eventbus:3.0.0'
-
+    testCompile 'junit:junit:4.12'
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile 'org.greenrobot:eventbus:3.0.0'
     // third-party packages
     provided 'com.dropbox.core:dropbox-core-sdk:2.1.1'
-    //provided 'com.google.android.gms:play-services:11.6.2'
     provided 'com.google.android.gms:play-services:12.0.1'
-
 
     provided('com.google.api-client:google-api-client-android:1.20.0') {
         exclude group: 'org.apache.httpcomponents'
@@ -107,7 +103,7 @@ dependencies {
 
     implementation files('libs/tinylog-1.2.jar')
     implementation files('libs/vader-sentiment-analysis-2.0.1.jar')
-
+    implementation files('libs/commons-math3-3.6.1.jar')
 }
 
 group = publishedGroupId                               // Maven Group ID for the artifact

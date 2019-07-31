@@ -1,23 +1,28 @@
 package io.github.privacystreams.app
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import io.github.privacystreams.app.db.PStreamCollectService
+import io.github.privacystreams.audio.Audio
+import io.github.privacystreams.audio.AudioOperators
 import io.github.privacystreams.communication.Message
 import io.github.privacystreams.communication.SentimentOperators
 import io.github.privacystreams.communication.TFIDFOperators
 import io.github.privacystreams.communication.TopicModelOperators
 import io.github.privacystreams.core.UQI
+import io.github.privacystreams.core.exceptions.PSException
 import io.github.privacystreams.core.purposes.Purpose
 import java.io.InputStream
 import java.util.*
 
-class NavActivity : AppCompatActivity() {
+class NavActivity : Activity() {
 
     companion object {
         val NAV_ID_KEY = "navId"
@@ -34,15 +39,15 @@ class NavActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_nav)
+/*
+        val toolbar : android.widget.Toolbar = findViewById(R.id.toolbar)
+        setActionBar(toolbar)
 
-        val toolbar : Toolbar = findViewById(R.id.toolbar)
-        setSupportActionBar(toolbar)
-
-        PStreamCollectService.start(this)
+        //PStreamCollectService.start(this)
 
         val navigation : BottomNavigationView = findViewById(R.id.navigation)
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
-        onNewIntent(intent)
+        onNewIntent(intent)*/
 
         try {
             //Sentiment analysis
@@ -64,6 +69,56 @@ class NavActivity : AppCompatActivity() {
 
         } catch (e: Exception) {
 
+        }
+
+        try {
+            val a = UQI(this).getData(Audio.record(1000), Purpose.HEALTH(""))
+                    .setField("loudness", AudioOperators.calcLoudness(Audio.AUDIO_DATA))
+                    .getFirst<Double>("loudness")
+            Log.d("yile", "loudess" + a);
+        } catch (e: PSException) {
+            e.printStackTrace()
+        }
+
+        try {
+            val x: List<Array<Double>>
+            x = UQI(this).getData(Audio.record(1000), Purpose.HEALTH(""))
+                    .setField("MFCC", AudioOperators.calcMFCC(Audio.AUDIO_DATA))
+                    .getFirst("MFCC")
+            for (A in x){
+                Log.d("yile", Arrays.toString(A));
+            }
+
+        } catch (e: PSException) {
+            e.printStackTrace()
+        }
+
+        try {
+            val x: List<Double>
+            x = UQI(this).getData(Audio.record(1000), Purpose.HEALTH(""))
+                    .setField("Zero-Crossing-Rate", AudioOperators.calcZeroCrossingRate(Audio.AUDIO_DATA))
+                    .getFirst("Zero-Crossing-Rate")
+
+            for (A in x){
+                Log.d("yile", "zcr" + A);
+            }
+
+
+        } catch (e: PSException) {
+            e.printStackTrace()
+        }
+
+        try {
+            val x: List<Double>
+            x = UQI(this).getData(Audio.record(1000), Purpose.HEALTH(""))
+                    .setField("Frequency", AudioOperators.calcFrequency(Audio.AUDIO_DATA, 2000))
+                    .getFirst("Frequency")
+
+            for (e in x){
+                Log.d("yile", "pitch double" + e);
+            }
+        } catch (e: PSException) {
+            e.printStackTrace()
         }
 
     }

@@ -9,8 +9,10 @@ android {
 
     defaultConfig {
         applicationId "io.github.privacystreams.test"
-        minSdkVersion 18
+
+        minSdkVersion 23
         targetSdkVersion 28
+
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"

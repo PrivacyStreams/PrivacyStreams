@@ -1,5 +1,7 @@
 package io.github.privacystreams.audio;
 
+import android.util.Log;
+
 import io.github.privacystreams.core.UQI;
 import io.github.privacystreams.utils.StatisticUtils;
 import io.github.privacystreams.utils.StorageUtils;
@@ -18,6 +20,7 @@ public class AudioData {
     private static final int TYPE_TEMP_RECORD = 0;
     private static final int TYPE_LOCAL_FILE = 1;
     private static final int TYPE_REMOTE_FILE = 1;
+    private static List<Short> dataInShorts;
 
     private File audioFile;
     private List<Integer> amplitudeSamples;
@@ -28,10 +31,10 @@ public class AudioData {
         this.type = type;
     }
 
-    static AudioData newTempRecord(File tempRecordFile, List<Integer> amplitudeSamples) {
+
+    static AudioData newTempRecord(List<Short> bytebuffer) {
         AudioData audioData = new AudioData(TYPE_TEMP_RECORD);
-        audioData.audioFile = tempRecordFile;
-        audioData.amplitudeSamples = amplitudeSamples;
+        dataInShorts = bytebuffer;
         return audioData;
     }
 
@@ -47,32 +50,79 @@ public class AudioData {
         return new ArrayList<>();
     }
 
+    List<Double[]> getMFCC(UQI uqi) {
+        MFCCCalculator newMFCC = new MFCCCalculator(dataInShorts);
+        newMFCC.process();
+        return newMFCC.result;
+    }
+
+    List<Double[]> getMFCC(UQI uqi, int frameSize){
+        MFCCCalculator newMFCC = new MFCCCalculator(dataInShorts, frameSize);
+        newMFCC.process();
+        return newMFCC.result;
+    }
+
+    List<Double[]> getMFCC(UQI uqi, int frameSize, int MelFilters, int CepstrumCoe){
+        MFCCCalculator newMFCC = new MFCCCalculator(dataInShorts, frameSize, MelFilters, CepstrumCoe);
+        newMFCC.process();
+        return newMFCC.result;
+    }
+
+    List<Double> getZeroCrossingRate(UQI uqi){
+        ZCRCalculator newZCR = new ZCRCalculator(dataInShorts);
+        newZCR.process();
+        return newZCR.result;
+    }
+
+    List<Double> getZeroCrossingRate(UQI uqi, int frameSize){
+        ZCRCalculator newZCR = new ZCRCalculator(dataInShorts, frameSize);
+        newZCR.process();
+        return newZCR.result;
+    }
+
+    List<Double> getFrequency(UQI uqi){
+        Pitch_YIN newFre = new Pitch_YIN(dataInShorts);
+        newFre.process();
+        return newFre.result;
+    }
+
+    List<Double> getFrequency(UQI uqi, int frameSize){
+        Pitch_YIN newFre = new Pitch_YIN(dataInShorts, frameSize);
+        newFre.process();
+        return newFre.result;
+    }
+
+
     String getFilepath(UQI uqi) {
         if (this.audioFile != null) return this.audioFile.getAbsolutePath();
         return null;
     }
 
     Integer getMaxAmplitude(UQI uqi) {
-        return StatisticUtils.max(this.getAmplitudeSamples());
+        LoudnessCalculator newLoud = new LoudnessCalculator(dataInShorts);
+        newLoud.process();
+        return newLoud.maximumAmplitude;
     }
 
     Double getLoudness(UQI uqi) {
-        return convertAmplitudeToLoudness(uqi, StatisticUtils.rms(this.getAmplitudeSamples()));
+        LoudnessCalculator newLoud = new LoudnessCalculator(dataInShorts);
+        newLoud.process();
+        return newLoud.averageLoudness;
     }
 
     @Override
     protected void finalize() throws Throwable {
         super.finalize();
-        if (this.type == TYPE_TEMP_RECORD) {
+        /*if (this.type == TYPE_TEMP_RECORD) {
             StorageUtils.safeDelete(this.audioFile);
-        }
+        }*/
     }
-
     static Double convertAmplitudeToLoudness(UQI uqi, Number amplitude) {
         if (amplitude == null) return null;
         double loudness = 20 * Math.log10(amplitude.doubleValue() / AMPLITUDE_BASE);
         return loudness;
     }
+
 
     public String toString() {
         return String.format(Locale.getDefault(), "<Audio@%d%d>", this.type, this.hashCode());
