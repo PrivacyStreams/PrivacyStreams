@@ -46,8 +46,8 @@ class NavActivity : Activity() {
         Log.d("yile", "entering");
         try {
             val a = UQI(this).getData(Audio.record(1000), Purpose.HEALTH(""))
-                    .setField("loudness", AudioOperators.calcLoudness(Audio.AUDIO_DATA))
-                    .getFirst<Double>("loudness")
+                    .setField("loudness", AudioOperators.getMaxAmplitude(Audio.AUDIO_DATA))
+                    .getFirst<Int>("loudness")
             Log.d("yile", "loudess" + a);
         } catch (e: PSException) {
             e.printStackTrace()

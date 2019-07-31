@@ -28,7 +28,6 @@ public class Pitch_YIN {
 
     public Pitch_YIN(List<Short> Data) {
         this(Data, 1024);
-
     }
 
     public Pitch_YIN(List<Short> Data, int samplesPerFrame) {
@@ -54,7 +53,6 @@ public class Pitch_YIN {
         }else{
             getFilePitch();
         }
-
     }
 
     public void getFilePitch(){
@@ -92,7 +90,6 @@ public class Pitch_YIN {
 
         tauEstimate = absoluteThreshold();
 
-
         if (tauEstimate != -1) {
             final float betterTau = parabolicInterpolation(tauEstimate);
             pitchInHertz = 44100 / betterTau;
@@ -100,7 +97,6 @@ public class Pitch_YIN {
             // no pitch found
             pitchInHertz = -1;
         }
-
         return pitchInHertz;
     }
 
@@ -117,7 +113,6 @@ public class Pitch_YIN {
                 difference_list[tau] += delta * delta;
             }
         }
-
     }
 
 
@@ -154,9 +149,7 @@ public class Pitch_YIN {
                         min = tau;
                     }
                     tau++;
-
                 }
-
                 break;
             }
         }
