@@ -24,8 +24,8 @@ public class ZCRCalculator {
         frameSize=1024;
         FilePath = File;
         audioData = null;
-
     }
+
     public ZCRCalculator(List<Short> data){
         this(data, 1024);
     }

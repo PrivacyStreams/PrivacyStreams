@@ -54,9 +54,6 @@ public class MFCCCalculator {
         frameSize = samplesPerFrame;
     }
 
-
-
-
     public void process() {
         if (filePath != null) {
             try {

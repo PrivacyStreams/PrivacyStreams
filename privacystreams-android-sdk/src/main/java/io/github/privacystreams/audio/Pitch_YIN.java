@@ -1,15 +1,14 @@
 package io.github.privacystreams.audio;
-import android.util.Log;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /*
- *The implementation of YIN algorithm is in reference to "YIN, a fundamental frequency estimator for speech and music"
- *http://audition.ens.fr/adc/pdf/2002_JASA_YIN.pdf
+ * The implementation of YIN algorithm is in reference to "YIN, a fundamental frequency
+ * estimator for speech and music"
+ * http://audition.ens.fr/adc/pdf/2002_JASA_YIN.pdf
  */
 
 public class Pitch_YIN {
@@ -91,7 +90,6 @@ public class Pitch_YIN {
 
         cumulativeMeanNormalizedDifference();
 
-
         tauEstimate = absoluteThreshold();
 
 
@@ -141,7 +139,7 @@ public class Pitch_YIN {
         int min = 2;
         boolean found_deeper_value = false;
 
-        for (tau = 2; tau < difference_list.length; tau++) {
+        for (tau=2; tau < difference_list.length; tau++) {
 
             if (difference_list[tau] < threshold) {
                 found_deeper_value = true;
@@ -150,7 +148,7 @@ public class Pitch_YIN {
                     min = tau;
                 }
 
-                while (tau + 1 < difference_list.length && difference_list[tau + 1] < difference_list[tau]) {
+                while (tau+1<difference_list.length && difference_list[tau+1] < difference_list[tau]) {
                     if (difference_list[tau]<min_value){
                         min_value = difference_list[tau];
                         min = tau;

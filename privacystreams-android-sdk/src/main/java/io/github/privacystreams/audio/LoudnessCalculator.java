@@ -35,7 +35,7 @@ public class LoudnessCalculator {
             int index = c*2;
             int first = byteBuffer[index];
             int second = byteBuffer[index+1];
-            int value = first + second*256;
+            int value = first+second*256;
             tempbuffer[c] = value;
             c+=1;
         }
@@ -73,7 +73,7 @@ public class LoudnessCalculator {
         } else{
             List<Short> temp = audioData;
             computeSum(temp);
-            double averageAmplitude = sum/count;
+            double averageAmplitude = Math.sqrt(sum/count);
             averageLoudness = convertToLoudeness(averageAmplitude);
             maximumAmplitude = temp_largest;
         }
@@ -84,7 +84,7 @@ public class LoudnessCalculator {
             if ( Math.abs(e) >temp_largest){
                 temp_largest = e;
             }
-            sum += Math.abs(e);
+            sum += Math.abs(e) * Math.abs(e);
 
             if (e != 0){
                 count += 1;
@@ -97,7 +97,7 @@ public class LoudnessCalculator {
             if ( Math.abs(e) >temp_largest){
                 temp_largest = e;
             }
-            sum += Math.abs(e);
+            sum += Math.abs(e) * Math.abs(e);
 
             if (e != 0){
                 count += 1;
@@ -107,7 +107,7 @@ public class LoudnessCalculator {
     }
 
     public double convertToLoudeness(double amplitude){
-        return  20 * Math.log10(amplitude/51805/0.00002);
+        return  20 * Math.log10(amplitude/1.0);
     }
 
 }
