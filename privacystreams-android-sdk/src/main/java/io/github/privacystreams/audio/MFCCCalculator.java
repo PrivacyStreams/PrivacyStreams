@@ -1,5 +1,7 @@
 package io.github.privacystreams.audio;
 
+import android.util.Log;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.ArrayList;
@@ -55,7 +57,7 @@ public class MFCCCalculator {
 
 
 
-    public void Process() {
+    public void process() {
         if (filePath != null) {
             try {
                 File newFile = new File(filePath);
@@ -73,8 +75,7 @@ public class MFCCCalculator {
                 while ((nRead = inStream.read(buffer)) != -1) {
                     floatBuffer = (new FloatBufferConverter(buffer)).result;
                     Double[] mfcc = getMFCC(floatBuffer);
-                    for (double e:mfcc){
-                    }
+
                     result.add(mfcc);
                 }
 
@@ -83,19 +84,22 @@ public class MFCCCalculator {
             }
         } else {
             List<Short> temp = audioData;
+            double[] floatbuffer = new double[1];
             while (temp.size() > 0) {
                 if (temp.size() < frameSize){
                     break;
                 }
                 List<Short> singleframe = temp.subList(0, frameSize);
                 temp = temp.subList(frameSize, temp.size());
-                double[] floatbuffer = (new FloatBufferConverter(singleframe)).result;
+                floatbuffer = (new FloatBufferConverter(singleframe)).result;
+
                 Double[] mfcc = getMFCC(floatbuffer);
                 result.add(mfcc);
             }
         }
 
-    }
+        }
+
 
     public static float HammingWindow(int length, int index) {
         return 0.54f - 0.46f * (float) Math.cos(2 * Math.PI * index / (length - 1));

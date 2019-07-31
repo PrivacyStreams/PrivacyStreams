@@ -1,4 +1,6 @@
 package io.github.privacystreams.audio;
+import android.util.Log;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.ArrayList;
@@ -37,7 +39,7 @@ public class Pitch_YIN {
         difference_list = new float[frameSize/2];
     }
 
-    public void Process(){
+    public void process(){
         if (audioData != null){
             List<Short> temp = audioData;
             while (temp.size() > 0) {
@@ -92,6 +94,7 @@ public class Pitch_YIN {
 
         tauEstimate = absoluteThreshold();
 
+
         if (tauEstimate != -1) {
             final float betterTau = parabolicInterpolation(tauEstimate);
             pitchInHertz = 44100 / betterTau;
@@ -99,8 +102,6 @@ public class Pitch_YIN {
             // no pitch found
             pitchInHertz = -1;
         }
-
-
 
         return pitchInHertz;
     }
@@ -118,6 +119,7 @@ public class Pitch_YIN {
                 difference_list[tau] += delta * delta;
             }
         }
+
     }
 
 

@@ -1,5 +1,7 @@
 package io.github.privacystreams.audio;
 
+import android.util.Log;
+
 import java.util.List;
 
 public class FloatBufferConverter {
@@ -9,7 +11,7 @@ public class FloatBufferConverter {
         double[] floatbuffer = new double[byteBuffer.size()];
         int c = 0;
         while (c < byteBuffer.size()) {
-            floatbuffer[c] = byteBuffer.get(c) / (256*128);
+            floatbuffer[c] = byteBuffer.get(c) / (double) 256*128;
             c = c + 1;
         }
         result = floatbuffer;

@@ -1,5 +1,7 @@
 package io.github.privacystreams.audio;
 
+import android.util.Log;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.ArrayList;
@@ -35,7 +37,7 @@ public class ZCRCalculator {
 
     }
 
-    public void Process() {
+    public void process() {
         if (FilePath != null) {
             try {
                 File newFile = new File(FilePath);
@@ -59,6 +61,9 @@ public class ZCRCalculator {
         } else{
             List<Short> temp = audioData;
             while (temp.size() > 0) {
+                if (temp.size() < frameSize){
+                    break;
+                }
                 List<Short> singleframe = temp.subList(0, frameSize);
                 temp = temp.subList(frameSize, temp.size());
                 double[] floatbuffer = (new FloatBufferConverter(singleframe)).result;

@@ -1,14 +1,19 @@
 package io.github.privacystreams.core;
 
 import android.content.Context;
+import android.util.Log;
 
+import io.github.privacystreams.audio.Audio;
+import io.github.privacystreams.audio.AudioOperators;
 import io.github.privacystreams.core.exceptions.PSException;
 import io.github.privacystreams.core.purposes.Purpose;
 import io.github.privacystreams.utils.Logging;
 import io.github.privacystreams.utils.PermissionUtils;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -68,6 +73,9 @@ public class UQI {
         for (Function<Void, Void> query : queries) {
             query.cancel(this);
         }
+
+
+
     }
 
     private transient Map<Function<Void, PStream>, PStream> reusedMProviders = new HashMap<>();
@@ -100,6 +108,8 @@ public class UQI {
                 }
             }
         }
+
+
         return false;
     }
 

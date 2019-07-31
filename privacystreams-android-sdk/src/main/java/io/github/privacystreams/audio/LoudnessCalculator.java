@@ -1,5 +1,7 @@
 package io.github.privacystreams.audio;
 
+import android.util.Log;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.List;
@@ -42,8 +44,7 @@ public class LoudnessCalculator {
     }
 
 
-    public void Process(){
-        double sum = 0;
+    public void process(){
         if (FilePath != null) {
             try {
                 File newFile = new File(FilePath);
@@ -73,7 +74,6 @@ public class LoudnessCalculator {
             List<Short> temp = audioData;
             computeSum(temp);
             double averageAmplitude = sum/count;
-
             averageLoudness = convertToLoudeness(averageAmplitude);
             maximumAmplitude = temp_largest;
         }

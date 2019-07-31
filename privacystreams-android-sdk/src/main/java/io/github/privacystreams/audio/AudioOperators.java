@@ -22,8 +22,10 @@ public class AudioOperators {
         return new AudioLoudnessCalculator(audioDataField);
     }
 
-    /**calculate the MFCC of the audio specifies by an AudioData field.
-     * The MFCC is an array of doubles
+    /**
+     * Calculate the mel-frequence cepstral coefficients of the audio specified by an AudioData
+     * field with default frame size 1024, 30 mel filters and 30 cepstral coefficients.
+     * The MFCC is a list of doubles
      *
      * @param audioDataField the name of the AudioData field
      * @return the function
@@ -32,8 +34,36 @@ public class AudioOperators {
         return new MFCC(audioDataField);
     }
 
-    /**calculate the frequency of the audio specifies by an AudioData field.
-     * The frequency is an array of doubles
+    /**
+     * Calculate the mel-frequence cepstral coefficients of the audio specified by an AudioData
+     * field with 30 mel filters and 30 cepstral coefficients. The MFCC is a list of doubles
+     *
+     * @param audioDataField the name of the AudioData field
+     * @param frameSize the size of audio frames for analysis
+     * @return the function
+     */
+    public static Function<Item, List<Double[]>> calcMFCC(String audioDataField, int frameSize) {
+        return new MFCCWithFrameSize(audioDataField, frameSize);
+    }
+
+    /**
+     * Calculate the mel-frequence cepstral coefficients of the audio specified by an AudioData
+     * field. The MFCC is a list of doubles
+     *
+     * @param audioDataField the name of the AudioData field
+     * @param frameSize the size of audio frames for analysis
+     * @param MelFilters the number of mel filters for MFCC analysis
+     * @param CepstrumCoe the number of cepstral coefficients for analysis
+     * @return the function
+     */
+    public static Function<Item, List<Double[]>> calcMFCC(String audioDataField, int frameSize,
+                                                          int MelFilters, int CepstrumCoe) {
+        return new MFCCWithParameters(audioDataField, frameSize, MelFilters, CepstrumCoe);
+    }
+
+    /**
+     * calculate the frequency of the audio specified by an AudioData field.
+     * The frequency is a list of doubles
      *
      * @param audioDataField the name of the AudioData field
      * @return the function
@@ -43,15 +73,41 @@ public class AudioOperators {
         return new Frequency(audioDataField);
     }
 
-    /**calculate the zero-crossing-rate of the audio specifies by an AudioData field.
+    /**
+     * calculate the frequency of the audio specified by an AudioData field.
+     * The frequency is a list of doubles
+     *
+     * @param audioDataField the name of the AudioData field
+     * @param frameSize the size of audio frames for analysis
+     * @return the function
+     */
+    public static Function<Item, List<Double>> calcFrequency(String audioDataField, int frameSize){
+        return new FrequencyWithFrameSize(audioDataField, frameSize);
+    }
+    /**
+     * calculate the zero-crossing-rate of the audio specifies by an AudioData field.
      * The frequency is an array of doubles
      *
      * @param audioDataField the name of the AudioData field
      * @return the function
      */
 
-    public static Function<Item, List<Double>> calcZCR(String audioDataField){
+    public static Function<Item, List<Double>> calcZeroCrossingRate(String audioDataField){
         return new ZeroCrossingRate(audioDataField);
+    }
+
+    /**
+     * calculate the zero-crossing-rate of the audio specifies by an AudioData field.
+     * The frequency is an array of doubles
+     *
+     * @param audioDataField the name of the AudioData field.
+     * @param frameSize the size of audio frames for analysis
+     * @return the function
+     */
+
+    public static Function<Item, List<Double>> calcZeroCrossingRate(String audioDataField,
+                                                                    int frameSize){
+        return new ZeroCrossingRateWithFrameSize(audioDataField, frameSize);
     }
 
     /**

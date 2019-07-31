@@ -1,5 +1,7 @@
 package io.github.privacystreams.audio;
 
+import android.util.Log;
+
 import io.github.privacystreams.core.UQI;
 import io.github.privacystreams.utils.StatisticUtils;
 import io.github.privacystreams.utils.StorageUtils;
@@ -50,37 +52,43 @@ public class AudioData {
 
     List<Double[]> getMFCC(UQI uqi) {
         MFCCCalculator newMFCC = new MFCCCalculator(dataInShorts);
-        newMFCC.Process();
+        newMFCC.process();
         return newMFCC.result;
     }
 
-    List<Double[]> getMFCC(UQI uqi, int framSize){
-        MFCCCalculator newMFCC = new MFCCCalculator(dataInShorts, framSize);
-        newMFCC.Process();
+    List<Double[]> getMFCC(UQI uqi, int frameSize){
+        MFCCCalculator newMFCC = new MFCCCalculator(dataInShorts, frameSize);
+        newMFCC.process();
         return newMFCC.result;
     }
 
-    List<Double> getZCR(UQI uqi){
+    List<Double[]> getMFCC(UQI uqi, int frameSize, int MelFilters, int CepstrumCoe){
+        MFCCCalculator newMFCC = new MFCCCalculator(dataInShorts, frameSize, MelFilters, CepstrumCoe);
+        newMFCC.process();
+        return newMFCC.result;
+    }
+
+    List<Double> getZeroCrossingRate(UQI uqi){
         ZCRCalculator newZCR = new ZCRCalculator(dataInShorts);
-        newZCR.Process();
+        newZCR.process();
         return newZCR.result;
     }
 
-    List<Double> getZCR(UQI uqi, int frameSize){
+    List<Double> getZeroCrossingRate(UQI uqi, int frameSize){
         ZCRCalculator newZCR = new ZCRCalculator(dataInShorts, frameSize);
-        newZCR.Process();
+        newZCR.process();
         return newZCR.result;
     }
 
     List<Double> getFrequency(UQI uqi){
         Pitch_YIN newFre = new Pitch_YIN(dataInShorts);
-        newFre.Process();
+        newFre.process();
         return newFre.result;
     }
 
-    List<Double> getFrequency(UQI uqi, int framSize){
-        Pitch_YIN newFre = new Pitch_YIN(dataInShorts, framSize);
-        newFre.Process();
+    List<Double> getFrequency(UQI uqi, int frameSize){
+        Pitch_YIN newFre = new Pitch_YIN(dataInShorts, frameSize);
+        newFre.process();
         return newFre.result;
     }
 
@@ -92,22 +100,22 @@ public class AudioData {
 
     Integer getMaxAmplitude(UQI uqi) {
         LoudnessCalculator newLoud = new LoudnessCalculator(dataInShorts);
-        newLoud.Process();
+        newLoud.process();
         return newLoud.maximumAmplitude;
     }
 
     Double getLoudness(UQI uqi) {
         LoudnessCalculator newLoud = new LoudnessCalculator(dataInShorts);
-        newLoud.Process();
+        newLoud.process();
         return newLoud.averageLoudness;
     }
 
     @Override
     protected void finalize() throws Throwable {
         super.finalize();
-        if (this.type == TYPE_TEMP_RECORD) {
+        /*if (this.type == TYPE_TEMP_RECORD) {
             StorageUtils.safeDelete(this.audioFile);
-        }
+        }*/
     }
     static Double convertAmplitudeToLoudness(UQI uqi, Number amplitude) {
         if (amplitude == null) return null;

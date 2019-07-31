@@ -28,7 +28,8 @@ class AudioRecorder extends PStreamProvider {
     private final Long duration;
     private static final int HW_SUPPORTED_SAMPLE_RATE = 44100;
     public static boolean isFinished = false;
-    public static List<Short> databuffer = new ArrayList<>();
+    public static boolean isStarted = false;
+    public static List<Short> Data;
 
     AudioRecorder(long duration) {
         this.duration = duration;
@@ -81,7 +82,10 @@ class AudioRecorder extends PStreamProvider {
             boolean recorderStateIsValid = ((recorder != null) &&
                     (recorder.getState() == AudioRecord.STATE_INITIALIZED));
 
+            final List<Short> databuffer = new ArrayList<>();
+
             if (recorderStateIsValid) {
+
                 recorder.startRecording();
                 Log.d("Debug", "Recording has begun");
 
@@ -90,6 +94,7 @@ class AudioRecorder extends PStreamProvider {
                     public void run() {
                         recorder.stop();
                         recorder.release();
+                        Data = databuffer;
 
                         isFinished = true;
 
@@ -106,33 +111,15 @@ class AudioRecorder extends PStreamProvider {
             Log.d("Debug", getMinBufferSizeErrorMessage(bufferSize));
         }
 
-//        MediaRecorder recorder = new MediaRecorder();
-//        recorder.setAudioSource(Globals.AudioConfig.audioSource);
-//        recorder.setOutputFormat(Globals.AudioConfig.outputFormat);
-//        recorder.setAudioEncoder(Globals.AudioConfig.audioEncoder);
-//
-//        String audioPath = "temp/audio_" + TimeUtils.getTimeTag() + ".amr";
-//        File tempAudioFile = StorageUtils.getValidFile(uqi.getContext(), audioPath, false);
-//        recorder.setOutputFile(tempAudioFile.getAbsolutePath());
-//
-//        recorder.prepare();
-//        recorder.start();   // Recording is now started
-//
-//        while (true) {
-//            long currentTime = System.currentTimeMillis();
-//            if (currentTime - startTime > duration) {
-//                break;
-//            }
-//            amplitudes.add(recorder.getMaxAmplitude());
-//        }
-//
-//        recorder.stop();
-//        recorder.reset();   // You can reuse the object by going back to setAudioSource() step
-//        recorder.release(); // Now the object cannot be reused
-//
-        AudioData audioData = AudioData.newTempRecord(databuffer);
+
+        while (!isFinished){}
+
+
+        AudioData audioData = AudioData.newTempRecord(Data);
 
         return new Audio(startTime, audioData);
+//
+
     }
 
     private static AudioRecord createPcm8BitStereoWithRate(final int sampleRate,
@@ -150,8 +137,7 @@ class AudioRecorder extends PStreamProvider {
         return null;
     }
     private static void readWhileRecording(final AudioRecord recordingDevice,
-                                    final int bufferSize,
-                                    final List<Short> audioData) {
+                                    final int bufferSize, final List<Short> databuffer) {
         (new Thread() {
             public void run() {
 
@@ -162,12 +148,27 @@ class AudioRecorder extends PStreamProvider {
 
                     if(bytesRead > 0) {
                         Log.d("Debug", "Read in " + bytesRead + " bytes");
-                        for(final Short elem : buffer) {
-                            audioData.add(elem); }
+                        int count = 0;
+                        for(final short elem : buffer) {
+                            if (count<bytesRead){
+                                if (elem!=0 && isStarted==false){
+                                    isStarted = true;
+                                }
+                                if (isStarted){
+                                    databuffer.add(elem);
+                                    count += 1;
+                                }
+
+
+                            } else{
+                            break;}
+                        }
+
                     }
                     else {
                         Log.d("Debug", getReadErrorMessage(bytesRead));
                     }
+
                 }
 
 
