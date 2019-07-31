@@ -4,7 +4,8 @@
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
     <color name = "pinkRed">#ec1275</color>
-    <color name = "yellow">#ffdb00</color>
+    <color name = "yellow">#ffce04</color>
     <color name = "graybg">#dbdbdb</color>
-    <color name = "green">#3cff00</color>
+    <color name = "green">#00c936</color>
+    <color name = "blue">#00d2ff</color>
 </resources>
