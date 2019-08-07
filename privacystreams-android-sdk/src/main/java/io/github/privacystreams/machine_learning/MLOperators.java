@@ -41,11 +41,11 @@ public class MLOperators {
         return json;
     }
 
-    public static Function<Item, Object> machineLearning(AssetManager assetManager, String jsonFileName){
+    public static Function<Item, Number> machineLearning(AssetManager assetManager, String jsonFileName){
         return machineLearning(loadJSONFromAsset(assetManager, jsonFileName));
     }
 
-    public static Function<Item, Object> machineLearning(String json){
+    public static Function<Item, Number> machineLearning(String json){
         Gson gson = new Gson();
 
         System.out.println("Performing: " + gson.fromJson(json, JSONMachineLearning.class));
@@ -73,25 +73,49 @@ public class MLOperators {
      * Linear Regression
      *
      * @param featureFields, the name of the data fields.
-     * @param weights associated with the fields
+     * @param weights associated with the fields of the linear regression model
+     * @param intercept of the linear regression model
      * @return the model result.
      */
-    public static Function<Item, Object> linearRegression(List<Float> weights, float intercept, List<String> featureFields) {
+    public static Function<Item, Number> linearRegression(List<Float> weights, float intercept, List<String> featureFields) {
         Assertions.isTrue("Length of weights and feature fields vectors match.", weights.size() == featureFields.size());
         return new LinearRegression(featureFields, weights, intercept);
     }
 
-    public static Function<Item, Object> SVM(List<Float> weights, float intercept, List<String> featureFields){
+    /**
+     * SVM
+     *
+     * @param featureFields, the name of the data fields.
+     * @param weights associated with the fields of the svm model
+     * @param intercept of the svm model
+     * @return the model result.
+     */
+    public static Function<Item, Number> SVM(List<Float> weights, float intercept, List<String> featureFields){
         Assertions.isTrue("Length of weights and feature fields vectors match.", weights.size() == featureFields.size());
         return new SVM(featureFields, weights, intercept);
     }
 
-    public static Function<Item, Object> kMeans(List<List<Double>> clusterCenters, List<String> featureFields){
+    /**
+     * KMeans
+     *
+     * @param featureFields, the name of the data fields.
+     * @param clusterCenters, coordinates of the centers
+     * @return the model result.
+     */
+    public static Function<Item, Number> kMeans(List<List<Double>> clusterCenters, List<String> featureFields){
         Assertions.isTrue("Length of a clusterCenter and feature fields vectors match.", clusterCenters.get(0).size() == featureFields.size());
         return new KMeans(featureFields, clusterCenters);
     }
 
-    public static Function<Item, Object> linearRegression(float[] weights, float intercept,
+    /**
+     * Linear Regression
+     *
+     * @param featureFields, the name of the data fields.
+     * @param weights associated with the fields of the linear regression model
+     * @param intercept of the linear regression model
+     * @return the model result.
+     */
+    public static Function<Item, Number> linearRegression(float[] weights, float intercept,
                                                           String ... featureFields) {
         Assertions.isTrue("Length of weights and feature fields vectors match.", weights.length == featureFields.length);
         List<Float> w = new ArrayList<>();
@@ -101,7 +125,15 @@ public class MLOperators {
         return new LinearRegression(Arrays.asList(featureFields), w, intercept);
     }
 
-    public static Function<Item, Object> SVM(float[] weights, float intercept, String ... featureFields){
+    /**
+     * SVM
+     *
+     * @param featureFields, the name of the data fields.
+     * @param weights associated with the fields of the svm model
+     * @param intercept of the svm model
+     * @return the model result.
+     */
+    public static Function<Item, Number> SVM(float[] weights, float intercept, String ... featureFields){
         Assertions.isTrue("Length of weights and feature fields vectors match.", weights.length == featureFields.length);
             List<Float> w = new ArrayList<>();
             for(float f : weights){
@@ -110,7 +142,14 @@ public class MLOperators {
         return new SVM(Arrays.asList(featureFields), w, intercept);
     }
 
-    public static Function<Item, Object> kMeans(double[][] clusterCenters, String ... featureFields){
+    /**
+     * KMeans
+     *
+     * @param featureFields, the name of the data fields.
+     * @param clusterCenters, coordinates of the centers
+     * @return the model result.
+     */
+    public static Function<Item, Number> kMeans(double[][] clusterCenters, String ... featureFields){
         Assertions.isTrue("Length of a clusterCenter and feature fields vectors match.", clusterCenters[0].length == featureFields.length);
         List<List<Double>> cc = new ArrayList<>();
         for(double[] center : clusterCenters){
@@ -126,29 +165,28 @@ public class MLOperators {
     /**
      * Used for grouping together several fields into a tuple,
      * easier to view multiple outputs at once
-     * @param inputFields
+     * @param inputFields, the fields to group together
      * @return the values of the fields specified as a ArrayList (in order)
      */
     public static Function<Item, ArrayList<Object>> tuple(List<String> inputFields){
         return new Tuple(inputFields);
     }
 
+    /**
+     * Used for grouping together several fields into a tuple,
+     * easier to view multiple outputs at once
+     * @param inputFields, the fields to group together
+     * @return the values of the fields specified as a ArrayList (in order)
+     */
     public static Function<Item, ArrayList<Object>> tuple(String ... inputFields){
         return new Tuple(Arrays.asList(inputFields));
     }
 
+
     public static Function<Item, Object> field(Object object){
         return new Field(object);
     }
-    /**
-     * Java-ML Library stores things as Instances and Datasets,
-     * create an instance with the specified fields
-     * @param inputFields fields to include
-     * @return instance created from the fields
-     */
-    /*public static Function<Item, Instance> createInstance(ArrayList<String> inputFields){
-        return new Instance;
-    }*/
+
 
     /**
      * Takes a TF Lite Model Interpreter
@@ -157,8 +195,7 @@ public class MLOperators {
      * @param inputField field from Item containing tensor (array)
      * @param tflite Interpreter
      * @param outputField An object which has the size of the desired output tensor
-     * @return
-     * OUTPUT SIZE??
+     * @return result of model inference
      */
     public static Function<Item, Object> tfLiteInferInterpreter(String inputField, String outputField, Interpreter tflite){
         return new TFLiteInterpreter(inputField, outputField, tflite);
@@ -171,18 +208,35 @@ public class MLOperators {
      * @param inputField input tensors
      * @param outputs map of order of outputs
      * @param tflite Interpreter
-     * @return
+     * @return result of model inference
      */
     public static Function<Item, Object> tfLiteInferInterpreter(String inputField, Map<Integer, Object> outputs, Interpreter tflite){
         return new TFLiteInterpreterOutputs(inputField, outputs, tflite);
     }
 
+    /**
+     * Takes a TF Lite Model Interpreter
+     * User can customize the interpreter themselves and supply to function
+     * Multiple inputs, Multiple output version
+     * @param inputField input tensors
+     * @param outputs list of outputs
+     * @param tflite Interpreter
+     * @return result of model inference
+     */
     // Assumes output arrays already present in item fields
     public static Function<Item, Object> tfLiteInferInterpreter(String inputField, List<String> outputs, Interpreter tflite){
         return new TFLiteInterpreterOutputs(inputField, outputs, tflite);
     }
 
-
+    /**
+     * Takes a TF Lite Model File
+     * User can customize the interpreter themselves and supply to function
+     * One input, One output version
+     * @param inputField field from Item containing tensor (array)
+     * @param model file of the tflite model
+     * @param outputField An object which has the size of the desired output tensor
+     * @return result of model inference
+     */
     public static Function<Item, Object> tfLiteInferModel(String inputField, String outputField, File model){
         try {
             Interpreter tflite = new Interpreter(model);
@@ -195,6 +249,15 @@ public class MLOperators {
         }
     }
 
+    /**
+     * Takes a TF Lite Model MappedByteBuffer
+     * User can customize the interpreter themselves and supply to function
+     * One input, One output version
+     * @param inputField field from Item containing tensor (array)
+     * @param model MappedByteBuffer of the model
+     * @param outputField An object which has the size of the desired output tensor
+     * @return result of model inference
+     */
     public static Function<Item, Object> tfLiteInferModel(String inputField, String outputField, MappedByteBuffer model){
         try {
             Interpreter tflite = new Interpreter(model);
@@ -206,6 +269,18 @@ public class MLOperators {
             return null;
         }
     }
+
+    /**
+     * Multiple outputs version
+     *
+     * Takes a TF Lite Model File
+     * User can customize the interpreter themselves and supply to function
+     * One input, One output version
+     * @param inputField field from Item containing tensor (array)
+     * @param model file of the tflite model
+     * @param outputs map of the order of outputs
+     * @return result of model inference
+     */
     public static Function<Item, Object> tfLiteInferModel(String inputField, Map<Integer, Object> outputs, File model){
         try {
             Interpreter tflite = new Interpreter(model);
@@ -217,6 +292,18 @@ public class MLOperators {
             return null;
         }
     }
+
+    /**
+     * Multiple outputs version
+     *
+     * Takes a TF Lite Model MappedByteBuffer
+     * User can customize the interpreter themselves and supply to function
+     * One input, One output version
+     * @param inputField field from Item containing tensor (array)
+     * @param model MappedByteBuffer of the model
+     * @param outputs map of the order of outputs
+     * @return result of model inference
+     */
     public static Function<Item, Object> tfLiteInferModel(String inputField, Map<Integer, Object> outputs, MappedByteBuffer model){
         try {
             Interpreter tflite = new Interpreter(model);

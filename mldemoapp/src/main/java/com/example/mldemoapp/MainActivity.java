@@ -149,15 +149,6 @@ public class MainActivity extends AppCompatActivity {
                                 mlinference.setString(kmeans);
                             }
                         });
-                /*uqi.getData(Light.asUpdates(1000), Purpose.TEST(""))
-                        .limit(1)
-                        .forEach("illuminance", new Callback<Float>() {
-                            protected void onInput(Float input){
-                                s.setString(input+"");
-                                System.out.println("illuminance: "+s.getString());
-                            }
-                        });
-                        */
 
 
                 inference.setText(mlinference.getString());

@@ -8,7 +8,7 @@ import io.github.privacystreams.core.Item;
 import io.github.privacystreams.core.UQI;
 import io.github.privacystreams.utils.Assertions;
 
-class LinearRegression extends MLProcessor<Object>{
+class LinearRegression extends MLProcessor<Number>{
     List<Float> weights = new ArrayList<>(0);
     Function<Item, Float> fun;
     float intercept;

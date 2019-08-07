@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
         protected Object doInBackground(Object[] objects) {
             TestCases testCases = new TestCases(MainActivity.this);
 
-            testCases.testMLMultiDemo();
+//            testCases.testMLMultiDemo();
 //            testCases.testML_Linear_Regression();
 //            testCases.testMLJSON(getAssets());
 //            testCases.testMLJSONBuilder();
