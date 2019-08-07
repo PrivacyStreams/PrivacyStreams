@@ -41,10 +41,23 @@ public class MLOperators {
         return json;
     }
 
+    /**
+     * Machine Learning
+     *
+     * @param assetManager
+     * @param jsonFileName file name of the JSON file (should be placed in the assets folder)
+     * @return the model result.
+     */
     public static Function<Item, Number> machineLearning(AssetManager assetManager, String jsonFileName){
         return machineLearning(loadJSONFromAsset(assetManager, jsonFileName));
     }
 
+    /**
+     * Machine Learning
+     *
+     * @param json the String version of the JSON object, e.g. " {"algorithm": "Linear Regression ..."
+     * @return the model result.
+     */
     public static Function<Item, Number> machineLearning(String json){
         Gson gson = new Gson();
 
