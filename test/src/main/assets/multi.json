@@ -2,28 +2,28 @@
   "interval": 1000,
   "Audio": {"duration" : 1000,
             "features": [
-              {"operatorName": "calcLoudness",
+              {"operatorName": "AudioOperators.calcLoudness",
                 "operatorParams": ["audio_data"],
                "featureName": "loudness"},
-              {"operatorName": "add",
+              {"operatorName": "ArithmeticOperators.add",
                 "operatorParams": ["loudness", "loudness"],
                 "featureName": "doubleLoudness"}
             ]},
   "Light": {"sensorDelay" : 1000,
             "features":[
-              {"operatorName": "field",
+              {"operatorName": "MultiOperators.getField",
                 "operatorParams":["illuminance"],
                "featureName": "illuminance"}
             ]},
   "Gyroscope": {"sensorDelay" : 1000,
                 "features":[
-                  {"operatorName":"field",
+                  {"operatorName":"MultiOperators.getField",
                     "operatorParams":["x"],
                     "featureName":"x"},
-                  {"operatorName":"field",
+                  {"operatorName":"MultiOperators.getField",
                     "operatorParams":["y"],
                   "featureName":"y"},
-                  {"operatorName":"field",
+                  {"operatorName":"MultiOperators.getField",
                     "operatorParams":["z"],
                   "featureName":"z"}
                 ]}
