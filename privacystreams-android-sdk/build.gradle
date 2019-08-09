@@ -43,7 +43,9 @@ android {
         versionCode 17
         versionName "0.1.7"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        //multiDexEnabled true
     }
+
     buildTypes {
         release {
             minifyEnabled false

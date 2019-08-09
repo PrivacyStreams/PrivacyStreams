@@ -29,7 +29,7 @@ public class MainActivity extends Activity {
         protected Object doInBackground(Object[] objects) {
             TestCases testCases = new TestCases(MainActivity.this);
 
-//            testCases.testMLMultiDemo();
+            testCases.testMLMultiDemo();
             /* Should provide periodic stream of output to System.out.println of
                SITTING, STANDING, JUMPING depending on phone orientation and movement.
              */
@@ -47,7 +47,7 @@ public class MainActivity extends Activity {
                Others, depends on the json file chosen
              */
 
-            testCases.testMLJSONBuilder();
+       //     testCases.testMLJSONBuilder();
              /* Should periodically return tuple containing 3 values: brightness, loudness, linear
                regression output (3*brightness + loudness).
              */

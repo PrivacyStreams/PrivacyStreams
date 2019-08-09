@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
 import android.os.Build;
-import androidx.annotation.RequiresApi;
 
 import org.tensorflow.lite.Interpreter;
 
@@ -681,7 +680,7 @@ public class TestCases {
                 }, true));
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
+    //@RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     public void testDeviceState() {
         Purpose purpose = Purpose.TEST("test");
         uqi
@@ -702,7 +701,7 @@ public class TestCases {
     /*
      * Getting a stream of notifications and printing
      */
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    //@RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public void testNotification() {
         uqi.getData(Notification.asUpdates(), Purpose.TEST("test")).debug();
     }
@@ -729,7 +728,7 @@ public class TestCases {
                 .idle();
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
+    //@RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
     public void testIMUpdates(){
         uqi.getData(Message.asUpdatesInIM(),Purpose.FEATURE("im updates")).debug();
     }
