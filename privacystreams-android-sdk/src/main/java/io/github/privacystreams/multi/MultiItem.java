@@ -1,6 +1,10 @@
 package io.github.privacystreams.multi;
+import android.content.res.AssetManager;
+
 import com.google.gson.Gson;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 import io.github.privacystreams.core.Item;
@@ -19,8 +23,8 @@ public class MultiItem extends Item {
         return new MultiItemOnce(featureProviders);
     }
 
-    public static PStreamProvider periodic(long interval, FeatureProvider ... fp) {
-        return new MultiItemPeriodic(interval, fp);
+    public static PStreamProvider periodic(long interval, FeatureProvider ... featureProviders) {
+        return new MultiItemPeriodic(interval, featureProviders);
     }
 
     public static PStreamProvider fromJSON(String json){
@@ -31,6 +35,26 @@ public class MultiItem extends Item {
         else{
             return new MultiItemPeriodic(jm.getInterval(), jm.getFeatureProviders());
         }
+    }
+
+    public static PStreamProvider fromJSON(AssetManager assets, String jsonFileName){
+        return fromJSON(loadJSONFromAsset(assets, jsonFileName));
+    }
+
+    public static String loadJSONFromAsset(AssetManager assets, String jsonFileName) {
+        String json = null;
+        try {
+            InputStream is = assets.open(jsonFileName);
+            int size = is.available();
+            byte[] buffer = new byte[size];
+            is.read(buffer);
+            is.close();
+            json = new String(buffer, "UTF-8");
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+        return json;
     }
 
 }

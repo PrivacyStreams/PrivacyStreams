@@ -8,7 +8,7 @@ import java.util.List;
 import io.github.privacystreams.core.Item;
 import io.github.privacystreams.core.UQI;
 
-class KMeans extends MLProcessor<Object>{
+class KMeans extends MLProcessor<Number>{
 
     List<List<Double>> clusterCenters;
 

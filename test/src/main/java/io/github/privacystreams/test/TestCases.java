@@ -47,6 +47,8 @@ import io.github.privacystreams.machine_learning.MLOperators;
 import io.github.privacystreams.machine_learning.Recognition;
 import io.github.privacystreams.multi.Feature;
 import io.github.privacystreams.multi.FeatureProvider;
+import io.github.privacystreams.multi.JSONmulti;
+import io.github.privacystreams.multi.JSONmultiFeature;
 import io.github.privacystreams.multi.MultiItem;
 import io.github.privacystreams.multi.MultiOperators;
 import io.github.privacystreams.notification.Notification;
@@ -249,7 +251,17 @@ public class TestCases {
     }
 
     public void testVarMultiItemJSONBuilder(){
-
+        uqi.getData(MultiItem.fromJSON(new JSONmulti()
+                .AUDIO(1000, new JSONmultiFeature[]{new JSONmultiFeature("AudioOperators.calcLoudness",
+                        new Object[]{"audio_data"}, "loudness")})
+                .LIGHT(1000, new JSONmultiFeature[]{new JSONmultiFeature("MultiOperators.getField",
+                        new Object[]{"illuminance"}, "brightness")}).getJSON()), Purpose.TEST(""))
+                .setField("tuple", MLOperators.tuple("loudness", "brightness"))
+                .forEach("tuple", new Callback<List<Float>>() {
+                    protected void onInput(List<Float> input){
+                        System.out.println(input);
+                    }
+                });
     }
     public void testVarMultiItemPeriodic(){
         uqi.getData(MultiItem.periodic(2000,

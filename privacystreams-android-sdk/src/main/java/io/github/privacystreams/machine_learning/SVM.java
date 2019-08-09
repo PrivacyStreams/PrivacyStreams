@@ -6,7 +6,7 @@ import java.util.List;
 import io.github.privacystreams.core.Item;
 import io.github.privacystreams.core.UQI;
 
-class SVM extends MLProcessor<Object>{
+class SVM extends MLProcessor<Number>{
 
     List<Float> weights;
     float intercept;
