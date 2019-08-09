@@ -30,13 +30,43 @@ public class MainActivity extends AppCompatActivity {
             TestCases testCases = new TestCases(MainActivity.this);
 
 //            testCases.testMLMultiDemo();
+            /* Should provide periodic stream of output to System.out.println of
+               SITTING, STANDING, JUMPING depending on phone orientation and movement.
+             */
+
 //            testCases.testML_Linear_Regression();
+            /* Should periodically return tuple containing 3 values: brightness, loudness, linear
+               regression output (3*brightness + loudness).
+             */
+
 //            testCases.testMLJSON(getAssets());
-//            testCases.testMLJSONBuilder();
-//            testCases.testMultiJSONBuilder(); //NOT IMPLEMENTED
+            /* If with "linear_regression.json":
+               Should periodically return tuple containing 3 values: brightness, loudness, linear
+               regression output (3*brightness + loudness).
+
+               Others, depends on the json file chosen
+             */
+
+            testCases.testMLJSONBuilder();
+             /* Should periodically return tuple containing 3 values: brightness, loudness, linear
+               regression output (3*brightness + loudness).
+             */
+
+//            testCases.testVarMultiItemJSONBuilder();
+            /* Should output tuple of brightness and loudness
+             */
+
 //            testCases.testVarMultiItemJSON(getAssets(), "multi.json");
+            /* Should output 4 values: loudness, double of loudness, brightness, gyroscope
+             */
+
 //            testCases.testVarMultiItemPeriodic();
+            /* Should output loudness, brightness, gyroscope
+             */
+
 //            testCases.testVarMultiItemOnce();
+            /* Should output loudness and brightness
+             */
 
 
             /*Integer screenOrientation;

@@ -46,7 +46,7 @@ public class JSONmulti {
         return new Gson().toJson(this);
     }
 
-    public abstract class mItem {
+    private abstract class mItem {
         private JSONmultiFeature[] features;
         public mItem(JSONmultiFeature[] features){
             this.features = features;
@@ -61,7 +61,7 @@ public class JSONmulti {
         public abstract FeatureProvider getFeatureProvider();
     }
 
-    public class AccelerationItem extends mItem{
+    private class AccelerationItem extends mItem{
         private int sensorDelay;
         public AccelerationItem(int sensorDelay, JSONmultiFeature[] features){
             super(features);
@@ -72,7 +72,7 @@ public class JSONmulti {
         }
     }
 
-    public class AirPressureItem extends mItem{
+    private class AirPressureItem extends mItem{
         private int sensorDelay;
         public AirPressureItem(int sensorDelay, JSONmultiFeature[] features){
             super(features);
@@ -84,7 +84,7 @@ public class JSONmulti {
     }
 
 
-    public class AmbientTemperatureItem extends mItem{
+    private class AmbientTemperatureItem extends mItem{
         private int sensorDelay;
         public AmbientTemperatureItem(int sensorDelay, JSONmultiFeature[] features){
             super(features);
@@ -95,7 +95,7 @@ public class JSONmulti {
         }
     }
 
-    public class AudioItem extends mItem{
+    private class AudioItem extends mItem{
         private long duration;
         public AudioItem(long duration, JSONmultiFeature[] features){
             super(features);
@@ -106,7 +106,7 @@ public class JSONmulti {
         }
     }
 
-    public class BluetoothDeviceItem extends mItem{
+    private class BluetoothDeviceItem extends mItem{
         public BluetoothDeviceItem(JSONmultiFeature[] features){
             super(features);
         }
@@ -115,7 +115,7 @@ public class JSONmulti {
         }
     }
 
-    public class BrowserSearchItem extends mItem{
+    private class BrowserSearchItem extends mItem{
         public BrowserSearchItem(JSONmultiFeature[] features){
             super(features);
         }
@@ -124,7 +124,7 @@ public class JSONmulti {
         }
     }
 
-    public class BrowserVisitItem extends mItem{
+    private class BrowserVisitItem extends mItem{
         public BrowserVisitItem(JSONmultiFeature[] features){
             super(features);
         }
@@ -133,7 +133,7 @@ public class JSONmulti {
         }
     }
 
-    public class CalendarEventItem extends mItem{
+    private class CalendarEventItem extends mItem{
         public CalendarEventItem(JSONmultiFeature[] features){
             super(features);
         }
@@ -142,7 +142,7 @@ public class JSONmulti {
         }
     }
 
-    public class CallLogItem extends mItem{
+    private class CallLogItem extends mItem{
         public CallLogItem(JSONmultiFeature[] features){
             super(features);
         }
@@ -151,7 +151,7 @@ public class JSONmulti {
         }
     }
 
-    public class CallUpdatesItem extends mItem{
+    private class CallUpdatesItem extends mItem{
         public CallUpdatesItem(JSONmultiFeature[] features){
             super(features);
         }
@@ -160,7 +160,7 @@ public class JSONmulti {
         }
     }
 
-    public class ContactItem extends mItem{
+    private class ContactItem extends mItem{
         public ContactItem(JSONmultiFeature[] features){
             super(features);
         }
@@ -169,7 +169,7 @@ public class JSONmulti {
         }
     }
 
-    public class DeviceEventItem extends mItem{
+    private class DeviceEventItem extends mItem{
         public DeviceEventItem(JSONmultiFeature[] features){
             super(features);
         }
@@ -178,7 +178,7 @@ public class JSONmulti {
         }
     }
 
-    public class DeviceStateItem extends mItem{
+    private class DeviceStateItem extends mItem{
         private long interval;
         private int mask;
         public DeviceStateItem(long interval, int mask, JSONmultiFeature[] features){
@@ -191,7 +191,7 @@ public class JSONmulti {
         }
     }
 
-    public class EmailHistoryItem extends mItem{
+    private class EmailHistoryItem extends mItem{
         private long afterTime;
         private long beforeTime;
         private int maxNumberOfResults;
@@ -206,7 +206,7 @@ public class JSONmulti {
         }
     }
 
-    public class EmailUpdatesItem extends mItem{
+    private class EmailUpdatesItem extends mItem{
         private long frequency;
         public EmailUpdatesItem(long frequency, JSONmultiFeature[] features){
             super(features);
@@ -217,7 +217,7 @@ public class JSONmulti {
         }
     }
 
-    public class EmptyItem extends mItem{
+    private class EmptyItem extends mItem{
         private long interval;
         public EmptyItem(long interval, JSONmultiFeature[] features){
             super(features);
@@ -228,7 +228,7 @@ public class JSONmulti {
         }
     }
 
-    public class GeolocationUpdatesItem extends mItem{
+    private class GeolocationUpdatesItem extends mItem{
         private long interval;
         private String level;
         public GeolocationUpdatesItem(long interval, String level, JSONmultiFeature[] features){
@@ -241,7 +241,7 @@ public class JSONmulti {
         }
     }
 
-    public class GeolocationCurrentItem extends mItem{
+    private class GeolocationCurrentItem extends mItem{
         private String level;
         public GeolocationCurrentItem(String level, JSONmultiFeature[] features){
             super(features);
@@ -252,7 +252,7 @@ public class JSONmulti {
         }
     }
 
-    public class GeolocationLastKnownItem extends mItem{
+    private class GeolocationLastKnownItem extends mItem{
         private String level;
         public GeolocationLastKnownItem(String level, JSONmultiFeature[] features){
             super(features);
@@ -263,7 +263,7 @@ public class JSONmulti {
         }
     }
 
-    public class GravityItem extends mItem{
+    private class GravityItem extends mItem{
         private int sensorDelay;
         public GravityItem(int sensorDelay, JSONmultiFeature[] features){
             super(features);
@@ -274,7 +274,7 @@ public class JSONmulti {
         }
     }
 
-    public class GyroscopeItem extends mItem{
+    private class GyroscopeItem extends mItem{
         private int sensorDelay;
         public GyroscopeItem(int sensorDelay, JSONmultiFeature[] features){
             super(features);
@@ -285,7 +285,7 @@ public class JSONmulti {
         }
     }
 
-    public class ImageCameraItem extends mItem{
+    private class ImageCameraItem extends mItem{
         public ImageCameraItem(JSONmultiFeature[] features){
             super(features);
         }
@@ -294,7 +294,7 @@ public class JSONmulti {
         }
     }
 
-    public class ImageStorageItem extends mItem{
+    private class ImageStorageItem extends mItem{
         public ImageStorageItem(JSONmultiFeature[] features){
             super(features);
         }
@@ -303,7 +303,7 @@ public class JSONmulti {
         }
     }
 
-    public class ImageBgItem extends mItem{
+    private class ImageBgItem extends mItem{
         private int cameraId;
         public ImageBgItem(int cameraId, JSONmultiFeature[] features){
             super(features);
@@ -314,7 +314,7 @@ public class JSONmulti {
         }
     }
 
-    public class ImageBgPeriodicItem extends mItem{
+    private class ImageBgPeriodicItem extends mItem{
         private int cameraId;
         private long interval;
         public ImageBgPeriodicItem(int cameraId, long interval, JSONmultiFeature[] features){
@@ -327,7 +327,7 @@ public class JSONmulti {
         }
     }
 
-    public class LightItem extends mItem{
+    private class LightItem extends mItem{
         private int sensorDelay;
         public LightItem(int sensorDelay, JSONmultiFeature[] features){
             super(features);
@@ -338,7 +338,7 @@ public class JSONmulti {
         }
     }
 
-    public class LinearAccelerationItem extends mItem{
+    private class LinearAccelerationItem extends mItem{
         private int sensorDelay;
         public LinearAccelerationItem(int sensorDelay, JSONmultiFeature[] features){
             super(features);
@@ -349,7 +349,7 @@ public class JSONmulti {
         }
     }
 
-    public class MessageUpdatesIMItem extends mItem{
+    private class MessageUpdatesIMItem extends mItem{
         public MessageUpdatesIMItem(JSONmultiFeature[] features){
             super(features);
         }
@@ -358,7 +358,7 @@ public class JSONmulti {
         }
     }
 
-    public class MessageIncomingSMSItem extends mItem{
+    private class MessageIncomingSMSItem extends mItem{
         public MessageIncomingSMSItem(JSONmultiFeature[] features){
             super(features);
         }
@@ -367,7 +367,7 @@ public class JSONmulti {
         }
     }
 
-    public class MessageAllSMSItem extends mItem{
+    private class MessageAllSMSItem extends mItem{
         public MessageAllSMSItem(JSONmultiFeature[] features){
             super(features);
         }
@@ -376,7 +376,7 @@ public class JSONmulti {
         }
     }
 
-    public class NotificationItem extends mItem{
+    private class NotificationItem extends mItem{
         public NotificationItem(JSONmultiFeature[] features){
             super(features);
         }
@@ -385,7 +385,7 @@ public class JSONmulti {
         }
     }
 
-    public class RelativeHumidityItem extends mItem{
+    private class RelativeHumidityItem extends mItem{
         private int sensorDelay;
         public RelativeHumidityItem(int sensorDelay, JSONmultiFeature[] features){
             super(features);
@@ -396,7 +396,7 @@ public class JSONmulti {
         }
     }
 
-    public class RotationVectorItem extends mItem{
+    private class RotationVectorItem extends mItem{
         private int sensorDelay;
         public RotationVectorItem(int sensorDelay, JSONmultiFeature[] features){
             super(features);
@@ -407,7 +407,7 @@ public class JSONmulti {
         }
     }
 
-    public class StepCounterItem extends mItem{
+    private class StepCounterItem extends mItem{
         private int sensorDelay;
         public StepCounterItem(int sensorDelay, JSONmultiFeature[] features){
             super(features);
@@ -418,7 +418,7 @@ public class JSONmulti {
         }
     }
 
-    public class TestUpdatesFromItem extends mItem{
+    private class TestUpdatesFromItem extends mItem{
         private List testObjects;
         private long interval;
         public TestUpdatesFromItem(List testObjects, long interval, JSONmultiFeature[] features){
@@ -431,7 +431,7 @@ public class JSONmulti {
         }
     }
 
-    public class TestUpdatesItem extends mItem{
+    private class TestUpdatesItem extends mItem{
         private int maxInt;
         private double maxDouble;
         private long interval;
@@ -446,7 +446,7 @@ public class JSONmulti {
         }
     }
 
-    public class TestAllFromItem extends mItem{
+    private class TestAllFromItem extends mItem{
         private List testObjects;
         public TestAllFromItem(List testObjects, JSONmultiFeature[] features){
             super(features);
@@ -457,7 +457,7 @@ public class JSONmulti {
         }
     }
 
-    public class TestGetAllRandomItem extends mItem{
+    private class TestGetAllRandomItem extends mItem{
         private int maxInt;
         private double maxDouble;
         private int count;
@@ -472,7 +472,7 @@ public class JSONmulti {
         }
     }
 
-    public class WifiItem extends mItem{
+    private class WifiItem extends mItem{
         public WifiItem(JSONmultiFeature[] features){
             super(features);
         }
