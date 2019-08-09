@@ -5,6 +5,7 @@ import junit.framework.Assert;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.github.privacystreams.accessibility.BrowserVisit;
 import io.github.privacystreams.audio.Audio;
 import io.github.privacystreams.audio.AudioOperators;
 import io.github.privacystreams.commons.ItemOperator;
@@ -18,12 +19,18 @@ import io.github.privacystreams.commons.statistic.StatisticOperators;
 import io.github.privacystreams.commons.string.StringOperators;
 import io.github.privacystreams.commons.time.TimeOperators;
 import io.github.privacystreams.core.Function;
+import io.github.privacystreams.device.BluetoothDevice;
+import io.github.privacystreams.device.DeviceEvent;
 import io.github.privacystreams.device.DeviceOperators;
 import io.github.privacystreams.image.ImageOperators;
 import io.github.privacystreams.io.IOOperators;
 import io.github.privacystreams.location.GeolocationOperators;
+import io.github.privacystreams.sensor.AirPressure;
 import io.github.privacystreams.sensor.Gyroscope;
 import io.github.privacystreams.sensor.Light;
+import io.github.privacystreams.sensor.RelativeHumidity;
+import io.github.privacystreams.sensor.RotationVector;
+import io.github.privacystreams.sensor.StepCounter;
 import io.github.privacystreams.utils.Assertions;
 
 public class JSONmulti {
@@ -589,6 +596,41 @@ public class JSONmulti {
         }
         public abstract FeatureProvider getFeatureProvider();
     }
+
+    public class AccelerationItem extends mItem{
+        private int sensorDelay;
+        public AccelerationItem(int sensorDelay, mFeature[] features){
+            super(features);
+            this.sensorDelay = sensorDelay;
+        }
+        public FeatureProvider getFeatureProvider(){
+            return new FeatureProvider(io.github.privacystreams.sensor.Acceleration.asUpdates(sensorDelay), getActualFeatures());
+        }
+    }
+
+    public class AirPressureItem extends mItem{
+        private int sensorDelay;
+        public AirPressureItem(int sensorDelay, mFeature[] features){
+            super(features);
+            this.sensorDelay = sensorDelay;
+        }
+        public FeatureProvider getFeatureProvider(){
+            return new FeatureProvider(io.github.privacystreams.sensor.AirPressure.asUpdates(sensorDelay), getActualFeatures());
+        }
+    }
+
+
+    public class AmbientTemperatureItem extends mItem{
+        private int sensorDelay;
+        public AmbientTemperatureItem(int sensorDelay, mFeature[] features){
+            super(features);
+            this.sensorDelay = sensorDelay;
+        }
+        public FeatureProvider getFeatureProvider(){
+            return new FeatureProvider(io.github.privacystreams.sensor.AmbientTemperature.asUpdates(sensorDelay), getActualFeatures());
+        }
+    }
+
     public class AudioItem extends mItem{
         private long duration;
         public AudioItem(long duration, mFeature[] features){
@@ -600,14 +642,171 @@ public class JSONmulti {
         }
     }
 
-    public class LightItem extends mItem{
+    public class BluetoothDeviceItem extends mItem{
+        public BluetoothDeviceItem(mFeature[] features){
+            super(features);
+        }
+        public FeatureProvider getFeatureProvider(){
+            return new FeatureProvider(io.github.privacystreams.device.BluetoothDevice.getScanResults(), getActualFeatures());
+        }
+    }
+
+    public class BrowserSearchItem extends mItem{
+        public BrowserSearchItem(mFeature[] features){
+            super(features);
+        }
+        public FeatureProvider getFeatureProvider(){
+            return new FeatureProvider(io.github.privacystreams.accessibility.BrowserSearch.asUpdates(), getActualFeatures());
+        }
+    }
+
+    public class BrowserVisitItem extends mItem{
+        public BrowserVisitItem(mFeature[] features){
+            super(features);
+        }
+        public FeatureProvider getFeatureProvider(){
+            return new FeatureProvider(io.github.privacystreams.accessibility.BrowserVisit.asUpdates(), getActualFeatures());
+        }
+    }
+
+    public class CalendarEventItem extends mItem{
+        public CalendarEventItem(mFeature[] features){
+            super(features);
+        }
+        public FeatureProvider getFeatureProvider(){
+            return new FeatureProvider(io.github.privacystreams.calendar.CalendarEvent.getAll(), getActualFeatures());
+        }
+    }
+
+    public class CallLogItem extends mItem{
+        public CallLogItem(mFeature[] features){
+            super(features);
+        }
+        public FeatureProvider getFeatureProvider(){
+            return new FeatureProvider(io.github.privacystreams.communication.Call.getLogs(), getActualFeatures());
+        }
+    }
+
+    public class CallUpdatesItem extends mItem{
+        public CallUpdatesItem(mFeature[] features){
+            super(features);
+        }
+        public FeatureProvider getFeatureProvider(){
+            return new FeatureProvider(io.github.privacystreams.communication.Call.asUpdates(), getActualFeatures());
+        }
+    }
+
+    public class ContactItem extends mItem{
+        public ContactItem(mFeature[] features){
+            super(features);
+        }
+        public FeatureProvider getFeatureProvider(){
+            return new FeatureProvider(io.github.privacystreams.communication.Contact.getAll(), getActualFeatures());
+        }
+    }
+
+    public class DeviceEventItem extends mItem{
+        public DeviceEventItem(mFeature[] features){
+            super(features);
+        }
+        public FeatureProvider getFeatureProvider(){
+            return new FeatureProvider(io.github.privacystreams.device.DeviceEvent.asUpdates(), getActualFeatures());
+        }
+    }
+
+    public class DeviceStateItem extends mItem{
+        private long interval;
+        private int mask;
+        public DeviceStateItem(long interval, int mask, mFeature[] features){
+            super(features);
+            this.interval = interval;
+            this.mask = mask;
+        }
+        public FeatureProvider getFeatureProvider(){
+            return new FeatureProvider(io.github.privacystreams.device.DeviceState.asUpdates(interval, mask), getActualFeatures());
+        }
+    }
+
+    public class EmailHistoryItem extends mItem{
+        private long afterTime;
+        private long beforeTime;
+        private int maxNumberOfResults;
+        public EmailHistoryItem(long afterTime, long beforeTime, int maxNumberOfResults, mFeature[] features){
+            super(features);
+            this.afterTime = afterTime;
+            this.beforeTime = beforeTime;
+            this.maxNumberOfResults = maxNumberOfResults;
+        }
+        public FeatureProvider getFeatureProvider(){
+            return new FeatureProvider(io.github.privacystreams.communication.Email.asGmailHistory(afterTime, beforeTime, maxNumberOfResults), getActualFeatures());
+        }
+    }
+
+    public class EmailUpdatesItem extends mItem{
+        private long frequency;
+        public EmailUpdatesItem(long frequency, mFeature[] features){
+            super(features);
+            this.frequency = frequency;
+        }
+        public FeatureProvider getFeatureProvider(){
+            return new FeatureProvider(io.github.privacystreams.communication.Email.asGmailUpdates(frequency), getActualFeatures());
+        }
+    }
+
+    public class EmptyItem extends mItem{
+        private long interval;
+        public EmptyItem(long interval, mFeature[] features){
+            super(features);
+            this.interval = interval;
+        }
+        public FeatureProvider getFeatureProvider(){
+            return new FeatureProvider(io.github.privacystreams.core.items.EmptyItem.asUpdates(interval), getActualFeatures());
+        }
+    }
+
+    public class GeolocationUpdatesItem extends mItem{
+        private long interval;
+        private String level;
+        public GeolocationUpdatesItem(long interval, String level, mFeature[] features){
+            super(features);
+            this.interval = interval;
+            this.level = level;
+        }
+        public FeatureProvider getFeatureProvider(){
+            return new FeatureProvider(io.github.privacystreams.location.Geolocation.asUpdates(interval, level), getActualFeatures());
+        }
+    }
+
+    public class GeolocationCurrentItem extends mItem{
+        private String level;
+        public GeolocationCurrentItem(String level, mFeature[] features){
+            super(features);
+            this.level = level;
+        }
+        public FeatureProvider getFeatureProvider(){
+            return new FeatureProvider(io.github.privacystreams.location.Geolocation.asCurrent(level), getActualFeatures());
+        }
+    }
+
+    public class GeolocationLastKnownItem extends mItem{
+        private String level;
+        public GeolocationLastKnownItem(String level, mFeature[] features){
+            super(features);
+            this.level = level;
+        }
+        public FeatureProvider getFeatureProvider(){
+            return new FeatureProvider(io.github.privacystreams.location.Geolocation.asLastKnown(level), getActualFeatures());
+        }
+    }
+
+    public class GravityItem extends mItem{
         private int sensorDelay;
-        public LightItem(int sensorDelay, mFeature[] features){
+        public GravityItem(int sensorDelay, mFeature[] features){
             super(features);
             this.sensorDelay = sensorDelay;
         }
         public FeatureProvider getFeatureProvider(){
-            return new FeatureProvider(io.github.privacystreams.sensor.Light.asUpdates(sensorDelay), getActualFeatures());
+            return new FeatureProvider(io.github.privacystreams.sensor.Gravity.asUpdates(sensorDelay), getActualFeatures());
         }
     }
 
@@ -622,26 +821,403 @@ public class JSONmulti {
         }
     }
 
+    public class ImageCameraItem extends mItem{
+        public ImageCameraItem(mFeature[] features){
+            super(features);
+        }
+        public FeatureProvider getFeatureProvider(){
+            return new FeatureProvider(io.github.privacystreams.image.Image.takePhoto(), getActualFeatures());
+        }
+    }
+
+    public class ImageStorageItem extends mItem{
+        public ImageStorageItem(mFeature[] features){
+            super(features);
+        }
+        public FeatureProvider getFeatureProvider(){
+            return new FeatureProvider(io.github.privacystreams.image.Image.readStorage(), getActualFeatures());
+        }
+    }
+
+    public class ImageBgItem extends mItem{
+        private int cameraId;
+        public ImageBgItem(int cameraId, mFeature[] features){
+            super(features);
+            this.cameraId = cameraId;
+        }
+        public FeatureProvider getFeatureProvider(){
+            return new FeatureProvider(io.github.privacystreams.image.Image.takePhotoBg(cameraId), getActualFeatures());
+        }
+    }
+
+    public class ImageBgPeriodicItem extends mItem{
+        private int cameraId;
+        private long interval;
+        public ImageBgPeriodicItem(int cameraId, long interval, mFeature[] features){
+            super(features);
+            this.cameraId = cameraId;
+            this.interval = interval;
+        }
+        public FeatureProvider getFeatureProvider(){
+            return new FeatureProvider(io.github.privacystreams.image.Image.takePhotoBgPeriodic(cameraId, interval), getActualFeatures());
+        }
+    }
+
+    public class LightItem extends mItem{
+        private int sensorDelay;
+        public LightItem(int sensorDelay, mFeature[] features){
+            super(features);
+            this.sensorDelay = sensorDelay;
+        }
+        public FeatureProvider getFeatureProvider(){
+            return new FeatureProvider(io.github.privacystreams.sensor.Light.asUpdates(sensorDelay), getActualFeatures());
+        }
+    }
+
+    public class LinearAccelerationItem extends mItem{
+        private int sensorDelay;
+        public LinearAccelerationItem(int sensorDelay, mFeature[] features){
+            super(features);
+            this.sensorDelay = sensorDelay;
+        }
+        public FeatureProvider getFeatureProvider(){
+            return new FeatureProvider(io.github.privacystreams.sensor.LinearAcceleration.asUpdates(sensorDelay), getActualFeatures());
+        }
+    }
+
+    public class MessageUpdatesIMItem extends mItem{
+        public MessageUpdatesIMItem(mFeature[] features){
+            super(features);
+        }
+        public FeatureProvider getFeatureProvider(){
+            return new FeatureProvider(io.github.privacystreams.communication.Message.asUpdatesInIM(), getActualFeatures());
+        }
+    }
+
+    public class MessageIncomingSMSItem extends mItem{
+        public MessageIncomingSMSItem(mFeature[] features){
+            super(features);
+        }
+        public FeatureProvider getFeatureProvider(){
+            return new FeatureProvider(io.github.privacystreams.communication.Message.asIncomingSMS(), getActualFeatures());
+        }
+    }
+
+    public class MessageAllSMSItem extends mItem{
+        public MessageAllSMSItem(mFeature[] features){
+            super(features);
+        }
+        public FeatureProvider getFeatureProvider(){
+            return new FeatureProvider(io.github.privacystreams.communication.Message.getAllSMS(), getActualFeatures());
+        }
+    }
+
+    public class NotificationItem extends mItem{
+        public NotificationItem(mFeature[] features){
+            super(features);
+        }
+        public FeatureProvider getFeatureProvider(){
+            return new FeatureProvider(io.github.privacystreams.notification.Notification.asUpdates(), getActualFeatures());
+        }
+    }
+
+    public class RelativeHumidityItem extends mItem{
+        private int sensorDelay;
+        public RelativeHumidityItem(int sensorDelay, mFeature[] features){
+            super(features);
+            this.sensorDelay = sensorDelay;
+        }
+        public FeatureProvider getFeatureProvider(){
+            return new FeatureProvider(io.github.privacystreams.sensor.RelativeHumidity.asUpdates(sensorDelay), getActualFeatures());
+        }
+    }
+
+    public class RotationVectorItem extends mItem{
+        private int sensorDelay;
+        public RotationVectorItem(int sensorDelay, mFeature[] features){
+            super(features);
+            this.sensorDelay = sensorDelay;
+        }
+        public FeatureProvider getFeatureProvider(){
+            return new FeatureProvider(io.github.privacystreams.sensor.RotationVector.asUpdates(sensorDelay), getActualFeatures());
+        }
+    }
+
+    public class StepCounterItem extends mItem{
+        private int sensorDelay;
+        public StepCounterItem(int sensorDelay, mFeature[] features){
+            super(features);
+            this.sensorDelay = sensorDelay;
+        }
+        public FeatureProvider getFeatureProvider(){
+            return new FeatureProvider(io.github.privacystreams.sensor.StepCounter.asUpdates(sensorDelay), getActualFeatures());
+        }
+    }
+
+    public class TestUpdatesFromItem extends mItem{
+        private List testObjects;
+        private long interval;
+        public TestUpdatesFromItem(List testObjects, long interval, mFeature[] features){
+            super(features);
+            this.testObjects = testObjects;
+            this.interval = interval;
+        }
+        public FeatureProvider getFeatureProvider(){
+            return new FeatureProvider(io.github.privacystreams.core.items.TestItem.asUpdatesFrom(testObjects, interval), getActualFeatures());
+        }
+    }
+
+    public class TestUpdatesItem extends mItem{
+        private int maxInt;
+        private double maxDouble;
+        private long interval;
+        public TestUpdatesItem(int maxInt, double maxDouble, long interval, mFeature[] features){
+            super(features);
+            this.maxInt = maxInt;
+            this.maxDouble = maxDouble;
+            this.interval = interval;
+        }
+        public FeatureProvider getFeatureProvider(){
+            return new FeatureProvider(io.github.privacystreams.core.items.TestItem.asUpdates(maxInt, maxDouble, interval), getActualFeatures());
+        }
+    }
+
+    public class TestAllFromItem extends mItem{
+        private List testObjects;
+        public TestAllFromItem(List testObjects, mFeature[] features){
+            super(features);
+            this.testObjects = testObjects;
+        }
+        public FeatureProvider getFeatureProvider(){
+            return new FeatureProvider(io.github.privacystreams.core.items.TestItem.getAllFrom(testObjects), getActualFeatures());
+        }
+    }
+
+    public class TestGetAllRandomItem extends mItem{
+        private int maxInt;
+        private double maxDouble;
+        private int count;
+        public TestGetAllRandomItem(int maxInt, double maxDouble, int count, mFeature[] features){
+            super(features);
+            this.maxInt = maxInt;
+            this.maxDouble = maxDouble;
+            this.count = count;
+        }
+        public FeatureProvider getFeatureProvider(){
+            return new FeatureProvider(io.github.privacystreams.core.items.TestItem.getAllRandom(maxInt, maxDouble, count), getActualFeatures());
+        }
+    }
+
+    public class WifiItem extends mItem{
+        public WifiItem(mFeature[] features){
+            super(features);
+        }
+        public FeatureProvider getFeatureProvider(){
+            return new FeatureProvider(io.github.privacystreams.device.WifiAp.getScanResults(), getActualFeatures());
+        }
+    }
+
     private long interval;
+
+    private AccelerationItem Acceleration;
+    private AirPressureItem AirPressure;
+    private AmbientTemperatureItem AmbientTemperature;
     private AudioItem Audio;
-    private LightItem Light;
+    private BluetoothDeviceItem BluetoothDevice;
+    private BrowserSearchItem BrowserSearch;
+    private BrowserVisitItem BrowserVisit;
+    private CalendarEventItem CalendarEvent;
+    private CallUpdatesItem CallUpdates;
+    private CallLogItem CallLog;
+    private ContactItem Contact;
+    private DeviceEventItem DeviceEvent;
+    private DeviceStateItem DeviceState;
+    private EmailHistoryItem EmailHistory;
+    private EmailUpdatesItem EmailUpdates;
+    private EmptyItem EmptyItem;
+    private GeolocationUpdatesItem GeolocationUpdates;
+    private GeolocationLastKnownItem GeolocationLastKnown;
+    private GeolocationCurrentItem GeolocationCurrent;
+    private GravityItem Gravity;
     private GyroscopeItem Gyroscope;
+    private ImageBgItem ImageBg;
+    private ImageBgPeriodicItem ImageBgPeriodic;
+    private ImageCameraItem ImageCamera;
+    private ImageStorageItem ImageStorage;
+    private LightItem Light;
+    private LinearAccelerationItem LinearAcceleration;
+    private MessageAllSMSItem MessageAllSMS;
+    private MessageIncomingSMSItem MessageIncomingSMS;
+    private MessageUpdatesIMItem MessageUpdatesIM;
+    private NotificationItem Notification;
+    private RelativeHumidityItem RelativeHumidity;
+    private RotationVectorItem RotationVector;
+    private StepCounterItem StepCounter;
+    private TestAllFromItem TestAllFrom;
+    private TestGetAllRandomItem TestGetAllRandom;
+    private TestUpdatesFromItem TestUpdatesFrom;
+    private TestUpdatesItem TestUpdates;
+    private WifiItem WifiAp;
 
     public JSONmulti(){};
 
     public FeatureProvider[] getFeatureProviders(){
         List<FeatureProvider> fps = new ArrayList<>();
+        if(Acceleration != null){
+            System.out.println("Exist Acceleration");
+            fps.add(Acceleration.getFeatureProvider());
+        }
+        if(AirPressure != null){
+            System.out.println("Exist Air Pressure");
+            fps.add(AirPressure.getFeatureProvider());
+        }
+        if(AmbientTemperature != null){
+            System.out.println("Exist Ambient Temperature");
+            fps.add(AmbientTemperature.getFeatureProvider());
+        }
         if(Audio != null){
             System.out.println("Exist Audio");
             fps.add(Audio.getFeatureProvider());
+        }
+        if(BluetoothDevice != null){
+            System.out.println("Exist Bluetooth Device");
+            fps.add(BluetoothDevice.getFeatureProvider());
+        }
+        if(BrowserSearch != null){
+            System.out.println("Exist Browser Search");
+            fps.add(BrowserSearch.getFeatureProvider());
+        }
+        if(BrowserVisit != null){
+            System.out.println("Exist Browser Visit");
+            fps.add(BrowserVisit.getFeatureProvider());
+        }
+        if(CalendarEvent != null){
+            System.out.println("Exist Calendar Event");
+            fps.add(CalendarEvent.getFeatureProvider());
+        }
+        if(CallUpdates != null){
+            System.out.println("Exist Call Updates");
+            fps.add(CallUpdates.getFeatureProvider());
+        }
+        if(CallLog != null){
+            System.out.println("Exist Call Log");
+            fps.add(CallLog.getFeatureProvider());
+        }
+        if(Contact != null){
+            System.out.println("Exist Contact");
+            fps.add(Contact.getFeatureProvider());
+        }
+        if(DeviceEvent != null){
+            System.out.println("Exist Device Event");
+            fps.add(DeviceEvent.getFeatureProvider());
+        }
+        if(DeviceState != null){
+            System.out.println("Exist Device State");
+            fps.add(DeviceState.getFeatureProvider());
+        }
+        if(EmailHistory != null){
+            System.out.println("Exist Email History");
+            fps.add(EmailHistory.getFeatureProvider());
+        }
+        if(EmailUpdates != null){
+            System.out.println("Exist Email Updates");
+            fps.add(EmailUpdates.getFeatureProvider());
+        }
+        if(this.EmptyItem!= null){
+            System.out.println("Exist Empty Item");
+            fps.add(this.EmptyItem.getFeatureProvider());
+        }
+        if(GeolocationCurrent != null){
+            System.out.println("Exist Geolocation Current");
+            fps.add(GeolocationCurrent.getFeatureProvider());
+        }
+        if(GeolocationLastKnown != null){
+            System.out.println("Exist Geolocation Last Known");
+            fps.add(GeolocationLastKnown.getFeatureProvider());
+        }
+        if(GeolocationUpdates != null){
+            System.out.println("Exist Geolocation Updates");
+            fps.add(GeolocationUpdates.getFeatureProvider());
+        }
+        if(Gravity != null){
+            System.out.println("Exist Gravity");
+            fps.add(Gravity.getFeatureProvider());
+        }
+        if(Gyroscope != null){
+            System.out.println("Exist Gyroscope");
+            fps.add(Gyroscope.getFeatureProvider());
+        }
+        if(ImageBg != null){
+            System.out.println("Exist Image Bg");
+            fps.add(ImageBg.getFeatureProvider());
+        }
+        if(ImageBgPeriodic != null){
+            System.out.println("Exist Image Bg Periodic");
+            fps.add(ImageBgPeriodic.getFeatureProvider());
+        }
+        if(ImageCamera != null){
+            System.out.println("Exist Image Camera");
+            fps.add(ImageCamera.getFeatureProvider());
+        }
+        if(ImageStorage != null){
+            System.out.println("Exist Image Storage");
+            fps.add(ImageStorage.getFeatureProvider());
         }
         if(Light != null){
             System.out.println("Exist Light");
             fps.add(Light.getFeatureProvider());
         }
-        if(Gyroscope != null){
-            System.out.println("Exist Gyroscope");
-            fps.add(Gyroscope.getFeatureProvider());
+        if(LinearAcceleration != null){
+            System.out.println("Exist Linear Acceleration");
+            fps.add(LinearAcceleration.getFeatureProvider());
+        }
+        if(MessageAllSMS != null){
+            System.out.println("Exist Message All SMS");
+            fps.add(MessageAllSMS.getFeatureProvider());
+        }
+        if(MessageUpdatesIM != null){
+            System.out.println("Exist Message Updates IM");
+            fps.add(MessageUpdatesIM.getFeatureProvider());
+        }
+        if(MessageIncomingSMS != null){
+            System.out.println("Exist Message Incoming SMS");
+            fps.add(MessageIncomingSMS.getFeatureProvider());
+        }
+        if(Notification != null){
+            System.out.println("Exist Notification");
+            fps.add(Notification.getFeatureProvider());
+        }
+        if(RelativeHumidity != null){
+            System.out.println("Exist Relative Humidity");
+            fps.add(RelativeHumidity.getFeatureProvider());
+        }
+        if(RotationVector != null){
+            System.out.println("Exist Rotation Vector");
+            fps.add(RotationVector.getFeatureProvider());
+        }
+        if(StepCounter != null){
+            System.out.println("Exist Step Counter");
+            fps.add(StepCounter.getFeatureProvider());
+        }
+        if(TestAllFrom != null){
+            System.out.println("Exist Test All From");
+            fps.add(TestAllFrom.getFeatureProvider());
+        }
+        if(TestGetAllRandom != null){
+            System.out.println("Exist Test Get All Random");
+            fps.add(TestGetAllRandom.getFeatureProvider());
+        }
+        if(TestUpdatesFrom != null){
+            System.out.println("Exist Test Updates From");
+            fps.add(TestUpdatesFrom.getFeatureProvider());
+        }
+        if(TestUpdates != null){
+            System.out.println("Exist Test Updates");
+            fps.add(TestUpdates.getFeatureProvider());
+        }
+        if(WifiAp != null){
+            System.out.println("Exist Wifi Ap");
+            fps.add(WifiAp.getFeatureProvider());
         }
         System.out.println("FeatureProviders: " + fps);
         return fps.toArray(new FeatureProvider[fps.size()]);
