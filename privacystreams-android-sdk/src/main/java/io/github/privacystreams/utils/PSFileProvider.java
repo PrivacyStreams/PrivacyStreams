@@ -1,7 +1,7 @@
 package io.github.privacystreams.utils;
 
 import android.content.Context;
-import android.support.v4.content.FileProvider;
+import androidx.core.content.FileProvider;
 
 /**
  * A file provider for exposing file to uri.

@@ -3,7 +3,7 @@ package io.github.privacystreams.calendar;
 import android.Manifest;
 import android.database.Cursor;
 import android.provider.CalendarContract;
-import android.support.annotation.RequiresPermission;
+import androidx.annotation.RequiresPermission;
 
 import java.util.Calendar;
 

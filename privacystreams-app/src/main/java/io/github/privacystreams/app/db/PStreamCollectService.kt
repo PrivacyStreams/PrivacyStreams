@@ -7,7 +7,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.IBinder
-import android.support.v4.app.NotificationCompat
+import androidx.core.app.NotificationCompat
 import android.util.Log
 import io.github.privacystreams.app.Config
 import io.github.privacystreams.app.NavActivity
@@ -83,7 +83,7 @@ class PStreamCollectService : Service() {
         startForeground(ONGOING_NOTIFICATION_ID, notification)
 
         val pref = applicationContext.getSharedPreferences(Config.APP_NAME, Context.MODE_PRIVATE)
-        activeTables = pref.getStringSet(LAST_TABLES, HashSet<String>())
+        activeTables = pref.getStringSet(LAST_TABLES, HashSet<String>()) as Set<String>
         Log.d(Config.APP_NAME, "Loaded last active tables: " + activeTables)
 
         if (Config.USE_WAKELOCK) {

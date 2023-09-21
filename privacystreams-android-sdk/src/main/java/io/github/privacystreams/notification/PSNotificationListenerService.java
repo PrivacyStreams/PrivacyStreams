@@ -1,20 +1,13 @@
 package io.github.privacystreams.notification;
 
-import android.annotation.TargetApi;
-import android.app.PendingIntent;
-import android.app.RemoteInput;
 import android.content.Intent;
 import android.os.Build;
-import android.os.Bundle;
 import android.os.IBinder;
-import android.os.UserHandle;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
-import android.support.annotation.RequiresApi;
-import android.util.Log;
+import androidx.annotation.RequiresApi;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import static io.github.privacystreams.notification.Notification.ACTION_POSTED;

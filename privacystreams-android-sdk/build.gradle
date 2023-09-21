@@ -1,10 +1,9 @@
 plugins {
     id "com.jfrog.bintray" version "1.7"
-    id "com.github.dcendents.android-maven" version "1.5"
 }
 
 apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android'
+//apply plugin: 'kotlin-android'
 
 ext {
     bintrayName = 'PrivacyStreams-Android-SDK'
@@ -32,14 +31,11 @@ ext {
 }
 
 android {
-    compileSdkVersion 27
-    buildToolsVersion '27.0.2'
+    compileSdkVersion 33
     defaultConfig {
         minSdkVersion 16
-        targetSdkVersion 27
-        versionCode 17
-        versionName "0.1.7"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        targetSdkVersion 33
+        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
     }
     buildTypes {
         release {
@@ -55,67 +51,28 @@ android {
 }
 
 dependencies {
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+    androidTestImplementation('androidx.test.espresso:espresso-core:3.1.0', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    testCompile 'junit:junit:4.12'
+    testImplementation 'junit:junit:4.13.2'
 
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    compile 'org.greenrobot:eventbus:3.0.0'
+    implementation 'org.greenrobot:eventbus:3.0.0'
 
     // third-party packages
-    provided 'com.dropbox.core:dropbox-core-sdk:2.1.1'
-    provided 'com.google.android.gms:play-services:11.6.2'
-    provided ('com.google.api-client:google-api-client-android:1.20.0') {
+    compileOnly 'com.dropbox.core:dropbox-core-sdk:2.1.1'
+    compileOnly 'com.google.android.gms:play-services:11.6.2'
+    compileOnly ('com.google.api-client:google-api-client-android:1.20.0') {
         exclude group: 'org.apache.httpcomponents'
     }
-    provided ('com.google.apis:google-api-services-gmail:v1-rev29-1.20.0') {
+    compileOnly ('com.google.apis:google-api-services-gmail:v1-rev29-1.20.0') {
         exclude group: 'org.apache.httpcomponents'
     }
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
 
 group = publishedGroupId                               // Maven Group ID for the artifact
-
-install {
-    repositories.mavenInstaller {
-        // This generates POM.xml with proper parameters
-        pom {
-            project {
-                packaging 'aar'
-                groupId publishedGroupId
-                artifactId artifact
-
-                // Add your description here
-                name libraryName
-                description libraryDescription
-                url siteUrl
-
-                // Set your license
-                licenses {
-                    license {
-                        name licenseName
-                        url licenseUrl
-                    }
-                }
-                developers {
-                    developer {
-                        id developerId
-                        name developerName
-                        email developerEmail
-                    }
-                }
-                scm {
-                    connection gitUrl
-                    developerConnection gitUrl
-                    url siteUrl
-
-                }
-            }
-        }
-    }
-}
 
 version = libraryVersion
 
@@ -124,7 +81,7 @@ task doclet(type: Javadoc) {
     destinationDir = file("build/PrivacyStreamsDocs/").absoluteFile
 
     classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
-    classpath += configurations.compile
+    classpath += configurations.implementation
 
     options.docletpath = [file('../doclet/build/libs/doclet.jar')]
     options.doclet = "io.github.privacystreams.doclet.PSDoclet"

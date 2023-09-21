@@ -3,8 +3,7 @@ package io.github.privacystreams.notification;
 import android.os.Build;
 import android.os.Bundle;
 import android.service.notification.StatusBarNotification;
-import android.support.annotation.RequiresApi;
-import android.text.SpannableString;
+import androidx.annotation.RequiresApi;
 
 import io.github.privacystreams.core.Item;
 import io.github.privacystreams.core.PStreamProvider;

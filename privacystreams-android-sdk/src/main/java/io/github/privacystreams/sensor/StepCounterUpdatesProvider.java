@@ -3,7 +3,7 @@ package io.github.privacystreams.sensor;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.os.Build;
-import android.support.annotation.RequiresApi;
+import androidx.annotation.RequiresApi;
 
 /**
  * Provide a live stream of step counter updates.

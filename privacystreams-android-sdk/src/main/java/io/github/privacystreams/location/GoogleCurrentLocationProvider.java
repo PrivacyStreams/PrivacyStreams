@@ -3,8 +3,8 @@ package io.github.privacystreams.location;
 import android.Manifest;
 import android.location.Location;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import io.github.privacystreams.core.UQI;
 import io.github.privacystreams.core.PStreamProvider;

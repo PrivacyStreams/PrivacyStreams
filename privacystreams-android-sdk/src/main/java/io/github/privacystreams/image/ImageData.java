@@ -5,7 +5,7 @@ import android.graphics.BitmapFactory;
 import android.media.ExifInterface;
 import android.media.FaceDetector;
 import android.os.Build;
-import android.support.annotation.RequiresApi;
+import androidx.annotation.RequiresApi;
 import android.util.SparseArray;
 
 import io.github.privacystreams.core.UQI;
